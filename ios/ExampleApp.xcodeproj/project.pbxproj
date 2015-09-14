@@ -120,6 +120,54 @@
 		188C4CBC1AA753F70080B34B /* Arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 188C4CBA1AA753F70080B34B /* Arrow.png */; };
 		189B246819F93547006DD887 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E016040D19EEC26E0029A035 /* Images.xcassets */; };
 		18A1B0751A8A1EE1004C928E /* icon1_options.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B22B391A7A9C7300DDBFA2 /* icon1_options.png */; };
+		18A5DFA51BA19DCE0015684B /* Materials in Resources */ = {isa = PBXBuildFile; fileRef = 18A5DFA41BA19DCE0015684B /* Materials */; };
+		18A5DFA61BA19DCE0015684B /* Materials in Resources */ = {isa = PBXBuildFile; fileRef = 18A5DFA41BA19DCE0015684B /* Materials */; };
+		18A5DFAA1BA19F240015684B /* iOSCubeTextureFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFA81BA19F240015684B /* iOSCubeTextureFileLoader.cpp */; };
+		18A5DFAB1BA19F240015684B /* iOSCubeTextureFileLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFA81BA19F240015684B /* iOSCubeTextureFileLoader.cpp */; };
+		18A5DFD11BA1A02A0015684B /* MaterialsModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFAE1BA1A02A0015684B /* MaterialsModule.cpp */; };
+		18A5DFD21BA1A02A0015684B /* MaterialsModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFAE1BA1A02A0015684B /* MaterialsModule.cpp */; };
+		18A5DFD91BA1A02A0015684B /* ChromeMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFB81BA1A02A0015684B /* ChromeMaterial.cpp */; };
+		18A5DFDA1BA1A02A0015684B /* ChromeMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFB81BA1A02A0015684B /* ChromeMaterial.cpp */; };
+		18A5DFDD1BA1A02A0015684B /* DepthOnlyMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFBC1BA1A02A0015684B /* DepthOnlyMaterial.cpp */; };
+		18A5DFDE1BA1A02A0015684B /* DepthOnlyMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFBC1BA1A02A0015684B /* DepthOnlyMaterial.cpp */; };
+		18A5DFDF1BA1A02A0015684B /* DiffuseSpecularMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFBE1BA1A02A0015684B /* DiffuseSpecularMaterial.cpp */; };
+		18A5DFE01BA1A02A0015684B /* DiffuseSpecularMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFBE1BA1A02A0015684B /* DiffuseSpecularMaterial.cpp */; };
+		18A5DFE11BA1A02A0015684B /* GlassMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC01BA1A02A0015684B /* GlassMaterial.cpp */; };
+		18A5DFE21BA1A02A0015684B /* GlassMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC01BA1A02A0015684B /* GlassMaterial.cpp */; };
+		18A5DFE31BA1A02A0015684B /* StencilMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC21BA1A02A0015684B /* StencilMaterial.cpp */; };
+		18A5DFE41BA1A02A0015684B /* StencilMaterial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC21BA1A02A0015684B /* StencilMaterial.cpp */; };
+		18A5DFE51BA1A02A0015684B /* BlankShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC51BA1A02A0015684B /* BlankShader.cpp */; };
+		18A5DFE61BA1A02A0015684B /* BlankShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC51BA1A02A0015684B /* BlankShader.cpp */; };
+		18A5DFE71BA1A02A0015684B /* ChromeShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC71BA1A02A0015684B /* ChromeShader.cpp */; };
+		18A5DFE81BA1A02A0015684B /* ChromeShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFC71BA1A02A0015684B /* ChromeShader.cpp */; };
+		18A5DFEB1BA1A02A0015684B /* DiffuseSpecularShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFCB1BA1A02A0015684B /* DiffuseSpecularShader.cpp */; };
+		18A5DFEC1BA1A02A0015684B /* DiffuseSpecularShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFCB1BA1A02A0015684B /* DiffuseSpecularShader.cpp */; };
+		18A5DFED1BA1A02A0015684B /* GlassShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFCD1BA1A02A0015684B /* GlassShader.cpp */; };
+		18A5DFEE1BA1A02A0015684B /* GlassShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFCD1BA1A02A0015684B /* GlassShader.cpp */; };
+		18A5DFF51BA1D84F0015684B /* LitRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFF31BA1D84F0015684B /* LitRenderable.cpp */; };
+		18A5DFF61BA1D84F0015684B /* LitRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFF31BA1D84F0015684B /* LitRenderable.cpp */; };
+		18A5DFF91BA1D8730015684B /* BufferRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFF71BA1D8730015684B /* BufferRenderable.cpp */; };
+		18A5DFFA1BA1D8730015684B /* BufferRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFF71BA1D8730015684B /* BufferRenderable.cpp */; };
+		18A5DFFE1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFFC1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp */; };
+		18A5DFFF1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5DFFC1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp */; };
+		18A5E0021BA1D9130015684B /* MatrixHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0001BA1D9130015684B /* MatrixHelpers.cpp */; };
+		18A5E0031BA1D9130015684B /* MatrixHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0001BA1D9130015684B /* MatrixHelpers.cpp */; };
+		18A5E0061BA1DEE20015684B /* MaterialRenderableBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0051BA1DEE20015684B /* MaterialRenderableBase.cpp */; };
+		18A5E0071BA1DEE20015684B /* MaterialRenderableBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0051BA1DEE20015684B /* MaterialRenderableBase.cpp */; };
+		18A5E00A1BA1E5CD0015684B /* GlassRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0081BA1E5CD0015684B /* GlassRenderable.cpp */; };
+		18A5E00B1BA1E5CD0015684B /* GlassRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0081BA1E5CD0015684B /* GlassRenderable.cpp */; };
+		18A5E0171BA2D8900015684B /* RenderableHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0151BA2D8900015684B /* RenderableHelpers.cpp */; };
+		18A5E0181BA2D8900015684B /* RenderableHelpers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0151BA2D8900015684B /* RenderableHelpers.cpp */; };
+		18A5E01B1BA2E0D50015684B /* ChromeRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0191BA2E0D50015684B /* ChromeRenderable.cpp */; };
+		18A5E01C1BA2E0D50015684B /* ChromeRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0191BA2E0D50015684B /* ChromeRenderable.cpp */; };
+		18A5E0291BA317910015684B /* GeometryController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0221BA317910015684B /* GeometryController.cpp */; };
+		18A5E02A1BA317910015684B /* GeometryController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0221BA317910015684B /* GeometryController.cpp */; };
+		18A5E02B1BA317910015684B /* MaterialRenderableFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0231BA317910015684B /* MaterialRenderableFilter.cpp */; };
+		18A5E02C1BA317910015684B /* MaterialRenderableFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0231BA317910015684B /* MaterialRenderableFilter.cpp */; };
+		18A5E02D1BA317910015684B /* MaterialStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0251BA317910015684B /* MaterialStore.cpp */; };
+		18A5E02E1BA317910015684B /* MaterialStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0251BA317910015684B /* MaterialStore.cpp */; };
+		18A5E02F1BA317910015684B /* TextureStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0271BA317910015684B /* TextureStore.cpp */; };
+		18A5E0301BA317910015684B /* TextureStore.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A5E0271BA317910015684B /* TextureStore.cpp */; };
 		18A6574E1A9F390E00238F33 /* SearchResultPinAddedEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A6574C1A9F390E00238F33 /* SearchResultPinAddedEvent.cpp */; };
 		18A6574F1A9F390E00238F33 /* SearchResultPinAddedEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A6574C1A9F390E00238F33 /* SearchResultPinAddedEvent.cpp */; };
 		18A657521A9F391E00238F33 /* SearchResultPinRemovedEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 18A657501A9F391E00238F33 /* SearchResultPinRemovedEvent.cpp */; };
@@ -1405,6 +1453,57 @@
 		188C4CA61AA730BF0080B34B /* menu_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu_button.png; sourceTree = "<group>"; };
 		188C4CA71AA730BF0080B34B /* place_pin_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = place_pin_background.png; sourceTree = "<group>"; };
 		188C4CBA1AA753F70080B34B /* Arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Arrow.png; sourceTree = "<group>"; };
+		18A5DFA41BA19DCE0015684B /* Materials */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Materials; sourceTree = "<group>"; };
+		18A5DFA81BA19F240015684B /* iOSCubeTextureFileLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iOSCubeTextureFileLoader.cpp; sourceTree = "<group>"; };
+		18A5DFA91BA19F240015684B /* iOSCubeTextureFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSCubeTextureFileLoader.h; sourceTree = "<group>"; };
+		18A5DFAD1BA1A02A0015684B /* ICubeTextureFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICubeTextureFileLoader.h; sourceTree = "<group>"; };
+		18A5DFAE1BA1A02A0015684B /* MaterialsModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialsModule.cpp; sourceTree = "<group>"; };
+		18A5DFAF1BA1A02A0015684B /* MaterialsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialsModule.h; sourceTree = "<group>"; };
+		18A5DFB81BA1A02A0015684B /* ChromeMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = ChromeMaterial.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		18A5DFB91BA1A02A0015684B /* ChromeMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromeMaterial.h; sourceTree = "<group>"; };
+		18A5DFBC1BA1A02A0015684B /* DepthOnlyMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DepthOnlyMaterial.cpp; sourceTree = "<group>"; };
+		18A5DFBD1BA1A02A0015684B /* DepthOnlyMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DepthOnlyMaterial.h; sourceTree = "<group>"; };
+		18A5DFBE1BA1A02A0015684B /* DiffuseSpecularMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DiffuseSpecularMaterial.cpp; sourceTree = "<group>"; };
+		18A5DFBF1BA1A02A0015684B /* DiffuseSpecularMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffuseSpecularMaterial.h; sourceTree = "<group>"; };
+		18A5DFC01BA1A02A0015684B /* GlassMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlassMaterial.cpp; sourceTree = "<group>"; };
+		18A5DFC11BA1A02A0015684B /* GlassMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassMaterial.h; sourceTree = "<group>"; };
+		18A5DFC21BA1A02A0015684B /* StencilMaterial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StencilMaterial.cpp; sourceTree = "<group>"; };
+		18A5DFC31BA1A02A0015684B /* StencilMaterial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StencilMaterial.h; sourceTree = "<group>"; };
+		18A5DFC51BA1A02A0015684B /* BlankShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BlankShader.cpp; sourceTree = "<group>"; };
+		18A5DFC61BA1A02A0015684B /* BlankShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlankShader.h; sourceTree = "<group>"; };
+		18A5DFC71BA1A02A0015684B /* ChromeShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = ChromeShader.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		18A5DFC81BA1A02A0015684B /* ChromeShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChromeShader.h; sourceTree = "<group>"; };
+		18A5DFCB1BA1A02A0015684B /* DiffuseSpecularShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DiffuseSpecularShader.cpp; sourceTree = "<group>"; };
+		18A5DFCC1BA1A02A0015684B /* DiffuseSpecularShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiffuseSpecularShader.h; sourceTree = "<group>"; };
+		18A5DFCD1BA1A02A0015684B /* GlassShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlassShader.cpp; sourceTree = "<group>"; };
+		18A5DFCE1BA1A02A0015684B /* GlassShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassShader.h; sourceTree = "<group>"; };
+		18A5DFF11BA1BB8A0015684B /* MaterialsIncludes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaterialsIncludes.h; sourceTree = "<group>"; };
+		18A5DFF31BA1D84F0015684B /* LitRenderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LitRenderable.cpp; sourceTree = "<group>"; };
+		18A5DFF41BA1D84F0015684B /* LitRenderable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LitRenderable.h; sourceTree = "<group>"; };
+		18A5DFF71BA1D8730015684B /* BufferRenderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferRenderable.cpp; sourceTree = "<group>"; };
+		18A5DFF81BA1D8730015684B /* BufferRenderable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferRenderable.h; sourceTree = "<group>"; };
+		18A5DFFC1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialsGeometryHelpers.cpp; sourceTree = "<group>"; };
+		18A5DFFD1BA1D8F40015684B /* MaterialsGeometryHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialsGeometryHelpers.h; sourceTree = "<group>"; };
+		18A5E0001BA1D9130015684B /* MatrixHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MatrixHelpers.cpp; sourceTree = "<group>"; };
+		18A5E0011BA1D9130015684B /* MatrixHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixHelpers.h; sourceTree = "<group>"; };
+		18A5E0041BA1DCD80015684B /* MaterialRenderableBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaterialRenderableBase.h; sourceTree = "<group>"; };
+		18A5E0051BA1DEE20015684B /* MaterialRenderableBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialRenderableBase.cpp; sourceTree = "<group>"; };
+		18A5E0081BA1E5CD0015684B /* GlassRenderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GlassRenderable.cpp; sourceTree = "<group>"; };
+		18A5E0091BA1E5CD0015684B /* GlassRenderable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlassRenderable.h; sourceTree = "<group>"; };
+		18A5E0151BA2D8900015684B /* RenderableHelpers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderableHelpers.cpp; sourceTree = "<group>"; };
+		18A5E0161BA2D8900015684B /* RenderableHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderableHelpers.h; sourceTree = "<group>"; };
+		18A5E0191BA2E0D50015684B /* ChromeRenderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = ChromeRenderable.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
+		18A5E01A1BA2E0D50015684B /* ChromeRenderable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ChromeRenderable.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		18A5E0211BA317910015684B /* GeometryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeometryController.h; sourceTree = "<group>"; };
+		18A5E0221BA317910015684B /* GeometryController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeometryController.cpp; sourceTree = "<group>"; };
+		18A5E0231BA317910015684B /* MaterialRenderableFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialRenderableFilter.cpp; sourceTree = "<group>"; };
+		18A5E0241BA317910015684B /* MaterialRenderableFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialRenderableFilter.h; sourceTree = "<group>"; };
+		18A5E0251BA317910015684B /* MaterialStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MaterialStore.cpp; sourceTree = "<group>"; };
+		18A5E0261BA317910015684B /* MaterialStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaterialStore.h; sourceTree = "<group>"; };
+		18A5E0271BA317910015684B /* TextureStore.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureStore.cpp; sourceTree = "<group>"; };
+		18A5E0281BA317910015684B /* TextureStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureStore.h; sourceTree = "<group>"; };
+		18A5E0311BA3181F0015684B /* IMaterialsModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMaterialsModule.h; sourceTree = "<group>"; };
+		18A5E0321BA320EB0015684B /* IGeometryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IGeometryController.h; sourceTree = "<group>"; };
 		18A6574B1A9F385B00238F33 /* SdkDomainEventsMessageCatalog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SdkDomainEventsMessageCatalog.h; sourceTree = "<group>"; };
 		18A6574C1A9F390E00238F33 /* SearchResultPinAddedEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SearchResultPinAddedEvent.cpp; sourceTree = "<group>"; };
 		18A6574D1A9F390E00238F33 /* SearchResultPinAddedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResultPinAddedEvent.h; sourceTree = "<group>"; };
@@ -2666,6 +2765,7 @@
 				56AC9BFE1AA6079000E603C4 /* Metrics */,
 				7E3B86F91A385A290023C94E /* MobileExampleApp.cpp */,
 				7E3B86FA1A385A290023C94E /* MobileExampleApp.h */,
+				18A5DFAC1BA1A02A0015684B /* Materials */,
 				7E3B86FB1A385A290023C94E /* Modality */,
 				7E3B87101A385A290023C94E /* MyPinCreation */,
 				7E3B87491A385A290023C94E /* MyPinCreationDetails */,
@@ -2831,6 +2931,102 @@
 				186B475C1AB33C920084E80B /* IApplicationConfigurationService.h */,
 			);
 			path = SdkModel;
+			sourceTree = "<group>";
+		};
+		18A5DFA71BA19F240015684B /* Materials */ = {
+			isa = PBXGroup;
+			children = (
+				18A5DFA81BA19F240015684B /* iOSCubeTextureFileLoader.cpp */,
+				18A5DFA91BA19F240015684B /* iOSCubeTextureFileLoader.h */,
+			);
+			path = Materials;
+			sourceTree = "<group>";
+		};
+		18A5DFAC1BA1A02A0015684B /* Materials */ = {
+			isa = PBXGroup;
+			children = (
+				18A5DFFB1BA1D8F40015684B /* Helpers */,
+				18A5DFB71BA1A02A0015684B /* Materials */,
+				18A5DFF21BA1D84F0015684B /* Renderables */,
+				18A5DFC41BA1A02A0015684B /* Shaders */,
+				18A5E0221BA317910015684B /* GeometryController.cpp */,
+				18A5E0211BA317910015684B /* GeometryController.h */,
+				18A5DFAD1BA1A02A0015684B /* ICubeTextureFileLoader.h */,
+				18A5E0321BA320EB0015684B /* IGeometryController.h */,
+				18A5E0311BA3181F0015684B /* IMaterialsModule.h */,
+				18A5E0231BA317910015684B /* MaterialRenderableFilter.cpp */,
+				18A5E0241BA317910015684B /* MaterialRenderableFilter.h */,
+				18A5DFF11BA1BB8A0015684B /* MaterialsIncludes.h */,
+				18A5DFAE1BA1A02A0015684B /* MaterialsModule.cpp */,
+				18A5DFAF1BA1A02A0015684B /* MaterialsModule.h */,
+				18A5E0251BA317910015684B /* MaterialStore.cpp */,
+				18A5E0261BA317910015684B /* MaterialStore.h */,
+				18A5E0271BA317910015684B /* TextureStore.cpp */,
+				18A5E0281BA317910015684B /* TextureStore.h */,
+			);
+			path = Materials;
+			sourceTree = "<group>";
+		};
+		18A5DFB71BA1A02A0015684B /* Materials */ = {
+			isa = PBXGroup;
+			children = (
+				18A5DFB81BA1A02A0015684B /* ChromeMaterial.cpp */,
+				18A5DFB91BA1A02A0015684B /* ChromeMaterial.h */,
+				18A5DFBC1BA1A02A0015684B /* DepthOnlyMaterial.cpp */,
+				18A5DFBD1BA1A02A0015684B /* DepthOnlyMaterial.h */,
+				18A5DFBE1BA1A02A0015684B /* DiffuseSpecularMaterial.cpp */,
+				18A5DFBF1BA1A02A0015684B /* DiffuseSpecularMaterial.h */,
+				18A5DFC01BA1A02A0015684B /* GlassMaterial.cpp */,
+				18A5DFC11BA1A02A0015684B /* GlassMaterial.h */,
+				18A5DFC21BA1A02A0015684B /* StencilMaterial.cpp */,
+				18A5DFC31BA1A02A0015684B /* StencilMaterial.h */,
+			);
+			path = Materials;
+			sourceTree = "<group>";
+		};
+		18A5DFC41BA1A02A0015684B /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				18A5DFC51BA1A02A0015684B /* BlankShader.cpp */,
+				18A5DFC61BA1A02A0015684B /* BlankShader.h */,
+				18A5DFC71BA1A02A0015684B /* ChromeShader.cpp */,
+				18A5DFC81BA1A02A0015684B /* ChromeShader.h */,
+				18A5DFCB1BA1A02A0015684B /* DiffuseSpecularShader.cpp */,
+				18A5DFCC1BA1A02A0015684B /* DiffuseSpecularShader.h */,
+				18A5DFCD1BA1A02A0015684B /* GlassShader.cpp */,
+				18A5DFCE1BA1A02A0015684B /* GlassShader.h */,
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		18A5DFF21BA1D84F0015684B /* Renderables */ = {
+			isa = PBXGroup;
+			children = (
+				18A5DFF71BA1D8730015684B /* BufferRenderable.cpp */,
+				18A5DFF81BA1D8730015684B /* BufferRenderable.h */,
+				18A5E0191BA2E0D50015684B /* ChromeRenderable.cpp */,
+				18A5E01A1BA2E0D50015684B /* ChromeRenderable.h */,
+				18A5E0081BA1E5CD0015684B /* GlassRenderable.cpp */,
+				18A5E0091BA1E5CD0015684B /* GlassRenderable.h */,
+				18A5DFF31BA1D84F0015684B /* LitRenderable.cpp */,
+				18A5DFF41BA1D84F0015684B /* LitRenderable.h */,
+				18A5E0051BA1DEE20015684B /* MaterialRenderableBase.cpp */,
+				18A5E0041BA1DCD80015684B /* MaterialRenderableBase.h */,
+			);
+			path = Renderables;
+			sourceTree = "<group>";
+		};
+		18A5DFFB1BA1D8F40015684B /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				18A5DFFC1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp */,
+				18A5DFFD1BA1D8F40015684B /* MaterialsGeometryHelpers.h */,
+				18A5E0001BA1D9130015684B /* MatrixHelpers.cpp */,
+				18A5E0011BA1D9130015684B /* MatrixHelpers.h */,
+				18A5E0151BA2D8900015684B /* RenderableHelpers.cpp */,
+				18A5E0161BA2D8900015684B /* RenderableHelpers.h */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		18A657541A9F49A500238F33 /* MyPins */ = {
@@ -4304,6 +4500,7 @@
 				7E5811C21B1F3248007AD67F /* InteriorsExplorer */,
 				7E3B8A441A385F100023C94E /* InitialExperience */,
 				7E3B8A4A1A385F100023C94E /* Main.m */,
+				18A5DFA71BA19F240015684B /* Materials */,
 				7E3B8A4B1A385F100023C94E /* Menu */,
 				56AC9BF91AA6076D00E603C4 /* Metrics */,
 				7E3B8A581A385F100023C94E /* ModalBackground */,
@@ -4860,6 +5057,7 @@
 		7EE4825B16847E7C0006E99B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				18A5DFA41BA19DCE0015684B /* Materials */,
 				E0AEEEF21B8CB0C700BA9BF0 /* floor_selection_bottom@2x.png */,
 				E0AEEEF31B8CB0C700BA9BF0 /* floor_selection_bottom@3x.png */,
 				E0AEEEF41B8CB0C700BA9BF0 /* floor_selection_top@2x.png */,
@@ -5248,6 +5446,7 @@
 				18EC00FE1AA7752500902E98 /* icon1_bank@3x.png in Resources */,
 				7E1B50901ACD9AA50060FA4F /* banner_logo@2x.png in Resources */,
 				18EC01571AA8C8A500902E98 /* compass.png in Resources */,
+				18A5DFA61BA19DCE0015684B /* Materials in Resources */,
 				18B5AC9819DC15CD00BA4A38 /* icon1_autumn.png in Resources */,
 				18B5AC8019DC15CD00BA4A38 /* arrow1.png in Resources */,
 				18FE20F41AA9B2C200ACE28A /* icon1_options@2x.png in Resources */,
@@ -5520,6 +5719,7 @@
 				18FE213D1AA9BA3C00ACE28A /* button_gallery_off@3x.png in Resources */,
 				7E1B508F1ACD9AA50060FA4F /* banner_logo@2x.png in Resources */,
 				18EC00FD1AA7752500902E98 /* icon1_bank@3x.png in Resources */,
+				18A5DFA51BA19DCE0015684B /* Materials in Resources */,
 				18EC01561AA8C8A500902E98 /* compass.png in Resources */,
 				18B5AC9719DC15CD00BA4A38 /* icon1_autumn.png in Resources */,
 				18B5AC7F19DC15CD00BA4A38 /* arrow1.png in Resources */,
@@ -5759,6 +5959,7 @@
 				7E3B89C31A385A290023C94E /* SearchResultOnMapItemModelSelectedMessage.cpp in Sources */,
 				18FE3BCF1A9CA4DF002D61C4 /* SortedMenuModel.cpp in Sources */,
 				56AC9BFD1AA6076D00E603C4 /* iOSFlurryMetricsService.mm in Sources */,
+				18A5DFE21BA1A02A0015684B /* GlassMaterial.cpp in Sources */,
 				7E3B88D91A385A290023C94E /* FlattenButtonModelStateChangedObserver.cpp in Sources */,
 				7E3B8AD61A385F110023C94E /* CompassViewInterop.mm in Sources */,
 				18FB64531A9240FC005A9411 /* NSMutableURLRequest+Parameters.m in Sources */,
@@ -5795,19 +5996,23 @@
 				1827D0801A975777008923F5 /* YelpCategoryMapper.cpp in Sources */,
 				18FB64931A933CF3005A9411 /* iOSYelpSearchQueryFactory.mm in Sources */,
 				7E3B892D1A385A290023C94E /* MyPinCreationConfirmationOpenableControl.cpp in Sources */,
+				18A5DFEC1BA1A02A0015684B /* DiffuseSpecularShader.cpp in Sources */,
 				7E3B88E51A385A290023C94E /* InitialExperiencePreLoadModel.cpp in Sources */,
 				7E3B8B041A385F110023C94E /* MyPinCreationDetailsView.mm in Sources */,
 				7E3B896F1A385A290023C94E /* PlaceJumpSelectedMessageHandler.cpp in Sources */,
 				7E5811CC1B1F3248007AD67F /* InteriorsExplorerView.mm in Sources */,
 				18FB64671A9240FC005A9411 /* OAMutableURLRequest.m in Sources */,
+				18A5DFFF1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp in Sources */,
 				7E3B89531A385A290023C94E /* MyPinSelectedMessage.cpp in Sources */,
 				7E3B89B11A385A290023C94E /* SearchResultAddRemoveHandler.cpp in Sources */,
 				7E3B8A051A385A290023C94E /* WorldPinInFocusScreenControl.cpp in Sources */,
+				18A5E0301BA317910015684B /* TextureStore.cpp in Sources */,
 				7E3B893F1A385A290023C94E /* UserCreatedMyPinDetailsModelSelectedMessage.cpp in Sources */,
 				7E3B89DB1A385A290023C94E /* SecondaryMenuController.cpp in Sources */,
 				7E3B89471A385A290023C94E /* MyPinDetailsController.cpp in Sources */,
 				7E3B8ADE1A385F110023C94E /* FlattenButtonViewModule.mm in Sources */,
 				7E3B88F91A385A290023C94E /* MenuSectionsViewModel.cpp in Sources */,
+				18A5E02C1BA317910015684B /* MaterialRenderableFilter.cpp in Sources */,
 				7E3B89511A385A290023C94E /* MyPinRemovedFromMenuMessage.cpp in Sources */,
 				18FB64611A9240FC005A9411 /* OAConsumer.m in Sources */,
 				7E3B8AE81A385F110023C94E /* UIColors.mm in Sources */,
@@ -5824,6 +6029,7 @@
 				18FB649E1A94B525005A9411 /* SearchResultPoiViewOpenedMessage.cpp in Sources */,
 				7E3B8AC81A385F110023C94E /* AboutPageViewInterop.mm in Sources */,
 				18FB64631A9240FC005A9411 /* OADataFetcher.m in Sources */,
+				18A5E00B1BA1E5CD0015684B /* GlassRenderable.cpp in Sources */,
 				7E3B88DD1A385A290023C94E /* FlattenButtonViewStateChangedObserver.cpp in Sources */,
 				7E3B8B261A385F110023C94E /* SearchResultPoiViewInterop.mm in Sources */,
 				18A6576D1AA0775900238F33 /* iOSYelpBusinessQuery.mm in Sources */,
@@ -5839,9 +6045,11 @@
 				7E3B8ACA1A385F110023C94E /* AboutPageViewModule.mm in Sources */,
 				18C0EC051A9E1240008EED21 /* MyPinBoundObjectFactory.cpp in Sources */,
 				7E3B89191A385A290023C94E /* PoiRingRenderable.cpp in Sources */,
+				18A5E0031BA1D9130015684B /* MatrixHelpers.cpp in Sources */,
 				7E3B88D31A385A290023C94E /* FlattenButtonModelStateChangedMessage.cpp in Sources */,
 				7E3B8AD81A385F110023C94E /* CompassViewModule.mm in Sources */,
 				18FB64511A9240FC005A9411 /* NSURLRequest+OAuth.mm in Sources */,
+				18A5DFAB1BA19F240015684B /* iOSCubeTextureFileLoader.cpp in Sources */,
 				7E8F03DB1A822E9A0056F229 /* GpsMarkerModel.cpp in Sources */,
 				7E3B893D1A385A290023C94E /* MyPinCreationDetailsViewModel.cpp in Sources */,
 				7E3B8AFC1A385F110023C94E /* ModalBackgroundViewModule.mm in Sources */,
@@ -5905,6 +6113,7 @@
 				7E3B89611A385A290023C94E /* MyPinsRepositoryObserver.cpp in Sources */,
 				18E102811A8B84FF0011A18C /* SearchResultPoiPinToggledMessage.cpp in Sources */,
 				7E3B88F11A385A290023C94E /* MenuItemModel.cpp in Sources */,
+				18A5DFDE1BA1A02A0015684B /* DepthOnlyMaterial.cpp in Sources */,
 				7E3B89B51A385A290023C94E /* SearchResultMenuController.cpp in Sources */,
 				7E3B898D1A385A290023C94E /* SearchModule.cpp in Sources */,
 				7E3B89371A385A290023C94E /* MyPinCreationDetailsController.cpp in Sources */,
@@ -5915,14 +6124,17 @@
 				7E3B891F1A385A290023C94E /* MyPinCreationModel.cpp in Sources */,
 				1868A4151AB3529700030AB6 /* ApplicationConfigurationModule.cpp in Sources */,
 				7E3B89DF1A385A290023C94E /* ViewControllerUpdaterModule.cpp in Sources */,
+				18A5DFE01BA1A02A0015684B /* DiffuseSpecularMaterial.cpp in Sources */,
 				7E3B894F1A385A290023C94E /* MyPinAddedToMenuMessage.cpp in Sources */,
 				18B22B381A7A937D00DDBFA2 /* OptionsView.mm in Sources */,
+				18A5DFEE1BA1A02A0015684B /* GlassShader.cpp in Sources */,
 				7E3B892F1A385A290023C94E /* MyPinCreationConfirmationViewModel.cpp in Sources */,
 				18FE3BD31A9CA561002D61C4 /* SortedMenuComparisonFunctions.cpp in Sources */,
 				7E3B8AEC1A385F110023C94E /* iOSInitialExperiencePreLoadModel.mm in Sources */,
 				7E5811CE1B1F3248007AD67F /* InteriorsExplorerViewInterop.mm in Sources */,
 				7E3B89131A385A290023C94E /* MyPinCreationViewStateChangedMessage.cpp in Sources */,
 				225FFA161A39EE8600C2282A /* SearchResultModel.cpp in Sources */,
+				18A5DFE41BA1A02A0015684B /* StencilMaterial.cpp in Sources */,
 				7E3B890D1A385A290023C94E /* ModalityObserver.cpp in Sources */,
 				18FB646B1A9240FC005A9411 /* OAProblem.m in Sources */,
 				7E3B89691A385A290023C94E /* OpenableControlViewModelBase.cpp in Sources */,
@@ -5947,9 +6159,12 @@
 				7E3B8AEE1A385F110023C94E /* Main.m in Sources */,
 				560741151B8CC624002B0F49 /* MenuDragStateChangedMessage.cpp in Sources */,
 				7E3B89FF1A385A290023C94E /* WorldPinsScaleController.cpp in Sources */,
+				18A5E02E1BA317910015684B /* MaterialStore.cpp in Sources */,
 				7E3B89D71A385A290023C94E /* PerformedSearchMessageHandler.cpp in Sources */,
+				18A5DFE61BA1A02A0015684B /* BlankShader.cpp in Sources */,
 				18FB64771A92455E005A9411 /* iOSYelpSearchQuery.mm in Sources */,
 				7E3B894B1A385A290023C94E /* MyPinDetailsOpenableControl.cpp in Sources */,
+				18A5E02A1BA317910015684B /* GeometryController.cpp in Sources */,
 				7E3B89CF1A385A290023C94E /* SearchResultPoiModule.cpp in Sources */,
 				7E3B8AE21A385F110023C94E /* IconResources.mm in Sources */,
 				7E3B8A031A385A290023C94E /* WorldPinInFocusObserver.cpp in Sources */,
@@ -5959,6 +6174,7 @@
 				7E3B897F1A385A290023C94E /* ReactionControllerModule.cpp in Sources */,
 				7E3B88C91A385A290023C94E /* CompassUpdateController.cpp in Sources */,
 				7E3B8B121A385F110023C94E /* MyPinDetailsViewInterop.mm in Sources */,
+				18A5E0071BA1DEE20015684B /* MaterialRenderableBase.cpp in Sources */,
 				18FB64691A9240FC005A9411 /* OAPlaintextSignatureProvider.m in Sources */,
 				7E3B89BD1A385A290023C94E /* SearchResultRepositoryObserver.cpp in Sources */,
 				7E3B89091A385A290023C94E /* ModalityModel.cpp in Sources */,
@@ -5972,6 +6188,7 @@
 				7E3B89751A385A290023C94E /* PlaceJumpsDataParser.cpp in Sources */,
 				561ECF2A1B46820F007BD4F9 /* InteriorsEntitiesPinsController.cpp in Sources */,
 				18C0EC011A9E122F008EED21 /* MyPinBoundObjectRepository.cpp in Sources */,
+				18A5DFDA1BA1A02A0015684B /* ChromeMaterial.cpp in Sources */,
 				7E3B88BD1A385A290023C94E /* CompassHeadingUpdateMessage.cpp in Sources */,
 				186B474E1AB333150084E80B /* ApplicationConfigurationBuilder.cpp in Sources */,
 				7E3B89BB1A385A290023C94E /* SearchResultMenuViewModel.cpp in Sources */,
@@ -6002,6 +6219,7 @@
 				7E3B8B1C1A385F110023C94E /* SearchResultMenuDataProvider.mm in Sources */,
 				7E3B88D11A385A290023C94E /* CompassViewModel.cpp in Sources */,
 				7E3B88B11A385A290023C94E /* CategorySearchSelectedMessage.cpp in Sources */,
+				18A5DFD21BA1A02A0015684B /* MaterialsModule.cpp in Sources */,
 				7E3B89A71A385A290023C94E /* SearchResultViewClearedObserver.cpp in Sources */,
 				7E3B89911A385A290023C94E /* SearchQueryObserver.cpp in Sources */,
 				7E3B89E51A385A290023C94E /* WeatherMenuStateModel.cpp in Sources */,
@@ -6044,8 +6262,10 @@
 				186B47111AB1D46B0084E80B /* WatermarkViewModel.cpp in Sources */,
 				18FB646F1A9240FC005A9411 /* OAServiceTicket.m in Sources */,
 				7E8F03EF1A827FAB0056F229 /* GpsMarkerVisibilityMessage.cpp in Sources */,
+				18A5DFF61BA1D84F0015684B /* LitRenderable.cpp in Sources */,
 				7E3B89411A385A290023C94E /* MyPinDetailsViewRemovePinMessage.cpp in Sources */,
 				183E54861ACEB1FB00AD6B3E /* InitialExperienceSearchResultAttractModeModule.cpp in Sources */,
+				18A5E01C1BA2E0D50015684B /* ChromeRenderable.cpp in Sources */,
 				7E3B896B1A385A290023C94E /* PlaceJumpSelectedMessage.cpp in Sources */,
 				7E3B8B301A385F110023C94E /* UIView+TouchExclusivity.m in Sources */,
 				7E3B898B1A385A290023C94E /* DecartaSearchService.cpp in Sources */,
@@ -6062,16 +6282,19 @@
 				7E3B8B161A385F110023C94E /* iOSPersistentSettingsModel.mm in Sources */,
 				7E8F03D71A822E820056F229 /* GpsMarkerModule.cpp in Sources */,
 				7E3B88AB1A385A290023C94E /* AboutPageOpenableControl.cpp in Sources */,
+				18A5DFE81BA1A02A0015684B /* ChromeShader.cpp in Sources */,
 				7E3B8B2A1A385F110023C94E /* SecondaryMenuView.mm in Sources */,
 				7E3B8B0A1A385F110023C94E /* MyPinCreationInitiationView.mm in Sources */,
 				7E3B8B0C1A385F110023C94E /* MyPinCreationInitiationViewInterop.mm in Sources */,
 				18FB645D1A9240FC005A9411 /* sha1.c in Sources */,
 				18FB648E1A9336A0005A9411 /* iOSYelpSearchServiceModule.cpp in Sources */,
+				18A5DFFA1BA1D8730015684B /* BufferRenderable.cpp in Sources */,
 				7E3B89C51A385A290023C94E /* SearchResultOnMapFactory.cpp in Sources */,
 				18FB646D1A9240FC005A9411 /* OARequestParameter.m in Sources */,
 				7E3B890B1A385A290023C94E /* ModalityModule.cpp in Sources */,
 				7E3B88A91A385A290023C94E /* AboutPageModule.cpp in Sources */,
 				56D5B23D1B8233C700306841 /* InteriorPinScaleController.cpp in Sources */,
+				18A5E0181BA2D8900015684B /* RenderableHelpers.cpp in Sources */,
 				186B47521AB333150084E80B /* ApplicationConfigurationReader.cpp in Sources */,
 				1827D0771A964207008923F5 /* GeoNamesSearchResultDto.cpp in Sources */,
 				18B44CEC1A83D3CF00FDFD8A /* OptionsCacheClearSubView.mm in Sources */,
@@ -6124,6 +6347,7 @@
 				7E3B89C21A385A290023C94E /* SearchResultOnMapItemModelSelectedMessage.cpp in Sources */,
 				18FE3BCE1A9CA4DF002D61C4 /* SortedMenuModel.cpp in Sources */,
 				56AC9BFC1AA6076D00E603C4 /* iOSFlurryMetricsService.mm in Sources */,
+				18A5DFE11BA1A02A0015684B /* GlassMaterial.cpp in Sources */,
 				7E3B88D81A385A290023C94E /* FlattenButtonModelStateChangedObserver.cpp in Sources */,
 				7E3B8AD51A385F110023C94E /* CompassViewInterop.mm in Sources */,
 				18FB64521A9240FC005A9411 /* NSMutableURLRequest+Parameters.m in Sources */,
@@ -6160,19 +6384,23 @@
 				1827D07F1A975777008923F5 /* YelpCategoryMapper.cpp in Sources */,
 				18FB64921A933CF3005A9411 /* iOSYelpSearchQueryFactory.mm in Sources */,
 				7E3B892C1A385A290023C94E /* MyPinCreationConfirmationOpenableControl.cpp in Sources */,
+				18A5DFEB1BA1A02A0015684B /* DiffuseSpecularShader.cpp in Sources */,
 				7E3B88E41A385A290023C94E /* InitialExperiencePreLoadModel.cpp in Sources */,
 				7E3B8B031A385F110023C94E /* MyPinCreationDetailsView.mm in Sources */,
 				7E3B896E1A385A290023C94E /* PlaceJumpSelectedMessageHandler.cpp in Sources */,
 				7E5811CB1B1F3248007AD67F /* InteriorsExplorerView.mm in Sources */,
 				18FB64661A9240FC005A9411 /* OAMutableURLRequest.m in Sources */,
+				18A5DFFE1BA1D8F40015684B /* MaterialsGeometryHelpers.cpp in Sources */,
 				7E3B89521A385A290023C94E /* MyPinSelectedMessage.cpp in Sources */,
 				7E3B89B01A385A290023C94E /* SearchResultAddRemoveHandler.cpp in Sources */,
 				7E3B8A041A385A290023C94E /* WorldPinInFocusScreenControl.cpp in Sources */,
+				18A5E02F1BA317910015684B /* TextureStore.cpp in Sources */,
 				7E3B893E1A385A290023C94E /* UserCreatedMyPinDetailsModelSelectedMessage.cpp in Sources */,
 				7E3B89DA1A385A290023C94E /* SecondaryMenuController.cpp in Sources */,
 				7E3B89461A385A290023C94E /* MyPinDetailsController.cpp in Sources */,
 				7E3B8ADD1A385F110023C94E /* FlattenButtonViewModule.mm in Sources */,
 				7E3B88F81A385A290023C94E /* MenuSectionsViewModel.cpp in Sources */,
+				18A5E02B1BA317910015684B /* MaterialRenderableFilter.cpp in Sources */,
 				7E3B89501A385A290023C94E /* MyPinRemovedFromMenuMessage.cpp in Sources */,
 				18FB64601A9240FC005A9411 /* OAConsumer.m in Sources */,
 				7E3B8AE71A385F110023C94E /* UIColors.mm in Sources */,
@@ -6189,6 +6417,7 @@
 				18FB649D1A94B525005A9411 /* SearchResultPoiViewOpenedMessage.cpp in Sources */,
 				7E3B8AC71A385F110023C94E /* AboutPageViewInterop.mm in Sources */,
 				18FB64621A9240FC005A9411 /* OADataFetcher.m in Sources */,
+				18A5E00A1BA1E5CD0015684B /* GlassRenderable.cpp in Sources */,
 				7E3B88DC1A385A290023C94E /* FlattenButtonViewStateChangedObserver.cpp in Sources */,
 				7E3B8B251A385F110023C94E /* SearchResultPoiViewInterop.mm in Sources */,
 				18A6576C1AA0775900238F33 /* iOSYelpBusinessQuery.mm in Sources */,
@@ -6204,9 +6433,11 @@
 				7E3B8AC91A385F110023C94E /* AboutPageViewModule.mm in Sources */,
 				18C0EC041A9E1240008EED21 /* MyPinBoundObjectFactory.cpp in Sources */,
 				7E3B89181A385A290023C94E /* PoiRingRenderable.cpp in Sources */,
+				18A5E0021BA1D9130015684B /* MatrixHelpers.cpp in Sources */,
 				7E3B88D21A385A290023C94E /* FlattenButtonModelStateChangedMessage.cpp in Sources */,
 				7E3B8AD71A385F110023C94E /* CompassViewModule.mm in Sources */,
 				18FB64501A9240FC005A9411 /* NSURLRequest+OAuth.mm in Sources */,
+				18A5DFAA1BA19F240015684B /* iOSCubeTextureFileLoader.cpp in Sources */,
 				7E8F03DA1A822E9A0056F229 /* GpsMarkerModel.cpp in Sources */,
 				7E3B893C1A385A290023C94E /* MyPinCreationDetailsViewModel.cpp in Sources */,
 				7E3B8AFB1A385F110023C94E /* ModalBackgroundViewModule.mm in Sources */,
@@ -6270,6 +6501,7 @@
 				7E3B89601A385A290023C94E /* MyPinsRepositoryObserver.cpp in Sources */,
 				18E102801A8B84FF0011A18C /* SearchResultPoiPinToggledMessage.cpp in Sources */,
 				7E3B88F01A385A290023C94E /* MenuItemModel.cpp in Sources */,
+				18A5DFDD1BA1A02A0015684B /* DepthOnlyMaterial.cpp in Sources */,
 				7E3B89B41A385A290023C94E /* SearchResultMenuController.cpp in Sources */,
 				7E3B898C1A385A290023C94E /* SearchModule.cpp in Sources */,
 				7E3B89361A385A290023C94E /* MyPinCreationDetailsController.cpp in Sources */,
@@ -6280,14 +6512,17 @@
 				7E3B891E1A385A290023C94E /* MyPinCreationModel.cpp in Sources */,
 				1868A4141AB3529700030AB6 /* ApplicationConfigurationModule.cpp in Sources */,
 				7E3B89DE1A385A290023C94E /* ViewControllerUpdaterModule.cpp in Sources */,
+				18A5DFDF1BA1A02A0015684B /* DiffuseSpecularMaterial.cpp in Sources */,
 				7E3B894E1A385A290023C94E /* MyPinAddedToMenuMessage.cpp in Sources */,
 				18B22B371A7A937D00DDBFA2 /* OptionsView.mm in Sources */,
+				18A5DFED1BA1A02A0015684B /* GlassShader.cpp in Sources */,
 				7E3B892E1A385A290023C94E /* MyPinCreationConfirmationViewModel.cpp in Sources */,
 				18FE3BD21A9CA561002D61C4 /* SortedMenuComparisonFunctions.cpp in Sources */,
 				7E3B8AEB1A385F110023C94E /* iOSInitialExperiencePreLoadModel.mm in Sources */,
 				7E5811CD1B1F3248007AD67F /* InteriorsExplorerViewInterop.mm in Sources */,
 				7E3B89121A385A290023C94E /* MyPinCreationViewStateChangedMessage.cpp in Sources */,
 				225FFA151A39EE8600C2282A /* SearchResultModel.cpp in Sources */,
+				18A5DFE31BA1A02A0015684B /* StencilMaterial.cpp in Sources */,
 				7E3B890C1A385A290023C94E /* ModalityObserver.cpp in Sources */,
 				18FB646A1A9240FC005A9411 /* OAProblem.m in Sources */,
 				7E3B89681A385A290023C94E /* OpenableControlViewModelBase.cpp in Sources */,
@@ -6312,9 +6547,12 @@
 				7E3B8AED1A385F110023C94E /* Main.m in Sources */,
 				560741141B8CC624002B0F49 /* MenuDragStateChangedMessage.cpp in Sources */,
 				7E3B89FE1A385A290023C94E /* WorldPinsScaleController.cpp in Sources */,
+				18A5E02D1BA317910015684B /* MaterialStore.cpp in Sources */,
 				7E3B89D61A385A290023C94E /* PerformedSearchMessageHandler.cpp in Sources */,
+				18A5DFE51BA1A02A0015684B /* BlankShader.cpp in Sources */,
 				18FB64761A92455E005A9411 /* iOSYelpSearchQuery.mm in Sources */,
 				7E3B894A1A385A290023C94E /* MyPinDetailsOpenableControl.cpp in Sources */,
+				18A5E0291BA317910015684B /* GeometryController.cpp in Sources */,
 				7E3B89CE1A385A290023C94E /* SearchResultPoiModule.cpp in Sources */,
 				7E3B8AE11A385F110023C94E /* IconResources.mm in Sources */,
 				7E3B8A021A385A290023C94E /* WorldPinInFocusObserver.cpp in Sources */,
@@ -6324,6 +6562,7 @@
 				7E3B897E1A385A290023C94E /* ReactionControllerModule.cpp in Sources */,
 				7E3B88C81A385A290023C94E /* CompassUpdateController.cpp in Sources */,
 				7E3B8B111A385F110023C94E /* MyPinDetailsViewInterop.mm in Sources */,
+				18A5E0061BA1DEE20015684B /* MaterialRenderableBase.cpp in Sources */,
 				18FB64681A9240FC005A9411 /* OAPlaintextSignatureProvider.m in Sources */,
 				7E3B89BC1A385A290023C94E /* SearchResultRepositoryObserver.cpp in Sources */,
 				7E3B89081A385A290023C94E /* ModalityModel.cpp in Sources */,
@@ -6337,6 +6576,7 @@
 				7E3B89741A385A290023C94E /* PlaceJumpsDataParser.cpp in Sources */,
 				561ECF291B46820F007BD4F9 /* InteriorsEntitiesPinsController.cpp in Sources */,
 				18C0EC001A9E122F008EED21 /* MyPinBoundObjectRepository.cpp in Sources */,
+				18A5DFD91BA1A02A0015684B /* ChromeMaterial.cpp in Sources */,
 				7E3B88BC1A385A290023C94E /* CompassHeadingUpdateMessage.cpp in Sources */,
 				186B474D1AB333150084E80B /* ApplicationConfigurationBuilder.cpp in Sources */,
 				7E3B89BA1A385A290023C94E /* SearchResultMenuViewModel.cpp in Sources */,
@@ -6367,6 +6607,7 @@
 				7E3B8B1B1A385F110023C94E /* SearchResultMenuDataProvider.mm in Sources */,
 				7E3B88D01A385A290023C94E /* CompassViewModel.cpp in Sources */,
 				7E3B88B01A385A290023C94E /* CategorySearchSelectedMessage.cpp in Sources */,
+				18A5DFD11BA1A02A0015684B /* MaterialsModule.cpp in Sources */,
 				7E3B89A61A385A290023C94E /* SearchResultViewClearedObserver.cpp in Sources */,
 				7E3B89901A385A290023C94E /* SearchQueryObserver.cpp in Sources */,
 				7E3B89E41A385A290023C94E /* WeatherMenuStateModel.cpp in Sources */,
@@ -6409,8 +6650,10 @@
 				186B47101AB1D46B0084E80B /* WatermarkViewModel.cpp in Sources */,
 				7E3B89B21A385A290023C94E /* SearchResultItemModel.cpp in Sources */,
 				7E8F03EE1A827FAB0056F229 /* GpsMarkerVisibilityMessage.cpp in Sources */,
+				18A5DFF51BA1D84F0015684B /* LitRenderable.cpp in Sources */,
 				7E3B89401A385A290023C94E /* MyPinDetailsViewRemovePinMessage.cpp in Sources */,
 				183E54851ACEB1FB00AD6B3E /* InitialExperienceSearchResultAttractModeModule.cpp in Sources */,
+				18A5E01B1BA2E0D50015684B /* ChromeRenderable.cpp in Sources */,
 				7E3B896A1A385A290023C94E /* PlaceJumpSelectedMessage.cpp in Sources */,
 				7E3B8B2F1A385F110023C94E /* UIView+TouchExclusivity.m in Sources */,
 				7E3B898A1A385A290023C94E /* DecartaSearchService.cpp in Sources */,
@@ -6427,16 +6670,19 @@
 				7E3B8B151A385F110023C94E /* iOSPersistentSettingsModel.mm in Sources */,
 				7E8F03D61A822E820056F229 /* GpsMarkerModule.cpp in Sources */,
 				7E3B88AA1A385A290023C94E /* AboutPageOpenableControl.cpp in Sources */,
+				18A5DFE71BA1A02A0015684B /* ChromeShader.cpp in Sources */,
 				7E3B8B291A385F110023C94E /* SecondaryMenuView.mm in Sources */,
 				7E3B8B091A385F110023C94E /* MyPinCreationInitiationView.mm in Sources */,
 				18FB645C1A9240FC005A9411 /* sha1.c in Sources */,
 				18FB648D1A9336A0005A9411 /* iOSYelpSearchServiceModule.cpp in Sources */,
 				7E3B8B0B1A385F110023C94E /* MyPinCreationInitiationViewInterop.mm in Sources */,
+				18A5DFF91BA1D8730015684B /* BufferRenderable.cpp in Sources */,
 				18FB646C1A9240FC005A9411 /* OARequestParameter.m in Sources */,
 				7E3B89C41A385A290023C94E /* SearchResultOnMapFactory.cpp in Sources */,
 				7E3B890A1A385A290023C94E /* ModalityModule.cpp in Sources */,
 				1827D0761A964207008923F5 /* GeoNamesSearchResultDto.cpp in Sources */,
 				56D5B23C1B8233C700306841 /* InteriorPinScaleController.cpp in Sources */,
+				18A5E0171BA2D8900015684B /* RenderableHelpers.cpp in Sources */,
 				186B47511AB333150084E80B /* ApplicationConfigurationReader.cpp in Sources */,
 				7E3B88A81A385A290023C94E /* AboutPageModule.cpp in Sources */,
 				18B44CEB1A83D3CF00FDFD8A /* OptionsCacheClearSubView.mm in Sources */,

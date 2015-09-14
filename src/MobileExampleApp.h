@@ -73,6 +73,7 @@
 #include "InteriorsEntitiesPins.h"
 #include "MapMode.h"
 #include "AppModes.h"
+#include "MaterialsIncludes.h"
 
 namespace ExampleApp
 {
@@ -136,6 +137,9 @@ namespace ExampleApp
         InteriorsExplorer::SdkModel::IInteriorsExplorerModule* m_pInteriorsExplorerModule;
         InteriorsEntitiesPins::SdkModel::IInteriorsEntitiesPinsModule* m_pInteriorsEntitiesPinsModule;
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
+        ExampleApp::Materials::ICubeTextureFileLoader& m_cubeTextureFileLoader;
+        ExampleApp::Materials::IMaterialsModule* m_pMaterialsModule;
+        
         const bool m_interiorsEnabled;
 
         void CreateApplicationModelModules();
@@ -168,7 +172,8 @@ namespace ExampleApp
                          ExampleApp::Search::SdkModel::ISearchServiceModule& searchServiceModule,
                          ExampleApp::Metrics::IMetricsService& metricsService,
                          const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration,
-                         Eegeo::IEegeoErrorHandler& errorHandler);
+                         Eegeo::IEegeoErrorHandler& errorHandler,
+                         ExampleApp::Materials::ICubeTextureFileLoader& cubeTextureFileLoader);
 
         ~MobileExampleApp();
 

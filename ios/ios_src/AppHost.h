@@ -45,6 +45,7 @@
 #include "iOSFlurryMetricsService.h"
 #include "Interiors.h"
 #include "InteriorsExplorerViewIncludes.h"
+#include "iOSCubeTextureFileLoader.h"
 
 @class ViewController;
 class AppInputDelegate;
@@ -111,6 +112,7 @@ private:
     ExampleApp::Search::SdkModel::ISearchServiceModule* m_pSearchServiceModule;
     ExampleApp::Metrics::iOSFlurryMetricsService* m_piOSFlurryMetricsService;
     ExampleApp::InteriorsExplorer::View::IInteriorsExplorerViewModule* m_pInteriorsExplorerViewModule;
+    ExampleApp::Materials::iOS::iOSCubeTextureFileLoader* m_piOSCubeTextureFileLoader;
 
     ExampleApp::MobileExampleApp* m_pApp;
     bool m_requestedApplicationInitialiseViewState;

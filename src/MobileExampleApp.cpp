@@ -66,7 +66,9 @@
 #include "MapModeModule.h"
 #include "IInteriorsExplorerInputDelegate.h"
 #include "AppModeModel.h"
-
+#include "ICubeTextureFileLoader.h"
+#include "MaterialsModule.h"
+#include "IGeometryController.h"
 
 namespace ExampleApp
 {
@@ -115,7 +117,8 @@ namespace ExampleApp
         ExampleApp::Search::SdkModel::ISearchServiceModule& searchServiceModule,
         ExampleApp::Metrics::IMetricsService& metricsService,
         const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration,
-        Eegeo::IEegeoErrorHandler& errorHandler)
+        Eegeo::IEegeoErrorHandler& errorHandler,
+        ExampleApp::Materials::ICubeTextureFileLoader& cubeTextureFileLoader)
         : m_pGlobeCameraController(NULL)
         , m_pCameraTouchController(NULL)
         , m_pCurrentTouchController(NULL)
@@ -160,6 +163,7 @@ namespace ExampleApp
         , m_pWatermarkModule(NULL)
         , m_pInteriorsExplorerModule(NULL)
         , m_pInteriorsEntitiesPinsModule(NULL)
+        , m_pMaterialsModule(NULL)
         , m_screenProperties(screenProperties)
         , m_networkCapabilities(networkCapabilities)
         , m_setMetricsLocation(false)
@@ -167,6 +171,7 @@ namespace ExampleApp
         , m_metricsService(metricsService)
         , m_applicationConfiguration(applicationConfiguration)
         , m_interiorsEnabled(platformConfig.OptionsConfig.EnableInteriors)
+        , m_cubeTextureFileLoader(cubeTextureFileLoader)
     {
         m_metricsService.BeginSession(ExampleApp::FlurryApiKey, EEGEO_PLATFORM_VERSION_NUMBER);
 
@@ -207,6 +212,7 @@ namespace ExampleApp
         gpsGlobeCameraConfig.panToUnlockThreshold =  0.03f;
         Eegeo::Camera::GlobeCamera::GlobeCameraTouchControllerConfiguration touchControllerConfig = Eegeo::Camera::GlobeCamera::GlobeCameraTouchControllerConfiguration::CreateDefault();
         Eegeo::Camera::GlobeCamera::GlobeCameraControllerConfiguration globeCameraConfig = Eegeo::Camera::GlobeCamera::GlobeCameraControllerConfiguration::CreateDefault(useLowSpecSettings);
+        globeCameraConfig.pitchCityMode = 10.0f;
 
         m_pGlobeCameraController = cameraControllerFactory.Create(gpsGlobeCameraConfig, touchControllerConfig, globeCameraConfig, m_screenProperties);
 
@@ -424,6 +430,13 @@ namespace ExampleApp
                                                                                                                 m_screenProperties));
         }
         
+        m_pMaterialsModule = Eegeo_NEW(Materials::MaterialsModule)(m_pWorld->GetRenderingModule(),
+                                                                   m_pWorld->GetPlatformAbstractionModule().GetTextureFileLoader(),
+                                                                   Eegeo::Space::LatLongAltitude::FromDegrees(37.781841, -122.361174, 100.0),
+                                                                   m_pWorld->GetLightingModule().GetGlobalLighting(),
+                                                                   m_pWorld->GetDebugRenderingModule().GetDebugRenderer(),
+                                                                   m_cubeTextureFileLoader);
+        
         std::vector<ScreenControl::View::IScreenControlViewModel*> reactors(GetReactorControls());
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> openables(GetOpenableControls());
 
@@ -450,6 +463,8 @@ namespace ExampleApp
     void MobileExampleApp::DestroyApplicationModelModules()
     {
         m_initialExperienceModule.TearDown();
+        
+        Eegeo_DELETE m_pMaterialsModule;
         
         Eegeo_DELETE m_pWorldAreaLoaderModule;
         
@@ -633,6 +648,8 @@ namespace ExampleApp
         m_pSearchModule->GetSearchRefreshService().TryRefreshSearch(dt, ecefInterestPoint);
 
         m_pPinsModule->GetController().Update(dt, renderCamera);
+        
+        m_pMaterialsModule->GetGeometryController().Update(dt);
 
         if(!eegeoWorld.Initialising())
         {

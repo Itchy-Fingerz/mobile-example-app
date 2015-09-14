@@ -134,6 +134,8 @@ AppHost::AppHost(
     typedef ExampleApp::ApplicationConfig::SdkModel::ApplicationConfigurationModule ApplicationConfigurationModule;
     ApplicationConfigurationModule applicationConfigurationModule(m_piOSPlatformAbstractionModule->GetFileIO());
     
+    m_piOSCubeTextureFileLoader = Eegeo_NEW(ExampleApp::Materials::iOS::iOSCubeTextureFileLoader)(*static_cast<Eegeo::iOS::iOSFileIO*>(&m_piOSPlatformAbstractionModule->GetFileIO()));
+    
     m_pApp = Eegeo_NEW(ExampleApp::MobileExampleApp)(ExampleApp::ApiKey,
              *m_piOSPlatformAbstractionModule,
              screenProperties,
@@ -149,7 +151,8 @@ AppHost::AppHost(
              *m_pSearchServiceModule,
              *m_piOSFlurryMetricsService,
              applicationConfigurationModule.GetApplicationConfigurationService().LoadConfiguration("ApplicationConfigs/standard_config.json"),
-             *this);
+             *this,
+             *m_piOSCubeTextureFileLoader);
 
     CreateApplicationViewModules(screenProperties);
 
@@ -169,6 +172,9 @@ AppHost::~AppHost()
 
     Eegeo_DELETE m_pApp;
     m_pApp = NULL;
+    
+    Eegeo_DELETE m_piOSCubeTextureFileLoader;
+    m_piOSCubeTextureFileLoader = NULL;
     
     Eegeo_DELETE m_piOSFlurryMetricsService;
     m_piOSFlurryMetricsService = NULL;
