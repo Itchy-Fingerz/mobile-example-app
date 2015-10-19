@@ -40,6 +40,7 @@
 #include "MyPinsModule.h"
 #include "IWorldPinsInFocusController.h"
 #include "IWorldPinsScaleController.h"
+#include "IWorldPinsFloorHeightController.h"
 #include "MyPinDetailsModule.h"
 #include "QuadTreeCube.h"
 #include "LodRefinementConfig.h"
@@ -69,6 +70,17 @@
 #include "ICubeTextureFileLoader.h"
 #include "MaterialsModule.h"
 #include "IGeometryController.h"
+#include "ToursModule.h"
+#include "IToursCameraController.h"
+#include "IToursCameraTransitionController.h"
+#include "ToursCameraState.h"
+#include "ExampleTourStateMachineFactory.h"
+#include "ICompassViewModel.h"
+#include "CombinedSearchServiceModule.h"
+#include "GeoNamesSearchServiceModule.h"
+#include "SearchVendorNames.h"
+#include "InteriorsCustomMaterialsModule.h"
+#include "NativeUIFactories.h"
 
 namespace ExampleApp
 {
@@ -114,7 +126,7 @@ namespace ExampleApp
         ExampleAppMessaging::TMessageBus& messageBus,
         ExampleAppMessaging::TSdkModelDomainEventBus& sdkModelDomainEventBus,
         Net::SdkModel::INetworkCapabilities& networkCapabilities,
-        ExampleApp::Search::SdkModel::ISearchServiceModule& searchServiceModule,
+        const std::map<std::string,ExampleApp::Search::SdkModel::ISearchServiceModule*>& platformImplementedSearchServiceModules,
         ExampleApp::Metrics::IMetricsService& metricsService,
         const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration,
         Eegeo::IEegeoErrorHandler& errorHandler,
@@ -164,14 +176,20 @@ namespace ExampleApp
         , m_pInteriorsExplorerModule(NULL)
         , m_pInteriorsEntitiesPinsModule(NULL)
         , m_pMaterialsModule(NULL)
+        , m_pInteriorsCustomMaterialsModule(NULL)
         , m_screenProperties(screenProperties)
         , m_networkCapabilities(networkCapabilities)
         , m_setMetricsLocation(false)
-        , m_searchServiceModule(searchServiceModule)
+        , m_pSearchServiceModule(NULL)
         , m_metricsService(metricsService)
         , m_applicationConfiguration(applicationConfiguration)
         , m_interiorsEnabled(platformConfig.OptionsConfig.EnableInteriors)
         , m_cubeTextureFileLoader(cubeTextureFileLoader)
+        , m_pToursModule(NULL)
+        , m_pToursWorldPinsModule(NULL)
+        , m_pToursPinsModule(NULL)
+        , m_toursPinDiameter(48.f)
+        , m_enableTours(false)
     {
         m_metricsService.BeginSession(ExampleApp::FlurryApiKey, EEGEO_PLATFORM_VERSION_NUMBER);
 
@@ -188,7 +206,7 @@ namespace ExampleApp
                                                 Eegeo::EnvironmentCharacterSet::Latin,
                                                 platformConfig,
                                                 NULL,
-                                                "http://cdn1.eegeo.com/coverage-trees/vglobal/v742/manifest.txt.gz",
+                                                "http://cdn1.eegeo.com/coverage-trees/vglobal/v798/manifest.bin.gz",
                                                 "http://d2xvsc8j92rfya.cloudfront.net/mobile-themes-new/v366/manifest.txt.gz",
                                                 &errorHandler
                                                 );
@@ -204,7 +222,7 @@ namespace ExampleApp
                 mapModule.GetResourceCeilingProvider(),
                 *m_pNavigationService);
 
-        m_pAppModeModel = Eegeo_NEW(AppModes::SdkModel::AppModeModel)(m_pWorld->GetMapModule().GetInteriorsPresentationModule().GetInteriorSelectionModel(), m_messageBus);
+        m_pAppModeModel = Eegeo_NEW(AppModes::SdkModel::AppModeModel)(m_pWorld->GetMapModule().GetInteriorsPresentationModule().GetInteriorSelectionModel(), m_messageBus, m_sdkDomainEventBus);
 
         const bool useLowSpecSettings = false;
 
@@ -238,7 +256,7 @@ namespace ExampleApp
                                                                                        Eegeo::Streaming::QuadTreeCube::MAX_DEPTH_TO_VISIT,
                                                                                        mapModule.GetEnvironmentFlatteningService());
         
-        CreateApplicationModelModules();
+        CreateApplicationModelModules(platformImplementedSearchServiceModules);
         
         m_pLoadingScreen = CreateLoadingScreen(screenProperties, m_pWorld->GetRenderingModule(), m_pWorld->GetPlatformAbstractionModule());
 
@@ -270,7 +288,7 @@ namespace ExampleApp
         m_pBlitter = NULL;
     }
 
-    void MobileExampleApp::CreateApplicationModelModules()
+    void MobileExampleApp::CreateApplicationModelModules(const std::map<std::string,ExampleApp::Search::SdkModel::ISearchServiceModule*>& platformImplementedSearchServiceModules)
     {
         Eegeo::EegeoWorld& world = *m_pWorld;
 
@@ -286,7 +304,19 @@ namespace ExampleApp
                                                                          m_messageBus,
                                                                          m_networkCapabilities);
         
-        m_pSearchModule = Eegeo_NEW(Search::SdkModel::SearchModule)(m_searchServiceModule.GetSearchService(),
+        std::map<std::string,ExampleApp::Search::SdkModel::ISearchServiceModule*> searchServiceModulesForCombinedSearch = platformImplementedSearchServiceModules;
+        const bool useGeoName = true;
+        if(useGeoName)
+        {
+            m_searchServiceModules[Search::GeoNamesVendorName] = Eegeo_NEW(Search::GeoNames::SdkModel::GeoNamesSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),
+                                                                                                          m_platformAbstractions.GetUrlEncoder(),
+                                                                                                          m_networkCapabilities);
+        }
+        searchServiceModulesForCombinedSearch.insert(m_searchServiceModules.begin(), m_searchServiceModules.end());
+        
+        m_pSearchServiceModule = Eegeo_NEW(Search::Combined::SdkModel::CombinedSearchServiceModule)(searchServiceModulesForCombinedSearch);
+        
+        m_pSearchModule = Eegeo_NEW(Search::SdkModel::SearchModule)(m_pSearchServiceModule->GetSearchService(),
                                                                     *m_pGlobeCameraController,
                                                                     *m_pCameraTransitionController,
                                                                     m_messageBus,
@@ -298,7 +328,8 @@ namespace ExampleApp
                                                                                    m_identityProvider,
                                                                                    m_messageBus,
                                                                                    m_metricsService,
-                                                                                   *m_pAppModeModel);
+                                                                                   *m_pAppModeModel,
+                                                                                   m_pWorld->GetNativeUIFactories().AlertBoxFactory());
         
         m_pGpsMarkerModule = Eegeo_NEW(ExampleApp::GpsMarker::SdkModel::GpsMarkerModule)(m_pWorld->GetRenderingModule(),
                                                                                          m_platformAbstractions,
@@ -330,7 +361,7 @@ namespace ExampleApp
                               m_metricsService);
 
         m_pCategorySearchModule = Eegeo_NEW(ExampleApp::CategorySearch::SdkModel::CategorySearchModule(
-                                                m_searchServiceModule.GetCategorySearchModels(),
+                                                m_pSearchServiceModule->GetCategorySearchModels(),
                                                 SearchModule().GetSearchQueryPerformer(),
                                                 m_pSecondaryMenuModule->GetSecondaryMenuViewModel(),
                                                 m_messageBus,
@@ -375,6 +406,7 @@ namespace ExampleApp
         m_pSearchResultOnMapModule = Eegeo_NEW(SearchResultOnMap::SdkModel::SearchResultOnMapModule)(m_pSearchModule->GetSearchResultRepository(),
                                                                                                      m_pSearchResultPoiModule->GetSearchResultPoiViewModel(),
                                                                                                      m_pWorldPinsModule->GetWorldPinsService(),
+                                                                                                     m_pMyPinsModule->GetMyPinsService(),
                                                                                                      m_pCategorySearchModule->GetSearchResultIconCategoryMapper(),
                                                                                                      m_pSearchModule->GetSearchResultMyPinsService(),
                                                                                                      m_messageBus,
@@ -390,13 +422,13 @@ namespace ExampleApp
                                  m_pReactionControllerModule->GetReactionControllerModel());
 
         m_pPoiRingModule = Eegeo_NEW(ExampleApp::MyPinCreation::PoiRing::SdkModel::PoiRingModule)(m_pMyPinCreationModule->GetMyPinCreationModel(),
-                           m_platformAbstractions,
-                           m_pWorld->GetRenderingModule(),
-                           m_pWorld->GetAsyncLoadersModule(),
-                           m_pWorld->GetLightingModule(),
-                           m_pWorld->GetTerrainModelModule(),
-                           m_pWorld->GetMapModule());
-
+                                                                                                  m_platformAbstractions,
+                                                                                                  m_pWorld->GetRenderingModule(),
+                                                                                                  m_pWorld->GetAsyncLoadersModule(),
+                                                                                                  m_pWorld->GetLightingModule(),
+                                                                                                  m_pWorld->GetTerrainModelModule(),
+                                                                                                  m_pWorld->GetMapModule(),
+                                                                                                  *m_pAppModeModel);
 
         m_pMyPinCreationDetailsModule = Eegeo_NEW(ExampleApp::MyPinCreationDetails::View::MyPinCreationDetailsModule)(m_identityProvider,
                                         m_pReactionControllerModule->GetReactionControllerModel());
@@ -408,7 +440,7 @@ namespace ExampleApp
                                                                                                   m_messageBus);
 
         Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
-        m_pInteriorsExplorerModule = Eegeo_NEW(InteriorsExplorer::SdkModel::InteriorsExplorerModule)(interiorsPresentationModule.GetInteriorsController(),
+        m_pInteriorsExplorerModule = Eegeo_NEW(InteriorsExplorer::SdkModel::InteriorsExplorerModule)(interiorsPresentationModule.GetLegacyInteriorsController(),
                                                                                                      interiorsPresentationModule.GetCameraController(),
                                                                                                      interiorsPresentationModule.GetInteriorSelectionModel(),
                                                                                                      interiorsPresentationModule.GetInteriorSelectionController(),
@@ -420,7 +452,13 @@ namespace ExampleApp
                                                                                                      m_pMapModeModule->GetMapModeModel(),
                                                                                                      *m_pAppModeModel,
                                                                                                      m_messageBus,
-                                                                                                     m_metricsService);
+                                                                                                     m_metricsService,
+                                                                                                     m_sdkDomainEventBus);
+        
+        if(ToursEnabled())
+        {
+            InitialiseToursModules(mapModule, world);
+        }
         
         if (m_interiorsEnabled)
         {
@@ -428,6 +466,10 @@ namespace ExampleApp
                                                                                                                 m_pWorld->GetRenderingModule(),
                                                                                                                 m_pWorld->GetMapModule(),
                                                                                                                 m_screenProperties));
+
+            
+            m_pInteriorsCustomMaterialsModule = Eegeo_NEW(InteriorsCustomMaterials::SdkModel::InteriorsCustomMaterialsModule)(mapModule.GetInteriorsStreamingModule(), m_platformAbstractions.GetFileIO());
+                                                                                                            
         }
         
         m_pMaterialsModule = Eegeo_NEW(Materials::MaterialsModule)(m_pWorld->GetRenderingModule(),
@@ -465,6 +507,11 @@ namespace ExampleApp
         m_initialExperienceModule.TearDown();
         
         Eegeo_DELETE m_pMaterialsModule;
+        Eegeo_DELETE m_pInteriorsCustomMaterialsModule;
+        
+        Eegeo_DELETE m_pToursModule;
+        Eegeo_DELETE m_pToursWorldPinsModule;
+        Eegeo_DELETE m_pToursPinsModule;
         
         Eegeo_DELETE m_pWorldAreaLoaderModule;
         
@@ -511,6 +558,12 @@ namespace ExampleApp
         Eegeo_DELETE m_pCompassModule;
 
         Eegeo_DELETE m_pSearchModule;
+        
+        for(std::map<std::string, ExampleApp::Search::SdkModel::ISearchServiceModule*>::iterator it = m_searchServiceModules.begin(); it != m_searchServiceModules.end(); ++it)
+        {
+            Eegeo_DELETE (*it).second;
+        }
+        m_searchServiceModules.clear();
 
         Eegeo_DELETE m_pOptionsModule;
         
@@ -545,49 +598,147 @@ namespace ExampleApp
         reactors.push_back(&CompassModule().GetScreenControlViewModel());
         reactors.push_back(&MyPinCreationModule().GetInitiationScreenControlViewModel());
         reactors.push_back(&WatermarkModule().GetScreenControlViewModel());
+        if(m_enableTours)
+        {
+            reactors.push_back(&ToursModule().GetToursExplorerViewModel());
+        }
         return reactors;
     }
-
-    void MobileExampleApp::InitialisePinsModules(Eegeo::Modules::Map::MapModule& mapModule, Eegeo::EegeoWorld& world)
+    
+    Eegeo::Pins::PinsModule* MobileExampleApp::CreatePlatformPinsModuleInstance(Eegeo::Modules::Map::MapModule& mapModule,
+                                                                                Eegeo::EegeoWorld& world,
+                                                                                const std::string& pinsTexture,
+                                                                                float pinDiameter,
+                                                                                int sheetSize)
     {
         m_platformAbstractions.GetTextureFileLoader().LoadTexture(m_pinIconsTexture,
-                                                                  Helpers::ImageHelpers::GetImageNameForDevice("SearchResultOnMap/PinIconTexturePage", ".png"),
+                                                                  Helpers::ImageHelpers::GetImageNameForDevice(pinsTexture, ".png"),
                                                                   false);
         Eegeo_ASSERT(m_pinIconsTexture.textureId != 0);
-
-        int numberOfTilesAlongEachAxisOfTexturePage = 4;
+        
+        int numberOfTilesAlongEachAxisOfTexturePage = sheetSize;
         m_pPinIconsTexturePageLayout = Eegeo_NEW(Eegeo::Rendering::RegularTexturePageLayout)(numberOfTilesAlongEachAxisOfTexturePage);
-
-        float spriteWidth = m_pinDiameter;
-        float spriteHeight = m_pinDiameter;
-
+        
+        float spriteWidth = pinDiameter;
+        float spriteHeight = pinDiameter;
+        
         Eegeo::Modules::Core::RenderingModule& renderingModule = world.GetRenderingModule();
         Eegeo::Modules::Map::Layers::TerrainModelModule& terrainModelModule = world.GetTerrainModelModule();
+        
+        return Eegeo_NEW(Eegeo::Pins::PinsModule)(
+                                                  m_pinIconsTexture.textureId,
+                                                  *m_pPinIconsTexturePageLayout,
+                                                  renderingModule.GetGlBufferPool(),
+                                                  renderingModule.GetShaderIdGenerator(),
+                                                  renderingModule.GetMaterialIdGenerator(),
+                                                  renderingModule.GetVertexBindingPool(),
+                                                  renderingModule.GetVertexLayoutPool(),
+                                                  renderingModule.GetRenderableFilters(),
+                                                  terrainModelModule.GetTerrainHeightProvider(),
+                                                  spriteWidth,
+                                                  spriteHeight,
+                                                  Eegeo::Rendering::LayerIds::InteriorEntities,
+                                                  mapModule.GetEnvironmentFlatteningService(),
+                                                  m_screenProperties,
+                                                  false
+                                                  );
+    }
+    
+    void MobileExampleApp::InitialisePinsModules(Eegeo::Modules::Map::MapModule& mapModule, Eegeo::EegeoWorld& world)
+    {
+        
+        m_pPinsModule = CreatePlatformPinsModuleInstance(mapModule, world, "SearchResultOnMap/PinIconTexturePage", m_pinDiameter, 4);
 
-        m_pPinsModule = Eegeo_NEW(Eegeo::Pins::PinsModule)(
-                            m_pinIconsTexture.textureId,
-                            *m_pPinIconsTexturePageLayout,
-                            renderingModule.GetGlBufferPool(),
-                            renderingModule.GetShaderIdGenerator(),
-                            renderingModule.GetMaterialIdGenerator(),
-                            renderingModule.GetVertexBindingPool(),
-                            renderingModule.GetVertexLayoutPool(),
-                            renderingModule.GetRenderableFilters(),
-                            terrainModelModule.GetTerrainHeightProvider(),
-                            spriteWidth,
-                            spriteHeight,
-                            Eegeo::Rendering::LayerIds::PlaceNames,
-                            mapModule.GetEnvironmentFlatteningService(),
-                            m_screenProperties,
-                            false
-                        );
-
+        Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
+        
         m_pWorldPinsModule = Eegeo_NEW(ExampleApp::WorldPins::SdkModel::WorldPinsModule)(
                                  m_pPinsModule->GetRepository(),
                                  m_pPinsModule->GetController(),
                                  mapModule.GetEnvironmentFlatteningService(),
                                  m_identityProvider,
-                                 m_messageBus);
+                                 m_messageBus,
+                                 interiorsPresentationModule.GetLegacyInteriorsController(),
+                                 m_sdkDomainEventBus);
+    }
+    void MobileExampleApp::InitialiseToursModules(Eegeo::Modules::Map::MapModule& mapModule, Eegeo::EegeoWorld& world)
+    {
+        m_pToursPinsModule = CreatePlatformPinsModuleInstance(mapModule, world, "SearchResultOnMap/PinIconTexturePage", m_toursPinDiameter, 4);
+        
+        Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
+        
+        m_pToursWorldPinsModule = Eegeo_NEW(ExampleApp::WorldPins::SdkModel::WorldPinsModule)(m_pToursPinsModule->GetRepository(),
+                                                                                              m_pToursPinsModule->GetController(),
+                                                                                              mapModule.GetEnvironmentFlatteningService(),
+                                                                                              m_identityProvider,
+                                                                                              m_toursMessageBus,
+                                                                                              interiorsPresentationModule.GetLegacyInteriorsController(),
+                                                                                              m_sdkDomainEventBus);
+        
+        m_pToursModule = Eegeo_NEW(ExampleApp::Tours::ToursModule)(m_identityProvider,
+                                                       m_messageBus,
+                                                       WorldPinsModule().GetWorldPinsService(),
+                                                       SearchModule().GetSearchRefreshService(),
+                                                       SecondaryMenuModule().GetSecondaryMenuViewModel(),
+                                                       SearchResultMenuModule().GetMenuViewModel(),
+                                                       CompassModule().GetCompassViewModel(),
+                                                       FlattenButtonModule().GetFlattenButtonViewModel(),
+                                                       MyPinCreationModule().GetInitiationScreenControlViewModel(),
+                                                       WatermarkModule().GetScreenControlViewModel(),
+                                                       world.GetMapModule().GetResourceCeilingProvider(),
+                                                       m_screenProperties,
+                                                       *m_pGlobeCameraController,
+                                                       world.GetTerrainModelModule().GetTerrainHeightProvider(),
+                                                       interiorsPresentationModule.GetLegacyInteriorsController(),
+                                                       m_sdkDomainEventBus,
+                                                       *m_pAppModeModel);
+        
+    }
+    
+    void MobileExampleApp::AddTours()
+    {
+        
+        // Example tour.
+        std::vector<Tours::SdkModel::TourStateModel> tourStates;
+        tourStates.push_back(Tours::SdkModel::TourStateModel("Example place 1",
+                                                             "Some example text",
+                                                             "Tours/page",
+                                                             "tours"));
+        
+        tourStates.push_back(Tours::SdkModel::TourStateModel("Example place 2",
+                                                             "More example text",
+                                                             "Tours/page",
+                                                             "tours"));
+        
+        tourStates.push_back(Tours::SdkModel::TourStateModel("Example place 3",
+                                                             "Some more example text",
+                                                             "Tours/page",
+                                                             "tours"));
+        
+        ExampleApp::Tours::SdkModel::TourModel tourModel("Example",
+                                                         "Take the tour",
+                                                         Eegeo::Space::LatLong::FromDegrees(37.784783, -122.402659),
+                                                         false,
+                                                         ExampleApp::WorldPins::SdkModel::WorldPinInteriorData(),
+                                                         false,
+                                                         Helpers::ColorHelpers::Color::FromRGB(30, 123, 195),
+                                                         Helpers::ColorHelpers::Color::FromRGB(255, 255, 255),
+                                                         Helpers::ColorHelpers::Color::FromRGB(30, 123, 195),
+                                                         Helpers::ColorHelpers::Color::FromRGB(30, 123, 195),
+                                                         tourStates);
+        
+        
+        Eegeo::Modules::Map::MapModule& mapModule = m_pWorld->GetMapModule();
+        Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
+        
+        
+        Tours::SdkModel::TourInstances::Example::ExampleTourStateMachineFactory factory(ToursModule().GetCameraTransitionController(),
+                                                                                        ToursModule().GetCameraController(),
+                                                                                        m_pToursWorldPinsModule->GetWorldPinsService(),
+                                                                                        m_interiorsEnabled,
+                                                                                        interiorsPresentationModule.GetLegacyInteriorsController(),
+                                                                                        m_messageBus);
+        
+        ToursModule().GetTourService().AddTour(tourModel, *factory.CreateTourStateMachine(tourModel));
     }
 
     void MobileExampleApp::OnPause()
@@ -618,18 +769,36 @@ namespace ExampleApp
         m_pGlobeCameraController->Update(dt);
         m_pCameraTransitionController->Update(dt);
         
+        if(ToursEnabled())
+        {
+            ExampleApp::Tours::SdkModel::Camera::ToursCameraState appCameraState =
+            ExampleApp::Tours::SdkModel::Camera::ToursCameraState::CreateFromCameraState(m_pGlobeCameraController->GetCameraState(),
+                                                                                         Eegeo::Math::Rad2Deg(m_pGlobeCameraController->GetRenderCamera().GetFOV()));
+            ToursModule().GetCameraTransitionController().SetAppCameraState(appCameraState);
+            if(IsTourCameraActive())
+            {
+                ToursModule().GetCameraController().Update(dt);
+                ToursModule().GetCameraTransitionController().Update(dt);
+            }
+        }
         if(interiorsCameraController.IsEnabled())
         {
             interiorsCameraController.Update(dt);
         }
-
-        Eegeo::Camera::CameraState cameraState(interiorsCameraController.IsEnabled()
-                                               ? interiorsCameraController.GetCameraState()
-                                               : m_pGlobeCameraController->GetCameraState());
         
-        Eegeo::Camera::RenderCamera renderCamera(interiorsCameraController.IsEnabled()
-                                                 ? interiorsCameraController.GetRenderCamera()
-                                                 : m_pGlobeCameraController->GetRenderCamera());
+        // MB: Currently three competing camera systems.
+        Eegeo::Camera::CameraState cameraState = m_pGlobeCameraController->GetCameraState();
+        Eegeo::Camera::RenderCamera renderCamera = m_pGlobeCameraController->GetRenderCamera();
+        if(interiorsCameraController.IsEnabled())
+        {
+            cameraState = interiorsCameraController.GetCameraState();
+            renderCamera = interiorsCameraController.GetRenderCamera();
+        }
+        else if(IsTourCameraActive())
+        {
+            cameraState = ToursModule().GetCameraController().GetCameraState();
+            renderCamera = ToursModule().GetCameraController().GetRenderCamera();
+        }
         
         Eegeo::dv3 ecefInterestPoint(cameraState.InterestPointEcef());
 
@@ -651,9 +820,21 @@ namespace ExampleApp
         
         m_pMaterialsModule->GetGeometryController().Update(dt);
 
+        if(ToursEnabled())
+        {
+            m_pToursPinsModule->GetController().Update(dt, renderCamera);
+        }
+        
         if(!eegeoWorld.Initialising())
         {
             WorldPinsModule().GetWorldPinsScaleController().Update(dt, renderCamera);
+            WorldPinsModule().GetWorldPinsFloorHeightController().Update(dt);
+            
+            if(ToursEnabled())
+            {
+                TourWorldPinsModule().GetWorldPinsScaleController().Update(dt, renderCamera);
+            }
+            
             CompassModule().GetCompassUpdateController().Update(dt);
             CompassModule().GetCompassUpdateController().Update(dt);
             m_pGpsMarkerModule->GetGpsMarkerController().Update(dt, renderCamera);
@@ -686,7 +867,12 @@ namespace ExampleApp
         }
 
         m_pNavigationService->Update(dt);
-
+        
+        if(ToursEnabled())
+        {
+            ToursModule().GetTourService().UpdateCurrentTour(dt);
+        }
+        
         UpdateLoadingScreen(dt);
     }
 
@@ -697,17 +883,29 @@ namespace ExampleApp
         Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsModule = eegeoWorld.GetMapModule().GetInteriorsPresentationModule();
         Eegeo::Resources::Interiors::Camera::InteriorsCameraController& interiorsCameraController = interiorsModule.GetCameraController();
         
-        Eegeo::Camera::CameraState cameraState(interiorsCameraController.IsEnabled()
-                                               ? interiorsCameraController.GetCameraState()
-                                               : m_pGlobeCameraController->GetCameraState());
-        Eegeo::Camera::RenderCamera renderCamera(interiorsCameraController.IsEnabled()
-                                                 ? interiorsCameraController.GetRenderCamera()
-                                                 : m_pGlobeCameraController->GetRenderCamera());
+        Eegeo::Camera::CameraState cameraState = m_pGlobeCameraController->GetCameraState();
+        Eegeo::Camera::RenderCamera renderCamera = m_pGlobeCameraController->GetRenderCamera();
+        if(interiorsCameraController.IsEnabled())
+        {
+            cameraState = interiorsCameraController.GetCameraState();
+            renderCamera = interiorsCameraController.GetRenderCamera();
+        }
+        else if(IsTourCameraActive())
+        {
+            cameraState = ToursModule().GetCameraController().GetCameraState();
+            renderCamera = ToursModule().GetCameraController().GetRenderCamera();
+        }
+        
         Eegeo::dv3 ecefInterestPoint(cameraState.InterestPointEcef());
 
         if(!eegeoWorld.Initialising())
         {
             WorldPinsModule().GetWorldPinsInFocusController().Update(dt, ecefInterestPoint, renderCamera);
+            
+            if(ToursEnabled())
+            {
+                TourWorldPinsModule().GetWorldPinsInFocusController().Update(dt, ecefInterestPoint, renderCamera);
+            }
         }
 
         Eegeo::EegeoDrawParameters drawParameters(cameraState.LocationEcef(),
@@ -773,9 +971,20 @@ namespace ExampleApp
             m_pLoadingScreen = NULL;
             
             MyPinsModule().GetMyPinsService().LoadAllPinsFromDisk();
+            
+            if(ToursEnabled())
+            {
+                AddTours();
+            }
         }
     }
-
+    
+    const bool MobileExampleApp::IsTourCameraActive() const
+    {
+        return ToursEnabled() ? ToursModule().GetTourService().IsTourActive() ||
+                                !ToursModule().GetCameraTransitionController().IsTransitionComplete() : false;
+    }
+    
     bool MobileExampleApp::IsRunning() const
     {
         return !m_pWorld->Initialising();
@@ -803,7 +1012,14 @@ namespace ExampleApp
             return;
         }
 
-        m_pCurrentTouchController->Event_TouchRotate(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchRotate(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchRotate(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchRotate_Start(const AppInterface::RotateData& data)
@@ -813,7 +1029,14 @@ namespace ExampleApp
             return;
         }
 
-        m_pCurrentTouchController->Event_TouchRotate_Start(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchRotate_Start(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchRotate_Start(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchRotate_End(const AppInterface::RotateData& data)
@@ -823,7 +1046,14 @@ namespace ExampleApp
             return;
         }
 
-        m_pCurrentTouchController->Event_TouchRotate_End(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchRotate_End(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchRotate_End(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchPinch(const AppInterface::PinchData& data)
@@ -833,7 +1063,14 @@ namespace ExampleApp
             return;
         }
 
-        m_pCurrentTouchController->Event_TouchPinch(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchPinch(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchPinch(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchPinch_Start(const AppInterface::PinchData& data)
@@ -843,7 +1080,14 @@ namespace ExampleApp
             return;
         }
 
-        m_pCurrentTouchController->Event_TouchPinch_Start(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchPinch_Start(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchPinch_Start(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchPinch_End(const AppInterface::PinchData& data)
@@ -853,7 +1097,14 @@ namespace ExampleApp
             return;
         }
 
-        m_pCurrentTouchController->Event_TouchPinch_End(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchPinch_End(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchPinch_End(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchPan(const AppInterface::PanData& data)
@@ -863,8 +1114,15 @@ namespace ExampleApp
         {
             return;
         }
-
-        m_pCurrentTouchController->Event_TouchPan(data);
+        
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchPan(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchPan(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchPan_Start(const AppInterface::PanData& data)
@@ -874,8 +1132,15 @@ namespace ExampleApp
         {
             return;
         }
-
-        m_pCurrentTouchController->Event_TouchPan_Start(data);
+        
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchPan_Start(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchPan_Start(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchPan_End(const AppInterface::PanData& data)
@@ -885,8 +1150,15 @@ namespace ExampleApp
         {
             return;
         }
-
-        m_pCurrentTouchController->Event_TouchPan_End(data);
+        
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchPan_End(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchPan_End(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchTap(const AppInterface::TapData& data)
@@ -905,12 +1177,19 @@ namespace ExampleApp
             }
         }
         
-        if(m_pWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point))
+        if(m_pWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point) || (ToursEnabled() && m_pToursWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point)))
         {
             return;
         }
         
-        m_pCurrentTouchController->Event_TouchTap(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchTap(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchTap(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchDoubleTap(const AppInterface::TapData& data)
@@ -920,7 +1199,14 @@ namespace ExampleApp
             return;
         }
 
-        m_pCurrentTouchController->Event_TouchDoubleTap(data);
+        if(IsTourCameraActive())
+        {
+            ToursModule().GetCameraTouchController().Event_TouchDoubleTap(data);
+        }
+        else
+        {
+            m_pCurrentTouchController->Event_TouchDoubleTap(data);
+        }
     }
 
     void MobileExampleApp::Event_TouchDown(const AppInterface::TouchData& data)
@@ -933,7 +1219,14 @@ namespace ExampleApp
         MyPinCreation::PoiRing::SdkModel::IPoiRingTouchController& poiRingTouchController = m_pPoiRingModule->GetPoiRingTouchController();
         if (!poiRingTouchController.HandleTouchDown(data, m_pGlobeCameraController->GetRenderCamera(), m_pGlobeCameraController->GetGlobeCameraController()))
         {
-            m_pCurrentTouchController->Event_TouchDown(data);
+            if(IsTourCameraActive())
+            {
+                ToursModule().GetCameraTouchController().Event_TouchDown(data);
+            }
+            else
+            {
+                m_pCurrentTouchController->Event_TouchDown(data);
+            }
         }
 
     }
@@ -948,7 +1241,14 @@ namespace ExampleApp
         MyPinCreation::PoiRing::SdkModel::IPoiRingTouchController& poiRingTouchController = m_pPoiRingModule->GetPoiRingTouchController();
         if (!poiRingTouchController.HandleTouchMove(data, m_pGlobeCameraController->GetRenderCamera(), m_pGlobeCameraController->GetGlobeCameraController()))
         {
-            m_pCurrentTouchController->Event_TouchMove(data);
+            if(IsTourCameraActive())
+            {
+                ToursModule().GetCameraTouchController().Event_TouchUp(data);
+            }
+            else
+            {
+                m_pCurrentTouchController->Event_TouchUp(data);
+            }
         }
     }
 
@@ -962,7 +1262,14 @@ namespace ExampleApp
         MyPinCreation::PoiRing::SdkModel::IPoiRingTouchController& poiRingTouchController = m_pPoiRingModule->GetPoiRingTouchController();
         if (!poiRingTouchController.HandleTouchUp(data))
         {
-            m_pCurrentTouchController->Event_TouchUp(data);
+            if(IsTourCameraActive())
+            {
+                ToursModule().GetCameraTouchController().Event_TouchUp(data);
+            }
+            else
+            {
+                m_pCurrentTouchController->Event_TouchUp(data);
+            }
         }
     }
     

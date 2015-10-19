@@ -6,6 +6,8 @@
 #include "CatalogBinding.h"
 #include "SearchResultPinAddedEvent.h"
 #include "SearchResultPinRemovedEvent.h"
+#include "TourStateChangedMessage.h"
+#include "WorldPinsVisibilityMessage.h"
 
 namespace ExampleApp
 {
@@ -14,6 +16,8 @@ namespace ExampleApp
         class SdkDomainEventsMessageCatalog
         : public Eegeo::Messaging::CatalogBinding<MyPins::SdkModel::SearchResultPinAddedEvent>
         , public Eegeo::Messaging::CatalogBinding<MyPins::SdkModel::SearchResultPinRemovedEvent>
+        , public Eegeo::Messaging::CatalogBinding<Tours::TourStateChangedMessage>
+        , public Eegeo::Messaging::CatalogBinding<WorldPins::WorldPinsVisibilityMessage>
         , private Eegeo::NonCopyable
         {
             

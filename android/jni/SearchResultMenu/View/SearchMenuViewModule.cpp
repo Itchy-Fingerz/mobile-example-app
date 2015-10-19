@@ -20,7 +20,8 @@ namespace ExampleApp
                 Menu::View::IMenuViewModel& menuViewModel,
                 CategorySearch::View::ICategorySearchRepository& categorySearchRepository,
                 ISearchResultMenuViewModel& searchResultMenuViewModel,
-                AppModes::SdkModel::IAppModeModel& appModeModel,
+				Menu::View::IMenuOptionsModel& menuOptionsModel,
+				ISearchResultMenuOrder& searchResultMenuOrder,
                 ExampleAppMessaging::TMessageBus& messageBus
             )
             {
@@ -34,9 +35,10 @@ namespace ExampleApp
                                     *view,
                                     menuModel,
                                     menuViewModel,
+									menuOptionsModel,
+									searchResultMenuOrder,
                                     categorySearchRepository,
                                     searchResultMenuViewModel,
-                                    appModeModel,
                                     messageBus
                                 );
             }

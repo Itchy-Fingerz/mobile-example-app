@@ -18,6 +18,9 @@
     if(self = [super init])
     {
         [self setAlpha:0.8f];
+
+        m_pController = [UIViewController alloc];
+        [m_pController setView:self];
         
         m_pixelScale = 1.f;
         m_screenWidth = width/pixelScale;
@@ -61,6 +64,7 @@
 - (void)dealloc
 {
     delete m_pInterop;
+    [m_pController release];
     [super dealloc];
 }
 
@@ -71,16 +75,44 @@
 }
 
 - (void) onClick:(UIButton *)sender
-{   
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Maps by eeGeo"
-                                                    message:@"The Recce App is open source. It's built using the eeGeo maps SDK, a cross platform API for building engaging, customizable apps."
-                                                   delegate:self
-                                          cancelButtonTitle:@"Later"
-                                          otherButtonTitles:@"Find Out More", nil];
+{
+    NSString* appName =  [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+    NSString* alertTitle = @"Maps by eeGeo";
+    NSString* alertMessage = [NSString stringWithFormat: @"The %@ app is open source. It's built using the eeGeo maps SDK, a cross platform API for building engaging, customizable apps.", appName];
+    NSString* cancelMessage = @"Later";
+    NSString* goToSiteMessage = @"Find Out More";
     
-    
-    [alert show];
-    [alert release];
+    if([UIAlertController class])
+    {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:alertTitle
+                                                                       message:alertMessage
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* openSiteAction = [UIAlertAction actionWithTitle:goToSiteMessage
+                                                                 style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) { [self openEegeoWebsite]; }];
+        
+        UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:cancelMessage
+                                                               style:UIAlertActionStyleCancel
+                                                             handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:openSiteAction];
+        [alert addAction:cancelAction];
+        [m_pController presentViewController:alert animated:YES completion:nil];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertTitle
+                                                        message:alertMessage
+                                                       delegate:self
+                                              cancelButtonTitle:cancelMessage
+                                              otherButtonTitles:goToSiteMessage, nil];
+        
+        
+        
+        [alert show];
+        [alert release];
+    }
     
     m_pInterop->OnSelected();
 }
@@ -137,16 +169,21 @@
      ];
 }
 
+- (void) openEegeoWebsite
+{
+    NSString* urlString = [NSString stringWithFormat
+                           :@"http://eegeo.com/findoutmore?utm_source=%@&utm_medium=referral&utm_campaign=eegeo",
+                           [NSString stringWithUTF8String:m_googleAnalyticsReferrerToken.c_str()]
+                           ];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1)
     {
-        NSString* urlString = [NSString stringWithFormat
-                               :@"http://eegeo.com/findoutmore?utm_source=%@&utm_medium=referral&utm_campaign=eegeo",
-                               [NSString stringWithUTF8String:m_googleAnalyticsReferrerToken.c_str()]
-                               ];
-        
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        [self openEegeoWebsite];
     }
 }
 

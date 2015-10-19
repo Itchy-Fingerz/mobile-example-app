@@ -14,6 +14,51 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
+            namespace
+            {
+                std::string ExtractAnyVersion4Data(rapidjson::Document& document)
+                {
+                    rapidjson::Document jsonDoc;
+                    rapidjson::Document::AllocatorType& allocator = jsonDoc.GetAllocator();
+                    rapidjson::Value valueObject(rapidjson::kObjectType);
+                    std::string jsonString ="";
+                    
+                    if(document.HasMember("phone") && std::string(document["phone"].GetString()).empty() == false)
+                    {
+                        valueObject.AddMember("display_phone", document["phone"].GetString(), allocator);
+                    }
+                    if(document.HasMember("web") && std::string(document["web"].GetString()).empty() == false)
+                    {
+                        valueObject.AddMember("url", document["web"].GetString(), allocator);
+                    }
+                    if(document.HasMember("imageUrl") && std::string(document["imageUrl"].GetString()).empty() == false)
+                    {
+                        valueObject.AddMember("image_url", document["imageUrl"].GetString(), allocator);
+                    }
+                    if(document.HasMember("ratingImageUrl") && std::string(document["ratingImageUrl"].GetString()).empty() == false)
+                    {
+                        valueObject.AddMember("rating", document["ratingImageUrl"].GetString(), allocator);
+                    }
+                    if(document.HasMember("reviews"))
+                    {
+                        const rapidjson::Value& reviewsJson(document["reviews"]);
+                        if(reviewsJson.Size() > 0)
+                        {
+                            rapidjson::SizeType index = 0;
+                            valueObject.AddMember("snippet_text", reviewsJson[index].GetString(), allocator);
+                        }
+                    }
+                    if(document.HasMember("reviewCount"))
+                    {
+                        valueObject.AddMember("review_count", document["reviewCount"].GetInt(), allocator);
+                    }
+                    
+                    rapidjson::StringBuffer strbuf;
+                    rapidjson::Writer<rapidjson::StringBuffer> writer(strbuf);
+                    valueObject.Accept(writer);
+                    return strbuf.GetString();
+                }
+            }
             std::string SerializeToJson(const SearchResultModel& searchResult)
             {
                 rapidjson::Document jsonDoc;
@@ -27,35 +72,27 @@ namespace ExampleApp
                     categoriesJson.PushBack(it->c_str(), allocator);
                 }
                 
-                rapidjson::Value reviewsJson(rapidjson::kArrayType);
-                const std::vector<std::string>& reviews(searchResult.GetReviews());
-                for(std::vector<std::string>::const_iterator it = reviews.begin(); it != reviews.end(); ++ it)
-                {
-                    reviewsJson.PushBack(it->c_str(), allocator);
-                }
-                
                 valueObject.AddMember("version", searchResult.GetVersion(), allocator);
                 valueObject.AddMember("id", searchResult.GetIdentifier().c_str(), allocator);
                 valueObject.AddMember("title", searchResult.GetTitle().c_str(), allocator);
-                valueObject.AddMember("address", searchResult.GetAddress().c_str(), allocator);
-                valueObject.AddMember("phone", searchResult.GetPhone().c_str(), allocator);
-                valueObject.AddMember("web", searchResult.GetWebUrl().c_str(), allocator);
+                valueObject.AddMember("subtitle", searchResult.GetSubtitle().c_str(), allocator);
+                valueObject.AddMember("interior", searchResult.IsInterior(), allocator);
+                valueObject.AddMember("building", searchResult.GetBuildingId().Value().c_str(), allocator);
+                valueObject.AddMember("floor", searchResult.GetFloor(), allocator);
                 valueObject.AddMember("category", searchResult.GetCategory().c_str(), allocator);
                 valueObject.AddMember("humanReadableCategories", categoriesJson, allocator);
-                valueObject.AddMember("vicinity", searchResult.GetVicinity().c_str(), allocator);
                 valueObject.AddMember("vendor", searchResult.GetVendor().c_str(), allocator);
-                valueObject.AddMember("imageUrl", searchResult.GetImageUrl().c_str(), allocator);
-                valueObject.AddMember("ratingImageUrl", searchResult.GetRatingImageUrl().c_str(), allocator);
-                valueObject.AddMember("reviews", reviewsJson, allocator);
                 valueObject.AddMember("latitude", searchResult.GetLocation().GetLatitudeInDegrees(), allocator);
                 valueObject.AddMember("longitude", searchResult.GetLocation().GetLongitudeInDegrees(), allocator);
+                valueObject.AddMember("heightAboveTerrain", searchResult.GetHeightAboveTerrainMetres(), allocator);
+                valueObject.AddMember("json", searchResult.GetJsonData().c_str(), allocator);
                 valueObject.AddMember("createTimestamp", searchResult.GetCreationTimestamp(), allocator);
-                valueObject.AddMember("reviewCount", searchResult.GetReviewCount(), allocator);
-               
+                
                 rapidjson::StringBuffer strbuf;
                 rapidjson::Writer<rapidjson::StringBuffer> writer(strbuf);
                 valueObject.Accept(writer);
                 return strbuf.GetString();
+                
             }
             
             SearchResultModel DeserializeFromJson(const std::string& searchResultJson)
@@ -69,50 +106,69 @@ namespace ExampleApp
                 Eegeo_ASSERT(document.HasMember("version"),
                              "Old SearchResultModel version detected. Please delete and reinstall the application.\n");
                 
-                const int version = document["version"].GetInt();
+                int version = document["version"].GetInt();
                 
-                const int earliestSupportedVersionForUpversioning = 3;
+                const int earliestSupportedVersionForUpversioning = 4;
                 
                 Eegeo_ASSERT(version >= earliestSupportedVersionForUpversioning,
                              "Old SearchResultModel version detected: tried to deserialize version %d but current version is %d. Please delete and reinstall the application.\n", version, SearchResultModel::CurrentVersion);
                 
+                std::string jsonData = "";
+                if(version == 4)
+                {
+                    jsonData = ExtractAnyVersion4Data(document);
+                    version = SearchResultModel::CurrentVersion;
+                }
+                else if(version > 4)
+                {
+                    jsonData = document["json"].GetString();
+                }
                 
                 const rapidjson::Value& categoriesJson(document["humanReadableCategories"]);
                 std::vector<std::string> categories;
-                for(size_t i = 0; i < categoriesJson.Size(); ++ i)
+                for(rapidjson::SizeType i = 0; i < categoriesJson.Size(); ++ i)
                 {
                     categories.push_back(categoriesJson[i].GetString());
                 }
                 
-                const rapidjson::Value& reviewsJson(document["reviews"]);
-                std::vector<std::string> reviews;
-                for(size_t i = 0; i < reviewsJson.Size(); ++ i)
+                bool interior = false;
+                if(document.HasMember("interior"))
                 {
-                    reviews.push_back(reviewsJson[i].GetString());
+                    interior = document["interior"].GetBool();
                 }
                 
-                int reviewCount = 0;
-                if(document.HasMember("reviewCount"))
+                std::string building = "";
+                if(document.HasMember("building"))
                 {
-                    reviewCount = document["reviewCount"].GetInt();
+                    building = document["building"].GetString();
+                }
+        
+                int floor = 0;
+                if(document.HasMember("floor"))
+                {
+                    floor = document["floor"].GetInt();
+                }
+                
+                float heightAboveTerrainMetres = 0;
+                if(document.HasMember("heightAboveTerrain"))
+                {
+                    heightAboveTerrainMetres = static_cast<float>(document["heightAboveTerrain"].GetDouble());
                 }
                 
                 return SearchResultModel(version,
                                          document["id"].GetString(),
                                          document["title"].GetString(),
+                                         document.HasMember("address") ? document["address"].GetString() : document["subtitle"].GetString(),
                                          Eegeo::Space::LatLong::FromDegrees(document["latitude"].GetDouble(),
                                                                             document["longitude"].GetDouble()),
-                                         document["phone"].GetString(),
-                                         document["address"].GetString(),
-                                         document["web"].GetString(),
+                                         heightAboveTerrainMetres,
+                                         interior,
+                                         building,
+                                         floor,
                                          document["category"].GetString(),
                                          categories,
-                                         document["vicinity"].GetString(),
                                          document["vendor"].GetString(),
-                                         document["imageUrl"].GetString(),
-                                         document["ratingImageUrl"].GetString(),
-                                         reviews,
-                                         reviewCount,
+                                         jsonData,
                                          document["createTimestamp"].GetInt64());
             }
         }

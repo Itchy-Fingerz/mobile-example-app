@@ -17,10 +17,7 @@ namespace ExampleApp
     
     //! Optional: You may wish to obtain a geonames account key from http://www.geonames.org/export/web-services.html for address/place search provision
     static const std::string GeoNamesUserName = "OBTAIN GEONAMES USERNAME AND INSERT IT HERE";
-    
-    //! Optional: If 'useYelp' is false in AppHost you may wish to obtain a Decarta API key from http://www.decarta.com/ for POI search provision
-    static const std::string DecartaApiKey = "OBTAIN DECARTA SEARCH KEY AND INSERT IT HERE";
-    
+ 
     //! Optional: You may wish to obtain an API key for Flurry from https://developer.yahoo.com/analytics/ for metrics
     static const std::string FlurryApiKey = "OBTAIN FLURRY KEY AND INSERT IT HERE";
 }

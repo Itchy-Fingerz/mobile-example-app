@@ -31,6 +31,8 @@
 #include "TerrainModelModule.h"
 #include "MapModule.h"
 #include "ImagePathHelpers.h"
+#include "InteriorsPresentationModule.h"
+#include "InteriorsController.h"
 
 namespace ExampleApp
 {
@@ -46,7 +48,8 @@ namespace ExampleApp
                                              Eegeo::Modules::Core::AsyncLoadersModule& asyncLoadersModule,
                                              Eegeo::Modules::Core::LightingModule& lightingModule,
                                              Eegeo::Modules::Map::Layers::TerrainModelModule& terrainModelModule,
-                                             Eegeo::Modules::Map::MapModule& mapModule)
+                                             Eegeo::Modules::Map::MapModule& mapModule,
+                                             ExampleApp::AppModes::SdkModel::IAppModeModel& appModeModel)
                     : m_renderableFilters(renderingModule.GetRenderableFilters())
                 {
                     m_pPoiRingRenderable = Eegeo_NEW(PoiRingRenderable)(renderingModule,
@@ -86,17 +89,24 @@ namespace ExampleApp
 
                     m_renderableFilters.AddRenderableFilter(*m_pPoiRingView);
 
-
+                    
+                    Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
+                    
                     m_pPoiRingController = Eegeo_NEW(PoiRingController)(myPinCreationModel,
                                            *m_pPoiRingView,
                                            mapModule.GetEnvironmentFlatteningService(),
-                                           terrainModelModule.GetTerrainHeightProvider());
+                                           terrainModelModule.GetTerrainHeightProvider(),
+                                           interiorsPresentationModule.GetLegacyInteriorsController());
 
 
                     m_pTerrainRayPicker = Eegeo_NEW(Eegeo::Resources::Terrain::Collision::TerrainRayPicker)(terrainModelModule.GetTerrainHeightProvider(),
                                           terrainModelModule.GetCollisionMeshResourceRepository());
 
-                    m_pPoiRingTouchController = Eegeo_NEW(PoiRingTouchController)(myPinCreationModel, *m_pTerrainRayPicker, *m_pPoiRingController);
+                    m_pPoiRingTouchController = Eegeo_NEW(PoiRingTouchController)(myPinCreationModel,
+                                                                                  *m_pTerrainRayPicker,
+                                                                                  *m_pPoiRingController,
+                                                                                  appModeModel,
+                                                                                  interiorsPresentationModule.GetLegacyInteriorsController());
                 }
 
                 PoiRingModule::~PoiRingModule()

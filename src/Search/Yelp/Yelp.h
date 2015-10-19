@@ -8,9 +8,13 @@ namespace ExampleApp
     {
         namespace Yelp
         {
-            class IYelpCategoryMapper;
-            class IYelpSearchQuery;
-            class IYelpSearchQueryFactory;
+            namespace SdkModel
+            {
+                class IYelpCategoryMapper;
+                class IYelpSearchQuery;
+                class IYelpSearchQueryFactory;
+		class YelpSearchResultModel;
+            }
         }
     }
 }

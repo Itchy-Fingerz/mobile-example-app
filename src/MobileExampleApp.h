@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <map>
+#include <string>
 #include <vector>
 #include "GlobeCamera.h"
 #include "EegeoWorld.h"
@@ -74,6 +76,8 @@
 #include "MapMode.h"
 #include "AppModes.h"
 #include "MaterialsIncludes.h"
+#include "IToursModule.h"
+#include "IInteriorsCustomMaterialsModule.h"
 
 namespace ExampleApp
 {
@@ -92,6 +96,8 @@ namespace ExampleApp
         bool m_initialisedApplicationViewState;
         bool m_setMetricsLocation;
         float m_pinDiameter;
+        
+        const bool m_enableTours;
 
         CameraTransitions::SdkModel::ICameraTransitionController* m_pCameraTransitionController;
 
@@ -133,16 +139,27 @@ namespace ExampleApp
         ExampleAppMessaging::TMessageBus& m_messageBus;
         ExampleAppMessaging::TSdkModelDomainEventBus& m_sdkDomainEventBus;
         Net::SdkModel::INetworkCapabilities& m_networkCapabilities;
-        Search::SdkModel::ISearchServiceModule& m_searchServiceModule;
+        std::map<std::string,ExampleApp::Search::SdkModel::ISearchServiceModule*> m_searchServiceModules;
+        Search::SdkModel::ISearchServiceModule* m_pSearchServiceModule;
         InteriorsExplorer::SdkModel::IInteriorsExplorerModule* m_pInteriorsExplorerModule;
         InteriorsEntitiesPins::SdkModel::IInteriorsEntitiesPinsModule* m_pInteriorsEntitiesPinsModule;
+        InteriorsCustomMaterials::SdkModel::IInteriorsCustomMaterialsModule* m_pInteriorsCustomMaterialsModule;
+        
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
+
         ExampleApp::Materials::ICubeTextureFileLoader& m_cubeTextureFileLoader;
         ExampleApp::Materials::IMaterialsModule* m_pMaterialsModule;
         
+        ExampleAppMessaging::TMessageBus m_toursMessageBus;
+        Eegeo::Pins::PinsModule* m_pToursPinsModule;
+        ExampleApp::WorldPins::SdkModel::IWorldPinsModule* m_pToursWorldPinsModule;
+        Tours::IToursModule* m_pToursModule;
+        Eegeo::Modules::FireworksModule* m_pFireworksModule;
+        float m_toursPinDiameter;
+        
         const bool m_interiorsEnabled;
 
-        void CreateApplicationModelModules();
+        void CreateApplicationModelModules(const std::map<std::string,ExampleApp::Search::SdkModel::ISearchServiceModule*>& platformImplementedSearchServiceModules);
 
         void DestroyApplicationModelModules();
 
@@ -151,10 +168,22 @@ namespace ExampleApp
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> GetOpenableControls() const;
 
         std::vector<ExampleApp::ScreenControl::View::IScreenControlViewModel*> GetReactorControls() const;
+        
+        Eegeo::Pins::PinsModule* CreatePlatformPinsModuleInstance(Eegeo::Modules::Map::MapModule& mapModule,
+                                                                  Eegeo::EegeoWorld& world,
+                                                                  const std::string& pinsTexture,
+                                                                  float pinDiameter,
+                                                                  int sheetSize);
 
         void InitialisePinsModules(Eegeo::Modules::Map::MapModule& mapModule, Eegeo::EegeoWorld& world);
         
         bool CanAcceptTouch() const;
+        
+        void AddTours();
+        
+        void InitialiseToursModules(Eegeo::Modules::Map::MapModule& mapModule, Eegeo::EegeoWorld& world);
+        
+        const bool IsTourCameraActive() const;
 
     public:
         MobileExampleApp(const std::string& apiKey,
@@ -169,7 +198,7 @@ namespace ExampleApp
                          ExampleAppMessaging::TMessageBus& messageBus,
                          ExampleAppMessaging::TSdkModelDomainEventBus& sdkModelDomainEventBus,
                          ExampleApp::Net::SdkModel::INetworkCapabilities& networkCapabilities,
-                         ExampleApp::Search::SdkModel::ISearchServiceModule& searchServiceModule,
+                         const std::map<std::string,ExampleApp::Search::SdkModel::ISearchServiceModule*>& platformImplementedSearchServiceModules,
                          ExampleApp::Metrics::IMetricsService& metricsService,
                          const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration,
                          Eegeo::IEegeoErrorHandler& errorHandler,
@@ -192,6 +221,11 @@ namespace ExampleApp
             return m_pinDiameter;
         }
 
+        float ToursPinDiameter() const
+        {
+            return m_toursPinDiameter;
+        }
+        
         CameraTransitions::SdkModel::ICameraTransitionController& CameraTransitionController() const
         {
             return *m_pCameraTransitionController;
@@ -315,6 +349,25 @@ namespace ExampleApp
         const InteriorsExplorer::SdkModel::IInteriorsExplorerModule& InteriorsExplorerModule() const
         {
             return *m_pInteriorsExplorerModule;
+        }
+        
+        const ExampleApp::Tours::IToursModule& ToursModule() const
+        {
+            return *m_pToursModule;
+        }
+        
+        const ExampleApp::WorldPins::SdkModel::IWorldPinsModule& TourWorldPinsModule() const
+        {
+            return *m_pToursWorldPinsModule;
+        }
+        
+        // A flag for opting in/out of tours
+        const bool ToursEnabled() const
+        {
+#ifdef EEGEO_DROID
+            Eegeo_ASSERT(!m_enableTours, "Tours are not currently supported for android");
+#endif
+            return m_enableTours;
         }
         
         // Exposed to allow view model creation in iOS code.

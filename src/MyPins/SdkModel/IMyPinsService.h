@@ -2,12 +2,14 @@
 
 #pragma once
 
+#include "InteriorId.h"
 #include "MyPins.h"
 #include "MyPinModel.h"
 #include "Space.h"
 #include "VectorMath.h"
 #include "Types.h"
 #include "Search.h"
+#include "WorldPins.h"
 
 namespace ExampleApp
 {
@@ -21,6 +23,9 @@ namespace ExampleApp
                 virtual ~IMyPinsService() {}
                 
                 virtual void LoadAllPinsFromDisk() = 0;
+                
+                virtual bool TryGetWorldPinItemModelForMyPin(const int myPinId,
+                                                             ExampleApp::WorldPins::SdkModel::WorldPinItemModel*& out_pWorldPinItemModel) const = 0;
 
                 virtual void RemovePinWithId(const int myPinId) = 0;
 
@@ -29,6 +34,10 @@ namespace ExampleApp
                                                    const std::string& ratingsImage,
                                                    const int reviewCount,
                                                    const Eegeo::Space::LatLong& latLong,
+                                                   float heightAboveTerrainMetres,
+                                                   bool interior,
+                                                   const Eegeo::Resources::Interiors::InteriorId& buildingId,
+                                                   int floor,
                                                    Byte* imageData,
                                                    size_t imageSize,
                                                    bool shouldShare) = 0;

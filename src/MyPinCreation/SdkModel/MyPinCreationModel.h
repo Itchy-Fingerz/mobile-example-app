@@ -3,6 +3,7 @@
 #pragma once
 
 #include "IMyPinCreationModel.h"
+#include "InteriorId.h"
 #include "CallbackCollection.h"
 #include "VectorMath.h"
 #include "IPlatformAbstractionModule.h"
@@ -28,8 +29,13 @@ namespace ExampleApp
                 void SetCreationStage(MyPinCreationStage stage);
 
                 const Eegeo::dv3& GetPosition() const;
+                float GetTerrainHeight() const;
                 void SetPosition(const Eegeo::dv3& position);
                 void SetTerrainHeight(float height);
+                void SetHeightAboveTerrain(float heightAboveTerrain);
+                void SetInterior(bool interior);
+                void SetFloor(int floor);
+                void SetBuildingId(const Eegeo::Resources::Interiors::InteriorId& buildingId);
                 bool NeedsTerrainHeight() const;
 
                 void SavePoi(const std::string& title,
@@ -44,9 +50,17 @@ namespace ExampleApp
                 void RemoveStateChangedCallback(Eegeo::Helpers::ICallback1<MyPinCreationStage>& stateChangedCallback);
 
             private:
+                void UpdatePosition();
+                
+            private:
                 bool m_needsTerrainHeightUpdate;
                 MyPinCreationStage m_stage;
                 Eegeo::dv3 m_position;
+                float m_terrainHeight;
+                float m_heightAboveTerrainMetres;
+                bool m_interior;
+                int m_floor;
+                Eegeo::Resources::Interiors::InteriorId m_buildingId;
 
                 MyPins::SdkModel::IMyPinsService& m_myPinsService;
 

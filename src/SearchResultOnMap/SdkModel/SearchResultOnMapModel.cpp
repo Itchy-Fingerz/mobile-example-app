@@ -8,8 +8,15 @@
 #include "SearchResultModel.h"
 #include "ISearchResultIconCategoryMapper.h"
 #include "WorldPinFocusData.h"
+#include "WorldPinInteriorData.h"
 #include "ISearchResultMyPinsService.h"
 #include "Logger.h"
+#include "YelpSearchJsonParser.h"
+#include "YelpSearchResultModel.h"
+#include "WorldPinItemModel.h"
+#include "IMyPinsService.h"
+#include "MyPinModel.h"
+#include "WorldPinVisibility.h"
 
 using ExampleApp::Search::SdkModel::SearchResultModel;
 
@@ -20,6 +27,7 @@ namespace ExampleApp
         namespace SdkModel
         {
             SearchResultOnMapModel::SearchResultOnMapModel(WorldPins::SdkModel::IWorldPinsService& worldPinsService,
+                                                           MyPins::SdkModel::IMyPinsService& myPinsService,
                                                            View::ISearchResultOnMapFactory& searchResultOnMapFactory,
                                                            Search::SdkModel::MyPins::ISearchResultMyPinsService& searchResultOnMapMyPinsService,
                                                            CategorySearch::ISearchResultIconCategoryMapper& searchResultIconCategoryMapper,
@@ -28,6 +36,7 @@ namespace ExampleApp
             , m_searchResultIconCategoryMapper(searchResultIconCategoryMapper)
             , m_searchResultOnMapMyPinsService(searchResultOnMapMyPinsService)
             , m_searchResultOnMapFactory(searchResultOnMapFactory)
+            , m_myPinsService(myPinsService)
             , m_worldPinsService(worldPinsService)
             , m_searchResultAddedCallback(this, &SearchResultOnMapModel::HandleAddedSearchResult)
             , m_searchResultRemovedCallback(this, &SearchResultOnMapModel::HandleRemovedSearchResult)
@@ -71,6 +80,19 @@ namespace ExampleApp
                 if(m_searchResultOnMapMyPinsService.IsSearchResultPinned(*pSearchResultModel))
                 {
                     m_hiddenSearchResultsDueToMyPins.insert(*pSearchResultModel);
+                    
+                    // Add Search to visibility mask
+                    MyPins::SdkModel::MyPinModel myPinModel;
+                    bool success = m_searchResultOnMapMyPinsService.TryGetPinForSearchResult(*pSearchResultModel, myPinModel);
+                    Eegeo_ASSERT(success, "MyPinModel for SearchResultModel not in SearchResultOnMapMyPinsService when it was reported as pinned");
+                    
+                    WorldPins::SdkModel::WorldPinItemModel* pWorldPinItemModel = NULL;
+                    if(m_myPinsService.TryGetWorldPinItemModelForMyPin(myPinModel.Identifier(), pWorldPinItemModel))
+                    {
+                        int newVisibilityMask = pWorldPinItemModel->VisibilityMask() | WorldPins::SdkModel::WorldPinVisibility::Search;
+                        pWorldPinItemModel->SetVisibilityMask(newVisibilityMask);
+                    }
+                    
                 }
                 else
                 {
@@ -91,6 +113,18 @@ namespace ExampleApp
                     setIt hiddenItemIterator(m_hiddenSearchResultsDueToMyPins.find(*pSearchResultModel));
                     Eegeo_ASSERT(hiddenItemIterator != m_hiddenSearchResultsDueToMyPins.end());
                     m_hiddenSearchResultsDueToMyPins.erase(hiddenItemIterator);
+                    
+                    // Remove Search from visibility mask
+                    MyPins::SdkModel::MyPinModel myPinModel;
+                    bool success = m_searchResultOnMapMyPinsService.TryGetPinForSearchResult(*pSearchResultModel, myPinModel);
+                    Eegeo_ASSERT(success, "MyPinModel for SearchResultModel not in SearchResultOnMapMyPinsService when it was reported as pinned");
+                    
+                    WorldPins::SdkModel::WorldPinItemModel* pWorldPinItemModel = NULL;
+                    if(m_myPinsService.TryGetWorldPinItemModelForMyPin(myPinModel.Identifier(), pWorldPinItemModel))
+                    {
+                        int newVisibilityMask = pWorldPinItemModel->VisibilityMask() & ~WorldPins::SdkModel::WorldPinVisibility::Search;
+                        pWorldPinItemModel->SetVisibilityMask(newVisibilityMask);
+                    }
                 }
                 else
                 {
@@ -144,18 +178,27 @@ namespace ExampleApp
                 
                 const int pinIconIndex = m_searchResultIconCategoryMapper.GetIconIndexFromSearchResult(searchResultModel);
                 
-                // Use the ratings image if available, else fall back to address.
-                const std::string& ratingsImage(searchResultModel.GetRatingImageUrl());
+                std::string ratingsImage = "";
+                int reviewCount = 0;
+                
+                Search::Yelp::SdkModel::TryParseReviewDetails(searchResultModel, ratingsImage, reviewCount);
+                
                 WorldPins::SdkModel::WorldPinFocusData worldPinFocusData(searchResultModel.GetTitle(),
-                                                                         searchResultModel.GetAddress(),
+                                                                         searchResultModel.GetSubtitle(),
                                                                          ratingsImage,
-                                                                         searchResultModel.GetReviewCount());
+                                                                         reviewCount);
+                
+                WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(searchResultModel.GetBuildingId(), searchResultModel.GetFloor());
                 
                 ExampleApp::WorldPins::SdkModel::WorldPinItemModel *pinItemModel = m_worldPinsService.AddPin(pSearchResultOnMapItemModel,
                                                                                                              NULL,
                                                                                                              worldPinFocusData,
+                                                                                                             searchResultModel.IsInterior(),
+                                                                                                             worldPinInteriorData,
                                                                                                              searchResultModel.GetLocation(),
-                                                                                                             pinIconIndex);
+                                                                                                             pinIconIndex,
+                                                                                                             searchResultModel.GetHeightAboveTerrainMetres(),
+                                                                                                             WorldPins::SdkModel::WorldPinVisibility::Search);
                 
                 m_searchResultsToPinModel.insert(std::make_pair(searchResultModel, pinItemModel));
             }

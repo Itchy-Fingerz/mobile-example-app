@@ -28,6 +28,8 @@
     
     float m_detailsPanelHeight;
     
+    BOOL m_touchEnabled;
+    
     std::vector<std::string> m_tableViewFloorNames;
 }
 
@@ -55,6 +57,8 @@
 
 - (int) reverseIndex:(int)floorIndex;
 
+- (void) setTouchEnabled:(BOOL)enabled;
+
 @property(nonatomic, retain) UIView* pFloorPanel;
 @property(nonatomic, retain) UIImageView* pFloorPanelTop;
 @property(nonatomic, retain) UIImageView* pFloorPanelBottom;
@@ -65,9 +69,7 @@
 @property(nonatomic, retain) UIImageView* pDetailsPanelRight;
 
 @property(nonatomic, retain) UIButton* pDismissButton;
+@property(nonatomic, retain) UIImageView* pDismissButtonBackground;
 @property(nonatomic, retain) UILabel* pFloorNameLabel;
-
-@property(nonatomic, retain) UILabel* pMicelloLabel;
-@property(nonatomic, retain) UIImageView* pMicelloLogo;
 
 @end

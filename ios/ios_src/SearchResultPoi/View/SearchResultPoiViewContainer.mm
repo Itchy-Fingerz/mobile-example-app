@@ -13,10 +13,10 @@
 #include "SearchResultPoiViewInterop.h"
 #include "App.h"
 #include "SearchResultModel.h"
-
+#include "SearchVendorNames.h"
 #include "YelpSearchResultPoiView.h"
-#include "DecartaSearchResultPoiView.h"
 #include "GeoNamesSearchResultPoiView.h"
+#include "ExampleTourSearchResultPoiView.h"
 
 @interface SearchResultPoiViewContainer()<UIGestureRecognizerDelegate>
 {
@@ -80,17 +80,17 @@
 
 - (UIView<SearchResultPoiView>*) createSearchResultPoiViewForVendor:(const std::string&)vendor
 {
-    if(vendor == "Yelp")
+    if(vendor == ExampleApp::Search::YelpVendorName)
     {
         return [[YelpSearchResultPoiView alloc] initWithInterop:m_pInterop];
     }
-    else if(vendor == "DeCarta")
-    {
-        return [[DecartaSearchResultPoiView alloc] initWithInterop:m_pInterop];
-    }
-    else if(vendor == "GeoNames")
+    else if(vendor == ExampleApp::Search::GeoNamesVendorName)
     {
         return [[GeoNamesSearchResultPoiView alloc] initWithInterop:m_pInterop];
+    }
+    else if(vendor == ExampleApp::Search::ExampleTourVendorName)
+    {
+        return [[ExampleTourSearchResultPoiView alloc] initWithInterop:m_pInterop];
     }
     
     Eegeo_ASSERT(false, "Unknown POI vendor %s, cannot create view instance.\n", vendor.c_str());

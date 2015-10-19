@@ -3,6 +3,7 @@
 #pragma once
 
 #include "IWorldPinsModule.h"
+#include "InteriorsController.h"
 #include "WorldPins.h"
 #include "Pins.h"
 #include "PinController.h"
@@ -13,6 +14,7 @@
 #include "IIdentity.h"
 #include "IScreenControlViewModel.h"
 #include "WorldPinsModalityObserver.h"
+#include "SdkModelDomainEventBus.h"
 
 namespace ExampleApp
 {
@@ -26,17 +28,21 @@ namespace ExampleApp
                 IWorldPinsService* m_pWorldPinsService;
                 IWorldPinsRepository* m_pWorldPinsRepository;
                 IWorldPinsScaleController* m_pWorldPinsScaleController;
+                IWorldPinsFloorHeightController* m_pWorldPinsFloorHeightController;
                 View::WorldPinInFocusViewModel* m_pWorldPinsInFocusViewModel;
                 IWorldPinsInFocusController* m_pWorldPinsInFocusController;
                 View::WorldPinInFocusObserver* m_pWorldPinInFocusObserver;
                 WorldPinsModalityObserver* m_pWorldPinsModalityObserver;
+                Eegeo::Resources::Interiors::InteriorsController& m_interiorsController;
 
             public:
                 WorldPinsModule(Eegeo::Pins::PinRepository& pinRepository,
                                 Eegeo::Pins::PinController& pinController,
                                 const Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService,
                                 Eegeo::Helpers::IIdentityProvider& identityProvider,
-                                ExampleAppMessaging::TMessageBus& messageBus);
+                                ExampleAppMessaging::TMessageBus& messageBus,
+                                Eegeo::Resources::Interiors::InteriorsController& interiorsController,
+                                ExampleAppMessaging::TSdkModelDomainEventBus& sdkDomainEventBus);
 
                 ~WorldPinsModule();
 
@@ -45,6 +51,8 @@ namespace ExampleApp
                 IWorldPinsFactory& GetWorldPinsFactory() const;
 
                 IWorldPinsScaleController& GetWorldPinsScaleController() const;
+                
+                IWorldPinsFloorHeightController& GetWorldPinsFloorHeightController() const;
 
                 View::IWorldPinInFocusViewModel& GetWorldPinInFocusViewModel() const;
 

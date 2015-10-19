@@ -3,7 +3,9 @@
 #pragma once
 
 #include <map>
+#include <utility>
 
+#include "InteriorId.h"
 #include "MyPins.h"
 #include "IMyPinsService.h"
 #include "WorldPins.h"
@@ -29,6 +31,9 @@ namespace ExampleApp
                 
                 void LoadAllPinsFromDisk();
 
+                bool TryGetWorldPinItemModelForMyPin(const int myPinId,
+                                                     ExampleApp::WorldPins::SdkModel::WorldPinItemModel*& out_pWorldPinItemModel) const;
+                
                 void RemovePinWithId(const int myPinId);
                 
                 void SaveUserCreatedPoiPin(const std::string& title,
@@ -36,6 +41,10 @@ namespace ExampleApp
                                            const std::string& ratingsImage,
                                            const int reviewCount,
                                            const Eegeo::Space::LatLong& latLong,
+                                           float heightAboveTerrainMetres,
+                                           bool interior,
+                                           const Eegeo::Resources::Interiors::InteriorId& buildingId,
+                                           int floor,
                                            Byte* imageData,
                                            size_t imageSize,
                                            bool shouldShare);
@@ -58,10 +67,10 @@ namespace ExampleApp
 
                 MyPinModel::TPinIdType m_lastIdUsed;
 
-                typedef std::map<MyPinModel*, WorldPins::SdkModel::WorldPinItemModel*> TMyPinToWorldPinMap;
+                typedef std::map<int, std::pair<MyPinModel*, WorldPins::SdkModel::WorldPinItemModel*> > TMyPinToWorldPinMap;
                 TMyPinToWorldPinMap m_myPinToWorldPinMap;
 
-                void AddPinToMap(MyPinModel* pMyPinModel);
+                void AddPinToMap(MyPinModel* pMyPinModel, int aditionalMask);
 
                 void SubmitPinToWebService(const MyPinModel& myPinModel);
 

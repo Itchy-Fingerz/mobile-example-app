@@ -4,11 +4,13 @@
 
 #include <limits>
 
+#include "InteriorsModel.h"
 #include "IWorldPinsService.h"
 #include "ScreenProperties.h"
 #include "RenderCamera.h"
 #include "IWorldPinsRepository.h"
 #include "WorldPinsVisibilityMessage.h"
+#include "WorldPinVisibility.h"
 
 namespace ExampleApp
 {
@@ -17,8 +19,10 @@ namespace ExampleApp
         namespace SdkModel
         {
             WorldPinsScaleController::WorldPinsScaleController(IWorldPinsRepository& worldPinsRepository,
-                    IWorldPinsService& worldPinsService,
-                    ExampleAppMessaging::TMessageBus& messageBus)
+                                                               IWorldPinsService& worldPinsService,
+                                                               ExampleAppMessaging::TMessageBus& messageBus,
+                                                               Eegeo::Resources::Interiors::InteriorsController& interiorsController,
+                                                               ExampleAppMessaging::TSdkModelDomainEventBus& sdkDomainEventBus)
                 : m_worldPinsRepository(worldPinsRepository)
                 , m_worldPinsService(worldPinsService)
                 , m_messageBus(messageBus)
@@ -27,13 +31,18 @@ namespace ExampleApp
                 , m_visibilityScale(0.f)
                 , m_targetVisibilityScale(1.f)
                 , m_visibilityAnimationDuration(0.2f)
+                , m_interiorsController(interiorsController)
+                , m_sdkDomainEventBus(sdkDomainEventBus)
+                , m_visibilityMask(WorldPins::SdkModel::WorldPinVisibility::All)
             {
                 m_messageBus.SubscribeNative(m_visibilityMessageHandlerBinding);
+                m_sdkDomainEventBus.Subscribe(m_visibilityMessageHandlerBinding);
             }
 
             WorldPinsScaleController::~WorldPinsScaleController()
             {
                 m_messageBus.UnsubscribeNative(m_visibilityMessageHandlerBinding);
+                m_sdkDomainEventBus.Unsubscribe(m_visibilityMessageHandlerBinding);
             }
 
             void WorldPinsScaleController::Update(float deltaSeconds, const Eegeo::Camera::RenderCamera& renderCamera)
@@ -63,19 +72,53 @@ namespace ExampleApp
 
                 m_modality = modality;
             }
+            
+            bool WorldPinsScaleController::ShouldHidePin(WorldPins::SdkModel::WorldPinItemModel& worldPinItemModel,
+                                                         const Eegeo::Camera::RenderCamera& renderCamera)
+            {
+                const bool showingInterior = m_interiorsController.InteriorIsVisible();
+                
+                if((m_visibilityMask & worldPinItemModel.VisibilityMask()) == 0)
+                {
+                    return true;
+                }
+                
+                if(showingInterior && !worldPinItemModel.IsInterior())
+                {
+                    return true;
+                }
+                
+                if(!showingInterior && worldPinItemModel.IsInterior())
+                {
+                    return !worldPinItemModel.GetInteriorData().showInExterior;
+                }
+                
+                bool hidePinFromInteriorData =  false;
+                if(showingInterior && worldPinItemModel.IsInterior())
+                {
+                    //hide if building and floor of pin not showing
+                    const Eegeo::Resources::Interiors::InteriorsModel* pInteriorModel = NULL;
+                    hidePinFromInteriorData = !(worldPinItemModel.GetInteriorData().floor == m_interiorsController.GetCurrentFloorIndex() &&
+                             m_interiorsController.TryGetCurrentModel(pInteriorModel) &&
+                             worldPinItemModel.GetInteriorData().building == pInteriorModel->GetId());
+                }
+                
+                // hide when close to edge of screen
+                Eegeo::v2 screenLocation;
+                GetScreenLocation(worldPinItemModel, screenLocation, renderCamera);
+                
+                const float ratioX = screenLocation.GetX() / renderCamera.GetViewportWidth();
+                const float ratioY = screenLocation.GetY() / renderCamera.GetViewportHeight();
+                const bool hidePinFromScreenPosition = (ratioX < 0.1f) || (ratioX > 0.9f) || (ratioY < 0.15f) || (ratioY > 0.9f);
+                
+                return hidePinFromScreenPosition || hidePinFromInteriorData;
+            }
 
             void WorldPinsScaleController::UpdateWorldPin(WorldPinItemModel& worldPinItemModel,
                     float deltaSeconds,
                     const Eegeo::Camera::RenderCamera& renderCamera)
             {
-                Eegeo::v2 screenLocation;
-                GetScreenLocation(worldPinItemModel, screenLocation, renderCamera);
-
-                const float ratioX = screenLocation.GetX() / renderCamera.GetViewportWidth();
-                const float ratioY = screenLocation.GetY() / renderCamera.GetViewportHeight();
-                const bool shouldHide = (ratioX < 0.1f) || (ratioX > 0.9f) || (ratioY < 0.15f) || (ratioY > 0.9f);
-
-                if(shouldHide)
+                if(ShouldHidePin(worldPinItemModel, renderCamera))
                 {
                     worldPinItemModel.Hide();
                 }
@@ -119,6 +162,8 @@ namespace ExampleApp
                 {
                     Hide();
                 }
+                
+                m_visibilityMask = worldPinsVisibilityMessage.VisibilityMask();
             }
         }
     }

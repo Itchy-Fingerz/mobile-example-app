@@ -3,8 +3,12 @@
 #pragma once
 
 #include "MenuController.h"
+
+#include <vector>
 #include "BidirectionalBus.h"
+#include "ISearchResultMenuOrder.h"
 #include "ISearchResultMenuView.h"
+#include "SearchResultModel.h"
 #include "SearchQueryPerformedMessage.h"
 #include "SearchQueryResponseReceivedMessage.h"
 #include "ICallback.h"
@@ -24,8 +28,13 @@ namespace ExampleApp
                 ISearchResultMenuView& m_searchView;
                 CategorySearch::View::ICategorySearchRepository& m_categorySearchRepository;
                 View::ISearchResultMenuViewModel& m_searchResultMenuViewModel;
-                AppModes::SdkModel::IAppModeModel& m_appModelModel;
+                Menu::View::IMenuOptionsModel& m_menuOptions;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
+                std::vector<Search::SdkModel::SearchResultModel> m_lastAddedResults;
+                ISearchResultMenuOrder& m_order;
+                
+                bool m_appModeAllowsOpen;
+                
 
                 Eegeo::Helpers::TCallback1<SearchResultMenuController, const Search::SearchQueryPerformedMessage&> m_searchQueryIssuedHandler;
                 Eegeo::Helpers::TCallback1<SearchResultMenuController, const Search::SearchQueryResponseReceivedMessage&> m_searchResultReceivedHandler;
@@ -33,7 +42,7 @@ namespace ExampleApp
                 
                 Eegeo::Helpers::TCallback0<SearchResultMenuController> m_attractModeChangedCallback;
                 
-                Eegeo::Helpers::TCallback0<SearchResultMenuController> m_appModeChangedCallback;
+                Eegeo::Helpers::TCallback1<SearchResultMenuController, const AppModes::AppModeChangedMessage&>  m_appModeChangedHandler;
 
             private:
                 void OnSearchQueryPerformedMessage(const Search::SearchQueryPerformedMessage& message);
@@ -49,7 +58,7 @@ namespace ExampleApp
                 
                 void OnAttractModeChanged();
                 
-                void OnAppModelChanged();
+                void OnAppModeChanged(const AppModes::AppModeChangedMessage& message);
                 
             public:
                 SearchResultMenuController(
@@ -57,9 +66,10 @@ namespace ExampleApp
                     Menu::View::IMenuView& menuView,
                     Menu::View::IMenuModel& menuModel,
                     Menu::View::IMenuViewModel& menuViewModel,
+                    Menu::View::IMenuOptionsModel& menuOptionsModel,
+                    ISearchResultMenuOrder& order,
                     CategorySearch::View::ICategorySearchRepository& categorySearchRepository,
                     View::ISearchResultMenuViewModel& searchResultMenuViewModel,
-                    AppModes::SdkModel::IAppModeModel& appModelModel,
                     ExampleAppMessaging::TMessageBus& messageBus
                 );
 

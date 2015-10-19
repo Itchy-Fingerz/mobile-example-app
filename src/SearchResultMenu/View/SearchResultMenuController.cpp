@@ -1,7 +1,11 @@
 // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 
 #include "SearchResultMenuController.h"
+
+#include <algorithm>
 #include "IAppModeModel.h"
+#include "ISearchResultMenuOrder.h"
+#include "SearchResultItemModel.h"
 
 namespace ExampleApp
 {
@@ -9,6 +13,25 @@ namespace ExampleApp
     {
         namespace View
         {
+            namespace
+            {
+                class OrderWrapper
+                {
+                private:
+                    ISearchResultMenuOrder& m_order;
+                public:
+                    OrderWrapper(ISearchResultMenuOrder& order)
+                        : m_order(order)
+                    {
+                    }
+                    
+                    bool operator() (const Search::SdkModel::SearchResultModel& a, const Search::SdkModel::SearchResultModel& b)
+                    {
+                        return m_order(a, b);
+                    }
+                };
+            }
+            
             void SearchResultMenuController::OnSearchQueryPerformedMessage(const Search::SearchQueryPerformedMessage& message)
             {
                 std::string headerString = CategorySearch::View::GetPresentationStringForQuery(m_categorySearchRepository, message.Query());
@@ -20,6 +43,33 @@ namespace ExampleApp
             {
                 std::string headerString = CategorySearch::View::GetPresentationStringForQuery(m_categorySearchRepository, message.GetQuery());
                 m_searchView.SetHeader(headerString, false, message.GetResults().size());
+                
+                for(int i = 0; i < m_lastAddedResults.size(); ++i)
+                {
+                    const Search::SdkModel::SearchResultModel& model(m_lastAddedResults[i]);
+                    m_menuOptions.RemoveItem(model.GetIdentifier());
+                }
+                
+                m_lastAddedResults = message.GetResults();
+                OrderWrapper orderWrapper(m_order);
+                std::stable_sort(m_lastAddedResults.begin(), m_lastAddedResults.end(), orderWrapper);
+                
+                for(int i = 0; i < m_lastAddedResults.size(); ++i)
+                {
+                    const Search::SdkModel::SearchResultModel& model(m_lastAddedResults[i]);
+                    m_menuOptions.AddItem(
+                                      model.GetIdentifier(),
+                                      model.GetTitle(),
+                                      model.GetSubtitle(),
+                                      model.GetCategory(),
+                                      Eegeo_NEW(SearchResultItemModel)(
+                                                                       model.GetTitle(),
+                                                                       model.GetLocation().ToECEF(),
+                                                                       m_viewModel,
+                                                                       m_messageBus)
+                                      );
+                }
+                
                 m_searchResultMenuViewModel.SetHasSearchQueryInFlight(false);
             }
 
@@ -52,10 +102,10 @@ namespace ExampleApp
                 m_searchView.SetAttractMode(m_searchResultMenuViewModel.AttractModeEnabled());
             }
             
-            void SearchResultMenuController::OnAppModelChanged()
+            void SearchResultMenuController::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)
             {
-                const AppModes::SdkModel::AppMode appMode = m_appModelModel.GetAppMode();
-                if (appMode != AppModes::SdkModel::WorldMode)
+                m_appModeAllowsOpen = message.GetAppMode() == AppModes::SdkModel::WorldMode;
+                if (!m_appModeAllowsOpen)
                 {
                     OnSearchClosed();
                 }
@@ -66,37 +116,40 @@ namespace ExampleApp
                 Menu::View::IMenuView& menuView,
                 Menu::View::IMenuModel& menuModel,
                 Menu::View::IMenuViewModel& menuViewModel,
+                Menu::View::IMenuOptionsModel& menuOptions,
+                ISearchResultMenuOrder& order,
                 CategorySearch::View::ICategorySearchRepository& categorySearchRepository,
                 ISearchResultMenuViewModel& searchResultMenuViewModel,
-                AppModes::SdkModel::IAppModeModel& appModelModel,
                 ExampleAppMessaging::TMessageBus& messageBus
             )
                 : MenuController(menuModel, menuViewModel, menuView, messageBus)
                 , m_searchView(searchView)
+                , m_menuOptions(menuOptions)
+                , m_order(order)
                 , m_categorySearchRepository(categorySearchRepository)
                 , m_searchResultMenuViewModel(searchResultMenuViewModel)
-                , m_appModelModel(appModelModel)
                 , m_messageBus(messageBus)
                 , m_onSearchCloseTappedCallback(this, &SearchResultMenuController::OnSearchClosed)
                 , m_searchQueryIssuedHandler(this, &SearchResultMenuController::OnSearchQueryPerformedMessage)
                 , m_searchResultReceivedHandler(this, &SearchResultMenuController::OnSearchQueryResponseReceivedMessage)
                 , m_attractModeChangedCallback(this, &SearchResultMenuController::OnAttractModeChanged)
-                , m_appModeChangedCallback(this, &SearchResultMenuController::OnAppModelChanged)
+                , m_appModeChangedHandler(this, &SearchResultMenuController::OnAppModeChanged)
+                , m_appModeAllowsOpen(true)
             {
                 m_searchView.InsertSearchClosed(m_onSearchCloseTappedCallback);
                 m_messageBus.SubscribeUi(m_searchQueryIssuedHandler);
                 m_messageBus.SubscribeUi(m_searchResultReceivedHandler);
                 m_searchResultMenuViewModel.InsertAttractModeChangedCallback(m_attractModeChangedCallback);
-                m_appModelModel.RegisterAppModeChangedCallback(m_appModeChangedCallback);
+                m_messageBus.SubscribeUi(m_appModeChangedHandler);
             }
 
             SearchResultMenuController::~SearchResultMenuController()
             {
+                m_messageBus.UnsubscribeUi(m_appModeChangedHandler);
                 m_searchResultMenuViewModel.RemoveAttractModeChangedCallback(m_attractModeChangedCallback);
                 m_messageBus.UnsubscribeUi(m_searchResultReceivedHandler);
                 m_messageBus.UnsubscribeUi(m_searchQueryIssuedHandler);
                 m_searchView.RemoveSearchClosed(m_onSearchCloseTappedCallback);
-                m_appModelModel.UnregisterAppModeChangedCallback(m_appModeChangedCallback);
             }
         }
     }
