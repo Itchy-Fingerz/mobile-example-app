@@ -34,7 +34,7 @@ namespace ExampleApp
             DestroyDirect3D();
         }
 
-        void MapImage::Init(int width, int height)
+        void MapImage::Init(int width, int height, float scalingFactor)
         {
             System::Windows::Application^ app = System::Windows::Application::Current;
             System::Windows::Interop::WindowInteropHelper^ windowInteropHelper = gcnew System::Windows::Interop::WindowInteropHelper(app->MainWindow);
@@ -56,7 +56,7 @@ namespace ExampleApp
             m_pState->screenHeight = height;
             m_pState->window = windowHandle;			
 
-            m_appRunner = new AppRunner(m_pState);
+            m_appRunner = new AppRunner(m_pState, scalingFactor);
             m_appRunner->ActivateSurface();
             m_appRunner->ActivateSharedSurface();
 

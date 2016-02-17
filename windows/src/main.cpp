@@ -197,7 +197,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR pScmdline,
 
     InitNativeWindow(g_nativeState);
 
-    g_pAppRunner = Eegeo_NEW(AppRunner)(&g_nativeState);
+    g_pAppRunner = Eegeo_NEW(AppRunner)(&g_nativeState, 1.0f);
 
     if (!g_pAppRunner->ActivateSurface())
         return -1;

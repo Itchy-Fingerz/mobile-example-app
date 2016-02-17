@@ -13,13 +13,15 @@ using namespace Eegeo::Helpers::GLHelpers;
 
 AppRunner::AppRunner
 (
-    WindowsNativeState* pNativeState
+    WindowsNativeState* pNativeState,
+    float scalingFactor
 )
     : m_pNativeState(pNativeState)
     , m_pAppHost(NULL)
     , m_updatingNative(true)
     , m_isPaused(false)
     , m_appRunning(true)
+    , m_scalingFactor(scalingFactor)
 {
     ASSERT_NATIVE_THREAD
 
@@ -54,7 +56,7 @@ void AppRunner::CreateAppHost()
         const Eegeo::Rendering::ScreenProperties& screenProperties = Eegeo::Rendering::ScreenProperties::Make(
                     static_cast<float>(m_displayService.GetDisplayWidth()),
                     static_cast<float>(m_displayService.GetDisplayHeight()),
-                    ExampleApp::Helpers::ImageHelpers::GetPixelScale(),
+                    m_scalingFactor,
                     m_pNativeState->deviceDpi);
         m_pAppHost = Eegeo_NEW(AppHost)
                      (
@@ -241,7 +243,7 @@ void AppRunner::ActivateSharedSurface()
         const Eegeo::Rendering::ScreenProperties& screenProperties = Eegeo::Rendering::ScreenProperties::Make(
             static_cast<float>(m_displayService.GetDisplayWidth()),
             static_cast<float>(m_displayService.GetDisplayHeight()),
-            1.f,
+            m_scalingFactor,
             m_pNativeState->deviceDpi);
         m_pAppHost->NotifyScreenPropertiesChanged(screenProperties);
         m_pAppHost->SetViewportOffset(0, 0);
@@ -294,7 +296,7 @@ bool AppRunner::TryBindDisplay()
             const Eegeo::Rendering::ScreenProperties& screenProperties = Eegeo::Rendering::ScreenProperties::Make(
                         static_cast<float>(m_displayService.GetDisplayWidth()),
                         static_cast<float>(m_displayService.GetDisplayHeight()),
-                        ExampleApp::Helpers::ImageHelpers::GetPixelScale(),
+                        m_scalingFactor,
                         m_pNativeState->deviceDpi);
             m_pAppHost->NotifyScreenPropertiesChanged(screenProperties);
             m_pAppHost->SetViewportOffset(0, 0);

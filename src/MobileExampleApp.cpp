@@ -116,8 +116,8 @@ namespace ExampleApp
             loadingScreenConfig.loadingBarColor = Eegeo::v4(135.0f/255.0f, 213.0f/255.f, 245.0f/255.f, 1.0f);
             loadingScreenConfig.loadingBarBackgroundColor = Eegeo::v4(0.5f, 0.5f, 0.5f, 1.0f);
             loadingScreenConfig.fadeOutDurationSeconds = 1.5f;
-            loadingScreenConfig.screenWidth = screenProperties.GetScreenWidth();
-            loadingScreenConfig.screenHeight = screenProperties.GetScreenHeight();
+            loadingScreenConfig.screenWidth = screenProperties.GetScreenWidth() / screenProperties.GetPixelScale();
+            loadingScreenConfig.screenHeight = screenProperties.GetScreenHeight() / screenProperties.GetPixelScale();
             loadingScreenConfig.loadingBarOffset = Eegeo::v2(0.5f, 0.1f);
 
             Eegeo::Rendering::LoadingScreen* loadingScreen = Eegeo::Rendering::LoadingScreen::Create(
@@ -1029,7 +1029,7 @@ namespace ExampleApp
 
         if (m_pLoadingScreen != NULL)
         {
-            m_pLoadingScreen->NotifyScreenDimensionsChanged(screenProperties.GetScreenWidth(), screenProperties.GetScreenHeight());
+            m_pLoadingScreen->NotifyScreenDimensionsChanged(screenProperties.GetScreenWidth() / m_screenProperties.GetPixelScale(), screenProperties.GetScreenHeight() / m_screenProperties.GetPixelScale());
         }
 
 		m_pPinsModule->UpdateScreenProperties(m_screenProperties);

@@ -9,14 +9,16 @@ using System.Windows.Controls;
 
 namespace ExampleAppWPF
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class MainWindow : Window
-	{
-		private MapImage m_mapImage;
-		private TimeSpan m_last = TimeSpan.Zero;
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        private MapImage m_mapImage;
+        private TimeSpan m_last = TimeSpan.Zero;
         private bool m_isInputActive;
+
+        public const int ScalingFactor = 2;
 
         public MainWindow()
         {
@@ -35,7 +37,7 @@ namespace ExampleAppWPF
         {
             m_mapImage.Dispose();
         }
-        
+
         private void OnIsFrontBufferAvailableChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (m_mapImage.IsFrontBufferAvailable)
@@ -52,22 +54,22 @@ namespace ExampleAppWPF
             int pixelWidth = (int)MainGrid.ActualWidth;
             int pixelHeight = (int)MainGrid.ActualHeight;
 
-            m_mapImage.Init(pixelWidth, pixelHeight);
+            m_mapImage.Init(pixelWidth * ScalingFactor, pixelHeight * ScalingFactor, ScalingFactor);
             MapHost.Source = m_mapImage;
             MapHost.Width = pixelWidth;
             MapHost.Height = pixelHeight;
-            m_mapImage.RespondToResize(pixelWidth, pixelHeight);
+            m_mapImage.RespondToResize(pixelWidth * ScalingFactor, pixelHeight * ScalingFactor);
 
             m_mapImage.IsFrontBufferAvailableChanged += OnIsFrontBufferAvailableChanged;
             CompositionTarget.Rendering += CompositionTarget_Rendering;
 
-            MouseLeftButtonDown += (o, e) => { if(m_isInputActive) m_mapImage.HandlePanStartEvent((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y); };
-            MouseLeftButtonUp += (o, e) => { if (m_isInputActive) m_mapImage.HandlePanEndEvent((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y); };
-            MouseRightButtonDown += (o, e) => { if (m_isInputActive) m_mapImage.HandleRotateStartEvent((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y); };
-            MouseRightButtonUp += (o, e) => { if (m_isInputActive) m_mapImage.HandleRotateEndEvent((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y); };
-            MouseWheel += (o, e) => { if (m_isInputActive) m_mapImage.HandleZoomEvent(e.Delta, 70, (int)e.GetPosition(null).X, (int)e.GetPosition(null).Y); };
-            MouseLeave += (o, e) => { if (m_isInputActive) m_mapImage.SetAllInputEventsToPointerUp((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y); };
-            MouseMove += (o, e) => { if (m_isInputActive) m_mapImage.HandleMouseMoveEvent((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y); };
+            MouseLeftButtonDown += (o, e) => { if (m_isInputActive) m_mapImage.HandlePanStartEvent((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor); };
+            MouseLeftButtonUp += (o, e) => { if (m_isInputActive) m_mapImage.HandlePanEndEvent((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor); };
+            MouseRightButtonDown += (o, e) => { if (m_isInputActive) m_mapImage.HandleRotateStartEvent((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor); };
+            MouseRightButtonUp += (o, e) => { if (m_isInputActive) m_mapImage.HandleRotateEndEvent((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor); };
+            MouseWheel += (o, e) => { if (m_isInputActive) m_mapImage.HandleZoomEvent(e.Delta, 70, (int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor); };
+            MouseLeave += (o, e) => { if (m_isInputActive) m_mapImage.SetAllInputEventsToPointerUp((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor); };
+            MouseMove += (o, e) => { if (m_isInputActive) m_mapImage.HandleMouseMoveEvent((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor); };
 
             KeyDown += (o, e) => { m_mapImage.HandleKeyboardDownEvent((int)KeyInterop.VirtualKeyFromKey(e.Key)); };
 
@@ -94,7 +96,7 @@ namespace ExampleAppWPF
         {
             if (e.ChangedButton == MouseButton.Middle && m_isInputActive)
             {
-                m_mapImage.HandleTiltEnd((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
+                m_mapImage.HandleTiltEnd((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor);
             }
         }
 
@@ -102,7 +104,7 @@ namespace ExampleAppWPF
         {
             if (e.ChangedButton == MouseButton.Middle && m_isInputActive)
             {
-                m_mapImage.HandleTiltStart((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y);
+                m_mapImage.HandleTiltStart((int)e.GetPosition(null).X * ScalingFactor, (int)e.GetPosition(null).Y * ScalingFactor);
             }
         }
 
@@ -110,7 +112,7 @@ namespace ExampleAppWPF
         {
             int pixelWidth = (int)e.NewSize.Width;
             int pixelHeight = (int)e.NewSize.Height;
-            
+
             if (pixelWidth != m_mapImage.PixelWidth || pixelHeight != m_mapImage.PixelHeight)
             {
                 MapHost.Width = pixelWidth;
@@ -118,7 +120,7 @@ namespace ExampleAppWPF
 
                 if (pixelWidth > 0 && pixelHeight > 0)
                 {
-                    m_mapImage.RespondToResize(pixelWidth, pixelHeight);
+                    m_mapImage.RespondToResize(pixelWidth * ScalingFactor, pixelHeight * ScalingFactor);
                 }
             }
         }
@@ -126,11 +128,11 @@ namespace ExampleAppWPF
         private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
             RenderingEventArgs renderArgs = (RenderingEventArgs)e;
-            
+
             if (MapHost.Source != null && m_mapImage.IsFrontBufferAvailable && renderArgs.RenderingTime != m_last)
             {
                 var duration = (renderArgs.RenderingTime - m_last).TotalSeconds;
-                
+
                 if (m_last != TimeSpan.Zero)
                 {
                     m_mapImage.Render((float)duration);

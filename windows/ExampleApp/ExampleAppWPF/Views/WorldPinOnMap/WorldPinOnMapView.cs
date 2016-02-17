@@ -100,6 +100,9 @@ namespace ExampleAppWPF
 
         public void UpdateScreenLocation(float x, float y)
         {
+            x /= MainWindow.ScalingFactor;
+            y /= MainWindow.ScalingFactor;
+
             const float xOffset = 8.5f;
             x += xOffset;
 

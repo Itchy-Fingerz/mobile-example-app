@@ -11,7 +11,8 @@ class AppRunner : Eegeo::NonCopyable
 {
 public:
     AppRunner(
-        WindowsNativeState* pNativeState
+        WindowsNativeState* pNativeState,
+        float scalingFactor
     );
     ~AppRunner();
 
@@ -51,6 +52,7 @@ private:
     bool m_updatingNative;
     bool m_isPaused;
     bool m_appRunning;
+    float m_scalingFactor;
 
     GlDisplayService m_displayService;
     void ReleaseDisplay();

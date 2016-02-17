@@ -20,7 +20,7 @@ namespace ExampleApp
             ~MapImage();
             !MapImage();
 
-            void Init(int width, int height);
+            void Init(int width, int height, float scalingFactor);
 			void InitBackBuffer();
             void Render(float dt);
 
