@@ -22,10 +22,7 @@ namespace
         
         ExampleApp::ApplicationConfig::SdkModel::iOSApplicationConfigurationVersionProvider iOSVersionProvider;
         
-        ExampleApp::ApplicationConfig::SdkModel::ApplicationConfigurationModule applicationConfigurationModule(tempFileIO,
-                                                                                                               iOSVersionProvider.GetProductVersionString(),
-                                                                                                               iOSVersionProvider.GetBuildNumberString());
-        return applicationConfigurationModule.GetApplicationConfigurationService().LoadConfiguration(ExampleApp::ApplicationConfigurationPath);
+        return ExampleApp::ApplicationConfig::SdkModel::LoadAppConfig(tempFileIO, iOSVersionProvider, ExampleApp::ApplicationConfigurationPath);
     }
 }
 
@@ -53,7 +50,7 @@ namespace
     _applicationConfiguration = Eegeo_NEW(ApplicationConfiguration)(appConfig);
     
     // Flurry metrics service must be started during didFinishLaunchingWithOptions (events not logged on >= iOS 8.0 if started later)
-    _metricsService->BeginSession(ExampleApp::FlurryApiKey, appConfig.CombinedVersionString());
+    _metricsService->BeginSession(_applicationConfiguration->FlurryAppKey(), appConfig.CombinedVersionString());
     
 	return YES;
 }

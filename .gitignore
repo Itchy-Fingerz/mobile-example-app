@@ -22,3 +22,5 @@ obj
 **/*.vcxproj.filters
 **/*.xcodeproj
 **/*.sln
+ios/XcodeBuild/
+**/ApplicationConfigs/staging_config.json

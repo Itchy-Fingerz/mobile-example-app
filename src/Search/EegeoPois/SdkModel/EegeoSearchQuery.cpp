@@ -3,7 +3,6 @@
 #include "EegeoSearchQuery.h"
 #include "IWebLoadRequestFactory.h"
 #include "IWebLoadRequest.h"
-#include "ApiKey.h"
 
 #include <sstream>
 #include <iomanip>
@@ -39,15 +38,18 @@ namespace ExampleApp
                     urlstream << serviceUrl;
                     if (query.IsCategory())
                     {
-                        urlstream << "/category?c=";
+                        urlstream << "/tag?";
+                        if (!encodedQuery.empty())
+                        {
+                            urlstream << "t=" << encodedQuery << "&";
+                        }
                     }
                     else
                     {
-                        urlstream << "/search?s=";
+                        urlstream << "/search?s=" << encodedQuery << "&";
                         minimumScore = 0.6;
                     }
-                    urlstream << encodedQuery;
-                    urlstream << "&r=" << std::setprecision(4) << (query.Radius() * 1.5f);
+                    urlstream << "r=" << std::setprecision(4) << (query.Radius() * 1.5f);
                     urlstream << "&lat=" << std::setprecision(8) << query.Location().GetLatitudeInDegrees();
                     urlstream << "&lon=" << std::setprecision(8) << query.Location().GetLongitudeInDegrees();
                     urlstream << "&n=" << maximumNumberOfResults;

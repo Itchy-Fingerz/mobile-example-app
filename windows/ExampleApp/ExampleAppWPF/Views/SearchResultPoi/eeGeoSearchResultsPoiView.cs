@@ -27,31 +27,6 @@ namespace ExampleAppWPF
 
         private ControlClickHandler m_yelpReviewImageClickHandler;
         
-        //public string PhoneText
-        //{
-        //    get
-        //    {
-        //        return m_phoneText;
-        //    }
-        //    set
-        //    {
-        //        m_phoneText = value;
-        //        OnPropertyChanged("PhoneText");
-        //    }
-        //}
-        //public string AddressText
-        //{
-        //    get
-        //    {
-        //        return m_addressText;
-        //    }
-        //    set
-        //    {
-        //        m_addressText = value;
-        //        OnPropertyChanged("AddressText");
-        //    }
-        //}
-
         public string TitleText
         {
             get
@@ -114,8 +89,6 @@ namespace ExampleAppWPF
 
         public override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
-
             m_titleView = (TextBlock)GetTemplateChild("Title");
             
             m_poiImage = (Image)GetTemplateChild("PoiImage");
@@ -130,23 +103,20 @@ namespace ExampleAppWPF
             var screenWidth = mainGrid.ActualWidth;
 
             m_yelpReviewImageClickHandler = new ControlClickHandler(yelpButton, HandleWebLinkButtonClicked);
+            
+            base.OnApplyTemplate();
         }
-        
-        public override void DisplayPoiInfo(Object modelObject, bool isPinned)
+
+        protected override void DisplayCustomPoiInfo(Object modelObject)
         {
             ExampleApp.SearchResultModelCLI model = modelObject as ExampleApp.SearchResultModelCLI;
 
             m_closing = false;
 
             TitleText = model.Title;
-            //AddressText = model.Subtitle.Replace(",", Environment.NewLine);
-            //PhoneText = ;
-            HumanReadableCategoriesText = string.Join(Environment.NewLine, model.HumanReadableCategories) + model.Category;
+            HumanReadableCategoriesText = string.Join(Environment.NewLine, model.HumanReadableCategories);
             ReviewText = model.Subtitle;
             CategoryIcon = SearchResultPoiViewIconProvider.GetIconForCategory(model.Category);
-
-            m_isPinned = isPinned;
-            OnPropertyChanged("IsPinned");
 
             ShowAll();
         }

@@ -320,11 +320,13 @@ NSInteger const SubItemCellOpenableMenuArrowTag = 1;
         
         float textInsetX;
         
+        const float textHeight = isHeader ? CellConstants::SectionHeaderCellHeight : CellConstants::SubSectionCellHeight;
+        
         if(document.HasMember("icon") && !isHeader)
         {
             const float imageSize = isHeader ? 36.0f : 26.0f;
             const float imageInsetX = isHeader? 4.0f : 6.0f;
-            const float imageInsetY = isHeader ? 2.0f : 8.0f;
+            const float imageInsetY = (textHeight*0.5f) - (imageSize*0.5f);
             
             textInsetX = imageSize + imageInsetX * 2.0f;
             
@@ -345,23 +347,46 @@ NSInteger const SubItemCellOpenableMenuArrowTag = 1;
             cell.imageView.image = nil;
         }
         
-        const float textY = 0.0f;
+        const bool hasDetails = document.HasMember("details");
+        const float textY = hasDetails ? 4.0f : 0.f;
         const float textWidth = [tableView getCellWidth] - textInsetX;
-        const float textHeight = isHeader ? CellConstants::SectionHeaderCellHeight : CellConstants::SubSectionCellHeight;
         
         cell.textLabel.text = [NSString stringWithUTF8String:name.c_str()];
         cell.textLabel.font = [UIFont systemFontOfSize: [self getTextLabelFontSize:isHeader]];
         cell.textLabel.textColor = isHeader ? ExampleApp::Helpers::ColorPalette::TableHeaderTextColor : ExampleApp::Helpers::ColorPalette::TableSubCellTextColor;
         [cell.textLabel sizeToFit];
         
+        const float titleTextHeight = hasDetails ? cell.textLabel.frame.size.height : textHeight;
+        
         CGRect textFrame = CGRectMake(textInsetX,
                                       textY,
                                       textWidth,
-                                      textHeight);
+                                      titleTextHeight);
         
+        CGRect detailTextFrame = CGRectZero;
+        
+        std::string details = "";
+        if (hasDetails)
+        {
+            details = document["details"].GetString();
+            cell.detailTextLabel.text = [NSString stringWithUTF8String:details.c_str()];
+            cell.detailTextLabel.font = [UIFont systemFontOfSize:11.0f];
+            cell.detailTextLabel.textColor = ExampleApp::Helpers::ColorPalette::TableSearchDetailTextColor;
+            [cell.detailTextLabel sizeToFit];
+            
+            const float detailTextY = 24.0f;
+            detailTextFrame = CGRectMake(textInsetX,
+                                         detailTextY,
+                                         textWidth,
+                                         cell.detailTextLabel.frame.size.height);
+            
+            
+        }
+
+        [(CustomTableViewCell*)cell setHasDetails: hasDetails];
         [(CustomTableViewCell*)cell setContentFrames:imageFrame
                                                     :textFrame
-                                                    :CGRectZero];
+                                                    :detailTextFrame];
     }
 }
 
@@ -372,11 +397,14 @@ NSInteger const SubItemCellOpenableMenuArrowTag = 1;
 
 - (void) setCellInfo:(CustomTableViewCell*)cell :(bool)isHeader :(bool)hasSeparator
 {
+    UIColor* titleTextColor = isHeader ? ExampleApp::Helpers::ColorPalette::TableHeaderTextColor : ExampleApp::Helpers::ColorPalette::TableSubCellTextColor;
+    titleTextColor = [cell hasDetails] ? ExampleApp::Helpers::ColorPalette::TableSearchTextColor: titleTextColor;
+    
     [cell setInfo :hasSeparator
                   :ExampleApp::Helpers::ColorPalette::UiBorderColor
                   :isHeader ? ExampleApp::Helpers::ColorPalette::UiBorderColor : ExampleApp::Helpers::ColorPalette::TableSubCellColor
                   :isHeader ? ExampleApp::Helpers::ColorPalette::TableHeaderPressColor : ExampleApp::Helpers::ColorPalette::TableSubCellPressColor
-                  :isHeader ? ExampleApp::Helpers::ColorPalette::TableHeaderTextColor : ExampleApp::Helpers::ColorPalette::TableSubCellTextColor
+                  :titleTextColor
                   :isHeader ? ExampleApp::Helpers::ColorPalette::TableHeaderTextHighlightColor : ExampleApp::Helpers::ColorPalette::TableSubCellTextColor
                   :(UIImageView*)[cell.contentView viewWithTag:SubItemCellOpenableMenuArrowTag]];
 }

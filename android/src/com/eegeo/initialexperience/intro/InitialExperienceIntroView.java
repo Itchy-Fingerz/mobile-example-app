@@ -135,7 +135,8 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
     private void setDialogText(LinearLayout dialogRoot, String titleText, String descText)
     {
     	ViewGroup dialog = (ViewGroup)dialogRoot.getChildAt(0);
-    	if(dialog instanceof RelativeLayout){
+    	if(dialog instanceof RelativeLayout)
+    	{
     		dialog = (ViewGroup)dialogRoot.getChildAt(1);
     	}
     	TextView title = (TextView)dialog.getChildAt(0);
