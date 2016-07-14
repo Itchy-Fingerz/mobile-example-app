@@ -9,12 +9,12 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
-
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import com.eegeo.entrypointinfrastructure.MainActivity;
+import com.eegeo.mobileexampleapp.R;
 
 public abstract class MenuView implements View.OnClickListener, MenuAnimationStateCallback
 {
@@ -77,9 +77,9 @@ public abstract class MenuView implements View.OnClickListener, MenuAnimationSta
     @Override
     public void onClosedOnScreenAnimationComplete()
     {
-    	m_animating = false;
-    	
     	MenuViewJniMethods.ViewCloseCompleted(m_nativeCallerPointer);
+    	
+    	m_animating = false;
     	
         m_list.setVisibility(View.GONE);
     }
@@ -87,11 +87,11 @@ public abstract class MenuView implements View.OnClickListener, MenuAnimationSta
     @Override
 	public void onOpenOnScreenAnimationComplete()
 	{
+    	MenuViewJniMethods.ViewOpenCompleted(m_nativeCallerPointer);
+    	
     	m_animating = false;
     	
     	m_list.setEnabled(true);
-    	
-    	MenuViewJniMethods.ViewOpenCompleted(m_nativeCallerPointer);
 	}
 
     public float normalisedAnimationProgress()
@@ -127,6 +127,7 @@ public abstract class MenuView implements View.OnClickListener, MenuAnimationSta
     	m_menuAnimationHandler.playToOpenOnScreen();
     	
     	m_menuState = MenuState.OPEN_ON_SCREEN;
+    	
     }
 
     public void animateOffScreen()
@@ -139,6 +140,7 @@ public abstract class MenuView implements View.OnClickListener, MenuAnimationSta
 				
 				m_animating = false;
     		} 
+    		
     	} 
     	else if(m_menuAnimationHandler.isOffScreen())
     	{
@@ -161,22 +163,12 @@ public abstract class MenuView implements View.OnClickListener, MenuAnimationSta
     
     public void animateToIntermediateOnScreenState(final float onScreenState)
     {
-    	if(m_animating)
-    	{
-    		return;
-    	}
-    	
-    	m_menuAnimationHandler.setToIntermediateOnScreenState(onScreenState);
+    	// TODO: IR: Setting intermediate values are not required anymore
     }
 
     public void animateToIntermediateOpenState(final float openState)
     {
-    	if(m_animating)
-    	{
-    		return;
-    	}
-    	
-    	m_menuAnimationHandler.setToIntermediateOpenState(openState);
+    	// TODO: IR: Setting intermediate values are not required anymore
     }
 
     public void populateData(

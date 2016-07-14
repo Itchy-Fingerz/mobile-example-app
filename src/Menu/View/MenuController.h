@@ -27,6 +27,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<MenuController> m_onDragStartedCallback;
                 Eegeo::Helpers::TCallback1<MenuController, float> m_onDragCallback;
                 Eegeo::Helpers::TCallback0<MenuController> m_onDragCompletedCallback;
+                Eegeo::Helpers::TCallback0<MenuController> m_onAnimationStartedCallback;
                 Eegeo::Helpers::TCallback2<MenuController, int, int> m_onItemSelectedCallback;
                 Eegeo::Helpers::TCallback1<MenuController, MenuItemModel> m_onItemAddedCallback;
                 Eegeo::Helpers::TCallback1<MenuController, MenuItemModel> m_onItemRemovedCallback;
@@ -77,6 +78,8 @@ namespace ExampleApp
                 virtual void OnItemRemoved(MenuItemModel& item);
 
                 virtual void OnItemSelected(int& sectionIndex, int& itemIndex);
+
+                virtual void OnViewAnimationStarted();
 
             public:
                 MenuController(

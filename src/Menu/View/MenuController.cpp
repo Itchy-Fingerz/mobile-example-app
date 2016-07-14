@@ -270,6 +270,18 @@ namespace ExampleApp
                 }
             }
 
+            void MenuController::OnViewAnimationStarted()
+            {
+            	if(m_viewModel.IsFullyClosed())
+				{
+					m_viewModel.Open();
+				}
+				else if(m_viewModel.IsFullyOpen())
+				{
+					m_viewModel.Close();
+				}
+            }
+
             MenuController::MenuController(
                 IMenuModel& model,
                 IMenuViewModel& viewModel,
@@ -280,6 +292,7 @@ namespace ExampleApp
                 , m_viewModel(viewModel)
                 , m_view(view)
                 , m_onClickedCallback(this, &MenuController::OnViewClicked)
+                , m_onAnimationStartedCallback(this, &MenuController::OnViewAnimationStarted)
                 , m_onViewOpenedCallback(this, &MenuController::OnViewOpened)
                 , m_onViewClosedCallback(this, &MenuController::OnViewClosed)
                 , m_onDragStartedCallback(this, &MenuController::OnDragStarted)
@@ -304,6 +317,7 @@ namespace ExampleApp
                 m_view.InsertOnDragStarted(m_onDragStartedCallback);
                 m_view.InsertOnItemSelected(m_onItemSelectedCallback);
                 m_view.InsertOnViewClicked(m_onClickedCallback);
+                m_view.InsertOnViewClicked(m_onAnimationStartedCallback);
                 m_view.InsertOnViewClosed(m_onViewClosedCallback);
                 m_view.InsertOnViewOpened(m_onViewOpenedCallback);
                 m_view.SetTryDragFunc(m_tryDragFunc);
