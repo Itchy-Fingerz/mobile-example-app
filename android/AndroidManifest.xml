@@ -16,6 +16,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true"/>
+    
 
     <application android:icon="@mipmap/icon" android:label="eeGeo Example" android:theme="@android:style/Theme.NoTitleBar">
        
@@ -40,6 +41,8 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+         <meta-data android:name="com.google.android.gms.version"
+            android:value="7571000" />
     </application>
 
 </manifest> 
