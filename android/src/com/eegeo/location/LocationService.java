@@ -4,7 +4,7 @@ package com.eegeo.location;
 
 import java.util.List;
 
-import com.eegeo.location.FusedLocationApiService.FusedLocationUpdateListener;
+import com.eegeo.location.CombinedLocationApiService.FusedLocationUpdateListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -24,8 +24,7 @@ class LocationService
     static Location bestLocation = null;
     static boolean isAuthorized = false;
 
-    static Activity activity;
-    static FusedLocationApiService m_fusedLocationApiService;
+    static CombinedLocationApiService m_combinedLocationApiService;
     
     public static double lat()
     {
@@ -131,9 +130,9 @@ class LocationService
 
     public static void stopListeningToUpdates(Activity a)
     {
-        if(m_fusedLocationApiService != null)
+        if(m_combinedLocationApiService != null)
         {
-            m_fusedLocationApiService.stopLocationUpdates();
+            m_combinedLocationApiService.stopLocationUpdates();
             isListening = false;
         }
         else if(isListening)
@@ -149,9 +148,9 @@ class LocationService
         {
             LocationService.locationManager = (LocationManager) a.getSystemService(Context.LOCATION_SERVICE);
             LocationService.isListening = LocationService.isAuthorized = isAnyProviderEnabled(LocationService.locationManager);
-            if(m_fusedLocationApiService == null)
+            if(m_combinedLocationApiService == null)
             {
-                m_fusedLocationApiService = new FusedLocationApiService(a, new FusedLocationUpdateListener()
+                m_combinedLocationApiService = new CombinedLocationApiService(a, new FusedLocationUpdateListener()
                 {
                     @Override
                     public void onFusedLocationChanged(Location location)
@@ -162,7 +161,7 @@ class LocationService
             }
             else
             {
-                m_fusedLocationApiService.startListeningForLocationUpdate();
+                m_combinedLocationApiService.startListeningToUpdates();
             }
             // Just trying to fetch lastknown location cuz GoogleApiClient take some time to connect and give LastKnownLocation using Fused Api
             if(LocationService.bestLocation == null)

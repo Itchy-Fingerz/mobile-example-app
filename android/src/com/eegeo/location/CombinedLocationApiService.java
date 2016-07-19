@@ -19,50 +19,29 @@ import android.util.Log;
  * Api Services
  *
  */
-public class FusedLocationApiService
+public class CombinedLocationApiService
         implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener
 {
 
     private Activity m_activity;
     protected static final String TAG = "FusedLocationApiService";
 
-    /**
-     * The desired interval for location updates. Inexact. Updates may be more
-     * or less frequent.
-     */
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 1000 * 60;
-
-    /**
-     * The fastest rate for active location updates. Exact. Updates will never
-     * be more frequent than this value.
-     */
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-
-    /**
-     * Provides the entry point to Google Play services.
-     */
+    
     protected GoogleApiClient m_googleApiClient;
-
-    /**
-     * Stores parameters for requests to the FusedLocationProviderApi.
-     */
     protected LocationRequest m_locationRequest;
-
-    /**
-     * Represents a geographical location.
-     */
     protected Location m_currentLocation;
-
     private FusedLocationUpdateListener m_fusedLocationUpdateListener;
 
-    public FusedLocationApiService(Activity activity, FusedLocationUpdateListener fusedLocationUpdateListener)
+    public CombinedLocationApiService(Activity activity, FusedLocationUpdateListener fusedLocationUpdateListener)
     {
         this.m_activity = activity;
         this.m_fusedLocationUpdateListener = fusedLocationUpdateListener;
-        startListeningForLocationUpdate();
+        startListeningToUpdates();
     }
 
-    public void startListeningForLocationUpdate()
+    public void startListeningToUpdates()
     {
         buildGoogleApiClient();
     }
