@@ -148,6 +148,7 @@ class LocationService
         {
             LocationService.locationManager = (LocationManager) a.getSystemService(Context.LOCATION_SERVICE);
             LocationService.isListening = LocationService.isAuthorized = isAnyProviderEnabled(LocationService.locationManager);
+
             if(m_combinedLocationApiService == null)
             {
                 m_combinedLocationApiService = new CombinedLocationApiService(a, new FusedLocationUpdateListener()
