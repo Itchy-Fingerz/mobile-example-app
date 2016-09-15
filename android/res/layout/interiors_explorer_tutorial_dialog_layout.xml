@@ -65,7 +65,7 @@
 					android:singleLine="true"
 					android:ellipsize="end"
 					android:textColor="@color/gold"
-					android:textSize="16sp"
+					android:textSize="16dp"
 					android:text="Change Floors" />
 
                 <TextView
@@ -77,7 +77,7 @@
 					android:singleLine="false"
 					android:text="Slide the elevator button\nup and down to move\nbetween floors."
 					android:textColor="@color/black"
-					android:textSize="13sp"
+					android:textSize="13dp"
 					android:paddingBottom="12dp" />
 			</LinearLayout>
 

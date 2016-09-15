@@ -112,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center_horizontal"
+            android:textSize="16dp"
             android:text="0"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </RelativeLayout>

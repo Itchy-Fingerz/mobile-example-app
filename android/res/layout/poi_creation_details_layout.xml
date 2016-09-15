@@ -57,7 +57,7 @@
 	                android:paddingTop="6dp"
 	                android:paddingLeft="4dp"
 	                android:textColor="@color/gold"
-	                android:textSize="24sp" />
+	                android:textSize="24dp" />
 	            
 	        </LinearLayout>
 	        
@@ -89,7 +89,7 @@
 	                android:text="@string/poi_creation_details_share"
 	                android:textColor="@color/grey"
 	                android:textStyle="italic"
-	                android:textSize="16sp" />
+	                android:textSize="16dp" />
 	            
 	            <TextView
 	                android:id="@+id/poi_creation_details_terms_conditions_link"
@@ -101,7 +101,7 @@
 	                android:gravity="center_vertical"
 	                android:text="@string/poi_creation_details_terms_conditions"
 	                android:textColor="@color/darkgrey" 
-	                android:textSize="12sp"/>
+	                android:textSize="12dp"/>
 	            
 	        </RelativeLayout>
         </LinearLayout>

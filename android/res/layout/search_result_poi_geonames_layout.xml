@@ -31,11 +31,11 @@
                 android:layout_height="36dp"
                 android:layout_margin="5dp"
                 android:layout_toRightOf="@id/search_result_poi_view_tag_icon"
+                android:textSize="16dp"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/gold"
-                android:textSize="12dp"
                 android:textStyle="bold"/>
             
         </RelativeLayout>

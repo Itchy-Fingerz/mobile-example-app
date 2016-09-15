@@ -38,7 +38,7 @@
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/gold"
-                android:textSize="24sp"
+                android:textSize="24dp"
                 android:textStyle="bold" />
             
         </LinearLayout>
@@ -65,7 +65,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
                     android:paddingLeft="3dp"
@@ -80,7 +80,7 @@
                     android:paddingTop="5dp"
                     android:paddingLeft="3dp"
                     android:textColor="@color/darkgrey"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
                 
                  <!--  Image  -->
                 <TextView
@@ -88,7 +88,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:paddingTop="3dp"
                     android:paddingBottom="3dp"
                     android:paddingLeft="3dp"

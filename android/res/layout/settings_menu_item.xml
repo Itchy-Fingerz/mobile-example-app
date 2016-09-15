@@ -24,5 +24,5 @@
             android:gravity="left|center_vertical"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
         	android:textColor="@color/table_sub_cell_text"
-            android:textSize="22sp" />
+            android:textSize="22dp" />
 </RelativeLayout>

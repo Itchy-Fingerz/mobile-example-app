@@ -32,11 +32,11 @@
                 android:layout_width="200dp"
                 android:layout_height="30dp"
                 android:layout_toRightOf="@id/search_result_poi_view_tag_icon"
+                android:textSize="16dp"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/gold"
-                android:textSize="12dp"
                 android:textStyle="bold"/>
         </RelativeLayout>
 	        
@@ -166,7 +166,7 @@
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
-	                android:textSize="12dp"
+	                android:textSize="16dp"
 	                android:paddingLeft="3dp"
 	                android:background="@color/gold"
 	                android:text="@string/header_phone"/>
@@ -187,7 +187,7 @@
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
-	                android:textSize="12dp"
+	                android:textSize="16dp"
 	                android:paddingLeft="3dp"
 	                android:background="@color/gold"
 	                android:text="@string/header_address"/>
@@ -208,7 +208,7 @@
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
-	                android:textSize="12dp"
+	                android:textSize="16dp"
 	                android:paddingLeft="3dp"
 	                android:background="@color/gold"
 	                android:text="@string/header_tags"/>
@@ -229,7 +229,7 @@
 	                android:layout_width="fill_parent"
 	                android:layout_height="wrap_content"
 	                android:textColor="@color/white"
-	                android:textSize="12dp"
+	                android:textSize="16dp"
 	                android:paddingLeft="3dp"
 	                android:background="@color/gold"
 	                android:text="@string/header_reviews"/>
