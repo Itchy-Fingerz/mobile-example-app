@@ -87,6 +87,7 @@
 #include "IMenuIgnoredReactionModel.h"
 #include "DoubleTapIndoorInteraction.h"		
 #include "IRayCaster.h"
+#include "InteriorsEntityIdHighlightVisibilityController.h"
 
 namespace ExampleApp
 {
@@ -159,6 +160,9 @@ namespace ExampleApp
         Social::TwitterFeed::ITwitterFeedModule* m_pTwitterFeedModule;
         VisualMap::SdkModel::IVisualMapModule* m_pVisualMapModule;
         Surveys::SdkModel::ISurveyModule* m_pSurveyModule;
+        InteriorsExplorer::SdkModel::Highlights::InteriorsHighlightVisibilityController* m_pInteriorsHighlightVisibilityController;
+        InteriorsExplorer::SdkModel::Highlights::IHighlightColorMapper* m_pHighlightColorMapper;
+        InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController* m_pInteriorsEntityIdHighlightVisibilityController;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
         Net::SdkModel::ConnectivityChangedObserver* m_pConnectivityChangedObserver;

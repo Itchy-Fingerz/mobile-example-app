@@ -118,6 +118,10 @@
 #include "TagSearchModelFactory.h"
 #include "SearchTagsFactory.h"
 #include "ITagSearchRepository.h"
+#include "InteriorsHighlightVisibilityController.h"
+#include "InteriorsEntityIdHighlightController.h"
+#include "Colors.h"
+#include "HighlightColorMapper.h"
 
 namespace ExampleApp
 {
@@ -287,6 +291,9 @@ namespace ExampleApp
         , m_pModalityIgnoredReactionModel(NULL)
         , m_pReactorIgnoredReactionModel(NULL)
         , m_pRayCaster(NULL)
+        , m_pInteriorsHighlightVisibilityController(NULL)
+        , m_pHighlightColorMapper(NULL)
+        , m_pInteriorsEntityIdHighlightVisibilityController(NULL)
     {
         m_metricsService.BeginSession(m_applicationConfiguration.FlurryAppKey(), EEGEO_PLATFORM_VERSION_NUMBER);
 
@@ -361,6 +368,31 @@ namespace ExampleApp
         
         CreateApplicationModelModules(nativeUIFactories, platformConfig.OptionsConfig.InteriorsAffectedByFlattening);
         
+        namespace IntHighlights = InteriorsExplorer::SdkModel::Highlights;
+        
+        m_pHighlightColorMapper = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::HighlightColorMapper)(Eegeo::v4(0.0, 1.0, 0.0, 0.6));
+  
+        m_pInteriorsHighlightVisibilityController = Eegeo_NEW(IntHighlights::InteriorsHighlightVisibilityController)(
+                                                                                                                     mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel(),
+                                                                                                                     m_searchServiceModules[Search::EegeoVendorName]->GetSearchService(),
+                                                                                                                     m_pSearchModule->GetSearchQueryPerformer(),
+                                                                                                                     m_pSearchModule->GetSearchResultRepository(),
+                                                                                                                     mapModule.GetInteriorsPresentationModule().GetInteriorsLabelsController(),
+                                                                                                                     m_messageBus,
+                                                                                                                     *m_pHighlightColorMapper);
+        
+        Eegeo::Modules::Map::Layers::InteriorsModelModule& interiorsModelModule = mapModule.GetInteriorsModelModule();
+        
+        Eegeo::Resources::Interiors::InteriorsEntityIdHighlightController& interiorsEntityIdHighlightController = interiorsModelModule.GetInteriorsEntityIdHighlightController();;
+        
+        m_pInteriorsEntityIdHighlightVisibilityController = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController)(
+                                                                                                                                                               interiorsEntityIdHighlightController,
+                                                                                                                                                               m_pSearchModule->GetSearchQueryPerformer(),
+                                                                                                                                                               m_pSearchModule->GetSearchResultRepository(),
+                                                                                                                                                               m_messageBus,
+                                                                                                                                                               interiorsModelModule.GetInteriorsInstanceRepository(),
+                                                                                                                                                               *m_pHighlightColorMapper);
+        
         m_pCameraTransitionController = Eegeo_NEW(ExampleApp::CameraTransitions::SdkModel::CameraTransitionController)(*m_pGlobeCameraController,
                                                                                                                        m_pInteriorsExplorerModule->GetInteriorsCameraController(),
                                                                                                                        *m_pNavigationService,
@@ -402,6 +434,9 @@ namespace ExampleApp
         DestroyApplicationModelModules();
         Eegeo_DELETE m_pRayCaster;
         Eegeo_DELETE m_pCameraTransitionService;
+        Eegeo_DELETE m_pInteriorsHighlightVisibilityController;
+        Eegeo_DELETE m_pInteriorsEntityIdHighlightVisibilityController;
+        Eegeo_DELETE m_pHighlightColorMapper;
         Eegeo_DELETE m_pCameraTransitionController;
         Eegeo_DELETE m_pDoubleTapIndoorInteractionController;
         Eegeo_DELETE m_pNavigationService;
