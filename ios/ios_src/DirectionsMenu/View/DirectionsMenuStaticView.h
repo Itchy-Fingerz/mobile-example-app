@@ -40,4 +40,5 @@
 - (void) resetSuggestionItem;
 - (void)reverseAction;
 - (void)optionsAction;
+-(void)hideContentViw;
 @end

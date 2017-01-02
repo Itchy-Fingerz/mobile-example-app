@@ -39,6 +39,7 @@
 @property (retain, nonatomic) IBOutlet UILabel *minCounterLabel;
 @property (retain, nonatomic) IBOutlet UILabel *secCounterLabel;
 @property (retain, nonatomic) IBOutlet UILabel *staticMinsLabel;
+@property (retain, nonatomic) IBOutlet UIView *wayPointContentView;
 
 @property (retain, nonatomic) IBOutlet UITableView *suggestionsTableView;
 @end
@@ -78,7 +79,9 @@
     [self.minCounterLabel setHidden:YES];
     [self.secCounterLabel setHidden:YES];
     [self.staticMinsLabel setHidden:YES];
-
+    [self.bottomBarView setHidden:YES];
+    [self.wayPointsTableView setHidden:YES];
+    [self.wayPointContentView setBackgroundColor:[UIColor clearColor]];
 }
 
 
@@ -262,7 +265,9 @@
     {
         [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
     }
-    
+    UIView *pBgView = [[[UIView alloc] initWithFrame:cell.bounds] autorelease];
+    pBgView.backgroundColor = [UIColor colorWithRed:234.0/255.0 green:251.0/255.0 blue:167.0/255.0 alpha:1.0];
+    cell.selectedBackgroundView = pBgView;
     return cell;
 }
 
@@ -370,6 +375,12 @@
     endLocationSearched = false;
     startMyLocationSelected = true;
 }
+-(void)hideContentViw
+{
+    [self.bottomBarView setHidden:YES];
+    [self.wayPointsTableView setHidden:YES];
+    [self.wayPointContentView setBackgroundColor:[UIColor clearColor]];
+}
 - (BOOL) shouldPerformSearch
 {
     
@@ -383,6 +394,9 @@
     
     if ((startLocationSearched || (startMyLocationSelected && [_startRouteTextField.text isEqualToString:@"My Location"])) && (endLocationSearched || ([_endRouteTextField.text isEqualToString:@"My Location"] && startLocationSearched)))
     {
+        [self.bottomBarView setHidden:NO];
+        [self.wayPointsTableView setHidden:NO];
+        [self.wayPointContentView setBackgroundColor:[UIColor whiteColor]];
         return true;
     }
     return false;
@@ -443,6 +457,7 @@
     [_minCounterLabel release];
     [_secCounterLabel release];
     [_staticMinsLabel release];
+    [_wayPointContentView release];
     [super dealloc];
 }
 

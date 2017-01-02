@@ -92,7 +92,7 @@
     
     const bool isPhone = ExampleApp::Helpers::UIHelpers::UsePhoneLayout();
     
-    const float upperMargin = (isPhone ? 20.0f : 50.0f) * m_pixelScale;
+    const float upperMargin = (isPhone ? 0.0 : 50.0f) * m_pixelScale;
     
     const float dragTabOffsetX = 0.0f;
     const float dragTabSize = 25.0f * m_pixelScale;
@@ -114,24 +114,37 @@
     
     m_maxScreenSpace = m_screenHeight - (upperMargin + m_tableSpacing + m_screenHeight/6);
 
-    if(isPhone)
-        m_menuContainerWidth = m_screenWidth;
-    else
-        m_menuContainerWidth = (m_screenWidth / 3);
-
-    m_menuContainerOffScreenX = -m_menuContainerWidth;
-    m_menuContainerOffScreenY = upperMargin;
-    m_menuContainerClosedOnScreenX = m_menuContainerOffScreenX-2;
-    m_menuContainerClosedOnScreenY = m_menuContainerOffScreenY;
-    m_menuContainerOpenOnScreenX = 0.0f;
-    m_menuContainerOpenOnScreenY = m_menuContainerOffScreenY;
-    
-     m_pDirectionsMenuView = [[[NSBundle mainBundle] loadNibNamed:@"DirectionsMenuStaticView" owner:self options:nil] objectAtIndex:0];
+    m_pDirectionsMenuView = [[[NSBundle mainBundle] loadNibNamed:@"DirectionsMenuStaticView" owner:self options:nil] objectAtIndex:0];
     
     float estimatedHeight = [m_pDirectionsMenuView getEstimatedHeight];
     [m_pDirectionsMenuView SetSearchMenuView:self];
-
+    
     m_menuContainerHeight = (estimatedHeight< m_maxScreenSpace) ? estimatedHeight : m_maxScreenSpace;
+
+    if(isPhone)
+    {
+        m_menuContainerWidth = m_screenWidth;
+        
+        m_menuContainerOffScreenX = 0;
+        m_menuContainerOffScreenY = -(m_menuContainerHeight + 147);
+        m_menuContainerClosedOnScreenX = 0;
+        m_menuContainerClosedOnScreenY = m_menuContainerOffScreenY;
+        m_menuContainerOpenOnScreenX = 0.0f;
+        m_menuContainerOpenOnScreenY = 0.0f;
+    }
+    else
+    {
+        m_menuContainerWidth = (m_screenWidth / 3);
+        
+        m_menuContainerOffScreenX = -m_menuContainerWidth;
+        m_menuContainerOffScreenY = upperMargin;
+        m_menuContainerClosedOnScreenX = m_menuContainerOffScreenX-2;
+        m_menuContainerClosedOnScreenY = m_menuContainerOffScreenY;
+        m_menuContainerOpenOnScreenX = 0.0f;
+        m_menuContainerOpenOnScreenY = m_menuContainerOffScreenY;
+        
+    }
+    
     
     self.pMenuContainer = [[[UIView alloc] initWithFrame:CGRectMake(m_menuContainerOffScreenX, m_menuContainerOffScreenY, m_menuContainerWidth, m_menuContainerHeight)] autorelease];
     
@@ -396,6 +409,7 @@
     [_pEndRouteTextField resignFirstResponder];
     [_pStartRouteTextField resignFirstResponder];
     [m_pDirectionsMenuView resetSuggestionItem];
+    [m_pDirectionsMenuView hideContentViw];
     if([self canInteract])
     {
         m_pDirectionsMenuInterop->OnExitDirectionsClicked();
@@ -430,7 +444,7 @@
 -(void)updateContainerFrame {
     
     float updatedEstimatedHeight = [m_pDirectionsMenuView getEstimatedHeight];
-    
+
     [self.pMenuContainer setFrame:CGRectMake(self.pMenuContainer.frame.origin.x, self.pMenuContainer.frame.origin.y, self.pMenuContainer.frame.size.width, updatedEstimatedHeight)];
     
     [m_pDirectionsMenuView setFrame:CGRectMake(0,0, self.pMenuContainer.frame.size.width, updatedEstimatedHeight)];
