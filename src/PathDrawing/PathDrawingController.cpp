@@ -96,11 +96,11 @@ namespace ExampleApp
         void PathDrawingController::OnSearchQueryResponseReceivedMessage(const DirectionResultSection::DirectionQueryResponseReceivedMessage& message)
         {
             
-            if(!m_createdRoutes)
-            {
-                Direction::SdkModel::DirectionResultModel& model = message.GetDirectionResultModel();
-                CreateRoutePlan(model);
-            }
+//            if(!m_createdRoutes)
+//            {
+//                Direction::SdkModel::DirectionResultModel& model = message.GetDirectionResultModel();
+//                CreateRoutePlan(model);
+//            }
         }
         
         void PathDrawingController::OnFindNewDirection(const DirectionsMenu::DirectionMenuFindDirectionMessage&)
