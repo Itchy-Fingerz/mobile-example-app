@@ -22,9 +22,7 @@ namespace ExampleApp
 
                 m_pDirectionService = Eegeo_NEW(FindDirectionService)(*m_pDirectionHttpRequestFactory,*m_resultParser,m_routeService,m_pInteriorInteractionModel,*m_pDirectionResultJsonParser,alertBoxFactory,messageBus);
                 m_pDirectionQueryPerformer = Eegeo_NEW(FindDirectionQueryPerformer)(GetFindDirectionService());
-                
-                //m_routeThicknessPolicy.SetScaleFactor(1.0f);
-//                Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::InteriorEntities);
+            
                 
 
             }
@@ -54,6 +52,7 @@ namespace ExampleApp
             }
             Eegeo::Routes::RouteService& FindDirectionServiceModule::GetRouteService() const
             {
+                
                 return m_routeService;
             }
 

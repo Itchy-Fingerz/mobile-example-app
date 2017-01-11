@@ -29,13 +29,20 @@ namespace ExampleApp
             , m_messageBus(messageBus)
             , m_routeService(routeService)
             , m_pInteriorInteractionModel(interiorInteractionModel)
+            , m_directionsMenuStateChangedCallback(this, &FindDirectionService::OnDirectionsMenuStateChanged)
+            , m_onFindNewDirectionCallback(this, &FindDirectionService::OnFindNewDirection)
+
 
             {
-                
+                m_messageBus.SubscribeUi(m_directionsMenuStateChangedCallback);
+                m_messageBus.SubscribeNative(m_onFindNewDirectionCallback);
+
+
             }
             FindDirectionService::~FindDirectionService()
             {
-                
+                m_messageBus.UnsubscribeUi(m_directionsMenuStateChangedCallback);
+
             }
             void FindDirectionService::InsertOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback1<const DirectionResultModel& >& callback)
             {
@@ -96,6 +103,22 @@ namespace ExampleApp
                 
             }
 
+            void FindDirectionService::ClearRoutes()
+            {
+                m_routeService.DestroyAllRoutes();
+            }
+            
+            void FindDirectionService::OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message)
+            {
+                if(message.GetDirectionsMenuStage() == DirectionsMenuInitiation::Inactive)
+                {
+                    ClearRoutes();
+                }
+            }
+            void FindDirectionService::OnFindNewDirection(const DirectionsMenu::DirectionMenuFindDirectionMessage&)
+            {
+                ClearRoutes();
+            }
 
         }
     }

@@ -15,6 +15,8 @@
 #include "ISingleOptionAlertBoxDismissedHandler.h"
 #include "JsonRouteParser.h"
 #include "LinearAltitudeBasedRouteThicknessPolicy.h"
+#include "DirectionsMenuStateChangedMessage.h"
+#include "DirectionMenuFindDirectionMessage.h"
 
 
 
@@ -40,9 +42,15 @@ namespace ExampleApp
                 Eegeo::UI::NativeAlerts::IAlertBoxFactory& m_alertBoxFactory;
                 Eegeo::UI::NativeAlerts::TSingleOptionAlertBoxDismissedHandler<FindDirectionService> m_failAlertHandler;
                 Eegeo::Routes::Style::Thickness::LinearAltitudeBasedRouteThicknessPolicy m_routeThicknessPolicy;
+                Eegeo::Helpers::TCallback1<FindDirectionService, const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage&> m_directionsMenuStateChangedCallback;
+
+                Eegeo::Helpers::TCallback1<FindDirectionService, const DirectionsMenu::DirectionMenuFindDirectionMessage&> m_onFindNewDirectionCallback;
 
                 void HandleRouteDirectionResponse();
                 void OnFailedToCallRouteResponse();
+                void OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message);
+                void OnFindNewDirection(const DirectionsMenu::DirectionMenuFindDirectionMessage&);
+
 
             public:
                 
@@ -52,6 +60,7 @@ namespace ExampleApp
                 
                 void RemoveOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback1<const DirectionResultModel& >& callback);
                 void PerformLocationQuerySearch(const Direction::SdkModel::FindDirectionQuery& findDirectionQuery);
+                void ClearRoutes();
 
             };
         }
