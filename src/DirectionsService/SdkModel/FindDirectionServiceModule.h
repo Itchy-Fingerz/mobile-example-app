@@ -29,11 +29,11 @@ namespace ExampleApp
             class FindDirectionServiceModule
             {
             public:
-                FindDirectionServiceModule(Eegeo::Concurrency::Tasks::IWorkPool& workPool,Eegeo::Routes::RouteService& routeService,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel
-,Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
-                                    Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,                          Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
-                                    const std::string& eegeoApiKey,
-                                           ExampleAppMessaging::TMessageBus& messageBus);
+                FindDirectionServiceModule(Eegeo::Concurrency::Tasks::IWorkPool& workPool,Eegeo::Routes::RouteService& routeService, Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel
+                                           ,Eegeo::Web::IWebLoadRequestFactory& webRequestFactory, Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
+                                           Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
+                                           const std::string& eegeoApiKey, ExampleAppMessaging::TMessageBus& messageBus
+                                           ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder);
                 ~FindDirectionServiceModule();
                 FindDirectionService& GetFindDirectionService() const;
                 FindDirectionQueryPerformer& GetFindDirectionQueryPerformer() const;

@@ -9,15 +9,19 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            FindDirectionServiceModule::FindDirectionServiceModule(Eegeo::Concurrency::Tasks::IWorkPool& workPool,Eegeo::Routes::RouteService& routeService,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
-                                                                                   Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,                          Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
-                                                                   const std::string& eegeoApiKey,ExampleAppMessaging::TMessageBus& messageBus)
+            FindDirectionServiceModule::FindDirectionServiceModule(Eegeo::Concurrency::Tasks::IWorkPool& workPool,Eegeo::Routes::RouteService& routeService
+                                                                   ,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel
+                                                                   ,Eegeo::Web::IWebLoadRequestFactory& webRequestFactory
+                                                                   ,Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder
+                                                                   ,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory
+                                                                   ,const std::string& eegeoApiKey,ExampleAppMessaging::TMessageBus& messageBus
+                                                                   ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder)
             :m_workPool(workPool)
             ,m_routeService(routeService)
             ,m_pInteriorInteractionModel(interiorInteractionModel)
             {
                 m_pDirectionResultJsonParser = Eegeo_NEW(FindDirectionResultJsonParser)();
-                m_pDirectionHttpRequestFactory = Eegeo_NEW(FindDirectionHttpRequestFactory)(eegeoApiKey,webRequestFactory,urlEncoder);
+                m_pDirectionHttpRequestFactory = Eegeo_NEW(FindDirectionHttpRequestFactory)(eegeoApiKey,webRequestFactory,urlEncoder,requestBuilder);
                 m_resultParser = Eegeo_NEW(Eegeo::Routes::Webservice::JsonRouteParser)(m_workPool);
 
                 m_pDirectionService = Eegeo_NEW(FindDirectionService)(*m_pDirectionHttpRequestFactory,*m_resultParser,m_routeService,m_pInteriorInteractionModel,*m_pDirectionResultJsonParser,alertBoxFactory,messageBus);

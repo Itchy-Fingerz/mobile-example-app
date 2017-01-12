@@ -2,6 +2,7 @@
 
 #include "IWebLoadRequest.h"
 #include "FindDirectionHttpRequest.h"
+#include "RoutingRequestBuilder.h"
 
 namespace ExampleApp
 {
@@ -12,6 +13,7 @@ namespace ExampleApp
             FindDirectionHttpRequest::FindDirectionHttpRequest(const std::string& requestUrl,
                                                                Eegeo::Helpers::ICallback0& completionCallback,
                                                                Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
+                                                               const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder,
                                                                Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                                                const FindDirectionQuery& query,
                                                                const std::string& eegeoApiKey)
@@ -21,20 +23,33 @@ namespace ExampleApp
             , m_dispatched(false)
             , m_isSuccess(false)
             , m_webRequestFactory(webRequestFactory)
+            , m_requestBuilder(requestBuilder)
             , m_webRequestCompleteCallback(this, &FindDirectionHttpRequest::HandleWebResponseComplete)
             {
-                //std::string encodedQuery;
-                //urlEncoder.UrlEncode(query.Query(), encodedQuery);
-                std::string startLocLat = std::to_string(query.StartLocation().GetLatitudeInDegrees());
-                std::string startLocLong = std::to_string(query.StartLocation().GetLongitudeInDegrees());
+//              
+//                std::string startLocLat = std::to_string(query.StartLocation().GetLatitudeInDegrees());
+//                std::string startLocLong = std::to_string(query.StartLocation().GetLongitudeInDegrees());
+//                
+//                std::string endLocLat = std::to_string(query.EndLocation().GetLatitudeInDegrees());
+//                std::string endLocLong = std::to_string(query.EndLocation().GetLongitudeInDegrees());
+//                //loc=37.7858,-122.401%3B37.7869000,-122.402333&apikey=b488cb833b4d73f0ff4662160743e8f2
+//                std::string url =requestUrl
+//                + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + "&apikey="
+//                + eegeoApiKey;
+//                m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();
                 
-                std::string endLocLat = std::to_string(query.EndLocation().GetLatitudeInDegrees());
-                std::string endLocLong = std::to_string(query.EndLocation().GetLongitudeInDegrees());
-                //loc=37.7858,-122.401%3B37.7869000,-122.402333&apikey=b488cb833b4d73f0ff4662160743e8f2
-                std::string url =requestUrl
-                + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + "&apikey="
-                + eegeoApiKey;
-                m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();
+                // Query the service for a route
+                Eegeo::Space::LatLongAltitude start = Eegeo::Space::LatLongAltitude::FromDegrees(56.4602302, -2.9785768, 0);
+                int startLevel = 0;
+                Eegeo::Space::LatLongAltitude end = Eegeo::Space::LatLongAltitude::FromDegrees(56.4600344, -2.9783117, 0);
+                int endLevel = 2;
+                
+                std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(start, startLevel, end, endLevel);
+                m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, apiCall, m_webRequestCompleteCallback)
+                .SetShouldCacheAggressively(false)
+                .Build();
+//                webRequest->Load();
+                
             }
             
             FindDirectionHttpRequest::~FindDirectionHttpRequest()

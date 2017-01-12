@@ -6,6 +6,8 @@
 #include "FindDirectionQuery.h"
 #include "IWebLoadRequestFactory.h"
 #include "FindDirectionHttpRequest.h"
+#include "Route.h"
+
 
 namespace ExampleApp
 {
@@ -19,7 +21,9 @@ namespace ExampleApp
             public:
                 FindDirectionHttpRequestFactory(const std::string& eeGeoApiKey,
                                                 Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
-                                                Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder);
+                                                Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
+                                                const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder
+                                                );
                 
                 ~FindDirectionHttpRequestFactory();
                 
@@ -27,7 +31,7 @@ namespace ExampleApp
                                                            Eegeo::Helpers::ICallback0& completionCallback);
                 
             private:
-                
+                const Eegeo::Routes::Webservice::RoutingRequestBuilder& m_requestBuilder;
                 const std::string m_apiUrl;
                 const std::string m_eegeoApiKey;
                 Eegeo::Helpers::UrlHelpers::IUrlEncoder& m_urlEncoder;

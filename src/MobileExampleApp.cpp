@@ -627,7 +627,7 @@ namespace ExampleApp
         m_pFindDirectionServiceModule = Eegeo_NEW(Direction::SdkModel::FindDirectionServiceModule)(m_pWorld->GetWorkPool(),m_pWorld->GetRoutesModule().GetRouteService(),interiorsPresentationModule.GetInteriorInteractionModel(),m_platformAbstractions.GetWebLoadRequestFactory(),
                                                                                                    m_platformAbstractions.GetUrlEncoder(),
                                                                         m_pWorld->GetNativeUIFactories().AlertBoxFactory(),m_applicationConfiguration.EegeoApiKey(),
-                                                                        m_messageBus);
+                                                                        m_messageBus,m_pWorld->GetRoutesModule().GetRoutingRequestBuilder());
 
         
         m_pDirectionsMenuModule = Eegeo_NEW(ExampleApp::DirectionsMenu::SdkModel::DirectionsMenuModule)(m_identityProvider,

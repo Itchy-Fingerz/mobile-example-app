@@ -7,6 +7,7 @@
 #include "FindDirectionQuery.h"
 #include "IWebLoadRequestFactory.h"
 #include "WebLoadRequestCompletionCallback.h"
+#include "Route.h"
 
 
 
@@ -24,6 +25,7 @@ namespace ExampleApp
                                 const std::string& requestUrl,
                                 Eegeo::Helpers::ICallback0& completionCallback,
                                 Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
+                                         const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder,
                                          Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                          const FindDirectionQuery& query,
                                          const std::string& eegeoApiKey);
@@ -43,6 +45,7 @@ namespace ExampleApp
                 void HandleWebResponseComplete(Eegeo::Web::IWebResponse& webResponse);
                 
                 Eegeo::Web::IWebLoadRequest* m_pWebLoadRequest;
+                const Eegeo::Routes::Webservice::RoutingRequestBuilder& m_requestBuilder;
                 Eegeo::Helpers::ICallback0& m_completionCallback;
                 std::string m_responseString;
                 

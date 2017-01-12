@@ -11,11 +11,13 @@ namespace ExampleApp
         
             FindDirectionHttpRequestFactory::FindDirectionHttpRequestFactory(const std::string& eegeoApiKey
                                                                              ,Eegeo::Web::IWebLoadRequestFactory& webRequestFactory
-                                                                             ,Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder)
+                                                                             ,Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder
+                                                                             ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder)
             : m_webRequestFactory(webRequestFactory)
             , m_urlEncoder(urlEncoder)
             , m_apiUrl("https://routing.eegeo.com/v1/route?")
             , m_eegeoApiKey(eegeoApiKey)
+            , m_requestBuilder(requestBuilder)
             {
                 
             }
@@ -27,7 +29,7 @@ namespace ExampleApp
             FindDirectionHttpRequest* FindDirectionHttpRequestFactory::CreateFindDirectionQuery(const FindDirectionQuery& query,
                                                                Eegeo::Helpers::ICallback0& completionCallback)
             {
-                return Eegeo_NEW(FindDirectionHttpRequest)(m_apiUrl,completionCallback,m_webRequestFactory,m_urlEncoder,query,m_eegeoApiKey);
+                return Eegeo_NEW(FindDirectionHttpRequest)(m_apiUrl,completionCallback,m_webRequestFactory,m_requestBuilder,m_urlEncoder,query,m_eegeoApiKey);
             }
             
         }

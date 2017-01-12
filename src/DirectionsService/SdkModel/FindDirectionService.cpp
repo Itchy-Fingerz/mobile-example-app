@@ -56,6 +56,9 @@ namespace ExampleApp
             
             void FindDirectionService::PerformLocationQuerySearch(const Direction::SdkModel::FindDirectionQuery& findDirectionQuery)
             {
+                // destroy any existing routes
+                m_routeService.DestroyAllRoutes();
+
                 if(m_pCurrentRequest != NULL)
                 {
                     m_pCurrentRequest->Cancel();
@@ -76,7 +79,7 @@ namespace ExampleApp
                     DirectionResultModel result =  m_findDirectionResultParser.ParseGeoNamesQueryResults(response);
                      m_messageBus.Publish(DirectionResultSection::DirectionQueryResponseReceivedMessage(result));
                     
-                    m_routeThicknessPolicy.SetScaleFactor(9.f);
+                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
                     m_routeThicknessPolicy.SetAltitude(100.f);
 
                     Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
