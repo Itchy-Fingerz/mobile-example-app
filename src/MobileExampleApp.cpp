@@ -449,7 +449,7 @@ namespace ExampleApp
                                                                                             m_pToursModule->GetCameraController(),
                                                                                             m_userIdleService,
                                                                                             m_applicationConfiguration.IsAttractModeEnabled(),
-                                                                                            m_applicationConfiguration.GetAttractModeTimeoutMs(),
+                                                                                            m_applicationConfiguration.AttractModeTimeoutMs(),
                                                                                             m_pMyPinCreationModule->GetMyPinCreationModel(),
                                                                                             m_pVisualMapModule->GetVisualMapService());
         InitialiseAppState(nativeUIFactories);
@@ -795,11 +795,6 @@ namespace ExampleApp
                                                                                                   m_messageBus,
                                                                                                   m_menuReaction);
 
-        Eegeo::Space::LatLong latlong(0.0, 0.0);
-        Eegeo::Resources::Interiors::InteriorId interiorId;
-        int floorIndex = 0;
-        double headingDegrees;
-        const bool useFixedIndoorLocation = m_applicationConfiguration.FixedIndoorLocation(latlong, interiorId, floorIndex, headingDegrees);
         m_pCompassModule = Eegeo_NEW(ExampleApp::Compass::SdkModel::CompassModule)(*m_pNavigationService,
                                                                                    interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                    world.GetLocationService(),
@@ -812,10 +807,7 @@ namespace ExampleApp
                                                                                    m_pWorld->GetNativeUIFactories().AlertBoxFactory(),
                                                                                    m_pInteriorsExplorerModule->GetInteriorsCameraController(),
                                                                                    *m_pCameraTransitionService,
-                                                                                   latlong,
-                                                                                   useFixedIndoorLocation ? interiorId : Eegeo::Resources::Interiors::InteriorId::NullId(),
-                                                                                   floorIndex,
-                                                                                   Eegeo::Math::Deg2Rad(headingDegrees));
+                                                                                   m_applicationConfiguration.IsFixedIndoorLocationEnabled() ? &m_applicationConfiguration.FixedIndoorLocation() : nullptr);
 
         m_pInteriorCameraWrapper = Eegeo_NEW(AppCamera::SdkModel::AppInteriorCameraWrapper)(m_pInteriorsExplorerModule->GetInteriorsGpsCameraController(),
                                                                                             m_pInteriorsExplorerModule->GetInteriorsCameraController());
@@ -870,10 +862,13 @@ namespace ExampleApp
                                                                               m_userIdleService,
                                                                               mapModule.GetResourceCeilingProvider(),
                                                                               m_applicationConfiguration.IsAttractModeEnabled(),
-                                                                              m_applicationConfiguration.GetAttractModeTimeoutMs(),
-                                                                              m_applicationConfiguration.GetAttractModeTargetSplinePoints(),
-                                                                              m_applicationConfiguration.GetAttractModePositionSplinePoints(),
-                                                                              m_screenProperties);
+                                                                              m_applicationConfiguration.AttractModeTargetSplinePoints(),
+                                                                              m_applicationConfiguration.AttractModePositionSplinePoints(),
+                                                                              m_applicationConfiguration.AttractModePlaybackSpeed(),
+                                                                              m_screenProperties,
+                                                                              m_messageBus,
+                                                                              m_pFlattenButtonModule->GetFlattenButtonModel(),
+                                                                              *m_pNavigationService);
 
         m_pAppModeModel->InitialiseStateMachine(appModeStatesFactory.CreateStateMachineStates(*m_pGlobalAppModeTransitionRules), AppModes::SdkModel::WorldMode, m_pGlobalAppModeTransitionRules);
     }
