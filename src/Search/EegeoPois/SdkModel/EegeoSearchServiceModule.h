@@ -33,7 +33,7 @@ namespace ExampleApp
                     IEegeoParser* m_pEegeoParser;
                     Search::SdkModel::ISearchService* m_pSearchService;
 
-                    SearchResultPoi::SdkModel::ITagIconMapper *m_pTagIconMapper;
+                    TagSearch::SdkModel::ITagIconMapper *m_pTagIconMapper;
                     EegeoReadableTagMapper *m_pReadableTagMapper;
                 public:
                     EegeoSearchServiceModule(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
@@ -41,7 +41,7 @@ namespace ExampleApp
                                              Net::SdkModel::INetworkCapabilities& networkCapabilities,
                                              const Search::SdkModel::SearchTags& searchTags,
                                              const std::string& serviceUrl,
-                                             const std::string& apiKey,
+                                             const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                              const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel);
                     
                     ~EegeoSearchServiceModule();

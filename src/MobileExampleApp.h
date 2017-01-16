@@ -83,11 +83,14 @@
 #include "VisualMap.h"
 #include "Surveys.h"
 #include "IMenuReactionModel.h"
-#include "InteriorsNavigation.h"
 #include "IMenuIgnoredReactionModel.h"
 #include "DoubleTapIndoorInteraction.h"		
 #include "IRayCaster.h"
 #include "InteriorsEntityIdHighlightVisibilityController.h"
+#include "DeepLink.h"
+#include "YelpCategoryMapperUpdater.h"
+#include "IUserIdleService.h"
+#include "GlobalAppModeTransitionRules.h"
 
 namespace ExampleApp
 {
@@ -101,7 +104,6 @@ namespace ExampleApp
         Eegeo::ITouchController* m_pCurrentTouchController;
         Eegeo::EegeoWorld* m_pWorld;
         Eegeo::Location::NavigationService* m_pNavigationService;
-        InteriorsNavigation::SdkModel::IInteriorsNavigationService* m_pInteriorsNavigationService;
         PlatformAbstractionsFacade m_platformAbstractions;
         Eegeo::Rendering::LoadingScreen* m_pLoadingScreen;
         Eegeo::Rendering::ScreenProperties m_screenProperties;
@@ -160,9 +162,12 @@ namespace ExampleApp
         Social::TwitterFeed::ITwitterFeedModule* m_pTwitterFeedModule;
         VisualMap::SdkModel::IVisualMapModule* m_pVisualMapModule;
         Surveys::SdkModel::ISurveyModule* m_pSurveyModule;
+        DeepLink::SdkModel::DeepLinkModule* m_pDeepLinkModule;
         InteriorsExplorer::SdkModel::Highlights::InteriorsHighlightVisibilityController* m_pInteriorsHighlightVisibilityController;
         InteriorsExplorer::SdkModel::Highlights::IHighlightColorMapper* m_pHighlightColorMapper;
         InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController* m_pInteriorsEntityIdHighlightVisibilityController;
+        
+        Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
         Net::SdkModel::ConnectivityChangedObserver* m_pConnectivityChangedObserver;
@@ -180,6 +185,11 @@ namespace ExampleApp
         Menu::View::IMenuIgnoredReactionModel* m_pReactorIgnoredReactionModel;
         
         const bool m_interiorsEnabled;
+        const bool m_usingLegacyInteriorLabels;
+        const bool m_useIndoorEntryMarkerLabels;
+
+        Eegeo::Input::IUserIdleService& m_userIdleService;
+        AppModes::GlobalAppModeTransitionRules* m_pGlobalAppModeTransitionRules;
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
                                            const bool interiorsAffectedByFlattening);
@@ -219,7 +229,7 @@ namespace ExampleApp
                          Eegeo::Rendering::ScreenProperties& screenProperties,
                          Eegeo::Location::ILocationService& locationService,
                          Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                         Eegeo::Config::PlatformConfig platformConfig,
+                         const Eegeo::Config::PlatformConfig& platformConfig,
                          Eegeo::Helpers::Jpeg::IJpegLoader& jpegLoader,
                          ExampleApp::InitialExperience::SdkModel::IInitialExperienceModule& initialExperienceModule,
                          ExampleApp::PersistentSettings::IPersistentSettingsModel& persistentSettings,
@@ -228,7 +238,8 @@ namespace ExampleApp
                          ExampleApp::Net::SdkModel::INetworkCapabilities& networkCapabilities,
                          ExampleApp::Metrics::IMetricsService& metricsService,                         
                          Eegeo::IEegeoErrorHandler& errorHandler,
-                         Menu::View::IMenuReactionModel& menuReaction);
+                         Menu::View::IMenuReactionModel& menuReaction,
+                         Eegeo::Input::IUserIdleService& userIdleService);
 
         ~MobileExampleApp();
 
@@ -486,5 +497,6 @@ namespace ExampleApp
         void Event_TiltStart(const AppInterface::TiltData& data);
         void Event_TiltEnd(const AppInterface::TiltData& data);
         void Event_Tilt(const AppInterface::TiltData& data);
+        void Event_OpenUrl(const AppInterface::UrlData& data);
     };
 }

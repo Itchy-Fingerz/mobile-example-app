@@ -5,7 +5,7 @@
 #include "TimeHelpers.h"
 #include "InteriorId.h"
 #include "EegeoReadableTagMapper.h"
-
+#include "ITagIconMapper.h"
 #include "document.h"
 #include "writer.h"
 #include "stringbuffer.h"
@@ -60,7 +60,7 @@ namespace ExampleApp
                      }
 
                     Search::SdkModel::SearchResultModel ParseSearchResultFromJsonObject(const rapidjson::Value& json,
-                                                                                        const SearchResultPoi::SdkModel::ITagIconMapper& tagIconMapper,
+                                                                                        const TagSearch::SdkModel::ITagIconMapper& tagIconMapper,
                                                                                         const EegeoReadableTagMapper& tagNameMapper)
                     {
                         std::string title = "";
@@ -177,7 +177,7 @@ namespace ExampleApp
                 }
                 
                 EegeoJsonParser::EegeoJsonParser(
-                        const SearchResultPoi::SdkModel::ITagIconMapper &tagIconMapper,
+                        const TagSearch::SdkModel::ITagIconMapper &tagIconMapper,
                         const EegeoReadableTagMapper& tagReadableNameMapper)
                 : m_tagIconMapper(tagIconMapper)
                 , m_tagReadableNameMapper(tagReadableNameMapper)
@@ -212,12 +212,22 @@ namespace ExampleApp
                     std::string imageUrl = "";
                     std::string description = "";
                     std::string address = "";
+                    std::string facebookUrl = "";
+                    std::string twitterUrl = "";
+                    std::string email = "";
+                    std::string customViewUrl = "";
+                    int customViewHeight = -1;
                     
                     const std::string phoneName = "phone";
                     const std::string webName = "web";
                     const std::string addressName = "address";
                     const std::string descriptionName = "description";
                     const std::string imageName = "image_url";
+                    const std::string facebookName = "facebook";
+                    const std::string twitterName = "twitter";
+                    const std::string emailName = "email";
+                    const std::string customViewUrlName = "custom_view";
+                    const std::string customViewHeightName = "custom_view_height";
                     
                     if (!json.Parse<0>(searchResultModel.GetJsonData().c_str()).HasParseError())
                     {
@@ -249,13 +259,43 @@ namespace ExampleApp
                             Eegeo_ASSERT(lastSlashIndex != std::string::npos, "The image_url is not well formed: %s.\n",
                                          imageUrl.c_str());
                         }
+                        
+                        if(json.HasMember(facebookName.c_str()) && json[facebookName.c_str()].IsString())
+                        {
+                            facebookUrl = json[facebookName.c_str()].GetString();
+                        }
+                        
+                        if(json.HasMember(twitterName.c_str()) && json[twitterName.c_str()].IsString())
+                        {
+                            twitterUrl = json[twitterName.c_str()].GetString();
+                        }
+                        
+                        if(json.HasMember(emailName.c_str()) && json[emailName.c_str()].IsString())
+                        {
+                            email = json[emailName.c_str()].GetString();
+                        }
+                        
+                        if(json.HasMember(customViewUrlName.c_str()) && json[customViewUrlName.c_str()].IsString())
+                        {
+                            customViewUrl = json[customViewUrlName.c_str()].GetString();
+                        }
+                        
+                        if(json.HasMember(customViewHeightName.c_str()) && json[customViewHeightName.c_str()].IsInt())
+                        {
+                            customViewHeight = json[customViewHeightName.c_str()].GetInt();
+                        }
                     }
                     
                     return EegeoSearchResultModel(phone,
                                                   webUrl,
                                                   address,
                                                   description,
-                                                  imageUrl);
+                                                  imageUrl,
+                                                  facebookUrl,
+                                                  twitterUrl,
+                                                  email,
+                                                  customViewUrl,
+                                                  customViewHeight);
                 }
                 
                 bool TryParseImageDetails(const Search::SdkModel::SearchResultModel& searchResultModel, std::string& out_imageUrl)

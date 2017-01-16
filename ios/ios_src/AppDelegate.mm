@@ -52,6 +52,11 @@ namespace
     // Flurry metrics service must be started during didFinishLaunchingWithOptions (events not logged on >= iOS 8.0 if started later)
     _metricsService->BeginSession(_applicationConfiguration->FlurryAppKey(), appConfig.CombinedVersionString());
     
+    if(launchOptions[@"UIApplicationLaunchOptionsURLKey"])
+    {
+        NSURL *url = launchOptions[@"UIApplicationLaunchOptionsURLKey"];
+        _launchUrl = url;
+    }
 	return YES;
 }
 
@@ -96,7 +101,10 @@ namespace
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    return false;
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"handleOpenUrl"
+                                                        object: url
+                                                      userInfo: nil];
+    return YES;
 }
 
 

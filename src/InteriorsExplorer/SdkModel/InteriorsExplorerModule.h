@@ -18,6 +18,10 @@
 #include "InteriorsUINotificationService.h"
 #include "IInteriorsEntitiesPinsController.h"
 #include "PersistentSettings.h"
+#include "NavigationService.h"
+#include "InteriorMetaDataRepository.h"
+#include "TagSearchRepository.h"
+#include "IAlertBoxFactory.h"
 
 namespace ExampleApp
 {
@@ -38,14 +42,20 @@ namespace ExampleApp
                                         const Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService,
                                         VisualMap::SdkModel::IVisualMapService& visualMapService,
                                         const Eegeo::Resources::Interiors::InteriorsCameraControllerFactory& interiorCameraControllerFactory,
+                                        const Eegeo::Resources::Interiors::InteriorsGpsCameraControllerFactory& interiorGpsCameraControllerFactory,
                                         const Eegeo::Rendering::ScreenProperties& screenProperties,
                                         Eegeo::Helpers::IIdentityProvider& identityProvider,
                                         ExampleAppMessaging::TMessageBus& messageBus,
                                         Metrics::IMetricsService& metricsService,
                                         const InitialExperience::SdkModel::IInitialExperienceModel& initialExperienceModel,
                                         const bool interiorsAffectedByFlattening,
+                                        const bool useIndoorEntryMarkerLabels,
                                         InteriorsEntitiesPins::SdkModel::IInteriorsEntitiesPinsController& interiorsEntitiesPinsController,
-                                        PersistentSettings::IPersistentSettingsModel& persistentSettings);
+                                        PersistentSettings::IPersistentSettingsModel& persistentSettings,
+                                        Eegeo::Location::NavigationService& navigationService,
+                                        Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository& interiorMetaDataRepo,
+                                        TagSearch::View::ITagSearchRepository& tagSearchRepository,
+                                        Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory);
 
                 ~InteriorsExplorerModule();
                 
@@ -54,6 +64,8 @@ namespace ExampleApp
                 ScreenControl::View::IScreenControlViewModel& GetScreenControlViewModel() const;
                 
                 Eegeo::Resources::Interiors::InteriorsCameraController& GetInteriorsCameraController() const;
+                
+                Eegeo::Resources::Interiors::InteriorsGpsCameraController& GetInteriorsGpsCameraController() const;
                 
                 InteriorVisibilityUpdater& GetInteriorVisibilityUpdater() const;
                 
@@ -73,11 +85,14 @@ namespace ExampleApp
                 InteriorVisibilityUpdater* m_pVisibilityUpdater;
                 InteriorExplorerUserInteractionModel* m_pUserInteractionModel;
                 InteriorsExplorerFloorDraggedObserver* m_pFloorDraggedObserver;
+                InteriorPermissionObserver* m_pInteriorPermissionObserver;
                 
                 InteriorWorldPinController* m_pWorldPinController;
+                InteriorSelectionController* m_pInteriorSelectionController;
                 Eegeo::Resources::Interiors::InteriorsCameraController* m_pInteriorsCameraController;
+                Eegeo::Resources::Interiors::InteriorsGpsCameraController* m_pInteriorsGpsCameraController;
                 Eegeo::Camera::GlobeCamera::GlobeCameraTouchController* m_pGlobeCameraTouchController;
-                Eegeo::Camera::GlobeCamera::GlobeCameraController* m_pGlobeCameraController;
+                Eegeo::Camera::GlobeCamera::GpsGlobeCameraController* m_pGpsGlobeCameraController;
 
                 InteriorsUINotificationService* m_pUINotificationService;
             };

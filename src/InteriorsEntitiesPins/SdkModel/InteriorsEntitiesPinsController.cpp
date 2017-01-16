@@ -35,13 +35,15 @@ namespace ExampleApp
                                                                              const ExampleApp::WorldPins::SdkModel::IWorldPinIconMapping& pinIconMapper,
                                                                              Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                                                              const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel,
-                                                                             Eegeo::Resources::Interiors::Entities::IInteriorsLabelController& interiorsLabelsController)
+                                                                             Eegeo::Resources::Interiors::Entities::IInteriorsLabelController& legacyInteriorsLabelsController,
+                                                                             const bool useLegacyInteriorLabels)
             : m_interiorsEntitiesRepository(interiorsEntitiesRepostiory)
             , m_pinController(pinController)
             , m_pinRepository(pinRepository)
             , m_interiorInteractionModel(interiorInteractionModel)
             , m_interiorTransitionModel(interiorTransitionModel)
-            , m_interiorsLabelsController(interiorsLabelsController)
+            , m_legacyInteriorsLabelsController(legacyInteriorsLabelsController)
+            , m_useLegacyInteriorLabels(useLegacyInteriorLabels)
             , m_entitiesAddedCallback(this, &InteriorsEntitiesPinsController::OnEntitiesAdded)
             , m_entitiesRemovedCallback(this, &InteriorsEntitiesPinsController::OnEntitiesRemoved)
             , m_interiorModelChangedCallback(this, &InteriorsEntitiesPinsController::HandleInteriorModelChanged)
@@ -62,10 +64,13 @@ namespace ExampleApp
                 m_labelNameToIconIndex["escalator"] = pinIconMapper.IconIndexForKey(IconKeyEscalator);
                 m_labelNameToIconIndex["stairs"] = pinIconMapper.IconIndexForKey(IconKeyStairs);
                 
-                for (std::map<std::string, int>::const_iterator it = m_labelNameToIconIndex.begin(); it != m_labelNameToIconIndex.end(); ++it)
+                if (m_useLegacyInteriorLabels)
                 {
-                    const std::string& labelName = it->first;
-                    m_interiorsLabelsController.AddLabelToOmit(labelName);
+                    for (std::map<std::string, int>::const_iterator it = m_labelNameToIconIndex.begin(); it != m_labelNameToIconIndex.end(); ++it)
+                    {
+                        const std::string& labelName = it->first;
+                        m_legacyInteriorsLabelsController.AddLabelToOmit(labelName);
+                    }
                 }
             }
             
@@ -77,10 +82,13 @@ namespace ExampleApp
                 m_interiorInteractionModel.UnregisterModelChangedCallback(m_interiorModelChangedCallback);
                 m_interiorInteractionModel.UnregisterInteractionStateChangedCallback(m_interiorInteractionStateChangedCallback);
                 
-                for (std::map<std::string, int>::const_iterator it = m_labelNameToIconIndex.begin(); it != m_labelNameToIconIndex.end(); ++it)
+                if (m_useLegacyInteriorLabels)
                 {
-                    const std::string& labelName = it->first;
-                    m_interiorsLabelsController.RemoveLabelToOmit(labelName);
+                    for (std::map<std::string, int>::const_iterator it = m_labelNameToIconIndex.begin(); it != m_labelNameToIconIndex.end(); ++it)
+                    {
+                        const std::string& labelName = it->first;
+                        m_legacyInteriorsLabelsController.RemoveLabelToOmit(labelName);
+                    }
                 }
             }
             
@@ -96,6 +104,7 @@ namespace ExampleApp
             
             void InteriorsEntitiesPinsController::Event_TouchTap(const AppInterface::TapData& data)
             {
+                // TODO: Support tapping labels in non-legacy mode.
                 // TODO: Leaving this here in case we want to consume touch and be able to tap pins.
                 std::vector<Eegeo::Pins::Pin*> intersectingPins;
                 m_pinController.TryGetPinsIntersectingScreenPoint(data.point, intersectingPins);
@@ -236,6 +245,11 @@ namespace ExampleApp
             
             bool InteriorsEntitiesPinsController::CanProcessEntities(const std::string& interiorName, const Eegeo::Resources::Interiors::Entities::TEntityModelVector& entities) const
             {
+                if(!m_useLegacyInteriorLabels)
+                {
+                    return false;
+                }
+                
                 if (!m_interiorInteractionModel.HasInteriorModel())
                 {
                     return false;
@@ -296,7 +310,10 @@ namespace ExampleApp
                     const Eegeo::Resources::Interiors::InteriorsModel& interiorModel = *m_interiorInteractionModel.GetInteriorModel();
                     
                     const Eegeo::Resources::Interiors::Entities::TEntityModelVector& entities = m_interiorsEntitiesRepository.GetAllStreamedEntitiesForInterior(interiorModel.GetName());
-                    AddPinsForEntities(entities);
+                    if(CanProcessEntities(interiorModel.GetName(), entities))
+                    {
+                        AddPinsForEntities(entities);
+                    }
                 }
                 else
                 {

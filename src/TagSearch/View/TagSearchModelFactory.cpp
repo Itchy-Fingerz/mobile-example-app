@@ -4,6 +4,9 @@
 #include "document.h"
 #include "Types.h"
 #include "FileHelpers.h"
+#include "YelpCategoryMapperUpdater.h"
+#include "YelpCategoryModel.h"
+
 
 namespace ExampleApp
 {
@@ -13,7 +16,7 @@ namespace ExampleApp
         {
             namespace
             {
-                void ParseJson(const std::string& json, std::vector<ExampleApp::TagSearch::View::TagSearchModel>& out_models)
+                void ParseJson(const std::string& json, std::vector<ExampleApp::TagSearch::View::TagSearchModel>& out_models, const std::string& jsonAttributeName, Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater)
                 {
                     rapidjson::Document document;
 
@@ -23,14 +26,14 @@ namespace ExampleApp
                         return;
                     }
 
-                    const char* itemKey = "items";
+                    const char* itemKey = jsonAttributeName.c_str();
                     Eegeo_ASSERT(document.HasMember(itemKey));
 
                     const auto& tagSearchModelsMember = document[itemKey];
                     Eegeo_ASSERT(tagSearchModelsMember.IsArray());
 
                     out_models = std::vector<ExampleApp::TagSearch::View::TagSearchModel>();
-
+                    yelpCategoryMapperUpdater.ResetMapping();
                     for (rapidjson::Value::ConstValueIterator it = tagSearchModelsMember.Begin();
                          it != tagSearchModelsMember.End();
                          ++it)
@@ -53,6 +56,24 @@ namespace ExampleApp
                         Eegeo_ASSERT(item.HasMember(iconKey));
                         Eegeo_ASSERT(item[iconKey].IsString());
                         const std::string& icon = item[iconKey].GetString();
+                        
+                        const char* skipYelpSearchKey = "skip_yelp_search";
+                        const char* yelpMappingKey = "yelp_mapping";
+                        if(item.HasMember(skipYelpSearchKey) && item[skipYelpSearchKey].IsBool())
+                        {
+                            bool skipYelpSearch = item[skipYelpSearchKey].GetBool();
+                            if(skipYelpSearch)
+                            {
+                                Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { "unused_string", false };
+                                yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
+                            }
+                        }
+                        else if(item.HasMember(yelpMappingKey) && item[yelpMappingKey].IsString())
+                        {
+                            const std::string& yelpMapping = item[yelpMappingKey].GetString();
+                            Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { yelpMapping, true };
+                            yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
+                        }
 
                         const bool visibleInSearchMenu = true;
                         const bool interior = true;
@@ -64,13 +85,10 @@ namespace ExampleApp
                 }
             }
 
-            std::vector<TagSearch::View::TagSearchModel> CreateTagSearchModelsFromFile(
-                    Eegeo::Helpers::IFileIO& fileIO, const std::string& fileName)
+            std::vector<TagSearch::View::TagSearchModel> CreateTagSearchModelsFromFile(const std::string& json, const std::string& jsonAttributeName, Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater)
             {
-                const std::string& json = Helpers::FileHelpers::GetFileContentsAsString(fileIO, fileName);
-
                 std::vector<ExampleApp::TagSearch::View::TagSearchModel> result;
-                ParseJson(json, result);
+                ParseJson(json, result, jsonAttributeName, yelpCategoryMapperUpdater);
                 return result;
             }
         }

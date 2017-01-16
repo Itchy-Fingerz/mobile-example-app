@@ -2,8 +2,12 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Navigation;
 
 namespace ExampleAppWPF
 {
@@ -14,18 +18,90 @@ namespace ExampleAppWPF
         
         private string m_phoneText;
         private string m_addressText;
+        private string m_webAddressText;
         private string m_titleText;
-        private string m_poiViewRatingCountText;
-        private string m_reviewText;
+        private string m_subTitleText;
+        private string m_descriptionText;
         private string m_humanReadableTagsText;
+        private string m_facebookText;
+        private string m_twitterText;
+        private string m_emailText;
         private ImageSource m_tagIcon;
-        private ImageSource m_ratingsImage;
-        private Visibility m_ratingCountVisibility;
-        private string m_url;
         private FrameworkElement m_reviewsIcon;
+        private Grid m_phoneDetailsContainer;
+        private Grid m_addressDetailsContainer;
+        private Grid m_webDetailsContainer;
+        private Grid m_descriptionContainer;
+        private Grid m_poiImageContainer;
+        private Image m_facebookIcon;
+        private Image m_twitterIcon;
+        private Image m_emailIcon;
+        private Image m_linkedInIcon;
+        private Image m_slackIcon;
+        private Image m_headerFade;
+        private Image m_footerFade;
+        private WrapPanel m_socialLinkIconsContainer;
+        private Border m_detailsDivider;
+        private Border m_tagsDivider;
+        private Border m_poiImageDivider;
+        private ScrollViewer m_contentContainer;
+        private Grid m_previewImageSpinner;
+        private WebBrowser m_webBrowser;
+        private bool m_webBrowserSelected;
+        private double m_contentContainerLastScrollY;
+        private double m_webBrowserOriginalHeight;
+        private TextBlock m_subTitle;
+        private Grid m_titlesGrid;
+        private StackPanel m_qrCodeContainer;
 
-        private ControlClickHandler m_yelpReviewImageClickHandler;
+        private Storyboard m_scrollFadeInAnim;
+        private Storyboard m_scrollFadeOutAnim;
         
+        private RepeatButton m_scrollDownButton;
+        private RepeatButton m_scrollUpButton;
+
+        private double m_imageContainerHeight;
+        private double m_defaultWebViewHeight;
+        private double m_maxWebViewHeight;
+
+        private Visibility m_detailsDividerVisibility;
+
+        public string PhoneText
+        {
+            get
+            {
+                return m_phoneText;
+            }
+            set
+            {
+                m_phoneText = value;
+                OnPropertyChanged("PhoneText");
+            }
+        }
+        public string AddressText
+        {
+            get
+            {
+                return m_addressText;
+            }
+            set
+            {
+                m_addressText = value;
+                OnPropertyChanged("AddressText");
+            }
+        }
+        public string WebAddressText
+        {
+            get
+            {
+                return m_webAddressText;
+            }
+            set
+            {
+                m_webAddressText = value;
+                OnPropertyChanged("WebAddressText");
+            }
+        }
         public string TitleText
         {
             get
@@ -38,16 +114,28 @@ namespace ExampleAppWPF
                 OnPropertyChanged("TitleText");
             }
         }
-        public string ReviewText
+        public string SubTitleText
         {
             get
             {
-                return m_reviewText;
+                return m_subTitleText;
             }
             set
             {
-                m_reviewText = value;
-                OnPropertyChanged("ReviewText");
+                m_subTitleText = value;
+                OnPropertyChanged("SubTitleText");
+            }
+        }
+        public string DescriptionText
+        {
+            get
+            {
+                return m_descriptionText;
+            }
+            set
+            {
+                m_descriptionText = value;
+                OnPropertyChanged("DescriptionText");
             }
         }
         public string HumanReadableTagsText
@@ -62,7 +150,7 @@ namespace ExampleAppWPF
                 OnPropertyChanged("HumanReadableTagsText");
             }
         }
-        
+
         public ImageSource TagIcon
         {
             get
@@ -75,7 +163,7 @@ namespace ExampleAppWPF
                 OnPropertyChanged("TagIcon");
             }
         }
-        
+
         static eeGeoSearchResultsPoiView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(eeGeoSearchResultsPoiView), new FrameworkPropertyMetadata(typeof(eeGeoSearchResultsPoiView)));
@@ -98,23 +186,409 @@ namespace ExampleAppWPF
 
             m_reviewsIcon = (FrameworkElement)GetTemplateChild("ReviewsIcon");
 
+            m_phoneDetailsContainer = (Grid)GetTemplateChild("PhoneDetailsContainer");
+
+            m_addressDetailsContainer = (Grid)GetTemplateChild("AddressDetailsContainer");
+
+            m_webDetailsContainer = (Grid)GetTemplateChild("WebDetailsContainer");
+            m_webDetailsContainer.MouseDown += WebLinkClicked;
+
+            m_facebookIcon = (Image)GetTemplateChild("SocialIcon_FB");
+            m_facebookIcon.MouseDown += FacebookIconClick;
+
+            m_twitterIcon = (Image)GetTemplateChild("SocialIcon_Twitter");
+            m_twitterIcon.MouseDown += TwitterIconClick;
+
+            m_emailIcon = (Image)GetTemplateChild("SocialIcon_Mail");
+            m_emailIcon.MouseDown += EmailIconClick;
+
+            m_linkedInIcon = (Image)GetTemplateChild("SocialIcon_LinkedIn");
+
+            m_slackIcon = (Image)GetTemplateChild("SocialIcon_Slack");
+
+            m_socialLinkIconsContainer = (WrapPanel)GetTemplateChild("SocialLinkIcons");
+
+            m_detailsDivider = (Border)GetTemplateChild("DetailsDivider");
+
+            m_tagsDivider = (Border)GetTemplateChild("TagsDivider");
+
+            m_descriptionContainer = (Grid)GetTemplateChild("DescriptionContainer");
+
+            m_poiImageContainer = (Grid)GetTemplateChild("PoiImageContainer");
+
+            m_poiImageDivider = (Border)GetTemplateChild("PoiImageDivider");
+
+            m_contentContainer = (ScrollViewer)GetTemplateChild("ContentContainer");
+
+            m_contentContainer.ScrollChanged += OnSearchResultsScrolled;
+
+            m_headerFade = (Image)GetTemplateChild("HeaderFade");
+
+            m_footerFade = (Image)GetTemplateChild("FooterFade");
+
+            m_previewImageSpinner = (Grid)GetTemplateChild("PreviewImageSpinner");
+
+            m_webBrowser = (WebBrowser)GetTemplateChild("WebBrowser");
+            m_webBrowser.LoadCompleted += (OnWebPageLoaded);
+
+            m_subTitle = (TextBlock)GetTemplateChild("SubTitle");
+
+            m_titlesGrid = (Grid)GetTemplateChild("TitlesGrid");
+
+            m_qrCodeContainer = (StackPanel)GetTemplateChild("QRCodeContainer");
+            
+            m_scrollUpButton = (RepeatButton)GetTemplateChild("EegeoPOIViewScrollUpButton");
+            m_scrollUpButton.Click += HandleScrollUpButtonClicked;
+
+            m_scrollDownButton = (RepeatButton)GetTemplateChild("EegeoPOIViewScrollDownButton");
+            m_scrollDownButton.Click += HandleScrollDownButtonClicked;
+
+            m_scrollFadeInAnim = ((Storyboard)Template.Resources["ScrollFadeIn"]).Clone();
+            m_scrollFadeOutAnim = ((Storyboard)Template.Resources["ScrollFadeOut"]).Clone();
+
+            m_imageContainerHeight = (double)Application.Current.Resources["EegeoPOIViewImageContainerHeight"];
+
+            m_defaultWebViewHeight = (double)Application.Current.Resources["EegeoPOIViewDetailsWebViewDefaultHeight"];
+
+            m_maxWebViewHeight = (double)Application.Current.Resources["EegeoPOIViewDetailsWebViewMaxHeight"];
+
+            m_detailsDividerVisibility = (Visibility)Application.Current.Resources["EegeoPOIViewDetailsWebLinksVisibility"];
+
             var mainGrid = (Application.Current.MainWindow as MainWindow).MainGrid;
             var screenWidth = mainGrid.ActualWidth;
+            m_webBrowserSelected = false;
+            m_contentContainerLastScrollY = m_poiImageContainer.Height;
+            m_webBrowserOriginalHeight = m_poiImageContainer.Height;
 
-            m_yelpReviewImageClickHandler = new ControlClickHandler(yelpButton, HandleWebLinkButtonClicked);
-            
             base.OnApplyTemplate();
         }
 
+        private void OnWebPageLoaded(object sender, NavigationEventArgs e)
+        {
+            string script = "document.body.style.overflow ='hidden'";
+            WebBrowser wb = (WebBrowser)sender;
+            wb.InvokeScript("execScript", new Object[] { script, "JavaScript" });
+        }
+
+        // Validating urls here although the url's should be validated in the poi tool before reaching this.
+        private bool TryCreateWebLink(string urlText, out Uri uri)
+        {
+           return Uri.TryCreate(urlText, UriKind.Absolute, out uri)
+            && (uri.Scheme == Uri.UriSchemeHttp || uri.Scheme == Uri.UriSchemeHttps);
+        }
+
+        private void FacebookIconClick(object sender, MouseButtonEventArgs e)
+        {
+            Uri uri;
+            if (TryCreateWebLink(m_facebookText, out uri))
+            {
+                System.Diagnostics.Process.Start(uri.ToString());
+            }
+        }
+
+        private void TwitterIconClick(object sender, MouseButtonEventArgs e)
+        {
+            Uri uri;
+            if (TryCreateWebLink(m_twitterText, out uri))
+            {
+                System.Diagnostics.Process.Start(uri.ToString());
+            }
+        }
+
+        private void EmailIconClick(object sender, MouseButtonEventArgs e)
+        {
+            System.Diagnostics.Process.Start("mailto:" + m_emailText + "?subject=SubjectExample&body=BodyExample ");
+        }
+
+        private void WebLinkClicked(object sender, MouseButtonEventArgs e)
+        {
+            Uri uri;
+            if (TryCreateWebLink(m_webAddressText, out uri))
+            {
+                System.Diagnostics.Process.Start(uri.ToString());
+            }
+        }
+
+        private void OnSearchResultsScrolled(object sender, RoutedEventArgs e)
+        {
+            double newBrowserHeight = m_webBrowserOriginalHeight - m_contentContainer.VerticalOffset;
+
+            if (newBrowserHeight < 0)
+            {
+                newBrowserHeight = 0;
+            }
+
+            if (newBrowserHeight > m_maxWebViewHeight)
+            {
+                newBrowserHeight = m_maxWebViewHeight;
+            }
+
+            m_webBrowser.Height = newBrowserHeight;
+
+            var htmlDoc = m_webBrowser.Document as mshtml.HTMLDocument;
+            double webBrowserScrollBy = m_contentContainerLastScrollY - newBrowserHeight;
+            if (htmlDoc != null)
+            {
+                htmlDoc.parentWindow.scrollBy(0, (int)webBrowserScrollBy);
+            }
+
+            m_contentContainerLastScrollY = newBrowserHeight;
+
+            bool canScroll = m_contentContainer.ExtentHeight > m_contentContainer.ActualHeight;
+            if (m_contentContainer.VerticalOffset == m_contentContainer.ScrollableHeight)
+            {
+                if (canScroll && m_headerFade.Opacity <= 0)
+                {
+                    m_scrollFadeInAnim.Begin(m_headerFade);
+                    m_scrollFadeInAnim.Begin(m_scrollUpButton);
+                }
+
+                if (m_footerFade.Opacity >= 1)
+                {
+                    m_scrollFadeOutAnim.Begin(m_footerFade);
+                    m_scrollFadeOutAnim.Begin(m_scrollDownButton);
+                }
+            }
+            else if (m_contentContainer.VerticalOffset == 0)
+            {
+                if (m_headerFade.Opacity >= 1)
+                {
+                    m_scrollFadeOutAnim.Begin(m_headerFade);
+                    m_scrollFadeOutAnim.Begin(m_scrollUpButton);
+                }
+
+                if (canScroll && m_footerFade.Opacity <= 0)
+                {
+                    m_scrollFadeInAnim.Begin(m_footerFade);
+                    m_scrollFadeInAnim.Begin(m_scrollDownButton);
+                }
+            }
+            else if (canScroll)
+            {
+                if (m_headerFade.Opacity <= 0)
+                {
+                    m_scrollFadeInAnim.Begin(m_headerFade);
+                    m_scrollFadeInAnim.Begin(m_scrollUpButton);
+                }
+
+                if (m_footerFade.Opacity <= 0)
+                {
+                    m_scrollFadeInAnim.Begin(m_footerFade);
+                    m_scrollFadeInAnim.Begin(m_scrollDownButton);
+                }
+            }
+        }
+
+        private void HandleNoWebView(EegeoResultModel eegeoResultModel)
+        {
+            m_webBrowser.Visibility = Visibility.Collapsed;
+            m_webBrowserSelected = false;
+            m_poiImageContainer.Visibility = Visibility.Collapsed;
+            m_webBrowserSelected = false;
+            m_poiImageContainer.Visibility = Visibility.Collapsed;
+
+            if (eegeoResultModel.ImageUrl != null)
+            {
+                m_poiImageContainer.Visibility = Visibility.Visible;
+                m_poiImage.Visibility = Visibility.Visible;
+                m_poiImageDivider.Visibility = Visibility.Collapsed;
+            }
+        }
         protected override void DisplayCustomPoiInfo(Object modelObject)
         {
+            m_headerFade.Opacity = 0;
+            m_scrollUpButton.Opacity = 0;
+            m_footerFade.Opacity = 0;
+            m_scrollDownButton.Opacity = 0;
+
             ExampleApp.SearchResultModelCLI model = modelObject as ExampleApp.SearchResultModelCLI;
 
+            EegeoResultModel eegeoResultModel = EegeoResultModel.FromResultModel(model);
             m_closing = false;
+            m_webBrowserSelected = false;
+            m_titlesGrid.RowDefinitions[1].Height = new GridLength(1, GridUnitType.Star);
+            m_poiImageContainer.Height = m_imageContainerHeight;
+            bool webViewUrlIsValid = false;
+            m_poiImageContainer.Visibility = Visibility.Visible;
+            m_poiImage.Visibility = Visibility.Collapsed;
+            m_webBrowser.Visibility = Visibility.Visible;
+            m_poiImageDivider.Visibility = Visibility.Visible;
 
+            m_contentContainer.ScrollToTop();
+
+            if (eegeoResultModel.WebViewUrl != null)
+            {
+                m_webBrowserSelected = true;
+                Uri hyperlink;
+                webViewUrlIsValid = Uri.TryCreate(eegeoResultModel.WebViewUrl, UriKind.Absolute, out hyperlink)
+                && (hyperlink.Scheme == Uri.UriSchemeHttp || hyperlink.Scheme == Uri.UriSchemeHttps);
+
+                if (webViewUrlIsValid)
+                {
+                    Uri url = new Uri(eegeoResultModel.WebViewUrl);
+                    m_webBrowser.Source = url;
+
+                    if (eegeoResultModel.WebViewHeight != 0)
+                    {
+                        m_webBrowserOriginalHeight = eegeoResultModel.WebViewHeight;
+                        m_poiImageContainer.Height = eegeoResultModel.WebViewHeight;
+
+                        if (eegeoResultModel.WebViewHeight > m_maxWebViewHeight)
+                        {
+                            m_webBrowserOriginalHeight = m_maxWebViewHeight;
+                            m_poiImageContainer.Height = m_maxWebViewHeight;
+                        }
+                    }
+                    else
+                    {
+                        m_webBrowserOriginalHeight = m_defaultWebViewHeight;
+                        m_poiImageContainer.Height = m_defaultWebViewHeight;
+                    }
+                }
+                else
+                {
+                    HandleNoWebView(eegeoResultModel);
+                }
+            }
+            else
+            {
+                HandleNoWebView(eegeoResultModel);
+            }
+
+            if (!m_webBrowserSelected)
+            {
+                Uri uri;
+                if ((eegeoResultModel.ImageUrl != null || webViewUrlIsValid) && TryCreateWebLink(eegeoResultModel.ImageUrl, out uri))
+                {
+                    m_poiImageDivider.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    m_poiImageContainer.Visibility = Visibility.Collapsed;
+                    m_poiImageDivider.Visibility = Visibility.Collapsed;
+                }
+            }
+
+            if (eegeoResultModel.Phone != null)
+            {
+                PhoneText = eegeoResultModel.Phone;
+                m_phoneDetailsContainer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                m_phoneDetailsContainer.Visibility = Visibility.Collapsed;
+            }
+
+            if (eegeoResultModel.Address != null)
+            {
+                AddressText = eegeoResultModel.Address.Replace(", ", Environment.NewLine);
+                m_addressDetailsContainer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                AddressText = null;
+                m_addressDetailsContainer.Visibility = Visibility.Collapsed;
+            }
+
+            if (eegeoResultModel.WebUrl != null)
+            {
+                WebAddressText = eegeoResultModel.WebUrl;
+                m_webDetailsContainer.Visibility = Visibility.Visible;
+                m_qrCodeContainer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                m_webDetailsContainer.Visibility = Visibility.Collapsed;
+                m_qrCodeContainer.Visibility = Visibility.Collapsed;
+            }
+
+            if (eegeoResultModel.Facebook != null)
+            {
+                m_facebookIcon.Visibility = Visibility.Visible;
+                m_facebookText = eegeoResultModel.Facebook;
+            }
+            else
+            {
+                m_facebookIcon.Visibility = Visibility.Collapsed;
+            }
+
+            if (eegeoResultModel.Twitter != null)
+            {
+                m_twitterIcon.Visibility = Visibility.Visible;
+                m_twitterText = eegeoResultModel.Twitter;
+            }
+            else
+            {
+                m_twitterIcon.Visibility = Visibility.Collapsed;
+            }
+
+            if (eegeoResultModel.Email != null)
+            {
+                m_emailIcon.Visibility = Visibility.Visible;
+                m_emailText = eegeoResultModel.Email;
+            }
+            else
+            {
+                m_emailIcon.Visibility = Visibility.Collapsed;
+            }
+
+            bool shouldCollapseDivider = eegeoResultModel.Facebook == null &&
+                eegeoResultModel.Twitter == null &&
+                eegeoResultModel.Email == null &&
+                eegeoResultModel.Address == null &&
+                eegeoResultModel.Phone == null &&
+                eegeoResultModel.WebUrl == null;
+
+            if (shouldCollapseDivider || m_detailsDividerVisibility == Visibility.Collapsed)
+            {
+                m_detailsDivider.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                m_detailsDivider.Visibility = Visibility.Visible;
+            }
+
+            if(eegeoResultModel.Facebook == null && eegeoResultModel.Twitter == null && eegeoResultModel.Email == null)
+            {
+                m_socialLinkIconsContainer.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                m_socialLinkIconsContainer.Visibility = Visibility.Visible;
+            }
+
+            m_linkedInIcon.Visibility = Visibility.Collapsed;
+            m_slackIcon.Visibility = Visibility.Collapsed;
             TitleText = model.Title;
-            HumanReadableTagsText = string.Join(Environment.NewLine, model.HumanReadableTags);
-            ReviewText = model.Subtitle;
+            if (model.Subtitle != "")
+            {
+                SubTitleText = model.Subtitle;
+            }
+            else
+            {
+                m_titlesGrid.RowDefinitions[1].Height = new GridLength(0);
+            }
+
+            if (model.HumanReadableTags != null)
+            {
+                HumanReadableTagsText = string.Join(", ", model.HumanReadableTags);
+                m_tagsDivider.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                m_tagsDivider.Visibility = Visibility.Collapsed;
+            }
+
+            if(eegeoResultModel.Description != null)
+            {
+                DescriptionText = eegeoResultModel.Description;
+                m_descriptionContainer.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                m_descriptionContainer.Visibility = Visibility.Collapsed;
+            }
+
             TagIcon = SearchResultPoiViewIconProvider.GetIconForTag(model.IconKey);
 
             ShowAll();
@@ -122,16 +596,24 @@ namespace ExampleAppWPF
         
         public override void UpdateImageData(string url, bool hasImage, byte[] imgData)
         {
-            m_poiImage.Source = LoadImageFromByteArray(imgData);
-            m_poiImage.Visibility = Visibility.Visible;
-        }
-        
-        public void HandleWebLinkButtonClicked(object sender, MouseEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(m_url))
+            if (hasImage && !m_webBrowserSelected)
             {
-                Process.Start(m_url);
+                m_poiImage.Source = LoadImageFromByteArray(imgData);
+                m_poiImage.Visibility = Visibility.Visible;
+                m_poiImageContainer.Visibility = Visibility.Visible;
+                m_poiImageDivider.Visibility = Visibility.Visible;
             }
+            m_previewImageSpinner.Visibility = Visibility.Collapsed;
+        }
+
+        public void HandleScrollUpButtonClicked(object sender, RoutedEventArgs e)
+        {
+            m_contentContainer.ScrollToVerticalOffset(m_contentContainer.VerticalOffset - 10);
+        }
+
+        public void HandleScrollDownButtonClicked(object sender, RoutedEventArgs e)
+        {
+            m_contentContainer.ScrollToVerticalOffset(m_contentContainer.VerticalOffset + 10);
         }
     }
 }

@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 
 
 public class BackgroundThreadActivity extends MainActivity
@@ -27,6 +28,11 @@ public class BackgroundThreadActivity extends MainActivity
     private long m_nativeAppWindowPtr;
     private ThreadedUpdateRunner m_threadedRunner;
     private Thread m_updater;
+    /* The url used if the app is opened by a deep link.
+     *  As the app in singleTask this is set in onNewIntent and must be
+     *  set to null before for the app pauses.
+     */
+    private Uri m_deepLinkUrlData;
 
     static
     {
@@ -59,6 +65,13 @@ public class BackgroundThreadActivity extends MainActivity
         setDisplayOrientationBasedOnDeviceProperties();
 
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        if(intent !=null)
+        {
+            m_deepLinkUrlData = intent.getData();
+        }
+
 
         m_surfaceView = (EegeoSurfaceView)findViewById(R.id.surface);
         m_surfaceView.getHolder().addCallback(this);
@@ -109,6 +122,12 @@ public class BackgroundThreadActivity extends MainActivity
                 if(m_surfaceHolder != null && m_surfaceHolder.getSurface() != null)
                 {
                     NativeJniCalls.setNativeSurface(m_surfaceHolder.getSurface());
+
+                    if(m_deepLinkUrlData != null)
+                    {
+                        NativeJniCalls.handleUrlOpenEvent(m_deepLinkUrlData.getHost(), m_deepLinkUrlData.getPath());
+                        m_deepLinkUrlData = null;
+                    }
                 }
             }
         });
@@ -205,9 +224,21 @@ public class BackgroundThreadActivity extends MainActivity
                 {
                     NativeJniCalls.setNativeSurface(m_surfaceHolder.getSurface());
                     m_threadedRunner.start();
+
+                    if(m_deepLinkUrlData != null)
+                    {
+                        NativeJniCalls.handleUrlOpenEvent(m_deepLinkUrlData.getHost(), m_deepLinkUrlData.getPath());
+                        m_deepLinkUrlData = null;
+                    }
                 }
             }
         });
+    }
+    
+    @Override
+    public void onNewIntent(Intent intent) {
+         m_deepLinkUrlData = intent.getData();
+
     }
 
     public void dispatchRevealUiMessageToUiThreadFromNativeThread(final long nativeCallerPointer)

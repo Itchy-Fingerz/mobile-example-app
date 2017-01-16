@@ -9,15 +9,16 @@
 #include "IIdentity.h"
 #include "Location.h"
 #include "CompassModeObserver.h"
+#include "FixedIndoorLocationCompassModeObserver.h"
 #include "CompassViewCycledObserver.h"
 #include "BidirectionalBus.h"
 #include "IMetricsService.h"
 #include "AppModes.h"
 #include "AlertBox.h"
-#include "InteriorsNavigation.h"
 #include "Interiors.h"
 #include "AppCamera.h"
 #include "InteriorsExplorer.h"
+#include "CameraTransitionService.h"
 
 namespace ExampleApp
 {
@@ -36,7 +37,7 @@ namespace ExampleApp
 
             public:
                 CompassModule(Eegeo::Location::NavigationService& navigationService,
-                              InteriorsNavigation::SdkModel::IInteriorsNavigationService& interiorsNavigationService,
+                              Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                               Eegeo::Location::ILocationService& locationService,
                               ExampleApp::AppCamera::SdkModel::IAppCameraController& cameraController,
                               Eegeo::Helpers::IIdentityProvider& identityProvider,
@@ -44,7 +45,13 @@ namespace ExampleApp
                               Metrics::IMetricsService& metricsService,
                               InteriorsExplorer::SdkModel::InteriorsExplorerModel& interiorExplorerModel,
                               AppModes::SdkModel::IAppModeModel& appModeModel,
-                              Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory);
+                              Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
+                              Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
+                              CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService,
+                              const Eegeo::Space::LatLong fixedLatlong,
+                              const Eegeo::Resources::Interiors::InteriorId& fixedInteriorId,
+                              const int fixedFloorIndex,
+                              const double fixedHeadingRadians);
 
                 ~CompassModule();
 

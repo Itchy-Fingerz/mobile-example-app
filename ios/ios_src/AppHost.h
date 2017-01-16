@@ -57,10 +57,17 @@
 #include "SurveyViewIncludes.h"
 #include "IMenuReactionModel.h"
 #include "TagSearchViewIncludes.h"
+#include "IndoorAtlasLocationModule.h"
+#include "SenionLabLocationModule.h"
+#include "CurrentLocationService.h"
+#include "InteriorsLocationServiceProvider.h"
+#include "AppUrlDelegate.h"
+#include "AlwaysActiveUserIdleService.h"
 
 @class ViewController;
 class AppInputDelegate;
 class AppLocationDelegate;
+class AppUrlDelegate;
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -91,6 +98,8 @@ public:
     void HandleNoConnectivityWarning();
     
     void HandleInvalidConnectivityError();
+    
+    void HandleUrlOpen(const AppInterface::UrlData& data);
 
 private:
     UIView* m_pView;
@@ -100,12 +109,18 @@ private:
     Eegeo::iOS::iOSConnectivityService* m_piOSConnectivityService;
     AppInputDelegate* m_pAppInputDelegate;
     AppLocationDelegate* m_pAppLocationDelegate;
+    AppUrlDelegate* m_pAppUrlDelegate;
 
     Eegeo::UI::NativeInput::iOS::iOSInputBoxFactory m_iOSInputBoxFactory;
     Eegeo::UI::NativeInput::iOS::iOSKeyboardInputFactory m_iOSKeyboardInputFactory;
     Eegeo::UI::NativeAlerts::iOS::iOSAlertBoxFactory m_iOSAlertBoxFactory;
     Eegeo::UI::NativeUIFactories m_iOSNativeUIFactories;
     Eegeo::iOS::iOSPlatformAbstractionModule* m_piOSPlatformAbstractionModule;
+    
+    ExampleApp::IndoorAtlas::IndoorAtlasLocationModule* m_pIndoorAtlasLocationModule;
+    ExampleApp::SenionLab::SenionLabLocationModule* m_pSenionLabLocationModule;
+    Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
+    ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceProvider* m_pInteriorsLocationServiceProvider;
     
     ExampleApp::SettingsMenu::View::ISettingsMenuViewModule* m_pSettingsMenuViewModule;
     ExampleApp::SearchMenu::View::ISearchMenuViewModule* m_pSearchMenuViewModule;
@@ -148,6 +163,8 @@ private:
     
     Eegeo::UI::NativeAlerts::TSingleOptionAlertBoxDismissedHandler<AppHost> m_failAlertHandler;
     Eegeo::Helpers::TCallback1<AppHost, const ExampleApp::UserInteraction::UserInteractionEnabledChangedMessage&> m_userInteractionEnabledChangedHandler;
+
+    Eegeo::Input::AlwaysActiveUserIdleService m_userIdleService;
 
     void CreateApplicationViewModules(const Eegeo::Rendering::ScreenProperties& screenProperties);
     void DestroyApplicationViewModules();

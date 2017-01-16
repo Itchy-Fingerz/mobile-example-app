@@ -14,6 +14,7 @@
 
 static const float HeaderCellFontSize = 22.0f;
 static const float SubSectionCellFontSize = 16.0f;
+static const float ARROW_INSET_PADDING = 18.0f;
 
 static NSString *HeaderCellIdentifier = @"headercell";
 static NSString *SubSectionCellIdentifier = @"subsectioncell";
@@ -22,6 +23,7 @@ static NSString *SubSectionCellIdentifier = @"subsectioncell";
 {
     std::map<CustomTableView*, size_t> m_tableSectionMap;
     std::vector<size_t> m_cachedTableSizes;
+    float m_arrowInset;
 }
 
 @end
@@ -40,12 +42,29 @@ NSInteger const SubItemCellOpenableMenuArrowTag = 1;
     }
     else
     {
+        int findSectionId = -1;
         for(int i = 0; i < sections->size(); ++i)
         {
             if((*sections)[i] != m_currentSections[i] || (*sections)[i]->GetTotalItemCount() != m_cachedTableSizes[i])
             {
                 sectionsUpdated = true;
-                break;
+            }
+            
+            if((*sections)[i]->Name() == "Find")
+            {
+                findSectionId = i;
+            }
+        }
+        
+        if(findSectionId != -1 && m_previousTags.size() > 0 && sectionsUpdated == false)
+        {
+            for(int i = 0; i < (*sections)[findSectionId]->GetTotalItemCount(); i++)
+            {
+                if((*sections)[findSectionId]->GetItemAtIndex(i).Name() != m_previousTags[i])
+                {
+                    sectionsUpdated = true;
+                    break;
+                }
             }
         }
     }
@@ -67,6 +86,11 @@ NSInteger const SubItemCellOpenableMenuArrowTag = 1;
         }
         
         [m_pView refreshTableHeights];
+        m_previousTags.clear();
+        for(int i = 0; i < (*sections)[0]->GetTotalItemCount(); i++)
+        {
+            m_previousTags.push_back((*sections)[0]->GetItemAtIndex(i).Name());
+        }
     }
 }
 
@@ -170,7 +194,11 @@ NSInteger const SubItemCellOpenableMenuArrowTag = 1;
         {
             [cell setSeparatorInset:UIEdgeInsetsZero];
         }
+
+        m_arrowInset = openableArrowWidth + ARROW_INSET_PADDING;
     }
+    
+    [(CustomTableViewCell*)cell setIndexInformation:indexPath];
     
     std::string json = isExpandableHeader ? section.SerializeJson() : section.GetItemAtIndex(static_cast<int>(index)).SerializeJson();
     [self populateCellWithJson:json :cell :customTableView :isHeader];
@@ -348,12 +376,15 @@ NSInteger const SubItemCellOpenableMenuArrowTag = 1;
         }
         
         const bool hasDetails = document.HasMember("details");
+        const ExampleApp::Menu::View::IMenuSectionViewModel& section = *m_currentSections.at(m_tableSectionMap[tableView]);
+        const float arrowInset = section.IsExpandable() ? m_arrowInset : 0.0f;
         const float textY = hasDetails ? 4.0f : 0.f;
-        const float textWidth = [tableView getCellWidth] - textInsetX;
+        const float textWidth = [tableView getCellWidth] - textInsetX - arrowInset;
         
         cell.textLabel.text = [NSString stringWithUTF8String:name.c_str()];
         cell.textLabel.font = [UIFont systemFontOfSize: [self getTextLabelFontSize:isHeader]];
         cell.textLabel.textColor = isHeader ? ExampleApp::Helpers::ColorPalette::TableHeaderTextColor : ExampleApp::Helpers::ColorPalette::TableSubCellTextColor;
+        cell.textLabel.adjustsFontSizeToFitWidth = true;
         [cell.textLabel sizeToFit];
         
         const float titleTextHeight = hasDetails ? cell.textLabel.frame.size.height : textHeight;
