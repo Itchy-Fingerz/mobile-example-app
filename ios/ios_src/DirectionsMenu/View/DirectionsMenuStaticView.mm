@@ -226,12 +226,17 @@
     
     
     DirectionsMenuWayPointViewCell *cell = (DirectionsMenuWayPointViewCell*)[self.wayPointsTableView dequeueReusableCellWithIdentifier:@"DirectionsMenuWayPointViewCell"];
-    [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%li",(long)indexPath.row+1]];
     
     if(indexPath.row < m_pSearchResultsSection->Size())
     {
         ExampleApp::Menu::View::MenuItemModel item = m_pSearchResultsSection->GetItemAtIndex(static_cast<int>(indexPath.row));
  
+//        [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%li",(long)indexPath.row+1]];
+
+        int wayPointNumber = std::atoi(item.Identifier().c_str());
+        [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%i",wayPointNumber+1]];
+
+        
         std::string json = item.SerializeJson();
         
         rapidjson::Document document;

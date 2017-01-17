@@ -56,7 +56,7 @@ namespace ExampleApp
                                           , false
                                           , worldPinInteriorData
                                           , wayPoint->GetLocation()
-                                          , GetWayPointIconForType(wayPoint->GetType())
+                                          , GetWayPointIconForType(wayPoint->GetWpId())
                                           , 0.f
                                           , WorldPins::SdkModel::WorldPinVisibility::Search);
                 
@@ -83,22 +83,9 @@ namespace ExampleApp
                 m_wayPointsToPinModel.erase(it);
             }
             
-            std::string WayPointOnMapModel::GetWayPointIconForType(const ExampleApp::PathDrawing::WayPointType::Values type)
+            std::string WayPointOnMapModel::GetWayPointIconForType(int wayPointId)
             {
-                switch(type) {
-                    case ExampleApp::PathDrawing::WayPointType::Start:
-                    case ExampleApp::PathDrawing::WayPointType::End:
-                        return "tourism";
-                    case ExampleApp::PathDrawing::WayPointType::CheckPoint:
-                        return "5";
-                    case ExampleApp::PathDrawing::WayPointType::InteriorEntry:
-                        return "indoor_map";
-                    case ExampleApp::PathDrawing::WayPointType::Elevator:
-                        return "elevator";
-                    default:
-                        return "misc";
-                }
-                
+                return std::to_string(wayPointId+1);
             }
         }
     }

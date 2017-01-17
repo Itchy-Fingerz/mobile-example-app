@@ -50,7 +50,7 @@ namespace ExampleApp
                 
                 
                 
-                std::string GetWayPointIconForType(const ExampleApp::PathDrawing::WayPointType::Values type);
+                std::string GetWayPointIconForType(int wayPointId);
                 
             };
         }
