@@ -645,8 +645,12 @@ set(resources ${resources}
 		Resources/SearchResultOnMap
 		Resources/SearchResultOnMap/pin_sheet_0.png
 		Resources/SearchResultOnMap/pin_sheet_0@2x.png
-        Resources/SearchResultOnMap/pin_sheet_0@3x.png
-        Resources/SearchResultOnMap/pin_sheet.json
+		Resources/SearchResultOnMap/pin_sheet_0@3x.png
+        	Resources/SearchResultOnMap/pin_sheet.json
+		Resources/SearchResultOnMap/pin_sheet_1.png
+		Resources/SearchResultOnMap/pin_sheet_1@2x.png
+		Resources/SearchResultOnMap/pin_sheet_1@3x.png
+        	Resources/SearchResultOnMap/pin_sheet_numbers.json
 		Resources/SplashScreen
 		Resources/SplashScreen/Icon-60@2x.png
 		Resources/SplashScreen/Icon-60@3x.png

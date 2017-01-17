@@ -54,7 +54,6 @@ namespace ExampleApp
                                           , NULL
                                           , worldPinFocusData
                                           , false
-                                          , true
                                           , worldPinInteriorData
                                           , wayPoint->GetLocation()
                                           , GetWayPointIconForType(wayPoint->GetType())
@@ -91,7 +90,7 @@ namespace ExampleApp
                     case ExampleApp::PathDrawing::WayPointType::End:
                         return "tourism";
                     case ExampleApp::PathDrawing::WayPointType::CheckPoint:
-                        return "blank";
+                        return "5";
                     case ExampleApp::PathDrawing::WayPointType::InteriorEntry:
                         return "indoor_map";
                     case ExampleApp::PathDrawing::WayPointType::Elevator:

@@ -6,6 +6,7 @@
 #include "BidirectionalBus.h"
 #include "IPathDrawingController.h"
 #include "DirectionsMenuStateChangedMessage.h"
+#include "Route.h"
 
 
 
@@ -28,11 +29,11 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<DirectionReCalculationService, const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage&> m_directionsMenuStateChangedCallback;
                 void OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message);
 
-                
+                Eegeo::Routes::RouteRepository& m_routeRepository;
             
             public:
                 
-                DirectionReCalculationService(Eegeo::Location::ILocationService& locationService,ExampleApp::PathDrawing::IPathDrawingController& pathDrawingController, ExampleAppMessaging::TMessageBus& messageBus);
+                DirectionReCalculationService(Eegeo::Location::ILocationService& locationService,ExampleApp::PathDrawing::IPathDrawingController& pathDrawingController, ExampleAppMessaging::TMessageBus& messageBus,Eegeo::Routes::RouteRepository& routeRepository);
                 ~DirectionReCalculationService();
                 void Update(float dt);
             };
