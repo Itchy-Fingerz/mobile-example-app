@@ -5,6 +5,7 @@
 #include "Search.h"
 #include "ICallback.h"
 #include "IGeoNamesSearchQuery.h"
+#include "IEegeoSearchQuery.h"
 
 namespace ExampleApp
 {
@@ -19,7 +20,7 @@ namespace ExampleApp
                 public:
                     virtual ~IGeoNamesSearchQueryFactory() { }
                     
-                    virtual IGeoNamesSearchQuery* CreateGeoNamesSearchForQuery(const Search::SdkModel::SearchQuery& query,
+                    virtual EegeoPois::SdkModel::IEegeoSearchQuery* CreateGeoNamesSearchForQuery(const Search::SdkModel::SearchQuery& query,
                                                                                Eegeo::Helpers::ICallback0& completionCallback) = 0;
                 };
             }

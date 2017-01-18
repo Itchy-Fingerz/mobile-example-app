@@ -9,6 +9,8 @@
 #include "IGeoNamesSearchQuery.h"
 #include "Web.h"
 #include "UrlHelpers.h"
+#include "Interiors.h"
+
 
 namespace ExampleApp
 {
@@ -24,15 +26,22 @@ namespace ExampleApp
                     Eegeo::Helpers::UrlHelpers::IUrlEncoder& m_urlEncoder;
                     
                     std::string m_geoNamesUserName;
+                    const std::string m_apiKey;
+                    const std::string m_serviceUrl;
+
+
+
                     
                 public:
                     GeoNamesSearchQueryFactory(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
                                                Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
+                                               const std::string& serviceUrl,
+                                               const std::string& apiKey,
                                                const std::string& geoNamesUserName);
                     
                     ~GeoNamesSearchQueryFactory();
                     
-                    IGeoNamesSearchQuery* CreateGeoNamesSearchForQuery(const Search::SdkModel::SearchQuery& query,
+                    EegeoPois::SdkModel::IEegeoSearchQuery* CreateGeoNamesSearchForQuery(const Search::SdkModel::SearchQuery& query,
                                                                        Eegeo::Helpers::ICallback0& completionCallback);
                 };
             }

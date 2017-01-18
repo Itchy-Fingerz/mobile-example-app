@@ -47,6 +47,7 @@ namespace ExampleApp
             , m_settingsMenuViewModel(settingsMenuViewModel)
             , m_searchMenuViewModel(searchMenuViewModel)
             , m_isDirectionMenuOpen(false)
+            , m_isInterior(false)
             {
                 m_directionsMenuView.InsertSearchPeformedCallback(m_searchPerformedCallbacks);
                 m_directionsMenuView.InsertSearchClearedCallback(m_searchClearedCallbacks);
@@ -120,13 +121,34 @@ namespace ExampleApp
                     
                     RefreshPresentation();
                 }
+            
             }
             
-            void DirectionsMenuController::OnSearch(const Eegeo::Space::LatLong& start,const Eegeo::Space::LatLong& end)
+            void DirectionsMenuController::UpdateUiThread(float dt)
+            {
+                MenuController::UpdateUiThread(dt);
+                const bool isAnimating = m_view.IsAnimating();
+                if(isAnimating)
+                {
+//                    const float normalisedAnimationProgress = m_view.GetAnimationProgress();
+                    //if (normalisedAnimationProgress > 0)
+                    //{
+//                        m_updateDirectionMenuStateCallbacks.ExecuteCallbacks(normalisedAnimationProgress,m_isDirectionMenuOpen);
+                    //}
+
+                }
+
+
+
+                
+            }
+
+            
+            void DirectionsMenuController::OnSearch(const SdkModel::DirectionQueryInfoDTO& directionInfo)
             {
                
-                Eegeo::Space::LatLong currentLatLong = Eegeo::Space::LatLong::FromDegrees(start.GetLatitudeInDegrees(), start.GetLongitudeInDegrees());
-                Eegeo::Space::LatLong endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(end.GetLatitudeInDegrees(), end.GetLongitudeInDegrees());
+                Eegeo::Space::LatLong currentLatLong = Eegeo::Space::LatLong::FromDegrees(directionInfo.StartLocation().GetLatitudeInDegrees(), directionInfo.StartLocation().GetLongitudeInDegrees());
+                Eegeo::Space::LatLong endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(directionInfo.EndLocation().GetLatitudeInDegrees(), directionInfo.EndLocation().GetLongitudeInDegrees());
 
                 
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
@@ -136,7 +158,10 @@ namespace ExampleApp
                         return;
                     }
                     m_locationService.GetLocation(currentLatLong);
-                }else if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
+                    //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
+
+                }
+                else if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
                 {
                     if (!m_locationService.GetIsAuthorized())
                     {
@@ -148,20 +173,20 @@ namespace ExampleApp
                 const Eegeo::Space::LatLongAltitude startLoc = Eegeo::Space::LatLongAltitude::FromDegrees(currentLatLong.GetLatitudeInDegrees(), currentLatLong.GetLongitudeInDegrees(),0.0);
                 const Eegeo::Space::LatLongAltitude endLoc = Eegeo::Space::LatLongAltitude::FromDegrees(endcurrentLatLong.GetLatitudeInDegrees(), endcurrentLatLong.GetLongitudeInDegrees(),0.0);
                 
-                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,true));
+                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,directionInfo.StartLocationLevel(),directionInfo.EndLocationLevel(),m_isInterior));
                 
             }
             
             void DirectionsMenuController::OnStartLocationChanged(const std::string& startLocationQuery)
             {
                 Eegeo_TTY("OnStartLocationChanged");
-                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuGetGeoNamesMessage(startLocationQuery, false, true));
+                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuGetGeoNamesMessage(startLocationQuery, m_isInterior, true));
             }
             
             void DirectionsMenuController::OnEndLocationChanged(const std::string& startLocationQuery)
             {
                 Eegeo_TTY("OnEndLocationChanged");
-                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuGetGeoNamesMessage(startLocationQuery, false, false));
+                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuGetGeoNamesMessage(startLocationQuery, m_isInterior, false));
             }
             
             void DirectionsMenuController::OnGeoNamesStartLocationResponseReceived(const DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage& message)
@@ -228,7 +253,14 @@ namespace ExampleApp
             }
             void DirectionsMenuController::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)
             {
-                
+                if (message.GetAppMode() == AppModes::SdkModel::InteriorMode)
+                {
+                    m_isInterior = true;
+                }
+                else
+                {
+                    m_isInterior = false;
+                }
             }
             
             void DirectionsMenuController::OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message)

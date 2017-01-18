@@ -31,7 +31,7 @@ namespace ExampleApp
             void DirectionMenuGeoNameMessageHandler::OnGetGeoNamesReceivedMessage(const DirectionsMenu::DirectionMenuGetGeoNamesMessage& message)
             {                
                 bool isTag = false;
-                bool tryInteriorSearch = false;
+                bool tryInteriorSearch = message.IsInterior();
                 Eegeo::Space::LatLongAltitude location = Eegeo::Space::LatLongAltitude(0.0f,0.0f,0.0f);
                 float radius = 200.0f;
                 m_isStartLocationActive = message.IsStartLocation();

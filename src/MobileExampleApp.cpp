@@ -454,14 +454,7 @@ namespace ExampleApp
                                                                          m_messageBus,
                                                                          m_networkCapabilities);
 
-        const bool useGeoName = true;
-        if(useGeoName)
-        {
-            m_searchServiceModules[Search::GeoNamesVendorName] = Eegeo_NEW(Search::GeoNames::SdkModel::GeoNamesSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),
-                                                                                                                                    m_platformAbstractions.GetUrlEncoder(),
-                                                                                                                                    m_networkCapabilities,
-                                                                                                                                    m_applicationConfiguration.GeoNamesUserName());
-        }
+
 
         const auto& searchTags = Search::SdkModel::CreateSearchTagsFromFile(
                 m_platformAbstractions.GetFileIO(), "search_tags.json");
@@ -478,7 +471,19 @@ namespace ExampleApp
                     m_applicationConfiguration.EegeoApiKey(),
                     world.GetMapModule().GetInteriorsPresentationModule().GetInteriorInteractionModel());
         }
-
+        
+        const bool useGeoName = true;
+        if(useGeoName)
+        {
+            m_searchServiceModules[Search::GeoNamesVendorName] = Eegeo_NEW(Search::GeoNames::SdkModel::GeoNamesSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),
+                                                                                                                                    m_platformAbstractions.GetUrlEncoder(),
+                                                                                                                                    m_networkCapabilities,
+                                                                                                                                    m_applicationConfiguration.GeoNamesUserName(),
+                                                                                                                                    m_applicationConfiguration.EegeoSearchServiceUrl(),
+                                                                                                                                    m_applicationConfiguration.EegeoApiKey(),
+                                                                                                                                    searchTags);
+        }
+        
         std::vector<std::string> appTags;
         appTags.reserve(searchTags.tags.size());
         for(const auto& i : searchTags.tags)
@@ -615,9 +620,12 @@ namespace ExampleApp
                                                                                                            m_messageBus);
         
         Search::GeoNames::SdkModel::GeoNamesSearchServiceModule *pGeoNameModule = Eegeo_NEW(Search::GeoNames::SdkModel::GeoNamesSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),
-                                                                           m_platformAbstractions.GetUrlEncoder(),
-                                                                           m_networkCapabilities,
-                                                                           m_applicationConfiguration.GeoNamesUserName());
+                                                                                                                                                     m_platformAbstractions.GetUrlEncoder(),
+                                                                                                                                                     m_networkCapabilities,
+                                                                                                                                                     m_applicationConfiguration.GeoNamesUserName(),
+                                                                                                                                                     m_applicationConfiguration.EegeoSearchServiceUrl(),
+                                                                                                                                                     m_applicationConfiguration.EegeoApiKey(),
+                                                                                                                                                     searchTags);
         
         ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService &geoNameService = (ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService&)pGeoNameModule->GetSearchService();
         

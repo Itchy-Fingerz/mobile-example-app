@@ -64,7 +64,9 @@ namespace ExampleApp
                         {
                             const Eegeo::Routes::RouteVertex lastPoint = points[points.size()-1];
                             m_pathDrawingController.RemoveRoutePlan();
-                            m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(firstLatLong,lastPoint.GetLocation(),true));
+                            m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(firstLatLong,lastPoint.GetLocation(),-1,-1,true));
+
+
                         }
                     }
                 }

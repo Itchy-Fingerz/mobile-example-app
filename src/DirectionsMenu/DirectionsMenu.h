@@ -11,6 +11,8 @@ namespace ExampleApp
         namespace SdkModel
         {
             class IDirectionsMenuModule;
+            class DirectionQueryInfoDTO;
+            
         }
         
         namespace View

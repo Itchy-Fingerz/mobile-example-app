@@ -424,7 +424,7 @@
 
 -(void)EndRouteEntered  {
     //std::string locationString = m_pDirectionsMenuView.GetStartLocation.GetLatitudeInDegrees();
-    m_pDirectionsMenuInterop->SearchPerformed(m_pDirectionsMenuView.GetStartLocation,m_pDirectionsMenuView.GetEndLocation);
+    m_pDirectionsMenuInterop->SearchPerformed(m_pDirectionsMenuView.GetStartLocation,m_pDirectionsMenuView.GetEndLocation, m_pDirectionsMenuView.GetStartLevel,m_pDirectionsMenuView.GetEndLevel);
 }
 
 -(void)updateContainerFrame {

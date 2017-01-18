@@ -29,14 +29,15 @@ namespace ExampleApp
                 ExampleApp::Menu::View::IMenuViewModel& m_settingsMenuViewModel;
                 ExampleApp::Menu::View::IMenuViewModel& m_searchMenuViewModel;
                 
-                Eegeo::Helpers::TCallback2<DirectionsMenuController, const Eegeo::Space::LatLong&,const Eegeo::Space::LatLong&> m_searchPerformedCallbacks;
+                Eegeo::Helpers::TCallback1<DirectionsMenuController, const SdkModel::DirectionQueryInfoDTO&> m_searchPerformedCallbacks;
                 Eegeo::Helpers::TCallback0<DirectionsMenuController> m_searchClearedCallbacks;
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, int> m_wayPointSelectedCallbacks;
                 Eegeo::Helpers::TCallback0<DirectionsMenuController> m_exitDirectionsCallbacks;
                 bool m_appModeAllowsOpen;
                 bool m_isExitDirections;
                 bool m_isDirectionMenuOpen;
-
+                bool m_isInterior;
+                
                 Eegeo::Helpers::TCallback2<DirectionsMenuController, OpenableControl::View::IOpenableControlViewModel&, float> m_onOpenStateChangedCallback;
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const AppModes::AppModeChangedMessage&> m_appModeChangedCallback;
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage&> m_directionsMenuStateChangedCallback;
@@ -70,7 +71,7 @@ namespace ExampleApp
                 
                 void OnModalBackgroundTapped();
                 
-                void OnSearch(const Eegeo::Space::LatLong& start,const Eegeo::Space::LatLong& end);
+                void OnSearch(const SdkModel::DirectionQueryInfoDTO& directionInfo);
                 
                 void OnSearchCleared();
                 
@@ -87,6 +88,7 @@ namespace ExampleApp
                 void OnEndLocationChanged(const std::string& startLocationQuery);
                 
                 void OnGeoNamesStartLocationResponseReceived(const DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage& message);
+                void UpdateUiThread(float dt);
                 
             protected:
                 

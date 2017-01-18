@@ -7,10 +7,12 @@ namespace ExampleApp
 {
     namespace DirectionsMenu
     {
-        DirectionMenuFindDirectionMessage::DirectionMenuFindDirectionMessage(const Eegeo::Space::LatLongAltitude &startLocation, const Eegeo::Space::LatLongAltitude &endLocation, bool isInterior):
+        DirectionMenuFindDirectionMessage::DirectionMenuFindDirectionMessage(const Eegeo::Space::LatLongAltitude &startLocation, const Eegeo::Space::LatLongAltitude &endLocation, const int startLocLevel, const int endLocLevel, bool isInterior):
          m_startLoc(startLocation)
         , m_endLoc(endLocation)
         , m_isInterior(isInterior)
+        , m_startLocLevel(startLocLevel)
+        , m_endLocLevel(endLocLevel)
         {
             
         }
@@ -34,5 +36,16 @@ namespace ExampleApp
         {
             return m_endLoc;
         }
+        
+        const int DirectionMenuFindDirectionMessage::StartLocationLevel() const
+        {
+            return m_startLocLevel;
+        }
+        
+        const int DirectionMenuFindDirectionMessage::EndLocationLevel() const
+        {
+            return m_endLocLevel;
+        }
+        
     }
 }

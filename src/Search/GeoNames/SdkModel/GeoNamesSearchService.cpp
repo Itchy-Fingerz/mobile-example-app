@@ -8,6 +8,7 @@
 #include "IGeoNamesParser.h"
 #include "INetworkCapabilities.h"
 #include "SearchResultModel.h"
+#include "EegeoJsonParser.h"
 
 namespace ExampleApp
 {
@@ -19,7 +20,8 @@ namespace ExampleApp
             {
                 GeoNamesSearchService::GeoNamesSearchService(IGeoNamesSearchQueryFactory& geoNamesSearchQueryFactory,
                                                              IGeoNamesParser& geoNamesParser,
-                                                             Net::SdkModel::INetworkCapabilities& networkCapabilities)
+                                                             Net::SdkModel::INetworkCapabilities& networkCapabilities,
+                                                             EegeoPois::SdkModel::IEegeoParser& eegeoSearchParser)
                 : Search::SdkModel::SearchServiceBase(std::vector<std::string>())
                 , m_geoNamesSearchQueryFactory(geoNamesSearchQueryFactory)
                 , m_geoNamesParser(geoNamesParser)
@@ -28,6 +30,7 @@ namespace ExampleApp
                 , m_searchCallback(this,&GeoNamesSearchService::HandleSearchResponse)
                 , m_pCurrentRequest(NULL)
                 , m_hasActiveQuery(false)
+                , m_eegeoSearchParser(eegeoSearchParser)
                 {
                 }
                 
@@ -88,18 +91,26 @@ namespace ExampleApp
                     if(m_pCurrentRequest != NULL && m_pCurrentRequest->IsSucceeded())  // Needs NULL check because callback can happen before factory returns query
                     {
                         const std::string& response(m_pCurrentRequest->ResponseString());
-                        std::vector<GeoNamesSearchResultDto> geoNameResultDtos;
-                        m_geoNamesParser.ParseGeoNamesQueryResults(response, geoNameResultDtos);
-                        
-                        queryResults.reserve(geoNameResultDtos.size());
-                        if(!geoNameResultDtos.empty())
+                        if (m_currentQueryModel.ShouldTryInteriorSearch())
                         {
-                            for(unsigned i = 0; i < geoNameResultDtos.size(); ++i)
+                            m_eegeoSearchParser.ParseEegeoQueryResults(response, queryResults);
+                        }
+                        else
+                        {
+                            std::vector<GeoNamesSearchResultDto> geoNameResultDtos;
+                            m_geoNamesParser.ParseGeoNamesQueryResults(response, geoNameResultDtos);
+                            
+                            queryResults.reserve(geoNameResultDtos.size());
+                            if(!geoNameResultDtos.empty())
                             {
-                                Search::SdkModel::SearchResultModel model(geoNameResultDtos[i].ToSearchResultModel());
-                                queryResults.push_back(model);
+                                for(unsigned i = 0; i < geoNameResultDtos.size(); ++i)
+                                {
+                                    Search::SdkModel::SearchResultModel model(geoNameResultDtos[i].ToSearchResultModel());
+                                    queryResults.push_back(model);
+                                }
                             }
                         }
+
                     }
                     
                     m_hasActiveQuery = false;

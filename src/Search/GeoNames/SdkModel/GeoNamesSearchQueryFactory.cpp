@@ -2,6 +2,11 @@
 
 #include "GeoNamesSearchQueryFactory.h"
 #include "GeoNamesSearchQuery.h"
+#include "InteriorsModel.h"
+#include "InteriorInteractionModel.h"
+#include "InteriorId.h"
+#include "EegeoSearchQuery.h"
+
 
 namespace ExampleApp
 {
@@ -13,10 +18,14 @@ namespace ExampleApp
             {
                 GeoNamesSearchQueryFactory::GeoNamesSearchQueryFactory(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
                                                                        Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
+                                                                       const std::string& serviceUrl,
+                                                                       const std::string& apiKey,
                                                                        const std::string& geoNamesUserName)
                 : m_webRequestFactory(webRequestFactory)
                 , m_urlEncoder(urlEncoder)
                 , m_geoNamesUserName(geoNamesUserName)
+                , m_serviceUrl(serviceUrl)
+                , m_apiKey(apiKey)
                 {
                     
                 }
@@ -26,14 +35,29 @@ namespace ExampleApp
                     
                 }
                 
-                IGeoNamesSearchQuery* GeoNamesSearchQueryFactory::CreateGeoNamesSearchForQuery(const Search::SdkModel::SearchQuery& query,
+                EegeoPois::SdkModel::IEegeoSearchQuery* GeoNamesSearchQueryFactory::CreateGeoNamesSearchForQuery(const Search::SdkModel::SearchQuery& query,
                                                                                                Eegeo::Helpers::ICallback0& completionCallback)
                 {
-                    return Eegeo_NEW(GeoNamesSearchQuery)(m_webRequestFactory,
-                                                          m_urlEncoder,
-                                                          query,
-                                                          completionCallback,
-                                                          m_geoNamesUserName);
+                    if (query.ShouldTryInteriorSearch())
+                    {
+                        
+                        
+                        return Eegeo_NEW(EegeoPois::SdkModel::EegeoSearchQuery)(m_webRequestFactory,
+                                                           m_urlEncoder,
+                                                           query,
+                                                           m_serviceUrl,
+                                                           m_apiKey,
+                                                           completionCallback);
+                    }
+                    else
+                    {
+                        return Eegeo_NEW(GeoNamesSearchQuery)(m_webRequestFactory,
+                                                              m_urlEncoder,
+                                                              query,
+                                                              completionCallback,
+                                                              m_geoNamesUserName);
+                    }
+
                 }
             }
         }

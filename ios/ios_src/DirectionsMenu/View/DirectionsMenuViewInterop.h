@@ -10,6 +10,7 @@
 #include "DirectionsMenuView.h"
 #include "SearchResultViewClearedMessage.h"
 
+
 namespace ExampleApp
 {
     namespace DirectionsMenu
@@ -20,7 +21,7 @@ namespace ExampleApp
             {
             private:
                 DirectionsMenuView* m_pView;
-                Eegeo::Helpers::CallbackCollection2<const Eegeo::Space::LatLong&,const Eegeo::Space::LatLong&> m_searchPerformedCallbacks;
+                Eegeo::Helpers::CallbackCollection1<const SdkModel::DirectionQueryInfoDTO&> m_searchPerformedCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_searchClearedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<int> m_wayPointSelectedCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_exitDirectionsCallbacks;
@@ -67,9 +68,10 @@ namespace ExampleApp
                     [m_pView SetGeoNamesEndSuggestions:results];
                 }
                 
-                void SearchPerformed(const Eegeo::Space::LatLong& start, const Eegeo::Space::LatLong& end )
+                void SearchPerformed(const Eegeo::Space::LatLong& start, const Eegeo::Space::LatLong& end , const int startLevel, const int endLevel)
                 {
-                    m_searchPerformedCallbacks.ExecuteCallbacks(start,end);
+                   // SdkModel::DirectionQueryInfoDTO dto = SdkModel::DirectionQueryInfoDTO(start,end,startLevel,endLevel);
+                    m_searchPerformedCallbacks.ExecuteCallbacks(SdkModel::DirectionQueryInfoDTO(start,end,startLevel,endLevel));
                 }
                 
                 void CollapseAll()
@@ -82,12 +84,12 @@ namespace ExampleApp
                     [m_pView HighlightItemIndex:index];
                 }
                 
-                void InsertSearchPeformedCallback(Eegeo::Helpers::ICallback2<const Eegeo::Space::LatLong&,const Eegeo::Space::LatLong&>& callback)
+                void InsertSearchPeformedCallback(Eegeo::Helpers::ICallback1<const SdkModel::DirectionQueryInfoDTO&>& callback)
                 {
                     m_searchPerformedCallbacks.AddCallback(callback);
                 }
 
-                void RemoveSearchPeformedCallback(Eegeo::Helpers::ICallback2<const Eegeo::Space::LatLong&,const Eegeo::Space::LatLong&>& callback)
+                void RemoveSearchPeformedCallback(Eegeo::Helpers::ICallback1<const SdkModel::DirectionQueryInfoDTO&>& callback)
                 {
                     m_searchPerformedCallbacks.RemoveCallback(callback);
                 }

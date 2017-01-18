@@ -16,17 +16,22 @@ namespace ExampleApp
         {
 //          std::string m_searchQuery;
             
-            bool m_isInterior;
+            const bool m_isInterior;
             const Eegeo::Space::LatLongAltitude &m_startLoc;
             const Eegeo::Space::LatLongAltitude &m_endLoc;
+            const int m_startLocLevel;
+            const int m_endLocLevel;
             
         public:
             
-            DirectionMenuFindDirectionMessage(const Eegeo::Space::LatLongAltitude &startLocation, const Eegeo::Space::LatLongAltitude &endLocation, bool isInterior);
-            const std::string& SearchQuery() const;
+            DirectionMenuFindDirectionMessage(const Eegeo::Space::LatLongAltitude &startLocation, const Eegeo::Space::LatLongAltitude &endLocation,const int startLocLevel, const int endLocLevel ,const bool isInterior);
+            //const std::string& SearchQuery() const;
             const Eegeo::Space::LatLongAltitude& StartLocation() const;
             const Eegeo::Space::LatLongAltitude& EndLocation() const;
             bool IsInterior() const;
+            
+            const int StartLocationLevel() const;
+            const int EndLocationLevel() const;
         };
     }
 }

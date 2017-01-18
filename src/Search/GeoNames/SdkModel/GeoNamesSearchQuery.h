@@ -10,6 +10,7 @@
 #include "SearchQuery.h"
 #include "WebLoadRequestCompletionCallback.h"
 #include "UrlHelpers.h"
+#include "IEegeoSearchQuery.h"
 
 namespace ExampleApp
 {
@@ -19,7 +20,7 @@ namespace ExampleApp
         {
             namespace SdkModel
             {
-                class GeoNamesSearchQuery : public IGeoNamesSearchQuery, private Eegeo::NonCopyable
+                class GeoNamesSearchQuery : public EegeoPois::SdkModel::IEegeoSearchQuery, private Eegeo::NonCopyable
                 {
                     Eegeo::Helpers::ICallback0& m_completionCallback;
                     std::string m_responseString;

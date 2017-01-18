@@ -6,6 +6,7 @@
 #include "IMenuSectionViewModel.h"
 #include <vector>
 #include "SearchResultModel.h"
+#include "DirectionQueryInfoDTO.h"
 
 namespace ExampleApp
 {
@@ -36,8 +37,8 @@ namespace ExampleApp
                 
                 virtual void CollapseAll() = 0;
                 
-                virtual void InsertSearchPeformedCallback(Eegeo::Helpers::ICallback2<const Eegeo::Space::LatLong&,const Eegeo::Space::LatLong&>& callback) = 0;
-                virtual void RemoveSearchPeformedCallback(Eegeo::Helpers::ICallback2<const Eegeo::Space::LatLong&,const Eegeo::Space::LatLong&>& callback) = 0;
+                virtual void InsertSearchPeformedCallback(Eegeo::Helpers::ICallback1<const SdkModel::DirectionQueryInfoDTO&>& callback) = 0;
+                virtual void RemoveSearchPeformedCallback(Eegeo::Helpers::ICallback1<const SdkModel::DirectionQueryInfoDTO&>& callback) = 0;
                 
                 virtual void InsertSearchClearedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
                 virtual void RemoveSearchClearedCallback(Eegeo::Helpers::ICallback0& callback) = 0;

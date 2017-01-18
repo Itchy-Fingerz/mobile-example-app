@@ -7,6 +7,8 @@
 #include "GeoNames.h"
 #include "NetIncludes.h"
 #include "SearchQuery.h"
+#include "IEegeoSearchQuery.h"
+#include "IEegeoParser.h"
 
 namespace ExampleApp
 {
@@ -24,13 +26,15 @@ namespace ExampleApp
                     Net::SdkModel::INetworkCapabilities& m_networkCapabilities;
                     Search::SdkModel::SearchQuery m_currentQueryModel;
                     Eegeo::Helpers::TCallback0<GeoNamesSearchService> m_searchCallback;
-                    IGeoNamesSearchQuery* m_pCurrentRequest;
+                    EegeoPois::SdkModel::IEegeoSearchQuery* m_pCurrentRequest;
                     bool m_hasActiveQuery;
+                    EegeoPois::SdkModel::IEegeoParser& m_eegeoSearchParser;
                     
                 public:
                     GeoNamesSearchService(IGeoNamesSearchQueryFactory& geoNamesSearchQueryFactory,
                                           IGeoNamesParser& geoNamesParser,
-                                          Net::SdkModel::INetworkCapabilities& networkCapabilities);
+                                          Net::SdkModel::INetworkCapabilities& networkCapabilities,
+                                          EegeoPois::SdkModel::IEegeoParser& eegeoSearchParser);
                     
                     ~GeoNamesSearchService();
                     

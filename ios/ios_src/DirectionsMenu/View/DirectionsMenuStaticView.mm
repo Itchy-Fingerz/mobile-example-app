@@ -357,6 +357,18 @@
     return Eegeo::Space::LatLong(0.0f,0.0f);
     
 }
+- (int)GetStartLevel
+{
+    if ((startMyLocationSelected && [_startRouteTextField.text isEqualToString:@"My Location"])) {
+        return -1;
+    }
+    if (startLocationSearched)
+    {
+        return m_pStartLoc.GetFloor();
+    }
+    return -1;
+}
+
 - (Eegeo::Space::LatLong) GetEndLocation
 {
     if (([_endRouteTextField.text isEqualToString:@"My Location"])) {
@@ -369,6 +381,19 @@
     return Eegeo::Space::LatLong(0.0f,0.0f);
 
 }
+
+- (int)GetEndLevel
+{
+    if (([_endRouteTextField.text isEqualToString:@"My Location"])) {
+        return -1;
+    }
+    if (endLocationSearched)
+    {
+        return m_pEndLoc.GetFloor();
+    }
+    return -1;
+}
+
 - (void) resetSuggestionItem
 {
     startLocationSearched = false;
