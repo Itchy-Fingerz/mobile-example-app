@@ -21,7 +21,8 @@ namespace ExampleApp
                                      ExampleAppMessaging::TMessageBus& messageBus,
                                      Eegeo::Location::ILocationService& locationService,
                                      ExampleApp::Menu::View::IMenuViewModel& settingsMenuViewModel,
-                                    ExampleApp::Menu::View::IMenuViewModel& searchSideMenuViewModel)
+                                    ExampleApp::Menu::View::IMenuViewModel& searchSideMenuViewModel,
+                                                               Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel)
             {
                 m_pView = [[DirectionsMenuView alloc] initWithParams:screenProperties.GetScreenWidth()
                                                                 :screenProperties.GetScreenHeight()
@@ -33,7 +34,7 @@ namespace ExampleApp
                                                                 *[m_pView getDirectionsMenuInterop],
                                                                     searchSectionViewModel,
                                                                 modalBackgroundView,
-                                                                    messageBus,locationService, settingsMenuViewModel,searchSideMenuViewModel);
+                                                                    messageBus,locationService, settingsMenuViewModel,searchSideMenuViewModel,interiorInteractionModel);
                 
                 
             }

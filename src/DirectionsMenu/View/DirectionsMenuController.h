@@ -52,6 +52,8 @@ namespace ExampleApp
                 
                 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage&> m_onStartLocationResponseReceivedCallback;
+                Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
+
                 
                 
                 void OnOpenStateChanged(OpenableControl::View::IOpenableControlViewModel& viewModel, float& openState);
@@ -106,7 +108,8 @@ namespace ExampleApp
                                          ExampleAppMessaging::TMessageBus& messageBus,
                                          Eegeo::Location::ILocationService& locationService,
                                          ExampleApp::Menu::View::IMenuViewModel& settingsMenuViewModel,
-                                         ExampleApp::Menu::View::IMenuViewModel& searchMenuViewModel);
+                                         ExampleApp::Menu::View::IMenuViewModel& searchMenuViewModel,
+                                         Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel);
                 
                 virtual ~DirectionsMenuController();
             };

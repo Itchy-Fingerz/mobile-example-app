@@ -96,6 +96,7 @@
 #include "DirectionsMenuViewModule.h"
 #include "DirectionResultSectionViewModule.h"
 #include "DirectionsResultSectionModule.h"
+#include "InteriorsPresentationModule.h"
 
 using namespace Eegeo::iOS;
 
@@ -319,7 +320,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                                         app.DirectionsMenuModule().GetDirectionsSectionViewModel(),
                                                             screenProperties,
                                                                                                m_pModalBackgroundViewModule->GetModalBackgroundViewInterop(),
-                                                                                               m_messageBus,*m_piOSLocationService,app.SettingsMenuModule().GetSettingsMenuViewModel(),app.SearchMenuModule().GetSearchMenuViewModel());
+                                                                                               m_messageBus,*m_piOSLocationService,app.SettingsMenuModule().GetSettingsMenuViewModel(),app.SearchMenuModule().GetSearchMenuViewModel(),app.World().GetMapModule().GetInteriorsPresentationModule().GetInteriorInteractionModel());
 
     
     //TODO: Search result poi moudle

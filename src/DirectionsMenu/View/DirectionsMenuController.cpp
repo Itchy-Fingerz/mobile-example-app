@@ -6,6 +6,8 @@
 #include "ModalityChangedMessage.h"
 #include "DirectionsMenuController.h"
 #include "SearchResultSectionItemSelectedMessage.h"
+#include "InteriorInteractionModel.h"
+#include "InteriorsFloorModel.h"
 namespace ExampleApp
 {
     namespace DirectionsMenu
@@ -21,7 +23,8 @@ namespace ExampleApp
                                                                ExampleAppMessaging::TMessageBus& messageBus,
                                                                Eegeo::Location::ILocationService& locationService,
                                                                ExampleApp::Menu::View::IMenuViewModel& settingsMenuViewModel,
-                                                               ExampleApp::Menu::View::IMenuViewModel& searchMenuViewModel)
+                                                               ExampleApp::Menu::View::IMenuViewModel& searchMenuViewModel,
+                                                               Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel)
             : Menu::View::MenuController(model, viewModel, view, messageBus)
             , m_directionsMenuView(directionsMenuView)
             , m_searchSectionViewModel(searchSectionViewModel)
@@ -48,6 +51,7 @@ namespace ExampleApp
             , m_searchMenuViewModel(searchMenuViewModel)
             , m_isDirectionMenuOpen(false)
             , m_isInterior(false)
+            , m_pInteriorInteractionModel(interiorInteractionModel)
             {
                 m_directionsMenuView.InsertSearchPeformedCallback(m_searchPerformedCallbacks);
                 m_directionsMenuView.InsertSearchClearedCallback(m_searchClearedCallbacks);
@@ -152,6 +156,7 @@ namespace ExampleApp
                 int startLevel = directionInfo.StartLocationLevel();
                 int endLevel = directionInfo.EndLocationLevel();
                 
+                const Eegeo::Resources::Interiors::InteriorsFloorModel *pSelectedFloor = m_pInteriorInteractionModel.GetSelectedFloorModel();
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                 {
                     if (!m_locationService.GetIsAuthorized())
@@ -162,7 +167,7 @@ namespace ExampleApp
                     //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
                     if(m_isInterior)
                     {
-                        startLevel = -1;
+                        startLevel = pSelectedFloor->GetFloorNumber();
                     }
 
                 }
@@ -175,7 +180,7 @@ namespace ExampleApp
                     m_locationService.GetLocation(endcurrentLatLong);
                     if(m_isInterior)
                     {
-                        endLevel =  -1;
+                        endLevel =  pSelectedFloor->GetFloorNumber();
                     }
                 }
             

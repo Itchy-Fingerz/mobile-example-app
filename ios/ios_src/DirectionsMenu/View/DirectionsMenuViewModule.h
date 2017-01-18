@@ -35,7 +35,8 @@ namespace ExampleApp
                                          ExampleAppMessaging::TMessageBus& messageBus,
                                          Eegeo::Location::ILocationService& locationService,
                                          ExampleApp::Menu::View::IMenuViewModel& settingsMenuViewModel,
-                                         ExampleApp::Menu::View::IMenuViewModel& searchSideMenuViewModel);
+                                         ExampleApp::Menu::View::IMenuViewModel& searchSideMenuViewModel,
+                                         Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel);
                 
                 ~DirectionsMenuViewModule();
                 
