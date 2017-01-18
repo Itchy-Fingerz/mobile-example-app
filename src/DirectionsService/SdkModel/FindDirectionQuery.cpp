@@ -10,10 +10,12 @@ namespace ExampleApp
         namespace SdkModel
         {
             
-            FindDirectionQuery::FindDirectionQuery(const Eegeo::Space::LatLongAltitude& startLocation,const Eegeo::Space::LatLongAltitude& endLocation,bool isInterior)
+            FindDirectionQuery::FindDirectionQuery(const Eegeo::Space::LatLongAltitude& startLocation,const int startLocLevel,const Eegeo::Space::LatLongAltitude& endLocation,const int endLocLevel,bool isInterior)
             : m_startLocation(startLocation)
             , m_endLocation(endLocation)
             , m_isInterior(isInterior)
+            , m_startLocLevel(startLocLevel)
+            , m_endLocLevel(endLocLevel)
             {
             
             }
@@ -38,6 +40,15 @@ namespace ExampleApp
                 return m_endLocation;
             }
 
+            const int FindDirectionQuery::StartLocationLevel() const
+            {
+                return m_startLocLevel;
+            }
+            
+            const int FindDirectionQuery::EndLocationLevel() const
+            {
+                return m_endLocLevel;
+            }
 
             
             
