@@ -149,7 +149,8 @@ namespace ExampleApp
                
                 Eegeo::Space::LatLong currentLatLong = Eegeo::Space::LatLong::FromDegrees(directionInfo.StartLocation().GetLatitudeInDegrees(), directionInfo.StartLocation().GetLongitudeInDegrees());
                 Eegeo::Space::LatLong endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(directionInfo.EndLocation().GetLatitudeInDegrees(), directionInfo.EndLocation().GetLongitudeInDegrees());
-
+                int startLevel = directionInfo.StartLocationLevel();
+                int endLevel = directionInfo.EndLocationLevel();
                 
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                 {
@@ -159,6 +160,10 @@ namespace ExampleApp
                     }
                     m_locationService.GetLocation(currentLatLong);
                     //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
+                    if(m_isInterior)
+                    {
+                        startLevel = -1;
+                    }
 
                 }
                 else if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
@@ -168,12 +173,16 @@ namespace ExampleApp
                         return;
                     }
                     m_locationService.GetLocation(endcurrentLatLong);
+                    if(m_isInterior)
+                    {
+                        endLevel =  -1;
+                    }
                 }
             
                 const Eegeo::Space::LatLongAltitude startLoc = Eegeo::Space::LatLongAltitude::FromDegrees(currentLatLong.GetLatitudeInDegrees(), currentLatLong.GetLongitudeInDegrees(),0.0);
                 const Eegeo::Space::LatLongAltitude endLoc = Eegeo::Space::LatLongAltitude::FromDegrees(endcurrentLatLong.GetLatitudeInDegrees(), endcurrentLatLong.GetLongitudeInDegrees(),0.0);
                 
-                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,directionInfo.StartLocationLevel(),directionInfo.EndLocationLevel(),m_isInterior));
+                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,startLevel, endLevel, m_isInterior));
                 
             }
             
