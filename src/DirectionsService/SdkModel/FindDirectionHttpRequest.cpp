@@ -29,11 +29,15 @@ namespace ExampleApp
                 if (query.IsInterior())
                 {
     // #Query the service for a route
-    //                Eegeo::Space::LatLongAltitude start = Eegeo::Space::LatLongAltitude::FromDegrees(56.4602302, -2.9785768, 0);
-    //                int startLevel = 0;
-    //                Eegeo::Space::LatLongAltitude end = Eegeo::Space::LatLongAltitude::FromDegrees(56.4600344, -2.9783117, 0);
-    //                int endLevel = 2;
-                    std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(query.StartLocation(), query.StartLocationLevel(), query.EndLocation(),query.EndLocationLevel());
+//                    Eegeo::Space::LatLongAltitude start = Eegeo::Space::LatLongAltitude::FromDegrees(56.4602302, -2.9785768, 0);
+//                    int startLevel = 0;
+//                    Eegeo::Space::LatLongAltitude end = Eegeo::Space::LatLongAltitude::FromDegrees(56.4600344, -2.9783117, 0);
+//                    int endLevel = 2;
+//
+                    Eegeo::Space::LatLongAltitude end = Eegeo::Space::LatLongAltitude::FromDegrees(56.460276, -2.978738, 0);
+//                    std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(start, startLevel,end ,endLevel);
+                    
+                    std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(query.StartLocation(), query.StartLocationLevel(), end,query.EndLocationLevel());
                     m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, apiCall, m_webRequestCompleteCallback)
                     .SetShouldCacheAggressively(false)
                     .Build();

@@ -63,7 +63,17 @@ namespace ExampleApp
                 {
                     m_pCurrentRequest->Cancel();
                 }
-                
+                if (findDirectionQuery.IsInterior())
+                {
+                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
+                    m_routeThicknessPolicy.SetAltitude(100.f);
+                }
+                else
+                {
+                    m_routeThicknessPolicy.SetScaleFactor(5.7f);
+                    m_routeThicknessPolicy.SetAltitude(100.f);
+                }
+                    
                 m_pCurrentRequest = m_findDirectionHttpRequestFactory.CreateFindDirectionQuery(findDirectionQuery, m_handleResponseCallback);
                 m_pCurrentRequest->Dispatch();
 
@@ -79,8 +89,6 @@ namespace ExampleApp
                     DirectionResultModel result =  m_findDirectionResultParser.ParseGeoNamesQueryResults(response);
                      m_messageBus.Publish(DirectionResultSection::DirectionQueryResponseReceivedMessage(result));
                     
-                    m_routeThicknessPolicy.SetScaleFactor(5.7f);
-                   m_routeThicknessPolicy.SetAltitude(100.f);
 
                     Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
                     // this will asynchronously parse the result and add the resulting route to m_routeService
