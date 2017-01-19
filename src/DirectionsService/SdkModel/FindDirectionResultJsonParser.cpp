@@ -135,15 +135,38 @@ namespace ExampleApp
                                 size_t numOfWayPoints = routeWayPoints.Size();
                                 for(int j = 0; j < numOfWayPoints; ++j)
                                 {
-                                    std::string watPointName,wayPointHint;
+                                    std::string wayPointName,wayPointHint;
+                                    std::string buildingID = "";
                                     double lat = 0;
                                     double longi = 0;
+                                    bool inInterior = false;
+                                    int buildingLevel = 0;
+                                    std::string buildingLevelString = "";
+                                    
                                     const rapidjson::Value& wayPointJsonValue = routeWayPoints[j];
                                     
                                     if (wayPointJsonValue.HasMember("name"))
                                     {
-                                        const rapidjson::Value& durationVal = wayPointJsonValue["name"];
-                                        watPointName = durationVal.GetString();
+                                        const rapidjson::Value& nameValue = wayPointJsonValue["name"];
+                                        wayPointName = nameValue.GetString();
+
+                                        if (wayPointName.find("bid:") != std::string::npos)
+                                        {
+                                            buildingID = wayPointName.substr(wayPointName.find("bid:") + 4);
+                                            buildingID = "westport_house";//buildingID.substr(0,buildingID.size()-1);
+                                            inInterior = true;
+                                        }
+                                        
+                                        if (wayPointName.find("level:") != std::string::npos)
+                                        {
+                                            buildingLevelString = wayPointName.substr(wayPointName.find("level:") + 6);
+                                            if(buildingLevelString.find("}{") != std::string::npos)
+                                            {
+                                                buildingLevelString = buildingLevelString.substr(0,buildingLevelString.find("}{"));
+                                                buildingLevel = std::stoi(buildingLevelString);
+                                            }
+                                        }
+
                                     }
                                     
                                     if (wayPointJsonValue.HasMember("hint"))
@@ -159,7 +182,7 @@ namespace ExampleApp
                                         longi = wayPointLocationJson[0].GetDouble();
                                     }
                                     Eegeo::Space::LatLong latLongStart = Eegeo::Space::LatLong::FromDegrees(lat,longi);
-                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(j,ExampleApp::PathDrawing::WayPointType::CheckPoint,latLongStart,watPointName);
+                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(j,ExampleApp::PathDrawing::WayPointType::CheckPoint,latLongStart,wayPointName,buildingID,buildingLevel,inInterior);
                                     wayPointsVector.push_back(wayPointModel);
                                     
                                 }//end for wayPoints

@@ -53,7 +53,7 @@ namespace ExampleApp
                 m_worldPinsService.AddPin(Eegeo_NEW(WayPointSelectionHandler(*wayPoint,m_messageBus))
                                           , NULL
                                           , worldPinFocusData
-                                          , false
+                                          , wayPoint->GetInInterior()
                                           , worldPinInteriorData
                                           , wayPoint->GetLocation()
                                           , GetWayPointIconForType(wayPoint->GetWpId())

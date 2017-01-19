@@ -73,6 +73,21 @@ namespace ExampleApp
             {
                 return m_searchResultModelLocationEcef;
             }
+            
+            bool SearchResultItemModel::GetIsInterior()
+            {
+                return m_isInterior;
+            }
+            
+            std::string SearchResultItemModel::GetInteriorID()
+            {
+                return m_interiorId.Value();
+            }
+            
+            int SearchResultItemModel::GetFloorIndex()
+            {
+                return m_floorIndex;
+            }
         }
     }
 }

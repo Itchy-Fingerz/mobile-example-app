@@ -58,6 +58,9 @@ namespace ExampleApp
                 int GetItemIndex();
                 
                 Eegeo::dv3 GetLocationEcef();
+                bool GetIsInterior();
+                std::string GetInteriorID();
+                int GetFloorIndex();
 
             };
         }

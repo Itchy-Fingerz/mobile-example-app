@@ -66,7 +66,7 @@ namespace ExampleApp
                         std::string subtitle = std::to_string(routeDuration);
                         const Eegeo::Space::LatLong latlong = wayPointModel.GetLocation();
                         
-                        Eegeo::Resources::Interiors::InteriorId m_buildingId("");
+                        Eegeo::Resources::Interiors::InteriorId m_buildingId(wayPointModel.GetBuildingID());
                         m_menuOptions.AddItem(std::to_string(i),
                                               wayPointModel.GetTitle(),
                                               subtitle,
@@ -74,10 +74,10 @@ namespace ExampleApp
                                               duration,
                                               Eegeo_NEW(SearchResultSection::View::SearchResultItemModel)("model title",
                                                                                                           latlong.ToECEF(),
-                                                                                                          false,
+                                                                                                          wayPointModel.GetInInterior(),
                                                                                                           true,
                                                                                                           m_buildingId,
-                                                                                                          2,
+                                                                                                          wayPointModel.GetLevel(),
                                                                                                           m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
                                                                                                           i,
                                                                                                           m_messageBus,

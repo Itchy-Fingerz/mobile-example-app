@@ -8,13 +8,19 @@ namespace ExampleApp
     {
         
         WayPointModel::WayPointModel(const int wpId
-                           , const ExampleApp::PathDrawing::WayPointType::Values type
-                           , Eegeo::Space::LatLong& location
-                           , const std::string title)
+                                     , const ExampleApp::PathDrawing::WayPointType::Values type
+                                     , Eegeo::Space::LatLong& location
+                                     , const std::string title
+                                     , const std::string buildingID
+                                     , const int level
+                                     , const bool inInterior)
         : m_id(wpId)
         , m_type(type)
         , m_location(location)
         , m_title(title)
+        , m_level(level)
+        , m_buildingID(buildingID)
+        , m_inInterior(inInterior)
         {
         }
         
@@ -37,6 +43,22 @@ namespace ExampleApp
         {
             return m_location;
         }
+        
+        const int WayPointModel::GetLevel()
+        {
+            return m_level;
+        }
+        
+        const std::string WayPointModel::GetBuildingID()
+        {
+            return m_buildingID;
+        }
+        
+        const bool WayPointModel::GetInInterior()
+        {
+            return m_inInterior;
+        }
+
     }
 
 }
