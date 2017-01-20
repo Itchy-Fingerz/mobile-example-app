@@ -47,7 +47,7 @@ namespace ExampleApp
                                                                       "",
                                                                       0);
                 
-                WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(Eegeo::Resources::Interiors::InteriorId::NullId(), 0);
+                WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(Eegeo::Resources::Interiors::InteriorId(wayPoint->GetBuildingID()), wayPoint->GetLevel());
                 
                 ExampleApp::WorldPins::SdkModel::WorldPinItemModel *pinItemModel =
                 m_worldPinsService.AddPin(Eegeo_NEW(WayPointSelectionHandler(*wayPoint,m_messageBus))
@@ -58,7 +58,7 @@ namespace ExampleApp
                                           , wayPoint->GetLocation()
                                           , GetWayPointIconForType(wayPoint->GetWpId())
                                           , 0.f
-                                          , WorldPins::SdkModel::WorldPinVisibility::Search);
+                                          , WorldPins::SdkModel::WorldPinVisibility::World);
                 
                 pinItemModel->SetFocusable(false);
                 // Add pin to map

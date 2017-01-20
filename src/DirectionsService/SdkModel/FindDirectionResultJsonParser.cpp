@@ -166,6 +166,11 @@ namespace ExampleApp
                                                 buildingLevel = std::stoi(buildingLevelString);
                                             }
                                         }
+                                        
+                                        if (inInterior)
+                                        {
+                                            wayPointName =  "Waypoint at Floor "+std::to_string(buildingLevel);
+                                        }
 
                                     }
                                     
