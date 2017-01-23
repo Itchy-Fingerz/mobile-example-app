@@ -46,10 +46,13 @@ namespace ExampleApp
 
                 Eegeo::Helpers::TCallback1<FindDirectionService, const DirectionsMenu::DirectionMenuFindDirectionMessage&> m_onFindNewDirectionCallback;
 
+                Eegeo::Helpers::TCallback1<FindDirectionService, const AppModes::AppModeChangedMessage&> m_appModeChangedCallback;
+
                 void HandleRouteDirectionResponse();
                 void OnFailedToCallRouteResponse();
                 void OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message);
                 void OnFindNewDirection(const DirectionsMenu::DirectionMenuFindDirectionMessage&);
+                void OnAppModeChanged(const AppModes::AppModeChangedMessage& message);
 
 
             public:

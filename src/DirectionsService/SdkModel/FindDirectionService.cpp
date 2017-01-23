@@ -31,17 +31,24 @@ namespace ExampleApp
             , m_pInteriorInteractionModel(interiorInteractionModel)
             , m_directionsMenuStateChangedCallback(this, &FindDirectionService::OnDirectionsMenuStateChanged)
             , m_onFindNewDirectionCallback(this, &FindDirectionService::OnFindNewDirection)
+            , m_appModeChangedCallback(this, &FindDirectionService::OnAppModeChanged)
+
 
 
             {
                 m_messageBus.SubscribeUi(m_directionsMenuStateChangedCallback);
                 m_messageBus.SubscribeNative(m_onFindNewDirectionCallback);
 
+                m_messageBus.SubscribeUi(m_appModeChangedCallback);
 
             }
             FindDirectionService::~FindDirectionService()
             {
                 m_messageBus.UnsubscribeUi(m_directionsMenuStateChangedCallback);
+                m_messageBus.UnsubscribeUi(m_onFindNewDirectionCallback);
+
+                m_messageBus.UnsubscribeUi(m_appModeChangedCallback);
+
 
             }
             void FindDirectionService::InsertOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback1<const DirectionResultModel& >& callback)
@@ -131,6 +138,18 @@ namespace ExampleApp
                 ClearRoutes();
             }
 
+            
+            void FindDirectionService::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)  // will use for route visibility for different modes otherwise need to remove
+            {
+                if (message.GetAppMode() == AppModes::SdkModel::InteriorMode)
+                {
+                    
+                }
+                else
+                {
+                    
+                }
+            }
         }
     }
 }

@@ -125,6 +125,8 @@
     endLocationSearched = startLocationSearched;
     startLocationSearched = tempSearched;
     
+    selectedIndex = -1;
+    
 }
 - (void)optionsAction
 {
@@ -156,7 +158,9 @@
 
 - (void)updateSearchResultsSection:(ExampleApp::Menu::View::IMenuSectionViewModel*)section  {
     
-     m_pSearchResultsSection = section;    
+    selectedIndex = -1;
+
+     m_pSearchResultsSection = section;
     
     [self UpdateRouteTime];
     [_wayPointsTableView reloadData];
@@ -317,7 +321,7 @@
     [self.secCounterLabel setHidden:YES];
     [self.staticMinsLabel setHidden:YES];
     
-    if( m_pSearchResultsSection->Size() > 0)
+    if(m_pSearchResultsSection != NULL &&  m_pSearchResultsSection->Size() > 0)
     {
         ExampleApp::Menu::View::MenuItemModel item = m_pSearchResultsSection->GetItemAtIndex(static_cast<int>(0));
         
@@ -399,6 +403,8 @@
     startLocationSearched = false;
     endLocationSearched = false;
     startMyLocationSelected = true;
+    selectedIndex = -1;
+    [_wayPointsTableView reloadData];
 }
 - (BOOL) shouldPerformSearch
 {
