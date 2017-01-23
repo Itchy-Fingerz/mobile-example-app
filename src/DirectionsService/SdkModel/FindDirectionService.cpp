@@ -10,6 +10,8 @@
 #include "Route.h"
 #include "LinearAltitudeBasedRouteThicknessPolicy.h"
 #include "RouteStyle.h"
+#include "RouteRepository.h"
+#include <vector>
 
 
 namespace ExampleApp
@@ -18,7 +20,7 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            FindDirectionService::FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus)
+            FindDirectionService::FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus)
             : m_pCurrentRequest(NULL)
             , m_findDirectionHttpRequestFactory(findDirectionHttpRequestFactory)
             , m_handleResponseCallback(this,&FindDirectionService::HandleRouteDirectionResponse)
@@ -28,11 +30,13 @@ namespace ExampleApp
             , m_alertBoxFactory(alertBoxFactory)
             , m_messageBus(messageBus)
             , m_routeService(routeService)
+            , m_routeRepository(routeRepository)
             , m_pInteriorInteractionModel(interiorInteractionModel)
             , m_directionsMenuStateChangedCallback(this, &FindDirectionService::OnDirectionsMenuStateChanged)
             , m_onFindNewDirectionCallback(this, &FindDirectionService::OnFindNewDirection)
             , m_appModeChangedCallback(this, &FindDirectionService::OnAppModeChanged)
-
+            ,m_pIsInteriorRoute(false)
+            ,m_routes (NULL)
 
 
             {
@@ -45,7 +49,7 @@ namespace ExampleApp
             FindDirectionService::~FindDirectionService()
             {
                 m_messageBus.UnsubscribeUi(m_directionsMenuStateChangedCallback);
-                m_messageBus.UnsubscribeUi(m_onFindNewDirectionCallback);
+                m_messageBus.UnsubscribeNative(m_onFindNewDirectionCallback);
 
                 m_messageBus.UnsubscribeUi(m_appModeChangedCallback);
 
@@ -70,10 +74,12 @@ namespace ExampleApp
                 {
                     m_pCurrentRequest->Cancel();
                 }
+                m_pIsInteriorRoute = findDirectionQuery.IsInterior();
                 if (findDirectionQuery.IsInterior())
                 {
                     m_routeThicknessPolicy.SetScaleFactor(1.7f);
                     m_routeThicknessPolicy.SetAltitude(100.f);
+                    
                 }
                 else
                 {
@@ -139,15 +145,25 @@ namespace ExampleApp
             }
 
             
-            void FindDirectionService::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)  // will use for route visibility for different modes otherwise need to remove
+            void FindDirectionService::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)  // will use for route visibility for different modes otherwise need to remove still facing few issues while regenerating
+                                                                                                        //route. Data not exposed.
             {
-                if (message.GetAppMode() == AppModes::SdkModel::InteriorMode)
+                if (m_pIsInteriorRoute && message.GetAppMode() == AppModes::SdkModel::InteriorMode)
                 {
-                    
+                    if (m_routes.size() > 0)
+                    {
+                  
+                    }
+                  
                 }
-                else
+                else if (m_pIsInteriorRoute)
                 {
-                    
+                    if (m_pIsInteriorRoute)
+                    {
+                        
+                         m_routes = m_routeRepository.GetRoutes();
+                    }
+
                 }
             }
         }

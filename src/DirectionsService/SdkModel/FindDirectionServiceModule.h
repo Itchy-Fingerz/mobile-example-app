@@ -29,7 +29,7 @@ namespace ExampleApp
             class FindDirectionServiceModule
             {
             public:
-                FindDirectionServiceModule(Eegeo::Concurrency::Tasks::IWorkPool& workPool,Eegeo::Routes::RouteService& routeService, Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel
+                FindDirectionServiceModule(Eegeo::Concurrency::Tasks::IWorkPool& workPool,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository, Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel
                                            ,Eegeo::Web::IWebLoadRequestFactory& webRequestFactory, Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                            Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
                                            const std::string& eegeoApiKey, ExampleAppMessaging::TMessageBus& messageBus
@@ -45,6 +45,7 @@ namespace ExampleApp
                 Eegeo::Concurrency::Tasks::IWorkPool& m_workPool;
                 Eegeo::Routes::Webservice::JsonRouteParser* m_resultParser;
                 Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
+                Eegeo::Routes::RouteRepository& m_routeRepository;
 
                 //Eegeo::Routes::Style::Thickness::LinearAltitudeBasedRouteThicknessPolicy m_routeThicknessPolicy;
                 FindDirectionService* m_pDirectionService;
