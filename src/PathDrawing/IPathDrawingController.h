@@ -19,7 +19,6 @@ namespace ExampleApp
             
             virtual bool IsRouteCreated() = 0;
             
-            virtual std::vector<Eegeo::Routes::Route*>& GetCreatedRoutes() = 0;
             
             virtual void RemoveRoutePlan() = 0;
 

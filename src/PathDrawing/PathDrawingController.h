@@ -27,13 +27,11 @@ namespace ExampleApp
         {
         private:
             PathDrawing::SdkModel::IWayPointsRepository& m_pWayPointsRepository;
-            Eegeo::Routes::RouteService& m_routeService;
             AppCamera::SdkModel::AppGlobeCameraWrapper& m_cameraWrapper;
             ExampleAppMessaging::TMessageBus& m_messageBus;
             
             Menu::View::IMenuSectionViewModel& m_searchSectionViewModel;
             
-            Eegeo::Helpers::TCallback1<PathDrawingController, const DirectionResultSection::DirectionQueryResponseReceivedMessage&> m_directionResultReceivedHandler;
             Eegeo::Helpers::TCallback1<PathDrawingController, const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage&> m_directionsMenuStateChangedCallback;
             ExampleApp::PathDrawing::PathDrawingOptionsModel* m_pPathDrawingSettings;
 
@@ -44,13 +42,8 @@ namespace ExampleApp
 
             
             bool m_createdRoutes;
-            std::vector<Eegeo::Routes::Route*> m_routes;
-            Eegeo::Routes::Style::Thickness::LinearAltitudeBasedRouteThicknessPolicy m_routeThicknessPolicy;
+                        
             
-            void CreateRoutePlan(Direction::SdkModel::DirectionResultModel& directionResultModel);
-            
-            
-            void OnSearchQueryResponseReceivedMessage(const DirectionResultSection::DirectionQueryResponseReceivedMessage& message);
             
             void OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message);
             
@@ -63,8 +56,7 @@ namespace ExampleApp
         public:
 
 
-            PathDrawingController(Menu::View::IMenuSectionViewModel& searchSectionViewModel,
-                                  Eegeo::Routes::RouteService& routeService
+            PathDrawingController(Menu::View::IMenuSectionViewModel& searchSectionViewModel
                                   , AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper
                                   , PathDrawing::SdkModel::IWayPointsRepository& wayPointsRepository
                                   , ExampleAppMessaging::TMessageBus& messageBus);
@@ -74,7 +66,6 @@ namespace ExampleApp
             void Draw() {}
             void Suspend();
             bool IsRouteCreated();
-            std::vector<Eegeo::Routes::Route*>& GetCreatedRoutes();
 
             void RemoveRoutePlan();
 

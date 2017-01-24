@@ -21,7 +21,7 @@ namespace ExampleApp
             
             {
                 m_pWayPointsRepository = Eegeo_NEW(WayPointsRepository);
-                m_pPathDrawingController = Eegeo_NEW(ExampleApp::PathDrawing::PathDrawingController)(searchSectionViewModel,                                                                                                     routeService
+                m_pPathDrawingController = Eegeo_NEW(ExampleApp::PathDrawing::PathDrawingController)(searchSectionViewModel
                                                                                                      , cameraWrapper
                                                                                                      , *m_pWayPointsRepository
                                                                                                      , messageBus);
