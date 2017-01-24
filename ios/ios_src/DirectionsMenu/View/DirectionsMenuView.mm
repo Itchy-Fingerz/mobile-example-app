@@ -403,6 +403,19 @@
 
 }
 
+-(void)ExitDirectionsClickedOnInteriorExit
+{
+    [m_pDirectionsMenuView cancelSuggestions:nil];
+    [self updateContainerFrame];
+    _pEndRouteTextField.text = @"";
+    _pStartRouteTextField.text = @"My Location";
+    [_pEndRouteTextField resignFirstResponder];
+    [_pStartRouteTextField resignFirstResponder];
+    [m_pDirectionsMenuView resetSuggestionItem];
+
+    
+}
+
 -(void)OptionAction
 {
     [m_pDirectionsMenuView optionsAction];

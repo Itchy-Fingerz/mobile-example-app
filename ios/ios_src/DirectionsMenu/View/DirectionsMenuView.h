@@ -33,6 +33,7 @@
 - (void)SetGeoNamesEndSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results;
 
 - (void)ExitDirectionsClicked;
+-(void)ExitDirectionsClickedOnInteriorExit;
 
 @property (nonatomic, retain) UIScrollView* pSearchResultsTableContainerView;
 

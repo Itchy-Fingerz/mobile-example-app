@@ -83,7 +83,7 @@ namespace ExampleApp
                 }
                 else
                 {
-                    m_routeThicknessPolicy.SetScaleFactor(5.7f);
+                    m_routeThicknessPolicy.SetScaleFactor(7.7f);
                     m_routeThicknessPolicy.SetAltitude(100.f);
                 }
                     

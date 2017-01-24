@@ -224,13 +224,17 @@ namespace ExampleApp
             {
                 
                 m_directionsMenuView.HighlightListItem(message.GetSelectedItemIndex());
-                DirectionsMenuController::ToggleSettingMenuButton();
-                MenuController::OnViewClicked();
+                if (m_isDirectionMenuOpen == false)
+                {
+                    DirectionsMenuController::ToggleSettingMenuButton();
+                    MenuController::OnViewClicked();
+                }
+
             }
             
             void DirectionsMenuController::OnWayPointItemSelected(int& index)
             {
-                
+                ToggleSettingMenuButton();
                 m_searchSectionViewModel.GetItemAtIndex(index).MenuOption().Select();
                 m_directionsMenuView.HighlightListItem(index);
                 
@@ -274,6 +278,27 @@ namespace ExampleApp
                 else
                 {
                     m_isInterior = false;
+                    if(m_searchSectionViewModel.Size() > 0)
+                    {
+                        m_directionsMenuView.ExitDirectionsOnInteriorExit();
+                        if(IsFullyOpen())
+                        {
+                            OnExitDirectionsClicked();
+                        }
+                        else
+                        {
+                            DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false);
+                            m_messageBus.Publish(message);
+                            
+                            m_isExitDirections = false;
+                            m_isDirectionMenuOpen = false;
+                            m_settingsMenuViewModel.AddToScreen();
+                            m_searchMenuViewModel.AddToScreen();
+                        }
+
+
+                        
+                    }
                 }
             }
             

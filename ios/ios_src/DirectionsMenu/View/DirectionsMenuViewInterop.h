@@ -40,6 +40,11 @@ namespace ExampleApp
                     [m_pView SetSearchSection:&searchSection];
                 }
                 
+                void ExitDirectionsOnInteriorExit()
+                {
+                    [m_pView ExitDirectionsClickedOnInteriorExit];
+                }
+                
                 void RemoveSeachKeyboard()
                 {
                 }
