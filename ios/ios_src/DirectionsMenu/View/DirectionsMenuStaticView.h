@@ -41,6 +41,8 @@
 - (int)GetStartLevel;
 - (Eegeo::Space::LatLong) GetEndLocation;
 - (int)GetEndLevel;
+-(std::string) GetStartBuildinID;
+-(std::string) GetEndBuildinID;
 - (BOOL) shouldPerformSearch;
 - (void) resetSuggestionItem;
 - (void)reverseAction;

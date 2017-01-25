@@ -9,11 +9,13 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            DirectionQueryInfoDTO::DirectionQueryInfoDTO(const Eegeo::Space::LatLong startLoc,const Eegeo::Space::LatLong endLoc,const int startLocLevel,const int endLocLevel)
+            DirectionQueryInfoDTO::DirectionQueryInfoDTO(const Eegeo::Space::LatLong startLoc,const Eegeo::Space::LatLong endLoc,const int startLocLevel,const int endLocLevel,std::string startBuuildingID, std::string endBuildingID)
             : m_startLoc(startLoc)
             , m_endLoc(endLoc)
             , m_startLocLevel(startLocLevel)
             , m_endLocLevel(endLocLevel)
+            , m_startBuildingID(startBuuildingID)
+            , m_endBuildingID(endBuildingID)
             {
             
             }
@@ -42,6 +44,17 @@ namespace ExampleApp
             {
                 return m_endLocLevel;
             }
+            
+            const std::string DirectionQueryInfoDTO::StartBuildingID() const
+            {
+                return m_startBuildingID;
+            }
+            
+            const std::string DirectionQueryInfoDTO::EndBuildingID() const
+            {
+                return m_endBuildingID;
+            }
+            
             
         }
     }

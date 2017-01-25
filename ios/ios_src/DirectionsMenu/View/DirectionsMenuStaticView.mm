@@ -412,6 +412,30 @@
     return -1;
 }
 
+-(std::string) GetStartBuildinID
+{
+    if (([_startRouteTextField.text isEqualToString:@"My Location"])) {
+        return "";
+    }
+    if (startLocationSearched)
+    {
+        return m_pStartLoc.GetBuildingId().Value();
+    }
+    return "";
+}
+
+-(std::string) GetEndBuildinID
+{
+    if (([_endRouteTextField.text isEqualToString:@"My Location"])) {
+        return "";
+    }
+    if (endLocationSearched)
+    {
+        return m_pEndLoc.GetBuildingId().Value();
+    }
+    return "";
+}
+
 - (void) resetSuggestionItem
 {
     startLocationSearched = false;

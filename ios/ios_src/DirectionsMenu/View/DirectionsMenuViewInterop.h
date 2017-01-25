@@ -73,10 +73,10 @@ namespace ExampleApp
                     [m_pView SetGeoNamesEndSuggestions:results];
                 }
                 
-                void SearchPerformed(const Eegeo::Space::LatLong& start, const Eegeo::Space::LatLong& end , const int startLevel, const int endLevel)
+                void SearchPerformed(const Eegeo::Space::LatLong& start, const Eegeo::Space::LatLong& end , const int startLevel, const int endLevel, const std::string startBuildingID, const std::string endBuildingID)
                 {
                    // SdkModel::DirectionQueryInfoDTO dto = SdkModel::DirectionQueryInfoDTO(start,end,startLevel,endLevel);
-                    m_searchPerformedCallbacks.ExecuteCallbacks(SdkModel::DirectionQueryInfoDTO(start,end,startLevel,endLevel));
+                    m_searchPerformedCallbacks.ExecuteCallbacks(SdkModel::DirectionQueryInfoDTO(start,end,startLevel,endLevel,startBuildingID,endBuildingID));
                 }
                 
                 void CollapseAll()
