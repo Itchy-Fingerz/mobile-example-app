@@ -337,29 +337,34 @@
     
     if(m_pSearchResultsSection != NULL &&  m_pSearchResultsSection->Size() > 0)
     {
-        ExampleApp::Menu::View::MenuItemModel item = m_pSearchResultsSection->GetItemAtIndex(static_cast<int>(0));
-        
-        std::string json = item.SerializeJson();
-        
-        rapidjson::Document document;
-        
-        if (!document.Parse<0>(json.c_str()).HasParseError())
+        int duration_sec = 0;
+
+        for (int i= 0; i<m_pSearchResultsSection->Size(); i++)
         {
-            std::string subTitle = document.HasMember("details") ? document["details"].GetString() : "";
+            ExampleApp::Menu::View::MenuItemModel item = m_pSearchResultsSection->GetItemAtIndex(static_cast<int>(i));
             
-            std::string duration = document.HasMember("duration") ? document["duration"].GetString() : "";
+            std::string json = item.SerializeJson();
             
-            int duration_sec = std::stoi( subTitle );
-            int mins = duration_sec / 60;
-            int sec = duration_sec % 60;
-            [self.minCounterLabel setText:[NSString stringWithFormat:@"%i",mins]];
-            [self.secCounterLabel setText:[NSString stringWithFormat:@"%isec",sec]];
+            rapidjson::Document document;
             
-            [self.minCounterLabel setHidden:NO];
-            [self.secCounterLabel setHidden:NO];
-            [self.staticMinsLabel setHidden:NO];
             
+            if (!document.Parse<0>(json.c_str()).HasParseError())
+            {
+                std::string subTitle = document.HasMember("details") ? document["details"].GetString() : "";
+                duration_sec += std::stoi( subTitle );
+            }
+        
         }
+        
+        int mins = duration_sec / 60;
+        int sec = duration_sec % 60;
+        [self.minCounterLabel setText:[NSString stringWithFormat:@"%i",mins]];
+        [self.secCounterLabel setText:[NSString stringWithFormat:@"%isec",sec]];
+        
+        [self.minCounterLabel setHidden:NO];
+        [self.secCounterLabel setHidden:NO];
+        [self.staticMinsLabel setHidden:NO];
+
     }
 }
 

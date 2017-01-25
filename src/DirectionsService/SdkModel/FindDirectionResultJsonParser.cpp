@@ -142,7 +142,8 @@ namespace ExampleApp
                                     bool inInterior = false;
                                     int buildingLevel = 0;
                                     std::string buildingLevelString = "";
-                                    
+                                    std::string wayPointTypeString = "";
+                                    ExampleApp::PathDrawing::WayPointType::Values wayPointype = ExampleApp::PathDrawing::WayPointType::CheckPoint;
                                     const rapidjson::Value& wayPointJsonValue = routeWayPoints[j];
                                     
                                     if (wayPointJsonValue.HasMember("name"))
@@ -167,9 +168,27 @@ namespace ExampleApp
                                             }
                                         }
                                         
+                                        if (wayPointName.find("type:") != std::string::npos)
+                                        {
+                                            wayPointTypeString = wayPointName.substr(wayPointName.find("type:") + 5);
+                                            if(wayPointTypeString.find("}{") != std::string::npos)
+                                            {
+                                                wayPointTypeString = wayPointTypeString.substr(0,wayPointTypeString.find("}{"));
+                                                if(wayPointTypeString == "pathway")
+                                                {
+                                                    wayPointype = ExampleApp::PathDrawing::WayPointType::Pathway;
+                                                }
+                                                else if (wayPointTypeString == "entrance")
+                                                {
+                                                    wayPointype = ExampleApp::PathDrawing::WayPointType::Entrance;
+
+                                                }
+                                            }
+                                        }
+                                        
                                         if (inInterior)
                                         {
-                                            wayPointName =  "Waypoint at Floor "+std::to_string(buildingLevel);
+                                            wayPointName =  "Waypoint: " + wayPointTypeString + "at level " + std::to_string(buildingLevel);
                                         }
 
                                     }
@@ -187,7 +206,7 @@ namespace ExampleApp
                                         longi = wayPointLocationJson[0].GetDouble();
                                     }
                                     Eegeo::Space::LatLong latLongStart = Eegeo::Space::LatLong::FromDegrees(lat,longi);
-                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(j,ExampleApp::PathDrawing::WayPointType::CheckPoint,latLongStart,wayPointName,buildingID,buildingLevel,inInterior);
+                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(j,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior);
                                     wayPointsVector.push_back(wayPointModel);
                                     
                                 }//end for wayPoints

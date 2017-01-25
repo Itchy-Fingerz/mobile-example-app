@@ -13,7 +13,9 @@ namespace ExampleApp
                 End,
                 CheckPoint,
                 InteriorEntry,
-                Elevator
+                Elevator,
+                Pathway,
+                Entrance
             };
         }
     }

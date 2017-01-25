@@ -45,9 +45,9 @@ namespace ExampleApp
                 
                 Direction::SdkModel::DirectionResultModel& model = message.GetDirectionResultModel();
                 const std::vector<Direction::SdkModel::DirectionRouteModel>& routes = model.GetRoutes();
-                if (routes.size() > 0)
+                for(int j = 0; j < routes.size(); ++j)
                 {
-                    Direction::SdkModel::DirectionRouteModel routeModel = routes[0];
+                    Direction::SdkModel::DirectionRouteModel routeModel = routes[j];
                     const std::vector<ExampleApp::PathDrawing::WayPointModel>& wayPointVector = routeModel.GetWayPoints();
                     const std::vector<Direction::SdkModel::DirectionInnerRouteModel>& tempVector = routeModel.GetInnerRoutes();
                     
@@ -67,7 +67,7 @@ namespace ExampleApp
                         const Eegeo::Space::LatLong latlong = wayPointModel.GetLocation();
                         
                         Eegeo::Resources::Interiors::InteriorId m_buildingId(wayPointModel.GetBuildingID());
-                        m_menuOptions.AddItem(std::to_string(i),
+                        m_menuOptions.AddItem(std::to_string(m_wayPointCount),
                                               wayPointModel.GetTitle(),
                                               subtitle,
                                               iconKey,
@@ -82,8 +82,8 @@ namespace ExampleApp
                                                                                                           i,
                                                                                                           m_messageBus,
                                                                                                           m_menuReaction));
+                        m_wayPointCount++;
                     }
-                    m_wayPointCount = wayPointVector.size();
                     
                 }
                 
