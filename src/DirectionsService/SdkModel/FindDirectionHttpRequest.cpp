@@ -26,14 +26,12 @@ namespace ExampleApp
             , m_requestBuilder(requestBuilder)
             , m_webRequestCompleteCallback(this, &FindDirectionHttpRequest::HandleWebResponseComplete)
             {
-                if (query.IsInterior() && query.StartBuildingID() == query.EndBuildingID())   // multipart request
+                if (query.StartBuildingID() != "" && query.EndBuildingID() != "" &&  query.StartBuildingID() != query.EndBuildingID())   // multipart request b/w buildings
                 {
                     //#Multipart
                     
-                    Eegeo::Space::LatLongAltitude start = query.StartLocation();//Eegeo::Space::LatLongAltitude::FromDegrees(56.461231653264029, -2.983122836389253, 0);
-                    //    int startLevel = 0;
-                    Eegeo::Space::LatLongAltitude end = query.EndLocation();//Eegeo::Space::LatLongAltitude::FromDegrees(56.4600344, -2.9783117, 0);
-                    //  int endLevel = 2;
+                    Eegeo::Space::LatLongAltitude start = query.StartLocation();
+                    Eegeo::Space::LatLongAltitude end = query.EndLocation();
                     
                     
                     std::string startLocLat = std::to_string(start.GetLatitudeInDegrees());
@@ -50,14 +48,49 @@ namespace ExampleApp
 
                     
                 }
-                else if (query.IsInterior())
+                else if  (query.StartBuildingID() != "" && query.EndBuildingID() != "") // Indoor ROute Case
                 {
                     std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(query.StartLocation(), query.StartLocationLevel(), query.EndLocation(),query.EndLocationLevel());
                     m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, apiCall, m_webRequestCompleteCallback)
                     .SetShouldCacheAggressively(false)
                     .Build();
+                }else if (query.StartBuildingID() != "" && query.EndBuildingID() == "")  // Indoor to Outdoor
+                {
+                    Eegeo::Space::LatLongAltitude start = query.StartLocation();
+                    Eegeo::Space::LatLongAltitude end = query.EndLocation();
+                    
+                    
+                    std::string startLocLat = std::to_string(start.GetLatitudeInDegrees());
+                    std::string startLocLong = std::to_string(start.GetLongitudeInDegrees());
+                    
+                    
+                    std::string endLocLat = std::to_string(end.GetLatitudeInDegrees());
+                    std::string endLocLong = std::to_string(end.GetLongitudeInDegrees());
+                    std::string url = requestUrl+ "route?" + "loc=" + startLocLong + "," + startLocLat + ","+std::to_string(query.StartLocationLevel())+"%3B" + endLocLong+ "," + endLocLat + "&apikey="
+                    + eegeoApiKey;
+                    
+                    
+                    m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();
                 }
-                else
+                else if (query.EndBuildingID() != "" && query.StartBuildingID() == "")  // Outdoor to indoor
+                {
+                    Eegeo::Space::LatLongAltitude start = query.StartLocation();
+                    Eegeo::Space::LatLongAltitude end = query.EndLocation();
+                    
+                    
+                    std::string startLocLat = std::to_string(start.GetLatitudeInDegrees());
+                    std::string startLocLong = std::to_string(start.GetLongitudeInDegrees());
+                    
+                    
+                    std::string endLocLat = std::to_string(end.GetLatitudeInDegrees());
+                    std::string endLocLong = std::to_string(end.GetLongitudeInDegrees());
+                    std::string url = requestUrl+ "route?" + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + ","+std::to_string(query.EndLocationLevel())+ "&apikey="
+                    + eegeoApiKey;
+                    
+                    
+                    m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();
+                }
+                else  // Outdoor route
                 {
                     std::string apiCall = m_requestBuilder.CreateRouteRequest(query.StartLocation(), query.EndLocation());
 
