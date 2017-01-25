@@ -97,6 +97,7 @@
 }
 - (void)showStartSuggestions
 {
+    [_spinner startAnimating];
     _heightDropSpacingConstraint.constant = 0;
     _suggestionsView.hidden = false;
     searchType = 1;
@@ -105,6 +106,7 @@
 }
 - (void)showEndSuggestions
 {
+    [_spinner startAnimating];
     _heightDropSpacingConstraint.constant = 55;
     _suggestionsView.hidden = false;
     searchType = 2;
@@ -162,7 +164,17 @@
 
      m_pSearchResultsSection = section;
     
+    if (section == NULL)
+    {
+        [_waypointspinner startAnimating];
+    }
+    else
+    {
+        [_waypointspinner stopAnimating];
+    }
+    
     [self UpdateRouteTime];
+    
     [_wayPointsTableView reloadData];
     
 
@@ -175,6 +187,7 @@
     {
         [self showStartSuggestions];
     }
+    [_spinner stopAnimating];
     [_suggestionsTableView reloadData];
     
 }
@@ -188,6 +201,7 @@
     {
         [self showEndSuggestions];
     }
+    [_spinner stopAnimating];
     [_suggestionsTableView reloadData];
     
 }
@@ -479,6 +493,8 @@
     [_minCounterLabel release];
     [_secCounterLabel release];
     [_staticMinsLabel release];
+    [_spinner release];
+    [_waypointspinner release];
     [super dealloc];
 }
 

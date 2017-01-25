@@ -20,6 +20,9 @@
 @property (retain, nonatomic) IBOutlet UIView *bottomBarView;
 @property (retain, nonatomic) IBOutlet UIView *hideOptionsView;
 @property (retain, nonatomic) IBOutlet UIButton *myLocation;
+@property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
+@property (retain, nonatomic) IBOutlet UIActivityIndicatorView *waypointspinner;
+
 @property (nonatomic) int resultCount;
 
 - (void)updateSearchResultsSection:(ExampleApp::Menu::View::IMenuSectionViewModel*)section;

@@ -370,9 +370,10 @@
 {
     if(textField == _pStartRouteTextField)
     {
-        [m_pDirectionsMenuView showStartSuggestions];
         [self updateContainerFrame];
     }
+
+
 }
 -(void)StartLocationTextFieldDidChange:(UITextField *)textField
 {
@@ -383,6 +384,8 @@
 -(void)EndLocationTextFieldDidChange:(UITextField *)textField
 {
    m_pDirectionsMenuInterop->HandleEndLocationChanged(std::string([textField.text UTF8String]));
+    [m_pDirectionsMenuView showEndSuggestions];
+
 }
 
 #define MenuViewCallbacks

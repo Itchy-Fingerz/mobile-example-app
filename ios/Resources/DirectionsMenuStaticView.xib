@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -249,17 +249,28 @@
                                 <outlet property="delegate" destination="iN0-l3-epB" id="KzL-my-WBd"/>
                             </connections>
                         </tableView>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="8FN-1V-lLa">
+                            <rect key="frame" x="170" y="45" width="20" height="20"/>
+                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="8FN-1V-lLa" firstAttribute="top" secondItem="pQy-bF-sHb" secondAttribute="top" constant="10" id="8if-Gi-620"/>
+                        <constraint firstItem="8FN-1V-lLa" firstAttribute="centerX" secondItem="pQy-bF-sHb" secondAttribute="centerX" id="EzP-KS-mwl"/>
                         <constraint firstItem="Muq-xI-IPR" firstAttribute="leading" secondItem="pQy-bF-sHb" secondAttribute="leading" id="Kf1-K0-dqf"/>
                         <constraint firstAttribute="trailing" secondItem="oKx-rg-azB" secondAttribute="trailing" id="Xbz-A4-0Sk"/>
                         <constraint firstAttribute="trailing" secondItem="Muq-xI-IPR" secondAttribute="trailing" id="Xp9-od-OCg"/>
                         <constraint firstAttribute="bottom" secondItem="Muq-xI-IPR" secondAttribute="bottom" id="eQJ-SO-8WF"/>
+                        <constraint firstItem="8FN-1V-lLa" firstAttribute="top" secondItem="Muq-xI-IPR" secondAttribute="top" id="ghx-3W-6OC"/>
                         <constraint firstItem="oKx-rg-azB" firstAttribute="top" secondItem="pQy-bF-sHb" secondAttribute="top" id="qGo-ik-45z"/>
                         <constraint firstItem="oKx-rg-azB" firstAttribute="leading" secondItem="pQy-bF-sHb" secondAttribute="leading" id="tXo-Jb-8Ey"/>
                         <constraint firstItem="Muq-xI-IPR" firstAttribute="top" secondItem="oKx-rg-azB" secondAttribute="bottom" id="wTw-jq-1Tx"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="8if-Gi-620"/>
+                        </mask>
+                    </variation>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JbE-GW-7Vd">
                     <rect key="frame" x="60" y="58" width="288" height="259"/>
@@ -290,6 +301,9 @@
                                         <action selector="MyLocationSelected:" destination="iN0-l3-epB" eventType="touchUpInside" id="lJG-jU-n4D"/>
                                     </connections>
                                 </button>
+                                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="2dn-g9-7GL">
+                                    <rect key="frame" x="133" y="10" width="20" height="20"/>
+                                </activityIndicatorView>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="dTb-bE-3p5">
                                     <rect key="frame" x="0.0" y="47" width="286" height="209"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -307,10 +321,12 @@
                                 <constraint firstItem="dTb-bE-3p5" firstAttribute="leading" secondItem="zfE-Zw-orK" secondAttribute="leading" id="O2H-YE-WGy"/>
                                 <constraint firstItem="pmW-NM-cRH" firstAttribute="top" secondItem="zfE-Zw-orK" secondAttribute="top" constant="9" id="RLt-Qn-Vol"/>
                                 <constraint firstAttribute="trailing" secondItem="pmW-NM-cRH" secondAttribute="trailing" constant="16" id="RoP-HR-Zj4"/>
+                                <constraint firstItem="2dn-g9-7GL" firstAttribute="top" secondItem="zfE-Zw-orK" secondAttribute="top" constant="10" id="T02-7c-oK6"/>
                                 <constraint firstAttribute="trailing" secondItem="2YF-mU-cFO" secondAttribute="trailing" id="kSb-VR-mWH"/>
                                 <constraint firstItem="dTb-bE-3p5" firstAttribute="top" secondItem="zfE-Zw-orK" secondAttribute="top" constant="1" id="qkt-Zd-4Ly"/>
                                 <constraint firstAttribute="trailing" secondItem="pmW-NM-cRH" secondAttribute="trailing" constant="11" id="ttF-qj-bWf"/>
                                 <constraint firstAttribute="bottom" secondItem="dTb-bE-3p5" secondAttribute="bottom" constant="2" id="veK-ru-7Vr"/>
+                                <constraint firstItem="2dn-g9-7GL" firstAttribute="centerX" secondItem="zfE-Zw-orK" secondAttribute="centerX" id="wXn-XD-Jed"/>
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
@@ -390,6 +406,7 @@
                 <outlet property="optionsButton" destination="Wce-Y8-pGa" id="gEn-G9-sFT"/>
                 <outlet property="reverseButton" destination="PZ9-8w-jwC" id="aMI-ge-oqH"/>
                 <outlet property="secCounterLabel" destination="g5U-1C-0sZ" id="qUm-nE-hi9"/>
+                <outlet property="spinner" destination="2dn-g9-7GL" id="1MJ-oU-CTX"/>
                 <outlet property="startContainerHeightConstraint" destination="xzc-a8-zAu" id="PzR-qJ-ZTj"/>
                 <outlet property="startRouteBgView" destination="4AZ-5v-gdH" id="S33-SS-tM5"/>
                 <outlet property="startRouteTextField" destination="b3N-Kh-zAY" id="sf9-jf-QJf"/>
@@ -397,6 +414,7 @@
                 <outlet property="suggestionsTableView" destination="dTb-bE-3p5" id="dzM-tj-to0"/>
                 <outlet property="suggestionsView" destination="JbE-GW-7Vd" id="q8z-fg-vl2"/>
                 <outlet property="wayPointsTableView" destination="Muq-xI-IPR" id="4wP-N0-aBF"/>
+                <outlet property="waypointspinner" destination="8FN-1V-lLa" id="BWt-ce-nFD"/>
             </connections>
             <point key="canvasLocation" x="539" y="419"/>
         </view>
