@@ -15,7 +15,7 @@ namespace ExampleApp
                                                                              ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder)
             : m_webRequestFactory(webRequestFactory)
             , m_urlEncoder(urlEncoder)
-            , m_apiUrl("https://routing.eegeo.com/v1/route?")
+            , m_apiUrl("https://routing.eegeo.com/v1/")
             , m_eegeoApiKey(eegeoApiKey)
             , m_requestBuilder(requestBuilder)
             {

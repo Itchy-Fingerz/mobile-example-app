@@ -26,9 +26,9 @@ namespace ExampleApp
             
             }
             
-            void FindDirectionQueryPerformer::PerformFindDirectionQuery( const Eegeo::Space::LatLongAltitude& startLocation,const int startLocLevel, const Eegeo::Space::LatLongAltitude& endlocation,const int endLocLevel, bool isInterior)
+            void FindDirectionQueryPerformer::PerformFindDirectionQuery( const Eegeo::Space::LatLongAltitude& startLocation,const int startLocLevel, const Eegeo::Space::LatLongAltitude& endlocation,const int endLocLevel, bool isInterior,std::string startBuuildingID, std::string endBuildingID)
             {
-                FindDirectionQuery findDirectionQuery(startLocation, startLocLevel, endlocation, endLocLevel, isInterior);
+                FindDirectionQuery findDirectionQuery(startLocation, startLocLevel, endlocation, endLocLevel, isInterior,startBuuildingID,endBuildingID);
                 m_findDirectionService.PerformLocationQuerySearch(findDirectionQuery);
             }
             

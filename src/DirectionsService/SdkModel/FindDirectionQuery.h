@@ -20,10 +20,13 @@ namespace ExampleApp
                 bool m_isInterior;
                 const int m_startLocLevel;
                 const int m_endLocLevel;
+                const std::string m_startBuildingID;
+                const std::string m_endBuildingID;
+
             
             public:
 
-                FindDirectionQuery(const Eegeo::Space::LatLongAltitude& startLocation,const int startLocLevel,const Eegeo::Space::LatLongAltitude& endLocation,const int endLocLevel,bool isInterior);
+                FindDirectionQuery(const Eegeo::Space::LatLongAltitude& startLocation,const int startLocLevel,const Eegeo::Space::LatLongAltitude& endLocation,const int endLocLevel,bool isInterior, std::string startBuuildingID, std::string endBuildingID);
                 
                 ~FindDirectionQuery();
                 
@@ -37,6 +40,9 @@ namespace ExampleApp
                 const int StartLocationLevel() const;
                 
                 const int EndLocationLevel() const;
+                
+                const std::string StartBuildingID() const;
+                const std::string EndBuildingID() const;
 
             };
         }

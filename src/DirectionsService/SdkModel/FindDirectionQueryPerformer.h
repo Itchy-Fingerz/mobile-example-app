@@ -26,7 +26,7 @@ namespace ExampleApp
                 
                 FindDirectionQueryPerformer(FindDirectionService& findDirectionsService);
                 ~FindDirectionQueryPerformer();
-                void PerformFindDirectionQuery( const Eegeo::Space::LatLongAltitude& startLocation,const int startLocLevel, const Eegeo::Space::LatLongAltitude& endlocation,const int endLocLevel, bool isInterior);
+                void PerformFindDirectionQuery( const Eegeo::Space::LatLongAltitude& startLocation,const int startLocLevel, const Eegeo::Space::LatLongAltitude& endlocation,const int endLocLevel, bool isInterior,std::string startBuuildingID, std::string endBuildingID);
                 void HandleSearchResultsResponseReceived(const FindDirectionQuery& query,const std::vector<Search::SdkModel::SearchResultModel>& results);
                 
             };

@@ -23,7 +23,7 @@ namespace ExampleApp
             }
             void DirectionMenuFindDirectionMessageHandler::OnFindDirectionMessage(const DirectionsMenu::DirectionMenuFindDirectionMessage& message)
             {
-                m_findDirectionQueryPerformer.PerformFindDirectionQuery(message.StartLocation(),message.StartLocationLevel(),message.EndLocation(),message.EndLocationLevel(), message.IsInterior());
+                m_findDirectionQueryPerformer.PerformFindDirectionQuery(message.StartLocation(),message.StartLocationLevel(),message.EndLocation(),message.EndLocationLevel(), message.IsInterior(),message.StartBuildingID(),message.EndBuildingID());
             }
 
         }

@@ -187,7 +187,7 @@ namespace ExampleApp
                 const Eegeo::Space::LatLongAltitude startLoc = Eegeo::Space::LatLongAltitude::FromDegrees(currentLatLong.GetLatitudeInDegrees(), currentLatLong.GetLongitudeInDegrees(),0.0);
                 const Eegeo::Space::LatLongAltitude endLoc = Eegeo::Space::LatLongAltitude::FromDegrees(endcurrentLatLong.GetLatitudeInDegrees(), endcurrentLatLong.GetLongitudeInDegrees(),0.0);
                 
-                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,startLevel, endLevel, m_isInterior));
+                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,startLevel, endLevel, m_isInterior,directionInfo.StartBuildingID(),directionInfo.EndBuildingID()));
                 
             }
             
@@ -278,27 +278,27 @@ namespace ExampleApp
                 else
                 {
                     m_isInterior = false;
-                    if(m_searchSectionViewModel.Size() > 0)
-                    {
-                        m_directionsMenuView.ExitDirectionsOnInteriorExit();
-                        if(IsFullyOpen())
-                        {
-                            OnExitDirectionsClicked();
-                        }
-                        else
-                        {
-                            DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false);
-                            m_messageBus.Publish(message);
-                            
-                            m_isExitDirections = false;
-                            m_isDirectionMenuOpen = false;
-                            m_settingsMenuViewModel.AddToScreen();
-                            m_searchMenuViewModel.AddToScreen();
-                        }
-
+//                    if(m_searchSectionViewModel.Size() > 0)
+//                    {
+//                        m_directionsMenuView.ExitDirectionsOnInteriorExit();
+//                        if(IsFullyOpen())
+//                        {
+//                            OnExitDirectionsClicked();
+//                        }
+//                        else
+//                        {
+//                            DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false);
+//                            m_messageBus.Publish(message);
+//                            
+//                            m_isExitDirections = false;
+//                            m_isDirectionMenuOpen = false;
+//                            m_settingsMenuViewModel.AddToScreen();
+//                            m_searchMenuViewModel.AddToScreen();
+//                        }
+//
 
                         
-                    }
+//                    }
                 }
             }
             

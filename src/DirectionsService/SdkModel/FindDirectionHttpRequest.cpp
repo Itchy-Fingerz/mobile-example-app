@@ -26,32 +26,46 @@ namespace ExampleApp
             , m_requestBuilder(requestBuilder)
             , m_webRequestCompleteCallback(this, &FindDirectionHttpRequest::HandleWebResponseComplete)
             {
-                if (query.IsInterior())
+                if (query.IsInterior() && query.StartBuildingID() == query.EndBuildingID())   // multipart request
                 {
-    // #Query the service for a route
-//                    Eegeo::Space::LatLongAltitude start = Eegeo::Space::LatLongAltitude::FromDegrees(56.4602302, -2.9785768, 0);
-//                    int startLevel = 0;
-//                    Eegeo::Space::LatLongAltitude end = Eegeo::Space::LatLongAltitude::FromDegrees(56.4600344, -2.9783117, 0);
-//                    int endLevel = 2;
-//
-                    //Eegeo::Space::LatLongAltitude end = Eegeo::Space::LatLongAltitude::FromDegrees(56.460276, -2.978738, 0);
-//                    std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(start, startLevel,end ,endLevel);
+                    //#Multipart
                     
+                    Eegeo::Space::LatLongAltitude start = query.StartLocation();//Eegeo::Space::LatLongAltitude::FromDegrees(56.461231653264029, -2.983122836389253, 0);
+                    //    int startLevel = 0;
+                    Eegeo::Space::LatLongAltitude end = query.EndLocation();//Eegeo::Space::LatLongAltitude::FromDegrees(56.4600344, -2.9783117, 0);
+                    //  int endLevel = 2;
+                    
+                    
+                    std::string startLocLat = std::to_string(start.GetLatitudeInDegrees());
+                    std::string startLocLong = std::to_string(start.GetLongitudeInDegrees());
+                    
+                    
+                    std::string endLocLat = std::to_string(end.GetLatitudeInDegrees());
+                    std::string endLocLong = std::to_string(end.GetLongitudeInDegrees());
+                    std::string url = requestUrl+ "multiroute/?" + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + "&levels="+std::to_string(query.StartLocationLevel()) + "%3B"+std::to_string(query.EndLocationLevel())+"&apikey="
+                    + eegeoApiKey+"&limit=400";
+                    
+                    
+                    m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();
+
+                    
+                }
+                else if (query.IsInterior())
+                {
                     std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(query.StartLocation(), query.StartLocationLevel(), query.EndLocation(),query.EndLocationLevel());
                     m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, apiCall, m_webRequestCompleteCallback)
                     .SetShouldCacheAggressively(false)
                     .Build();
-                    
                 }
                 else
                 {
                     std::string apiCall = m_requestBuilder.CreateRouteRequest(query.StartLocation(), query.EndLocation());
-                    
+
                     m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, apiCall, m_webRequestCompleteCallback)
                     .SetShouldCacheAggressively(false)
                     .Build();
                 }
-              
+                
             }
             
             FindDirectionHttpRequest::~FindDirectionHttpRequest()
