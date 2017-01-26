@@ -488,21 +488,36 @@
 
 -(float)getEstimatedHeight {
 
+    float estimatedHeight = 300;  //default value
     if(m_pSearchResultsSection == NULL || m_pSearchResultsSection->Size() == 0)
     {
-        if (searchType  == 1) {
-            return _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (_hideOptionsView.bounds.size.height) + 150;
+        if (searchType  == 1)
+        {
+            estimatedHeight = _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (_hideOptionsView.bounds.size.height) + 150;
+            //return
         }
-        if (searchType  == 2) {
-            return _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (_hideOptionsView.bounds.size.height) + 175;
+        else if (searchType  == 2)
+        {
+            estimatedHeight = _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (_hideOptionsView.bounds.size.height) + 175;
+            //return
         }
-        return _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (_hideOptionsView.bounds.size.height)+_endHeightConstraint.constant; //+_startContainerHeightConstraint.constant;
+        else
+        {
+            estimatedHeight = _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (_hideOptionsView.bounds.size.height)+_endHeightConstraint.constant;
+        }
         
+
     }
     else
     {
-        return _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (45  * m_pSearchResultsSection->Size()) + (_hideOptionsView.bounds.size.height)+_endHeightConstraint.constant +_startContainerHeightConstraint.constant;
+        estimatedHeight = _headerView.bounds.size.height + _bottomBarView.bounds.size.height + (45  * m_pSearchResultsSection->Size()) + (_hideOptionsView.bounds.size.height)+_endHeightConstraint.constant +_startContainerHeightConstraint.constant;
     }
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+
+    if (estimatedHeight > (screenBounds.size.height - 175) ) {
+        return (screenBounds.size.height - 175);
+    }
+    return estimatedHeight;
 }
 
 - (void)dealloc {
