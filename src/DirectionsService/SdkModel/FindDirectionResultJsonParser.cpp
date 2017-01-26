@@ -25,6 +25,7 @@ namespace ExampleApp
                 std::vector<DirectionRouteModel> routes;
                 std::string responseCode = "";
                 std::string responseType = "";
+                int wayPointsID = 0;
                 
                 if (!document.Parse<0>(serialized.c_str()).HasParseError())
                 {
@@ -206,8 +207,9 @@ namespace ExampleApp
                                         longi = wayPointLocationJson[0].GetDouble();
                                     }
                                     Eegeo::Space::LatLong latLongStart = Eegeo::Space::LatLong::FromDegrees(lat,longi);
-                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(j,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior);
+                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(wayPointsID,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior);
                                     wayPointsVector.push_back(wayPointModel);
+                                    wayPointsID++;
                                     
                                 }//end for wayPoints
                             } // end if wayPoint not exist

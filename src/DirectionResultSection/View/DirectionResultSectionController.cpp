@@ -67,7 +67,7 @@ namespace ExampleApp
                         const Eegeo::Space::LatLong latlong = wayPointModel.GetLocation();
                         
                         Eegeo::Resources::Interiors::InteriorId m_buildingId(wayPointModel.GetBuildingID());
-                        m_menuOptions.AddItem(std::to_string(m_wayPointCount),
+                        m_menuOptions.AddItem(std::to_string(wayPointModel.GetWpId()),
                                               wayPointModel.GetTitle(),
                                               subtitle,
                                               iconKey,
@@ -79,7 +79,7 @@ namespace ExampleApp
                                                                                                           m_buildingId,
                                                                                                           wayPointModel.GetLevel(),
                                                                                                           m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
-                                                                                                          i,
+                                                                                                          m_wayPointCount,
                                                                                                           m_messageBus,
                                                                                                           m_menuReaction));
                         m_wayPointCount++;
