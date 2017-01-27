@@ -9,6 +9,7 @@
 #include "DirectionsMenuStateChangedMessage.h"
 #include "DirectionsMenuItemHighlightMessage.h"
 #include "DirectionMenuGeoNamesResponseReceivedMessage.h"
+#include "DirectionMenuPoiSearchResponseReceivedMessage.h"
 #include "ILocationService.h"
 
 
@@ -52,6 +53,9 @@ namespace ExampleApp
                 
                 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage&> m_onStartLocationResponseReceivedCallback;
+                
+                Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage&> m_onInternalPoiSearchResponseReceivedCallback;
+
                 Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
 
                 
@@ -90,6 +94,9 @@ namespace ExampleApp
                 void OnEndLocationChanged(const std::string& startLocationQuery);
                 
                 void OnGeoNamesStartLocationResponseReceived(const DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage& message);
+                
+                void OnPoiSearchResponseReceived(const DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage& message);
+
                 void UpdateUiThread(float dt);
                 
             protected:

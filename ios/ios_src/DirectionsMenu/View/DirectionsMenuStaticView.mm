@@ -14,6 +14,7 @@
     ExampleApp::Menu::View::IMenuSectionViewModel* m_pSearchResultsSection;
     
     std::vector< ExampleApp::Search::SdkModel::SearchResultModel> m_pSuggestionsResults;
+    std::vector< ExampleApp::Search::SdkModel::SearchResultModel> m_internalPoiSuggestions;
 
     ExampleApp::Search::SdkModel::SearchResultModel m_pStartLoc;
     ExampleApp::Search::SdkModel::SearchResultModel m_pEndLoc;
@@ -179,11 +180,19 @@
     
 
 }
-- (void)updateStartSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results
+- (void)updateStartSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isForGeoNames:(bool)geoName
 {
-    m_pSuggestionsResults = results;
+    if (geoName)
+    {
+        m_pSuggestionsResults = results;
+    }
+    else
+    {
+        m_internalPoiSuggestions = results;
+        
+    }
     startLocationSearched = false;
-    if (m_pSuggestionsResults.size() > 0)
+    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
     {
         [self showStartSuggestions];
     }
@@ -192,12 +201,20 @@
     
 }
 
-- (void)updateEndSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results
+- (void)updateEndSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isForGeoNames:(bool)geoName
 {
-    m_pSuggestionsResults = results;
+    if (geoName)
+    {
+        m_pSuggestionsResults = results;
+    }
+    else
+    {
+        m_internalPoiSuggestions = results;
+        
+    }
     endLocationSearched = false;
     
-    if (m_pSuggestionsResults.size() > 0)
+    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
     {
         [self showEndSuggestions];
     }
@@ -207,13 +224,32 @@
 }
 #define  UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    if(tableView == _suggestionsTableView)
+    {
+        return 2;
+    }
+    else
+    {
+        return 1;
+    }
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
     if (tableView == _suggestionsTableView)
     {
+        if(section == 0)
+        {
+            return m_pSuggestionsResults.size();
+
+        }
+        else
+        {
+            return m_internalPoiSuggestions.size();
+        }
         
-        return m_pSuggestionsResults.size();
         
     }
     if(m_pSearchResultsSection == NULL)
@@ -226,13 +262,37 @@
     }
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (tableView == _suggestionsTableView)
+    {
+        if (section == 0)
+        {
+            return @"Outdoor";
+        }
+        else
+        {
+            return @"Indoor";
+        }
+
+    }
+    return @"";
+}
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == _suggestionsTableView) {
         
-        ExampleApp::Search::SdkModel::SearchResultModel item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
+        ExampleApp::Search::SdkModel::SearchResultModel item;
+        if(indexPath.section == 0)
+        {
+            item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
+        }
+        else
+        {
+            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
+        }
         
         DirectionSuggestionTableViewCell *cell = (DirectionSuggestionTableViewCell*)[self.suggestionsTableView dequeueReusableCellWithIdentifier:@"DirectionSuggestionsViewCell"];
         
@@ -301,7 +361,16 @@
     
     if (tableView == _suggestionsTableView) {
     
-        ExampleApp::Search::SdkModel::SearchResultModel item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
+        ExampleApp::Search::SdkModel::SearchResultModel item;
+        if(indexPath.section == 0)
+        {
+            item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
+        }
+        else
+        {
+            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
+
+        }
         
         if(searchType == 1 ) //start
         {

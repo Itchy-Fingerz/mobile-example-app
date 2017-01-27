@@ -28,9 +28,9 @@
 
 - (void)SetSearchSection:(ExampleApp::Menu::View::IMenuSectionViewModel*)searchSection;
 
-- (void)SetGeoNamesStartSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results;
+- (void)SetStartLocationSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isGeoName:(bool)geoName;
 
-- (void)SetGeoNamesEndSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results;
+- (void)SetEndLocationSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isGeoName:(bool)geoName;
 
 - (void)ExitDirectionsClicked;
 -(void)ExitDirectionsClickedOnInteriorExit;

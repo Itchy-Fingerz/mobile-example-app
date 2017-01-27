@@ -9,6 +9,9 @@ set(currsources
   ../src/DirectionsMenu/DirectionMenuGetGeoNamesMessage.h
   ../src/DirectionsMenu/DirectionMenuGeoNamesResponseReceivedMessage.cpp
   ../src/DirectionsMenu/DirectionMenuGeoNamesResponseReceivedMessage.h
+  ../src/DirectionsMenu/DirectionMenuPoiSearchResponseReceivedMessage.cpp
+  ../src/DirectionsMenu/DirectionMenuPoiSearchResponseReceivedMessage.h
+
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\DirectionsMenu FILES ${currsources})

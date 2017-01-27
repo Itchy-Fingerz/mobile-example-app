@@ -295,20 +295,20 @@
     [self updateContainerFrame];
 }
 
--(void) SetGeoNamesStartSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results
+- (void)SetStartLocationSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isGeoName:(bool)geoName
 {
     Eegeo_TTY("Start Results Count: %i",results.size());
 
-    [m_pDirectionsMenuView updateStartSuggestions:results];
+    [m_pDirectionsMenuView updateStartSuggestions:results isForGeoNames:geoName];
     [self updateContainerFrame];
 
 }
 
--(void) SetGeoNamesEndSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results
+- (void)SetEndLocationSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isGeoName:(bool)geoName
 {
     Eegeo_TTY("End Results Count: %i",results.size());
 
-    [m_pDirectionsMenuView updateEndSuggestions:results];
+    [m_pDirectionsMenuView updateEndSuggestions:results isForGeoNames:geoName];
     [self updateContainerFrame];
 }
 

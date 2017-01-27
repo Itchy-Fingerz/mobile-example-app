@@ -45,6 +45,7 @@ namespace ExampleApp
             , m_onStartLocationChangedCallback(this,&DirectionsMenuController::OnStartLocationChanged)
             , m_onEndLocationChangedCallback(this, &DirectionsMenuController::OnEndLocationChanged)
             , m_onStartLocationResponseReceivedCallback(this, &DirectionsMenuController::OnGeoNamesStartLocationResponseReceived)
+            , m_onInternalPoiSearchResponseReceivedCallback(this, &DirectionsMenuController::OnPoiSearchResponseReceived)
             , m_isExitDirections(false)
             , m_locationService(locationService)
             , m_settingsMenuViewModel(settingsMenuViewModel)
@@ -71,6 +72,7 @@ namespace ExampleApp
                 m_messageBus.SubscribeUi(m_directionsMenuStateChangedCallback);
                 m_messageBus.SubscribeUi(m_directionsMenuHighlightItemCallback);
                 m_messageBus.SubscribeUi(m_onStartLocationResponseReceivedCallback);
+                m_messageBus.SubscribeUi(m_onInternalPoiSearchResponseReceivedCallback);
                 
             }
             
@@ -92,6 +94,7 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeUi(m_directionsMenuStateChangedCallback);
                 m_messageBus.UnsubscribeUi(m_directionsMenuHighlightItemCallback);
                 m_messageBus.UnsubscribeUi(m_onStartLocationResponseReceivedCallback);
+                m_messageBus.UnsubscribeUi(m_onInternalPoiSearchResponseReceivedCallback);
                 
 
             }
@@ -207,11 +210,23 @@ namespace ExampleApp
             {
                 if(message.IsStartLocationActive())
                 {
-                    m_directionsMenuView.SetGeoNamesStartSuggestions(message.SearchResults());
+                    m_directionsMenuView.SetStartLocationSuggestions(message.SearchResults(), true);
                 }
                 else
                 {
-                    m_directionsMenuView.SetGeoNamesEndSuggestions(message.SearchResults());
+                    m_directionsMenuView.SetEndLocationSuggestions(message.SearchResults(), true);
+                }
+            }
+            
+            void DirectionsMenuController::OnPoiSearchResponseReceived(const DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage& message)
+            {
+                if(message.IsForStartLocation())
+                {
+                    m_directionsMenuView.SetStartLocationSuggestions(message.SearchResults(), false);
+                }
+                else
+                {
+                    m_directionsMenuView.SetEndLocationSuggestions(message.SearchResults(), false);
                 }
             }
             

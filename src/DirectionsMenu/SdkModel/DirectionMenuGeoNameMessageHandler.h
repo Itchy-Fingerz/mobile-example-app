@@ -21,12 +21,18 @@ namespace ExampleApp
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 
                 ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & m_geoNamesService;
+                ExampleApp::Search::SdkModel::ISearchService& m_poiSearchService;
                 
                 Eegeo::Helpers::TCallback1<DirectionMenuGeoNameMessageHandler, const DirectionsMenu::DirectionMenuGetGeoNamesMessage&> m_handleFindDirectionMessageBinding;
                 
                 Eegeo::Helpers::TCallback2<DirectionMenuGeoNameMessageHandler,
                 const Search::SdkModel::SearchQuery&,
                 const std::vector<Search::SdkModel::SearchResultModel>&> m_searchQueryResponseCallback;
+                
+                
+                Eegeo::Helpers::TCallback2<DirectionMenuGeoNameMessageHandler,
+                const Search::SdkModel::SearchQuery&,
+                const std::vector<Search::SdkModel::SearchResultModel>&> m_poiSearchQueryResponseCallback;
                 
                 bool m_isStartLocationActive;
                 
@@ -35,9 +41,13 @@ namespace ExampleApp
                 void OnSearchResponseRecieved(const Search::SdkModel::SearchQuery& query,
                                               const std::vector<Search::SdkModel::SearchResultModel>& results);
                 
+                void OnPoiSearchResponseRecieved(const Search::SdkModel::SearchQuery& query,
+                                              const std::vector<Search::SdkModel::SearchResultModel>& results);
+
+                
             public:
                 
-                DirectionMenuGeoNameMessageHandler(ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & geoNamesService, ExampleAppMessaging::TMessageBus& messageBus);
+                DirectionMenuGeoNameMessageHandler(ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & geoNamesService,ExampleApp::Search::SdkModel::ISearchService& poiSearchService, ExampleAppMessaging::TMessageBus& messageBus);
                 ~DirectionMenuGeoNameMessageHandler();
                 
             };

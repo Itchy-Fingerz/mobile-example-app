@@ -638,10 +638,21 @@ namespace ExampleApp
                                                                                                    m_platformAbstractions.GetUrlEncoder(),
                                                                         m_pWorld->GetNativeUIFactories().AlertBoxFactory(),m_applicationConfiguration.EegeoApiKey(),
                                                                         m_messageBus,m_pWorld->GetRoutesModule().GetRoutingRequestBuilder());
+        
+        m_pPoiSearchModule =  Eegeo_NEW(Search::EegeoPois::SdkModel::EegeoSearchServiceModule)(
+                                                                         m_platformAbstractions.GetWebLoadRequestFactory(),
+                                                                         m_platformAbstractions.GetUrlEncoder(),
+                                                                         m_networkCapabilities,
+                                                                         searchTags,
+                                                                         m_applicationConfiguration.EegeoSearchServiceUrl(),
+                                                                         m_applicationConfiguration.EegeoApiKey(),
+                                                                         world.GetMapModule().GetInteriorsPresentationModule().GetInteriorInteractionModel());
+        
+        
 
         
         m_pDirectionsMenuModule = Eegeo_NEW(ExampleApp::DirectionsMenu::SdkModel::DirectionsMenuModule)(m_identityProvider,
-                                                                                                        m_pReactionControllerModule->GetReactionControllerModel(),                                                                                                                         m_messageBus,m_pFindDirectionServiceModule->GetFindDirectionQueryPerformer(),geoNameService);
+                                                                                                        m_pReactionControllerModule->GetReactionControllerModel(),                                                                                                                         m_messageBus,m_pFindDirectionServiceModule->GetFindDirectionQueryPerformer(),geoNameService,m_pPoiSearchModule->GetSearchService());
         
         m_pDirectionResultSectionModule = Eegeo_NEW(ExampleApp::DirectionResultSection::SdkModel::DirectionsResultSectionModule)(m_pDirectionsMenuModule->GetDirectionsMenuViewModel(),m_pSearchModule->GetSearchResultRepository(),m_pSearchModule->GetSearchQueryPerformer(),*m_pCameraTransitionService,interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                                                     interiorsModelModule.GetInteriorMarkerModelRepository(),
@@ -930,6 +941,8 @@ namespace ExampleApp
         Eegeo_DELETE m_pDirectionsMenuModule;
         Eegeo_DELETE m_pFindDirectionServiceModule;
         Eegeo_DELETE m_pdirectionReCalculationService;
+        
+        Eegeo_DELETE m_pPoiSearchModule;
         
     }
 

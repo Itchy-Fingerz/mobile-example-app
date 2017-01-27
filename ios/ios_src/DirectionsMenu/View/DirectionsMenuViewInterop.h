@@ -63,14 +63,14 @@ namespace ExampleApp
                 
                 }
                 
-                void SetGeoNamesStartSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results)
+                void SetStartLocationSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results, bool geoName)
                 {
-                    [m_pView SetGeoNamesStartSuggestions:results];
+                    [m_pView SetStartLocationSuggestions:results isGeoName:geoName];
                 }
                 
-                void SetGeoNamesEndSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results)
+                void SetEndLocationSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results, bool geoName)
                 {
-                    [m_pView SetGeoNamesEndSuggestions:results];
+                    [m_pView SetEndLocationSuggestions:results isGeoName:geoName];
                 }
                 
                 void SearchPerformed(const Eegeo::Space::LatLong& start, const Eegeo::Space::LatLong& end , const int startLevel, const int endLevel, const std::string startBuildingID, const std::string endBuildingID)

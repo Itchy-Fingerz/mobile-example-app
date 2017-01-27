@@ -29,9 +29,9 @@ namespace ExampleApp
                 
                 virtual void SetEndEditText(const std::string& searchText, bool isCategory) = 0;
                 
-                virtual void SetGeoNamesStartSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results) = 0;
+                virtual void SetStartLocationSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results, bool geoName) = 0;
                 
-                virtual void SetGeoNamesEndSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results) = 0;
+                virtual void SetEndLocationSuggestions(const std::vector<Search::SdkModel::SearchResultModel>& results, bool geoName) = 0;
                 
                 virtual void HighlightListItem(const int index) = 0;
                 

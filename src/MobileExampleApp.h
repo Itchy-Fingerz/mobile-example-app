@@ -94,6 +94,7 @@
 #include "DirectionResultSection.h"
 #include "FindDirectionServiceModule.h"
 #include "DirectionReCalculationService.h"
+#include "EegeoSearchServiceModule.h"
 
 
 namespace ExampleApp
@@ -208,6 +209,8 @@ namespace ExampleApp
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> GetOpenableControls() const;
 
         std::vector<ExampleApp::ScreenControl::View::IScreenControlViewModel*> GetReactorControls() const;
+        
+        Search::EegeoPois::SdkModel::EegeoSearchServiceModule *m_pPoiSearchModule;
         
         Eegeo::Pins::PinsModule* CreatePlatformPinsModuleInstance(Eegeo::EegeoWorld& world,
             const Eegeo::Helpers::GLHelpers::TextureInfo& pinTextureInfo,

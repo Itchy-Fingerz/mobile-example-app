@@ -17,7 +17,8 @@ namespace ExampleApp
                                                        ExampleApp::Reaction::View::IReactionControllerModel& reactionControllerModel,
                                                        ExampleAppMessaging::TMessageBus& messageBus,
                                                        ExampleApp::Direction::SdkModel::FindDirectionQueryPerformer& findDirectionQueryPerformer,
-                                                       ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService &geoNameSearchService)
+                                                       ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService &geoNameSearchService,
+                                                       ExampleApp::Search::SdkModel::ISearchService& poiSearchService)
             : m_pMenuModel(NULL)
             , m_pMenuViewModel(NULL)
             , m_pSearchSectionViewModel(NULL)
@@ -30,7 +31,7 @@ namespace ExampleApp
                 
                 m_pFindDirectionMessageHandler = Eegeo_NEW(DirectionMenuFindDirectionMessageHandler)(messageBus,findDirectionQueryPerformer);
                 
-                m_pGetGeoNamesDirectionMessageHandler = Eegeo_NEW(DirectionMenuGeoNameMessageHandler)(geoNameSearchService,messageBus);
+                m_pGetGeoNamesDirectionMessageHandler = Eegeo_NEW(DirectionMenuGeoNameMessageHandler)(geoNameSearchService,poiSearchService,messageBus);
 
                 
                 

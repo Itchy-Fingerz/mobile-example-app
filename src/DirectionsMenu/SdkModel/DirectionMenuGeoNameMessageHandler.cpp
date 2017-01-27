@@ -10,33 +10,38 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            DirectionMenuGeoNameMessageHandler::DirectionMenuGeoNameMessageHandler(ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & geoNamesService, ExampleAppMessaging::TMessageBus& messageBus)
+            DirectionMenuGeoNameMessageHandler::DirectionMenuGeoNameMessageHandler(ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & geoNamesService, ExampleApp::Search::SdkModel::ISearchService& poiSearchService,ExampleAppMessaging::TMessageBus& messageBus)
             
             :m_handleFindDirectionMessageBinding(this, &DirectionMenuGeoNameMessageHandler::OnGetGeoNamesReceivedMessage)
             , m_geoNamesService(geoNamesService)
+            , m_poiSearchService(poiSearchService)
             , m_searchQueryResponseCallback(this, &DirectionMenuGeoNameMessageHandler::OnSearchResponseRecieved)
+            , m_poiSearchQueryResponseCallback(this, &DirectionMenuGeoNameMessageHandler::OnPoiSearchResponseRecieved)
             , m_isStartLocationActive(true)
             , m_messageBus(messageBus)
             {
                 m_messageBus.SubscribeNative(m_handleFindDirectionMessageBinding);
                 m_geoNamesService.InsertOnReceivedQueryResultsCallback(m_searchQueryResponseCallback);
+                m_poiSearchService.InsertOnReceivedQueryResultsCallback(m_poiSearchQueryResponseCallback);
             }
             DirectionMenuGeoNameMessageHandler::~DirectionMenuGeoNameMessageHandler()
             {
                 m_messageBus.UnsubscribeNative(m_handleFindDirectionMessageBinding);
                 m_geoNamesService.RemoveOnReceivedQueryResultsCallback(m_searchQueryResponseCallback);
+                m_poiSearchService.RemoveOnReceivedQueryResultsCallback(m_poiSearchQueryResponseCallback);
                 
                 
             }
             void DirectionMenuGeoNameMessageHandler::OnGetGeoNamesReceivedMessage(const DirectionsMenu::DirectionMenuGetGeoNamesMessage& message)
             {                
                 bool isTag = false;
-                bool tryInteriorSearch = message.IsInterior();
                 Eegeo::Space::LatLongAltitude location = Eegeo::Space::LatLongAltitude(0.0f,0.0f,0.0f);
                 float radius = 200.0f;
                 m_isStartLocationActive = message.IsStartLocation();
-                Search::SdkModel::SearchQuery searchQuery(message.SearchQuery(), isTag, tryInteriorSearch, location, radius);
+                Search::SdkModel::SearchQuery searchQuery(message.SearchQuery(), isTag, false, location, radius);
                 m_geoNamesService.PerformLocationQuerySearch(searchQuery);
+                Search::SdkModel::SearchQuery poi_searchQuery(message.SearchQuery(),isTag,true,location,radius);
+                m_poiSearchService.PerformLocationQuerySearch(searchQuery);
                 
             }
 
@@ -47,27 +52,16 @@ namespace ExampleApp
                 
                 m_messageBus.Publish(DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage(results,m_isStartLocationActive));
                 
+            }
+            
+            
+            void DirectionMenuGeoNameMessageHandler::OnPoiSearchResponseRecieved(const Search::SdkModel::SearchQuery& query,
+                                                                              const std::vector<Search::SdkModel::SearchResultModel>& results)
+            {
+                Eegeo_TTY("Response Received");
                 
-//                std::vector<Search::SdkModel::SearchResultModel> filtered;
-//                filtered.reserve(results.size());
-//                
-//                for (std::vector<Search::SdkModel::SearchResultModel>::const_iterator it = results.begin();
-//                     it != results.end();
-//                     it++)
-//                {
-//                    const Search::SdkModel::SearchResultModel& searchResult = *it;
-//                    filtered.push_back(searchResult);
-//                }
-//                
-//                m_combinedResults.insert(m_combinedResults.end(), filtered.begin(), filtered.end());
-//                
-//                if( --m_pendingResultsLeft <= 0)
-//                {
-//                    m_hasActiveQuery = false;
-//                    m_pendingResultsLeft = 0;
-//                    ExecutQueryResponseReceivedCallbacks(query, m_combinedResults);
-//                    m_combinedResults.clear();
-//                }
+                m_messageBus.Publish(DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage(results,m_isStartLocationActive));
+                
             }
 
         }
