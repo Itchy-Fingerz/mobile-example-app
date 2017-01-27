@@ -70,10 +70,10 @@ namespace ExampleApp
                             if(json.HasMember("routes") && routeCode != "InternalError")
                             {
                                 const rapidjson::Value& innerRouteJsonList = json["routes"];
-                                if (innerRouteJsonList.IsNull()) {
+                                if (innerRouteJsonList.IsNull())
+                                {
                                     continue;
                                 }
-                                
                                 
                                 size_t numOfInnerEntries = innerRouteJsonList.Size();
 
@@ -130,7 +130,8 @@ namespace ExampleApp
                             if(json.HasMember("waypoints"))
                             {
                                 const rapidjson::Value& routeWayPoints = json["waypoints"];
-                                if (routeWayPoints.IsNull()) {
+                                if (routeWayPoints.IsNull())
+                                {
                                     continue;
                                 }
                                 size_t numOfWayPoints = routeWayPoints.Size();

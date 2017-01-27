@@ -242,12 +242,11 @@
     {
         if(section == 0)
         {
-            return m_pSuggestionsResults.size();
-
+            return m_internalPoiSuggestions.size();
         }
         else
         {
-            return m_internalPoiSuggestions.size();
+            return m_pSuggestionsResults.size();
         }
         
         
@@ -262,21 +261,32 @@
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (tableView == _suggestionsTableView)
     {
-        if (section == 0)
+        UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)] autorelease];
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 5, 100, 20)];
+        textLabel.textColor = [UIColor whiteColor];
+        textLabel.backgroundColor = [UIColor clearColor];
+        textLabel.textAlignment = NSTextAlignmentLeft;
+        if(section == 0)
         {
-            return @"Outdoor";
+            textLabel.text = @"Indoor";
         }
         else
         {
-            return @"Indoor";
+            textLabel.text = @"Outdoor";
         }
-
+        [headerView addSubview:textLabel];
+        [headerView setBackgroundColor:[UIColor colorWithRed:19.0/255 green:86.0/255 blue:176.0/255 alpha:1]];
+        return headerView;
     }
-    return @"";
+    else
+    {
+        return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 0)] autorelease];
+    }
+
 }
 
 
@@ -287,11 +297,11 @@
         ExampleApp::Search::SdkModel::SearchResultModel item;
         if(indexPath.section == 0)
         {
-            item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
+            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
         }
         else
         {
-            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
+            item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
         }
         
         DirectionSuggestionTableViewCell *cell = (DirectionSuggestionTableViewCell*)[self.suggestionsTableView dequeueReusableCellWithIdentifier:@"DirectionSuggestionsViewCell"];
@@ -364,12 +374,11 @@
         ExampleApp::Search::SdkModel::SearchResultModel item;
         if(indexPath.section == 0)
         {
-            item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
+            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
         }
         else
         {
-            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
-
+            item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
         }
         
         if(searchType == 1 ) //start
