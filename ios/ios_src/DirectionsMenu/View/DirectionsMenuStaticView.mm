@@ -279,7 +279,7 @@
             textLabel.text = @"Outdoor";
         }
         [headerView addSubview:textLabel];
-        [headerView setBackgroundColor:[UIColor colorWithRed:19.0/255 green:86.0/255 blue:176.0/255 alpha:1]];
+        [headerView setBackgroundColor:[UIColor colorWithRed:128.0/255 green:128.0/255 blue:128.0/255 alpha:1]];
         return headerView;
     }
     else
