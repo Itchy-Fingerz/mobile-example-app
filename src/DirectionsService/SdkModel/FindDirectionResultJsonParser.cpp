@@ -190,7 +190,7 @@ namespace ExampleApp
                                         
                                         if (inInterior)
                                         {
-                                            wayPointName =  "Waypoint: " + wayPointTypeString + "at level " + std::to_string(buildingLevel);
+                                            wayPointName =  "Waypoint: " + wayPointTypeString + " at level " + std::to_string(buildingLevel);
                                         }
 
                                     }
