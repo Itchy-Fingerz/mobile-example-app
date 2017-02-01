@@ -98,6 +98,7 @@
 }
 - (void)showStartSuggestions
 {
+    startLocationSearched = false;
     [_spinner startAnimating];
     _heightDropSpacingConstraint.constant = 0;
     _suggestionsView.hidden = false;
@@ -107,6 +108,7 @@
 }
 - (void)showEndSuggestions
 {
+    endLocationSearched = false;
     [_spinner startAnimating];
     _heightDropSpacingConstraint.constant = 55;
     _suggestionsView.hidden = false;
@@ -191,11 +193,11 @@
         m_internalPoiSuggestions = results;
         
     }
-    startLocationSearched = false;
-    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
-    {
-        [self showStartSuggestions];
-    }
+//    startLocationSearched = false;
+//    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
+//    {
+//        [self showStartSuggestions];
+//    }
     [_spinner stopAnimating];
     [_suggestionsTableView reloadData];
     
@@ -212,12 +214,12 @@
         m_internalPoiSuggestions = results;
         
     }
-    endLocationSearched = false;
+//    endLocationSearched = false;
     
-    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
-    {
-        [self showEndSuggestions];
-    }
+//    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
+//    {
+//        [self showEndSuggestions];
+//    }
     [_spinner stopAnimating];
     [_suggestionsTableView reloadData];
     
@@ -350,10 +352,12 @@
     if(indexPath.row == selectedIndex)
     {
         [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
+        [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
     }
     else
     {
         [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
+        [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
     }
     
     return cell;
@@ -386,7 +390,6 @@
             m_pStartLoc = item;
             startLocationSearched = true;
             [_startRouteTextField setText:[NSString stringWithFormat:@"%s",item.GetTitle().c_str()]];
-            [self cancelSuggestions:nil];
             [_endRouteTextField becomeFirstResponder];
         }
         
@@ -395,9 +398,9 @@
             m_pEndLoc = item;
             endLocationSearched = true;
             [_endRouteTextField setText:[NSString stringWithFormat:@"%s",item.GetTitle().c_str()]];
-            [self cancelSuggestions:nil];
         }
-        
+        [self cancelSuggestions:nil];
+
         return;
     }
     DirectionsMenuView *parentView = (DirectionsMenuView *)m_pView;

@@ -19,19 +19,22 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AP6-hD-5bR">
                         <rect key="frame" x="5" y="2" width="304" height="40"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="091D5916-C97B-46AD-A198-6FCD10B6152E" translatesAutoresizingMaskIntoConstraints="NO" id="pi9-vO-BHa">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="7710F8E3-7F34-45BF-AEDD-EF4CB492AC68" translatesAutoresizingMaskIntoConstraints="NO" id="pi9-vO-BHa">
                                 <rect key="frame" x="20" y="8" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="m4Q-Q9-uZb"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Westfield Valley Mall" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bN2-3p-J8O">
-                                <rect key="frame" x="59" y="3" width="235" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <rect key="frame" x="59" y="9" width="235" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="South Entrance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuh-k8-NU3">
-                                <rect key="frame" x="59" y="24" width="235" height="15"/>
+                                <rect key="frame" x="59" y="30" width="235" height="10"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="10" id="QNO-vD-D3b"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -41,17 +44,28 @@
                         <constraints>
                             <constraint firstItem="bN2-3p-J8O" firstAttribute="top" secondItem="pi9-vO-BHa" secondAttribute="top" constant="-5" id="4IJ-vJ-IvZ"/>
                             <constraint firstItem="bN2-3p-J8O" firstAttribute="leading" secondItem="pi9-vO-BHa" secondAttribute="trailing" constant="15" id="FnU-ao-jBb"/>
+                            <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="pi9-vO-BHa" secondAttribute="trailing" constant="15" id="SgJ-Sb-ZuW"/>
+                            <constraint firstAttribute="bottom" secondItem="vuh-k8-NU3" secondAttribute="bottom" id="Smw-sT-bsp"/>
+                            <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="leading" constant="59" id="UYm-bY-sYE"/>
                             <constraint firstItem="pi9-vO-BHa" firstAttribute="centerY" secondItem="AP6-hD-5bR" secondAttribute="centerY" id="e3w-s4-3pU"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="bN2-3p-J8O" secondAttribute="bottom" id="nUs-QX-xCp"/>
                             <constraint firstItem="pi9-vO-BHa" firstAttribute="height" secondItem="AP6-hD-5bR" secondAttribute="height" id="oLa-CQ-Dve"/>
                             <constraint firstAttribute="trailing" secondItem="bN2-3p-J8O" secondAttribute="trailing" constant="10" id="rCS-XS-FUM"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="bN2-3p-J8O" secondAttribute="leading" id="rVd-MW-1rV"/>
                             <constraint firstItem="pi9-vO-BHa" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="leading" constant="20" id="rdN-V0-4vZ"/>
+                            <constraint firstAttribute="bottom" secondItem="vuh-k8-NU3" secondAttribute="bottom" id="t1U-lu-Uko"/>
+                            <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="bN2-3p-J8O" secondAttribute="bottom" id="tDg-gh-Ssb"/>
                             <constraint firstAttribute="trailing" secondItem="vuh-k8-NU3" secondAttribute="trailing" constant="10" id="ukP-Pw-iCH"/>
+                            <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="leading" constant="59" id="vG2-c5-CPn"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="oLa-CQ-Dve"/>
+                                <exclude reference="4IJ-vJ-IvZ"/>
+                                <exclude reference="SgJ-Sb-ZuW"/>
+                                <exclude reference="nUs-QX-xCp"/>
+                                <exclude reference="t1U-lu-Uko"/>
+                                <exclude reference="vG2-c5-CPn"/>
                             </mask>
                         </variation>
                     </view>
@@ -140,7 +154,7 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="091D5916-C97B-46AD-A198-6FCD10B6152E" width="24" height="24">
+        <image name="7710F8E3-7F34-45BF-AEDD-EF4CB492AC68" width="24" height="24">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
