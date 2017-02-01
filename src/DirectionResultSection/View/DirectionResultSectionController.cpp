@@ -62,6 +62,10 @@ namespace ExampleApp
                         ExampleApp::PathDrawing::WayPointModel wayPointModel = wayPointVector[i];
                         
                         ExampleApp::Search::SdkModel::TagIconKey iconKey = "DirectionCard_RouteStart";
+                        if (j+1 == routes.size() && i+1 == wayPointVector.size())
+                        {
+                            iconKey = "DirectionCardWayPt_SetRouteEnd";
+                        }
                         std::string duration = "Temp Duration";
                         std::string subtitle = std::to_string(routeDuration);
                         const Eegeo::Space::LatLong latlong = wayPointModel.GetLocation();

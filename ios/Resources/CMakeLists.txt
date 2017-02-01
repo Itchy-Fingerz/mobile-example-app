@@ -781,6 +781,9 @@ set(resources ${resources}
         Resources/DirectionCard_SetRouteEnd.png
         Resources/DirectionCard_SetRouteEnd@2x.png
         Resources/DirectionCard_SetRouteEnd@3x.png
+        Resources/DirectionCardWayPt_SetRouteEnd.png
+        Resources/DirectionCardWayPt_SetRouteEnd@2x.png
+        Resources/DirectionCardWayPt_SetRouteEnd@3x.png
         Resources/DirectionCard_ReverseRoute.png
         Resources/DirectionCard_ReverseRoute@2x.png
         Resources/DirectionCard_ReverseRoute@3x.png
