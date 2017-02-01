@@ -63,7 +63,7 @@ namespace ExampleApp
             ExampleApp::SearchResultSection::View::SearchResultItemModel &searchItem = (ExampleApp::SearchResultSection::View::SearchResultItemModel&)item.MenuOption();
 
             Eegeo::Space::LatLong latLongStart = Eegeo::Space::LatLong::FromECEF(searchItem.GetLocationEcef());
-            WayPointModel* point = Eegeo_NEW(ExampleApp::PathDrawing::WayPointModel)(searchItem.GetItemIndex()
+           WayPointModel* point = Eegeo_NEW(ExampleApp::PathDrawing::WayPointModel)(searchItem.GetItemIndex()
                                                                          , ExampleApp::PathDrawing::WayPointType::CheckPoint
                                                                          , latLongStart
                                                                          , "",searchItem.GetInteriorID(),searchItem.GetFloorIndex(),searchItem.GetIsInterior());
@@ -72,7 +72,19 @@ namespace ExampleApp
         
         void PathDrawingController::OnSearchItemRemoved(Menu::View::MenuItemModel& item)
         {
+            ExampleApp::SearchResultSection::View::SearchResultItemModel &searchItem = (ExampleApp::SearchResultSection::View::SearchResultItemModel&)item.MenuOption();
 
+            for (int j = 0; j < m_pWayPointsRepository.GetItemCount(); j++)
+            {
+                WayPointModel* waypoint = m_pWayPointsRepository.GetItemAtIndex(j);
+                if(waypoint->GetWpId() == searchItem.GetItemIndex())
+                {
+                    m_pWayPointsRepository.RemoveItem(waypoint);
+                    Eegeo_DELETE waypoint;
+                    break;
+                }
+
+            }
         }
 
         void PathDrawingController::Update(float dt)
