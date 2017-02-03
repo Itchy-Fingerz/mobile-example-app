@@ -156,7 +156,15 @@ namespace ExampleApp
                                         if (wayPointName.find("bid:") != std::string::npos)
                                         {
                                             buildingID = wayPointName.substr(wayPointName.find("bid:") + 4);
-                                            buildingID = "westport_house";//buildingID.substr(0,buildingID.size()-1);
+                                            buildingID = buildingID.substr(0,buildingID.size()-1);//
+                                            if(buildingID == "c857d08d-7de1-4447-9ff8-6747649a00e0")
+                                            {
+                                                buildingID = "70f9b00f-8c4f-4570-9a23-62bd80a76f8a";
+                                            }
+                                            else
+                                            {
+                                                buildingID = "westport_house";
+                                            }
                                             inInterior = true;
                                         }
                                         
