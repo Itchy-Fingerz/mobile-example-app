@@ -17,6 +17,7 @@
 #include "RouteStyle.h"
 #include "InteriorInteractionModel.h"
 
+#include "AppGlobeCameraWrapper.h"
 
 
 
@@ -33,7 +34,8 @@ namespace ExampleApp
                                            ,Eegeo::Web::IWebLoadRequestFactory& webRequestFactory, Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                            Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
                                            const std::string& eegeoApiKey, ExampleAppMessaging::TMessageBus& messageBus
-                                           ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder);
+                                           ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder
+                                           ,AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper);
                 ~FindDirectionServiceModule();
                 FindDirectionService& GetFindDirectionService() const;
                 FindDirectionQueryPerformer& GetFindDirectionQueryPerformer() const;

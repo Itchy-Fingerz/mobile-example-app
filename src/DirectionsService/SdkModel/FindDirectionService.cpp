@@ -12,7 +12,9 @@
 #include "RouteStyle.h"
 #include "RouteRepository.h"
 #include <vector>
-
+#include "AppInteriorCameraWrapper.h"
+#include "RenderCamera.h"
+#include "InteriorInteractionModel.h"
 
 namespace ExampleApp
 {
@@ -20,7 +22,7 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            FindDirectionService::FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus)
+            FindDirectionService::FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper)
             : m_pCurrentRequest(NULL)
             , m_findDirectionHttpRequestFactory(findDirectionHttpRequestFactory)
             , m_handleResponseCallback(this,&FindDirectionService::HandleRouteDirectionResponse)
@@ -35,8 +37,9 @@ namespace ExampleApp
             , m_directionsMenuStateChangedCallback(this, &FindDirectionService::OnDirectionsMenuStateChanged)
             , m_onFindNewDirectionCallback(this, &FindDirectionService::OnFindNewDirection)
             , m_appModeChangedCallback(this, &FindDirectionService::OnAppModeChanged)
-            ,m_pIsInteriorRoute(false)
-            ,m_routes (NULL)
+            , m_pIsInteriorRoute(false)
+            , m_routes (NULL)
+            , m_cameraWrapper(cameraWrapper)
 
 
             {
@@ -78,13 +81,11 @@ namespace ExampleApp
                 if (findDirectionQuery.IsInterior())
                 {
                     m_routeThicknessPolicy.SetScaleFactor(1.7f);
-                    m_routeThicknessPolicy.SetAltitude(100.f);
                     
                 }
                 else
                 {
                     m_routeThicknessPolicy.SetScaleFactor(7.7f);
-                    m_routeThicknessPolicy.SetAltitude(100.f);
                 }
                     
                 m_pCurrentRequest = m_findDirectionHttpRequestFactory.CreateFindDirectionQuery(findDirectionQuery, m_handleResponseCallback);
@@ -165,6 +166,20 @@ namespace ExampleApp
                     }
 
                 }
+                
+            }
+            
+            void FindDirectionService::Update(float dt)
+            {
+
+                if(m_pInteriorInteractionModel.HasInteriorModel())
+                {
+                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
+                }else{
+                    m_routeThicknessPolicy.SetScaleFactor(7.7f);
+                }
+                float altitude = m_cameraWrapper.GetRenderCamera().GetAltitude();
+                m_routeThicknessPolicy.SetAltitude(altitude);
             }
         }
     }

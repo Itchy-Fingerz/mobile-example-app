@@ -133,6 +133,18 @@
     selectedIndex = -1;
     
 }
+- (void)searchProgress:(bool)inProgress
+{
+    if (inProgress)
+    {
+        [_waypointspinner startAnimating];
+    }
+    else
+    {
+        [_waypointspinner stopAnimating];
+    }
+    
+}
 - (void)optionsAction
 {
  
@@ -267,8 +279,10 @@
 {
     if (tableView == _suggestionsTableView)
     {
-        UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 30)] autorelease];
-        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 5, 100, 20)];
+        UIView *headerView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)] autorelease];
+        UIView *lineView = [[[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height-1, tableView.bounds.size.width, 1)] autorelease];
+
+        UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 0, 100, 20)];
         textLabel.textColor = [UIColor whiteColor];
         textLabel.backgroundColor = [UIColor clearColor];
         textLabel.textAlignment = NSTextAlignmentLeft;
@@ -280,6 +294,8 @@
         {
             textLabel.text = @"Outdoor";
         }
+        [lineView setBackgroundColor:[UIColor colorWithRed:19.0/255 green:86.0/255 blue:176.0/255 alpha:1]];
+        [headerView addSubview:lineView];
         [headerView addSubview:textLabel];
         [headerView setBackgroundColor:[UIColor colorWithRed:128.0/255 green:128.0/255 blue:128.0/255 alpha:1]];
         return headerView;
@@ -291,7 +307,10 @@
 
 }
 
-
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 20;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == _suggestionsTableView) {

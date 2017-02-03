@@ -436,7 +436,10 @@
     
 }
 
-
+- (void)SetSearchInProgress:(bool) inProgress
+{
+    [m_pDirectionsMenuView searchProgress:inProgress];
+}
 
 -(void)EndRouteEntered  {
     [self SetSearchSection:NULL];

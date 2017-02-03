@@ -1,4 +1,4 @@
-// Copyright eeGeo Ltd (2012-2015), All Rights Reserved
+                                                                                     // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 
 #include "MobileExampleApp.h"
 #include "GlobeCameraTouchController.h"
@@ -637,7 +637,7 @@ namespace ExampleApp
         m_pFindDirectionServiceModule = Eegeo_NEW(Direction::SdkModel::FindDirectionServiceModule)(m_pWorld->GetWorkPool(),m_pWorld->GetRoutesModule().GetRouteService(),m_pWorld->GetRoutesModule().GetRouteRepository(),interiorsPresentationModule.GetInteriorInteractionModel(),m_platformAbstractions.GetWebLoadRequestFactory(),
                                                                                                    m_platformAbstractions.GetUrlEncoder(),
                                                                         m_pWorld->GetNativeUIFactories().AlertBoxFactory(),m_applicationConfiguration.EegeoApiKey(),
-                                                                        m_messageBus,m_pWorld->GetRoutesModule().GetRoutingRequestBuilder());
+                                                                        m_messageBus,m_pWorld->GetRoutesModule().GetRoutingRequestBuilder(),*m_pGlobeCameraWrapper);
         
         m_pPoiSearchModule =  Eegeo_NEW(Search::EegeoPois::SdkModel::EegeoSearchServiceModule)(
                                                                          m_platformAbstractions.GetWebLoadRequestFactory(),
@@ -1261,6 +1261,7 @@ namespace ExampleApp
 //        {
             m_pdirectionReCalculationService->Update(dt);  // routes checked in Service Route Repository
 //        }
+        m_pFindDirectionServiceModule->GetFindDirectionService().Update(dt);
         UpdateLoadingScreen(dt);
     }
 

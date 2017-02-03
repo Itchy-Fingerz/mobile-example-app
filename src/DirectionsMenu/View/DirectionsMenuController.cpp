@@ -53,6 +53,7 @@ namespace ExampleApp
             , m_isDirectionMenuOpen(false)
             , m_isInterior(false)
             , m_pInteriorInteractionModel(interiorInteractionModel)
+            , m_directionResponseReceivedHandler(this, &DirectionsMenuController::OnSearchQueryResponseReceivedMessage)
             {
                 m_directionsMenuView.InsertSearchPeformedCallback(m_searchPerformedCallbacks);
                 m_directionsMenuView.InsertSearchClearedCallback(m_searchClearedCallbacks);
@@ -73,6 +74,9 @@ namespace ExampleApp
                 m_messageBus.SubscribeUi(m_directionsMenuHighlightItemCallback);
                 m_messageBus.SubscribeUi(m_onStartLocationResponseReceivedCallback);
                 m_messageBus.SubscribeUi(m_onInternalPoiSearchResponseReceivedCallback);
+
+                m_messageBus.SubscribeUi(m_directionResponseReceivedHandler);
+
                 
             }
             
@@ -95,7 +99,8 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeUi(m_directionsMenuHighlightItemCallback);
                 m_messageBus.UnsubscribeUi(m_onStartLocationResponseReceivedCallback);
                 m_messageBus.UnsubscribeUi(m_onInternalPoiSearchResponseReceivedCallback);
-                
+                m_messageBus.UnsubscribeUi(m_directionResponseReceivedHandler);
+
 
             }
             
@@ -268,9 +273,10 @@ namespace ExampleApp
             
             void DirectionsMenuController::ToggleSettingMenuButton()
             {
-                m_isDirectionMenuOpen = !m_isDirectionMenuOpen;
                 if(m_viewModel.IsFullyClosed())
                 {
+                    m_isDirectionMenuOpen = !m_isDirectionMenuOpen;
+
                     m_settingsMenuViewModel.RemoveFromScreen();
                     m_searchMenuViewModel.RemoveFromScreen();
 
@@ -278,6 +284,8 @@ namespace ExampleApp
                 }
                 else if(m_viewModel.IsFullyOpen())
                 {
+                    m_isDirectionMenuOpen = !m_isDirectionMenuOpen;
+
                     m_settingsMenuViewModel.AddToScreen();
                     m_searchMenuViewModel.AddToScreen();
 
@@ -388,6 +396,16 @@ namespace ExampleApp
                 m_viewModel.UpdateOpenState(1.0f);
             }
             
+            void DirectionsMenuController::OnSearchQueryResponseReceivedMessage(const DirectionResultSection::DirectionQueryResponseReceivedMessage& message)
+            {
+                Direction::SdkModel::DirectionResultModel& model = message.GetDirectionResultModel();
+                const std::vector<Direction::SdkModel::DirectionRouteModel>& routes = model.GetRoutes();
+               
+                if(routes.size() == 0)
+                {
+                    m_directionsMenuView.SetSearchInProgress(false);
+                }
+            }
         }
     }
 }

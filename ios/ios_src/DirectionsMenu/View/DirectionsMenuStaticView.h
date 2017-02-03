@@ -47,4 +47,6 @@
 - (void) resetSuggestionItem;
 - (void)reverseAction;
 - (void)optionsAction;
+- (void)searchProgress:(bool)inProgress;
+
 @end

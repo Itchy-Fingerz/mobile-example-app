@@ -51,6 +51,7 @@ namespace ExampleApp
 
                 void SetSearchInProgress(bool inProgress)
                 {
+                    [m_pView SetSearchInProgress:inProgress];
                 }
                 
                 void SetStartEditText(const std::string& searchText, bool isCategory)

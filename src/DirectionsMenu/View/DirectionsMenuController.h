@@ -11,6 +11,7 @@
 #include "DirectionMenuGeoNamesResponseReceivedMessage.h"
 #include "DirectionMenuPoiSearchResponseReceivedMessage.h"
 #include "ILocationService.h"
+#include "DirectionQueryResponseReceivedMessage.h"
 
 
 namespace ExampleApp
@@ -58,6 +59,8 @@ namespace ExampleApp
 
                 Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
 
+                Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionResultSection::DirectionQueryResponseReceivedMessage&> m_directionResponseReceivedHandler;
+
                 
                 
                 void OnOpenStateChanged(OpenableControl::View::IOpenableControlViewModel& viewModel, float& openState);
@@ -98,6 +101,8 @@ namespace ExampleApp
                 void OnPoiSearchResponseReceived(const DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage& message);
 
                 void UpdateUiThread(float dt);
+                
+                void OnSearchQueryResponseReceivedMessage(const DirectionResultSection::DirectionQueryResponseReceivedMessage& message);
                 
             protected:
                 

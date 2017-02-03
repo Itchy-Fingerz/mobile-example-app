@@ -17,6 +17,7 @@
 #include "LinearAltitudeBasedRouteThicknessPolicy.h"
 #include "DirectionsMenuStateChangedMessage.h"
 #include "DirectionMenuFindDirectionMessage.h"
+#include "AppGlobeCameraWrapper.h"
 
 
 
@@ -57,17 +58,19 @@ namespace ExampleApp
                 bool m_pIsInteriorRoute;
                 Eegeo::Routes::RouteRepository& m_routeRepository;
                 std::vector<const Eegeo::Routes::Route *> m_routes;
+                AppCamera::SdkModel::AppGlobeCameraWrapper& m_cameraWrapper;
 
 
             public:
                 
-                FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& m_findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus);
+                FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& m_findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper);
                 ~FindDirectionService();
                 void InsertOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback1<const DirectionResultModel& >& callback);
                 
                 void RemoveOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback1<const DirectionResultModel& >& callback);
                 void PerformLocationQuerySearch(const Direction::SdkModel::FindDirectionQuery& findDirectionQuery);
                 void ClearRoutes();
+                void Update(float dt);
 
             };
         }
