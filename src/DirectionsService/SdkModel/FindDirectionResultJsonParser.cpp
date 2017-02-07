@@ -66,7 +66,10 @@ namespace ExampleApp
                             }
                             
                             std::vector<DirectionInnerRouteModel> innerRoutesVector;
-                            
+                            if (routeCode == "InternalError" || routeCode == "Error")
+                            {
+                                responseCode = "Error";
+                            }
                             if(json.HasMember("routes") && routeCode != "InternalError")
                             {
                                 const rapidjson::Value& innerRouteJsonList = json["routes"];
@@ -229,6 +232,9 @@ namespace ExampleApp
                         }// End for outer Routes array
                     } // end if outer route array not exist
 
+                }
+                if (responseCode == "Error") {
+                    routes.clear();
                 }
                 return DirectionResultModel(responseCode,responseType,routes);
 

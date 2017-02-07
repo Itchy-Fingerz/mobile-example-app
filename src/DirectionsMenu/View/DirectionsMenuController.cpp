@@ -8,6 +8,7 @@
 #include "SearchResultSectionItemSelectedMessage.h"
 #include "InteriorInteractionModel.h"
 #include "InteriorsFloorModel.h"
+#include "UIHelpers.h"
 namespace ExampleApp
 {
     namespace DirectionsMenu
@@ -244,17 +245,29 @@ namespace ExampleApp
             {
                 
                 m_directionsMenuView.HighlightListItem(message.GetSelectedItemIndex());
-                if (m_isDirectionMenuOpen == false)
+
+
+                if (m_isDirectionMenuOpen == false )
                 {
                     DirectionsMenuController::ToggleSettingMenuButton();
                     MenuController::OnViewClicked();
                 }
+//                else if (m_viewModel.IsFullyClosed())
+//                {
+//                    DirectionsMenuController::ToggleSettingMenuButton();
+//                    MenuController::OnViewClicked();
+//                }
 
             }
             
             void DirectionsMenuController::OnWayPointItemSelected(int& index)
             {
-                ToggleSettingMenuButton();
+                const bool isPhone = ExampleApp::Helpers::UIHelpers::UsePhoneLayout();
+                if (isPhone)
+                {
+                    ToggleSettingMenuButton();
+                }
+                
                 m_searchSectionViewModel.GetItemAtIndex(index).MenuOption().Select();
                 m_directionsMenuView.HighlightListItem(index);
                 
@@ -275,7 +288,7 @@ namespace ExampleApp
             {
                 if(m_viewModel.IsFullyClosed())
                 {
-                    m_isDirectionMenuOpen = !m_isDirectionMenuOpen;
+                    m_isDirectionMenuOpen = true;
 
                     m_settingsMenuViewModel.RemoveFromScreen();
                     m_searchMenuViewModel.RemoveFromScreen();
@@ -284,7 +297,7 @@ namespace ExampleApp
                 }
                 else if(m_viewModel.IsFullyOpen())
                 {
-                    m_isDirectionMenuOpen = !m_isDirectionMenuOpen;
+                    m_isDirectionMenuOpen = false;
 
                     m_settingsMenuViewModel.AddToScreen();
                     m_searchMenuViewModel.AddToScreen();

@@ -101,19 +101,27 @@ namespace ExampleApp
                 {
                     const std::string& response(m_pCurrentRequest->ResponseString());
                     DirectionResultModel result =  m_findDirectionResultParser.ParseGeoNamesQueryResults(response);
-                     m_messageBus.Publish(DirectionResultSection::DirectionQueryResponseReceivedMessage(result));
-                    
-
-                    Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
-                    // this will asynchronously parse the result and add the resulting route to m_routeService
-                    m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
-                    
-                    
-                    
+                    m_messageBus.Publish(DirectionResultSection::DirectionQueryResponseReceivedMessage(result));
                     if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
                     {
-                         m_alertBoxFactory.CreateSingleOptionAlertBox("Failed to obtain route.", "No location found matching.", m_failAlertHandler);
+                        m_alertBoxFactory.CreateSingleOptionAlertBox("Failed to obtain route.", "No location found matching.", m_failAlertHandler);
                     }
+                    else
+                    {
+                        
+                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
+                        // this will asynchronously parse the result and add the resulting route to m_routeService
+                        m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
+                        
+                        if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
+                        {
+                            m_alertBoxFactory.CreateSingleOptionAlertBox("Failed to obtain route.", "No location found matching.", m_failAlertHandler);
+                        }
+                        
+                    }
+                    
+                    
+                    
 
                 }
                 else
@@ -176,9 +184,17 @@ namespace ExampleApp
                 {
                     m_routeThicknessPolicy.SetScaleFactor(1.7f);
                 }else{
-                    m_routeThicknessPolicy.SetScaleFactor(7.7f);
+                    m_routeThicknessPolicy.SetScaleFactor(11.0f);
                 }
                 float altitude = m_cameraWrapper.GetRenderCamera().GetAltitude();
+                if (altitude > 1000 && altitude < 2000)
+                {
+                    m_routeThicknessPolicy.SetScaleFactor(20.0f);
+                }
+                if (altitude > 2000)
+                {
+                    m_routeThicknessPolicy.SetScaleFactor(25.0f);
+                }
                 m_routeThicknessPolicy.SetAltitude(altitude);
             }
         }
