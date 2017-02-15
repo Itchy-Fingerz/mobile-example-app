@@ -78,16 +78,16 @@ namespace ExampleApp
                     m_pCurrentRequest->Cancel();
                 }
                 m_pIsInteriorRoute = findDirectionQuery.IsInterior();
-                if (findDirectionQuery.IsInterior())
-                {
-                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
-                    
-                }
-                else
-                {
-                    m_routeThicknessPolicy.SetScaleFactor(7.7f);
-                }
-                    
+//                if (findDirectionQuery.IsInterior())
+//                {
+//                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
+//                    
+//                }
+//                else
+//                {
+//                    m_routeThicknessPolicy.SetScaleFactor(7.7f);
+//                }
+                m_routeThicknessPolicy.SetScaleFactor(1.7f);                
                 m_pCurrentRequest = m_findDirectionHttpRequestFactory.CreateFindDirectionQuery(findDirectionQuery, m_handleResponseCallback);
                 m_pCurrentRequest->Dispatch();
 
@@ -109,7 +109,9 @@ namespace ExampleApp
                     else
                     {
                         
-                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
+//                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
+                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::InteriorEntities, true);
+
                         // this will asynchronously parse the result and add the resulting route to m_routeService
                         m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
                         
@@ -120,9 +122,6 @@ namespace ExampleApp
                         
                     }
                     
-                    
-                    
-
                 }
                 else
                 {
@@ -180,21 +179,7 @@ namespace ExampleApp
             void FindDirectionService::Update(float dt)
             {
 
-                if(m_pInteriorInteractionModel.HasInteriorModel())
-                {
-                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
-                }else{
-                    m_routeThicknessPolicy.SetScaleFactor(11.0f);
-                }
                 float altitude = m_cameraWrapper.GetRenderCamera().GetAltitude();
-                if (altitude > 1000 && altitude < 2000)
-                {
-                    m_routeThicknessPolicy.SetScaleFactor(20.0f);
-                }
-                if (altitude > 2000)
-                {
-                    m_routeThicknessPolicy.SetScaleFactor(25.0f);
-                }
                 m_routeThicknessPolicy.SetAltitude(altitude);
             }
         }
