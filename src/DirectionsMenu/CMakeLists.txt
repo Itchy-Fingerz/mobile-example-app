@@ -11,6 +11,8 @@ set(currsources
   ../src/DirectionsMenu/DirectionMenuGeoNamesResponseReceivedMessage.h
   ../src/DirectionsMenu/DirectionMenuPoiSearchResponseReceivedMessage.cpp
   ../src/DirectionsMenu/DirectionMenuPoiSearchResponseReceivedMessage.h
+  ../src/DirectionsMenu/OnSecreenTapMessage.cpp
+  ../src/DirectionsMenu/OnSecreenTapMessage.h
 
 )
 set(sources ${sources} ${currsources})

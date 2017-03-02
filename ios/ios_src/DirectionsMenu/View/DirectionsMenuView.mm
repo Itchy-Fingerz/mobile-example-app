@@ -44,6 +44,8 @@
     
     float m_maxScreenSpace;
     DirectionsMenuStaticView *m_pDirectionsMenuView;
+    
+    BOOL m_isClearPressed;
 }
 
 @property (nonatomic, retain) UIView* pSearchMenuScrollButtonContainer;
@@ -375,16 +377,38 @@
 
 
 }
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    m_isClearPressed = true;
+    [m_pDirectionsMenuView cancelSuggestions:nil];
+    return true;
+}
 -(void)StartLocationTextFieldDidChange:(UITextField *)textField
 {
-    m_pDirectionsMenuInterop->HandleStartLocationChanged(std::string([textField.text UTF8String]));
-    [m_pDirectionsMenuView showStartSuggestions];
+    if (!m_isClearPressed)
+    {
+        m_pDirectionsMenuInterop->HandleStartLocationChanged(std::string([textField.text UTF8String]));
+        [m_pDirectionsMenuView showStartSuggestions];
+    }
+    else
+    {
+        m_isClearPressed = false;
+    }
+
 }
 
 -(void)EndLocationTextFieldDidChange:(UITextField *)textField
 {
-   m_pDirectionsMenuInterop->HandleEndLocationChanged(std::string([textField.text UTF8String]));
-    [m_pDirectionsMenuView showEndSuggestions];
+    if (!m_isClearPressed)
+    {
+        m_pDirectionsMenuInterop->HandleEndLocationChanged(std::string([textField.text UTF8String]));
+        [m_pDirectionsMenuView showEndSuggestions];
+
+    }
+    else
+    {
+        m_isClearPressed = false;
+    }
 
 }
 
@@ -460,6 +484,12 @@
                          [self layoutIfNeeded];
                      }];
 
+}
+- (void)HandleTapEvent
+{
+    [m_pDirectionsMenuView cancelSuggestions:nil];
+    [m_pDirectionsMenuView.startRouteTextField resignFirstResponder];
+    [m_pDirectionsMenuView.endRouteTextField resignFirstResponder];
 }
 
 @end

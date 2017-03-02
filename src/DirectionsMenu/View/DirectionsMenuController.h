@@ -60,6 +60,10 @@ namespace ExampleApp
                 Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionResultSection::DirectionQueryResponseReceivedMessage&> m_directionResponseReceivedHandler;
+                
+                Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::OnSecreenTapMessage&> m_onScreenSingleTapCallback;
+
+
 
                 
                 
@@ -79,6 +83,8 @@ namespace ExampleApp
                 void OnViewClicked();
                 
                 void OnModalBackgroundTapped();
+                
+                void OnScreenSingleTap(const DirectionsMenu::OnSecreenTapMessage& message);
                 
                 void OnSearch(const SdkModel::DirectionQueryInfoDTO& directionInfo);
                 

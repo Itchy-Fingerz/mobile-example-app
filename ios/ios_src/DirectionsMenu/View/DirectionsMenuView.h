@@ -35,6 +35,7 @@
 - (void)ExitDirectionsClicked;
 - (void)ExitDirectionsClickedOnInteriorExit;
 - (void)SetSearchInProgress:(bool) inProgress;
+- (void)HandleTapEvent;
 
 
 @property (nonatomic, retain) UIScrollView* pSearchResultsTableContainerView;
