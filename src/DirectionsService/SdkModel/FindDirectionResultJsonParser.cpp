@@ -119,8 +119,74 @@ namespace ExampleApp
                                         }
                                     }
                                     
+                                    std::vector<LegRouteModel> innerRouteLegsVector;
+                                    
+                                    if(innerRouteJson.HasMember("legs"))
+                                    {
+                                        const rapidjson::Value& innerRouteLegsValue = innerRouteJson["legs"];
+                                        if (innerRouteLegsValue.IsNull())
+                                        {
+                                            continue;
+                                        }
+                                        size_t numOfLegs = innerRouteLegsValue.Size();
+                                        for(int a = 0; a < numOfLegs; ++a)
+                                        {
+                                            const rapidjson::Value& legValue = innerRouteLegsValue[a];
+                                            
+                                            const float legDistance = legValue["distance"].GetDouble();
+                                            const float legDuration = legValue["duration"].GetDouble();
+                                            const std::string legSummary = legValue["summary"].GetString();
+                                            
+                                            const rapidjson::Value& stepsValueArray = legValue["steps"];
+                                            
+                                            std::vector<StepRouteModel> stepVector;
+                                            const size_t numOfSteps = stepsValueArray.Size();
+                                            
+                                            for(int b = 0; b < numOfSteps; ++b)
+                                            {
+                                                const rapidjson::Value& stepValue = stepsValueArray[b];
+                                                
+                                                const float setepDistance = stepValue["distance"].GetDouble();
+                                                const float setepDuration = stepValue["duration"].GetDouble();
+                                                
+                                                const std::string stepName = stepValue["name"].GetString();
+                                                const std::string stepMode = stepValue["mode"].GetString();
+                                                
+                                                
+                                                const rapidjson::Value& maneuverValue = stepValue["maneuver"];
+                                                
+                                                const int maneuverBearingAfter = maneuverValue["bearing_after"].GetInt();
+                                                const int maneuverBearingBefore = maneuverValue["bearing_before"].GetInt();
+                                                const std::string maneuverType = maneuverValue["type"].GetString();
+                                                
+                                                const rapidjson::Value& maneuverLocationValue = maneuverValue["location"];
+                                                
+                                                const double maneuverlongitude = maneuverLocationValue[0].GetDouble();
+                                                const double maneuverLat = maneuverLocationValue[1].GetDouble();
+                                                const Eegeo::Space::LatLong maneuverLocation = Eegeo::Space::LatLong::FromDegrees(maneuverLat,maneuverlongitude);
+
+                                                
+                                                const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation);
+                                                const StepRouteModel stepModelObject(maneuverModelObject,setepDistance,setepDuration,stepMode,stepName);
+                                                
+                                                stepVector.push_back(stepModelObject);
+
+                                                
+                                            }
+                                            
+                                            const LegRouteModel legModelObject(legDistance,legDuration,stepVector,legSummary);
+                                            innerRouteLegsVector.push_back(legModelObject);
+
+                                        
+                                        
+                                        }
+
+                               
+
+                                    }
+                                    
                                     DirectionRouteGeometryModel geometryModel(geometryResponseType,coordinatesLatLongVector);
-                                    DirectionInnerRouteModel innerRouteModel(innerRouteDuration,innerRouteDistance,geometryModel);
+                                    DirectionInnerRouteModel innerRouteModel(innerRouteDuration,innerRouteDistance,geometryModel,innerRouteLegsVector);
                                     innerRoutesVector.push_back(innerRouteModel);
                                     
                                     
