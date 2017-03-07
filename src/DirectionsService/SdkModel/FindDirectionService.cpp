@@ -180,7 +180,8 @@ namespace ExampleApp
             {
 
                 float altitude = m_cameraWrapper.GetRenderCamera().GetAltitude();
-                m_routeThicknessPolicy.SetAltitude(altitude);
+                altitude = 0;
+              //  m_routeThicknessPolicy.SetAltitude(altitude);
             }
         }
     }

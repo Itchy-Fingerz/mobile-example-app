@@ -48,6 +48,7 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
     m_pSearchResultsSection = NULL;
     //Changes done directly here, we have an object
     [_reverseButton.layer setBorderWidth:1.0f];

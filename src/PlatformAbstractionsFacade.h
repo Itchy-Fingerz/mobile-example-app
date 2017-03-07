@@ -7,6 +7,8 @@
 #include "ExampleAppCustomWebLoadRequestFactory.h"
 #include "NetIncludes.h"
 #include "Tasks.h"
+#include "SceneBuilderModuleFactory.h"
+
 
 namespace ExampleApp
 {
@@ -16,6 +18,8 @@ namespace ExampleApp
         Eegeo::Modules::IPlatformAbstractionModule& m_wrappedPlatformAbstractions;
         Net::SdkModel::ExampleAppCustomWebLoadRequestFactory* m_pWebLoadRequestFactory;
         Net::SdkModel::ExampleAppCustomWebLoadRequestFactory* m_pPlatformWebLoadRequestFactory;
+        Eegeo::Modules::SceneBuilderModuleFactory m_sceneBuilderModuleFactory;
+
         
     public:
         PlatformAbstractionsFacade(Eegeo::Modules::IPlatformAbstractionModule& wrappedPlatformAbstractions,
@@ -32,6 +36,8 @@ namespace ExampleApp
         Eegeo::Helpers::UrlHelpers::IUrlEncoder& GetUrlEncoder() const;
         Eegeo::Web::IConnectivityService& GetConnectivityService() const;
         Eegeo::Concurrency::Tasks::IWorkPool& GetWorkPool() const;
+        Eegeo::Modules::ISceneBuilderModuleFactory& GetSceneBuilderModuleFactory();
+
        
         void OnPause();
         void Update();
