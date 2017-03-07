@@ -48,7 +48,7 @@
 #include "DirectionsMenuItemHighlightMessage.h"
 #include "DirectionMenuGeoNamesResponseReceivedMessage.h"
 #include "DirectionMenuPoiSearchResponseReceivedMessage.h"
-
+#include "OnSecreenTapMessage.h"
 
 namespace ExampleApp
 {
@@ -99,6 +99,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenuInitiation::DirectionsMenuItemHighlightMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage>
+            , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::OnSecreenTapMessage>
             , private Eegeo::NonCopyable
         {
 

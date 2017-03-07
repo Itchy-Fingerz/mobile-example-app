@@ -175,6 +175,11 @@ namespace ExampleApp
                     m_endLocationCallbacks.ExecuteCallbacks(startLocationQuery);
                 }
                 
+                void HandleTapEvent()
+                {
+                    [m_pView HandleTapEvent];
+                }
+                
                 
             };
         }

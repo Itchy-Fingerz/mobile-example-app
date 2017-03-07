@@ -9,10 +9,11 @@ namespace ExampleApp
         namespace SdkModel
         {
             
-            DirectionInnerRouteModel::DirectionInnerRouteModel(int duration,int distance ,const DirectionRouteGeometryModel& pGeometry)
+            DirectionInnerRouteModel::DirectionInnerRouteModel(int duration,int distance ,const DirectionRouteGeometryModel& pGeometry, std::vector<LegRouteModel>legs)
             : m_duration(duration)
             , m_distance(distance)
             , m_Geometry(pGeometry)
+            , m_legs(legs)
             {
             
             }
@@ -36,6 +37,12 @@ namespace ExampleApp
             {
                 return m_Geometry;
             }
+            
+            const std::vector<LegRouteModel>& DirectionInnerRouteModel::GetInnerRouteLegs() const
+            {
+                return m_legs;
+            }
+
         }
     }
 }

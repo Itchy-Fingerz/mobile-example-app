@@ -124,6 +124,7 @@
 #include "ITagSearchRepository.h"
 #include "DirectionsResultSectionModule.h"
 #include "GeoNamesSearchService.h"
+#include "OnSecreenTapMessage.h"
 
 namespace ExampleApp
 {
@@ -1501,6 +1502,7 @@ namespace ExampleApp
         m_pInteriorsEntitiesPinsModule->GetInteriorsEntitiesPinsController().Event_TouchTap(data);
         
         m_pCurrentTouchController->Event_TouchTap(data);
+        m_messageBus.Publish(DirectionsMenu::OnSecreenTapMessage());
     }
 
     void MobileExampleApp::Event_TouchDoubleTap(const AppInterface::TapData& data)

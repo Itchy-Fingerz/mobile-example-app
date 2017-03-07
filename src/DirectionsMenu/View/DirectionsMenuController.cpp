@@ -55,6 +55,7 @@ namespace ExampleApp
             , m_isInterior(false)
             , m_pInteriorInteractionModel(interiorInteractionModel)
             , m_directionResponseReceivedHandler(this, &DirectionsMenuController::OnSearchQueryResponseReceivedMessage)
+            , m_onScreenSingleTapCallback(this, &DirectionsMenuController::OnScreenSingleTap)
             {
                 m_directionsMenuView.InsertSearchPeformedCallback(m_searchPerformedCallbacks);
                 m_directionsMenuView.InsertSearchClearedCallback(m_searchClearedCallbacks);
@@ -77,6 +78,7 @@ namespace ExampleApp
                 m_messageBus.SubscribeUi(m_onInternalPoiSearchResponseReceivedCallback);
 
                 m_messageBus.SubscribeUi(m_directionResponseReceivedHandler);
+                m_messageBus.SubscribeUi(m_onScreenSingleTapCallback);
 
                 
             }
@@ -375,7 +377,14 @@ namespace ExampleApp
             {
                 MenuController::OnViewClicked();
             }
-            
+            void DirectionsMenuController::OnScreenSingleTap(const DirectionsMenu::OnSecreenTapMessage& message)
+            {
+                if(m_viewModel.IsFullyOpen())
+                {
+                    m_directionsMenuView.HandleTapEvent();
+                }
+            }
+
             void DirectionsMenuController::OnModalBackgroundTapped()
             {
                 if(!m_appModeAllowsOpen)

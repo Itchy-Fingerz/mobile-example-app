@@ -65,6 +65,8 @@ namespace ExampleApp
                 virtual void HandleEndLocationChanged(const std::string& startLocationQuery) = 0;
                 
                 virtual void ExitDirectionsOnInteriorExit() = 0;
+                
+                virtual void HandleTapEvent() = 0;
 
 
             };

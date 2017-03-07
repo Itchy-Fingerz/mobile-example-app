@@ -24,6 +24,12 @@ set(currsources
   ../src/DirectionsService/SdkModel/DirectionRouteGeometryModel.h
   ../src/DirectionsService/SdkModel/FindDirectionServiceModule.cpp
   ../src/DirectionsService/SdkModel/FindDirectionServiceModule.h
+../src/DirectionsService/SdkModel/ManeuverRouteModel.h
+../src/DirectionsService/SdkModel/ManeuverRouteModel.cpp
+../src/DirectionsService/SdkModel/StepRouteModel.h
+../src/DirectionsService/SdkModel/StepRouteModel.cpp
+../src/DirectionsService/SdkModel/LegRouteModel.cpp
+../src/DirectionsService/SdkModel/LegRouteModel.h
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\DirectionsService\\SdkModel FILES ${currsources})
