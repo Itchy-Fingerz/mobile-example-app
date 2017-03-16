@@ -7,6 +7,7 @@
 #include "FindDirectionQueryPerformer.h"
 #include "DirectionMenuGetGeoNamesMessage.h"
 #include "GeoNamesSearchService.h"
+#include "GpsGlobeCameraController.h"
 
 namespace ExampleApp
 {
@@ -22,6 +23,8 @@ namespace ExampleApp
                 
                 ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & m_geoNamesService;
                 ExampleApp::Search::SdkModel::ISearchService& m_poiSearchService;
+                
+                Eegeo::Camera::GlobeCamera::GpsGlobeCameraController& m_cameraController;
                 
                 Eegeo::Helpers::TCallback1<DirectionMenuGeoNameMessageHandler, const DirectionsMenu::DirectionMenuGetGeoNamesMessage&> m_handleFindDirectionMessageBinding;
                 
@@ -47,7 +50,7 @@ namespace ExampleApp
                 
             public:
                 
-                DirectionMenuGeoNameMessageHandler(ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & geoNamesService,ExampleApp::Search::SdkModel::ISearchService& poiSearchService, ExampleAppMessaging::TMessageBus& messageBus);
+                DirectionMenuGeoNameMessageHandler(ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService & geoNamesService,ExampleApp::Search::SdkModel::ISearchService& poiSearchService, ExampleAppMessaging::TMessageBus& messageBus,Eegeo::Camera::GlobeCamera::GpsGlobeCameraController& cameraController);
                 ~DirectionMenuGeoNameMessageHandler();
                 
             };

@@ -26,6 +26,7 @@ namespace ExampleApp
                 std::string responseCode = "";
                 std::string responseType = "";
                 int wayPointsID = 0;
+                int routeStepID = 0;
                 
                 if (!document.Parse<0>(serialized.c_str()).HasParseError())
                 {
@@ -149,7 +150,6 @@ namespace ExampleApp
                                                 const float setepDistance = stepValue["distance"].GetDouble();
                                                 const float setepDuration = stepValue["duration"].GetDouble();
                                                 
-                                                const std::string stepName = stepValue["name"].GetString();
                                                 const std::string stepMode = stepValue["mode"].GetString();
                                                 
                                                 
@@ -165,11 +165,83 @@ namespace ExampleApp
                                                 const double maneuverLat = maneuverLocationValue[1].GetDouble();
                                                 const Eegeo::Space::LatLong maneuverLocation = Eegeo::Space::LatLong::FromDegrees(maneuverLat,maneuverlongitude);
 
+                                                std::string menuModifer = "";
+                                                if (maneuverValue.HasMember("modifier"))
+                                                {
+                                                    menuModifer = maneuverValue["modifier"].GetString();
+                                                }
                                                 
-                                                const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation);
-                                                const StepRouteModel stepModelObject(maneuverModelObject,setepDistance,setepDuration,stepMode,stepName);
+                                                std::string stepName = "";
+                                                std::string stepBuildingID = "";
+                                                bool stepInInterior = false;
+                                                int buildingLevel = 0;
+                                                std::string buildingLevelString = "";
+                                                std::string stepTypeString = "";
+
+
+                                                if (stepValue.HasMember("name"))
+                                                {
+                                                    const rapidjson::Value& nameValue = stepValue["name"];
+                                                    stepName = nameValue.GetString();
+                                                    
+                                                    if (stepName.find("bid:") != std::string::npos)
+                                                    {
+                                                        stepBuildingID = stepName.substr(stepName.find("bid:") + 4);
+                                                        stepBuildingID = stepBuildingID.substr(0,stepBuildingID.size()-1);//
+                                                        if(stepBuildingID == "c857d08d-7de1-4447-9ff8-6747649a00e0")
+                                                        {
+                                                            stepBuildingID = "70f9b00f-8c4f-4570-9a23-62bd80a76f8a";
+                                                        }
+                                                        else
+                                                        {
+                                                            stepBuildingID = "westport_house";
+                                                        }
+                                                        stepInInterior = true;
+                                                    }
+                                                    
+                                                    if (stepName.find("level:") != std::string::npos)
+                                                    {
+                                                        buildingLevelString = stepName.substr(stepName.find("level:") + 6);
+                                                        if(buildingLevelString.find("}{") != std::string::npos)
+                                                        {
+                                                            buildingLevelString = buildingLevelString.substr(0,buildingLevelString.find("}{"));
+                                                            if (buildingLevelString != "multiple")
+                                                            {
+                                                                buildingLevel = std::stoi(buildingLevelString);
+                                                            }
+                                                            
+                                                        }
+                                                    }
+                                                    
+                                                    if (stepName.find("type:") != std::string::npos)
+                                                    {
+                                                        stepTypeString = stepName.substr(stepName.find("type:") + 5);
+                                                        if(stepTypeString.find("}{") != std::string::npos)
+                                                        {
+                                                            stepTypeString = stepTypeString.substr(0,stepTypeString.find("}{"));
+                                                            if(stepTypeString == "pathway")
+                                                            {
+                                                                //wayPointype = ExampleApp::PathDrawing::WayPointType::Pathway;
+                                                            }
+                                                            else if (stepTypeString == "entrance")
+                                                            {
+                                                               // wayPointype = ExampleApp::PathDrawing::WayPointType::Entrance;
+                                                                
+                                                            }
+                                                        }
+                                                    }
+
+                                                    
+                                                    if (stepInInterior)
+                                                    {
+                                                        stepName =  "Step: " + stepTypeString + " at level " + std::to_string(buildingLevel);
+                                                    }
+                                                }
+                                                const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation,menuModifer);
+                                                const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel);
                                                 
                                                 stepVector.push_back(stepModelObject);
+                                                routeStepID++;
 
                                                 
                                             }
@@ -269,7 +341,6 @@ namespace ExampleApp
                                         {
                                             wayPointName =  "Waypoint: " + wayPointTypeString + " at level " + std::to_string(buildingLevel);
                                         }
-
                                     }
                                     
                                     if (wayPointJsonValue.HasMember("hint"))

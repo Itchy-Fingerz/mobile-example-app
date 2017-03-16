@@ -45,48 +45,69 @@ namespace ExampleApp
                 
                 Direction::SdkModel::DirectionResultModel& model = message.GetDirectionResultModel();
                 const std::vector<Direction::SdkModel::DirectionRouteModel>& routes = model.GetRoutes();
+
+
                 for(int j = 0; j < routes.size(); ++j)
                 {
+                    
                     Direction::SdkModel::DirectionRouteModel routeModel = routes[j];
-                    const std::vector<ExampleApp::PathDrawing::WayPointModel>& wayPointVector = routeModel.GetWayPoints();
                     const std::vector<Direction::SdkModel::DirectionInnerRouteModel>& tempVector = routeModel.GetInnerRoutes();
                     
                     Direction::SdkModel::DirectionInnerRouteModel tempInnerRouteModel = tempVector[0];
+                    const std::vector<Direction::SdkModel::LegRouteModel>& innerRouteLegs = tempInnerRouteModel.GetInnerRouteLegs();
                     
                     int routeDuration = tempInnerRouteModel.GetDuration();
                     
                     Eegeo_TTY("Duration: %i",routeDuration);
                     
-                    for(int i = 0; i < wayPointVector.size(); ++i)
+                    if (innerRouteLegs.size()>0)
                     {
-                        ExampleApp::PathDrawing::WayPointModel wayPointModel = wayPointVector[i];
+                        const  Direction::SdkModel::LegRouteModel firstLeg = innerRouteLegs[0];
+                        const std::vector<Direction::SdkModel::StepRouteModel>& routeStepsVector = firstLeg.GetLegRouteSteps();
                         
-                        ExampleApp::Search::SdkModel::TagIconKey iconKey = "DirectionCard_RouteStart";
-                        if (j+1 == routes.size() && i+1 == wayPointVector.size())
+                        for (int n = 0; n < routeStepsVector.size(); n++)
                         {
-                            iconKey = "DirectionCardWayPt_SetRouteEnd";
-                        }
-                        std::string duration = "Temp Duration";
-                        std::string subtitle = std::to_string(routeDuration);
-                        const Eegeo::Space::LatLong latlong = wayPointModel.GetLocation();
+                            
+                            const Direction::SdkModel::StepRouteModel stepRouteModel = routeStepsVector[n];
+                            
+                            const Direction::SdkModel::ManeuverRouteModel &stepManeuver = stepRouteModel.GetManeuverRouteModel();
+                            
+                            ExampleApp::Search::SdkModel::TagIconKey iconKey = "";
+                            if (n == 0)
+                            {
+                                iconKey = "DirectionCard_RouteStart";
+                            }
+                            else if (n == routeStepsVector.size()-1)
+                            {
+                                iconKey = "DirectionCardWayPt_SetRouteEnd";
+                            }
+                            
+                           
+                            std::string duration = "Temp Duration";
+                            std::string subtitle = std::to_string(routeDuration);
+                            const Eegeo::Space::LatLong latlong = stepManeuver.GetLocation();
+                            
+                            Eegeo::Resources::Interiors::InteriorId m_buildingId(stepRouteModel.GetBuildingID());
+                            m_menuOptions.AddItem(std::to_string(stepRouteModel.GetStepID()),
+                                                  stepRouteModel.GetStepRouteName(),
+                                                  subtitle,
+                                                  iconKey,
+                                                  duration,
+                                                  Eegeo_NEW(SearchResultSection::View::SearchResultItemModel)("model title",
+                                                                                                              latlong.ToECEF(),
+                                                                                                              stepRouteModel.GetInInterior(),
+                                                                                                              true,
+                                                                                                              m_buildingId,
+                                                                                                              stepRouteModel.GetLevel(),
+                                                                                                              m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
+                                                                                                              m_wayPointCount,
+                                                                                                              m_messageBus,
+                                                                                                              m_menuReaction));
+                            m_wayPointCount++;
+
                         
-                        Eegeo::Resources::Interiors::InteriorId m_buildingId(wayPointModel.GetBuildingID());
-                        m_menuOptions.AddItem(std::to_string(wayPointModel.GetWpId()),
-                                              wayPointModel.GetTitle(),
-                                              subtitle,
-                                              iconKey,
-                                              duration,
-                                              Eegeo_NEW(SearchResultSection::View::SearchResultItemModel)("model title",
-                                                                                                          latlong.ToECEF(),
-                                                                                                          wayPointModel.GetInInterior(),
-                                                                                                          true,
-                                                                                                          m_buildingId,
-                                                                                                          wayPointModel.GetLevel(),
-                                                                                                          m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
-                                                                                                          m_wayPointCount,
-                                                                                                          m_messageBus,
-                                                                                                          m_menuReaction));
-                        m_wayPointCount++;
+                        }
+
                     }
                     
                 }

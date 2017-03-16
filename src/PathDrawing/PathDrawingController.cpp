@@ -67,7 +67,7 @@ namespace ExampleApp
                                                                          , ExampleApp::PathDrawing::WayPointType::CheckPoint
                                                                          , latLongStart
                                                                          , "",searchItem.GetInteriorID(),searchItem.GetFloorIndex(),searchItem.GetIsInterior());
-            m_pWayPointsRepository.AddItem(point);
+            m_pWayPointsRepository.AddItem(point); 
         }
         
         void PathDrawingController::OnSearchItemRemoved(Menu::View::MenuItemModel& item)

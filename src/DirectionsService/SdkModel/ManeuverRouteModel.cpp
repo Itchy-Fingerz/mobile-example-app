@@ -8,11 +8,12 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            ManeuverRouteModel::ManeuverRouteModel(int bearing_after,int bearing_before,std::string type,Eegeo::Space::LatLong location)
+            ManeuverRouteModel::ManeuverRouteModel(int bearing_after,int bearing_before,std::string type,Eegeo::Space::LatLong location,std::string modifier)
             : m_bearingAfter(bearing_after)
             , m_bearingBefore(bearing_before)
             , m_type(type)
             , m_location(location)
+            , m_modifier(modifier)
             {
             
             }
@@ -41,6 +42,12 @@ namespace ExampleApp
             {
                 return m_type;
             }
+            
+            const std::string& ManeuverRouteModel::GetModifier() const
+            {
+                return m_modifier;
+            }
+
             
         }
     }

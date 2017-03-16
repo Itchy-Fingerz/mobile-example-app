@@ -653,7 +653,7 @@ namespace ExampleApp
 
         
         m_pDirectionsMenuModule = Eegeo_NEW(ExampleApp::DirectionsMenu::SdkModel::DirectionsMenuModule)(m_identityProvider,
-                                                                                                        m_pReactionControllerModule->GetReactionControllerModel(),                                                                                                                         m_messageBus,m_pFindDirectionServiceModule->GetFindDirectionQueryPerformer(),geoNameService,m_pPoiSearchModule->GetSearchService());
+                                                                                                        m_pReactionControllerModule->GetReactionControllerModel(),                                                                                                                         m_messageBus,m_pFindDirectionServiceModule->GetFindDirectionQueryPerformer(),geoNameService,m_pPoiSearchModule->GetSearchService(),*m_pGlobeCameraController);
         
         m_pDirectionResultSectionModule = Eegeo_NEW(ExampleApp::DirectionResultSection::SdkModel::DirectionsResultSectionModule)(m_pDirectionsMenuModule->GetDirectionsMenuViewModel(),m_pSearchModule->GetSearchResultRepository(),m_pSearchModule->GetSearchQueryPerformer(),*m_pCameraTransitionService,interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                                                     interiorsModelModule.GetInteriorMarkerModelRepository(),

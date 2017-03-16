@@ -35,7 +35,8 @@ namespace ExampleApp
                                  ExampleAppMessaging::TMessageBus& messageBus,
                                      ExampleApp::Direction::SdkModel::FindDirectionQueryPerformer& findDirectionQueryPerformer,
                                      ExampleApp::Search::GeoNames::SdkModel::GeoNamesSearchService &geoNameSearchService,
-                                     ExampleApp::Search::SdkModel::ISearchService& poiSearchService);
+                                     ExampleApp::Search::SdkModel::ISearchService& poiSearchService,
+                                     Eegeo::Camera::GlobeCamera::GpsGlobeCameraController& cameraController);
                 
                 
                 ~DirectionsMenuModule();

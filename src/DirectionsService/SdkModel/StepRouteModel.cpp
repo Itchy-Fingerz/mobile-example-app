@@ -9,12 +9,16 @@ namespace ExampleApp
         namespace SdkModel
         {
 
-            StepRouteModel::StepRouteModel(ManeuverRouteModel maneuverRouteModel, float distance,float duration,std::string mode,std::string name)
-            : m_maneuverRouteModel(maneuverRouteModel)
+            StepRouteModel::StepRouteModel(const int stepId,const ManeuverRouteModel maneuverRouteModel, const float distance,const float duration,const std::string mode,const std::string name, const std::string building_id,const bool inInterior,const int level)
+            : m_stepId(stepId)
+            , m_maneuverRouteModel(maneuverRouteModel)
             , m_distance(distance)
             , m_duration(duration)
             , m_mode(mode)
             , m_name(name)
+            , m_building_id(building_id)
+            , m_inInterior(inInterior)
+            , m_level(level)
             {
             
             }
@@ -27,11 +31,11 @@ namespace ExampleApp
             {
                 return m_maneuverRouteModel;
             }
-            const float& StepRouteModel::GetStepRouteDistance() const
+            const float StepRouteModel::GetStepRouteDistance() const
             {
                 return m_distance;
             }
-            const float& StepRouteModel::GetStepRouteDuration() const
+            const float StepRouteModel::GetStepRouteDuration() const
             {
                 return m_duration;
             }
@@ -43,6 +47,30 @@ namespace ExampleApp
             {
                 return m_name;
             }
+            
+            const std::string& StepRouteModel::GetBuildingID() const
+            {
+                return m_building_id;
+            }
+            
+            const int StepRouteModel::GetStepID() const
+            {
+                return m_stepId;
+            }
+            
+            const bool StepRouteModel::GetInInterior() const
+            {
+                return m_inInterior;
+            }
+            
+            const int StepRouteModel::GetLevel() const
+            {
+                return m_level;
+            }
+
+
+
+
         }
     }
 }

@@ -15,9 +15,10 @@ namespace ExampleApp
                 
             public:
                 
-                ManeuverRouteModel(int bearing_after,int bearing_before,std::string type,Eegeo::Space::LatLong location);
+                ManeuverRouteModel(int bearing_after,int bearing_before,std::string type,Eegeo::Space::LatLong location,std::string modifier);
                 ~ManeuverRouteModel();
                 
+                const std::string& GetModifier() const;
                 const int GetBearingAfter() const;
                 const int GetBearingBefore() const;
                 const Eegeo::Space::LatLong& GetLocation() const;
@@ -25,6 +26,7 @@ namespace ExampleApp
                 
             private:
                 
+                std::string m_modifier;
                 int m_bearingAfter;
                 int m_bearingBefore;
                 std::string m_type;
