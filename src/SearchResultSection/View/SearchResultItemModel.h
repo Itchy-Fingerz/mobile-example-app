@@ -28,6 +28,7 @@ namespace ExampleApp
                 
                 bool m_isInterior;
                 bool m_isDirections;
+                bool m_isWayPoint;
                 Eegeo::Resources::Interiors::InteriorId m_interiorId;
                 int m_floorIndex;
 
@@ -43,6 +44,7 @@ namespace ExampleApp
                                       const Eegeo::dv3& searchResultModelLocationEcef,
                                       const bool isInterior,
                                       const bool isDirections,
+                                      const bool isWayPoint,
                                       const Eegeo::Resources::Interiors::InteriorId& interiorId,
                                       const int floorIndex,
                                       OpenableControl::View::IOpenableControlViewModel& searchMenuViewModel,
@@ -61,6 +63,7 @@ namespace ExampleApp
                 bool GetIsInterior();
                 std::string GetInteriorID();
                 int GetFloorIndex();
+                bool GetIsWayPoint();
 
             };
         }

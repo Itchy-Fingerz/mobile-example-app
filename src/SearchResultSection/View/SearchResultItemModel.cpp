@@ -16,6 +16,7 @@ namespace ExampleApp
                                                          const Eegeo::dv3& searchResultModelLocationEcef,
                                                          const bool isInterior,
                                                          const bool isDirections,
+                                                         const bool isWayPoint,
                                                          const Eegeo::Resources::Interiors::InteriorId& interiorId,
                                                          const int floorIndex,
                                                          OpenableControl::View::IOpenableControlViewModel& searchMenuViewModel,
@@ -27,6 +28,7 @@ namespace ExampleApp
             , m_searchResultModelLocationEcef(searchResultModelLocationEcef)
             , m_isInterior(isInterior)
             , m_isDirections(isDirections)
+            , m_isWayPoint(isWayPoint)
             , m_interiorId(interiorId)
             , m_floorIndex(floorIndex)
             , m_searchMenuViewModel(searchMenuViewModel)
@@ -35,7 +37,7 @@ namespace ExampleApp
             , m_itemIndex(itemIndex)
             , m_menuReaction(menuReaction)
             {
-
+                
             }
 
             SearchResultItemModel::~SearchResultItemModel()
@@ -87,6 +89,10 @@ namespace ExampleApp
             int SearchResultItemModel::GetFloorIndex()
             {
                 return m_floorIndex;
+            }
+            bool SearchResultItemModel::GetIsWayPoint()
+            {
+                return m_isWayPoint;
             }
         }
     }

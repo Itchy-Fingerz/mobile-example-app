@@ -97,6 +97,7 @@ namespace ExampleApp
                                                                                                               latlong.ToECEF(),
                                                                                                               stepRouteModel.GetInInterior(),
                                                                                                               true,
+                                                                                                              false,
                                                                                                               m_buildingId,
                                                                                                               stepRouteModel.GetLevel(),
                                                                                                               m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
