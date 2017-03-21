@@ -339,9 +339,11 @@
         
         rapidjson::Document document;
         
+        
         if (!document.Parse<0>(json.c_str()).HasParseError())
         {
             std::string title = document.HasMember("name") ? document["name"].GetString() : "";
+            std::string stitle = searchItem.GetName();
             
             std::string subTitle = document.HasMember("details") ? document["details"].GetString() : "";
             
@@ -351,7 +353,7 @@
             
             [cell.wayPointImageView setImage:[UIImage imageNamed:[NSString stringWithCString:icon.c_str() encoding:NSUTF8StringEncoding]]];
             [cell.wayPointMainTitlelbl setText:[NSString stringWithCString:title.c_str() encoding:NSUTF8StringEncoding]];
-            [cell.wayPointSubCategorylbl setText:@""];
+            [cell.wayPointSubCategorylbl setText:[NSString stringWithCString:stitle.c_str() encoding:NSUTF8StringEncoding]];
 
         }
         

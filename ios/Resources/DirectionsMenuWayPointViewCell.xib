@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1212" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -17,30 +17,30 @@
             <rect key="frame" x="0.0" y="0.0" width="374" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="374" height="45"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AP6-hD-5bR">
                         <rect key="frame" x="5" y="2" width="304" height="40"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="74CD7CE3-7847-4D57-8DE8-DF92DD59ED9D" translatesAutoresizingMaskIntoConstraints="NO" id="pi9-vO-BHa">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ED08C7DE-3C78-4946-9571-1C90A04FB4EE" translatesAutoresizingMaskIntoConstraints="NO" id="pi9-vO-BHa">
                                 <rect key="frame" x="20" y="8" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="m4Q-Q9-uZb"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Westfield Valley Mall" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bN2-3p-J8O">
-                                <rect key="frame" x="59" y="9" width="235" height="21"/>
+                                <rect key="frame" x="59" y="4" width="235" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="South Entrance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vuh-k8-NU3">
-                                <rect key="frame" x="59" y="30" width="235" height="10"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="South Entrance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vuh-k8-NU3">
+                                <rect key="frame" x="59" y="26" width="235" height="12"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="10" id="QNO-vD-D3b"/>
+                                    <constraint firstAttribute="height" constant="12" id="QNO-vD-D3b"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -49,7 +49,7 @@
                             <constraint firstItem="bN2-3p-J8O" firstAttribute="top" secondItem="pi9-vO-BHa" secondAttribute="top" constant="-5" id="4IJ-vJ-IvZ"/>
                             <constraint firstItem="bN2-3p-J8O" firstAttribute="leading" secondItem="pi9-vO-BHa" secondAttribute="trailing" constant="15" id="FnU-ao-jBb"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="pi9-vO-BHa" secondAttribute="trailing" constant="15" id="SgJ-Sb-ZuW"/>
-                            <constraint firstAttribute="bottom" secondItem="vuh-k8-NU3" secondAttribute="bottom" id="Smw-sT-bsp"/>
+                            <constraint firstAttribute="bottom" secondItem="vuh-k8-NU3" secondAttribute="bottom" constant="2" id="Smw-sT-bsp"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="leading" constant="59" id="UYm-bY-sYE"/>
                             <constraint firstItem="pi9-vO-BHa" firstAttribute="centerY" secondItem="AP6-hD-5bR" secondAttribute="centerY" id="e3w-s4-3pU"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="bN2-3p-J8O" secondAttribute="bottom" id="nUs-QX-xCp"/>
@@ -58,7 +58,7 @@
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="bN2-3p-J8O" secondAttribute="leading" id="rVd-MW-1rV"/>
                             <constraint firstItem="pi9-vO-BHa" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="leading" constant="20" id="rdN-V0-4vZ"/>
                             <constraint firstAttribute="bottom" secondItem="vuh-k8-NU3" secondAttribute="bottom" id="t1U-lu-Uko"/>
-                            <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="bN2-3p-J8O" secondAttribute="bottom" id="tDg-gh-Ssb"/>
+                            <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="bN2-3p-J8O" secondAttribute="bottom" constant="1" id="tDg-gh-Ssb"/>
                             <constraint firstAttribute="trailing" secondItem="vuh-k8-NU3" secondAttribute="trailing" constant="10" id="ukP-Pw-iCH"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="leading" constant="59" id="vG2-c5-CPn"/>
                         </constraints>
@@ -155,11 +155,12 @@
                 <outlet property="wayPointNumberlbl" destination="rO1-u9-9uw" id="iRu-ni-j8z"/>
                 <outlet property="wayPointSubCategorylbl" destination="vuh-k8-NU3" id="OZL-bI-pfc"/>
             </connections>
-            <point key="canvasLocation" x="181" y="210.5"/>
+            <point key="canvasLocation" x="66" y="-120"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="74CD7CE3-7847-4D57-8DE8-DF92DD59ED9D" width="24" height="24">
+        <image name="DirectionCard_NumberBackground.png" width="40" height="40"/>
+        <image name="ED08C7DE-3C78-4946-9571-1C90A04FB4EE" width="24" height="24">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOjtYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBEW
 GxwgISgrLjQ3VSRudWxs1AkKCwwNDg8QViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBzV05TQ29sb3KA
@@ -267,6 +268,5 @@ yBbaFt8W6hbzFwYXChcVFx4XIxcrFy4XMxdCF0YXTRdVF2IXZxdpF2sXcBd4F3sXgBeIF4sXnRegF6UA
 AAAAAAACAQAAAAAAAAA+AAAAAAAAAAAAAAAAAAAXpw
 </mutableData>
         </image>
-        <image name="DirectionCard_NumberBackground.png" width="40" height="40"/>
     </resources>
 </document>

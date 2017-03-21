@@ -64,6 +64,7 @@ namespace ExampleApp
                 Eegeo::dv3 GetLocationEcef();
                 bool GetIsInterior();
                 std::string GetInteriorID();
+                std::string GetName();
                 int GetFloorIndex();
                 bool GetIsWayPoint();
                 int GetWayPointNumber();

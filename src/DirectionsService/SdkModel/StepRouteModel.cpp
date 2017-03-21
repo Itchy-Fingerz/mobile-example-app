@@ -33,6 +33,7 @@ namespace ExampleApp
             }
             const float StepRouteModel::GetStepRouteDistance() const
             {
+                
                 return m_distance;
             }
             const float StepRouteModel::GetStepRouteDuration() const

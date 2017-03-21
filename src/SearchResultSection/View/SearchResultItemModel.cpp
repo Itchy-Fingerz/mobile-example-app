@@ -83,6 +83,10 @@ namespace ExampleApp
                 return m_isInterior;
             }
             
+            std::string SearchResultItemModel::GetName()
+            {
+                return m_name;
+            }
             std::string SearchResultItemModel::GetInteriorID()
             {
                 return m_interiorId.Value();

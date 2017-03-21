@@ -5,6 +5,8 @@
 #include "DirectionResultModel.h"
 #include "SearchResultItemModel.h"
 #include "DirectionResultSectionController.h"
+#include <iomanip>
+#include <sstream>
 
 namespace ExampleApp
 {
@@ -76,14 +78,25 @@ namespace ExampleApp
 
                             bool isWayPoint = false;
                             
+                            double di = stepRouteModel.GetStepRouteDistance();
+                            std::stringstream stream;
+                            stream << std::fixed << std::setprecision(1) << di;
+                            std::string s = stream.str();
+                            
+                            
+                            std::string sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetModifier()+" "+s+"m";
+                            
                             if (stepManeuver.GetType() == "depart" || stepManeuver.GetType() == "arrive")
                             {
                                 isWayPoint = true;
                                 wayPointNumber++;
+                                
+                                sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetType();
                             }
                            
                             std::string duration = "Temp Duration";
-                            std::string subtitle = std::to_string(routeDuration);
+                            
+                            std::string subtitle = std::to_string(stepRouteModel.GetStepRouteDuration());
                             const Eegeo::Space::LatLong latlong = stepManeuver.GetLocation();
                             
                             Eegeo::Resources::Interiors::InteriorId m_buildingId(stepRouteModel.GetBuildingID());
@@ -91,8 +104,8 @@ namespace ExampleApp
                                                   stepRouteModel.GetStepRouteName(),
                                                   subtitle,
                                                   iconKey,
-                                                  duration,
-                                                  Eegeo_NEW(SearchResultSection::View::SearchResultItemModel)("model title",
+                                               
+                                                  Eegeo_NEW(SearchResultSection::View::SearchResultItemModel)(sTitleCategory,
                                                                                                               latlong.ToECEF(),
                                                                                                               stepRouteModel.GetInInterior(),
                                                                                                               true,
