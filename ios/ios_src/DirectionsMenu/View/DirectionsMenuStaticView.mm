@@ -317,17 +317,21 @@
  
 //        [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%li",(long)indexPath.row+1]];
 
-        int wayPointNumber = std::atoi(item.Identifier().c_str());
         ExampleApp::SearchResultSection::View::SearchResultItemModel &searchItem = (ExampleApp::SearchResultSection::View::SearchResultItemModel&)item.MenuOption();
+        
+
 
         if(searchItem.GetIsWayPoint())
         {
-            [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%i",wayPointNumber+1]];
+            int wayPointNumber = searchItem.GetWayPointNumber();//std::atoi(item.Identifier().c_str());
+            [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%i",wayPointNumber]];
             cell.wayPointNumberlbl.hidden = false;
+            cell.m_pWaypointNumberLabelBG.hidden = false;
         }
         else
         {
             cell.wayPointNumberlbl.hidden = true;
+            cell.m_pWaypointNumberLabelBG.hidden = true;
         }
 
         

@@ -23,7 +23,8 @@ namespace ExampleApp
                                                          SearchResultPoi::View::ISearchResultPoiViewModel& searchResultPoiViewModel,
                                                          int itemIndex,
                                                          ExampleAppMessaging::TMessageBus& messageBus,
-                                                         const Menu::View::IMenuReactionModel& menuReaction)
+                                                         const Menu::View::IMenuReactionModel& menuReaction,
+                                                         int wayPointNumber)
             : m_name(name)
             , m_searchResultModelLocationEcef(searchResultModelLocationEcef)
             , m_isInterior(isInterior)
@@ -36,6 +37,7 @@ namespace ExampleApp
             , m_messageBus(messageBus)
             , m_itemIndex(itemIndex)
             , m_menuReaction(menuReaction)
+            , m_wayPointNumber(wayPointNumber)
             {
                 
             }
@@ -94,6 +96,12 @@ namespace ExampleApp
             {
                 return m_isWayPoint;
             }
+            
+            int SearchResultItemModel::GetWayPointNumber()
+            {
+                return m_wayPointNumber;
+            }
+            
         }
     }
 }

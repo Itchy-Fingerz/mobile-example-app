@@ -29,6 +29,7 @@ namespace ExampleApp
                 bool m_isInterior;
                 bool m_isDirections;
                 bool m_isWayPoint;
+                int m_wayPointNumber;
                 Eegeo::Resources::Interiors::InteriorId m_interiorId;
                 int m_floorIndex;
 
@@ -51,7 +52,8 @@ namespace ExampleApp
                                       SearchResultPoi::View::ISearchResultPoiViewModel& searchResultPoiViewModel,
                                       int itemIndex,
                                       ExampleAppMessaging::TMessageBus& messageBus,
-                                      const Menu::View::IMenuReactionModel& menuReaction);
+                                      const Menu::View::IMenuReactionModel& menuReaction,
+                                      int wayPointNumber);
 
                 ~SearchResultItemModel();
 
@@ -64,6 +66,7 @@ namespace ExampleApp
                 std::string GetInteriorID();
                 int GetFloorIndex();
                 bool GetIsWayPoint();
+                int GetWayPointNumber();
 
             };
         }

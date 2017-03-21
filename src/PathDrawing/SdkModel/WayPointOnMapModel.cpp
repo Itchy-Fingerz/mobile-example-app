@@ -60,7 +60,7 @@ namespace ExampleApp
                                           , wayPoint->GetInInterior()
                                           , worldPinInteriorData
                                           , wayPoint->GetLocation()
-                                          , GetWayPointIconForType(wayPoint->GetWpId())
+                                          , GetWayPointIconForType(wayPoint->GetWayPointNumber())
                                           , 0.f
                                           , WorldPins::SdkModel::WorldPinVisibility::World);
                 
@@ -93,7 +93,7 @@ namespace ExampleApp
             
             std::string WayPointOnMapModel::GetWayPointIconForType(int wayPointId)
             {
-                return std::to_string(wayPointId+1);
+                return std::to_string(wayPointId);
             }
         }
     }

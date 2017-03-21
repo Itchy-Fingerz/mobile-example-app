@@ -44,6 +44,8 @@ namespace ExampleApp
                 
                 void OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message);
                 
+                ExampleApp::Search::SdkModel::TagIconKey  GetIconImageName(const Direction::SdkModel::ManeuverRouteModel &stepManeuver);
+                
                 void RemoveWayPoints();
                 
             public:

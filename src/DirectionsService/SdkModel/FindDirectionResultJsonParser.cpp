@@ -82,7 +82,7 @@ namespace ExampleApp
                                 size_t numOfInnerEntries = innerRouteJsonList.Size();
 
                                 
-                                for(int j = 0; j < numOfInnerEntries; ++j)
+                                for(int j = 0; (j < numOfInnerEntries && j< 1); ++j)
                                 {
                                     int innerRouteDuration,innerRouteDistance;
                                     const rapidjson::Value& innerRouteJson = innerRouteJsonList[j];
@@ -356,7 +356,7 @@ namespace ExampleApp
                                         longi = wayPointLocationJson[0].GetDouble();
                                     }
                                     Eegeo::Space::LatLong latLongStart = Eegeo::Space::LatLong::FromDegrees(lat,longi);
-                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(wayPointsID,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior,true);
+                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(wayPointsID,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior,true,j);
                                     wayPointsVector.push_back(wayPointModel);
                                     wayPointsID++;
                                     

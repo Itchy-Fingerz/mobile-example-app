@@ -25,6 +25,7 @@
     [_wayPointNumberViewWidthConstraint release];
     [_wayPointNumberlbl release];
     [_mainContainerView release];
+    [_m_pWaypointNumberLabelBG release];
     [super dealloc];
 }
 @end

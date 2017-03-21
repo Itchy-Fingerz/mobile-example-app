@@ -22,12 +22,13 @@ namespace ExampleApp
             const int m_level;
             const Eegeo::Space::LatLong m_location;
             const bool m_isWaypoint;
+            const int m_wayPointNumber;
        
         public:
             WayPointModel(const int wpId
                      , const ExampleApp::PathDrawing::WayPointType::Values type
                      , Eegeo::Space::LatLong& location
-                          , const std::string title, const std::string buildingID, const int level, const bool inInterior, bool isWayPoint);
+                          , const std::string title, const std::string buildingID, const int level, const bool inInterior, const bool isWayPoint,const int waypointNumber);
             
             const int GetWpId();
             const std::string GetTitle();
@@ -37,6 +38,7 @@ namespace ExampleApp
             const std::string GetBuildingID();
             const bool GetInInterior();
             const bool GetIsWayPoint();
+            const int GetWayPointNumber();
             
             virtual ~WayPointModel() { }
         };
