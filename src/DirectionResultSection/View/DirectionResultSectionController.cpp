@@ -81,7 +81,12 @@ namespace ExampleApp
                             {
                                 iconKey = "DirectionCardWayPt_SetRouteEnd";
                             }
+                            bool isWayPoint = false;
                             
+                            if (stepRouteModel.GetManeuverRouteModel().GetModifier() == "")
+                            {
+                                isWayPoint = true;
+                            }
                            
                             std::string duration = "Temp Duration";
                             std::string subtitle = std::to_string(routeDuration);
@@ -97,7 +102,7 @@ namespace ExampleApp
                                                                                                               latlong.ToECEF(),
                                                                                                               stepRouteModel.GetInInterior(),
                                                                                                               true,
-                                                                                                              false,
+                                                                                                              isWayPoint,
                                                                                                               m_buildingId,
                                                                                                               stepRouteModel.GetLevel(),
                                                                                                               m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,

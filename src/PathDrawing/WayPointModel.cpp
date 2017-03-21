@@ -13,7 +13,8 @@ namespace ExampleApp
                                      , const std::string title
                                      , const std::string buildingID
                                      , const int level
-                                     , const bool inInterior)
+                                     , const bool inInterior
+                                     , const bool isWayPoint)
         : m_id(wpId)
         , m_type(type)
         , m_location(location)
@@ -21,6 +22,7 @@ namespace ExampleApp
         , m_level(level)
         , m_buildingID(buildingID)
         , m_inInterior(inInterior)
+        , m_isWaypoint(isWayPoint)
         {
         }
         
@@ -57,6 +59,11 @@ namespace ExampleApp
         const bool WayPointModel::GetInInterior()
         {
             return m_inInterior;
+        }
+        
+        const bool WayPointModel::GetIsWayPoint()
+        {
+            return m_isWaypoint;
         }
 
     }

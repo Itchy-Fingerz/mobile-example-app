@@ -40,6 +40,10 @@ namespace ExampleApp
             
             void WayPointOnMapModel::AddWayPointView(WayPointModel*& wayPoint)
             {
+                if(wayPoint->GetIsWayPoint() == false)
+                {
+                    return;
+                }
                 WorldPins::SdkModel::WorldPinFocusData worldPinFocusData("",
                                                                       "",
                                                                       "",
@@ -73,6 +77,10 @@ namespace ExampleApp
             
             void WayPointOnMapModel::RemoveWayPointView(WayPointModel*& wayPoint)
             {
+                if(wayPoint->GetIsWayPoint() == false)
+                {
+                    return;
+                }
                 mapIt it = m_wayPointsToPinModel.find(wayPoint);
                 
                 Eegeo_ASSERT(it != m_wayPointsToPinModel.end(),

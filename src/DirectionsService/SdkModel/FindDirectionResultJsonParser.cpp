@@ -356,7 +356,7 @@ namespace ExampleApp
                                         longi = wayPointLocationJson[0].GetDouble();
                                     }
                                     Eegeo::Space::LatLong latLongStart = Eegeo::Space::LatLong::FromDegrees(lat,longi);
-                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(wayPointsID,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior);
+                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(wayPointsID,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior,true);
                                     wayPointsVector.push_back(wayPointModel);
                                     wayPointsID++;
                                     

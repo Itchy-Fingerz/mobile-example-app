@@ -8,6 +8,7 @@
 #include "UIColors.h"
 #include "DirectionSuggestionTableViewCell.h"
 #include "LatLongAltitude.h"
+#include "SearchResultItemModel.h"
 
 @interface DirectionsMenuStaticView()
 {
@@ -317,7 +318,17 @@
 //        [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%li",(long)indexPath.row+1]];
 
         int wayPointNumber = std::atoi(item.Identifier().c_str());
-        [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%i",wayPointNumber+1]];
+        ExampleApp::SearchResultSection::View::SearchResultItemModel &searchItem = (ExampleApp::SearchResultSection::View::SearchResultItemModel&)item.MenuOption();
+
+        if(searchItem.GetIsWayPoint())
+        {
+            [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%i",wayPointNumber+1]];
+            cell.wayPointNumberlbl.hidden = false;
+        }
+        else
+        {
+            cell.wayPointNumberlbl.hidden = true;
+        }
 
         
         std::string json = item.SerializeJson();
