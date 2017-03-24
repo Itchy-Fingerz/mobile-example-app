@@ -353,7 +353,28 @@
             
             [cell.wayPointImageView setImage:[UIImage imageNamed:[NSString stringWithCString:icon.c_str() encoding:NSUTF8StringEncoding]]];
             [cell.wayPointMainTitlelbl setText:[NSString stringWithCString:title.c_str() encoding:NSUTF8StringEncoding]];
-            [cell.wayPointSubCategorylbl setText:[NSString stringWithCString:stitle.c_str() encoding:NSUTF8StringEncoding]];
+            
+            NSString * pSubtitle = [NSString stringWithCString:stitle.c_str() encoding:NSUTF8StringEncoding];
+            if ([pSubtitle rangeOfString:@"straight"].location != NSNotFound)
+            {
+                pSubtitle = [NSString stringWithFormat:@"Then %@",pSubtitle];
+            }
+            else if ([pSubtitle rangeOfString:@"right"].location != NSNotFound)
+            {
+                pSubtitle = [NSString stringWithFormat:@"Turn %@",pSubtitle];
+
+            }
+            else if ([pSubtitle rangeOfString:@"left"].location != NSNotFound)
+            {
+                pSubtitle = [NSString stringWithFormat:@"Turn %@",pSubtitle];
+
+            }
+            else
+            {
+                pSubtitle = [pSubtitle capitalizedString];
+            }
+            
+            [cell.wayPointSubCategorylbl setText:pSubtitle];
 
         }
         

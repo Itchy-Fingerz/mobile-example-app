@@ -74,7 +74,7 @@ namespace ExampleApp
                             
                             const Direction::SdkModel::ManeuverRouteModel &stepManeuver = stepRouteModel.GetManeuverRouteModel();
                             
-                            ExampleApp::Search::SdkModel::TagIconKey iconKey = GetIconImageName(stepManeuver);
+                            ExampleApp::Search::SdkModel::TagIconKey iconKey = GetIconImageName(stepRouteModel);
 
                             bool isWayPoint = false;
                             
@@ -148,46 +148,54 @@ namespace ExampleApp
             
             }
             
-            ExampleApp::Search::SdkModel::TagIconKey DirectionResultSectionController::GetIconImageName(const Direction::SdkModel::ManeuverRouteModel &stepManeuver)
+            ExampleApp::Search::SdkModel::TagIconKey DirectionResultSectionController::GetIconImageName(const Direction::SdkModel::StepRouteModel &stepManeuver)
             {
-                ExampleApp::Search::SdkModel::TagIconKey iconKey = "";
-                if (stepManeuver.GetModifier() == "" && stepManeuver.GetType() == "depart")
+                ExampleApp::Search::SdkModel::TagIconKey iconKey = ""; //DirectionCard_ElevatorSelected
+                if(stepManeuver.GetStepType() == "Entrance")
+                {
+                    iconKey = "DirectionCard_EnterMallSelected";
+                }
+                else if(stepManeuver.GetStepType() == "Elevator")
+                {
+                    iconKey = "DirectionCard_ElevatorSelected";
+                }
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "" && stepManeuver.GetManeuverRouteModel().GetType() == "depart")
                 {
                     iconKey = "DirectionCard_RouteStart";
 
                 }
-                else if (stepManeuver.GetModifier() == "" && stepManeuver.GetType() == "arrive")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "" && stepManeuver.GetManeuverRouteModel().GetType() == "arrive")
                 {
                     iconKey = "DirectionCardWayPt_SetRouteEnd";
                 }
-                else if (stepManeuver.GetModifier() == "slight right")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "slight right")
                 {
                     iconKey = "DirectionCard_VeerRight";
 
                 }
-                else if (stepManeuver.GetModifier() == "slight left")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "slight left")
                 {
                     iconKey = "DirectionCard_VeerLeft";
                 }
-                else if (stepManeuver.GetModifier() == "right")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "right")
                 {
                     iconKey = "DirectionCard_TurnRight";
  
                 }
-                else if (stepManeuver.GetModifier() == "left")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "left")
                 {
                     iconKey = "DirectionCard_TurnLeft";
 
                 }
-                else if (stepManeuver.GetModifier() == "sharp right")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "sharp right")
                 {
                     iconKey = "DirectionCard_TurnSharpRight";
                 }
-                else if (stepManeuver.GetModifier() == "sharp left")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "sharp left")
                 {
                     iconKey = "DirectionCard_TurnSharpLeft";
                 }
-                else if (stepManeuver.GetModifier() == "straight")
+                else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "straight")
                 {
                     iconKey = "DirectionCard_StraightAhead";
                 }

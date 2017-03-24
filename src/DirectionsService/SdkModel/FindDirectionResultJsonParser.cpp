@@ -2,6 +2,7 @@
 
 #include "FindDirectionResultJsonParser.h"
 #include "WayPointType.h"
+
 namespace ExampleApp
 {
     namespace Direction
@@ -234,11 +235,12 @@ namespace ExampleApp
                                                     
                                                     if (stepInInterior)
                                                     {
-                                                        stepName =  "Step: " + stepTypeString + " at level " + std::to_string(buildingLevel);
+                                                        stepTypeString[0] = toupper(stepTypeString[0]);
+                                                        stepName =   stepTypeString + " to Floor " + std::to_string(buildingLevel);
                                                     }
                                                 }
                                                 const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation,menuModifer);
-                                                const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel);
+                                                const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel,stepTypeString);
                                                 
                                                 stepVector.push_back(stepModelObject);
                                                 routeStepID++;
