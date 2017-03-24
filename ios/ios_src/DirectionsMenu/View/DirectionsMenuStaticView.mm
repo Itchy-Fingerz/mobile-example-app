@@ -344,6 +344,10 @@
         {
             std::string title = document.HasMember("name") ? document["name"].GetString() : "";
             std::string stitle = searchItem.GetName();
+            if (title == "unknown")
+            {
+                title = "Unknown location";
+            }
             
             std::string subTitle = document.HasMember("details") ? document["details"].GetString() : "";
             
@@ -374,7 +378,29 @@
                 pSubtitle = [pSubtitle capitalizedString];
             }
             
-            [cell.wayPointSubCategorylbl setText:pSubtitle];
+            NSArray *pSubTitleArray = [pSubtitle componentsSeparatedByString: @" "];
+            
+            if ([pSubTitleArray count] >= 2)
+            {
+                NSString *pDistanceString = [pSubTitleArray lastObject];
+                
+                NSRange range1 = [pSubtitle rangeOfString:pDistanceString];
+                
+                NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:pSubtitle];
+                
+                [attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:cell.wayPointSubCategorylbl.font.pointSize]}
+                                        range:range1];
+                
+                
+                
+                [cell.wayPointSubCategorylbl setAttributedText:attributedText];
+            }
+            else
+            {
+                [cell.wayPointSubCategorylbl setText:pSubtitle];
+
+            }
+
 
         }
         
@@ -384,11 +410,15 @@
     {
         [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
         [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
+        [cell.wayPointSubCategorylbl setTextColor:[UIColor whiteColor]];
+
     }
     else
     {
         [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
         [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
+        [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
+
     }
     
     return cell;

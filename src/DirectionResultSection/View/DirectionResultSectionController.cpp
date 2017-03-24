@@ -90,8 +90,14 @@ namespace ExampleApp
                             {
                                 isWayPoint = true;
                                 wayPointNumber++;
-                                
-                                sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetType();
+                                if (stepManeuver.GetModifier() == "right" || stepManeuver.GetModifier() == "left")
+                                {
+                                    sTitleCategory =  stepManeuver.GetModifier() + " to " +stepRouteModel.GetManeuverRouteModel().GetType();
+                                }
+                                else
+                                {
+                                    sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetType();
+                                }
                             }
                            
                             std::string duration = "Temp Duration";
