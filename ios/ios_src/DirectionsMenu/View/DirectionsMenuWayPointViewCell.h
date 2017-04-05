@@ -15,5 +15,6 @@
 @property (retain, nonatomic) IBOutlet UILabel *wayPointNumberlbl;
 @property (retain, nonatomic) IBOutlet UIView *mainContainerView;
 @property (retain, nonatomic) IBOutlet UIImageView *m_pWaypointNumberLabelBG;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *m_pWaypointMainLabelHeightConstraint;
 
 @end

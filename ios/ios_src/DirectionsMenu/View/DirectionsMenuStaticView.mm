@@ -35,6 +35,7 @@
 @property (retain, nonatomic) IBOutlet NSLayoutConstraint *startContainerHeightConstraint;
 @property (retain, nonatomic) IBOutlet UITableView *wayPointsTableView;
 
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *heightConstraintForMyLocationView;
 
 @property (retain, nonatomic) IBOutlet NSLayoutConstraint *heightDropSpacingConstraint;
 @property (retain, nonatomic) IBOutlet UIView *suggestionsView;
@@ -106,6 +107,7 @@
     _suggestionsView.hidden = false;
     searchType = 1;
     _myLocation.hidden = false;
+    _heightConstraintForMyLocationView.constant = 45;
     [self layoutIfNeeded];
 }
 - (void)showEndSuggestions
@@ -116,6 +118,7 @@
     _suggestionsView.hidden = false;
     searchType = 2;
     _myLocation.hidden = true;
+    _heightConstraintForMyLocationView.constant = 2;
     [self layoutIfNeeded];
 }
 - (void)reverseAction
@@ -319,9 +322,23 @@
 
         ExampleApp::SearchResultSection::View::SearchResultItemModel &searchItem = (ExampleApp::SearchResultSection::View::SearchResultItemModel&)item.MenuOption();
         
+        /*if(searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Elevator || searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Entrance)
+        {
+            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
+            [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
+            [cell.wayPointSubCategorylbl setTextColor:[UIColor whiteColor]];
+            
+        }
+        else
+        {
+            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
+            [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
+            [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
+            
+        }*/
 
 
-        if(searchItem.GetIsWayPoint())
+        if(searchItem.GetIsWayPoint() && (searchItem.GetWayPointNumber() != 17 && searchItem.GetWayPointNumber() != 18 && searchItem.GetWayPointNumber() != 19 && searchItem.GetWayPointNumber() != 20))
         {
             int wayPointNumber = searchItem.GetWayPointNumber();//std::atoi(item.Identifier().c_str());
             [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%i",wayPointNumber]];
@@ -356,7 +373,22 @@
             std::string duration = document.HasMember("duration") ? document["duration"].GetString() : "";
             
             [cell.wayPointImageView setImage:[UIImage imageNamed:[NSString stringWithCString:icon.c_str() encoding:NSUTF8StringEncoding]]];
-            [cell.wayPointMainTitlelbl setText:[NSString stringWithCString:title.c_str() encoding:NSUTF8StringEncoding]];
+            if(indexPath.row == 0)
+            {
+                [cell.wayPointMainTitlelbl setText:_startRouteTextField.text];
+                cell.wayPointSubCategorylbl.hidden = true;
+
+            }
+            else if (indexPath.row == m_pSearchResultsSection->Size() - 1)
+            {
+                [cell.wayPointMainTitlelbl setText:_endRouteTextField.text];
+                cell.wayPointSubCategorylbl.hidden = true;
+            }
+            else
+            {
+                [cell.wayPointMainTitlelbl setText:[NSString stringWithCString:title.c_str() encoding:NSUTF8StringEncoding]];
+                cell.wayPointSubCategorylbl.hidden = false;
+            }
             
             NSString * pSubtitle = [NSString stringWithCString:stitle.c_str() encoding:NSUTF8StringEncoding];
             if ([pSubtitle rangeOfString:@"straight"].location != NSNotFound)
@@ -403,23 +435,33 @@
 
 
         }
+        UIView *pView = [[UIView alloc]init];
+        pView.backgroundColor = [UIColor colorWithRed:234.0f/255.0f green:251.0f/255.0f blue:167.0f/255.0f alpha:1.0f];
+        cell.selectedBackgroundView = pView;
+        if(indexPath.row == selectedIndex)
+        {
+            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:234.0f/255.0f green:251.0f/255.0f blue:167.0f/255.0f alpha:1.0f]];
+            [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
+            [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
+            
+        }
+        else if(searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Elevator)
+        {
+            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
+            [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
+            [cell.wayPointSubCategorylbl setTextColor:[UIColor whiteColor]];
+        
+        }
+        else
+        {
+            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
+            [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
+            [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
+            
+        }
         
     }
-    
-    if(indexPath.row == selectedIndex)
-    {
-        [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
-        [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
-        [cell.wayPointSubCategorylbl setTextColor:[UIColor whiteColor]];
 
-    }
-    else
-    {
-        [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
-        [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
-        [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
-
-    }
     
     return cell;
 }
@@ -681,6 +723,7 @@
     [_staticMinsLabel release];
     [_spinner release];
     [_waypointspinner release];
+    [_heightConstraintForMyLocationView release];
     [super dealloc];
 }
 

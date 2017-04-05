@@ -48,6 +48,7 @@ namespace ExampleApp
                 Direction::SdkModel::DirectionResultModel& model = message.GetDirectionResultModel();
                 const std::vector<Direction::SdkModel::DirectionRouteModel>& routes = model.GetRoutes();
                 int wayPointNumber = 0;
+                int leftRightCount = 0;
 
                 for(int j = 0; j < routes.size(); ++j)
                 {
@@ -82,14 +83,29 @@ namespace ExampleApp
                             std::stringstream stream;
                             stream << std::fixed << std::setprecision(1) << di;
                             std::string s = stream.str();
+                            ExampleApp::PathDrawing::WayPointType::Values wayPointype = ExampleApp::PathDrawing::WayPointType::None;
                             
+                            if(stepManeuver.GetType() == "depart")
+                            {
+                                wayPointype = ExampleApp::PathDrawing::WayPointType::Start;
+                            }
+                            else if(stepManeuver.GetType() == "arrive")
+                            {
+                                wayPointype = ExampleApp::PathDrawing::WayPointType::End;
+                            }
+                            else if(stepRouteModel.GetStepType() == "Entrance")
+                            {
+                                wayPointype = ExampleApp::PathDrawing::WayPointType::Entrance;
+                            }
+                            else if(stepRouteModel.GetStepType() == "Elevator")
+                            {
+                                wayPointype = ExampleApp::PathDrawing::WayPointType::Elevator;
+                            }
                             
                             std::string sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetModifier()+" "+s+"m";
                             
                             if (stepManeuver.GetType() == "depart" || stepManeuver.GetType() == "arrive")
                             {
-                                isWayPoint = true;
-                                wayPointNumber++;
                                 if (stepManeuver.GetModifier() == "right" || stepManeuver.GetModifier() == "left")
                                 {
                                     sTitleCategory =  stepManeuver.GetModifier() + " to " +stepRouteModel.GetManeuverRouteModel().GetType();
@@ -99,6 +115,34 @@ namespace ExampleApp
                                     sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetType();
                                 }
                             }
+                            
+                            if (stepManeuver.GetModifier() == "right" || stepManeuver.GetModifier() == "left")
+                            {
+                                isWayPoint = true;
+                                leftRightCount++;
+                                wayPointNumber = leftRightCount;
+                            }
+                            else if(stepManeuver.GetType() == "depart")
+                            {
+                                isWayPoint = true;
+                                wayPointNumber = 17;
+                            }
+                            else if(stepManeuver.GetType() == "arrive")
+                            {
+                                isWayPoint = true;
+                                wayPointNumber = 18;
+                            }
+                            else if(stepRouteModel.GetStepType() == "Entrance")
+                            {
+                                isWayPoint = true;
+                                wayPointNumber = 19;
+                            }
+                            else if(stepRouteModel.GetStepType() == "Elevator")
+                            {
+                                isWayPoint = true;
+                                wayPointNumber = 20;
+                            }
+
                            
                             std::string duration = "Temp Duration";
                             
@@ -121,7 +165,7 @@ namespace ExampleApp
                                                                                                               m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
                                                                                                               m_wayPointCount,
                                                                                                               m_messageBus,
-                                                                                                              m_menuReaction,wayPointNumber));
+                                                                                                              m_menuReaction,wayPointNumber,wayPointype));
                             m_wayPointCount++;
 
                         
@@ -163,7 +207,7 @@ namespace ExampleApp
                 }
                 else if(stepManeuver.GetStepType() == "Elevator")
                 {
-                    iconKey = "DirectionCard_ElevatorSelected";
+                    iconKey = "DirectionCard_ElevatorStandard";
                 }
                 else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "" && stepManeuver.GetManeuverRouteModel().GetType() == "depart")
                 {

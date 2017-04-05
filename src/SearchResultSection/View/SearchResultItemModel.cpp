@@ -24,7 +24,8 @@ namespace ExampleApp
                                                          int itemIndex,
                                                          ExampleAppMessaging::TMessageBus& messageBus,
                                                          const Menu::View::IMenuReactionModel& menuReaction,
-                                                         int wayPointNumber)
+                                                         int wayPointNumber,
+                                                         ExampleApp::PathDrawing::WayPointType::Values wayPointType)
             : m_name(name)
             , m_searchResultModelLocationEcef(searchResultModelLocationEcef)
             , m_isInterior(isInterior)
@@ -38,6 +39,7 @@ namespace ExampleApp
             , m_itemIndex(itemIndex)
             , m_menuReaction(menuReaction)
             , m_wayPointNumber(wayPointNumber)
+            , m_wayPointType(wayPointType)
             {
                 
             }
@@ -104,6 +106,11 @@ namespace ExampleApp
             int SearchResultItemModel::GetWayPointNumber()
             {
                 return m_wayPointNumber;
+            }
+            
+            ExampleApp::PathDrawing::WayPointType::Values SearchResultItemModel::GetWayPointType()
+            {
+                return m_wayPointType;
             }
             
         }

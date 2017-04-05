@@ -76,7 +76,7 @@ namespace ExampleApp
                                                                            m_searchResultPoiViewModel,
                                                                            GetOriginalIndexForSearchResult(unorderedResults, model),
                                                                            m_messageBus,
-                                                                           m_menuReaction,0));
+                                                                           m_menuReaction,0,ExampleApp::PathDrawing::WayPointType::None));
                 }
             }
             

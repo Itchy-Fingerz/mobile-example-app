@@ -32,6 +32,8 @@ namespace ExampleApp
                 int m_wayPointNumber;
                 Eegeo::Resources::Interiors::InteriorId m_interiorId;
                 int m_floorIndex;
+                ExampleApp::PathDrawing::WayPointType::Values m_wayPointType;
+
 
                 OpenableControl::View::IOpenableControlViewModel& m_searchMenuViewModel;
                 SearchResultPoi::View::ISearchResultPoiViewModel& m_searchResultPoiViewModel;
@@ -53,7 +55,8 @@ namespace ExampleApp
                                       int itemIndex,
                                       ExampleAppMessaging::TMessageBus& messageBus,
                                       const Menu::View::IMenuReactionModel& menuReaction,
-                                      int wayPointNumber);
+                                      int wayPointNumber,
+                                      ExampleApp::PathDrawing::WayPointType::Values wayPointType);
 
                 ~SearchResultItemModel();
 
@@ -68,6 +71,7 @@ namespace ExampleApp
                 int GetFloorIndex();
                 bool GetIsWayPoint();
                 int GetWayPointNumber();
+                ExampleApp::PathDrawing::WayPointType::Values GetWayPointType();
 
             };
         }

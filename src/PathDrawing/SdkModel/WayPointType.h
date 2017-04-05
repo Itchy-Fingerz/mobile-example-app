@@ -15,7 +15,8 @@ namespace ExampleApp
                 InteriorEntry,
                 Elevator,
                 Pathway,
-                Entrance
+                Entrance,
+                None
             };
         }
     }
