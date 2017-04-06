@@ -69,7 +69,6 @@ namespace ExampleApp
                                                                            model.GetLocation().ToECEF(),
                                                                            model.IsInterior(),
                                                                            false,
-                                                                           false,
                                                                            model.GetBuildingId(),
                                                                            model.GetFloor(),
                                                                            m_searchMenuViewModel,

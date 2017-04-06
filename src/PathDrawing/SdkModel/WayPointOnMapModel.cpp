@@ -40,10 +40,7 @@ namespace ExampleApp
             
             void WayPointOnMapModel::AddWayPointView(WayPointModel*& wayPoint)
             {
-                if(wayPoint->GetIsWayPoint() == false)
-                {
-                    return;
-                }
+
                 if(wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Start || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::End || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Left || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Right || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Elevator || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Entrance )
                 {
                 
@@ -82,18 +79,18 @@ namespace ExampleApp
             
             void WayPointOnMapModel::RemoveWayPointView(WayPointModel*& wayPoint)
             {
-                if(wayPoint->GetIsWayPoint() == false)
+
+                if(wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Start || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::End || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Left || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Right || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Elevator || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Entrance )
                 {
-                    return;
-                }
-                mapIt it = m_wayPointsToPinModel.find(wayPoint);
+                    mapIt it = m_wayPointsToPinModel.find(wayPoint);
                 
-                Eegeo_ASSERT(it != m_wayPointsToPinModel.end(),
+                    Eegeo_ASSERT(it != m_wayPointsToPinModel.end(),
                              "Trying to remove the world pin for a search result, but no pin exists for result.");
                 
-                ExampleApp::WorldPins::SdkModel::WorldPinItemModel* pinItemModel = it->second;
-                m_worldPinsService.RemovePin(pinItemModel);
-                m_wayPointsToPinModel.erase(it);
+                    ExampleApp::WorldPins::SdkModel::WorldPinItemModel* pinItemModel = it->second;
+                    m_worldPinsService.RemovePin(pinItemModel);
+                    m_wayPointsToPinModel.erase(it);
+                }
             }
             
             std::string WayPointOnMapModel::GetWayPointIconForType(int wayPointId)

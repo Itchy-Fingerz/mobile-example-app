@@ -77,7 +77,6 @@ namespace ExampleApp
                             
                             ExampleApp::Search::SdkModel::TagIconKey iconKey = GetIconImageName(stepRouteModel);
 
-                            bool isWayPoint = false;
                             
                             double di = stepRouteModel.GetStepRouteDistance();
                             std::stringstream stream;
@@ -150,7 +149,6 @@ namespace ExampleApp
                                                                                                               latlong.ToECEF(),
                                                                                                               stepRouteModel.GetInInterior(),
                                                                                                               true,
-                                                                                                              isWayPoint,
                                                                                                               m_buildingId,
                                                                                                               stepRouteModel.GetLevel(),
                                                                                                               m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
