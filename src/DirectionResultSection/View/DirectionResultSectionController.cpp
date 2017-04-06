@@ -85,21 +85,40 @@ namespace ExampleApp
                             std::string s = stream.str();
                             ExampleApp::PathDrawing::WayPointType::Values wayPointype = ExampleApp::PathDrawing::WayPointType::None;
                             
-                            if(stepManeuver.GetType() == "depart")
+                            if(stepManeuver.GetType() == "depart" && stepManeuver.GetModifier() == "")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Start;
+                                wayPointNumber = 17;
                             }
-                            else if(stepManeuver.GetType() == "arrive")
+                            else if(stepManeuver.GetType() == "arrive" && stepManeuver.GetModifier() == "")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::End;
+                                wayPointNumber = 18;
+
                             }
                             else if(stepRouteModel.GetStepType() == "Entrance")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Entrance;
+                                wayPointNumber = 19;
+
                             }
                             else if(stepRouteModel.GetStepType() == "Elevator")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Elevator;
+                                wayPointNumber = 20;
+
+                            }
+                            else if (stepManeuver.GetModifier() == "left")
+                            {
+                                wayPointype = ExampleApp::PathDrawing::WayPointType::Left;
+                                leftRightCount++;
+                                wayPointNumber = leftRightCount;
+                            }
+                            else if (stepManeuver.GetModifier() == "right")
+                            {
+                                wayPointype = ExampleApp::PathDrawing::WayPointType::Right;
+                                leftRightCount++;
+                                wayPointNumber = leftRightCount;
                             }
                             
                             std::string sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetModifier()+" "+s+"m";
@@ -116,34 +135,6 @@ namespace ExampleApp
                                 }
                             }
                             
-                            if (stepManeuver.GetModifier() == "right" || stepManeuver.GetModifier() == "left")
-                            {
-                                isWayPoint = true;
-                                leftRightCount++;
-                                wayPointNumber = leftRightCount;
-                            }
-                            else if(stepManeuver.GetType() == "depart")
-                            {
-                                isWayPoint = true;
-                                wayPointNumber = 17;
-                            }
-                            else if(stepManeuver.GetType() == "arrive")
-                            {
-                                isWayPoint = true;
-                                wayPointNumber = 18;
-                            }
-                            else if(stepRouteModel.GetStepType() == "Entrance")
-                            {
-                                isWayPoint = true;
-                                wayPointNumber = 19;
-                            }
-                            else if(stepRouteModel.GetStepType() == "Elevator")
-                            {
-                                isWayPoint = true;
-                                wayPointNumber = 20;
-                            }
-
-                           
                             std::string duration = "Temp Duration";
                             
                             std::string subtitle = std::to_string(stepRouteModel.GetStepRouteDuration());

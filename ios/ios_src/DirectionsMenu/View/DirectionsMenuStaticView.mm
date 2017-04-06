@@ -318,29 +318,14 @@
     {
         ExampleApp::Menu::View::MenuItemModel item = m_pSearchResultsSection->GetItemAtIndex(static_cast<int>(indexPath.row));
  
-//        [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%li",(long)indexPath.row+1]];
-
         ExampleApp::SearchResultSection::View::SearchResultItemModel &searchItem = (ExampleApp::SearchResultSection::View::SearchResultItemModel&)item.MenuOption();
         
-        /*if(searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Elevator || searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Entrance)
-        {
-            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
-            [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
-            [cell.wayPointSubCategorylbl setTextColor:[UIColor whiteColor]];
-            
-        }
-        else
-        {
-            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
-            [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
-            [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
-            
-        }*/
 
 
-        if(searchItem.GetIsWayPoint() && (searchItem.GetWayPointNumber() != 17 && searchItem.GetWayPointNumber() != 18 && searchItem.GetWayPointNumber() != 19 && searchItem.GetWayPointNumber() != 20))
+
+        if(searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Left || searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Right)
         {
-            int wayPointNumber = searchItem.GetWayPointNumber();//std::atoi(item.Identifier().c_str());
+            int wayPointNumber = searchItem.GetWayPointNumber();
             [cell.wayPointNumberlbl setText:[NSString stringWithFormat:@"%i",wayPointNumber]];
             cell.wayPointNumberlbl.hidden = false;
             cell.m_pWaypointNumberLabelBG.hidden = false;

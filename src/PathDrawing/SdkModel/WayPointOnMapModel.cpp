@@ -44,30 +44,35 @@ namespace ExampleApp
                 {
                     return;
                 }
-                WorldPins::SdkModel::WorldPinFocusData worldPinFocusData("",
-                                                                      "",
-                                                                      "",
-                                                                      "",
-                                                                      "",
-                                                                      0);
+                if(wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Start || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::End || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Left || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Right || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Elevator || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Entrance )
+                {
                 
-                WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(Eegeo::Resources::Interiors::InteriorId(wayPoint->GetBuildingID()), wayPoint->GetLevel());
-                
-                ExampleApp::WorldPins::SdkModel::WorldPinItemModel *pinItemModel =
-                m_worldPinsService.AddPin(Eegeo_NEW(WayPointSelectionHandler(*wayPoint,m_messageBus))
-                                          , NULL
-                                          , worldPinFocusData
-                                          , wayPoint->GetInInterior()
-                                          , worldPinInteriorData
-                                          , wayPoint->GetLocation()
-                                          , GetWayPointIconForType(wayPoint->GetWayPointNumber())
-                                          , 0.f
-                                          , WorldPins::SdkModel::WorldPinVisibility::World);
-                
-                pinItemModel->SetFocusable(false);
-                // Add pin to map
-                
-                m_wayPointsToPinModel.insert(std::make_pair(wayPoint, pinItemModel));
+                    WorldPins::SdkModel::WorldPinFocusData worldPinFocusData("",
+                                                                             "",
+                                                                             "",
+                                                                             "",
+                                                                             "",
+                                                                             0);
+                    
+                    WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(Eegeo::Resources::Interiors::InteriorId(wayPoint->GetBuildingID()), wayPoint->GetLevel());
+                    
+                    ExampleApp::WorldPins::SdkModel::WorldPinItemModel *pinItemModel =
+                    m_worldPinsService.AddPin(Eegeo_NEW(WayPointSelectionHandler(*wayPoint,m_messageBus))
+                                              , NULL
+                                              , worldPinFocusData
+                                              , wayPoint->GetInInterior()
+                                              , worldPinInteriorData
+                                              , wayPoint->GetLocation()
+                                              , GetWayPointIconForType(wayPoint->GetWayPointNumber())
+                                              , 0.f
+                                              , WorldPins::SdkModel::WorldPinVisibility::World);
+                    
+                    pinItemModel->SetFocusable(false);
+                    // Add pin to map
+                    
+                    m_wayPointsToPinModel.insert(std::make_pair(wayPoint, pinItemModel));
+                }
+
             }
             
             void WayPointOnMapModel::OnWayPointRemoved(WayPointModel*& wayPoint)

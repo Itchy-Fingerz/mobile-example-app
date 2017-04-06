@@ -16,6 +16,8 @@ namespace ExampleApp
                 Elevator,
                 Pathway,
                 Entrance,
+                Left,
+                Right,
                 None
             };
         }
