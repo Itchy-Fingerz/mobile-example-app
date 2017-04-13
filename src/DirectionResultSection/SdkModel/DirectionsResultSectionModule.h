@@ -28,7 +28,6 @@ namespace ExampleApp
                 Menu::View::IMenuModel* m_pModel;
                 Menu::View::IMenuOptionsModel* m_pMenuOptionsModel;
                 ExampleApp::SearchResultSection::View::SearchResultRepositoryObserver* m_pSearchResultRepositoryObserver;
-                SearchResultSection::SdkModel::SearchResultSectionItemSelectedMessageHandler* m_pSearchResultSectionItemSelectedMessageHandler;
                 SearchResultSection::SdkModel::SearchResultViewClearedObserver* m_pSearchResultViewClearedObserver;
                 ExampleApp::SearchResultSection::View::ISearchResultSectionOrder* m_pSearchResultSectionOrder;
                 

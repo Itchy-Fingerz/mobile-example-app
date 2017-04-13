@@ -29,8 +29,6 @@ namespace ExampleApp
                 m_pSearchResultRepositoryObserver = Eegeo_NEW(ExampleApp::SearchResultSection::View::SearchResultRepositoryObserver)(searchResultRepository,
                                                                                                                                      messageBus);
                 
-                m_pSearchResultSectionItemSelectedMessageHandler = Eegeo_NEW(SearchResultSection::SdkModel::SearchResultSectionItemSelectedMessageHandler)(cameraTransitionController,
-                                                                                                                            messageBus);
                 
                 m_pSearchResultViewClearedObserver = Eegeo_NEW(SearchResultSection::SdkModel::SearchResultViewClearedObserver)(searchQueryPerformer, messageBus);
                 
@@ -42,7 +40,6 @@ namespace ExampleApp
             {
                 Eegeo_DELETE m_pSearchResultSectionOrder;
                 Eegeo_DELETE m_pSearchResultViewClearedObserver;
-                Eegeo_DELETE m_pSearchResultSectionItemSelectedMessageHandler;
                 Eegeo_DELETE m_pSearchResultRepositoryObserver;
                 Eegeo_DELETE m_pMenuOptionsModel;
                 Eegeo_DELETE m_pModel;
