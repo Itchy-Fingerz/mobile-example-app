@@ -428,6 +428,7 @@
             [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:234.0f/255.0f green:251.0f/255.0f blue:167.0f/255.0f alpha:1.0f]];
             [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
             [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
+            [cell.m_pWaypointContainer setBackgroundColor:[UIColor colorWithRed:234.0f/255.0f green:251.0f/255.0f blue:167.0f/255.0f alpha:1.0f]];
             
         }
         else if(searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Elevator)
@@ -435,6 +436,8 @@
             [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
             [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
             [cell.wayPointSubCategorylbl setTextColor:[UIColor whiteColor]];
+            [cell.m_pWaypointContainer setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
+
         
         }
         else
@@ -442,6 +445,8 @@
             [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
             [cell.wayPointMainTitlelbl setTextColor:[UIColor blackColor]];
             [cell.wayPointSubCategorylbl setTextColor:[UIColor colorWithRed:163.0f/255.0f green:163.0f/255.0f blue:163.0f/255.0f alpha:1.0f]];
+            [cell.m_pWaypointContainer setBackgroundColor:[UIColor colorWithRed:248.0f/255.0f green:248.0f/255.0f blue:248.0f/255.0f alpha:1.0f]];
+
             
         }
         

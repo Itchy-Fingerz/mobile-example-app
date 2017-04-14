@@ -27,6 +27,7 @@
     [_mainContainerView release];
     [_m_pWaypointNumberLabelBG release];
     [_m_pWaypointMainLabelHeightConstraint release];
+    [_m_pWaypointContainer release];
     [super dealloc];
 }
 @end
