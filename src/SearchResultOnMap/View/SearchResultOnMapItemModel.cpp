@@ -5,6 +5,7 @@
 #include "ISearchResultPoiViewModel.h"
 #include "Logger.h"
 #include "SearchResultOnMapItemModelSelectedMessage.h"
+#include "BillBoardSelectedMessage.h"
 
 namespace ExampleApp
 {
@@ -31,6 +32,8 @@ namespace ExampleApp
             {
                 m_metricsService.SetEvent("Pin Selected", "Name", m_searchResultModel.GetTitle().c_str());
                 m_messageBus.Publish(SearchResultOnMapItemModelSelectedMessage(m_searchResultModel));
+                m_messageBus.Publish(BillBoards::BillBoardSelectedMessage(m_searchResultModel.GetIdentifier()));
+
             }
         }
     }

@@ -22,7 +22,7 @@ namespace ExampleApp
                                                                    Net::SdkModel::INetworkCapabilities& networkCapabilities,
                                                                    const Search::SdkModel::SearchTags& searchTags,
                                                                    const std::string& serviceUrl,
-                                                                   const std::string& apiKey,
+                                                                   const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                                    const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel)
                 : m_pEegeoSearchQueryFactory(NULL)
                 , m_pEegeoParser(NULL)
@@ -33,9 +33,9 @@ namespace ExampleApp
                                                                                     urlEncoder,
                                                                                     interiorInteractionModel,
                                                                                     serviceUrl,
-                                                                                    apiKey);
+                                                                                    apiTokenModel);
 
-                    m_pTagIconMapper = CreateTagIconMapper(searchTags);
+                    m_pTagIconMapper = TagSearch::SdkModel::CreateTagIconMapper(searchTags);
 
                     m_pReadableTagMapper = Eegeo_NEW(EegeoReadableTagMapper)(searchTags);
 

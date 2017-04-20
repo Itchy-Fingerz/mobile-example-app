@@ -44,7 +44,7 @@ set(CMAKE_OSX_ARCHITECTURES "armv7;arm64;i386")
 set(IOS_WARNING_FLAGS "-Wmost -Werror -Wno-four-char-constants -Wno-unknown-pragmas -Wno-reorder")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -x objective-c++ ${IOS_WARNING_FLAGS}")
-set(eegeo_sdk_libs "-lapps-on-maps-cpp11 -lapps-on-maps-cpp11-sim")
+set(eegeo_sdk_libs "-lapps-on-maps-cpp11 -lapps-on-maps-cpp11-sim -lsdk-extensions-sqlite-cpp11 -lsdk-extensions-sqlite-cpp11-sim")
 
 set(ios_frameworks 
   "-framework CoreLocation
@@ -60,9 +60,16 @@ set(ios_frameworks
   -framework CoreGraphics 
   -framework CoreData
   -framework Security
-  -framework CoreLocation")
+  -framework CoreLocation
+  -framework CoreVideo
+  -framework CoreMedia
+  -framework CoreMotion
+  -framework CoreBluetooth
+  -framework IndoorAtlas
+  -framework SLIndoorLocation")
 
 set(linker_search_paths "-LInclude/eegeo -LInclude")
+set(framework_search_paths "${CMAKE_CURRENT_SOURCE_DIR}/Include/IndoorAtlas ${CMAKE_CURRENT_SOURCE_DIR}/Include/SenionLab")
 set(libs "${eegeo_sdk_libs} -lturbojpeg -lz -lcurl -luv -lFlurry_6.0.0")
 set(CMAKE_EXE_LINKER_FLAGS "${ios_frameworks} ${linker_search_paths} ${libs}")
 
@@ -90,6 +97,7 @@ set_xcode_property (${executable_name} DEBUG_INFORMATION_FORMAT[variant=Release]
 
 set_xcode_property (${executable_name} GCC_TREAT_WARNINGS_AS_ERRORS "YES")
 set_xcode_property (${executable_name} CODE_SIGN_IDENTITY "iPhone Developer")
+set_xcode_property (${executable_name} DEVELOPMENT_TEAM "")
 set_xcode_property (${executable_name} IPHONEOS_DEPLOYMENT_TARGET "6.0")
 set_xcode_property (${executable_name} TARGETED_DEVICE_FAMILY "1,2")
 set_xcode_property (${executable_name} ENABLE_BITCODE "No")
@@ -101,6 +109,7 @@ set_xcode_property (${executable_name} COMBINE_HIDPI_IMAGES "No")
 
 set_xcode_property(${executable_name} GCC_PRECOMPILE_PREFIX_HEADER "YES")
 set_xcode_property(${executable_name} GCC_PREFIX_HEADER "ExampleApp/ExampleApp-Prefix.pch")
+set_xcode_property(${executable_name} FRAMEWORK_SEARCH_PATHS "${framework_search_paths}")
 
 set_xcode_property(${executable_name} CLANG_CXX_LANGUAGE_STANDARD "c++11")
 set_xcode_property(${executable_name} CLANG_CXX_LIBRARY "libc++")

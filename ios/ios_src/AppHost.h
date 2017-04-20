@@ -37,6 +37,7 @@
 #include "iOSConnectivityService.h"
 #include "OptionsViewIncludes.h"
 #include "WatermarkViewIncludes.h"
+#include "CustomAlertViewModule.h"
 #include "TourWebViewIncludes.h"
 #include "TourExplorerViewIncludes.h"
 #include "TourFullScreenImageViewIncludes.h"
@@ -60,10 +61,19 @@
 #include "DirectionsMenuViewIncludes.h"
 #include "TagSearchViewIncludes.h"
 #include "DirectionResultSectionViewModule.h"
+#include "BillBoardsIncludes.h"
+#include "VideoAssetReaderIncludes.h"
+#include "IndoorAtlasLocationModule.h"
+#include "SenionLabLocationModule.h"
+#include "CurrentLocationService.h"
+#include "InteriorsLocationServiceProvider.h"
+#include "AppUrlDelegate.h"
+#include "AlwaysActiveUserIdleService.h"
 
 @class ViewController;
 class AppInputDelegate;
 class AppLocationDelegate;
+class AppUrlDelegate;
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -94,6 +104,8 @@ public:
     void HandleNoConnectivityWarning();
     
     void HandleInvalidConnectivityError();
+    
+    void HandleUrlOpen(const AppInterface::UrlData& data);
 
 private:
     UIView* m_pView;
@@ -103,12 +115,18 @@ private:
     Eegeo::iOS::iOSConnectivityService* m_piOSConnectivityService;
     AppInputDelegate* m_pAppInputDelegate;
     AppLocationDelegate* m_pAppLocationDelegate;
-    
+    AppUrlDelegate* m_pAppUrlDelegate;
+
     Eegeo::UI::NativeInput::iOS::iOSInputBoxFactory m_iOSInputBoxFactory;
     Eegeo::UI::NativeInput::iOS::iOSKeyboardInputFactory m_iOSKeyboardInputFactory;
     Eegeo::UI::NativeAlerts::iOS::iOSAlertBoxFactory m_iOSAlertBoxFactory;
     Eegeo::UI::NativeUIFactories m_iOSNativeUIFactories;
     Eegeo::iOS::iOSPlatformAbstractionModule* m_piOSPlatformAbstractionModule;
+    
+    ExampleApp::IndoorAtlas::IndoorAtlasLocationModule* m_pIndoorAtlasLocationModule;
+    ExampleApp::SenionLab::SenionLabLocationModule* m_pSenionLabLocationModule;
+    Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
+    ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceProvider* m_pInteriorsLocationServiceProvider;
     
     ExampleApp::SettingsMenu::View::ISettingsMenuViewModule* m_pSettingsMenuViewModule;
     ExampleApp::DirectionsMenu::View::IDirectionsMenuViewModule* m_pDirectionsMenuViewModule;
@@ -132,6 +150,7 @@ private:
     ExampleApp::MyPinDetails::View::IMyPinDetailsViewModule* m_pMyPinDetailsViewModule;
     ExampleApp::Options::View::IOptionsViewModule* m_pOptionsViewModule;
     ExampleApp::Watermark::View::IWatermarkViewModule* m_pWatermarkViewModule;
+    ExampleApp::CustomAlert::View::ICustomAlertViewModule* m_pCustomAlertViewModule;
     ExampleApp::Tours::View::TourWeb::ITourWebViewModule* m_pTourWebViewModule;
     ExampleApp::Tours::View::TourExplorer::ITourExplorerViewModule* m_pTourExplorerViewModule;
     ExampleApp::Tours::View::TourFullScreenImage::ITourFullScreenImageViewModule* m_pTourFullScreenImageViewModule;
@@ -145,6 +164,9 @@ private:
     ExampleApp::Menu::View::IMenuReactionModel* m_pMenuReactionModel;
     ExampleApp::DirectionResultSection::View::DirectionResultSectionViewModule* m_pDirectionResultSectionViewModule;
     
+    ExampleApp::BillBoards::View::BillBoardsViewModule *m_pBillBoardsViewModule;
+    ExampleApp::VideoAssetReader::VideoAssetReaderModule *m_pVideoAssetReaderModule;
+    
     ImageStore* m_pImageStore;
     
     ExampleApp::MobileExampleApp* m_pApp;
@@ -155,6 +177,8 @@ private:
     
     Eegeo::UI::NativeAlerts::TSingleOptionAlertBoxDismissedHandler<AppHost> m_failAlertHandler;
     Eegeo::Helpers::TCallback1<AppHost, const ExampleApp::UserInteraction::UserInteractionEnabledChangedMessage&> m_userInteractionEnabledChangedHandler;
+
+    Eegeo::Input::AlwaysActiveUserIdleService m_userIdleService;
 
     void CreateApplicationViewModules(const Eegeo::Rendering::ScreenProperties& screenProperties);
     void DestroyApplicationViewModules();

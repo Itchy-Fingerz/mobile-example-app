@@ -10,6 +10,8 @@ set(currsources
   ios_src/AppInputDelegate.mm
   ios_src/AppLocationDelegate.h
   ios_src/AppLocationDelegate.mm
+  ios_src/AppUrlDelegate.h
+  ios_src/AppUrlDelegate.mm
   ios_src/AppRunner.h
   ios_src/AppRunner.mm
   ios_src/CMakeLists.txt
@@ -27,6 +29,7 @@ include(ios_src/Compass/CMakeLists.txt)
 include(ios_src/FlattenButton/CMakeLists.txt)
 include(ios_src/Helpers/CMakeLists.txt)
 include(ios_src/ImageStore/CMakeLists.txt)
+include(ios_src/IndoorAtlas/CMakeLists.txt)
 include(ios_src/InitialExperience/CMakeLists.txt)
 include(ios_src/InteriorsExplorer/CMakeLists.txt)
 include(ios_src/LinkOutObserver/CMakeLists.txt)
@@ -43,6 +46,7 @@ include(ios_src/PersistentSettings/CMakeLists.txt)
 include(ios_src/SearchMenu/CMakeLists.txt)
 include(ios_src/SearchResultPoi/CMakeLists.txt)
 include(ios_src/SearchResultSection/CMakeLists.txt)
+include(ios_src/SenionLab/CMakeLists.txt)
 include(ios_src/SettingsMenu/CMakeLists.txt)
 include(ios_src/Surveys/CMakeLists.txt)
 include(ios_src/TagSearch/CMakeLists.txt)
@@ -50,8 +54,12 @@ include(ios_src/Tours/CMakeLists.txt)
 include(ios_src/URLRequest/CMakeLists.txt)
 include(ios_src/Views/CMakeLists.txt)
 include(ios_src/Watermark/CMakeLists.txt)
+include(ios_src/CustomAlert/CMakeLists.txt)
 include(ios_src/WorldPinOnMap/CMakeLists.txt)
 include(ios_src/DirectionsMenuInitiation/CMakeLists.txt)
 include(ios_src/DirectionsMenu/CMakeLists.txt)
 include(ios_src/DirectionResultSection/CMakeLists.txt)
+include(ios_src/VideoAssetReader/CMakeLists.txt)
+include(ios_src/BillBoards/CMakeLists.txt)
+include(ios_src/AirPortPoiViews/CMakeLists.txt)
 endif(${IOS})

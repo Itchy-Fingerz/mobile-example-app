@@ -60,6 +60,7 @@
 #include "OptionsViewModule.h"
 #include "OptionsView.h"
 #include "WatermarkViewModule.h"
+#include "CustomAlertViewModule.h"
 #include "WatermarkView.h"
 #include "TourWebViewModule.h"
 #include "TourExplorerViewModule.h"
@@ -84,8 +85,14 @@
 #include "SurveyViewModule.h"
 #include "IOSMenuReactionModel.h"
 #include "TagSearchViewModule.h"
+#include "InteriorsExplorerModel.h"
+#include "AppUrlDelegate.h"
+#include "InteriorMetaDataRepository.h"
+#include "InteriorMetaDataModule.h"
 
 #import "UIView+TouchExclusivity.h"
+#include "BillBoardsViewModule.h"
+#include "VideoAssetReaderModule.h"
 
 #include "DirectionsMenuInitiationViewModule.h"
 #include "IDirectionsMenuInitiationModule.h"
@@ -134,6 +141,8 @@ AppHost::AppHost(
     Eegeo::TtyHandler::TtyEnabled = true;
     
     m_piOSLocationService = Eegeo_NEW(iOSLocationService)();
+    
+    m_pCurrentLocationService = Eegeo_NEW(Eegeo::Helpers::CurrentLocationService::CurrentLocationService)(*m_piOSLocationService);
 
     m_piOSConnectivityService = Eegeo_NEW(iOSConnectivityService)();
 
@@ -169,7 +178,7 @@ AppHost::AppHost(
 			 applicationConfiguration,
              *m_piOSPlatformAbstractionModule,
              screenProperties,
-             *m_piOSLocationService,
+             *m_pCurrentLocationService,
              m_iOSNativeUIFactories,
              platformConfiguration,
              *m_pJpegLoader,
@@ -180,20 +189,51 @@ AppHost::AppHost(
              *m_pNetworkCapabilities,
              m_iOSFlurryMetricsService,             
              *this,
-             *m_pMenuReactionModel);
-
+             *m_pMenuReactionModel,
+             m_userIdleService);
+    
+    Eegeo::Modules::Map::MapModule& mapModule = m_pApp->World().GetMapModule();
+    Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
+    m_pIndoorAtlasLocationModule = Eegeo_NEW(ExampleApp::IndoorAtlas::IndoorAtlasLocationModule)(m_pApp->GetAppModeModel(),
+                                                                                                 interiorsPresentationModule.GetInteriorInteractionModel(),
+                                                                                                 interiorsPresentationModule.GetInteriorSelectionModel(),
+                                                                                                 mapModule.GetEnvironmentFlatteningService(),
+                                                                                                 *m_piOSLocationService,
+                                                                                                 mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
+                                                                                                 m_iOSAlertBoxFactory);
+    
+    m_pSenionLabLocationModule = Eegeo_NEW(ExampleApp::SenionLab::SenionLabLocationModule)(m_pApp->GetAppModeModel(),
+                                                                                           interiorsPresentationModule.GetInteriorInteractionModel(),
+                                                                                           interiorsPresentationModule.GetInteriorSelectionModel(),
+                                                                                           mapModule.GetEnvironmentFlatteningService(),                                                                                                                                                                                                                                                                
+                                                                                           *m_piOSLocationService,
+                                                                                           mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository());
+    
+    m_pInteriorsLocationServiceProvider = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceProvider)(                                                                                                                               m_pApp->InteriorsExplorerModule().GetInteriorsExplorerModel(),
+                                                                                                                               interiorsPresentationModule.GetInteriorSelectionModel(),
+                                                                                                                               *m_pCurrentLocationService,
+                                                                                                                               *m_piOSLocationService,
+                                                                                                                               m_pIndoorAtlasLocationModule->GetLocationService(),
+                                                                                                                               m_pSenionLabLocationModule->GetLocationService(),
+                                                                                                                               mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
+                                                                                                                               m_messageBus);
+    
     CreateApplicationViewModules(screenProperties);
 
     m_pAppInputDelegate = Eegeo_NEW(AppInputDelegate)(*m_pApp, m_viewController, screenProperties.GetScreenWidth(), screenProperties.GetScreenHeight(), screenProperties.GetPixelScale());
     m_pAppLocationDelegate = Eegeo_NEW(AppLocationDelegate)(*m_piOSLocationService, m_viewController);
-    
+    m_pAppUrlDelegate = Eegeo_NEW(AppUrlDelegate)(*m_pApp);
+
     m_messageBus.SubscribeUi(m_userInteractionEnabledChangedHandler);
 }
 
 AppHost::~AppHost()
 {
     m_messageBus.UnsubscribeUi(m_userInteractionEnabledChangedHandler);
-    
+ 
+    Eegeo_DELETE m_pAppUrlDelegate;
+    m_pAppUrlDelegate = NULL;
+   
     Eegeo_DELETE m_pAppLocationDelegate;
     m_pAppLocationDelegate = NULL;
 
@@ -219,6 +259,18 @@ AppHost::~AppHost()
 
     Eegeo_DELETE m_pInitialExperienceModule;
     m_pInitialExperienceModule = NULL;
+    
+    Eegeo_DELETE m_pInteriorsLocationServiceProvider;
+    m_pInteriorsLocationServiceProvider = NULL;
+    
+    Eegeo_DELETE m_pIndoorAtlasLocationModule;
+    m_pIndoorAtlasLocationModule = NULL;
+    
+    Eegeo_DELETE m_pSenionLabLocationModule;
+    m_pSenionLabLocationModule = NULL;
+    
+    Eegeo_DELETE m_pCurrentLocationService;
+    m_pCurrentLocationService = NULL;
 
     Eegeo_DELETE m_piOSLocationService;
     m_piOSLocationService = NULL;
@@ -292,6 +344,10 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                          screenProperties,
                                                                                          m_messageBus,
                                                                                          m_iOSFlurryMetricsService);
+    
+    m_pCustomAlertViewModule = Eegeo_NEW(ExampleApp::CustomAlert::View::CustomAlertViewModule)(app.CustomAlertModule().GetCustomAlertViewModel(),
+                                                                                               screenProperties,
+                                                                                               m_messageBus);
 
     m_pModalBackgroundViewModule = Eegeo_NEW(ExampleApp::ModalBackground::View::ModalBackgroundViewModule)(app.ModalityModule().GetModalityModel(), screenProperties);
     
@@ -358,7 +414,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                            screenProperties,
                            m_messageBus);
 
-    m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService);
+    m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService, m_messageBus);
     
     m_pOptionsViewModule = Eegeo_NEW(ExampleApp::Options::View::OptionsViewModule)(app.OptionsModule().GetOptionsViewModel(),
                                                                                    m_piOSPlatformAbstractionModule->GetiOSHttpCache(),
@@ -423,6 +479,12 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                  *m_pURLRequestHandler);
     
     
+
+    m_pVideoAssetReaderModule = Eegeo_NEW(ExampleApp::VideoAssetReader::VideoAssetReaderModule)(m_messageBus);
+    
+    m_pBillBoardsViewModule = Eegeo_NEW(ExampleApp::BillBoards::View::BillBoardsViewModule)(m_pApp->BillBoardModule().GetBillBoardRepository(),m_pApp->BillBoardModule().GetBillBoardService(),m_pVideoAssetReaderModule->GetVideoAssetReaderService(), m_pApp->GetEegeoSearchService(), m_messageBus);
+
+    
     // 3d map view layer.
     [m_pView addSubview: &m_pWorldPinOnMapViewModule->GetWorldPinOnMapView()];
     
@@ -435,6 +497,8 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     [m_pView addSubview: &m_pCompassViewModule->GetCompassView()];
     [m_pView addSubview: &m_pDirectionsMenuInitiationViewModule->GetDirectionsMenuInitiationView()];
     [m_pView addSubview: &m_pMyPinCreationConfirmationViewModule->GetMyPinCreationConfirmationView()];
+    
+    
     if(m_pApp->ToursEnabled())
     {
         [m_pView addSubview: &m_pTourFullScreenImageViewModule->GetTourFullScreenImageView()];
@@ -466,6 +530,9 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     
     // Initial experience layer
     [m_pView addSubview: &m_pInitialExperienceIntroViewModule->GetIntroView()];
+    
+    [m_pView addSubview:&m_pCustomAlertViewModule->GetCustomAlertView()];
+
 
     //WayPointView *tempWayPoint = [[WayPointView alloc] init];
     //[m_pView addSubview:[tempWayPoint getView]];
@@ -573,6 +640,7 @@ void AppHost::DestroyApplicationViewModules()
     
     Eegeo_DELETE m_pDirectionsMenuInitiationViewModule;
     
+    Eegeo_DELETE m_pCustomAlertViewModule;
 }
 
 void AppHost::SetTouchExclusivity()
@@ -622,5 +690,10 @@ void AppHost::HandleStartupFailure()
 void AppHost::HandleUserInteractionEnabledChanged(const ExampleApp::UserInteraction::UserInteractionEnabledChangedMessage& message)
 {
     m_pView.userInteractionEnabled = message.IsEnabled();
+}
+
+void AppHost::HandleUrlOpen(const AppInterface::UrlData &data)
+{
+    m_pApp->Event_OpenUrl(data);
 }
 

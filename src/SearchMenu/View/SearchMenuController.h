@@ -34,7 +34,6 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<SearchMenuController, const std::string&> m_onSearchCallback;
                 Eegeo::Helpers::TCallback0<SearchMenuController> m_onSearchClearedCallback;
                 Eegeo::Helpers::TCallback1<SearchMenuController, int> m_onSearchItemSelectedCallback;
-                Eegeo::Helpers::TCallback1<SearchMenuController, const AppModes::AppModeChangedMessage&> m_appModeChangedCallback;
                 Eegeo::Helpers::TCallback0<SearchMenuController> m_onModalBackgroundTappedCallback;
                 
                 void OnSearchItemAdded(Menu::View::MenuItemModel& item);
@@ -47,15 +46,10 @@ namespace ExampleApp
                 
                 void OnSearchQueryResponseReceivedMessage(const Search::SearchQueryResponseReceivedMessage& message);
                 
-                void OnSearch(const std::string& searchQuery);
-                
-                void OnAppModeChanged(const AppModes::AppModeChangedMessage& message);
                 
                 bool TryDrag();
                 
                 void OnViewClicked();
-                
-                void OnSearchCleared();
                 
                 void OnSearchItemSelected(int& index);
                 
@@ -76,6 +70,12 @@ namespace ExampleApp
                                      TagSearch::View::ITagSearchRepository& tagSearchRepository,
                                      Modality::View::IModalBackgroundView& modalBackgroundView,
                                      ExampleAppMessaging::TMessageBus& messageBus);
+
+                
+                void OnSearch(const std::string& searchQuery);
+
+                void OnSearchCleared();
+
                 
                 virtual ~SearchMenuController();
             };

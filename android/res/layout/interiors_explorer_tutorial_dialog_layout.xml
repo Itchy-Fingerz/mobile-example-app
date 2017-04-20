@@ -17,12 +17,11 @@
 			android:id="@+id/interiors_explorer_tutorial_dialog_outer_background"></LinearLayout>
 
 		<RelativeLayout
+		    android:id="@+id/interiors_explorer_tutorial_dialog_outer_arrow"
 			android:layout_width="24dp"
 			android:layout_height="14dp"
-			android:layout_gravity="center_vertical"
 			android:background="@drawable/arrow3_right_blue"
 			android:layout_alignWithParentIfMissing="false"
-			android:layout_centerVertical="true"
 			android:layout_toRightOf="@+id/linearLayout"
 			android:layout_marginLeft="-1dp" />
 
@@ -65,7 +64,7 @@
 					android:singleLine="true"
 					android:ellipsize="end"
 					android:textColor="@color/gold"
-					android:textSize="16sp"
+					android:textSize="16dp"
 					android:text="Change Floors" />
 
                 <TextView
@@ -77,19 +76,18 @@
 					android:singleLine="false"
 					android:text="Slide the elevator button\nup and down to move\nbetween floors."
 					android:textColor="@color/black"
-					android:textSize="13sp"
+					android:textSize="13dp"
 					android:paddingBottom="12dp" />
 			</LinearLayout>
 
         </LinearLayout>
 
 		<RelativeLayout
+		    android:id="@+id/interiors_explorer_tutorial_dialog_arrow"
             android:layout_width="20dp"
             android:layout_height="10dp"
-            android:layout_gravity="center_vertical"
             android:background="@drawable/arrow3_right"
             android:layout_alignWithParentIfMissing="false"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/linearLayout"
 			android:layout_marginLeft="-1dp" />
 	</LinearLayout>

@@ -24,6 +24,8 @@ namespace ExampleApp
                 virtual void Open() = 0;
 
                 virtual void Close() = 0;
+                
+                virtual void UpdateApplicationName(const std::string&) = 0;
 
                 virtual const std::string GetContent() const = 0;
 
@@ -34,6 +36,8 @@ namespace ExampleApp
                 virtual void InsertClosedCallback(Eegeo::Helpers::ICallback0& closedCallback) = 0;
 
                 virtual void RemoveClosedCallback(Eegeo::Helpers::ICallback0& closedCallback) = 0;
+                
+                virtual void SetIndoorPositioningType(const std::string& indoorPositioningType) = 0;
             };
         }
     }

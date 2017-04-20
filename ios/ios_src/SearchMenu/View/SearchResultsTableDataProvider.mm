@@ -196,6 +196,7 @@ static NSString *CellIdentifier = @"searchCell";
         cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
         cell.textLabel.textColor = ExampleApp::Helpers::ColorPalette::TableSearchTextColor;
         [cell.textLabel sizeToFit];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
         
         CGRect textFrame = CGRectMake(textInsetX,
                                       textY,
@@ -212,6 +213,8 @@ static NSString *CellIdentifier = @"searchCell";
         cell.detailTextLabel.font = [UIFont systemFontOfSize:11.0f];
         cell.detailTextLabel.textColor = ExampleApp::Helpers::ColorPalette::TableSearchDetailTextColor;
         [cell.detailTextLabel sizeToFit];
+        cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+
         
         CGRect detailTextFrame = CGRectMake(textInsetX,
                                             detailTextY,

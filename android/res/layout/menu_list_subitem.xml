@@ -24,6 +24,6 @@
         android:text="Around Me"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@color/table_sub_cell_text"
-        android:textSize="16sp" />
+        android:textSize="16dp" />
 
 </LinearLayout>

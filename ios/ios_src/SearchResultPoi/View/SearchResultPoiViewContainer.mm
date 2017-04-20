@@ -18,6 +18,9 @@
 #include "GeoNamesSearchResultPoiView.h"
 #include "EegeoSearchResultPoiView.h"
 #include "ExampleTourSearchResultPoiView.h"
+#include "EegeoSearchResultSecurityOfficePoiView.h"
+#include "EegeoSearchResultRatingPoiView.h"
+#include "EegeoSearchResultGatePoiView.h"
 
 @interface SearchResultPoiViewContainer()<UIGestureRecognizerDelegate>
 {
@@ -49,7 +52,7 @@
 {
     Eegeo_ASSERT(m_pCurrentActiveVendorView == NULL);
 
-    self->m_pCurrentActiveVendorView = [self createSearchResultPoiViewForVendor:pModel->GetVendor()];
+    self->m_pCurrentActiveVendorView = [self createSearchResultPoiViewForVendor:pModel->GetVendor() model:pModel];
     [[self superview] addSubview: self->m_pCurrentActiveVendorView];
     [self->m_pCurrentActiveVendorView layoutSubviews];
     [self->m_pCurrentActiveVendorView setContent:pModel :isPinned];
@@ -79,7 +82,7 @@
     return m_pInterop;
 }
 
-- (UIView<SearchResultPoiView>*) createSearchResultPoiViewForVendor:(const std::string&)vendor
+- (UIView<SearchResultPoiView>*) createSearchResultPoiViewForVendor:(const std::string&)vendor model:(const ExampleApp::Search::SdkModel::SearchResultModel*)pModel
 {
     if(vendor == ExampleApp::Search::YelpVendorName)
     {
@@ -91,7 +94,25 @@
     }
     else if(vendor == ExampleApp::Search::EegeoVendorName)
     {
-        return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop];
+        if (pModel->GetTitle() == "Duty Free Shopping" || pModel->GetTitle() == "Hugo Boss" || pModel->GetTitle() == "Armani" || pModel->GetTitle() == "Umami Burger")
+        {
+            return [[EegeoSearchResultRatingPoiView EegeoSearchResultRatingPoiViewWithInterop:m_pInterop] retain];
+        }
+        else if (pModel->GetTitle() == "Airport Security")
+        {
+            return [[EegeoSearchResultSecurityOfficePoiView EegeoSearchResultSecurityOfficePoiViewWithInterop:m_pInterop] retain];
+
+        }
+        else if (pModel->GetTitle() == "Gate 134")
+        {
+            return [[EegeoSearchResultGatePoiView EegeoSearchResultGatePoiViewWithInterop:m_pInterop] retain];
+
+        }
+        else
+        {
+            return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop];
+        }
+            
     }
     else if(vendor == ExampleApp::Search::ExampleTourVendorName)
     {

@@ -36,6 +36,7 @@ namespace ExampleApp
             void HandleTouchUpEvent(float x, float y, float z, int id);
             void HandleTouchMoveEvent(float x, float y, float z, int id);
             void HandleMouseMoveEvent(int x, int y, System::Windows::Input::ModifierKeys modifierKeys);
+            void HandlePreviewMouseDown(float x, float y, System::Windows::Input::ModifierKeys modifierKeys);
             void HandleZoomEvent(int x, int y, int wheelDelta, System::Windows::Input::ModifierKeys modifierKeys);
             void SetAllInputEventsToPointerUp(int x, int y);
             void SetTouchInputEventToPointerUp(int touchId);
@@ -47,6 +48,8 @@ namespace ExampleApp
             bool ShouldStartFullscreen();
 
             void SetFullscreen(bool fullscreen);
+
+            bool IsInKioskMode();
 
         private:
 

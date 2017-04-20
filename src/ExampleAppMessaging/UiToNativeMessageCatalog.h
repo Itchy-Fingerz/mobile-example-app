@@ -40,6 +40,8 @@
 #include "DirectionMenuFindDirectionMessage.h"
 #include "DirectionResultSectionItemSelectedMessage.h"
 #include "DirectionMenuGetGeoNamesMessage.h"
+#include "BillBoardSelectedMessage.h"
+#include "ShowOfferHighlightMessage.h"
 
 namespace ExampleApp
 {
@@ -82,6 +84,8 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuFindDirectionMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionResultSection::DirectionResultSectionItemSelectedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuGetGeoNamesMessage>
+            , public Eegeo::Messaging::CatalogBinding<BillBoards::BillBoardSelectedMessage>
+            , public Eegeo::Messaging::CatalogBinding<BillBoards::ShowOfferHighlightMessage>
             , private Eegeo::NonCopyable
         {
 

@@ -31,7 +31,7 @@
             android:background="@drawable/arrow3_down">
         </ImageView>
         
-	    <ListView
+	    <com.eegeo.menu.BackwardsCompatibleListView
 	        android:id="@+id/interiors_floor_item_list"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
     	    android:paddingTop="5dp"
     	    android:text="BG"
     	    android:textColor="@color/blue"
-    	    android:textSize="12sp"
+    	    android:textSize="12dp"
     	    android:clickable="false" />
         
     </RelativeLayout>

@@ -13,6 +13,7 @@
 #include "WindowsInputProcessor.h"
 #include "WindowsLocationService.h"
 #include "IJpegLoader.h"
+#include "ILocationService.h"
 #include "WindowsUrlEncoder.h"
 #include "GlobeCameraInterestPointProvider.h"
 #include "TerrainHeightProvider.h"
@@ -58,6 +59,11 @@
 #include "ISurveyViewModule.h"
 #include "IMenuReactionModel.h"
 #include "TagSearchViewIncludes.h"
+#include "FixedIndoorLocationService.h"
+#include "IUserIdleService.h"
+#include "CurrentLocationService.h"
+#include "VirtualKeyboardView.h"
+#include "AttractModeOverlayView.h"
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -93,6 +99,7 @@ public:
     void HandleNoConnectivityWarning();
     void HandleInvalidConnectivityError();
 
+    void HandleMousePreviewInputEvent(const Eegeo::Windows::Input::MouseInputEvent& event);
     void HandleMouseInputEvent(const Eegeo::Windows::Input::MouseInputEvent& event);
     void HandleKeyboardInputEvent(const Eegeo::Windows::Input::KeyboardInputEvent& event);
     void HandleTouchScreenInputEvent(const Eegeo::Windows::Input::TouchScreenInputEvent& event);
@@ -110,10 +117,14 @@ public:
 
     bool ShouldStartFullscreen();
 
+    bool IsInKioskMode();
+
 private:
     bool m_isPaused;
     Eegeo::Helpers::Jpeg::IJpegLoader* m_pJpegLoader;
     Eegeo::Windows::WindowsLocationService* m_pWindowsLocationService;
+    Eegeo::FixedLocation::FixedIndoorLocationService* m_pFixedIndoorLocationService;
+    Eegeo::Helpers::CurrentLocationService::CurrentLocationService * m_pCurrentLocationService;
 
     bool m_shouldStartFullscreen;
 
@@ -176,4 +187,9 @@ private:
     void HandleStartupFailure();
 
     int m_maxDeviceTouchCount;
+
+    Eegeo::Input::IUserIdleService* m_pUserIdleService;
+
+    ExampleApp::VirtualKeyboard::View::VirtualKeyboardView* m_pVirtualKeyboardView;
+    ExampleApp::AttractModeOverlay::View::AttractModeOverlayView* m_pAttractModeOverlayView;
 };

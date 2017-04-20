@@ -3,8 +3,12 @@
 #pragma once
 
 #include <string>
+#include <map>
 #include "ApplicationConfig.h"
 #include "LatLongAltitude.h"
+#include "ApplicationInteriorTrackingInfo.h"
+#include "ApplicationFixedIndoorLocation.h"
+#include "document.h"
 
 namespace ExampleApp
 {
@@ -38,6 +42,20 @@ namespace ExampleApp
             std::string m_myPinsWebServiceAuthToken;
             std::string m_twitterAuthCode;
             bool m_isKioskTouchInputEnabled;
+            bool m_isInKioskMode;
+            bool m_useLabels;
+            bool m_useJapaneseFont;
+
+            SdkModel::ApplicationFixedIndoorLocation m_fixedIndoorLocation;
+            
+            std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo> m_interiorTrackingInfo;
+            std::string m_rawConfig;
+
+            std::vector<Eegeo::Space::LatLongAltitude> m_attractModeTargetSplinePoints;
+            std::vector<Eegeo::Space::LatLongAltitude> m_attractModePositionSplinePoints;
+
+            long long m_attractModeTimeoutMs;
+            float m_attractModePlaybackSpeed;
 
         public:
             
@@ -66,7 +84,17 @@ namespace ExampleApp
                 const std::string& myPinsWebServiceUrl,
                 const std::string& myPinsWebServiceAuthToken,
                 const std::string& twitterAuthCode,
-                const bool isKioskTouchInputEnabled
+                const bool isKioskTouchInputEnabled,
+                const bool isInKioskMode,
+                bool useLabels,
+                bool useJapaneseFont,
+                const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfo,
+                const std::string& rawConfig,
+                const SdkModel::ApplicationFixedIndoorLocation& fixedIndoorLocation,
+                const std::vector<Eegeo::Space::LatLongAltitude>& attractModeTargetSplinePoints,
+                const std::vector<Eegeo::Space::LatLongAltitude>& attractModePositionSplinePoints,
+                const long long attractModeTimeoutMs,
+                const float attractModePlaybackSpeed
             );
             
             std::string Name() const;
@@ -118,6 +146,25 @@ namespace ExampleApp
             std::string TwitterAuthCode() const;
 
             bool IsKioskTouchInputEnabled() const;
+
+            bool IsInKioskMode() const;
+            
+            bool UseLabels() const;
+            
+            bool UseJapaneseFont() const;
+            
+            const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& InteriorTrackingInfo() const;
+            
+            std::string RawConfig() const;
+
+            bool IsFixedIndoorLocationEnabled() const;
+            const SdkModel::ApplicationFixedIndoorLocation& FixedIndoorLocation() const;
+
+            const std::vector<Eegeo::Space::LatLongAltitude>& AttractModeTargetSplinePoints() const;
+            const std::vector<Eegeo::Space::LatLongAltitude>& AttractModePositionSplinePoints() const;
+            const long long AttractModeTimeoutMs() const;
+            const float AttractModePlaybackSpeed() const;
+            const bool IsAttractModeEnabled() const;
         };
     }
 }

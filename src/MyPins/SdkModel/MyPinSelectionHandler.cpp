@@ -24,6 +24,7 @@ namespace ExampleApp
             {
                 m_metricsService.SetEvent("Selected MyPin", "Name", m_myPinModel.GetTitle().c_str());
                 IMyPinBoundObject& myPinBoundObject(m_myPinBoundObjectRepository.GetBoundObjectForPin(m_myPinModel));
+                
                 myPinBoundObject.HandlePinSelected(m_myPinModel);
             }
         }

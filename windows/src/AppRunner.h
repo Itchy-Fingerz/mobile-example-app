@@ -25,6 +25,7 @@ public:
     void StopUpdatingNativeBeforeTeardown();
     void DestroyApplicationUi();
 
+    void HandleMousePreviewEvent(const Eegeo::Windows::Input::MouseInputEvent& event);
     void HandleMouseEvent(const Eegeo::Windows::Input::MouseInputEvent& message);
     void HandleKeyboardDownEvent(char keyCode);
     void HandleKeyboardUpEvent(char keyCode);
@@ -45,6 +46,8 @@ public:
     bool ShouldStartFullscreen() const;
 
     void SetFullscreen(bool fullscreen);
+
+    bool IsInKioskMode() const;
 
 private:
     WindowsNativeState* m_pNativeState;

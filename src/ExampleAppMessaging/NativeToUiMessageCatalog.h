@@ -30,6 +30,7 @@
 #include "WatermarkModelChangedMessage.h"
 #include "WatermarkAlignmentStateChangedMessage.h"
 #include "SetWatermarkVisibilityMessage.h"
+#include "SetCustomAlertVisibilityMessage.h"
 #include "TourOnMapSelectedMessage.h"
 #include "TourFullScreenImageCeremonyBeganMessage.h"
 #include "TourFullScreenImageCeremonyEndedMessage.h"
@@ -49,6 +50,8 @@
 #include "DirectionMenuGeoNamesResponseReceivedMessage.h"
 #include "DirectionMenuPoiSearchResponseReceivedMessage.h"
 #include "OnSecreenTapMessage.h"
+#include "VirtualKeyboardStateChangedMessage.h"
+#include "AboutPageIndoorPositionTypeMessage.h"
 
 namespace ExampleApp
 {
@@ -79,6 +82,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<Options::CompletedCacheClearMessage>
             , public Eegeo::Messaging::CatalogBinding<SearchResultPoi::SearchResultPoiViewImageDownloadCompletedMessage>
             , public Eegeo::Messaging::CatalogBinding<Watermark::SetWatermarkVisibilityMessage>
+            , public Eegeo::Messaging::CatalogBinding<CustomAlert::SetCustomAlertVisibilityMessage>
             , public Eegeo::Messaging::CatalogBinding<Watermark::WatermarkModelChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<Watermark::WatermarkAlignmentStateChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<Tours::TourOnMapSelectedMessage>
@@ -100,6 +104,8 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::OnSecreenTapMessage>
+            , public Eegeo::Messaging::CatalogBinding<VirtualKeyboard::VirtualKeyboardStateChangedMessage>
+            , public Eegeo::Messaging::CatalogBinding<AboutPage::AboutPageIndoorPositionTypeMessage>
             , private Eegeo::NonCopyable
         {
 

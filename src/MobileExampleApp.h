@@ -69,6 +69,7 @@
 #include "IMetricsService.h"
 #include "Watermark.h"
 #include "IWatermarkModule.h"
+#include "ICustomAlertModule.h"
 #include "ApplicationConfiguration.h"
 #include "InteriorsExplorer.h"
 #include "InteriorsEntitiesPins.h"
@@ -83,7 +84,6 @@
 #include "VisualMap.h"
 #include "Surveys.h"
 #include "IMenuReactionModel.h"
-#include "InteriorsNavigation.h"
 #include "IMenuIgnoredReactionModel.h"
 #include "DoubleTapIndoorInteraction.h"		
 #include "IRayCaster.h"
@@ -96,6 +96,14 @@
 #include "DirectionReCalculationService.h"
 #include "EegeoSearchServiceModule.h"
 
+#include "InteriorsEntityIdHighlightVisibilityController.h"
+#include "BillBoardsModule.h"
+#include "DeepLink.h"
+#include "YelpCategoryMapperUpdater.h"
+#include "IUserIdleService.h"
+#include "GlobalAppModeTransitionRules.h"
+#include "SearchVendorNames.h"
+#include "ISearchServiceModule.h"
 
 namespace ExampleApp
 {
@@ -109,7 +117,6 @@ namespace ExampleApp
         Eegeo::ITouchController* m_pCurrentTouchController;
         Eegeo::EegeoWorld* m_pWorld;
         Eegeo::Location::NavigationService* m_pNavigationService;
-        InteriorsNavigation::SdkModel::IInteriorsNavigationService* m_pInteriorsNavigationService;
         PlatformAbstractionsFacade m_platformAbstractions;
         Eegeo::Rendering::LoadingScreen* m_pLoadingScreen;
         Eegeo::Rendering::ScreenProperties m_screenProperties;
@@ -166,6 +173,7 @@ namespace ExampleApp
         ExampleApp::MyPinDetails::SdkModel::IMyPinDetailsModule* m_pMyPinDetailsModule;
         ExampleApp::Options::IOptionsModule* m_pOptionsModule;
         Watermark::SdkModel::IWatermarkModule* m_pWatermarkModule;
+        CustomAlert::SdkModel::ICustomAlertModule* m_pCustomAlertModule;
         ExampleApp::ApplicationConfig::ApplicationConfiguration m_applicationConfiguration;
         Eegeo::Streaming::CameraFrustumStreamingVolume* m_pStreamingVolume;
         ExampleAppMessaging::TMessageBus& m_messageBus;
@@ -179,6 +187,12 @@ namespace ExampleApp
         Social::TwitterFeed::ITwitterFeedModule* m_pTwitterFeedModule;
         VisualMap::SdkModel::IVisualMapModule* m_pVisualMapModule;
         Surveys::SdkModel::ISurveyModule* m_pSurveyModule;
+        DeepLink::SdkModel::DeepLinkModule* m_pDeepLinkModule;
+        InteriorsExplorer::SdkModel::Highlights::InteriorsHighlightVisibilityController* m_pInteriorsHighlightVisibilityController;
+        InteriorsExplorer::SdkModel::Highlights::IHighlightColorMapper* m_pHighlightColorMapper;
+        InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController* m_pInteriorsEntityIdHighlightVisibilityController;
+        
+        Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
         Net::SdkModel::ConnectivityChangedObserver* m_pConnectivityChangedObserver;
@@ -196,6 +210,11 @@ namespace ExampleApp
         Menu::View::IMenuIgnoredReactionModel* m_pReactorIgnoredReactionModel;
         
         const bool m_interiorsEnabled;
+        const bool m_usingLegacyInteriorLabels;
+        const bool m_useIndoorEntryMarkerLabels;
+
+        Eegeo::Input::IUserIdleService& m_userIdleService;
+        AppModes::GlobalAppModeTransitionRules* m_pGlobalAppModeTransitionRules;
 
         ExampleApp::PathDrawing::SdkModel::IPathDrawingModule* m_pPathDrawingModule;
         
@@ -232,14 +251,17 @@ namespace ExampleApp
                                     const bool interiorsAffectedByFlattening);
         
         const bool IsTourCameraActive() const;
-
+    
+        BillBoards::View::BillBoardsModule *m_pBillBoardModule;
+        
+        
     public:
         MobileExampleApp(const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration,
                          Eegeo::Modules::IPlatformAbstractionModule& platformAbstractions,
                          Eegeo::Rendering::ScreenProperties& screenProperties,
                          Eegeo::Location::ILocationService& locationService,
                          Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                         Eegeo::Config::PlatformConfig platformConfig,
+                         const Eegeo::Config::PlatformConfig& platformConfig,
                          Eegeo::Helpers::Jpeg::IJpegLoader& jpegLoader,
                          ExampleApp::InitialExperience::SdkModel::IInitialExperienceModule& initialExperienceModule,
                          ExampleApp::PersistentSettings::IPersistentSettingsModel& persistentSettings,
@@ -248,7 +270,8 @@ namespace ExampleApp
                          ExampleApp::Net::SdkModel::INetworkCapabilities& networkCapabilities,
                          ExampleApp::Metrics::IMetricsService& metricsService,                         
                          Eegeo::IEegeoErrorHandler& errorHandler,
-                         Menu::View::IMenuReactionModel& menuReaction);
+                         Menu::View::IMenuReactionModel& menuReaction,
+                         Eegeo::Input::IUserIdleService& userIdleService);
 
         ~MobileExampleApp();
 
@@ -426,6 +449,11 @@ namespace ExampleApp
             return *m_pWatermarkModule;
         }
         
+        const ExampleApp::CustomAlert::SdkModel::ICustomAlertModule& CustomAlertModule() const
+        {
+            return *m_pCustomAlertModule;
+        }
+        
         const InteriorsExplorer::SdkModel::IInteriorsExplorerModule& InteriorsExplorerModule() const
         {
             return *m_pInteriorsExplorerModule;
@@ -454,6 +482,16 @@ namespace ExampleApp
         const AppCamera::SdkModel::AppGlobeCameraWrapper& GlobeCameraWrapper() const
         {
             return *m_pGlobeCameraWrapper;
+        }
+        
+        BillBoards::View::BillBoardsModule& BillBoardModule()
+        {
+            return *m_pBillBoardModule;
+        }
+        
+        Search::SdkModel::ISearchService& GetEegeoSearchService()
+        {
+            return m_searchServiceModules[Search::EegeoVendorName]->GetSearchService();
         }
         
         // A flag for opting in/out of tours
@@ -535,5 +573,6 @@ namespace ExampleApp
         void Event_TiltStart(const AppInterface::TiltData& data);
         void Event_TiltEnd(const AppInterface::TiltData& data);
         void Event_Tilt(const AppInterface::TiltData& data);
+        void Event_OpenUrl(const AppInterface::UrlData& data);
     };
 }

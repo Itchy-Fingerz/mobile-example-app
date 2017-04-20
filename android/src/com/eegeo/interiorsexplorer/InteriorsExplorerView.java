@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
+import com.eegeo.menu.BackwardsCompatibleListView;
 import com.eegeo.mobileexampleapp.R;
+import com.eegeo.view.OnPauseListener;
 
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -21,7 +23,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class InteriorsExplorerView implements View.OnClickListener, View.OnTouchListener
+public class InteriorsExplorerView implements OnPauseListener, View.OnClickListener, View.OnTouchListener
 {
     protected MainActivity m_activity = null;
     protected long m_nativeCallerPointer;
@@ -44,7 +46,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
     private float m_topYPosInactive;
 
     private RelativeLayout m_floorListContainer;
-    private ListView m_floorList;
+    private BackwardsCompatibleListView m_floorList;
     private int m_maxFloorsViewableCount;
     private RelativeLayout m_floorLayout;
     private ImageView m_floorUpArrow;
@@ -73,13 +75,32 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
     private final int TextColorDown = Color.parseColor("#CDFC0D");
     private final float ListItemHeight;
 
+    private class PropogateToViewTouchListener implements View.OnTouchListener {
+        private View m_target;
+
+        public PropogateToViewTouchListener(View target)
+        {
+            m_target = target;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent event)
+        {
+            return m_target.onTouchEvent(event);
+        }
+    }
+
     public InteriorsExplorerView(MainActivity activity, long nativeCallerPointer)
     {
         m_activity = activity;
         m_nativeCallerPointer = nativeCallerPointer;
 
+        // TODO: Move to Dimens values resource when integrated with Search UX changes.
+        ListItemHeight = m_activity.dipAsPx(50.0f);
+        
         final RelativeLayout uiRoot = (RelativeLayout)m_activity.findViewById(R.id.ui_container);
         m_uiRootView = m_activity.getLayoutInflater().inflate(R.layout.interiors_explorer_layout, uiRoot, false);
+
         
         m_topPanel = m_uiRootView.findViewById(R.id.top_panel);
         m_rightPanel = m_uiRootView.findViewById(R.id.right_panel);
@@ -90,8 +111,9 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
         m_floorNameView = (TextView)m_uiRootView.findViewById(R.id.floor_name);
         
         m_floorListContainer = (RelativeLayout)m_uiRootView.findViewById(R.id.interiors_floor_list_container);
-        m_floorList = (ListView)m_uiRootView.findViewById(R.id.interiors_floor_item_list);
-        m_floorList.setEnabled(false);
+        m_floorList = (BackwardsCompatibleListView)m_uiRootView.findViewById(R.id.interiors_floor_item_list);
+        m_floorList.setOnTouchListener(new PropogateToViewTouchListener(m_activity.findViewById(R.id.surface)));
+        m_floorList.setItemHeight(ListItemHeight);
         
         m_floorListAdapter = new InteriorsFloorListAdapter(m_activity, R.layout.interiors_floor_list_item);
         m_floorList.setAdapter(m_floorListAdapter);
@@ -103,10 +125,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
         m_floorButtonText = (TextView)m_uiRootView.findViewById(R.id.interiors_floor_list_button_text);
         m_floorButtonText.setTextColor(TextColorNormal);
         m_draggingFloorButton = false;
-        
-        // TODO: Move to Dimens values resource when integrated with Search UX changes.
-        ListItemHeight = m_activity.dipAsPx(50.0f);
-        
+
         m_floorButton.setOnTouchListener(this);
         
         m_uiRootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() 
@@ -159,6 +178,8 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
         m_tutorialView = new InteriorsExplorerTutorialView(m_activity);
         
         hideFloorLabels();
+
+        m_activity.addOnPauseListener(this);
         
         m_scrollHandler = new Handler();
         m_scrollingRunnable = new Runnable()
@@ -171,7 +192,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
 			}
 		};
     }
-    
+
     private int getListViewHeight(ListView list) 
     {
         return list.getCount() * (int)ListItemHeight;
@@ -189,6 +210,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
         m_uiRootView = null;
         
         m_scrollHandler.removeCallbacks(m_scrollingRunnable);
+        m_activity.deleteOnPauseListener(this);
     }
     
     public void playShakeSliderAnim()
@@ -336,20 +358,25 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
     }
     
     @Override
-    public boolean onTouch(View view, MotionEvent event) {
-		if(event.getAction() == MotionEvent.ACTION_DOWN)
+    public boolean onTouch(View view, MotionEvent event)
+    {
+    	if(view == m_floorButton)
 		{
-			startDraggingButton(event.getRawY());
+		    if(event.getAction() == MotionEvent.ACTION_DOWN)
+		    {
+		    	startDraggingButton(event.getRawY());
+		    }
+		    else if(event.getAction() == MotionEvent.ACTION_MOVE)
+		    {
+		    	updateDraggingButton(event.getRawY());
+		    }
+		    else if(event.getAction() == MotionEvent.ACTION_UP)
+		    {
+		    	endDraggingButton();
+		    }
+            return true;
 		}
-		else if(event.getAction() == MotionEvent.ACTION_MOVE)
-		{
-			updateDraggingButton(event.getRawY());
-		}
-		else if(event.getAction() == MotionEvent.ACTION_UP)
-		{
-			endDraggingButton();
-		}
-		return true;
+        return false;
 	}
     
     private void startDraggingButton(float initialYCoordinate)
@@ -372,7 +399,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
     		detectAndRemoveInitialJump(m_scrollYCoordinate);
     	}
     }
-    
+
     private void endDraggingButton()
     {
     	endScrollingUpdate();
@@ -380,7 +407,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
     	hideFloorLabels();
 		m_draggingFloorButton = false;
 		m_floorButton.getBackground().setState(new int[] {});
-		
+
 		View firstVisibleChild = m_floorList.getChildAt(0);
 		float topY = (m_floorList.getFirstVisiblePosition() * ListItemHeight) - firstVisibleChild.getTop();
 		
@@ -388,6 +415,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
 		int floorCount = m_floorListAdapter.getCount()-1;
 		int selectedFloor = Math.round(dragParameter * floorCount);
 		moveButtonToFloorIndex(selectedFloor, true);
+
 		InteriorsExplorerViewJniMethods.OnFloorSelected(m_nativeCallerPointer, selectedFloor);
     }
     
@@ -460,6 +488,7 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
 
     public void animateToInactive()
     {
+        endScrollingUpdate();
         m_isOnScreen = false;
     	
     	animateViewToY((int)m_topYPosInactive);
@@ -499,6 +528,11 @@ public class InteriorsExplorerView implements View.OnClickListener, View.OnTouch
         {
         	m_topPanel.setY(newYPx);
         }
+    }
+
+    public void notifyOnPause()
+    {
+        endScrollingUpdate();
     }
     
     private void refreshFloorIndicator(int floorIndex)

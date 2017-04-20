@@ -49,14 +49,15 @@ namespace ExampleApp
             , m_vendor(vendor)
             , m_ratingsImage(ratingsImage)
             , m_pinIconKey(pinIconKey)
-            , m_reviewCount(reviewCount)
+            , m_reviewCount(reviewCount) 
             , m_latLong(latLong)
             , m_heightAboveTerrainMetres(heightAboveTerrainMetres)
             , m_interior(interior)
             , m_buildingId(buildingId)
             , m_floor(floor)
             {
-                
+                Eegeo::Space::LatLong latlng1 = Eegeo::Space::LatLong::FromRadians(latLong.GetLatitude(), latLong.GetLongitude());
+                printf("Lat: %f Lng: %f",latlng1.GetLatitudeInDegrees(),latlng1.GetLongitudeInDegrees());
             }
         }
     }

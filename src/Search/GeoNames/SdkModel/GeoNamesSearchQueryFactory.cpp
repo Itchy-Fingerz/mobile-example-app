@@ -19,13 +19,13 @@ namespace ExampleApp
                 GeoNamesSearchQueryFactory::GeoNamesSearchQueryFactory(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
                                                                        Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                                                        const std::string& serviceUrl,
-                                                                       const std::string& apiKey,
+                                                                       const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                                        const std::string& geoNamesUserName)
                 : m_webRequestFactory(webRequestFactory)
                 , m_urlEncoder(urlEncoder)
                 , m_geoNamesUserName(geoNamesUserName)
                 , m_serviceUrl(serviceUrl)
-                , m_apiKey(apiKey)
+                , m_apiTokenModel(apiTokenModel)
                 {
                     
                 }
@@ -46,7 +46,7 @@ namespace ExampleApp
                                                            m_urlEncoder,
                                                            query,
                                                            m_serviceUrl,
-                                                           m_apiKey,
+                                                           m_apiTokenModel,
                                                            completionCallback);
                     }
                     else

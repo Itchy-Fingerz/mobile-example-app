@@ -34,7 +34,7 @@ namespace ExampleApp
                     EegeoPois::SdkModel::IEegeoParser* m_pEegeoParser;
 
                     Search::SdkModel::ISearchService* m_pSearchService;
-                    SearchResultPoi::SdkModel::ITagIconMapper *m_pTagIconMapper;
+                    TagSearch::SdkModel::ITagIconMapper *m_pTagIconMapper;
                     EegeoPois::SdkModel::EegeoReadableTagMapper *m_pReadableTagMapper;
 
                 public:
@@ -43,7 +43,7 @@ namespace ExampleApp
                                                 Net::SdkModel::INetworkCapabilities& networkCapabilities,
                                                 const std::string& geoNamesUserName,
                                                 const std::string& serviceUrl,
-                                                const std::string& apiKey,
+                                                const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                 const Search::SdkModel::SearchTags& searchTags);
                     
                     ~GeoNamesSearchServiceModule();

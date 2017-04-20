@@ -12,6 +12,13 @@
 #include "Tours.h"
 #include "EegeoUI.h"
 #include "MyPinCreation.h"
+#include "IUserIdleService.h"
+#include "LatLongAltitude.h"
+#include "ScreenProperties.h"
+#include "GlobalAppModeTransitionRules.h"
+#include "BidirectionalBus.h"
+#include "FlattenButton.h"
+#include "NavigationService.h"
 
 #include "VisualMap.h"
 
@@ -31,7 +38,6 @@ namespace ExampleApp
                     AppCamera::SdkModel::IAppCameraController& m_appCameraController;
                     AppCamera::SdkModel::AppGlobeCameraWrapper& m_worldCameraController;
                     AppCamera::SdkModel::AppInteriorCameraWrapper& m_interiorCameraController;
-                    Tours::SdkModel::Camera::IToursCameraController& m_toursCameraController;
                     Eegeo::Streaming::CameraFrustumStreamingVolume& m_cameraFrustumStreamingVolume;
                     InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& m_interiorVisibilityUpdate;
                     AppModes::SdkModel::IAppModeModel& m_appModeModel;
@@ -41,16 +47,26 @@ namespace ExampleApp
                     Eegeo::Resources::Interiors::InteriorSelectionModel& m_interiorSelectionModel;
                     Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                     Eegeo::UI::NativeUIFactories& m_nativeUIFactories;
-                    MyPinCreation::SdkModel::IMyPinCreationModel& m_myPinCreationModel;
                     VisualMap::SdkModel::IVisualMapService& m_visualMapService;
 
+                    Eegeo::Input::IUserIdleService& m_userIdleService;
+                    Eegeo::Streaming::ResourceCeilingProvider& m_resourceCeilingProvider;
+                    const bool m_attractModeEnabled;
+                    const std::vector<Eegeo::Space::LatLongAltitude>& m_cameraPositionSplinePoints;
+                    const std::vector<Eegeo::Space::LatLongAltitude>& m_cameraTargetSplinePoints;
+                    const float m_attractModePlaybackSpeed;
+                    const Eegeo::Rendering::ScreenProperties& m_screenProperties;
+
+                    ExampleAppMessaging::TMessageBus& m_messageBus;
+
+                    FlattenButton::SdkModel::IFlattenButtonModel& m_flattenButtonModel;
+                    Eegeo::Location::NavigationService& m_navigationService;
                     
                 public:
                     
                     AppModeStatesFactory(AppCamera::SdkModel::IAppCameraController& appCameraController,
                                          AppCamera::SdkModel::AppGlobeCameraWrapper& worldCameraController,
                                          AppCamera::SdkModel::AppInteriorCameraWrapper& interiorCameraController,
-                                         Tours::SdkModel::Camera::IToursCameraController& toursCameraController,
                                          Eegeo::Streaming::CameraFrustumStreamingVolume& cameraFrustumStreamingVolume,
                                          InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& interiorVisibilityUpdater,
                                          InteriorsExplorer::SdkModel::InteriorsExplorerModel& interiorsExplorerModel,
@@ -60,15 +76,24 @@ namespace ExampleApp
                                          Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
                                          Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                          Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                         MyPinCreation::SdkModel::IMyPinCreationModel& myPinCreationModel,
-                                         VisualMap::SdkModel::IVisualMapService& visualMapService);
+                                         VisualMap::SdkModel::IVisualMapService& visualMapService,
+                                         Eegeo::Input::IUserIdleService& userIdleService,
+                                         Eegeo::Streaming::ResourceCeilingProvider& resourceCeilingProvider,
+                                         const bool attractModeEnabled,
+                                         const std::vector<Eegeo::Space::LatLongAltitude>& cameraPositionSplinePoints,
+                                         const std::vector<Eegeo::Space::LatLongAltitude>& cameraTargetSplinePoints,
+                                         const float attractModePlaybackSpeed,
+                                         const Eegeo::Rendering::ScreenProperties& screenProperties,
+                                         ExampleAppMessaging::TMessageBus& messageBus,
+                                         FlattenButton::SdkModel::IFlattenButtonModel& flattenButtonModel,
+                                         Eegeo::Location::NavigationService& navigationService);
                     
                     ~AppModeStatesFactory()
                     {
                         
                     }
                     
-                    const std::vector<Helpers::IStateMachineState*> CreateStateMachineStates();
+                    const std::vector<Helpers::IStateMachineState*> CreateStateMachineStates(GlobalAppModeTransitionRules& globalAppModeTransitionRules);
                 };
             }
         }

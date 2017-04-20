@@ -12,7 +12,7 @@
         android:singleLine="true"
         android:ellipsize="end"
         android:textColor="@color/gold"
-        android:textSize="14sp"
+        android:textSize="14dp"
         android:text="@string/placeholder"/>
 
    	<TextView
@@ -23,6 +23,6 @@
    	    android:singleLine="false"
    	    android:text="@string/placeholder"
    	    android:textColor="@color/darkgrey"
-   	    android:textSize="12sp" />
+   	    android:textSize="12dp" />
 
 </LinearLayout>

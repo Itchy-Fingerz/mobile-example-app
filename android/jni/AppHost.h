@@ -56,6 +56,7 @@
 #include "SearchResultSectionViewIncludes.h"
 #include "IMenuReactionModel.h"
 #include "TagSearchViewIncludes.h"
+#include "AlwaysActiveUserIdleService.h"
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -88,6 +89,8 @@ public:
     void HandleFailureToDownloadBootstrapResources();
 
     void HandleTouchInputEvent(const Eegeo::Android::Input::TouchInputEvent& event);
+
+    void HandleOpenUrlEvent(const AppInterface::UrlData& data);
 
     void SetEnvironmentFlatten(bool flattenState);
     void SetCameraLocation(const Eegeo::Space::LatLongAltitude& interestPoint, double distanceToInterestPoint, double orientationInDegrees);
@@ -153,6 +156,8 @@ private:
     ExampleApp::ExampleAppMessaging::TSdkModelDomainEventBus m_sdkDomainEventBus;
     Eegeo::UI::NativeAlerts::TSingleOptionAlertBoxDismissedHandler<AppHost> m_failAlertHandler;
     Eegeo::Helpers::TCallback1<AppHost, const ExampleApp::UserInteraction::UserInteractionEnabledChangedMessage&> m_userInteractionEnabledChangedHandler;
+
+    Eegeo::Input::AlwaysActiveUserIdleService m_userIdleService;
 
     void DispatchRevealUiMessageToUiThreadFromNativeThread();
     void DispatchUiCreatedMessageToNativeThreadFromUiThread();

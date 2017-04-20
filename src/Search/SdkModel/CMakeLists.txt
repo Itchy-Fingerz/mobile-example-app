@@ -24,6 +24,8 @@ set(currsources
   ../src/Search/SdkModel/SearchRefreshService.h
   ../src/Search/SdkModel/SearchResultModel.cpp
   ../src/Search/SdkModel/SearchResultModel.h
+  ../src/Search/SdkModel/FlightResultModel.h
+  ../src/Search/SdkModel/FlightResultModel.cpp
   ../src/Search/SdkModel/SearchResultRepository.cpp
   ../src/Search/SdkModel/SearchResultRepository.h
   ../src/Search/SdkModel/SearchServiceBase.cpp
@@ -32,6 +34,8 @@ set(currsources
   ../src/Search/SdkModel/SearchTagsFactory.h
   ../src/Search/SdkModel/SearchTagsFactory.cpp
   ../src/Search/SdkModel/SerializeSearchResultModelToJson.cpp
+  ../src/Search/SdkModel/InteriorMenuObserver.h
+  ../src/Search/SdkModel/InteriorMenuObserver.cpp
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\Search\\SdkModel FILES ${currsources})

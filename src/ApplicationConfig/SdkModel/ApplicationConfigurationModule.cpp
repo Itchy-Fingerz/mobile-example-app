@@ -35,8 +35,25 @@ namespace ExampleApp
                     const std::string emptyMyPinsWebServiceUrl;
                     const std::string emptyMyPinsWebServiceAuthToken;
                     const std::string emptyTwitterAuthCode;
+                    
+                    const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo> interiorTrackingInfo;
+                    
+                    const bool tryStartAtGpsLocation = false;
+                    const bool shouldStartFullscreen = false;
+                    const bool isKioskTouchInputEnabled = false;
+                    const bool isInKioskMode = false;
+                    const bool useLabels = true;
+                    const bool useJapaneseFont = false;
+                    std::string outdoorSearchMenuItems;
 
-                    return ApplicationConfiguration ("Eegeo Example App", 
+                    const SdkModel::ApplicationFixedIndoorLocation fixedIndoorLocation(Eegeo::Space::LatLong(0.0, 0.0), "", 0, 180.0);
+
+                    const std::vector<Eegeo::Space::LatLongAltitude> attractModeTargetSplinePoints;
+                    const std::vector<Eegeo::Space::LatLongAltitude> attractModePositionSplinePoints;
+                    const long long attractModeTimeoutDisabled = 0;
+                    const float attractModePlaybackSpeed = 0.007f;
+                    
+                    return ApplicationConfiguration ("Eegeo Example App",
                         emptyEegeoApiKey,
                         productVersion,
                         buildNumber,
@@ -44,11 +61,11 @@ namespace ExampleApp
                         Eegeo::Config::CoverageTreeManifestUrlDefault,
                         Eegeo::Config::CityThemesManifestUrlDefault,
                         "EmbeddedTheme",
-                        Eegeo::Space::LatLongAltitude(0.0f, 0.0f, 0.0f),
-                        1000.f,
+                        Eegeo::Space::LatLongAltitude(37.7858f, -122.401f, 2.7),
+                        1781.0f,
                         0.f,
-                        false,
-                        false,
+                        tryStartAtGpsLocation,
+                        shouldStartFullscreen,
                         emptyGoogleAnalyticsReferrerToken,
                         emptyFlurryApiKey,
                         emptyYelpConsumerKey,
@@ -60,7 +77,17 @@ namespace ExampleApp
                         emptyMyPinsWebServiceUrl,
                         emptyMyPinsWebServiceAuthToken,
                         emptyTwitterAuthCode,
-                        false);
+                        isKioskTouchInputEnabled,
+                        isInKioskMode,
+                        useLabels,
+                        useJapaneseFont,
+                        interiorTrackingInfo,
+                        outdoorSearchMenuItems,
+                        fixedIndoorLocation,
+                        attractModeTargetSplinePoints,
+                        attractModePositionSplinePoints,
+                        attractModeTimeoutDisabled,
+                        attractModePlaybackSpeed);
                 }
             }
             
@@ -69,7 +96,7 @@ namespace ExampleApp
                                                                       const std::string& configFilePath
                                                                       )
             {
-                
+        
                 ExampleApp::ApplicationConfig::SdkModel::ApplicationConfigurationModule applicationConfigurationModule(fileIO,
                                                                                                                        applicationConfigurationVersionProvider
                                                                                                                        );
@@ -84,6 +111,27 @@ namespace ExampleApp
                 platformConfig.CityThemesConfig.StreamedManifestUrl = appConfig.ThemeManifestURL();
                 platformConfig.CityThemesConfig.EmbeddedThemeTexturePath = appConfig.EmbeddedThemeTexturePath();
 
+                if (appConfig.UseLabels())
+                {
+                    platformConfig.OptionsConfig.EnableLabels = true;
+                    platformConfig.MapLayersConfig.FontsModuleConfig.EnvironmentFontFilename = appConfig.UseJapaneseFont() ? "IPAexGothic_sdf.fnt" : "opensans_semibold_sdf.fnt";
+                    platformConfig.MapLayersConfig.Interiors.UseLegacyLabels = false;
+                    platformConfig.MapLayersConfig.Interiors.UseLegacyEntryMarkers = false;
+                    platformConfig.MapLayersConfig.Interiors.LabelCategoryMapPath = "Interiors/label_category_mapping.json";
+                    platformConfig.MapLayersConfig.LabelsModuleConfig.StyleSheetPath = "Labels/label_style_sheet.json";
+                    platformConfig.MapLayersConfig.LabelsModuleConfig.CategoryIconMapPath = "Labels/label_category_icon_map.json";
+                    platformConfig.MapLayersConfig.IconsModuleConfig.IconsEnabled = true;
+                    platformConfig.MapLayersConfig.IconsModuleConfig.IconSetManifestPath = "SearchResultOnMap/pin_sheet.json";
+                }
+                else
+                {
+                    platformConfig.OptionsConfig.EnableLabels = false;
+                    platformConfig.MapLayersConfig.FontsModuleConfig.EnvironmentFontFilename = appConfig.UseJapaneseFont() ? "IPAexGothic32_A8_icons.fnt" : "FrankBold50_A8_icons.fnt";
+                    platformConfig.MapLayersConfig.Interiors.UseLegacyLabels = true;
+                    platformConfig.MapLayersConfig.Interiors.LabelCategoryMapPath = "";
+                    platformConfig.MapLayersConfig.LabelsModuleConfig.StyleSheetPath = "";
+                    
+                }
                 return platformConfig;
             }
             

@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using System.Collections.Generic;
-using System.Linq;
+using System.Windows.Controls;
 
 namespace ExampleAppWPF
 {
@@ -39,6 +39,8 @@ namespace ExampleAppWPF
 
         private bool m_isFullscreen;
 
+        private Point m_lastMovePosition;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -49,7 +51,6 @@ namespace ExampleAppWPF
             m_mapImage = new MapImage();
             Loaded += MainWindow_Loaded;
             Closed += MainWindow_Closed;
-
 
             m_frameTimer = Stopwatch.StartNew();
 
@@ -113,6 +114,11 @@ namespace ExampleAppWPF
             m_mapImage.IsFrontBufferAvailableChanged += OnIsFrontBufferAvailableChanged;
             CompositionTarget.Rendering += CompositionTarget_Rendering;
 
+            if(m_mapImage.IsInKioskMode())
+            {
+                Application.Current.Resources.Source = new Uri("KioskStyle.xaml", UriKind.RelativeOrAbsolute);
+            }
+
             if(m_mapImage.ShouldStartFullscreen())
             {
                 SetFullScreen(true);
@@ -124,12 +130,21 @@ namespace ExampleAppWPF
             PreviewMouseRightButtonUp += (o, e) => { if (m_isMouseInputActive) m_mapImage.HandleRotateEndEvent((int)(e.GetPosition(null).X), (int)(e.GetPosition(null).Y), Keyboard.Modifiers); };
             MouseWheel += (o, e) => { if (m_isMouseInputActive) m_mapImage.HandleZoomEvent((int)(e.GetPosition(null).X), (int)(e.GetPosition(null).Y), e.Delta, Keyboard.Modifiers); };
             MouseLeave += (o, e) => { if (m_isMouseInputActive) m_mapImage.SetAllInputEventsToPointerUp((int)(e.GetPosition(null).X), (int)(e.GetPosition(null).Y)); };
-            MouseMove += (o, e) => { if (m_isMouseInputActive) m_mapImage.HandleMouseMoveEvent((int)(e.GetPosition(null).X), (int)(e.GetPosition(null).Y), Keyboard.Modifiers); };
+            MouseMove += (o, e) =>
+            {
+                var position = e.GetPosition(null);
+                if (m_isMouseInputActive && position != m_lastMovePosition)
+                {
+                    m_lastMovePosition = e.GetPosition(null);
+                    m_mapImage.HandleMouseMoveEvent((int)position.X, (int)position.Y, Keyboard.Modifiers);
+                }
+            };
             MouseEnter += (o, e) => { if (m_isMouseInputActive) { EnableInput(); } };
 
             KeyDown += OnKeyDown;
 
             MouseDown += MainWindow_MouseDown;
+            PreviewMouseDown += (o, e) => m_mapImage.HandlePreviewMouseDown((int)e.GetPosition(null).X, (int)e.GetPosition(null).Y, Keyboard.Modifiers);
             MouseUp += MainWindow_MouseUp;
 
             TouchDown += OnTouchDown;
@@ -145,8 +160,8 @@ namespace ExampleAppWPF
             };
 
             Dispatcher.Hooks.DispatcherInactive += new EventHandler(DispatcherInactive);
-
         }
+
         public void PopAllTouchEvents()
         {
             if (m_isTouchInputActive)

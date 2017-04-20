@@ -22,7 +22,7 @@ namespace ExampleApp
                                                                          Net::SdkModel::INetworkCapabilities& networkCapabilities,
                                                                          const std::string& geoNamesUserName,
                                                                          const std::string& serviceUrl,
-                                                                         const std::string& apiKey,
+                                                                         const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                                          const Search::SdkModel::SearchTags& searchTags)
                 : m_pGeoNamesSearchQueryFactory(NULL)
                 , m_pGeoNamesParser(NULL)
@@ -31,12 +31,12 @@ namespace ExampleApp
                     m_pGeoNamesSearchQueryFactory = Eegeo_NEW(GeoNamesSearchQueryFactory)(webRequestFactory,
                                                                                           urlEncoder,
                                                                                           serviceUrl,
-                                                                                          apiKey,
+                                                                                          apiTokenModel,
                                                                                           geoNamesUserName);
 
                     
                     
-                    m_pTagIconMapper = ExampleApp::Search::EegeoPois::SdkModel::CreateTagIconMapper(searchTags);
+                    m_pTagIconMapper = TagSearch::SdkModel::CreateTagIconMapper(searchTags);
                     
                     m_pReadableTagMapper = Eegeo_NEW(EegeoPois::SdkModel::EegeoReadableTagMapper)(searchTags);
                     

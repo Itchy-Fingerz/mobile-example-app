@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -11,6 +10,8 @@ namespace ExampleAppWPF
 {
     public class YelpSearchResultsPoiView : SearchResultPoiViewBase
     {
+        private bool m_isInKioskMode;
+
         private TextBlock m_titleView = null;
         private Image m_poiImage = null;
         
@@ -19,12 +20,20 @@ namespace ExampleAppWPF
         private string m_titleText;
         private string m_poiViewRatingCountText;
         private string m_reviewText;
+        private string m_qrCodeStyleText;
+        private string m_qrCodeText;
         private string m_humanReadableTagsText;
         private ImageSource m_tagIcon;
-        private ImageSource m_ratingsImage;
+        private Image m_ratingsImage;
         private Visibility m_ratingCountVisibility;
         private string m_url;
         private FrameworkElement m_reviewsIcon;
+        private Grid m_previewImageSpinner;
+        private Grid m_poiImageContainer;
+        private Grid m_imageGradient;
+        private Grid m_poiImageAndGradientContainer;
+        private Grid m_detailsContainer;
+        private double m_detailsContainerHeight;
 
         private ControlClickHandler m_yelpReviewImageClickHandler;
         private Image m_yelpButton;
@@ -91,6 +100,18 @@ namespace ExampleAppWPF
                 OnPropertyChanged("ReviewText");
             }
         }
+        public string QRCodeText
+        {
+            get
+            {
+                return m_qrCodeText;
+            }
+            set
+            {
+                m_qrCodeText = value;
+                OnPropertyChanged("QRCodeText");
+            }
+        }
         public string HumanReadableTagsText
         {
             get
@@ -117,7 +138,7 @@ namespace ExampleAppWPF
             }
         }
         
-        public ImageSource RatingsImage
+        public Image RatingsImage
         {
             get
             {
@@ -161,10 +182,10 @@ namespace ExampleAppWPF
             DefaultStyleKeyProperty.OverrideMetadata(typeof(YelpSearchResultsPoiView), new FrameworkPropertyMetadata(typeof(YelpSearchResultsPoiView)));
         }
 
-        public YelpSearchResultsPoiView(IntPtr nativeCallerPointer)
+        public YelpSearchResultsPoiView(IntPtr nativeCallerPointer, bool isInKioskMode)
             : base(nativeCallerPointer)
         {
-
+            m_isInKioskMode = isInKioskMode;
         }
 
         public override void OnApplyTemplate()
@@ -179,9 +200,21 @@ namespace ExampleAppWPF
 
             m_reviewsIcon = (FrameworkElement)GetTemplateChild("ReviewsIcon");
 
-            var scrollViewr = (ScrollViewer)GetTemplateChild("MainScrollViewr");
+            m_previewImageSpinner = (Grid)GetTemplateChild("PreviewImageSpinner");
 
-            scrollViewr.ManipulationBoundaryFeedback += OnBoundaryFeedback;
+            m_poiImageContainer = (Grid)GetTemplateChild("PoiImageContainer");
+
+            m_imageGradient = (Grid)GetTemplateChild("ImageGradient");
+
+            m_ratingsImage = (Image)GetTemplateChild("RatingImage");
+
+            m_poiImageAndGradientContainer = (Grid)GetTemplateChild("PoiImageAndGradientContainer");
+
+            m_detailsContainer = (Grid)GetTemplateChild("DetailsContainer");
+
+            m_detailsContainerHeight = (double)Application.Current.Resources["YelpPOIViewDetailsContainerHeight"];
+
+            m_qrCodeStyleText = (string)Application.Current.Resources["YelpPOIViewQRCodeText"];
 
             var mainGrid = (Application.Current.MainWindow as MainWindow).MainGrid;
             var screenWidth = mainGrid.ActualWidth;
@@ -189,11 +222,6 @@ namespace ExampleAppWPF
             m_yelpReviewImageClickHandler = new ControlClickHandler(m_yelpButton, HandleWebLinkButtonClicked);
 
             base.OnApplyTemplate();
-        }
-
-        private void OnBoundaryFeedback(object sender, ManipulationBoundaryFeedbackEventArgs e)
-        {
-            e.Handled = true;
         }
 
         protected override void DisplayCustomPoiInfo(Object modelObject)
@@ -209,15 +237,33 @@ namespace ExampleAppWPF
             TitleText = model.Title;
             AddressText = model.Subtitle.Replace(", ", "," + Environment.NewLine);
             PhoneText = yelpResultModel.Phone;
-            HumanReadableTagsText = string.Join(Environment.NewLine, model.HumanReadableTags);
+            HumanReadableTagsText = string.Join(", ", model.HumanReadableTags);
             ReviewText = string.Join(Environment.NewLine, yelpResultModel.Reviews);
+            QRCodeText = string.Format(m_qrCodeStyleText, TitleText);
             TagIcon = SearchResultPoiViewIconProvider.GetIconForTag(model.IconKey);
             PoiViewRatingCountText = yelpResultModel.ReviewCount > 0 ? yelpResultModel.ReviewCount.ToString() : string.Empty;
-            RatingsImage = null;
+            RatingsImage.Source = null;
+
+            m_contentContainer.ScrollToTop();
 
             if (yelpResultModel.ReviewCount > 0 && !string.IsNullOrEmpty(yelpResultModel.RatingsImageUrl))
             {
-                RatingsImage = new BitmapImage(ViewHelpers.MakeUriForImage(string.Format("{0}.png", yelpResultModel.RatingsImageUrl)));
+                RatingsImage.Source = new BitmapImage(ViewHelpers.MakeUriForImage(string.Format("{0}{1}.png", yelpResultModel.RatingsImageUrl, m_isInKioskMode ? "@kiosk" : "")));
+            }
+
+            if (string.IsNullOrEmpty(yelpResultModel.ImageUrl))
+            {
+                m_previewImageSpinner.Visibility = Visibility.Hidden;
+                m_imageGradient.Visibility = Visibility.Collapsed;
+                m_poiImageAndGradientContainer.Visibility = Visibility.Collapsed;
+                m_detailsContainer.Height = Double.NaN;
+            }
+            else
+            {
+                m_previewImageSpinner.Visibility = Visibility.Visible;
+                m_imageGradient.Visibility = Visibility.Visible;
+                m_poiImageAndGradientContainer.Visibility = Visibility.Visible;
+                m_detailsContainer.Height = m_detailsContainerHeight;
             }
 
             RatingCountVisibility = !string.IsNullOrEmpty(yelpResultModel.RatingsImageUrl) && yelpResultModel.ReviewCount > 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -232,20 +278,29 @@ namespace ExampleAppWPF
                 m_reviewsIcon.Visibility = Visibility.Visible;
             }
 
-            m_poiImage.Source = new BitmapImage(new Uri("/ExampleAppWPF;component/Assets/poi_placeholder.png", UriKind.Relative));
+            m_poiImageContainer.Visibility = Visibility.Visible;
+            
+            m_poiImage.Visibility = Visibility.Hidden;
 
             ShowAll();
+
+            base.DisplayCustomPoiInfo(modelObject);
         }
         
         public override void UpdateImageData(string url, bool hasImage, byte[] imgData)
         {
-            m_poiImage.Source = LoadImageFromByteArray(imgData);
-            m_poiImage.Visibility = Visibility.Visible;
+            if(hasImage)
+            {
+                m_poiImageContainer.Visibility = Visibility.Visible;
+                m_poiImage.Source = LoadImageFromByteArray(imgData);
+                m_poiImage.Visibility = Visibility.Visible;
+            }
+            m_previewImageSpinner.Visibility = Visibility.Hidden;
         }
         
         public void HandleWebLinkButtonClicked(object sender, MouseEventArgs e)
         {
-            if (!string.IsNullOrEmpty(m_url))
+            if (!string.IsNullOrEmpty(m_url) && !m_isInKioskMode)
             {
                 Process.Start(m_url);
             }

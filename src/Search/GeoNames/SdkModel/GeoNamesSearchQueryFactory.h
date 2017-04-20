@@ -24,9 +24,9 @@ namespace ExampleApp
                 {
                     Eegeo::Web::IWebLoadRequestFactory& m_webRequestFactory;
                     Eegeo::Helpers::UrlHelpers::IUrlEncoder& m_urlEncoder;
+                    const Eegeo::Web::ApiTokenModel& m_apiTokenModel;
                     
                     std::string m_geoNamesUserName;
-                    const std::string m_apiKey;
                     const std::string m_serviceUrl;
 
 
@@ -36,7 +36,7 @@ namespace ExampleApp
                     GeoNamesSearchQueryFactory(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
                                                Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                                const std::string& serviceUrl,
-                                               const std::string& apiKey,
+                                               const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                const std::string& geoNamesUserName);
                     
                     ~GeoNamesSearchQueryFactory();

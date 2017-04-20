@@ -89,6 +89,7 @@
 #include "WebConnectivityValidator.h"
 #include "AndroidMenuReactionModel.h"
 #include "ApplicationConfigurationModule.h"
+#include "AndroidImageNameHelper.h"
 
 using namespace Eegeo::Android;
 using namespace Eegeo::Android::Input;
@@ -178,7 +179,10 @@ AppHost::AppHost(
     Eegeo::EffectHandler::Initialise();
 
     std::string deviceModel = std::string(nativeState.deviceModel, strlen(nativeState.deviceModel));
-    Eegeo::Android::AndroidPlatformConfigBuilder androidPlatformConfigBuilder(deviceModel);
+    Eegeo::Android::AndroidImageNameHelper imageHelper(&nativeState);
+    Eegeo::Android::AndroidPlatformConfigBuilder androidPlatformConfigBuilder(deviceModel,
+																			  imageHelper.GetImageResolutionSuffix(),
+																			  imageHelper.GetImageResolutionScale());
 
     const Eegeo::Config::PlatformConfig& platformConfiguration = ExampleApp::ApplicationConfig::SdkModel::BuildPlatformConfig(androidPlatformConfigBuilder, applicationConfiguration);
 
@@ -214,7 +218,8 @@ AppHost::AppHost(
                  *m_pNetworkCapabilities,
                  *m_pAndroidFlurryMetricsService,
                  *this,
-                 *m_pMenuReactionModel);
+                 *m_pMenuReactionModel,
+                 m_userIdleService);
 
     m_pModalBackgroundNativeViewModule = Eegeo_NEW(ExampleApp::ModalBackground::SdkModel::ModalBackgroundNativeViewModule)(
             m_pApp->World().GetRenderingModule(),
@@ -522,8 +527,8 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(
                                  m_nativeState,
                                  app.AboutPageModule().GetAboutPageViewModel(),
-                                 *m_pAndroidFlurryMetricsService
-                             );
+                                 *m_pAndroidFlurryMetricsService,
+								 m_messageBus);
 
 
     m_pOptionsViewModule = Eegeo_NEW(ExampleApp::Options::View::OptionsViewModule)(
@@ -676,5 +681,10 @@ void AppHost::HandleUserInteractionEnabledChanged(const ExampleApp::UserInteract
 	const std::string methodName = "setTouchEnabled";
 	jmethodID touchEnabledMethod = env->GetMethodID(m_nativeState.activityClass, methodName.c_str(), "(Z)V");
 	env->CallVoidMethod(m_nativeState.activity, touchEnabledMethod, message.IsEnabled());
+}
+
+void AppHost::HandleOpenUrlEvent(const AppInterface::UrlData& data)
+{
+	m_pApp->Event_OpenUrl(data);
 }
 

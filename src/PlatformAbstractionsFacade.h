@@ -9,7 +9,6 @@
 #include "Tasks.h"
 #include "SceneBuilderModuleFactory.h"
 
-
 namespace ExampleApp
 {
     class PlatformAbstractionsFacade: public Eegeo::Modules::IPlatformAbstractionModule, private Eegeo::NonCopyable
@@ -19,7 +18,6 @@ namespace ExampleApp
         Net::SdkModel::ExampleAppCustomWebLoadRequestFactory* m_pWebLoadRequestFactory;
         Net::SdkModel::ExampleAppCustomWebLoadRequestFactory* m_pPlatformWebLoadRequestFactory;
         Eegeo::Modules::SceneBuilderModuleFactory m_sceneBuilderModuleFactory;
-
         
     public:
         PlatformAbstractionsFacade(Eegeo::Modules::IPlatformAbstractionModule& wrappedPlatformAbstractions,

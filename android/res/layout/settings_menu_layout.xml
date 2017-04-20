@@ -62,8 +62,10 @@
 	    android:layout_marginRight="8dp"
 	    android:gravity="center_vertical"
 	    android:maxLines="1"
+	    android:textSize="22dp"
 	    android:text="@string/settings_header"
 	    android:textAppearance="?android:attr/textAppearanceLarge" />
+
 
 	<ImageButton
 	    android:id="@+id/settings_menu_drag_button_view"

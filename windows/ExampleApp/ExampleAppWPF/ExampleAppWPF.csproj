@@ -60,6 +60,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -100,6 +103,7 @@
     <Compile Include="PersistentSettings\PersistentSettings.cs" />
     <Compile Include="TickBarVerticalWithLabels.cs" />
     <Compile Include="ViewHelpers.cs" />
+    <Compile Include="Views\AttractModeOverlay\AttractModeOverlayView.cs" />
     <Compile Include="Views\ButtonBase.cs" />
     <Compile Include="Views\ControlBase.cs" />
     <Compile Include="Views\ControlClickHandler.cs" />
@@ -118,6 +122,7 @@
     <Compile Include="Views\SearchMenu\SearchMenuResultIconProvider.cs" />
     <Compile Include="Views\SearchResultPoi\eeGeoSearchResultsPoiView.cs" />
     <Compile Include="Views\SearchResultPoi\GeonamesSearchResultsPoiView.cs" />
+    <Compile Include="Views\SearchResultPoi\ResultModels\EegeoResultModel.cs" />
     <Compile Include="Views\SearchResultPoi\ResultModels\YelpResultModel.cs" />
     <Compile Include="Views\SearchResultPoi\SearchResultPoiViewIconProvider.cs" />
     <Compile Include="Views\SearchResultPoi\SearchResultPoiViewBase.cs" />
@@ -127,12 +132,24 @@
     <Compile Include="Views\MyPinCreationDetails\MyPinCreationDetailsView.cs" />
     <Compile Include="Views\MyPinCreationDetails\MyPinDetailsView.cs" />
     <Compile Include="Views\ToggleButtonBase.cs" />
+    <Compile Include="Views\VirtualKeyboard\VirtualKeyboardView.cs" />
     <Compile Include="Views\Watermark\WatermarkView.cs" />
     <Compile Include="Views\WorldPinOnMap\WorldPinOnMapView.cs" />
     <Compile Include="Views\Menu\MenuView.cs" />
     <Compile Include="Views\SettingsMenu\SettingsMenuView.cs" />
     <Compile Include="Views\SearchMenu\SearchMenuView.cs" />
+    <Compile Include="VirtualKeyboard\Controls\QuertyKeyboard.cs" />
+    <Compile Include="VirtualKeyboard\Controls\QuertyKeyboardButton.cs" />
+    <Compile Include="VirtualKeyboard\Controls\VirtualKeyboardButton.cs" />
+    <Compile Include="VirtualKeyboard\Controls\VirtualKeyboardControlButton.cs" />
+    <Compile Include="VirtualKeyboard\Controls\VirtualKeyboardInputButton.cs" />
+    <Compile Include="VirtualKeyboard\Controls\VirtualKeyboardSpecialButton.cs" />
+    <Compile Include="VirtualKeyboard\Extensions\WeakEventHandling.cs" />
+    <Compile Include="VirtualKeyboard\Services\KeysEx.cs" />
+    <Compile Include="VirtualKeyboard\Services\NativeUser32.cs" />
+    <Compile Include="VirtualKeyboard\Services\VirtualKeyboardService.cs" />
     <Compile Include="WindowInteractionTouchHandler.cs" />
+    <Compile Include="XamlHelpers.cs" />
     <Page Include="CheckBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,9 +158,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DefaultStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="DialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="KioskStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="ListBoxControlTemplateNoPadding.xaml">
       <SubType>Designer</SubType>
@@ -177,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AboutPage\AboutPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AttractModeOverlay\AttractModeOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -247,6 +276,10 @@
     <Page Include="Views\SearchMenu\SearchMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VirtualKeyboard\VirtualKeyboard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Watermark\WatermarkView.xaml">
       <SubType>Designer</SubType>
@@ -695,6 +728,223 @@
   <ItemGroup>
     <Resource Include="Assets\search_results_scroll_button.png" />
     <Resource Include="Assets\search_results_scroll_button_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\compass_new_locate_over.png">
+      <Link>Assets\compass_new_locate_over.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_locked_over.png">
+      <Link>Assets\compass_new_locked_over.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\compass_new.png">
+      <Link>Assets\compass_new.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\compass_new_locate.png">
+      <Link>Assets\compass_new_locate.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_locate_down.png">
+      <Link>Assets\compass_new_locate_down.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_locked.png">
+      <Link>Assets\compass_new_locked.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_locked_down.png">
+      <Link>Assets\compass_new_locked_down.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_unlocked.png">
+      <Link>Assets\compass_new_unlocked.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_unlocked_down.png">
+      <Link>Assets\compass_new_unlocked_down.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\compass_new_unlocked_over.png">
+      <Link>Assets\compass_new_unlocked_over.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\social_icon_fb.png">
+      <Link>Assets\social_icon_fb.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\social_icon_mail.png">
+      <Link>Assets\social_icon_mail.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\social_icon_slack.png">
+      <Link>Assets\social_icon_slack.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\social_icon_twitter.png">
+      <Link>Assets\social_icon_twitter.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\social_icon_linked_in.png">
+      <Link>Assets\social_icon_linked_in.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\exit_blue_x_button.png">
+      <Link>Assets\exit_blue_x_button.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_flatten_off%40kiosk.png">
+      <Link>Assets\button_flatten_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_flatten_on%40kiosk.png">
+      <Link>Assets\button_flatten_on%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_unflatten_off%40kiosk.png">
+      <Link>Assets\button_unflatten_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_unflatten_on_over%40kiosk.png">
+      <Link>Assets\button_unflatten_on_over%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_settings_off%40kiosk.png">
+      <Link>Assets\button_settings_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_settings_on%40kiosk.png">
+      <Link>Assets\button_settings_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\sub_menu_arrow_off%40kiosk.png">
+      <Link>Assets\sub_menu_arrow_off%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_search_off%40kiosk.png">
+      <Link>Assets\button_search_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_search_on%40kiosk.png">
+      <Link>Assets\button_search_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\search_results_spinner%40kiosk.png">
+      <Link>Assets\search_results_spinner%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_clear_search_off%40kiosk.png">
+      <Link>Assets\button_clear_search_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_clear_search_on%40kiosk.png">
+      <Link>Assets\button_clear_search_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\search_results_fade%40kiosk.png">
+      <Link>Assets\search_results_fade%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\search_results_scroll_button%40kiosk.png">
+      <Link>Assets\search_results_scroll_button%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\search_results_scroll_button_down%40kiosk.png">
+      <Link>Assets\search_results_scroll_button_down%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_create_poi_off%40kiosk.png">
+      <Link>Assets\button_create_poi_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_create_poi_on%40kiosk.png">
+      <Link>Assets\button_create_poi_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\compass_new%40kiosk.png">
+      <Link>Assets\compass_new%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_locate%40kiosk.png">
+      <Link>Assets\compass_new_locate%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\compass_new_locate_down%40kiosk.png">
+      <Link>Assets\compass_new_locate_down%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_exit_interior_off%40kiosk.png">
+      <Link>Assets\button_exit_interior_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_exit_interior_on%40kiosk.png">
+      <Link>Assets\button_exit_interior_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\floor_selection_button%40kiosk.png">
+      <Link>Assets\floor_selection_button%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\floor_selection_button_down%40kiosk.png">
+      <Link>Assets\floor_selection_button_down%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\poi_placeholder%40kiosk.png">
+      <Link>Assets\poi_placeholder%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\qrcode_preview.png">
+      <Link>Assets\qrcode_preview.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_close_off%40kiosk.png">
+      <Link>Assets\button_close_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_close_on%40kiosk.png">
+      <Link>Assets\button_close_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\Yelp\stars_0_0%40kiosk.png">
+      <Link>Assets\stars_0_0%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_1_0%40kiosk.png">
+      <Link>Assets\stars_1_0%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_1_5%40kiosk.png">
+      <Link>Assets\stars_1_5%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_2_0%40kiosk.png">
+      <Link>Assets\stars_2_0%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_2_5%40kiosk.png">
+      <Link>Assets\stars_2_5%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_3_0%40kiosk.png">
+      <Link>Assets\stars_3_0%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_3_5%40kiosk.png">
+      <Link>Assets\stars_3_5%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_4_0%40kiosk.png">
+      <Link>Assets\stars_4_0%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_4_5%40kiosk.png">
+      <Link>Assets\stars_4_5%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Yelp\stars_5_0%40kiosk.png">
+      <Link>Assets\stars_5_0%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\yelp_reviews%40kiosk.png">
+      <Link>Assets\yelp_reviews%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\shift_key.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\shift_key_down.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

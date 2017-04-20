@@ -31,7 +31,17 @@ namespace ExampleApp
             const std::string& myPinsWebServiceUrl,
             const std::string& myPinsWebServiceAuthToken,
             const std::string& twitterAuthCode,
-            const bool isKioskTouchInputEnabled
+            const bool isKioskTouchInputEnabled,
+            const bool isInKioskMode,
+            const bool useLabels,
+            const bool useJapaneseFont,
+            const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfo,
+            const std::string& rawConfig,
+            const SdkModel::ApplicationFixedIndoorLocation& fixedIndoorLocation,
+            const std::vector<Eegeo::Space::LatLongAltitude>& attractModeTargetSplinePoints,
+            const std::vector<Eegeo::Space::LatLongAltitude>& attractModePositionSplinePoints,
+            const long long attractModeTimeoutMs,
+            const float attractModePlaybackSpeed
             )
         : m_name(name)
         , m_eegeoApiKey(eegeoApiKey)
@@ -58,6 +68,16 @@ namespace ExampleApp
         , m_myPinsWebServiceAuthToken(myPinsWebServiceAuthToken)
         , m_twitterAuthCode(twitterAuthCode)
         , m_isKioskTouchInputEnabled(isKioskTouchInputEnabled)
+        , m_isInKioskMode(isInKioskMode)
+        , m_useLabels(useLabels)
+        , m_useJapaneseFont(useJapaneseFont)
+        , m_interiorTrackingInfo(interiorTrackingInfo)
+        , m_rawConfig(rawConfig)
+        , m_fixedIndoorLocation(fixedIndoorLocation)
+        , m_attractModeTargetSplinePoints(attractModeTargetSplinePoints)
+        , m_attractModePositionSplinePoints(attractModePositionSplinePoints)
+        , m_attractModeTimeoutMs(attractModeTimeoutMs)
+        , m_attractModePlaybackSpeed(attractModePlaybackSpeed)
         {
         }
         
@@ -181,9 +201,71 @@ namespace ExampleApp
             return m_isKioskTouchInputEnabled;
         }
 
+        bool ApplicationConfiguration::IsInKioskMode() const
+        {
+            return m_isInKioskMode;
+        }
+
         bool ApplicationConfiguration::ShouldStartFullscreen() const
         {
             return m_shouldStartFullscreen;
+        }
+        
+        bool ApplicationConfiguration::UseLabels() const
+        {
+            return m_useLabels;
+        }
+        
+        bool ApplicationConfiguration::UseJapaneseFont() const
+        {
+            return m_useJapaneseFont;
+        }
+        
+        const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& ApplicationConfiguration::InteriorTrackingInfo() const
+        {
+            return m_interiorTrackingInfo;
+        }
+        
+        std::string ApplicationConfiguration::RawConfig() const
+        {
+            return m_rawConfig;
+        }
+
+        bool ApplicationConfiguration::IsFixedIndoorLocationEnabled() const
+        {
+            return m_fixedIndoorLocation.GetInteriorId().IsValid();
+        }
+
+        const SdkModel::ApplicationFixedIndoorLocation& ApplicationConfiguration::FixedIndoorLocation() const
+        {
+            return m_fixedIndoorLocation;
+        }
+
+        const std::vector<Eegeo::Space::LatLongAltitude>& ApplicationConfiguration::AttractModeTargetSplinePoints() const
+        {
+            return m_attractModeTargetSplinePoints;
+        }
+
+        const std::vector<Eegeo::Space::LatLongAltitude>& ApplicationConfiguration::AttractModePositionSplinePoints() const
+        {
+            return m_attractModePositionSplinePoints;
+        }
+
+        const long long ApplicationConfiguration::AttractModeTimeoutMs() const
+        {
+            return m_attractModeTimeoutMs;
+        }
+
+        const float ApplicationConfiguration::AttractModePlaybackSpeed() const
+        {
+            return m_attractModePlaybackSpeed;
+        }
+
+        const bool ApplicationConfiguration::IsAttractModeEnabled() const
+        {
+            return m_attractModeTimeoutMs > 0 &&
+                   m_attractModeTargetSplinePoints.size() > 0 &&
+                   m_attractModePositionSplinePoints.size() >= 2;
         }
     }
 }

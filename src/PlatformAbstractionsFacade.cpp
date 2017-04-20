@@ -70,6 +70,11 @@ namespace ExampleApp
         return m_wrappedPlatformAbstractions.GetWorkPool();
     }
     
+    Eegeo::Modules::ISceneBuilderModuleFactory& PlatformAbstractionsFacade::GetSceneBuilderModuleFactory()
+    {
+        return m_sceneBuilderModuleFactory;
+    }
+    
     void PlatformAbstractionsFacade::OnPause()
     {
         return m_wrappedPlatformAbstractions.OnPause();
@@ -83,11 +88,6 @@ namespace ExampleApp
     void PlatformAbstractionsFacade::OnResume()
     {
         return m_wrappedPlatformAbstractions.OnResume();
-    }
-
-    Eegeo::Modules::ISceneBuilderModuleFactory& PlatformAbstractionsFacade::GetSceneBuilderModuleFactory()
-    {
-        return m_sceneBuilderModuleFactory;
     }
 
     Eegeo::Rendering::AsyncTexturing::ITextureFactory& PlatformAbstractionsFacade::GetTextureFactory() const
