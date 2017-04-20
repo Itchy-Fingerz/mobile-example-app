@@ -1,4 +1,4 @@
-                                                                                     // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
+// Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 
 #include "MobileExampleApp.h"
 #include "ApiKey.h"
@@ -1196,10 +1196,8 @@ namespace ExampleApp
         
         
         m_pRouteWorldPinsModule = Eegeo_NEW(ExampleApp::WorldPins::SdkModel::WorldPinsModule)(
-                                                                                         /*m_pPinsRouteModule->GetRepository(),
-                                                                                         m_pPinsRouteModule->GetController(),*/
-                                                                                         m_pPinsModule->GetRepository(),
-                                                                                         m_pPinsModule->GetController(),
+                                                                                         m_pPinsRouteModule->GetRepository(),
+                                                                                         m_pPinsRouteModule->GetController(),
                                                                                          mapModule.GetEnvironmentFlatteningService(),
                                                                                          m_identityProvider,
                                                                                          m_messageBus,
@@ -1209,8 +1207,7 @@ namespace ExampleApp
                                                                                          interiorsAffectedByFlattening,
                                                                                          m_menuReaction,
                                                                                          screenOversampleScale,
-                                                                                         /**m_pWorldPinsIconMapping2);*/
-                                                                                         *m_pWorldPinsIconMapping,
+                                                                                         *m_pWorldPinsIconMapping2,
                                                                                          interiorsPresentationModule.GetInteriorMarkerPickingService(),
                                                                                          m_useIndoorEntryMarkerLabels);
     }
