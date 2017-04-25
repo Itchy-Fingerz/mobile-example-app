@@ -64,7 +64,7 @@ namespace ExampleApp
                 , isSpinner(false)
                 , isPlayBtn(false)
                 , isSpecialOffer(false)
-                , highlightColor(0,0,1,0)
+                , highlightColor(0,0,1,1)
                 {
                     
                 }

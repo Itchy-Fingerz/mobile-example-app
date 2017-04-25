@@ -131,7 +131,7 @@ namespace ExampleApp
                                 }
                             }
                             
-                            Eegeo::v4 highlightColor = Eegeo::v4(0,0,1,0);
+                            Eegeo::v4 highlightColor = Eegeo::v4(0,0,1,1);
                             std::string highlightColorData = "highlight_color";
                             if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember(highlightColorData.c_str()))
                             {
