@@ -17,7 +17,9 @@ namespace ExampleApp
             class BillBoardInteriorStateChangedObserver
             {
             public:
-                BillBoardInteriorStateChangedObserver(ExampleAppMessaging::TMessageBus& messageBus,View::BillBoardService& billBoardService);
+                BillBoardInteriorStateChangedObserver(ExampleAppMessaging::TMessageBus& messageBus
+                                                      ,View::BillBoardService& billBoardService,
+                                                      Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule);
                 ~BillBoardInteriorStateChangedObserver();
 
             private:
@@ -28,6 +30,8 @@ namespace ExampleApp
                 
                 View::BillBoardService& m_billBoardService;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
+                Eegeo::Modules::Map::Layers::InteriorsPresentationModule& m_interiorsPresentationModule;
+                
                 Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const AppModes::AppModeChangedMessage&> m_appModeChangedCallback;
                 
                 void OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message);

@@ -18,6 +18,7 @@ namespace ExampleApp
                                                Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService,
                                                AppCamera::SdkModel::IAppCameraController& iCameraController,
                                                const Eegeo::Rendering::ScreenProperties& screenProperties,
+                                               Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule,
                                                ExampleAppMessaging::TMessageBus& messageBus)
             :m_renderingModule(renderingModule)
             , m_debugRenderer(debugRenderer)
@@ -41,7 +42,7 @@ namespace ExampleApp
                                                                              messageBus);
 
                 
-                m_pFloorChangeObserver = Eegeo_NEW(SdkModel::BillBoardInteriorStateChangedObserver)(messageBus,*m_pBillBoardService);
+                m_pFloorChangeObserver = Eegeo_NEW(SdkModel::BillBoardInteriorStateChangedObserver)(messageBus,*m_pBillBoardService,interiorsPresentationModule);
 
             }
             

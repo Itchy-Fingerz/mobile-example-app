@@ -945,6 +945,7 @@ namespace ExampleApp
                                                                            mapModule.GetEnvironmentFlatteningService(),
                                                                            m_pAppCameraModule->GetController(),
                                                                            m_screenProperties,
+                                                                           m_pWorld->GetMapModule().GetInteriorsPresentationModule(),
                                                                            m_messageBus);
         
         
