@@ -3,6 +3,8 @@
 #include "BillBoardInteriorStateChangedObserver.h"
 #include "SearchMenuPerformedSearchMessage.h"
 #include "SetCustomAlertVisibilityMessage.h"
+#include "InteriorSelectionModel.h"
+
 namespace ExampleApp
 {
     namespace BillBoards
@@ -10,14 +12,15 @@ namespace ExampleApp
         namespace SdkModel
         {
             BillBoardInteriorStateChangedObserver::BillBoardInteriorStateChangedObserver(ExampleAppMessaging::TMessageBus& messageBus
-                 ,View::BillBoardService& billBoardService)
+                 ,View::BillBoardService& billBoardService,
+                Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule)
             : m_selectFloorCallback(this,&BillBoardInteriorStateChangedObserver::OnSelectFloor)
             , m_exitInteriorCallback(this,&BillBoardInteriorStateChangedObserver::OnInteriorExit)
             , m_draggedFloorCallback(this,&BillBoardInteriorStateChangedObserver::OnDraggedFloor)
             , m_messageBus(messageBus)
             , m_billBoardService(billBoardService)
             , m_appModeChangedCallback(this, &BillBoardInteriorStateChangedObserver::OnAppModeChanged)
-
+            , m_interiorsPresentationModule(interiorsPresentationModule)
             {
                 m_messageBus.SubscribeNative(m_selectFloorCallback);
                 m_messageBus.SubscribeNative(m_exitInteriorCallback);
@@ -59,7 +62,12 @@ namespace ExampleApp
             {
                 if (message.GetAppMode() == AppModes::SdkModel::InteriorMode)
                 {
-                    m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
+                    const std::string& interiorName = m_interiorsPresentationModule.GetInteriorSelectionModel().GetSelectedInteriorId().Value();
+                
+                    if(interiorName == "98a265e2-b890-4c6b-a28f-948c92e36914" || interiorName == "70f9b00f-8c4f-4570-9a23-62bd80a76f8a")
+                    {
+                        m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
+                    }
  
                 }
                 else
