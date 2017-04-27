@@ -53,6 +53,7 @@ namespace ExampleApp
                 std::vector<std::pair<MyPinModel*, IMyPinBoundObject*> > pinModelBindings;
                 
                 m_myPinsFileIO.LoadPinModelsFromDisk(pinModelBindings, *this);
+                m_lastIdUsed = m_myPinsFileIO.GetLastIdWrittenToDisk();
                 
                 for (std::vector<std::pair<MyPinModel*, IMyPinBoundObject*> >::iterator it = pinModelBindings.begin();
                      it != pinModelBindings.end();
@@ -70,12 +71,15 @@ namespace ExampleApp
 
             void MyPinsService::AddPinToMap(MyPinModel* pMyPinModel, int aditionalMask)
             {
+                const int priorityOrder = static_cast<int>(m_myPinsRepository.GetItemCount());
+                
                 WorldPins::SdkModel::WorldPinFocusData worldPinFocusData(pMyPinModel->GetTitle(),
                                                                          pMyPinModel->GetDescription(),
                                                                          pMyPinModel->GetVendor(),
                                                                          "",
                                                                          pMyPinModel->GetRatingsImage(),
-                                                                         pMyPinModel->GetReviewsCount());
+                                                                         pMyPinModel->GetReviewsCount(),
+                                                                         priorityOrder);
                 
                 WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(pMyPinModel->GetBuildingId(), pMyPinModel->GetFloor());
                 

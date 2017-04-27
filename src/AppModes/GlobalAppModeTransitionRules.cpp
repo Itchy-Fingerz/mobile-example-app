@@ -2,7 +2,6 @@
 
 #include "WorldState.h"
 #include "IAppCameraController.h"
-#include "TourService.h"
 #include "IAppModeModel.h"
 #include "InteriorSelectionModel.h"
 #include "CameraHelpers.h"
@@ -13,9 +12,7 @@
 #include "IUserIdleService.h"
 #include "MyPinCreationModel.h"
 #include "MyPinCreationStage.h"
-#include "TourState.h"
 #include "GlobalAppModeTransitionRules.h"
-#include "IToursCameraController.h"
 #include "AppGlobeCameraWrapper.h"
 #include "AppInteriorCameraWrapper.h"
 #include "InteriorsExplorerModel.h"
@@ -29,64 +26,41 @@ namespace ExampleApp
     {
         namespace
         {
-            const bool HandleTourStart[] =
-                {
-                    /*[WorldMode]    =*/ true,
-                    /*[InteriorMode] =*/ true,
-                    /*[TourMode]     =*/ false,
-                    /*[AttractMode]  =*/ true,
-                };
             const bool HandleInteriorSelection[] =
                 {
                     /*[WorldMode]    =*/ true,
                     /*[InteriorMode] =*/ false,
-                    /*[TourMode]     =*/ false,
                     /*[AttractMode]  =*/ true,
-                };
-            const bool StoreMapState[] =
-                {
-                    /*[WorldMode]    =*/ false,
-                    /*[InteriorMode] =*/ false,
-                    /*[TourMode]     =*/ true,
-                    /*[AttractMode]  =*/ false,
                 };
             const bool DisablePinCreation[] =
                 {
                     /*[WorldMode]    =*/ false,
                     /*[InteriorMode] =*/ true,
-                    /*[TourMode]     =*/ true,
                     /*[AttractMode]  =*/ true,
                 };
         }
 
         GlobalAppModeTransitionRules::GlobalAppModeTransitionRules(AppCamera::SdkModel::IAppCameraController& cameraController,
-                                                                   Tours::SdkModel::ITourService& tourService,
                                                                    ExampleApp::InteriorsExplorer::SdkModel::InteriorsExplorerModel& interiorsExplorerModel,
                                                                    Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
                                                                    AppModes::SdkModel::IAppModeModel& appModeModel,
                                                                    AppCamera::SdkModel::AppGlobeCameraWrapper& worldCameraController,
                                                                    AppCamera::SdkModel::AppInteriorCameraWrapper& interiorCameraController,
-                                                                   Tours::SdkModel::Camera::IToursCameraController& toursCameraController,
                                                                    Eegeo::Input::IUserIdleService& userIdleService,
                                                                    const bool attractModeEnabled,
                                                                    const long long attractModeTimeout,
-                                                                   MyPinCreation::SdkModel::IMyPinCreationModel& myPinCreationModel,
-                                                                   VisualMap::SdkModel::IVisualMapService& visualMapService)
+                                                                   MyPinCreation::SdkModel::IMyPinCreationModel& myPinCreationModel)
         : m_cameraController(cameraController)
         , m_appModeModel(appModeModel)
         , m_worldCameraController(worldCameraController)
         , m_interiorCameraController(interiorCameraController)
-        , m_tourStartedCallback(this, &GlobalAppModeTransitionRules::OnTourStarted)
-        , m_tourService(tourService)
         , m_interiorsExplorerModel(interiorsExplorerModel)
         , m_interiorSelectionModel(interiorSelectionModel)
         , m_interiorSelectionModelChangedCallback(this, &GlobalAppModeTransitionRules::OnInteriorSelectionModelChanged)
         , m_attractModeTimer(userIdleService, attractModeEnabled ? attractModeTimeout : std::numeric_limits<long long>::max())
         , m_myPinCreationModel(myPinCreationModel)
-        , m_visualMapService(visualMapService)
         , m_worldCameraHandle(m_cameraController.CreateCameraHandleFromController(m_worldCameraController))
         , m_interiorCameraHandle(m_cameraController.CreateCameraHandleFromController(m_interiorCameraController))
-        , m_toursCameraHandle(m_cameraController.CreateCameraHandleFromController(toursCameraController))
         , m_currentState(appModeModel.GetAppMode())
         {
         }
@@ -95,23 +69,14 @@ namespace ExampleApp
         {
             m_cameraController.RemoveCameraHandle(m_worldCameraHandle);
             m_cameraController.RemoveCameraHandle(m_interiorCameraHandle);
-            m_cameraController.RemoveCameraHandle(m_toursCameraHandle);
         }
 
         void GlobalAppModeTransitionRules::Enter(int previousState)
         {
             m_currentState = m_appModeModel.GetAppMode();
-            if (HandleTourStart[m_currentState])
-            {
-                m_tourService.RegisterTourStartedCallback(m_tourStartedCallback);
-            }
             if (HandleInteriorSelection[m_currentState])
             {
                 m_interiorSelectionModel.RegisterSelectionChangedCallback(m_interiorSelectionModelChangedCallback);
-            }
-            if (StoreMapState[m_currentState])
-            {
-                m_visualMapService.StoreCurrentMapState();
             }
             if (DisablePinCreation[m_currentState])
             {
@@ -138,26 +103,12 @@ namespace ExampleApp
 
         void GlobalAppModeTransitionRules::Exit(int nextState)
         {
-            if (HandleTourStart[m_currentState])
-            {
-                m_tourService.UnregisterTourStartedCallback(m_tourStartedCallback);
-            }
-
             if (HandleInteriorSelection[m_currentState])
             {
                 m_interiorSelectionModel.UnregisterSelectionChangedCallback(m_interiorSelectionModelChangedCallback);
             }
 
             SetupCameraForNextMode(m_currentState, static_cast<SdkModel::AppMode>(nextState));
-            if (StoreMapState[m_currentState])
-            {
-                m_visualMapService.RestorePreviousMapState();
-            }
-        }
-
-        void GlobalAppModeTransitionRules::OnTourStarted()
-        {
-            m_appModeModel.SetAppMode(SdkModel::TourMode);
         }
 
         void GlobalAppModeTransitionRules::OnInteriorSelectionModelChanged(const Eegeo::Resources::Interiors::InteriorId& interiorId)
@@ -176,7 +127,7 @@ namespace ExampleApp
             }
             else if (nextState == SdkModel::AppMode::WorldMode)
             {
-				if (currentState == SdkModel::AppMode::InteriorMode || currentState == SdkModel::AppMode::TourMode)
+				if (currentState == SdkModel::AppMode::InteriorMode)
 				{
 					SetupWorldCamera();
 				}
@@ -206,11 +157,6 @@ namespace ExampleApp
         const int GlobalAppModeTransitionRules::GetInteriorsCameraHandle() const
         {
             return m_interiorCameraHandle;
-        }
-
-        const int GlobalAppModeTransitionRules::GetToursCameraHandle() const
-        {
-            return m_toursCameraHandle;
         }
     }
 }

@@ -19,14 +19,15 @@ namespace ExampleApp
         {
 
             MenuView::MenuView(WindowsNativeState& nativeState,
-                               const std::string& viewClassName)
+                               const std::string& viewClassName,
+                               bool isInKioskMode)
                 : m_nativeState(nativeState)
                 , m_pTryDragFunc(NULL)
             {
                 System::String^ className = gcnew System::String(viewClassName.c_str());
                 m_uiViewClass = GetTypeFromEntryAssembly(className);
-                ConstructorInfo^ ctor = m_uiViewClass->GetConstructor(CreateTypes(IntPtr::typeid));
-                m_uiView = ctor->Invoke(CreateObjects(gcnew IntPtr(this)));
+                ConstructorInfo^ ctor = m_uiViewClass->GetConstructor(CreateTypes(IntPtr::typeid, System::Boolean::typeid));
+                m_uiView = ctor->Invoke(CreateObjects(gcnew IntPtr(this), gcnew System::Boolean(isInKioskMode)));
 
                 Destroy.SetupMethod(m_uiViewClass, m_uiView, "Destroy");
                 NormalisedAnimationProgress.SetupMethod(m_uiViewClass, m_uiView, "NormalisedAnimationProgress");
@@ -38,6 +39,7 @@ namespace ExampleApp
                 AnimateToOpenOnScreen.SetupMethod(m_uiViewClass, m_uiView, "AnimateToOpenOnScreen");
                 AnimateOffScreen.SetupMethod(m_uiViewClass, m_uiView, "AnimateOffScreen");
                 AnimateToIntermediateOnScreenState.SetupMethod(m_uiViewClass, m_uiView, "AnimateToIntermediateOnScreenState");
+                mToggleSection.SetupMethod(m_uiViewClass, m_uiView, "ToggleSection");
             }
 
             MenuView::~MenuView()
@@ -251,6 +253,11 @@ namespace ExampleApp
             void MenuView::SetCanInteract(bool canInteract)
             {
                 // This is already handled in the Java-side View on Android
+            }
+
+            void MenuView::ToggleSection(int sectionIndex)
+            {
+                mToggleSection(sectionIndex);
             }
         }
     }

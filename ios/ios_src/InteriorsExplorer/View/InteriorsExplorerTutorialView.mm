@@ -32,7 +32,7 @@ namespace
         
         m_iconPaddingTop = isPhone ? 9 : 13;
         m_iconPaddingLeft = isPhone ? 8 : 18;
-        m_iconSize = isPhone ? 18 : 28;
+        m_iconSize = isPhone ? 16 : 26;
         
         self.frame = CGRectMake(0,
                                 0,
@@ -66,7 +66,7 @@ namespace
         
         self.pExitDialogArrow = ExampleApp::Helpers::ImageHelpers::AddPngImageToParentView(self.pExitDialogLabel, "arrow3_right", dialogWidth, dialogHeight/2 - m_arrowWidth/2, m_arrowLength, m_arrowWidth);
         
-        self.pExitDialogIcon = ExampleApp::Helpers::ImageHelpers::AddPngImageToParentView(self.pExitDialogLabel, "Alert_Tutorial_icon", m_iconPaddingLeft, m_iconPaddingTop, m_iconSize, m_iconSize);
+        self.pExitDialogIcon = ExampleApp::Helpers::ImageHelpers::AddPngImageToParentView(self.pExitDialogLabel, isPhone ? "Alert_Tutorial_icon_phone" : "Alert_Tutorial_icon", m_iconPaddingLeft, m_iconPaddingTop, m_iconSize, m_iconSize);
         
         self.pExitDialogTitle = [self createDialogTitle:@"Exit Indoors"];
         [self.pExitDialogLabel addSubview:self.pExitDialogTitle];
@@ -105,7 +105,7 @@ namespace
         self.pChangeFloorDialogTitle = [self createDialogTitle:@"Change Floors"];
         [self.pChangeFloorDialogLabel addSubview:self.pChangeFloorDialogTitle];
         
-        self.pChangeFloorDialogDescription = [self createDialogDescription:@"Slide the elevator button\nup and down to move\nbetween floors."];
+        self.pChangeFloorDialogDescription = [self createDialogDescription:@"Slide the elevator \nbutton to move \nbetween floors."];
         [self.pChangeFloorDialogLabel addSubview:self.pChangeFloorDialogDescription];
         self.pChangeFloorDialogContainer.alpha = 0.0f;
         [self.pChangeFloorDialogContainer setHidden:true];
@@ -134,7 +134,7 @@ namespace
 {
     const bool useSmallScreen = ExampleApp::Helpers::UIHelpers::UsePhoneLayout();
     UITextView* pTextView = [[[UITextView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-    pTextView.textColor = ExampleApp::Helpers::ColorPalette::UiTextCopyColor;
+    pTextView.textColor = ExampleApp::Helpers::ColorPalette::Black;
     pTextView.editable = NO;
     pTextView.scrollEnabled = NO;
     pTextView.font = useSmallScreen ? [UIFont systemFontOfSize:13.0f] : [UIFont systemFontOfSize:16.0f];
@@ -181,7 +181,7 @@ namespace
     [self.pChangeFloorDialogTitle setFrame:changeFloorTitleRect];
     
     CGSize changeFloorDescriptionSize = [self.pChangeFloorDialogDescription sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
-    CGRect changeFloorsDescriptonRect = CGRectMake(textPaddingLeft, changeFloorTitleTextSize.height + titlePaddingTop + descriptionPaddingTop, changeFloorTitleWidth, changeFloorDescriptionSize.height);
+    CGRect changeFloorsDescriptonRect = CGRectMake(textPaddingLeft, changeFloorTitleTextSize.height + titlePaddingTop + descriptionPaddingTop, changeFloorTitleWidth - 30.f, changeFloorDescriptionSize.height);
     [self.pChangeFloorDialogDescription setFrame:changeFloorsDescriptonRect];
 }
 

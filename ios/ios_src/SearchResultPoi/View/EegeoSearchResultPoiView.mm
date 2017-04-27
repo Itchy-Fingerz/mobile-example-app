@@ -603,11 +603,11 @@ const int DeletePinAlertViewTag = 2;
         self.pWebContent.frame = CGRectMake(headerTextPadding + detailsImageSize + detailsImageToTextMargin,
                                             detailsCardY,
                                             cardTextHorizontalSpace,
-                                            35.f);
+                                            detailsImageSize);
         self.pWebContent.text = [NSString stringWithUTF8String:m_eegeoModel.GetWebUrl().c_str()];
-        self.pWebContent.numberOfLines = 2;
+        self.pWebContent.numberOfLines = 1;
+        self.pWebContent.lineBreakMode = NSLineBreakByTruncatingTail;
         self.pWebContent.hidden = false;
-        [self.pWebContent sizeToFit];
         
         self.pWebIconContainer.frame = CGRectMake(headerTextPadding,
                                                   detailsCardY,
@@ -993,7 +993,7 @@ const int DeletePinAlertViewTag = 2;
         case PhoneAlertViewTag:
             if (buttonIndex == 1)
             {
-                NSString * phoneUrlString = [NSString stringWithFormat:@"tel://%@", self.pPhoneContent.text];
+                NSString * phoneUrlString = [NSString stringWithFormat:@"tel:%@", [self.pPhoneContent.text stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
                 NSURL *url = [NSURL URLWithString:phoneUrlString];
                 if (![[UIApplication sharedApplication] openURL:url])
                 {

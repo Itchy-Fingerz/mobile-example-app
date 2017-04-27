@@ -9,7 +9,6 @@
 #include "IIdentity.h"
 #include "Location.h"
 #include "CompassModeObserver.h"
-#include "FixedIndoorLocationCompassModeObserver.h"
 #include "CompassViewCycledObserver.h"
 #include "BidirectionalBus.h"
 #include "IMetricsService.h"
@@ -19,6 +18,7 @@
 #include "AppCamera.h"
 #include "InteriorsExplorer.h"
 #include "CameraTransitionService.h"
+#include "CompassTouchController.h"
 
 namespace ExampleApp
 {
@@ -34,6 +34,7 @@ namespace ExampleApp
                 ICompassUpdateController* m_pCompassUpdateController;
                 CompassModeObserver* m_pCompassModeObserver;
                 CompassViewCycledObserver* m_pCompassViewCycledObserver;
+                CompassTouchController m_touchController;
 
             public:
                 CompassModule(Eegeo::Location::NavigationService& navigationService,
@@ -46,9 +47,7 @@ namespace ExampleApp
                               InteriorsExplorer::SdkModel::InteriorsExplorerModel& interiorExplorerModel,
                               AppModes::SdkModel::IAppModeModel& appModeModel,
                               Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
-                              Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
-                              CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService,
-                              const ApplicationConfig::SdkModel::ApplicationFixedIndoorLocation* fixedIndoorLocation);
+                              bool isInkioskMode);
 
                 ~CompassModule();
 
@@ -59,6 +58,8 @@ namespace ExampleApp
                 ICompassUpdateController& GetCompassUpdateController() const;
 
                 ScreenControl::View::IScreenControlViewModel& GetScreenControlViewModel() const;
+
+                ICompassTouchController& GetTouchController();
             };
         }
     }

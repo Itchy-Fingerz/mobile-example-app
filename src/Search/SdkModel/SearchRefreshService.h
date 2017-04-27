@@ -39,6 +39,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback2<SearchRefreshService, const SearchQuery&, const std::vector<SearchResultModel>&> m_searchResultResponseReceivedCallback;
                 Eegeo::Helpers::TCallback0<SearchRefreshService> m_searchQueryResultsClearedCallback;
                 Eegeo::Helpers::TCallback0<SearchRefreshService> m_interiorTagsUpdatedCallback;
+                Eegeo::Helpers::TCallback0<SearchRefreshService> m_interiorModelChangedCallback;
                 int m_queriesPending;
                 bool m_searchResultsExist;
                 bool m_searchResultsCleared;
@@ -66,6 +67,7 @@ namespace ExampleApp
                 ~SearchRefreshService();
 
                 void TryRefreshSearch(float deltaSeconds, const Eegeo::dv3& interestPointEcef, const Eegeo::dv3& viewpointEcef);
+                void SetAnchorPoint(const Eegeo::dv3& interestPointEcef);
                 void SetEnabled(bool enabled);
                 const bool IsEnabled() const
                 {
@@ -73,7 +75,8 @@ namespace ExampleApp
                 }
 
             private:
-                void HandleInteriorChanged();
+                void HandleInteriorTagsChanged();
+                void HandleInteriorModelChanged();
 
                 void HandleSearchQueryIssued(const SearchQuery& query);
 

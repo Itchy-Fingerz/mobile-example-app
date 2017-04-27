@@ -16,6 +16,7 @@ namespace ExampleApp
 
             void CompassController::OnCompassModeChangedMessage(const CompassModeChangedMessage& message)
             {
+                m_view.SetRotationHighlight(m_isRotating || message.GetMode() == GpsMode::GpsCompassMode);
                 switch (message.GetMode())
                 {
                 case  GpsMode::GpsDisabled:
@@ -78,8 +79,7 @@ namespace ExampleApp
             
             void CompassController::OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message)
             {
-                m_appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::TourMode &&
-                                      message.GetAppMode() != AppModes::SdkModel::AttractMode;
+                m_appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::AttractMode;
                 
                 if(m_appModeAllowsOpen)
                 {
@@ -105,7 +105,13 @@ namespace ExampleApp
                     }
                 }
             }
-            
+
+            void CompassController::OnIsRotatingStateChangedMessage(const Compass::CompassIsRotatingStateChangedMessage& message)
+            {
+                m_isRotating = message.IsRotating();
+                m_view.SetRotationHighlight(message.IsRotating());
+            }
+
             CompassController::CompassController(  ICompassView& view,
                                                    ICompassViewModel& viewModel,
                                                    ExampleAppMessaging::TMessageBus& messageBus)
@@ -121,6 +127,8 @@ namespace ExampleApp
                 , m_viewCycledCallback(this, &CompassController::OnViewCycled)
                 , m_appModeChangedHandler(this, &CompassController::OnAppModeChangedMessage)
                 , m_virtualKeyboardStateChangedMessageHandler(this, &CompassController::OnVirtualKeyboardStateChangedMessage)
+                , m_isRotatingStateChangedMessageHandler(this, &CompassController::OnIsRotatingStateChangedMessage)
+                , m_isRotating(false)
             {
                 m_messageBus.SubscribeUi(m_modeChangedHandler);
                 m_messageBus.SubscribeUi(m_headingChangedHandler);
@@ -128,7 +136,8 @@ namespace ExampleApp
                 m_messageBus.SubscribeUi(m_modeUnauthorizedHandler);
                 m_messageBus.SubscribeUi(m_appModeChangedHandler);
                 m_messageBus.SubscribeUi(m_virtualKeyboardStateChangedMessageHandler);
-                
+                m_messageBus.SubscribeUi(m_isRotatingStateChangedMessageHandler);
+
                 m_view.InsertCycledCallback(m_viewCycledCallback);
                 m_viewModel.InsertOnScreenStateChangedCallback(m_viewStateCallback);
 
@@ -140,6 +149,7 @@ namespace ExampleApp
                 m_viewModel.RemoveOnScreenStateChangedCallback(m_viewStateCallback);
                 m_view.RemoveCycledCallback(m_viewCycledCallback);
 
+                m_messageBus.UnsubscribeUi(m_isRotatingStateChangedMessageHandler);
                 m_messageBus.UnsubscribeUi(m_virtualKeyboardStateChangedMessageHandler);
                 m_messageBus.UnsubscribeUi(m_appModeChangedHandler);
                 m_messageBus.UnsubscribeUi(m_modeUnauthorizedHandler);

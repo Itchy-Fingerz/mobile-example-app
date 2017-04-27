@@ -50,20 +50,30 @@ namespace ExampleApp
                 , m_interiorHasChanged(false)
                 , m_tagSearchRepository(tagSearchRepository)
                 , m_interiorMenuObserver(interiorMenuObserver)
-                , m_interiorTagsUpdatedCallback(this, &SearchRefreshService::HandleInteriorChanged)
+                , m_interiorTagsUpdatedCallback(this, &SearchRefreshService::HandleInteriorTagsChanged)
+                , m_interiorModelChangedCallback(this, &SearchRefreshService::HandleInteriorModelChanged)
             {
                 m_searchService.InsertOnPerformedQueryCallback(m_searchResultQueryIssuedCallback);
                 m_searchService.InsertOnReceivedQueryResultsCallback(m_searchResultResponseReceivedCallback);
                 m_searchQueryPerformer.InsertOnSearchResultsClearedCallback(m_searchQueryResultsClearedCallback);
                 m_interiorMenuObserver.RegisterInteriorTagsUpdatedCallback(m_interiorTagsUpdatedCallback);
+                m_interiorInteractionModel.RegisterModelChangedCallback(m_interiorModelChangedCallback);
             }
 
             SearchRefreshService::~SearchRefreshService()
             {
+                m_interiorInteractionModel.UnregisterModelChangedCallback(m_interiorModelChangedCallback);
                 m_interiorMenuObserver.UnregisterInteriorTagsUpdatedCallback(m_interiorTagsUpdatedCallback);
                 m_searchQueryPerformer.RemoveOnSearchResultsClearedCallback(m_searchQueryResultsClearedCallback);
                 m_searchService.RemoveOnReceivedQueryResultsCallback(m_searchResultResponseReceivedCallback);
                 m_searchService.RemoveOnPerformedQueryCallback(m_searchResultQueryIssuedCallback);
+            }
+
+            void SearchRefreshService::SetAnchorPoint(const Eegeo::dv3& interestPointEcef)
+            {
+                m_previousQueryLocationEcef = interestPointEcef;
+                m_previousInterestEcefLocation = interestPointEcef;
+                m_previousQueryInterestDistance = 0.0f;
             }
 
             void SearchRefreshService::SetEnabled(bool enabled)
@@ -100,15 +110,11 @@ namespace ExampleApp
 
                 bool hasChangedInteriorFloors = m_interiorInteractionModel.HasInteriorModel() &&
                 m_previousQueryFloorIndex != m_interiorInteractionModel.GetSelectedFloorIndex();
-                if (hasChangedInteriorFloors)
+                if (hasChangedInteriorFloors || m_interiorHasChanged)
                 {
                     if (m_interiorHasChanged)
                     {
                         m_interiorHasChanged = false;
-
-                        m_previousQueryFloorIndex = m_interiorInteractionModel.GetSelectedFloorIndex();
-
-                        return false;
                     }
                     
                     return true;
@@ -156,7 +162,7 @@ namespace ExampleApp
                 }
                 
                 const SearchQuery& previousQuery = m_searchQueryPerformer.GetPreviousSearchQuery();
-                if (shouldRefresh && TagStillPresent(previousQuery))
+                if (shouldRefresh && (!previousQuery.IsTag() || TagStillPresent(previousQuery)))
                 {
                     const Eegeo::Space::LatLongAltitude& currentLocation = Eegeo::Space::LatLongAltitude::FromECEF(interestPointEcef);
                     m_searchQueryPerformer.PerformSearchQuery(previousQuery.Query(), previousQuery.IsTag(), previousQuery.ShouldTryInteriorSearch(), currentLocation);
@@ -174,8 +180,16 @@ namespace ExampleApp
                 m_previousQueryInterestDistance = (viewpointEcef - interestPointEcef).Length();
                 m_previousInterestEcefLocation = interestPointEcef;
             }
+            
+            void SearchRefreshService::HandleInteriorModelChanged()
+            {
+                if (!m_searchResultsCleared && m_searchResultsExist)
+                {
+                    m_interiorHasChanged = true;
+                }
+            }
 
-            void SearchRefreshService::HandleInteriorChanged()
+            void SearchRefreshService::HandleInteriorTagsChanged()
             {
                 if (!m_searchResultsCleared && m_searchResultsExist)
                 {
@@ -183,14 +197,7 @@ namespace ExampleApp
                     
                     if (previousQuery.IsTag())
                     {
-                        if(TagStillPresent(previousQuery))
-                        {
-                            m_searchQueryPerformer.PerformSearchQuery(previousQuery.Query(), previousQuery.IsTag(), previousQuery.ShouldTryInteriorSearch());
-                            m_secondsSincePreviousRefresh = 0.f;
-
-                            m_interiorHasChanged = true;
-                        }
-                        else
+                        if(!TagStillPresent(previousQuery))
                         {
                             m_searchQueryPerformer.RemoveSearchQueryResults();
                         }

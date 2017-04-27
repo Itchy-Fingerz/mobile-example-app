@@ -2,16 +2,28 @@
 
 package com.eegeo.mobileexampleapp;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.eegeo.entrypointinfrastructure.EegeoSurfaceView;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.entrypointinfrastructure.NativeJniCalls;
-import com.eegeo.mobileexampleapp.R;
+import com.eegeo.helpers.IRuntimePermissionResultHandler;
+import com.eegeo.recce.*;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,19 +32,30 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.Constants;
+import net.hockeyapp.android.CrashManagerListener;
+import net.hockeyapp.android.NativeCrashManager;
+
 
 public class BackgroundThreadActivity extends MainActivity
 {
+    final public Object screenshotsCompletedLock = new Object();
+
+    private long m_nativeAppWindowPtr;
     private EegeoSurfaceView m_surfaceView;
     private SurfaceHolder m_surfaceHolder;
-    private long m_nativeAppWindowPtr;
     private ThreadedUpdateRunner m_threadedRunner;
     private Thread m_updater;
+    private String m_hockeyAppId;
     /* The url used if the app is opened by a deep link.
      *  As the app in singleTask this is set in onNewIntent and must be
      *  set to null before for the app pauses.
      */
     private Uri m_deepLinkUrlData;
+    private boolean m_rotationInitialised = false;
+    private boolean m_locationPermissionRecieved;
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 52;
 
     static
     {
@@ -49,7 +72,12 @@ public class BackgroundThreadActivity extends MainActivity
             finish();
             return;
         }
-        
+
+        m_hockeyAppId = readHockeyAppId();
+        Constants.loadFromContext(this);
+        NativeJniCalls.setUpBreakpad(Constants.FILES_PATH);
+        NativeCrashManager.handleDumpFiles(this, m_hockeyAppId);
+
         PackageInfo pInfo = null;
         try 
         {
@@ -62,9 +90,10 @@ public class BackgroundThreadActivity extends MainActivity
         final String versionName = pInfo.versionName;
         final int versionCode = pInfo.versionCode;
         
-        setDisplayOrientationBasedOnDeviceProperties();
+        m_rotationInitialised = !setDisplayOrientationBasedOnDeviceProperties();
 
         setContentView(R.layout.activity_main);
+
 
         Intent intent = getIntent();
         if(intent !=null)
@@ -81,6 +110,23 @@ public class BackgroundThreadActivity extends MainActivity
         final float dpi = dm.ydpi;
         final int density = dm.densityDpi;
         final Activity activity = this;
+
+        boolean locationPermissionGranted = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        m_locationPermissionRecieved = locationPermissionGranted;
+
+        getRuntimePermissionDispatcher().addRuntimePermissionResultHandler(new  IRuntimePermissionResultHandler()
+        {
+            @Override
+            public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
+            {
+                if(requestCode == LOCATION_PERMISSION_REQUEST_CODE)
+                {
+                    m_locationPermissionRecieved = true;
+                }
+            }
+        });
+
+        this.getRuntimePermissionDispatcher().hasLocationPermissionsWithCode(LOCATION_PERMISSION_REQUEST_CODE);
 
         m_threadedRunner = new ThreadedUpdateRunner(false);
         m_updater = new Thread(m_threadedRunner);
@@ -100,6 +146,8 @@ public class BackgroundThreadActivity extends MainActivity
                 }
             }
         });
+
+
     }
 
     public void runOnNativeThread(Runnable runnable)
@@ -111,17 +159,25 @@ public class BackgroundThreadActivity extends MainActivity
     protected void onResume()
     {
         super.onResume();
+    	if(hasValidHockeyAppId())
+    	{
+    		registerCrashLogging();
+    	}
 
         runOnNativeThread(new Runnable()
         {
             public void run()
             {
                 NativeJniCalls.resumeNativeCode();
-                m_threadedRunner.start();
+                if (m_rotationInitialised)
+                {
+                    m_threadedRunner.start();
+                }
 
                 if(m_surfaceHolder != null && m_surfaceHolder.getSurface() != null)
                 {
-                    NativeJniCalls.setNativeSurface(m_surfaceHolder.getSurface());
+                    long oldWindow = NativeJniCalls.setNativeSurface(m_surfaceHolder.getSurface());
+                    releaseNativeWindowDeferred(oldWindow);
 
                     if(m_deepLinkUrlData != null)
                     {
@@ -138,14 +194,14 @@ public class BackgroundThreadActivity extends MainActivity
     {
         super.onPause();
 
-        runOnNativeThread(new Runnable()
-        {
-            public void run()
-            {
-                m_threadedRunner.stop();
-                NativeJniCalls.pauseNativeCode();
-            }
-        });
+        if(m_locationPermissionRecieved) {
+            runOnNativeThread(new Runnable() {
+                public void run() {
+                    m_threadedRunner.stop();
+                    NativeJniCalls.pauseNativeCode();
+                }
+            });
+        }
     }
 
     @Override
@@ -211,19 +267,24 @@ public class BackgroundThreadActivity extends MainActivity
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)
+    public void surfaceChanged(final SurfaceHolder holder, int format, int width, int height)
     {
-        final SurfaceHolder h = holder;
+        m_surfaceHolder = holder;
+        if (!m_rotationInitialised)
+        {
+            return;
+        }
 
         runOnNativeThread(new Runnable()
         {
             public void run()
             {
-                m_surfaceHolder = h;
+                m_surfaceHolder = holder;
                 if(m_surfaceHolder != null)
                 {
-                    NativeJniCalls.setNativeSurface(m_surfaceHolder.getSurface());
+                    long oldWindow = NativeJniCalls.setNativeSurface(m_surfaceHolder.getSurface());
                     m_threadedRunner.start();
+                    releaseNativeWindowDeferred(oldWindow);
 
                     if(m_deepLinkUrlData != null)
                     {
@@ -234,7 +295,7 @@ public class BackgroundThreadActivity extends MainActivity
             }
         });
     }
-    
+
     @Override
     public void onNewIntent(Intent intent) {
          m_deepLinkUrlData = intent.getData();
@@ -262,25 +323,85 @@ public class BackgroundThreadActivity extends MainActivity
             }
         });
     }
-    
-    private void setDisplayOrientationBasedOnDeviceProperties()
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfiguration)
     {
+        super.onConfigurationChanged(newConfiguration);
+        m_rotationInitialised = true;
+    }
+
+    @Override
+    public void onScreenshotsCompleted()
+    {
+        synchronized (screenshotsCompletedLock)
+        {
+            screenshotsCompletedLock.notifyAll();
+        }
+    }
+
+    private boolean setDisplayOrientationBasedOnDeviceProperties()
+    {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        final int width = displayMetrics.widthPixels;
+        final int height = displayMetrics.heightPixels;
+
     	// Technique based on http://stackoverflow.com/a/9308284 using res/values configuration.
         if(getResources().getBoolean(R.bool.isPhone))
         {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+            final boolean needsRotation = width > height;
+            return needsRotation;
         }
         else
         {
         	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+            final boolean needsRotation = width < height;
+            return needsRotation;
         }
+    }
+    
+    private String readHockeyAppId()
+    {    
+        try
+        {  
+            String applicationConfigurationPath = NativeJniCalls.getAppConfigurationPath();
+            InputStream is = getAssets().open(applicationConfigurationPath);
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String jsonStr = new String(buffer, "UTF-8");
+            JSONObject json = new JSONObject(jsonStr);
+            return json.get("hockey_app_id").toString();
+        } catch (IOException e) {
+            // Master Ball
+        } catch (JSONException e) {
+            // Master Ball
+        }
+        
+        return "";
+    }
+    
+    private boolean hasValidHockeyAppId()
+    {
+    	return m_hockeyAppId.length() == 32;
+    }
+    private void registerCrashLogging()
+    {    
+    	CrashManager.register(this, m_hockeyAppId, new CrashManagerListener() {
+    		public boolean shouldAutoUploadCrashes() {
+    			return true;
+    		}
+    	});
     }
 
     private class ThreadedUpdateRunner implements Runnable
     {
         private long m_endOfLastFrameNano;
         private boolean m_running;
-        private Handler m_nativeThreadHandler;
+        private volatile Handler m_nativeThreadHandler;
         private float m_frameThrottleDelaySeconds;
         private boolean m_destroyed;
         private boolean m_stoppedUpdatingPlatformBeforeTeardown;
@@ -303,12 +424,18 @@ public class BackgroundThreadActivity extends MainActivity
 
         synchronized void blockUntilThreadHasDestroyedPlatform()
         {
-            while(!m_destroyed);
+            while(!m_destroyed)
+            {
+                SystemClock.sleep(200);
+            }
         }
 
         synchronized void blockUntilThreadHasStoppedUpdatingPlatform()
         {
-            while(!m_stoppedUpdatingPlatformBeforeTeardown);
+            while(!m_stoppedUpdatingPlatformBeforeTeardown)
+            {
+                SystemClock.sleep(200);
+            }
         }
 
         public void postTo(Runnable runnable)
@@ -339,7 +466,8 @@ public class BackgroundThreadActivity extends MainActivity
         public void run()
         {
             Looper.prepare();
-            m_nativeThreadHandler = new Handler();
+            Handler tmp = new Handler();
+            m_nativeThreadHandler = tmp;
 
             runOnNativeThread(new Runnable()
             {
@@ -351,7 +479,7 @@ public class BackgroundThreadActivity extends MainActivity
 
                     if(deltaSeconds > m_frameThrottleDelaySeconds)
                     {
-                        if(m_running)
+                        if(m_running && m_locationPermissionRecieved)
                         {
                             NativeJniCalls.updateNativeCode(deltaSeconds);
 
@@ -377,5 +505,15 @@ public class BackgroundThreadActivity extends MainActivity
 
             Looper.loop();
         }
+    }
+
+    public void releaseNativeWindowDeferred(final long oldWindow)
+    {
+        runOnNativeThread(new Runnable() {
+            @Override
+            public void run() {
+                NativeJniCalls.releaseNativeWindow(oldWindow);
+            }
+        });
     }
 }

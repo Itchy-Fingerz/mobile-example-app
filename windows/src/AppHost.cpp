@@ -44,7 +44,6 @@
 #include "FlattenButtonModule.h"
 #include "FlattenButtonViewModule.h"
 #include "SearchResultPoiViewModule.h"
-#include "WorldPinOnMapViewModule.h"
 #include "PlaceJumpsModule.h"
 #include "IPlaceJumpController.h"
 #include "SettingsMenuViewModule.h"
@@ -96,9 +95,29 @@
 #include "CurrentLocationService.h"
 #include "AttractModeOverlayView.h"
 #include "WindowsProcessHelper.h"
+#include "ImagePathHelpers.h"
+#include "GpsMarkerTutorialViewModule.h"
+#include "GpsMarkerModule.h"
 
 using namespace Eegeo::Windows;
 using namespace Eegeo::Windows::Input;
+
+namespace
+{
+    void SetFixedImageScaleAndSuffix(Eegeo::Config::PlatformConfig& platformConfiguration, Eegeo::Rendering::ScreenProperties& screenProperties, bool isInKioskMode)
+    {
+        const float FixedKioskScaling = 2.0f;
+        const const char *const FixedKioskDensitySuffix = "@2x";
+
+        const float FixedDesktopScaling = 1.5f;
+        const const char *const FixedDesktopDensitySuffix = "@1.5x";
+
+        const float fixedScaling = isInKioskMode ? FixedKioskScaling : FixedDesktopScaling;
+        platformConfiguration.GraphicsConfig.ImageResolutionScale = fixedScaling * screenProperties.GetOversampleScale();
+        platformConfiguration.GraphicsConfig.ImageResolutionSuffix = isInKioskMode ? FixedKioskDensitySuffix : FixedDesktopDensitySuffix;
+        platformConfiguration.MapLayersConfig.LabelsModuleConfig.CustomTextScale = fixedScaling;
+    }
+}
 
 AppHost::AppHost(
     WindowsNativeState& nativeState,
@@ -126,11 +145,11 @@ AppHost::AppHost(
     , m_pSearchResultSectionViewModule(NULL)
     , m_pModalBackgroundViewModule(NULL)
     , m_pFlattenButtonViewModule(NULL)
+    , m_pGpsMarkerTutorialViewModule(NULL)
     , m_pMyPinCreationViewModule(NULL)
     , m_pMyPinCreationDetailsViewModule(NULL)
     , m_pMyPinDetailsViewModule(NULL)
     , m_pSearchResultPoiViewModule(NULL)
-    , m_pWorldPinOnMapViewModule(NULL)
     , m_pCompassViewModule(NULL)
     , m_pApp(NULL)
     , m_pWindowsPersistentSettingsModel(NULL)
@@ -150,6 +169,7 @@ AppHost::AppHost(
     , m_pUserIdleService(NULL)
     , m_pVirtualKeyboardView(NULL)
     , m_pAttractModeOverlayView(NULL)
+    , m_screenProperties(screenProperties)
 {
     ASSERT_NATIVE_THREAD
          
@@ -182,8 +202,8 @@ AppHost::AppHost(
     Eegeo::EffectHandler::Initialise();
 
     Eegeo::Windows::WindowsPlatformConfigBuilder windowsPlatformConfigBuilder(nativeState.GetDeviceModel());
-
-    const Eegeo::Config::PlatformConfig& platformConfiguration = ExampleApp::ApplicationConfig::SdkModel::BuildPlatformConfig(windowsPlatformConfigBuilder, applicationConfiguration);
+    Eegeo::Config::PlatformConfig& platformConfiguration = ExampleApp::ApplicationConfig::SdkModel::BuildPlatformConfig(windowsPlatformConfigBuilder, applicationConfiguration);
+    SetFixedImageScaleAndSuffix(platformConfiguration, screenProperties, applicationConfiguration.IsInKioskMode());
 
     bool enableTouchControls =  hasNativeTouchInput ? applicationConfiguration.IsKioskTouchInputEnabled() : false;
 
@@ -230,7 +250,8 @@ AppHost::AppHost(
         *m_pWindowsFlurryMetricsService,        
         *this,
         *m_pMenuReaction,
-        *m_pUserIdleService);
+        *m_pUserIdleService,
+        m_screenshotService);
 
     if (applicationConfiguration.IsFixedIndoorLocationEnabled())
     {
@@ -244,6 +265,11 @@ AppHost::AppHost(
             mapModule.GetEnvironmentFlatteningService(),
             mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel());
         m_pCurrentLocationService->SetLocationService(*m_pFixedIndoorLocationService);
+
+        m_pInteriorsLocationServiceController = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceController)(*m_pCurrentLocationService,
+                                                                                                                                       mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel(),
+                                                                                                                                       m_pApp->CameraTransitionController(),
+                                                                                                                                       m_pApp->CompassModule().GetCompassModel());
     }
 
     m_pModalBackgroundNativeViewModule = Eegeo_NEW(ExampleApp::ModalBackground::SdkModel::ModalBackgroundNativeViewModule)(
@@ -260,7 +286,13 @@ AppHost::~AppHost()
 {
     ASSERT_NATIVE_THREAD
 
-        m_inputHandler.RemoveDelegateInputHandler(m_pAppInputDelegate);
+    m_inputHandler.RemoveDelegateInputHandler(m_pAppInputDelegate);
+
+    if(m_pApp->GetApplicationConfiguration().IsFixedIndoorLocationEnabled())
+    {
+        Eegeo_DELETE m_pInteriorsLocationServiceController;
+        m_pInteriorsLocationServiceController = NULL;
+    }
 
     Eegeo_DELETE m_pAppInputDelegate;
     m_pAppInputDelegate = NULL;
@@ -332,6 +364,7 @@ void AppHost::OnPause()
 
 void AppHost::NotifyScreenPropertiesChanged(const Eegeo::Rendering::ScreenProperties& screenProperties)
 {
+	m_screenProperties = screenProperties;
     m_pApp->NotifyScreenPropertiesChanged(screenProperties);
 }
 
@@ -403,6 +436,11 @@ void AppHost::Update(float dt)
 
     m_pModalBackgroundNativeViewModule->Update(dt);
 
+    if(m_pApp->GetApplicationConfiguration().IsFixedIndoorLocationEnabled() && m_pApp->IsLoadingScreenComplete())
+    {
+        m_pInteriorsLocationServiceController->Update();
+    }
+
     if (m_pApp->IsLoadingScreenComplete() && !m_requestedApplicationInitialiseViewState)
     {
         m_requestedApplicationInitialiseViewState = true;
@@ -469,6 +507,15 @@ void AppHost::UpdateUiViewsFromUiThread(float dt)
     if (m_createdUIModules)
     {
         m_pViewControllerUpdaterModule->GetViewControllerUpdaterModel().UpdateObjectsUiThread(dt);
+
+        if(m_pApp->GetApplicationConfiguration().IsInKioskMode())
+        {
+            const Eegeo::Camera::RenderCamera& renderCamera = m_pApp->GetAppModeModel().GetAppMode() == ExampleApp::AppModes::SdkModel::InteriorMode
+                                                              ? m_pApp->InteriorsExplorerModule().GetInteriorsCameraController().GetRenderCamera()
+                                                              : m_pApp->GetCameraController().GetRenderCamera();
+            m_pGpsMarkerTutorialViewModule->GetController().UpdateScreenLocation(renderCamera,
+                                                                                 m_screenProperties.GetOversampleScale());
+        }
     }
     else
     {
@@ -499,13 +546,6 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
         );
 
     // 3d map view layer.
-    m_pWorldPinOnMapViewModule = Eegeo_NEW(ExampleApp::WorldPins::View::WorldPinOnMapViewModule)(
-        m_nativeState,
-        app.WorldPinsModule().GetWorldPinInFocusViewModel(),
-        app.WorldPinsModule().GetScreenControlViewModel(),
-        app.ModalityModule().GetModalityModel(),
-        app.PinDiameter()
-        );
 
     // HUD behind modal background layer.
     m_pFlattenButtonViewModule = Eegeo_NEW(ExampleApp::FlattenButton::View::FlattenButtonViewModule)(
@@ -518,7 +558,8 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     m_pCompassViewModule = Eegeo_NEW(ExampleApp::Compass::View::CompassViewModule)(
         m_nativeState,
         app.CompassModule().GetCompassViewModel(),
-        m_messageBus
+        m_messageBus,
+        app.GetApplicationConfiguration().IsInKioskMode()
         );
 
 	m_pMyPinCreationViewModule = Eegeo_NEW(ExampleApp::MyPinCreation::View::MyPinCreationViewModule)(
@@ -527,7 +568,8 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
 		app.MyPinCreationModule().GetMyPinCreationConfirmationViewModel(),
 		app.MyPinCreationDetailsModule().GetMyPinCreationDetailsViewModel(),
 		m_messageBus,
-		*m_pWindowsFlurryMetricsService
+		*m_pWindowsFlurryMetricsService,
+		app.GetApplicationConfiguration().IsInKioskMode()
 		);
 
     // Modal background layer.
@@ -547,7 +589,8 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
         m_pModalBackgroundViewModule->GetView(),
         app.ModalityModule().GetModalityController(),
         m_messageBus,
-        app.ReactionModelModule().GetReactionModel()
+        app.ReactionModelModule().GetReactionModel(),
+        app.GetApplicationConfiguration().IsInKioskMode()
         );
 
 	m_pTagSearchViewModule = ExampleApp::TagSearch::View::TagSearchViewModule::Create(
@@ -563,7 +606,8 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
         app.SettingsMenuModule().GetSettingsMenuViewModel(),
         m_pModalBackgroundViewModule->GetView(),
         m_pSearchMenuViewModule->GetMenuView(),
-        m_messageBus
+        m_messageBus,
+        app.GetApplicationConfiguration().IsInKioskMode()
         );
     
     m_pSearchResultSectionViewModule = Eegeo_NEW(ExampleApp::SearchResultSection::View::SearchResultSectionViewModule)(
@@ -575,6 +619,14 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
         app.SearchResultPoiModule().GetSearchResultPoiViewModel()
         );
 
+    if(app.GetApplicationConfiguration().IsInKioskMode())
+    {
+        m_pGpsMarkerTutorialViewModule = Eegeo_NEW(ExampleApp::GpsMarkerTutorial::View::GpsMarkerTutorialViewModule)(m_nativeState,
+            m_messageBus,
+			app.GpsMarkerModule().GetGpsMarkerModel(),
+			app.World().GetMapModule().GetEnvironmentFlatteningService());
+    }
+
     // Pop-up layer.
     m_pSearchResultPoiViewModule = Eegeo_NEW(ExampleApp::SearchResultPoi::View::SearchResultPoiViewModule)(
         m_nativeState,
@@ -583,6 +635,7 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
         *m_pWindowsFlurryMetricsService,
         m_pMyPinCreationViewModule->GetMyPinCreationInitiationView(),
         app.World().GetMapModule().GetInteriorsPresentationModule().GetInteriorSelectionModel(),
+        app.MyPinDetailsModule().GetMyPinDetailsViewModel(),
         app.GetApplicationConfiguration().IsInKioskMode()
         );
 
@@ -593,17 +646,12 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
         m_messageBus
         );
 
-    m_pOptionsViewModule = Eegeo_NEW(ExampleApp::Options::View::OptionsViewModule)(
-        m_nativeState,
-        app.OptionsModule().GetOptionsViewModel(),
-        m_pWindowsPlatformAbstractionModule->GetWindowsHttpCache(),
-        m_messageBus);
-
     m_pMyPinCreationDetailsViewModule = Eegeo_NEW(ExampleApp::MyPinCreationDetails::View::MyPinCreationDetailsViewModule)(
         m_nativeState,
         app.MyPinCreationDetailsModule().GetMyPinCreationDetailsViewModel(),
         m_messageBus,
-        *m_pWindowsFlurryMetricsService
+        *m_pWindowsFlurryMetricsService,
+		app.GetApplicationConfiguration().IsInKioskMode()
         );
 
     m_pMyPinDetailsViewModule = Eegeo_NEW(ExampleApp::MyPinDetails::View::MyPinDetailsViewModule)(
@@ -615,13 +663,25 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     // Initial UX layer
     m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(
         m_nativeState,
-        m_messageBus
+        m_messageBus,
+        app.GetApplicationConfiguration().IsInKioskMode(),
+        app.CameraTransitionController()
         );
 
 	m_pInteriorsExplorerViewModule = Eegeo_NEW(ExampleApp::InteriorsExplorer::View::InteriorsExplorerViewModule)(
 		app.InteriorsExplorerModule().GetInteriorsExplorerModel(),
 		app.InteriorsExplorerModule().GetInteriorsExplorerViewModel(),
 		m_messageBus);
+
+    m_pOptionsViewModule = Eegeo_NEW(ExampleApp::Options::View::OptionsViewModule)(
+        m_nativeState,
+        app.OptionsModule().GetOptionsViewModel(),
+        m_pWindowsPlatformAbstractionModule->GetWindowsHttpCache(),
+        m_messageBus,
+        m_pInteriorsExplorerViewModule->GetController(),
+        m_pInitialExperienceIntroViewModule->GetController(),
+        app.GetApplicationConfiguration().OptionsAdminPassword(),
+        app.GetApplicationConfiguration().IsInKioskMode());
 
     m_pViewControllerUpdaterModule = Eegeo_NEW(ExampleApp::ViewControllerUpdater::View::ViewControllerUpdaterModule);
 
@@ -673,11 +733,7 @@ void AppHost::DestroyApplicationViewModulesFromUiThread()
 
             Eegeo_DELETE m_pMyPinCreationViewModule;
 
-            Eegeo_DELETE m_pOptionsViewModule;
-
             Eegeo_DELETE m_pAboutPageViewModule;
-
-            Eegeo_DELETE m_pWorldPinOnMapViewModule;
 
             Eegeo_DELETE m_pSearchResultPoiViewModule;
 
@@ -695,9 +751,16 @@ void AppHost::DestroyApplicationViewModulesFromUiThread()
 
             Eegeo_DELETE m_pInitialExperienceIntroViewModule;
 
+            Eegeo_DELETE m_pOptionsViewModule;
+
 			Eegeo_DELETE m_pInteriorsExplorerViewModule;
 
             Eegeo_DELETE m_pWatermarkViewModule;
+
+            if(m_pApp->GetApplicationConfiguration().IsInKioskMode())
+            {
+                Eegeo_DELETE m_pGpsMarkerTutorialViewModule;
+            }
         }
     m_createdUIModules = false;
 }

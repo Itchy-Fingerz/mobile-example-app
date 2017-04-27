@@ -26,8 +26,8 @@
 	        android:text=""
 	        android:textAppearance="?android:attr/textAppearanceListItemSmall"
 	        android:textColor="@color/table_search_text"
-	        android:textSize="14dp" />
-	
+			android:ellipsize="end"
+	        android:textSize="14sp" />
 	     <TextView
 	         android:id="@+id/menu_list_item_detail"
 	         android:layout_width="fill_parent"
@@ -39,6 +39,6 @@
 	         android:text=""
 	         android:textAppearance="?android:attr/textAppearanceListItemSmall"
 	         android:textColor="@color/table_search_detail_text"
-	         android:textSize="11dp" />
-	     
+			 android:ellipsize="end"
+	         android:textSize="11sp" />	     
 </RelativeLayout>

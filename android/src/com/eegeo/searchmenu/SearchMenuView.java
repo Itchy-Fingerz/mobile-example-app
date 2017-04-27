@@ -81,6 +81,9 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     private boolean m_searchResultsScrollable;
     private SearchResultsScrollButtonTouchDownListener m_searchResultsScrollButtonTouchDownListener;
     private SearchResultsScrollListener m_searchResultsScrollListener;
+
+    private int m_menuScrollIndex = 0;
+    private boolean m_editingText = false;
     	
     public SearchMenuView(MainActivity activity, long nativeCallerPointer)
     {
@@ -187,7 +190,7 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     @Override
     public boolean onEditorAction(TextView view, int actionId, KeyEvent event)
     {
-    	updateClearButtonVisibility();
+        setClearButtonVisible(true);
         if (actionId == EditorInfo.IME_ACTION_DONE ||
         	actionId == KeyEvent.KEYCODE_ENTER)
         {
@@ -221,9 +224,17 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count)
     {
-    	updateClearButtonVisibility();
-    } 
-    
+        if(count != 0)
+        {
+            setClearButtonVisible(true);
+            m_editingText = true;
+        }
+        else
+		{
+            setClearButtonVisible(false);
+        }
+    }
+
     public void removeSearchKeyboard()
     {
         m_activity.dismissKeyboard(m_editText.getWindowToken());
@@ -233,6 +244,8 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     {
     	m_closeButtonView.setVisibility(View.INVISIBLE);
     	m_progressSpinner.setVisibility(View.VISIBLE);
+
+        m_editingText = false;
     }
 
     public void setSearchEnded()
@@ -251,36 +264,35 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     {
     	m_editText.setText(searchText);
     	m_isTag = isTag;
-    	updateClearButtonVisibility();
+        if(!searchText.isEmpty()) {
+            setClearButtonVisible(true);
+        } else {
+            setClearButtonVisible(false);
+        }
     }
     
-    private void updateClearButtonVisibility()
+    private void setClearButtonVisible(boolean visible)
     {
-    	m_closeButtonView.setVisibility(View.VISIBLE);
+        if(visible)
+        {
+            m_closeButtonView.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            m_closeButtonView.setVisibility(View.INVISIBLE);
+        }
     }
     
     public void setSearchResultCount(final int searchResultCount)
     {
-    	if(searchResultCount == 0)
-    	{
-    		m_searchCount = 0;
-    		m_searchCountText.setText("");
-    		m_searchMenuAnimationHandler.hideSearchResultsView();
-    		m_closeButtonView.setVisibility(View.INVISIBLE);
-    		m_anchorArrow.setVisibility(View.GONE);
-    		m_searchMenuResultsSeparator.setVisibility(View.GONE);
-    	}
-    	else
-    	{
-    		m_searchCount = searchResultCount;
-    		m_searchCountText.setText(m_searchCount.toString());
-    		m_searchMenuAnimationHandler.showSearchResultsView();
-    		m_closeButtonView.setVisibility(View.VISIBLE);
-    		m_anchorArrow.setVisibility(View.VISIBLE);
-    		m_searchMenuResultsSeparator.setVisibility(View.VISIBLE);
-    	}
+        m_searchCount = searchResultCount;
+        m_searchCountText.setText(m_searchCount.toString());
+        m_searchMenuAnimationHandler.showSearchResultsView();
+        m_closeButtonView.setVisibility(View.VISIBLE);
+        m_anchorArrow.setVisibility(View.VISIBLE);
+        m_searchMenuResultsSeparator.setVisibility(View.VISIBLE);
     }
-    
+
     public void fadeInButtonAnimation()
     {
 		Animation fadeIn = new AlphaAnimation(0, 1);
@@ -321,6 +333,29 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
                                    HashMap<String, List<String>> groupToChildrenMap)
     {   
     	m_expandableListAdapter.setData(groups, groupToChildrenMap);
+    }
+
+    public void removeSearchQueryResults()
+    {
+        hideSearchResultCount();
+        if(!m_editingText)
+        {
+            m_editText.setText("");
+        }
+    }
+    
+    public void hideSearchResultCount()
+    {
+        m_searchCount = 0;
+        m_searchCountText.setText("");
+        
+        if(m_searchMenuAnimationHandler != null)
+        {
+            m_searchMenuAnimationHandler.hideSearchResultsView();
+        }
+
+        m_anchorArrow.setVisibility(View.GONE);
+        m_searchMenuResultsSeparator.setVisibility(View.GONE);
     }
     
     public void setSearchSection(final int resultCount,
@@ -441,13 +476,16 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
 		}
 		
     	updateSearchMenuHeight(m_resultsCount);
+
+        m_searchList.setSelection(m_menuScrollIndex);
 	}
 
 	@Override
 	public void onClosedOnScreenAnimationComplete()
 	{
-		super.onClosedOnScreenAnimationComplete();
-		
+        super.onClosedOnScreenAnimationComplete();
+
+        m_menuScrollIndex = m_searchList.getFirstVisiblePosition();
         m_list.setVisibility(View.GONE);
         m_searchList.setVisibility(View.GONE);
         if(m_isFindMenuChildItemClicked)

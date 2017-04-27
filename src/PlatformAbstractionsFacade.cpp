@@ -84,4 +84,14 @@ namespace ExampleApp
     {
         return m_wrappedPlatformAbstractions.OnResume();
     }
+
+    Eegeo::Modules::ISceneBuilderModuleFactory& PlatformAbstractionsFacade::GetSceneBuilderModuleFactory()
+    {
+        return m_sceneBuilderModuleFactory;
+    }
+
+    Eegeo::Rendering::AsyncTexturing::ITextureFactory& PlatformAbstractionsFacade::GetTextureFactory() const
+    {
+        return m_wrappedPlatformAbstractions.GetTextureFactory();
+    }
 }

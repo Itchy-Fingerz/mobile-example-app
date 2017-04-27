@@ -28,6 +28,7 @@
         m_controlContainerHeight = 0.f;
         m_controlContainerWidth = 0.f;
         m_yCursor = 0.f;
+        m_scrollBoxPadding = 5.f;
 
         m_pImageDataBytes = NULL;
         m_imageSize = 0;
@@ -249,8 +250,7 @@
     [self.pTermsLabel setUserInteractionEnabled:YES];
     [self.pTermsLabel addGestureRecognizer:urlTappedGesture];
 
-    const float scrollBoxPadding = 5.f;
-    const float scrollViewY = shareBarY + checkboxSize + scrollBoxPadding;
+    const float scrollViewY = shareBarY + checkboxSize + m_scrollBoxPadding;
     self.pBodyScrollView.frame = CGRectMake(0, scrollViewY, m_controlContainerWidth, bodyContainerHeight);
 
     const float poiDescriptionBoxX = 12.f;
@@ -297,7 +297,7 @@
     const float footerHeight = 64.f;
     const float footerWidth = m_controlContainerWidth;
 
-    self.pFooterContainer.frame = CGRectMake(0, footerY, footerWidth, footerHeight);
+    self.pFooterContainer.frame = CGRectMake(0, footerY - footerHeight/2 + m_scrollBoxPadding, footerWidth, footerHeight);
     self.pFooterContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
 
     const int numberOfButtons = 4;
@@ -557,7 +557,7 @@
 
 - (void) userTappedOnLink:(UITapGestureRecognizer *)recognizer
 {
-    NSString * webUrlString = @"http://eegeo.com/tos";
+    NSString * webUrlString = @"http://wrld3d.com/tos";
     NSURL *url = [NSURL URLWithString:webUrlString];
     if (![[UIApplication sharedApplication] openURL:url])
     {

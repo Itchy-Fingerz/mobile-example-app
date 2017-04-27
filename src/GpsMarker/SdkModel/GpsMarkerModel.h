@@ -26,11 +26,15 @@ namespace ExampleApp
                 bool HasLocation() const { return m_hasLocation; }
                 const Eegeo::dv3& GetCurrentLocationEcef() const { return m_currentLocationEcef; }
                 bool IsLocationIndoors() const { return m_locationService.IsIndoors(); }
+                bool IsAuthorized() const { return m_locationService.GetIsAuthorized(); }
                 
                 void UpdateHeading(float dt);
                 const double GetSmoothedHeadingDegrees() const;
                 
                 int GetCurrentFloorIndex() const;
+
+                const float GetSphereHeightAboveMarker() const;
+                const float GetAnchorCyclinerHeightAboveMarker() const;
                 
             private:
                 

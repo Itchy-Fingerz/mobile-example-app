@@ -10,8 +10,6 @@ namespace ExampleAppWPF
 {
     public class YelpSearchResultsPoiView : SearchResultPoiViewBase
     {
-        private bool m_isInKioskMode;
-
         private TextBlock m_titleView = null;
         private Image m_poiImage = null;
         
@@ -22,6 +20,7 @@ namespace ExampleAppWPF
         private string m_reviewText;
         private string m_qrCodeStyleText;
         private string m_qrCodeText;
+        private ImageSource m_qrCodeImage;
         private string m_humanReadableTagsText;
         private ImageSource m_tagIcon;
         private Image m_ratingsImage;
@@ -34,6 +33,8 @@ namespace ExampleAppWPF
         private Grid m_poiImageAndGradientContainer;
         private Grid m_detailsContainer;
         private double m_detailsContainerHeight;
+
+        private int m_qrCodeMaxSize;
 
         private ControlClickHandler m_yelpReviewImageClickHandler;
         private Image m_yelpButton;
@@ -112,6 +113,18 @@ namespace ExampleAppWPF
                 OnPropertyChanged("QRCodeText");
             }
         }
+        public ImageSource QRCodeImage
+        {
+            get
+            {
+                return m_qrCodeImage;
+            }
+            set
+            {
+                m_qrCodeImage = value;
+                OnPropertyChanged("QRCodeImage");
+            }
+        }
         public string HumanReadableTagsText
         {
             get
@@ -174,6 +187,8 @@ namespace ExampleAppWPF
             {
                 m_url = value;
                 OnPropertyChanged("Url");
+
+                QRCodeImage = ViewHelpers.GetQRCodeBitmapSourceFromURL(m_url, m_qrCodeMaxSize);
             }
         }
 
@@ -183,9 +198,8 @@ namespace ExampleAppWPF
         }
 
         public YelpSearchResultsPoiView(IntPtr nativeCallerPointer, bool isInKioskMode)
-            : base(nativeCallerPointer)
+            : base(nativeCallerPointer, isInKioskMode)
         {
-            m_isInKioskMode = isInKioskMode;
         }
 
         public override void OnApplyTemplate()
@@ -221,6 +235,8 @@ namespace ExampleAppWPF
 
             m_yelpReviewImageClickHandler = new ControlClickHandler(m_yelpButton, HandleWebLinkButtonClicked);
 
+            m_qrCodeMaxSize = (int)((double)Application.Current.Resources["YelpPOIViewQRCodeImageSize"]);
+
             base.OnApplyTemplate();
         }
 
@@ -240,7 +256,7 @@ namespace ExampleAppWPF
             HumanReadableTagsText = string.Join(", ", model.HumanReadableTags);
             ReviewText = string.Join(Environment.NewLine, yelpResultModel.Reviews);
             QRCodeText = string.Format(m_qrCodeStyleText, TitleText);
-            TagIcon = SearchResultPoiViewIconProvider.GetIconForTag(model.IconKey);
+            TagIcon = IconProvider.GetIconForTag(model.IconKey, m_isInKioskMode);
             PoiViewRatingCountText = yelpResultModel.ReviewCount > 0 ? yelpResultModel.ReviewCount.ToString() : string.Empty;
             RatingsImage.Source = null;
 

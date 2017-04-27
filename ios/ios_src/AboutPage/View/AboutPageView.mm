@@ -1,7 +1,5 @@
 // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 
-#include <string>
-#include <algorithm>
 #include "AboutPageView.h"
 #include "MathFunc.h"
 #include "UIColors.h"
@@ -56,16 +54,20 @@
 
         self.pDevelopedByLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pDevelopedByLabel.textColor = ExampleApp::Helpers::ColorPalette::UiTextCopyColor;
-        self.pDevelopedByLabel.textAlignment = NSTextAlignmentCenter;
         [self.pLabelsContainer addSubview: self.pDevelopedByLabel];
 
         self.pLogoImage = [[[UIImageView alloc] initWithFrame: CGRectMake(0, 0, 0, 0)] autorelease];
-        self.pLogoImage.image = ExampleApp::Helpers::ImageHelpers::LoadImage(@"eegeo_logo");
+        self.pLogoImage.image = ExampleApp::Helpers::ImageHelpers::LoadImage(@"eegeo_logo_about");
         [self.pLabelsContainer addSubview: self.pLogoImage];
+        
+        self.pLogoButton = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showHiddenText:)];
+        [self.pLogoButton addGestureRecognizer:longPress];
+        [longPress autorelease];
+        [self.pLabelsContainer addSubview: self.pLogoButton];
 
         self.pTextContent = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pTextContent.textColor = ExampleApp::Helpers::ColorPalette::UiTextCopyColor;
-        self.pTextContent.textAlignment = NSTextAlignmentCenter;
         [self.pLabelsContainer addSubview: self.pTextContent];
         
         UITapGestureRecognizer* pPrivacyTapHandler = [[[UITapGestureRecognizer alloc]
@@ -83,6 +85,22 @@
         self.pEulaLink.textColor = ExampleApp::Helpers::ColorPalette::UiTextLinkColor;
         [self.pEulaLink addGestureRecognizer: pEulaTapHandler];
         [self.pLabelsContainer addSubview: self.pEulaLink];
+        
+        UITapGestureRecognizer* pLegalTapHandler = [[[UITapGestureRecognizer alloc]
+                                                    initWithTarget:self
+                                                    action:@selector(legalClickHandler:)] autorelease];
+        self.pLegalLink = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
+        self.pLegalLink.textColor = ExampleApp::Helpers::ColorPalette::UiTextLinkColor;
+        [self.pLegalLink addGestureRecognizer: pLegalTapHandler];
+        [self.pLabelsContainer addSubview: self.pLegalLink];
+        
+        UITapGestureRecognizer* pTeamTapHandler = [[[UITapGestureRecognizer alloc]
+                                                     initWithTarget:self
+                                                     action:@selector(teamClickHandler:)] autorelease];
+        self.pTeamLink = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
+        self.pTeamLink.textColor = ExampleApp::Helpers::ColorPalette::UiTextLinkColor;
+        [self.pTeamLink addGestureRecognizer: pTeamTapHandler];
+        [self.pLabelsContainer addSubview: self.pTeamLink];
     }
 
     return self;
@@ -113,6 +131,9 @@
 
     [self.pDevelopedByLabel removeFromSuperview];
     [self.pDevelopedByLabel release];
+    
+    [self.pLogoButton removeFromSuperview];
+    [self.pLogoButton release];
 
     [self.pLogoImage removeFromSuperview];
     [self.pLogoImage release];
@@ -125,6 +146,12 @@
     
     [self.pEulaLink removeFromSuperview];
     [self.pEulaLink release];
+    
+    [self.pLegalLink removeFromSuperview];
+    [self.pLegalLink release];
+    
+    [self.pTeamLink removeFromSuperview];
+    [self.pTeamLink release];
 
     [self removeFromSuperview];
     [super dealloc];
@@ -153,21 +180,18 @@
                                    mainWindowWidth,
                                    mainWindowHeight);
 
-    const float headlineHeight = 50.f;
-    const float headlineMargin = 10.f;
     const float closeButtonSectionHeight = 64.f;
     const float headlineOffsetY = 10.f;
     const float closeButtonSectionOffsetY = mainWindowHeight - closeButtonSectionHeight;
-    const float contentSectionOffsetY = headlineOffsetY + headlineHeight;
-    const float contentSectionHeight = mainWindowHeight - (closeButtonSectionHeight + contentSectionOffsetY);
+    const float contentSectionHeight = mainWindowHeight - (closeButtonSectionHeight + 0.f);
    
     self.pHeadlineContainer.frame = CGRectMake(0.f,
                                     headlineOffsetY,
                                     mainWindowWidth,
-                                    headlineHeight);
+                                    0.f);
 
     self.pContentContainer.frame = CGRectMake(0.f,
-                                   contentSectionOffsetY,
+                                   0.f,
                                    mainWindowWidth,
                                    contentSectionHeight);
 
@@ -190,34 +214,27 @@
                                          closeButtonSectionHeight,
                                          closeButtonSectionHeight);
 
-    const float headlineWidth = mainWindowWidth - headlineMargin;
-
-    self.pTitleLabel.frame = CGRectMake(headlineMargin,
-                                        0.f,
-                                        headlineWidth,
-                                        headlineHeight);
-    self.pTitleLabel.font = [UIFont systemFontOfSize:18.0f];
-
-    self.pTitleLabel.text = @"About this app...";
 
     const float textWidth = static_cast<float>(self.pLabelsContainer.frame.size.width) * 0.8f;
-    const float textContentX = ((static_cast<float>(self.pLabelsContainer.frame.size.width) / 2) - (textWidth / 2)) + labelsSectionOffsetX;
-    const float developedByY = 10.f;
+    const float textContentX = ((static_cast<float>(self.pLabelsContainer.frame.size.width) / 2) - (textWidth / 2));
+    const float developedByY = 50.f;
     const float developedByHeight = 16.f;
+    const float developedByTopPadding = 45.f;
 
     self.pDevelopedByLabel.font = [UIFont systemFontOfSize:14.f];
-    self.pDevelopedByLabel.text = @"Developed by eeGeo";
+    self.pDevelopedByLabel.text = @"Developed by";
     self.pDevelopedByLabel.frame = CGRectMake(textContentX, developedByY, textWidth, developedByHeight);
 
-    const float logoWidth = 140.f;
-    const float logoHeight = 52.f;
-    const float logoY = developedByY + developedByHeight;
-    const float logoX = (static_cast<float>(self.pLabelsContainer.frame.size.width) / 2) - (logoWidth/2) + labelsSectionOffsetX;
+    const float logoWidth = self.pLogoImage.image.size.width;
+    const float logoHeight = self.pLogoImage.image.size.height;
+    const float logoY = developedByY + developedByHeight + developedByTopPadding;
+    const float logoX = self.pTextContent.frame.origin.x;
 
     self.pLogoImage.frame = CGRectMake(logoX, logoY, logoWidth, logoHeight);
+    self.pLogoButton.frame = CGRectMake(logoX, logoY, logoWidth, logoHeight);
 
     const float textContentY = logoY + logoHeight;
-    self.pTextContent.frame = CGRectMake(textContentX, textContentY, textWidth, contentSectionHeight - 300.f);
+    self.pTextContent.frame = CGRectMake(textContentX, textContentY + self.pLegalLink.frame.size.height, textWidth, contentSectionHeight - 300.f);
     self.pTextContent.numberOfLines = 0;
     self.pTextContent.adjustsFontSizeToFitWidth = NO;
     self.pTextContent.font = [UIFont systemFontOfSize:14.0f];
@@ -229,8 +246,8 @@
     [self.pEulaLink sizeToFit];
     self.pEulaLink.userInteractionEnabled = YES;
     CGRect eulaFrame = self.pPrivacyLink.frame;
-    eulaFrame.origin.x = roundf(mainWindowWidth/2.f - self.pEulaLink.frame.size.width/2.f);
-    eulaFrame.origin.y = roundf(textContentY + self.pTextContent.frame.size.height);
+    eulaFrame.origin.x = self.pTextContent.frame.origin.x;
+    eulaFrame.origin.y = roundf(textContentY + self.pTextContent.frame.size.height + 16.f);
     self.pEulaLink.frame = eulaFrame;
     
     self.pPrivacyLink.text = @"Privacy Policy";
@@ -238,15 +255,34 @@
     [self.pPrivacyLink sizeToFit];
     self.pPrivacyLink.userInteractionEnabled = YES;
     CGRect privacyFrame = self.pPrivacyLink.frame;
-    privacyFrame.origin.x = roundf(mainWindowWidth/2.f - self.pEulaLink.frame.size.width/2.f);
+    privacyFrame.origin.x = self.pTextContent.frame.origin.x;
     privacyFrame.origin.y = roundf(eulaFrame.origin.y + self.pEulaLink.frame.size.height + 16.f);
     self.pPrivacyLink.frame = privacyFrame;
     
+    self.pLegalLink.text = @"Legal";
+    self.pLegalLink.font = [UIFont systemFontOfSize:14.f];
+    [self.pLegalLink sizeToFit];
+    self.pLegalLink.userInteractionEnabled = YES;
+    CGRect legalFrame = self.pLegalLink.frame;
+    legalFrame.origin.x = self.pTextContent.frame.origin.x;
+    legalFrame.origin.y = roundf(privacyFrame.origin.y + self.pPrivacyLink.frame.size.height + 16.f);
+    self.pLegalLink.frame = legalFrame;
+    
+    self.pTeamLink.text = @"Team";
+    self.pTeamLink.font = [UIFont systemFontOfSize:14.f];
+    [self.pTeamLink sizeToFit];
+    self.pTeamLink.userInteractionEnabled = YES;
+    CGRect teamFrame = self.pTeamLink.frame;
+    teamFrame.origin.x = roundf(self.pLabelsContainer.frame.size.width/2.f - self.pTeamLink.frame.size.width/2.f);
+    teamFrame.origin.x = self.pTextContent.frame.origin.x;
+    teamFrame.origin.y = roundf(legalFrame.origin.y + self.pLegalLink.frame.size.height + 16.f);
+    self.pTeamLink.frame = teamFrame;
+    
     CGRect contentRect = CGRectZero;
-    for (UIView *view in self.self.pLabelsContainer.subviews) {
+    for (UIView *view in self.self.pLabelsContainer.subviews)
+    {
         contentRect = CGRectUnion(contentRect, view.frame);
     }
-    
     contentRect.size.width = std::max(self.pTextContent.frame.size.width, self.pLogoImage.frame.size.width);
     self.pLabelsContainer.contentSize = contentRect.size;
     
@@ -314,14 +350,32 @@
     m_pInterop->CloseTapped();
 }
 
+- (void)showHiddenText:(UILongPressGestureRecognizer*)gesture
+{
+    if ( gesture.state == UIGestureRecognizerStateEnded )
+    {
+        m_pInterop->ShowHiddenText();
+    }
+}
+
 - (void) privacyClickHandler:(UITapGestureRecognizer *)recognizer
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.eegeo.com/privacy/"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/privacy/"]];
 }
 
 - (void) eulaClickHandler:(UITapGestureRecognizer *)recognizer
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.eegeo.com/tos/"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/tos/"]];
+}
+
+- (void) legalClickHandler:(UITapGestureRecognizer *)recognizer
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/legal/"]];
+}
+
+- (void) teamClickHandler:(UITapGestureRecognizer *)recognizer
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/team/"]];
 }
 
 @end

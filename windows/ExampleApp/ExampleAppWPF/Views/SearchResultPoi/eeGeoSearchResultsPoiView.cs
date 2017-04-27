@@ -18,6 +18,7 @@ namespace ExampleAppWPF
         private string m_titleText;
         private string m_subTitleText;
         private string m_descriptionText;
+        private ImageSource m_qrCodeImage;
         private string m_humanReadableTagsText;
         private string m_facebookText;
         private string m_twitterText;
@@ -54,6 +55,8 @@ namespace ExampleAppWPF
 
         private Visibility m_detailsDividerVisibility;
 
+        private int m_qrCodeMaxSize;
+
         public string PhoneText
         {
             get
@@ -88,6 +91,8 @@ namespace ExampleAppWPF
             {
                 m_webAddressText = value;
                 OnPropertyChanged("WebAddressText");
+
+                QRCodeImage = ViewHelpers.GetQRCodeBitmapSourceFromURL(m_webAddressText, m_qrCodeMaxSize);
             }
         }
         public string TitleText
@@ -126,6 +131,18 @@ namespace ExampleAppWPF
                 OnPropertyChanged("DescriptionText");
             }
         }
+        public ImageSource QRCodeImage
+        {
+            get
+            {
+                return m_qrCodeImage;
+            }
+            set
+            {
+                m_qrCodeImage = value;
+                OnPropertyChanged("QRCodeImage");
+            }
+        }
         public string HumanReadableTagsText
         {
             get
@@ -157,8 +174,8 @@ namespace ExampleAppWPF
             DefaultStyleKeyProperty.OverrideMetadata(typeof(eeGeoSearchResultsPoiView), new FrameworkPropertyMetadata(typeof(eeGeoSearchResultsPoiView)));
         }
 
-        public eeGeoSearchResultsPoiView(IntPtr nativeCallerPointer)
-            : base(nativeCallerPointer)
+        public eeGeoSearchResultsPoiView(IntPtr nativeCallerPointer, bool isInKioskMode)
+            : base(nativeCallerPointer, isInKioskMode)
         {
         }
 
@@ -232,15 +249,20 @@ namespace ExampleAppWPF
             m_contentContainerLastScrollY = m_poiImageContainer.Height;
             m_webBrowserOriginalHeight = m_poiImageContainer.Height;
 
+            m_qrCodeMaxSize = (int)((double)Application.Current.Resources["EegeoPOIViewQRCodeImageSize"]);
+
             base.OnApplyTemplate();
         }
 
         private void OnWebPageLoaded(object sender, NavigationEventArgs e)
         {
-            string script = "document.body.style.overflow ='hidden'";
-            WebBrowser wb = (WebBrowser)sender;
-            wb.InvokeScript("execScript", new Object[] { script, "JavaScript" });
-            wb.Visibility = Visibility.Visible;
+            if(m_webBrowserSelected)
+            {
+                string script = "document.body.style.overflow ='hidden'";
+                WebBrowser wb = (WebBrowser)sender;
+                wb.InvokeScript("execScript", new Object[] { script, "JavaScript" });
+                wb.Visibility = Visibility.Visible;
+            }
         }
 
         // Validating urls here although the url's should be validated in the poi tool before reaching this.
@@ -321,6 +343,7 @@ namespace ExampleAppWPF
         {
             m_webBrowser.Visibility = Visibility.Collapsed;
             m_webBrowserSelected = false;
+            StopWebBrowser();
 
             if (eegeoResultModel.ImageUrl != null)
             {
@@ -332,6 +355,7 @@ namespace ExampleAppWPF
                 DisplayPoiImage(false);
             }
         }
+
         protected override void DisplayCustomPoiInfo(Object modelObject)
         {
             ExampleApp.SearchResultModelCLI model = modelObject as ExampleApp.SearchResultModelCLI;
@@ -522,7 +546,7 @@ namespace ExampleAppWPF
                 m_descriptionContainer.Visibility = Visibility.Collapsed;
             }
 
-            TagIcon = SearchResultPoiViewIconProvider.GetIconForTag(model.IconKey);
+            TagIcon = IconProvider.GetIconForTag(model.IconKey, m_isInKioskMode);
 
             ShowAll();
 
@@ -547,6 +571,16 @@ namespace ExampleAppWPF
             }
 
             m_previewImageSpinner.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnHideAnimationCompleted(object s, EventArgs e)
+        {
+            StopWebBrowser();
+        }
+
+        private void StopWebBrowser()
+        {
+            m_webBrowser.NavigateToString("about:blank");
         }
     }
 }

@@ -40,6 +40,7 @@ namespace ExampleApp
                 Helpers::ReflectionHelpers::Method<void> AnimateToClosedOnScreen;
                 Helpers::ReflectionHelpers::Method<void> AnimateOffScreen;
                 Helpers::ReflectionHelpers::Method<float> AnimateToIntermediateOnScreenState;
+                Helpers::ReflectionHelpers::Method<int> mToggleSection;
 
             protected:
                 WindowsNativeState& m_nativeState;
@@ -49,7 +50,8 @@ namespace ExampleApp
 
             public:
                 MenuView(WindowsNativeState& nativeState,
-                         const std::string& viewClassName);
+                         const std::string& viewClassName,
+                         bool isInKioskMode);
 
                 virtual ~MenuView();
 
@@ -120,6 +122,8 @@ namespace ExampleApp
                 void HandleItemSelected(int sectionIndex, int itemIndex);
 
                 bool CallBeginDrag();
+
+                void ToggleSection(int sectionIndex);
             };
         }
     }

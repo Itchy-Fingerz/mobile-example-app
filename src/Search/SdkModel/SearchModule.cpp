@@ -16,7 +16,7 @@ namespace ExampleApp
         namespace SdkModel
         {
             SearchModule::SearchModule(ISearchService& exteriorSearchService,
-                                       Eegeo::Camera::GlobeCamera::GpsGlobeCameraController& cameraController,
+                                       ExampleApp::AppCamera::SdkModel::IAppCameraController& cameraController,
                                        CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionsController,
                                        Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                        ExampleAppMessaging::TMessageBus& messageBus,
@@ -36,7 +36,8 @@ namespace ExampleApp
 
                 m_pSearchQueryPerformer = Eegeo_NEW(Search::SdkModel::SearchQueryPerformer)(exteriorSearchService,
                                                                                             *m_pSearchResultRepository,
-                                                                                            cameraController);
+                                                                                            cameraController,
+                                                                                            messageBus);
                 
                 m_pTagSearchModule = TagSearch::SdkModel::TagSearchModule::Create(*m_pSearchQueryPerformer, messageBus, metricsService);
 

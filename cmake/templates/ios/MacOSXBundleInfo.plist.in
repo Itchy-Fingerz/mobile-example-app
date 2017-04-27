@@ -30,18 +30,25 @@
                         <key>CFBundleTypeRole</key>
                         <string>Editor</string>
                         <key>CFBundleURLName</key>
-                        <string>com.eegeo</string>
+                        <string>com.wrld</string>
                         <key>CFBundleURLSchemes</key>
                         <array>
+                                <string>wrld</string>
                                 <string>eegeo</string>
                         </array>
                 </dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>@EEGEO_PLIST_BUNDLE_SHORT_VERSION_STRING@</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to increase indoor location accuracy using your device's bluetooth.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
+	<string></string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to display photos for your custom POIs.</string>
+	<key>NSCameraUsageDescription</key>
 	<string></string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard_iPhone</string>

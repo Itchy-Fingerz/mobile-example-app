@@ -30,10 +30,9 @@ namespace ExampleApp
             const std::string& eegeoSearchServiceUrl,
             const std::string& myPinsWebServiceUrl,
             const std::string& myPinsWebServiceAuthToken,
-            const std::string& twitterAuthCode,
+            const std::string& myPinsPoiSetId,
             const bool isKioskTouchInputEnabled,
             const bool isInKioskMode,
-            const bool useLabels,
             const bool useJapaneseFont,
             const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfo,
             const std::string& rawConfig,
@@ -41,7 +40,11 @@ namespace ExampleApp
             const std::vector<Eegeo::Space::LatLongAltitude>& attractModeTargetSplinePoints,
             const std::vector<Eegeo::Space::LatLongAltitude>& attractModePositionSplinePoints,
             const long long attractModeTimeoutMs,
-            const float attractModePlaybackSpeed
+            const float attractModePlaybackSpeed,
+            const std::string& optionsAdminPassword,
+            const long long& surveyRequirementTimeSec,
+            const std::string& timerSurveyUrl,
+            const std::string& hockeyAppId
             )
         : m_name(name)
         , m_eegeoApiKey(eegeoApiKey)
@@ -66,10 +69,9 @@ namespace ExampleApp
         , m_eegeoSearchServiceUrl(eegeoSearchServiceUrl)
         , m_myPinsWebServiceUrl(myPinsWebServiceUrl)
         , m_myPinsWebServiceAuthToken(myPinsWebServiceAuthToken)
-        , m_twitterAuthCode(twitterAuthCode)
+        , m_myPinsPoiSetId(myPinsPoiSetId)
         , m_isKioskTouchInputEnabled(isKioskTouchInputEnabled)
         , m_isInKioskMode(isInKioskMode)
-        , m_useLabels(useLabels)
         , m_useJapaneseFont(useJapaneseFont)
         , m_interiorTrackingInfo(interiorTrackingInfo)
         , m_rawConfig(rawConfig)
@@ -78,6 +80,10 @@ namespace ExampleApp
         , m_attractModePositionSplinePoints(attractModePositionSplinePoints)
         , m_attractModeTimeoutMs(attractModeTimeoutMs)
         , m_attractModePlaybackSpeed(attractModePlaybackSpeed)
+        , m_optionsAdminPassword(optionsAdminPassword)
+        , m_surveyRequirementTimeSec(surveyRequirementTimeSec)
+        , m_timerSurveyUrl(timerSurveyUrl)
+        , m_hockeyAppId(hockeyAppId)
         {
         }
         
@@ -191,9 +197,9 @@ namespace ExampleApp
             return m_myPinsWebServiceAuthToken;
         }
 
-        std::string ApplicationConfiguration::TwitterAuthCode() const
+        std::string ApplicationConfiguration::MyPinsPoiSetId() const
         {
-            return m_twitterAuthCode;
+            return m_myPinsPoiSetId;
         }
 
         bool ApplicationConfiguration::IsKioskTouchInputEnabled() const
@@ -209,11 +215,6 @@ namespace ExampleApp
         bool ApplicationConfiguration::ShouldStartFullscreen() const
         {
             return m_shouldStartFullscreen;
-        }
-        
-        bool ApplicationConfiguration::UseLabels() const
-        {
-            return m_useLabels;
         }
         
         bool ApplicationConfiguration::UseJapaneseFont() const
@@ -266,6 +267,26 @@ namespace ExampleApp
             return m_attractModeTimeoutMs > 0 &&
                    m_attractModeTargetSplinePoints.size() > 0 &&
                    m_attractModePositionSplinePoints.size() >= 2;
+        }
+
+        std::string ApplicationConfiguration::OptionsAdminPassword() const
+        {
+            return m_optionsAdminPassword;
+        }
+        
+        const long long ApplicationConfiguration::SurveyRequirementTimeSec() const
+        {
+            return m_surveyRequirementTimeSec;
+        }
+        
+        const std::string ApplicationConfiguration::TimerSurveyUrl() const
+        {
+            return m_timerSurveyUrl;
+        }
+        
+        const std::string ApplicationConfiguration::HockeyAppId() const
+        {
+            return m_hockeyAppId;
         }
     }
 }
