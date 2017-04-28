@@ -9,6 +9,8 @@
 #include "ClearCacheMessageHandler.h"
 #include "Helpers.h"
 #include "Tasks.h"
+#include "InteriorsExplorer.h"
+#include "InitialExperienceIntroController.h"
 
 namespace ExampleApp
 {
@@ -27,7 +29,9 @@ namespace ExampleApp
                 OptionsViewModule(IOptionsViewModel& viewModel,
                                   Eegeo::Helpers::IHttpCache& httpCache,
                                   ExampleAppMessaging::TMessageBus& messageBus,
-                                  Eegeo::Concurrency::Tasks::IWorkPool& workPool);
+                                  Eegeo::Concurrency::Tasks::IWorkPool& workPool,
+                                  InteriorsExplorer::View::InteriorsExplorerController& interiorsExplorerController,
+                                  InitialExperience::View::InitialExperienceIntroController& initialExperienceIntroController);
 
                 ~OptionsViewModule();
 

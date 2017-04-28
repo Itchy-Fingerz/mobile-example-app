@@ -43,6 +43,10 @@ namespace ExampleAppWPF
 
         private static bool m_isAnyPOIOpen = false;
 
+        private double m_scrollSpeed;
+
+        protected bool m_isInKioskMode;
+
         public bool IsPinned
         {
             get
@@ -64,9 +68,10 @@ namespace ExampleAppWPF
             return m_isAnyPOIOpen;
         }
 
-        public SearchResultPoiViewBase(IntPtr nativeCallerPointer)
+        public SearchResultPoiViewBase(IntPtr nativeCallerPointer, bool isInKioskMode)
         {
             m_nativeCallerPointer = nativeCallerPointer;
+            m_isInKioskMode = isInKioskMode;
 
             m_currentWindow = (MainWindow)Application.Current.MainWindow;
             m_currentWindow.MainGrid.Children.Add(this);
@@ -78,6 +83,31 @@ namespace ExampleAppWPF
             m_isOpen = false;
 
             Panel.SetZIndex(this, 100);
+        }
+
+        public void Destroy()
+        {
+            m_mainContainer.MouseDown -= OnContainerMouseDown;
+
+            m_closeButton.Click -= HandleCloseButtonClicked;
+
+            TouchMove -= OnTouchMove;
+
+            if (m_contentContainer != null)
+            {
+                m_contentContainer.ManipulationBoundaryFeedback -= OnBoundaryFeedback;
+                m_contentContainer.ScrollChanged -= OnSearchResultsScrolled;
+            }
+
+            if (m_scrollUpButton != null)
+            {
+                m_scrollUpButton.Click -= HandleScrollUpButtonClicked;
+            }
+
+            if (m_scrollDownButton != null)
+            {
+                m_scrollDownButton.Click -= HandleScrollDownButtonClicked;
+            }
         }
 
         private void OnWindowResized(object sender, SizeChangedEventArgs e)
@@ -145,6 +175,8 @@ namespace ExampleAppWPF
             {
                 m_scrollFadeOutAnim = fadeOutAnim.Clone();
             }
+
+            m_scrollSpeed = (double)Application.Current.Resources["ScrollViewButtonScrollSpeed"];
         }
 
         protected virtual void OnSearchResultsScrolled(object sender, RoutedEventArgs e)
@@ -156,13 +188,13 @@ namespace ExampleAppWPF
                 bool canScroll = m_contentContainer.ExtentHeight > m_contentContainer.ActualHeight;
                 if (m_contentContainer.VerticalOffset == m_contentContainer.ScrollableHeight)
                 {
-                    if (canScroll && m_headerFade.Opacity <= 0)
+                    if (canScroll && m_headerFade.Opacity < 1)
                     {
                         m_scrollFadeInAnim.Begin(m_headerFade);
                         m_scrollFadeInAnim.Begin(m_scrollUpButton);
                     }
 
-                    if (m_footerFade.Opacity >= 1)
+                    if (m_footerFade.Opacity > 0)
                     {
                         m_scrollFadeOutAnim.Begin(m_footerFade);
                         m_scrollFadeOutAnim.Begin(m_scrollDownButton);
@@ -170,13 +202,13 @@ namespace ExampleAppWPF
                 }
                 else if (m_contentContainer.VerticalOffset == 0)
                 {
-                    if (m_headerFade.Opacity >= 1)
+                    if (m_headerFade.Opacity > 0)
                     {
                         m_scrollFadeOutAnim.Begin(m_headerFade);
                         m_scrollFadeOutAnim.Begin(m_scrollUpButton);
                     }
 
-                    if (canScroll && m_footerFade.Opacity <= 0)
+                    if (canScroll && m_footerFade.Opacity < 1)
                     {
                         m_scrollFadeInAnim.Begin(m_footerFade);
                         m_scrollFadeInAnim.Begin(m_scrollDownButton);
@@ -184,13 +216,13 @@ namespace ExampleAppWPF
                 }
                 else if (canScroll)
                 {
-                    if (m_headerFade.Opacity <= 0)
+                    if (m_headerFade.Opacity < 1)
                     {
                         m_scrollFadeInAnim.Begin(m_headerFade);
                         m_scrollFadeInAnim.Begin(m_scrollUpButton);
                     }
 
-                    if (m_footerFade.Opacity <= 0)
+                    if (m_footerFade.Opacity < 1)
                     {
                         m_scrollFadeInAnim.Begin(m_footerFade);
                         m_scrollFadeInAnim.Begin(m_scrollDownButton);
@@ -216,6 +248,7 @@ namespace ExampleAppWPF
 
             var db = new DoubleAnimation((screenWidth / 2) + (m_mainContainer.ActualWidth / 2), TimeSpan.FromMilliseconds(m_animationTimeMilliseconds));
             db.From = (screenWidth / 2) - (m_mainContainer.ActualWidth / 2);
+            db.Completed += OnHideAnimationCompleted;
 
             var easingFunction = new CubicEase();
             easingFunction.EasingMode = EasingMode.EaseInOut;
@@ -305,22 +338,6 @@ namespace ExampleAppWPF
 
         public virtual void DismissPoiInfo()
         {
-            if (m_contentContainer != null)
-            {
-                m_contentContainer.ManipulationBoundaryFeedback -= OnBoundaryFeedback;
-                m_contentContainer.ScrollChanged -= OnSearchResultsScrolled;
-            }
-
-            if (m_scrollUpButton != null)
-            {
-                m_scrollUpButton.Click -= HandleScrollUpButtonClicked;
-            }
-
-            if (m_scrollDownButton != null)
-            {
-                m_scrollDownButton.Click -= HandleScrollDownButtonClicked;
-            }
-
             HideAll();
         }
 
@@ -361,7 +378,7 @@ namespace ExampleAppWPF
         {
             if (m_contentContainer != null)
             {
-                m_contentContainer.ScrollToVerticalOffset(m_contentContainer.VerticalOffset - 10);
+                m_contentContainer.ScrollToVerticalOffset(m_contentContainer.VerticalOffset - m_scrollSpeed);
             }
         }
 
@@ -369,7 +386,7 @@ namespace ExampleAppWPF
         {
             if (m_contentContainer != null)
             {
-                m_contentContainer.ScrollToVerticalOffset(m_contentContainer.VerticalOffset + 10);
+                m_contentContainer.ScrollToVerticalOffset(m_contentContainer.VerticalOffset + m_scrollSpeed);
             }
         }
 
@@ -424,6 +441,10 @@ namespace ExampleAppWPF
             image.Freeze();
 
             return image;
+        }
+
+        protected virtual void OnHideAnimationCompleted(object s, EventArgs e)
+        {
         }
     }
 }

@@ -53,8 +53,6 @@ bool GlDisplayService::IsPortraitAspect() const
 
 bool GlDisplayService::TryBindDisplay(GLKView& view)
 {
-    App::Initialise();
-
     GLKViewDrawableMultisample multiSample;
 
     if (App::IsDeviceSmall())
@@ -135,7 +133,3 @@ void GlDisplayService::ReleaseDisplay()
 {
     m_displayBound = false;
 }
-
-
-
-

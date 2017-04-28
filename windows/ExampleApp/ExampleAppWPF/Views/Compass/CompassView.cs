@@ -26,26 +26,34 @@ namespace ExampleAppWPF
         private double m_compassPointOffsetX;
         private double m_compassPointOffsetY;
         private double m_currentHeading;
-        private bool m_orientationDirty = true;
         private TranslateTransform m_translateTransform = new TranslateTransform();
         private RotateTransform m_rotateTransform = new RotateTransform();
+        private RotateTransform m_compassLockedRotateTransform = new RotateTransform();
 
         private double m_yPosActive;
         private double m_yPosInactive;
-        private TranslateTransform m_positionTransform = new TranslateTransform();
 
         bool m_isActive = false;
 
+        private bool m_isInKioskMode = false;
+
         private WindowInteractionTouchHandler m_touchHandler;
+
+        private static Duration RotationHighlightAnimationMilliseconds = new Duration(TimeSpan.FromMilliseconds(200));
+        private static Duration NeedleLockRotationAnimationMilliseconds = new Duration(TimeSpan.FromMilliseconds(200));
+
+        private const float CompassOuterShapeInactiveAlpha = 0.5f;
+        private const float CompassOuterShapeActiveAlpha = 1.0f;
 
         static CompassView()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(CompassView), new FrameworkPropertyMetadata(typeof(CompassView)));
         }
 
-        public CompassView(IntPtr nativeCallerPointer)
+        public CompassView(IntPtr nativeCallerPointer, bool isInKioskMode)
         {
             m_nativeCallerPointer = nativeCallerPointer;
+            m_isInKioskMode = isInKioskMode;
             
             Click += CompassView_Click;
             Loaded += PerformLayout;
@@ -54,7 +62,7 @@ namespace ExampleAppWPF
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SizeChanged += PerformLayout;
             mainWindow.MainGrid.Children.Add(this);
-            ShowGpsDisabledView();
+            
             m_touchHandler = new WindowInteractionTouchHandler(this, false, true, true);
         }
 
@@ -67,13 +75,24 @@ namespace ExampleAppWPF
             m_compassNewLocked = (Image)GetTemplateChild("CompassNewLocked");
             m_compassNewUnlocked = (Image)GetTemplateChild("CompassNewUnlocked");
 
+            var compassNewLockedTransforms = new TransformGroup();
+            m_compassLockedRotateTransform.CenterX = m_compassNewLocked.Width / 2;
+            m_compassLockedRotateTransform.CenterY = m_compassNewLocked.Height / 2;
+            compassNewLockedTransforms.Children.Add(m_compassLockedRotateTransform);
+            compassNewLockedTransforms.Children.Add(new TranslateTransform((m_compassNew.Width - m_compassNewLocked.Width) / 2, (m_compassNew.Width - m_compassNewLocked.Height) / 2));
+            m_compassNewLocked.RenderTransform = compassNewLockedTransforms;
+
             m_compassNewLocate.RenderTransform = new TranslateTransform((m_compassNew.Width - m_compassNewLocate.Width)/2, (m_compassNew.Width - m_compassNewLocate.Height)/2);
-            m_compassNewLocked.RenderTransform = new TranslateTransform((m_compassNew.Width - m_compassNewLocked.Width) / 2, (m_compassNew.Width - m_compassNewLocked.Height) / 2);
             m_compassNewUnlocked.RenderTransform = new TranslateTransform((m_compassNew.Width - m_compassNewUnlocked.Width) / 2, (m_compassNew.Width - m_compassNewUnlocked.Height) / 2);
 
             var canvas = (Canvas)GetTemplateChild("ImageCanvas");
 
-            RenderTransform = m_positionTransform;
+            ShowGpsDisabledView();
+        }
+
+        public FrameworkElement GetCompassElement()
+        {
+            return m_compassNewLocate;
         }
 
         private void CompassView_Click(object sender, RoutedEventArgs e)
@@ -99,7 +118,7 @@ namespace ExampleAppWPF
             m_yPosActive = screenHeight * 0.5 - (viewHeight * 0.5) - margin;
             m_yPosInactive = screenHeight * 0.5 + viewHeight * 0.5;
 
-            UpdatePositionTransform(currentPosition.X, m_isActive ? m_yPosActive : m_yPosInactive);
+            RenderTransform = new TranslateTransform(currentPosition.X, m_isActive ? m_yPosActive : m_yPosInactive);
         }
         
         public void Destroy()
@@ -130,8 +149,9 @@ namespace ExampleAppWPF
             animation.Duration = new Duration(TimeSpan.FromMilliseconds(StateChangeAnimationTimeMilliseconds));
             animation.EasingFunction = new SineEase();
 
-            UpdatePositionTransform(currentPosition.X, currentPosition.Y);
-            m_positionTransform.BeginAnimation(TranslateTransform.YProperty, animation);
+            var positionTransform = new TranslateTransform(currentPosition.X, currentPosition.Y);
+            RenderTransform = positionTransform;
+            positionTransform.BeginAnimation(TranslateTransform.YProperty, animation);
         }
 
         public void AnimateToIntermediateOnScreenState(float onScreenState)
@@ -142,19 +162,22 @@ namespace ExampleAppWPF
 
             if (viewY != newY)
             {
-                UpdatePositionTransform(currentPosition.X, newY);
-                InvalidatePositionTransform();
+                RenderTransform = new TranslateTransform(currentPosition.X, newY);
             }
         }
 
         public void UpdateHeading(float headingAngleRadians)
         {
-            m_orientationDirty = m_currentHeading != headingAngleRadians;
             m_currentHeading = headingAngleRadians;
         }
 
         public void ShowGpsDisabledView()
         {
+            if (m_isInKioskMode)
+            {
+                EnableKioskCompassLocateButton(true);
+            }
+
             m_compassNewLocate.Visibility = Visibility.Visible;
             m_compassNewLocked.Visibility = Visibility.Hidden;
             m_compassNewUnlocked.Visibility = Visibility.Hidden;
@@ -162,16 +185,48 @@ namespace ExampleAppWPF
 
         public void ShowGpsFollowView()
         {
-            m_compassNewLocate.Visibility = Visibility.Hidden;
-            m_compassNewLocked.Visibility = Visibility.Visible;
-            m_compassNewUnlocked.Visibility = Visibility.Hidden;
+            if (m_isInKioskMode)
+            {
+                EnableKioskCompassLocateButton(false);
+            }
+            else
+            {
+                m_compassNewLocate.Visibility = Visibility.Hidden;
+                m_compassNewLocked.Visibility = Visibility.Visible;
+                m_compassNewUnlocked.Visibility = Visibility.Hidden;
+            }
         }
 
         public void ShowGpsCompassModeView()
         {
-            m_compassNewLocate.Visibility = Visibility.Hidden;
-            m_compassNewLocked.Visibility = Visibility.Hidden;
-            m_compassNewUnlocked.Visibility = Visibility.Visible;
+            if(m_isInKioskMode)
+            {
+                EnableKioskCompassLocateButton(false);
+            }
+            else
+            {
+                m_compassNewLocate.Visibility = Visibility.Hidden;
+                m_compassNewLocked.Visibility = Visibility.Hidden;
+                m_compassNewUnlocked.Visibility = Visibility.Visible;
+            }
+        }
+
+        public void SetRotationHighlight(bool shouldShowRotationHighlight)
+        {
+            m_compassNew.BeginAnimation(Image.OpacityProperty,
+                                        new DoubleAnimation
+                                        {
+                                            To = shouldShowRotationHighlight
+                                                   ? CompassOuterShapeActiveAlpha
+                                                   : CompassOuterShapeInactiveAlpha,
+                                            Duration = RotationHighlightAnimationMilliseconds
+                                        });
+        }
+
+        private void EnableKioskCompassLocateButton(bool enable)
+        {
+            Opacity = enable ? 1.0f : 0.5f;
+            IsEnabled = enable;
         }
 
         public void NotifyGpsUnauthorized()
@@ -192,35 +247,17 @@ namespace ExampleAppWPF
             m_currentRenderArgsRenderingTime = renderArgs.RenderingTime;
 
             UpdateOrientationTransform((float)m_currentHeading);
-            InvalidateTransforms();
+            m_compassLockedRotateTransform.Angle = Rad2Deg((float)-m_currentHeading);
+            InvalidateOrientationTransforms();
         }
 
-        private void InvalidateTransforms()
-        {
-            InvalidatePositionTransform();
-            InvalidOrientationTransform();
-        }
-
-        private void InvalidatePositionTransform()
-        {
-            m_positionTransform.InvalidateProperty(TranslateTransform.XProperty);
-            m_positionTransform.InvalidateProperty(TranslateTransform.YProperty);
-        }
-
-        private void InvalidOrientationTransform()
+        private void InvalidateOrientationTransforms()
         {
             m_translateTransform.InvalidateProperty(TranslateTransform.XProperty);
             m_translateTransform.InvalidateProperty(TranslateTransform.YProperty);
 
             m_rotateTransform.InvalidateProperty(RotateTransform.AngleProperty);
-            m_rotateTransform.InvalidateProperty(RotateTransform.CenterXProperty);
-            m_rotateTransform.InvalidateProperty(RotateTransform.CenterYProperty);
-        }
-
-        private void UpdatePositionTransform(double x, double y)
-        {
-            m_positionTransform.X = x;
-            m_positionTransform.Y = y;
+            m_compassLockedRotateTransform.InvalidateProperty(RotateTransform.AngleProperty);
         }
 
         private void UpdateOrientationTransform(float headingAngleRadians)
@@ -237,9 +274,7 @@ namespace ExampleAppWPF
             m_translateTransform.X = m_compassPointOffsetX + newX;
             m_translateTransform.Y = m_compassPointOffsetY + newY;
 
-            m_rotateTransform.CenterX = m_compassNew.Width / 2;
-            m_rotateTransform.CenterY = m_compassNew.Height / 2;
-            m_rotateTransform.Angle = -headingAngleRadians * 180 / Math.PI;
+            m_rotateTransform.Angle = Rad2Deg(-headingAngleRadians);
         }
 
         private void InitialiseTransforms()
@@ -247,10 +282,18 @@ namespace ExampleAppWPF
             var transformGroup = new TransformGroup();
             UpdateOrientationTransform(0.0f);
 
+            m_rotateTransform.CenterX = m_compassNew.Width / 2;
+            m_rotateTransform.CenterY = m_compassNew.Height / 2;
+
             transformGroup.Children.Add(m_rotateTransform);
             transformGroup.Children.Add(m_translateTransform);
             m_compassNew.RenderTransform = transformGroup;
             m_compassNew.Visibility = Visibility.Visible;
+        }
+
+        private static float Rad2Deg(float rads)
+        {
+            return rads * 180.0f / (float) Math.PI;
         }
     }
 }

@@ -59,6 +59,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -66,6 +69,9 @@
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="QRCoder, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.2.6\lib\net40\QRCoder.dll</HintPath>
     </Reference>
     <Reference Include="SimpleOAuth, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleOAuth.Net.1.0.1\lib\net20\SimpleOAuth.dll</HintPath>
@@ -99,15 +105,19 @@
     <Compile Include="DialogBox.xaml.cs">
       <DependentUpon>DialogBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IconProvider.cs" />
     <Compile Include="Layout.cs" />
     <Compile Include="PersistentSettings\PersistentSettings.cs" />
     <Compile Include="TickBarVerticalWithLabels.cs" />
     <Compile Include="ViewHelpers.cs" />
+    <Compile Include="Views\AdminLogin\AdminLoginView.cs" />
     <Compile Include="Views\AttractModeOverlay\AttractModeOverlayView.cs" />
     <Compile Include="Views\ButtonBase.cs" />
     <Compile Include="Views\ControlBase.cs" />
     <Compile Include="Views\ControlClickHandler.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
+    <Compile Include="Views\GpsMarkerTutorial\GpsMarkerTutorialView.cs" />
+    <Compile Include="Views\InitialExperience\InitialExperienceView.cs" />
     <Compile Include="Views\InteriorsExplorer\InteriorsExplorerTutorialDialogView.cs" />
     <Compile Include="Views\InteriorsExplorer\InteriorsExplorerTutorialView.cs" />
     <Compile Include="Views\InteriorsExplorer\InteriorsExplorerView.cs" />
@@ -115,16 +125,20 @@
     <Compile Include="Views\Menu\MenuListAdapter.cs" />
     <Compile Include="Views\Menu\MenuListItem.cs" />
     <Compile Include="Views\Menu\StoryboardRunner.cs" />
+    <Compile Include="Views\MyPinCreationConfirmation\MyPinCreationConfirmationTutorialDialogBox.xaml.cs">
+      <DependentUpon>MyPinCreationConfirmationTutorialDialogBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyPinCreationDetails\MyPinCreationDetailsTutorialDialogBox.xaml.cs">
+      <DependentUpon>MyPinCreationDetailsTutorialDialogBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Options\OptionsCacheClearSubView.cs" />
     <Compile Include="Views\Options\OptionsView.cs" />
     <Compile Include="Views\SearchMenu\SearchMenuListItem.cs" />
     <Compile Include="StartupResourceLoader.cs" />
-    <Compile Include="Views\SearchMenu\SearchMenuResultIconProvider.cs" />
     <Compile Include="Views\SearchResultPoi\eeGeoSearchResultsPoiView.cs" />
     <Compile Include="Views\SearchResultPoi\GeonamesSearchResultsPoiView.cs" />
     <Compile Include="Views\SearchResultPoi\ResultModels\EegeoResultModel.cs" />
     <Compile Include="Views\SearchResultPoi\ResultModels\YelpResultModel.cs" />
-    <Compile Include="Views\SearchResultPoi\SearchResultPoiViewIconProvider.cs" />
     <Compile Include="Views\SearchResultPoi\SearchResultPoiViewBase.cs" />
     <Compile Include="Views\SearchResultPoi\YelpSearchResultsPoiView.cs" />
     <Compile Include="Views\SearchMenu\SubMenuListItem.cs" />
@@ -132,12 +146,16 @@
     <Compile Include="Views\MyPinCreationDetails\MyPinCreationDetailsView.cs" />
     <Compile Include="Views\MyPinCreationDetails\MyPinDetailsView.cs" />
     <Compile Include="Views\ToggleButtonBase.cs" />
+    <Compile Include="Views\TutorialTooltip\TutorialTooltipPositionTransform.cs" />
+    <Compile Include="Views\TutorialTooltip\TutorialTooltipView.cs" />
     <Compile Include="Views\VirtualKeyboard\VirtualKeyboardView.cs" />
     <Compile Include="Views\Watermark\WatermarkView.cs" />
-    <Compile Include="Views\WorldPinOnMap\WorldPinOnMapView.cs" />
     <Compile Include="Views\Menu\MenuView.cs" />
     <Compile Include="Views\SettingsMenu\SettingsMenuView.cs" />
     <Compile Include="Views\SearchMenu\SearchMenuView.cs" />
+    <Compile Include="Views\Watermark\WatermarkViewDialogBox.xaml.cs">
+      <DependentUpon>WatermarkViewDialogBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="VirtualKeyboard\Controls\QuertyKeyboard.cs" />
     <Compile Include="VirtualKeyboard\Controls\QuertyKeyboardButton.cs" />
     <Compile Include="VirtualKeyboard\Controls\VirtualKeyboardButton.cs" />
@@ -205,6 +223,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AdminLogin\AdminLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AttractModeOverlay\AttractModeOverlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -216,6 +238,14 @@
     <Page Include="Views\FlattenButton\FlattenButtonView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GpsMarkerTutorial\GpsMarkerTutorialView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\InitialExperience\InitialExperienceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\InteriorsExplorer\InteriorsExplorerTutorialDialogView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -233,7 +263,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\MyPinCreationConfirmation\MyPinCreationConfirmationTutorialDialogBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MyPinCreationConfirmation\MyPinCreationConfirmationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MyPinCreationDetails\MyPinCreationDetailsTutorialDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -277,6 +315,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\TutorialTooltip\TutorialTooltipView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VirtualKeyboard\VirtualKeyboard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -285,7 +327,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WorldPinOnMap\WorldPinOnMapView.xaml">
+    <Page Include="Views\Watermark\WatermarkViewDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -310,6 +352,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="..\..\Resources\Fonts\OpenSans\OpenSans-Light.ttf">
+      <Link>Assets\OpenSans-Light.ttf</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\Fonts\OpenSans\OpenSans-Regular.ttf">
+      <Link>Assets\OpenSans-Regular.ttf</Link>
+    </Resource>
     <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -891,11 +939,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="..\..\Resources\qrcode_preview.png">
-      <Link>Assets\qrcode_preview.png</Link>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="..\..\Resources\button_close_off%40kiosk.png">
       <Link>Assets\button_close_off%40kiosk.png</Link>
     </Resource>
@@ -945,6 +988,43 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\shift_key_down.png" />
+    <Resource Include="..\..\Resources\button_pin_confirm_close_off%40kiosk.png">
+      <Link>Assets\button_pin_confirm_close_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_pin_confirm_close_on%40kiosk.png">
+      <Link>Assets\button_pin_confirm_close_on%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_pin_confirm_ok_off%40kiosk.png">
+      <Link>Assets\button_pin_confirm_ok_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_pin_confirm_ok_on%40kiosk.png">
+      <Link>Assets\button_pin_confirm_ok_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\CreatPIN_dialogue_Icon%40kiosk.png">
+      <Link>Assets\CreatPIN_dialogue_Icon%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\..\Resources\button_pin_creation_close_off%40kiosk.png">
+      <Link>Assets\button_pin_creation_close_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_pin_creation_close_on%40kiosk.png">
+      <Link>Assets\button_pin_creation_close_on%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_pin_creation_confirm_off%40kiosk.png">
+      <Link>Assets\button_pin_creation_confirm_off%40kiosk.png</Link>
+    </Resource>
+    <Resource Include="..\..\Resources\button_pin_creation_confirm_on%40kiosk.png">
+      <Link>Assets\button_pin_creation_confirm_on%40kiosk.png</Link>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\eegeo_logo_about.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

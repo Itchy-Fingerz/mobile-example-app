@@ -314,7 +314,7 @@
                                 <StackPanel  Orientation="Vertical" >
                                     <Grid>
                                         <ScrollViewer Width="{DynamicResource MenuWidth}" Background="{StaticResource PrimaryBG_colour}" Name="ResultsMenuOptionsView" PanningRatio="3" PanningDeceleration="0" PanningMode="VerticalOnly" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Hidden" CanContentScroll="True">
-                                            <ListBox Name="SearchResultsList" Template="{StaticResource ListBoxControlTemplateNoPadding}" Background="{StaticResource PrimaryBG_colour}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" BorderThickness="0" Focusable="False">
+                                            <ListBox Name="SearchResultsList" Template="{StaticResource ListBoxControlTemplateNoPadding}" Background="{StaticResource PrimaryBG_colour}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch" BorderThickness="0" Focusable="False" IsManipulationEnabled="True">
                                                 <ListBox.Resources>
                                                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
                                                     <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent"/>
@@ -432,6 +432,22 @@
 
                                             <Grid Width="{DynamicResource SearchResultsButtonAndFadeContainerWidth}" Height="{DynamicResource SearchResultsButtonAndFadeContainerHeight}" Grid.Row="1" Margin="{DynamicResource SearchResultsButtonAndFadeContainerMargin}" HorizontalAlignment="Left">
                                                 <Image IsHitTestVisible="False" Grid.Row="1" Grid.Column="0" Name="SearchResultsFade" Source="{DynamicResource SearchResultsButtonAndFadeContainerImage}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Visibility="Visible" Stretch="Fill">
+                                                    <Image.Style>
+                                                        <Style TargetType="{x:Type Image}">
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Visibility" Value="Visible">
+                                                                    <Trigger.EnterActions>
+                                                                        <BeginStoryboard>
+                                                                            <Storyboard>
+                                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                                    From="0.0" To="1.0" Duration="0:0:1"/>
+                                                                            </Storyboard>
+                                                                        </BeginStoryboard>
+                                                                    </Trigger.EnterActions>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
                                                 </Image>
                                             </Grid>
 

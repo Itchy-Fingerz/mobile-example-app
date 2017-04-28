@@ -17,6 +17,9 @@ set(currsources
   ../src/Compass/SdkModel/ICompassUpdateController.h
   ../src/Compass/SdkModel/FixedIndoorLocationCompassModeObserver.cpp
   ../src/Compass/SdkModel/FixedIndoorLocationCompassModeObserver.h
+  ../src/Compass/SdkModel/ICompassTouchController.h
+  ../src/Compass/SdkModel/CompassTouchController.cpp
+  ../src/Compass/SdkModel/CompassTouchController.h
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\Compass\\SdkModel FILES ${currsources})

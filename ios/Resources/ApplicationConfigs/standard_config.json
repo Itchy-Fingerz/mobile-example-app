@@ -1,6 +1,6 @@
 {
-    
-    "name": "Mobile Example App",
+
+    "name": "WRLD App",
     "eegeo_api_key": "b488cb833b4d73f0ff4662160743e8f2",
     "start_location_latitude": 56.459905999999997,
     "start_location_longitude": -2.9840330000000002,
@@ -12,17 +12,17 @@
     "theme_manifest_url": "",
     "google_analytics_referrer_token": "mea_ios",
     "flurry_app_key": "",
-    "YelpConsumerKey": "quNfQ8G7oxtR8gPfWsLWCQ",
-    "YelpConsumerSecret": "RTXEUQaCv-8-TZNc1G1wGUATHuY",
-    "YelpOAuthToken": "p3tWrLAa7C6QzC7OVHWFb3mIacwidWj6",
-    "YelpOAuthTokenSecret": "Eqrvmumb9HGZ0_8CHPNiEETmN-s",
+    "yelp_consumer_key": "quNfQ8G7oxtR8gPfWsLWCQ",
+    "yelp_consumer_secret": "RTXEUQaCv-8-TZNc1G1wGUATHuY",
+    "yelp_oauth_token": "p3tWrLAa7C6QzC7OVHWFb3mIacwidWj6",
+    "yelp_oauth_token_secret": "Eqrvmumb9HGZ0_8CHPNiEETmN-s",
     "geonames_username": "qaiser.shehzad",
     "eegeo_search_service_url": "",
     "mypins_web_service_url": "",
     "mypins_web_service_auth_token": "",
-    "use_labels": true,
-    "geonames_username": "qaiser.shehzad",
+    "mypins_poi_set_id": "",
     "use_japanese_font": false,
+    "timer_survey_url":"",
     "outdoor_search_menu_items": [{
                                   "name": "Around Me",
                                   "search_tag": "",

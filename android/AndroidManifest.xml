@@ -5,7 +5,7 @@
         android:versionCode="1"
         android:versionName="1.0">
 
-    <uses-sdk android:minSdkVersion="16"
+    <uses-sdk android:minSdkVersion="19"
         android:targetSdkVersion="24"/>
     
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -15,13 +15,28 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true"/>
+    <uses-feature android:name="android.hardware.bluetooth_le"
+        android:required="false"/>
+    <uses-feature android:name="android.hardware.sensor.accelerometer"
+		android:required="false" />
+	<uses-feature android:name="android.hardware.sensor.compass"
+		android:required="false" />
+	<uses-feature android:name="android.hardware.sensor.gyroscope"
+		android:required="false" />
+	<uses-feature android:name="android.hardware.wifi"
+		android:required="true" />
 
-    <application android:icon="@mipmap/icon" android:label="eeGeo Example" android:theme="@android:style/Theme.NoTitleBar">
+    
+
+    <application android:icon="@mipmap/icon" android:label="WRLD" android:theme="@android:style/Theme.NoTitleBar">
        
-        <activity android:name=".BackgroundThreadActivity"
-                  android:label="eeGeo Example"
+        <activity android:name="com.eegeo.mobileexampleapp.BackgroundThreadActivity"
+                  android:label="WRLD"
                   android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
                   android:windowSoftInputMode="adjustPan"
               	  android:launchMode="singleTask"
@@ -36,8 +51,17 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
         		<category android:name="android.intent.category.BROWSABLE" />
+<<<<<<< HEAD
 		        <data android:scheme="eegeo" android:host="location" />
 		        <data android:scheme="eegeo" android:host="mapscene" />         		
+=======
+
+		        <data android:scheme="wrld" android:host="location" />
+		        <data android:scheme="wrld" android:host="mapscene" />
+
+		        <data android:scheme="eegeo" android:host="location" />
+		        <data android:scheme="eegeo" android:host="mapscene" />
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
             </intent-filter>
         </activity>
         
@@ -49,8 +73,14 @@
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
-         <meta-data android:name="com.google.android.gms.version"
+        <meta-data android:name="com.google.android.gms.version"
             android:value="7571000" />
+        <service
+            android:name="com.senionlab.slutilities.service.SLIndoorLocationService"
+            android:exported="false"/>
+        <service android:name="com.indooratlas.android.sdk.IALocationService"
+			android:label="IALocationService"
+			android:exported="false"/>
        	
     </application>
 

@@ -26,7 +26,6 @@
 #include "ModalBackgroundViewIncludes.h"
 #include "FlattenButtonViewIncludes.h"
 #include "SearchResultPoiViewIncludes.h"
-#include "WorldPinOnMapViewIncludes.h"
 #include "CompassViewIncludes.h"
 #include "AboutPageViewIncludes.h"
 #include "MyPinCreationInitiationViewIncludes.h"
@@ -38,9 +37,6 @@
 #include "OptionsViewIncludes.h"
 #include "WatermarkViewIncludes.h"
 #include "CustomAlertViewModule.h"
-#include "TourWebViewIncludes.h"
-#include "TourExplorerViewIncludes.h"
-#include "TourFullScreenImageViewIncludes.h"
 #include "InitialExperienceIntroViewIncludes.h"
 #include "NetIncludes.h"
 #include "Search.h"
@@ -66,9 +62,11 @@
 #include "IndoorAtlasLocationModule.h"
 #include "SenionLabLocationModule.h"
 #include "CurrentLocationService.h"
-#include "InteriorsLocationServiceProvider.h"
+#include "InteriorsLocationServiceModule.h"
 #include "AppUrlDelegate.h"
 #include "AlwaysActiveUserIdleService.h"
+#include "iOSScreenshotService.h"
+#include "iOSAutomatedScreenshotController.h"
 
 @class ViewController;
 class AppInputDelegate;
@@ -123,10 +121,11 @@ private:
     Eegeo::UI::NativeUIFactories m_iOSNativeUIFactories;
     Eegeo::iOS::iOSPlatformAbstractionModule* m_piOSPlatformAbstractionModule;
     
-    ExampleApp::IndoorAtlas::IndoorAtlasLocationModule* m_pIndoorAtlasLocationModule;
+
+    ExampleApp::InteriorsPosition::SdkModel::IndoorAtlas::IndoorAtlasLocationModule* m_pIndoorAtlasLocationModule;
     ExampleApp::SenionLab::SenionLabLocationModule* m_pSenionLabLocationModule;
     Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
-    ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceProvider* m_pInteriorsLocationServiceProvider;
+    ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceModule* m_pInteriorsLocationServiceModule;
     
     ExampleApp::SettingsMenu::View::ISettingsMenuViewModule* m_pSettingsMenuViewModule;
     ExampleApp::DirectionsMenu::View::IDirectionsMenuViewModule* m_pDirectionsMenuViewModule;
@@ -136,7 +135,6 @@ private:
     ExampleApp::ModalBackground::View::IModalBackgroundViewModule* m_pModalBackgroundViewModule;
     ExampleApp::FlattenButton::View::IFlattenButtonViewModule* m_pFlattenButtonViewModule;
     ExampleApp::SearchResultPoi::View::ISearchResultPoiViewModule* m_pSearchResultPoiViewModule;
-    ExampleApp::WorldPins::View::IWorldPinOnMapViewModule* m_pWorldPinOnMapViewModule;
     ExampleApp::Compass::View::ICompassViewModule* m_pCompassViewModule;
     ExampleApp::ViewControllerUpdater::View::IViewControllerUpdaterModule* m_pViewControllerUpdaterModule;
     ExampleApp::PersistentSettings::iOSPersistentSettingsModel m_iOSPersistentSettingsModel;
@@ -151,9 +149,7 @@ private:
     ExampleApp::Options::View::IOptionsViewModule* m_pOptionsViewModule;
     ExampleApp::Watermark::View::IWatermarkViewModule* m_pWatermarkViewModule;
     ExampleApp::CustomAlert::View::ICustomAlertViewModule* m_pCustomAlertViewModule;
-    ExampleApp::Tours::View::TourWeb::ITourWebViewModule* m_pTourWebViewModule;
-    ExampleApp::Tours::View::TourExplorer::ITourExplorerViewModule* m_pTourExplorerViewModule;
-    ExampleApp::Tours::View::TourFullScreenImage::ITourFullScreenImageViewModule* m_pTourFullScreenImageViewModule;
+    
     ExampleApp::InitialExperience::View::IInitialExperienceIntroViewModule* m_pInitialExperienceIntroViewModule;
     ExampleApp::Net::SdkModel::INetworkCapabilities* m_pNetworkCapabilities;
     ExampleApp::Metrics::iOSFlurryMetricsService& m_iOSFlurryMetricsService;
@@ -179,6 +175,9 @@ private:
     Eegeo::Helpers::TCallback1<AppHost, const ExampleApp::UserInteraction::UserInteractionEnabledChangedMessage&> m_userInteractionEnabledChangedHandler;
 
     Eegeo::Input::AlwaysActiveUserIdleService m_userIdleService;
+
+    ExampleApp::Automation::SdkModel::iOSScreenshotService m_screenshotService;
+    ExampleApp::Automation::SdkModel::iOSAutomatedScreenshotController* m_piOSAutomatedScreenshotController;
 
     void CreateApplicationViewModules(const Eegeo::Rendering::ScreenProperties& screenProperties);
     void DestroyApplicationViewModules();

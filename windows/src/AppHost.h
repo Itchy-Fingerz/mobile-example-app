@@ -34,7 +34,6 @@
 #include "ModalBackgroundViewIncludes.h"
 #include "FlattenButtonViewIncludes.h"
 #include "SearchResultPoiViewIncludes.h"
-#include "WorldPinOnMapViewIncludes.h"
 #include "CompassViewIncludes.h"
 #include "AboutPageViewIncludes.h"
 #include "MyPinCreationViewIncludes.h"
@@ -64,6 +63,9 @@
 #include "CurrentLocationService.h"
 #include "VirtualKeyboardView.h"
 #include "AttractModeOverlayView.h"
+#include "GpsMarkerTutorialViewIncludes.h"
+#include "InteriorsLocationServiceController.h"
+#include "NullScreenshotService.h"
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -150,7 +152,6 @@ private:
     ExampleApp::SearchResultPoi::View::ISearchResultPoiViewModule* m_pSearchResultPoiViewModule;
     ExampleApp::SearchResultSection::View::ISearchResultSectionViewModule* m_pSearchResultSectionViewModule;
 	ExampleApp::TagSearch::View::ITagSearchViewModule* m_pTagSearchViewModule;
-    ExampleApp::WorldPins::View::IWorldPinOnMapViewModule* m_pWorldPinOnMapViewModule;
     ExampleApp::AboutPage::View::IAboutPageViewModule* m_pAboutPageViewModule;
     ExampleApp::Compass::View::ICompassViewModule* m_pCompassViewModule;
     ExampleApp::MyPinCreation::View::IMyPinCreationViewModule* m_pMyPinCreationViewModule;
@@ -164,6 +165,8 @@ private:
     ExampleApp::Metrics::WindowsFlurryMetricsService* m_pWindowsFlurryMetricsService;
 	ExampleApp::InteriorsExplorer::View::IInteriorsExplorerViewModule* m_pInteriorsExplorerViewModule;
     ExampleApp::Menu::View::IMenuReactionModel* m_pMenuReaction;
+    ExampleApp::GpsMarkerTutorial::View::GpsMarkerTutorialViewModule* m_pGpsMarkerTutorialViewModule;
+    ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceController* m_pInteriorsLocationServiceController;
 
     ExampleApp::MobileExampleApp* m_pApp;
 
@@ -178,6 +181,7 @@ private:
     ExampleApp::ExampleAppMessaging::TMessageBus m_messageBus;
     ExampleApp::ExampleAppMessaging::TSdkModelDomainEventBus m_sdkDomainEventBus;
     Eegeo::UI::NativeAlerts::TSingleOptionAlertBoxDismissedHandler<AppHost> m_failAlertHandler;
+    ExampleApp::Automation::NullScreenshotService m_screenshotService;
 
     void DispatchRevealUiMessageToUiThreadFromNativeThread();
     void DispatchUiCreatedMessageToNativeThreadFromUiThread();
@@ -192,4 +196,6 @@ private:
 
     ExampleApp::VirtualKeyboard::View::VirtualKeyboardView* m_pVirtualKeyboardView;
     ExampleApp::AttractModeOverlay::View::AttractModeOverlayView* m_pAttractModeOverlayView;
+
+    Eegeo::Rendering::ScreenProperties m_screenProperties;
 };

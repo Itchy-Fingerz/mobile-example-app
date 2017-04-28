@@ -10,6 +10,8 @@
 #include "BidirectionalBus.h"
 #include "ClearCacheMessageHandler.h"
 #include "Helpers.h"
+#include "InteriorsExplorer.h"
+#include "InitialExperienceIntroController.h"
 
 namespace ExampleApp
 {
@@ -29,7 +31,11 @@ namespace ExampleApp
                     WindowsNativeState& nativeState,
                     IOptionsViewModel& optionsViewModel,
                     Eegeo::Helpers::IHttpCache& httpCache,
-                    ExampleAppMessaging::TMessageBus& messageBus
+                    ExampleAppMessaging::TMessageBus& messageBus,
+                    InteriorsExplorer::View::InteriorsExplorerController& interiorsExplorerController,
+                    InitialExperience::View::InitialExperienceIntroController& initialExperienceIntroController,
+                    const std::string& adminPassword,
+                    bool isInKioskMode
                 );
 
                 ~OptionsViewModule();

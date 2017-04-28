@@ -207,16 +207,27 @@ public class HeadingService implements SensorEventListener
         switch (rotation)
         {
         case Surface.ROTATION_0:
+<<<<<<< HEAD
         	SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_MINUS_X, SensorManager.AXIS_Y, remap);
+=======
+        	SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Y, remap);
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
             break;
         case Surface.ROTATION_90:
         	SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, remap);
             break;
         case Surface.ROTATION_180:
+<<<<<<< HEAD
         	SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_Z, SensorManager.AXIS_X, remap);
             break;
         default:
         	SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, remap);
+=======
+        	SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_MINUS_X, SensorManager.AXIS_MINUS_Y, remap);
+            break;
+        default:
+        	SensorManager.remapCoordinateSystem(rotationMatrix, SensorManager.AXIS_MINUS_Y, SensorManager.AXIS_X, remap);
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
             break;
         }
     }

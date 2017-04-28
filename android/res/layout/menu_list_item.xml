@@ -14,7 +14,12 @@
             android:gravity="left|center_vertical"
             android:textAppearance="?android:attr/textAppearanceListItemSmall"
             android:textColor="@drawable/menu_item_states"
+<<<<<<< HEAD
             android:textSize="20dp"
+=======
+            android:textSize="22sp"
+            android:ellipsize="end"
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
             android:text=""/>
 
         <ImageView

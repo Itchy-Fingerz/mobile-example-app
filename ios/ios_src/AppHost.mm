@@ -28,8 +28,6 @@
 #include "ModalBackgroundView.h"
 #include "FlattenButtonView.h"
 #include "FlattenButtonViewModule.h"
-#include "WorldPinOnMapViewModule.h"
-#include "WorldPinOnMapViewContainer.h"
 #include "SearchResultPoiViewModule.h"
 #include "SearchResultPoiView.h"
 #include "SearchResultSectionModule.h"
@@ -62,9 +60,6 @@
 #include "WatermarkViewModule.h"
 #include "CustomAlertViewModule.h"
 #include "WatermarkView.h"
-#include "TourWebViewModule.h"
-#include "TourExplorerViewModule.h"
-#include "TourExplorerView.h"
 #include "NetworkCapabilities.h"
 #include "InitialExperienceIntroViewModule.h"
 #include "InitialExperienceIntroView.h"
@@ -75,10 +70,6 @@
 #include "IInteriorsExplorerModule.h"
 #include "InteriorsPresentationModule.h"
 #include "InteriorsExplorerView.h"
-#include "TourHovercardView.h"
-#include "TourFullScreenImageViewModule.h"
-#include "TourFullScreenImageViewModel.h"
-#include "TourFullScreenImageView.h"
 #include "ImageStore.h"
 #include "SearchVendorNames.h"
 #include "UserInteractionEnabledChangedMessage.h"
@@ -89,11 +80,10 @@
 #include "AppUrlDelegate.h"
 #include "InteriorMetaDataRepository.h"
 #include "InteriorMetaDataModule.h"
-
+#include "iOSAutomatedScreenshotController.h"
 #import "UIView+TouchExclusivity.h"
 #include "BillBoardsViewModule.h"
 #include "VideoAssetReaderModule.h"
-
 #include "DirectionsMenuInitiationViewModule.h"
 #include "IDirectionsMenuInitiationModule.h"
 #include "IDirectionsMenuInitiationViewModule.h"
@@ -129,14 +119,13 @@ AppHost::AppHost(
     ,m_requestedApplicationInitialiseViewState(false)
     ,m_iOSFlurryMetricsService(metricsService)
     ,m_failAlertHandler(this, &AppHost::HandleStartupFailure)
-    ,m_pTourWebViewModule(NULL)
-    ,m_pTourFullScreenImageViewModule(NULL)
-    ,m_pTourExplorerViewModule(NULL)
     ,m_userInteractionEnabledChangedHandler(this, &AppHost::HandleUserInteractionEnabledChanged)
     ,m_pLinkOutObserver(NULL)
     ,m_pURLRequestHandler(NULL)
     ,m_pMenuReactionModel(NULL)
     ,m_pTagSearchViewModule(NULL)
+    ,m_screenshotService(m_pView)
+    ,m_piOSAutomatedScreenshotController(NULL)
 {
     Eegeo::TtyHandler::TtyEnabled = true;
     
@@ -190,33 +179,45 @@ AppHost::AppHost(
              m_iOSFlurryMetricsService,             
              *this,
              *m_pMenuReactionModel,
-             m_userIdleService);
+             m_userIdleService,
+             m_screenshotService);
     
     Eegeo::Modules::Map::MapModule& mapModule = m_pApp->World().GetMapModule();
     Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
-    m_pIndoorAtlasLocationModule = Eegeo_NEW(ExampleApp::IndoorAtlas::IndoorAtlasLocationModule)(m_pApp->GetAppModeModel(),
-                                                                                                 interiorsPresentationModule.GetInteriorInteractionModel(),
-                                                                                                 interiorsPresentationModule.GetInteriorSelectionModel(),
-                                                                                                 mapModule.GetEnvironmentFlatteningService(),
-                                                                                                 *m_piOSLocationService,
-                                                                                                 mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
-                                                                                                 m_iOSAlertBoxFactory);
+    m_pIndoorAtlasLocationModule = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::IndoorAtlas::IndoorAtlasLocationModule)(m_pApp->GetAppModeModel(),
+                                                                                                                              interiorsPresentationModule.GetInteriorInteractionModel(),
+                                                                                                                              interiorsPresentationModule.GetInteriorSelectionModel(),
+                                                                                                                              mapModule.GetEnvironmentFlatteningService(),
+                                                                                                                              *m_piOSLocationService,
+                                                                                                                              mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
+                                                                                                                              m_iOSAlertBoxFactory);
     
     m_pSenionLabLocationModule = Eegeo_NEW(ExampleApp::SenionLab::SenionLabLocationModule)(m_pApp->GetAppModeModel(),
                                                                                            interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                            interiorsPresentationModule.GetInteriorSelectionModel(),
                                                                                            mapModule.GetEnvironmentFlatteningService(),                                                                                                                                                                                                                                                                
                                                                                            *m_piOSLocationService,
-                                                                                           mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository());
+                                                                                           mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
+                                                                                           m_iOSAlertBoxFactory,
+                                                                                           m_messageBus);
+    std::map<std::string, Eegeo::Location::ILocationService&> interiorLocationServices{{"Senion", m_pSenionLabLocationModule->GetLocationService()},
+                                                                                       {"IndoorAtlas", m_pIndoorAtlasLocationModule->GetLocationService()}};
+    m_pInteriorsLocationServiceModule = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceModule)(m_pApp->InteriorsExplorerModule().GetInteriorsExplorerModel(),
+                                                                                                                           interiorsPresentationModule.GetInteriorSelectionModel(),
+                                                                                                                           *m_pCurrentLocationService,
+                                                                                                                           *m_piOSLocationService,
+                                                                                                                           interiorLocationServices,
+                                                                                                                           mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
+                                                                                                                           interiorsPresentationModule.GetInteriorInteractionModel(),
+                                                                                                                           m_pApp->CameraTransitionController(),
+                                                                                                                           m_pApp->CompassModule().GetCompassModel(),
+                                                                                                                           m_messageBus);
     
-    m_pInteriorsLocationServiceProvider = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceProvider)(                                                                                                                               m_pApp->InteriorsExplorerModule().GetInteriorsExplorerModel(),
-                                                                                                                               interiorsPresentationModule.GetInteriorSelectionModel(),
-                                                                                                                               *m_pCurrentLocationService,
-                                                                                                                               *m_piOSLocationService,
-                                                                                                                               m_pIndoorAtlasLocationModule->GetLocationService(),
-                                                                                                                               m_pSenionLabLocationModule->GetLocationService(),
-                                                                                                                               mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
-                                                                                                                               m_messageBus);
+    ExampleApp::Automation::AutomatedScreenshotController* screenshotController = m_pApp->AutomatedScreenshotController();
+    if (NULL != screenshotController)
+    {
+        m_piOSAutomatedScreenshotController = Eegeo_NEW(ExampleApp::Automation::SdkModel::iOSAutomatedScreenshotController)(m_screenshotService, *screenshotController);
+    }
     
     CreateApplicationViewModules(screenProperties);
 
@@ -242,6 +243,9 @@ AppHost::~AppHost()
 
     DestroyApplicationViewModules();
     
+    Eegeo_DELETE(m_piOSAutomatedScreenshotController);
+    m_piOSAutomatedScreenshotController = NULL;
+    
     Eegeo_DELETE m_pApp;
     m_pApp = NULL;
     
@@ -260,8 +264,8 @@ AppHost::~AppHost()
     Eegeo_DELETE m_pInitialExperienceModule;
     m_pInitialExperienceModule = NULL;
     
-    Eegeo_DELETE m_pInteriorsLocationServiceProvider;
-    m_pInteriorsLocationServiceProvider = NULL;
+    Eegeo_DELETE m_pInteriorsLocationServiceModule;
+    m_pInteriorsLocationServiceModule = NULL;
     
     Eegeo_DELETE m_pIndoorAtlasLocationModule;
     m_pIndoorAtlasLocationModule = NULL;
@@ -321,6 +325,8 @@ void AppHost::Update(float dt)
     m_pApp->Update(dt);
     m_pViewControllerUpdaterModule->GetViewControllerUpdaterModel().UpdateObjectsUiThread(dt);
     
+    m_pInteriorsLocationServiceModule->GetController().Update();
+
     m_messageBus.FlushToUi();
     m_messageBus.FlushToNative();
 }
@@ -404,12 +410,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                      m_messageBus,
                                      m_iOSFlurryMetricsService);
 
-    m_pWorldPinOnMapViewModule = Eegeo_NEW(ExampleApp::WorldPins::View::WorldPinOnMapViewModule)(app.WorldPinsModule().GetWorldPinInFocusViewModel(),
-                                 app.WorldPinsModule().GetScreenControlViewModel(),
-                                 app.ModalityModule().GetModalityModel(),
-                                 app.PinDiameter(),
-                                 screenProperties.GetPixelScale(),
-                                 m_pImageStore);
     m_pCompassViewModule = Eegeo_NEW(ExampleApp::Compass::View::CompassViewModule)(app.CompassModule().GetCompassViewModel(),
                            screenProperties,
                            m_messageBus);
@@ -420,7 +420,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                    m_piOSPlatformAbstractionModule->GetiOSHttpCache(),
                                                                                    m_messageBus,
                                                                                    app.World().GetWorkPool());
-
 
     
     m_pDirectionsMenuInitiationViewModule = Eegeo_NEW(ExampleApp::DirectionsMenuInitiation::View::DirectionsMenuInitiationViewModule)(m_messageBus,
@@ -448,24 +447,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                 app.MyPinDetailsModule().GetMyPinDetailsViewModel(),
                                 screenProperties);
     
-    
-    if(app.ToursEnabled())
-    {
-        m_pTourWebViewModule = Eegeo_NEW(ExampleApp::Tours::View::TourWeb::TourWebViewModule)(screenProperties);
-        
-        m_pTourExplorerViewModule = Eegeo_NEW(ExampleApp::Tours::View::TourExplorer::TourExplorerViewModule)
-                                                                                           (m_messageBus,
-                                                                                            app.ToursModule().GetToursExplorerViewModel(),
-                                                                                            *m_pURLRequestHandler,
-                                                                                            app.ToursModule().GetToursExplorerCompositeViewController(),
-                                                                                            screenProperties,
-                                                                                            m_pImageStore);
-    
-        m_pTourFullScreenImageViewModule = Eegeo_NEW(ExampleApp::Tours::View::TourFullScreenImage::TourFullScreenImageViewModule)(app.ToursModule().GetTourFullScreenImageViewModel(),
-                                                                                                                                  screenProperties);
-    }
-    
-    m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(m_messageBus);
+    m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(m_messageBus, app.CameraTransitionController(), screenProperties);
     
     
     m_pInteriorsExplorerViewModule = Eegeo_NEW(ExampleApp::InteriorsExplorer::View::InteriorsExplorerViewModule)(app.InteriorsExplorerModule().GetInteriorsExplorerModel(),
@@ -474,9 +456,17 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                                                  screenProperties,
                                                                                                                  app.GetIdentityProvider());
     
+    m_pOptionsViewModule = Eegeo_NEW(ExampleApp::Options::View::OptionsViewModule)(app.OptionsModule().GetOptionsViewModel(),
+                                                                                   m_piOSPlatformAbstractionModule->GetiOSHttpCache(),
+                                                                                   m_messageBus,
+                                                                                   app.World().GetWorkPool(),
+                                                                                   m_pInteriorsExplorerViewModule->GetController(),
+                                                                                   m_pInitialExperienceIntroViewModule->GetIntroViewController());
+
     m_pSurveyViewModule = Eegeo_NEW(ExampleApp::Surveys::View::SurveyViewModule)(m_messageBus,
                                                                                  m_iOSFlurryMetricsService,
-                                                                                 *m_pURLRequestHandler);
+                                                                                 *m_pURLRequestHandler,
+                                                                                 m_pApp->GetApplicationConfiguration().TimerSurveyUrl());
     
     
 
@@ -486,7 +476,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 
     
     // 3d map view layer.
-    [m_pView addSubview: &m_pWorldPinOnMapViewModule->GetWorldPinOnMapView()];
     
     // Initial Experience background
     [m_pView addSubview: &m_pInitialExperienceIntroViewModule->GetIntroBackgroundView()];
@@ -497,13 +486,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     [m_pView addSubview: &m_pCompassViewModule->GetCompassView()];
     [m_pView addSubview: &m_pDirectionsMenuInitiationViewModule->GetDirectionsMenuInitiationView()];
     [m_pView addSubview: &m_pMyPinCreationConfirmationViewModule->GetMyPinCreationConfirmationView()];
-    
-    
-    if(m_pApp->ToursEnabled())
-    {
-        [m_pView addSubview: &m_pTourFullScreenImageViewModule->GetTourFullScreenImageView()];
-        [m_pView addSubview: &m_pTourExplorerViewModule->GetTourExplorerView()];
-    }
+
     [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetView()];
 
     // Modal background layer.
@@ -520,10 +503,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     [m_pView addSubview: &m_pOptionsViewModule->GetOptionsView()];
     [m_pView addSubview: &m_pMyPinCreationDetailsViewModule->GetMyPinCreationDetailsView()];
     [m_pView addSubview: &m_pMyPinDetailsViewModule->GetMyPinDetailsView()];
-    if(m_pApp->ToursEnabled())
-    {
-        [m_pView addSubview: &m_pTourWebViewModule->GetTourWebView()];
-    }
     
     // Interior tutorial layer
     [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetTutorialView()];
@@ -550,7 +529,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 void AppHost::DestroyApplicationViewModules()
 {
     // 3d map view layer.
-    [&m_pWorldPinOnMapViewModule->GetWorldPinOnMapView() removeFromSuperview];
     
     [&m_pInitialExperienceIntroViewModule->GetIntroBackgroundView() removeFromSuperview];
 
@@ -560,11 +538,6 @@ void AppHost::DestroyApplicationViewModules()
     [&m_pCompassViewModule->GetCompassView() removeFromSuperview];
     [&m_pDirectionsMenuInitiationViewModule->GetDirectionsMenuInitiationView() removeFromSuperview];
     [&m_pMyPinCreationConfirmationViewModule->GetMyPinCreationConfirmationView() removeFromSuperview];
-    if(m_pApp->ToursEnabled())
-    {
-        [&m_pTourFullScreenImageViewModule->GetTourFullScreenImageView() removeFromSuperview];
-        [&m_pTourExplorerViewModule->GetTourExplorerView() removeFromSuperview];
-    }
     [&m_pInteriorsExplorerViewModule->GetView() removeFromSuperview];
 
     // Modal background layer.
@@ -581,10 +554,6 @@ void AppHost::DestroyApplicationViewModules()
     [&m_pSearchResultPoiViewModule->GetView() removeFromSuperview];
     [&m_pAboutPageViewModule->GetAboutPageView() removeFromSuperview];
     [&m_pOptionsViewModule->GetOptionsView() removeFromSuperview];
-    if(m_pApp->ToursEnabled())
-    {
-        [&m_pTourWebViewModule->GetTourWebView() removeFromSuperview];
-    }
     
     
     // Initial experience layer
@@ -592,13 +561,11 @@ void AppHost::DestroyApplicationViewModules()
     
     Eegeo_DELETE m_pSurveyViewModule;
     
+    Eegeo_DELETE m_pOptionsViewModule;
+
     Eegeo_DELETE m_pInteriorsExplorerViewModule;
     
     Eegeo_DELETE m_pViewControllerUpdaterModule;
-    
-    Eegeo_DELETE m_pTourFullScreenImageViewModule;
-    
-    Eegeo_DELETE m_pTourExplorerViewModule;
     
     Eegeo_DELETE m_pMyPinDetailsViewModule;
 
@@ -606,16 +573,10 @@ void AppHost::DestroyApplicationViewModules()
 
     Eegeo_DELETE m_pMyPinCreationConfirmationViewModule;
     
-    Eegeo_DELETE m_pOptionsViewModule;
-    
     Eegeo_DELETE m_pAboutPageViewModule;
 
     Eegeo_DELETE m_pCompassViewModule;
 
-    Eegeo_DELETE m_pWorldPinOnMapViewModule;
-    
-    Eegeo_DELETE m_pTourWebViewModule;
-    
     Eegeo_DELETE m_pSearchResultPoiViewModule;
 
     Eegeo_DELETE m_pModalBackgroundViewModule;

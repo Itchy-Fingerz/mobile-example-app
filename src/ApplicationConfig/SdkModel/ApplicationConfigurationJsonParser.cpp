@@ -35,11 +35,10 @@ namespace ExampleApp
                 const std::string EegeoSearchServiceUrl = "eegeo_search_service_url";
                 const std::string MyPinsWebServiceUrl = "mypins_web_service_url";
                 const std::string MyPinsWebServiceAuthToken = "mypins_web_service_auth_token";
-                const std::string TwitterAuthCode = "twitter_auth_code";
+                const std::string MyPinsPoiSetId = "mypins_poi_set_id";
                 const std::string IsKioskTouchInputEnabled = "is_kiosk_touch_input_enabled";
                 const std::string IsInKioskMode = "is_in_kiosk_mode";
                 const std::string StartAppInFullscreen = "start_app_in_fullscreen";
-                const std::string UseLabels = "use_labels";
                 const std::string UseJapaneseFont = "use_japanese_font";
                 const std::string IndoorTrackedBuildings = "indoor_tracked_buildings";
                 const std::string InteriorId = "interior_id";
@@ -60,6 +59,10 @@ namespace ExampleApp
                 const std::string AttractModePositionSpline = "attract_mode_position_spline";
                 const std::string AttractModeTimeoutMillis = "attract_mode_timeout_millis";
                 const std::string AttractModePlaybackSpeed = "attract_mode_playback_speed";
+                const std::string OptionsAdminPassword = "options_admin_password";
+                const std::string SurveyTimeRequirementSec = "survey_time_requirement_sec";
+                const std::string TimerSurveyUrl = "timer_survey_url";
+                const std::string HockeyAppId = "hockey_app_id";
                 
                 std::string ParseStringOrDefault(rapidjson::Document& document, const std::string& key, const std::string& defaultValue)
                 {
@@ -225,11 +228,11 @@ namespace ExampleApp
                 const std::string& eegeoSearchServiceUrl = ParseStringOrDefault(document, EegeoSearchServiceUrl, m_defaultConfig.EegeoSearchServiceUrl());
                 const std::string& myPinsWebServiceUrl = ParseStringOrDefault(document, MyPinsWebServiceUrl, m_defaultConfig.MyPinsWebServiceUrl());
                 const std::string& myPinsWebServiceAuthToken = ParseStringOrDefault(document, MyPinsWebServiceAuthToken, m_defaultConfig.MyPinsWebServiceAuthToken());
-                const std::string& twitterAuthCode = ParseStringOrDefault(document, TwitterAuthCode, m_defaultConfig.TwitterAuthCode());
+
+                const std::string& myPinsPoiSetId = ParseStringOrDefault(document, MyPinsPoiSetId, m_defaultConfig.MyPinsPoiSetId());
                 bool isKioskTouchInputEnabled = ParseBoolOrDefault(document, IsKioskTouchInputEnabled, m_defaultConfig.IsKioskTouchInputEnabled());
                 bool isInKioskMode = ParseBoolOrDefault(document, IsInKioskMode, m_defaultConfig.IsInKioskMode());
                 bool startFullscreen = ParseBoolOrDefault(document, StartAppInFullscreen, m_defaultConfig.ShouldStartFullscreen());
-                bool useLabels = ParseBoolOrDefault(document, UseLabels, m_defaultConfig.UseLabels());
                 bool useJapaneseFont = ParseBoolOrDefault(document, UseJapaneseFont, m_defaultConfig.UseJapaneseFont());
 
                 std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo> interiorTrackingInfoList;
@@ -256,6 +259,14 @@ namespace ExampleApp
                 const long long attractModeTimeoutMillis = ParseIntOrDefault(document, AttractModeTimeoutMillis, static_cast<int>(m_defaultConfig.AttractModeTimeoutMs()));
                 const float attractModePlaybackSpeed = ParseDoubleOrDefault(document, AttractModePlaybackSpeed, m_defaultConfig.AttractModePlaybackSpeed());
 
+                const std::string optionsAdminPassword(ParseStringOrDefault(document, OptionsAdminPassword, m_defaultConfig.OptionsAdminPassword()));
+                
+                const long long surveyTimeRequirementSec = ParseIntOrDefault(document, SurveyTimeRequirementSec, static_cast<int>(m_defaultConfig.SurveyRequirementTimeSec()));
+                
+                const std::string timerSurveyUrl = ParseStringOrDefault(document, TimerSurveyUrl, m_defaultConfig.TimerSurveyUrl());
+                
+                const std::string hockeyAppId = ParseStringOrDefault(document, HockeyAppId, m_defaultConfig.HockeyAppId());
+
                 return ApplicationConfiguration(
                     name,
                     eegeoApiKey,
@@ -280,10 +291,9 @@ namespace ExampleApp
                     eegeoSearchServiceUrl,
                     myPinsWebServiceUrl,
                     myPinsWebServiceAuthToken,
-                    twitterAuthCode,
+                    myPinsPoiSetId,
                     isKioskTouchInputEnabled,
                     isInKioskMode,
-                    useLabels,
                     useJapaneseFont,
                     interiorTrackingInfoList,
                     serialized,
@@ -291,7 +301,11 @@ namespace ExampleApp
                     attractModeTargetSplinePoints,
                     attractModePositionSplinePoints,
                     attractModeTimeoutMillis,
-                    attractModePlaybackSpeed
+                    attractModePlaybackSpeed,
+                    optionsAdminPassword,
+                    surveyTimeRequirementSec,
+                    timerSurveyUrl,
+                    hockeyAppId
                 );
             }
             
@@ -301,7 +315,17 @@ namespace ExampleApp
                 const bool hasParseError(document.Parse<0>(serialized.c_str()).HasParseError());
                 return !hasParseError;
             }
-            
+
+            bool ApplicationConfigurationJsonParser::HasKey(const std::string& serialized, const std::string& key)
+            {
+                rapidjson::Document document;
+                const bool hasParseError(document.Parse<0>(serialized.c_str()).HasParseError());
+                if (!hasParseError) {
+                    return document.HasMember(key.c_str());
+                }
+                return false;
+            }
+
             void ApplicationConfigurationJsonParser::ParseIndoorTrackingInfo(std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfoList,
                                                                              const rapidjson::Value& indoorTrackedBuildingsArray)
             {

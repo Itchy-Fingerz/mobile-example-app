@@ -15,6 +15,7 @@
 #include "ISingleOptionAlertBoxDismissedHandler.h"
 #include "InteriorsExplorer.h"
 #include "InteriorInteractionModel.h"
+#include "CameraTransitionService.h"
 
 namespace ExampleApp
 {
@@ -36,9 +37,10 @@ namespace ExampleApp
                 std::map<Eegeo::Location::NavigationService::GpsMode, GpsMode::Values> m_compassGpsModeToNavigationGpsMode;
                 std::map<GpsMode::Values, Eegeo::Location::NavigationService::GpsMode> m_navigationGpsModeToCompassGpsMode;
                 std::map<GpsMode::Values, const char*> m_gpsModeToString;
+                const bool m_isInKioskMode;
                 
                 Metrics::IMetricsService& m_metricsService;
-
+                
                 AppModes::SdkModel::IAppModeModel& m_appModeModel;
                 InteriorsExplorer::SdkModel::InteriorsExplorerModel& m_interiorExplorerModel;
                 Eegeo::Helpers::TCallback0<CompassModel> m_appModeChangedCallback;
@@ -48,7 +50,7 @@ namespace ExampleApp
                 Eegeo::UI::NativeAlerts::TSingleOptionAlertBoxDismissedHandler<CompassModel> m_failAlertHandler;
                 
             public:
-
+                
                 CompassModel(Eegeo::Location::NavigationService& navigationService,
                              Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                              Eegeo::Location::ILocationService& locationService,
@@ -56,32 +58,33 @@ namespace ExampleApp
                              Metrics::IMetricsService& metricsService,
                              InteriorsExplorer::SdkModel::InteriorsExplorerModel& interiorExplorerModel,
                              AppModes::SdkModel::IAppModeModel& appModeModel,
-                             Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory);
-
+                             Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
+                             bool isInKioskMode);
+                
                 ~CompassModel();
-
+                
                 bool GetGpsModeActive() const;
-
+                
                 GpsMode::Values GetGpsMode() const;
-
+                
                 void DisableGpsMode();
-
+                
                 void TryUpdateToNavigationServiceGpsMode(Eegeo::Location::NavigationService::GpsMode value);
-
+                
                 float GetHeadingRadians() const;
-
+                
                 float GetHeadingDegrees() const;
-
+                
                 void CycleToNextGpsMode();
-
+                
                 void InsertGpsModeChangedCallback(Eegeo::Helpers::ICallback0& callback);
-
+                
                 void RemoveGpsModeChangedCallback(Eegeo::Helpers::ICallback0& callback);
                 
                 void InsertGpsModeUnauthorizedCallback(Eegeo::Helpers::ICallback0& callback);
                 
                 void RemoveGpsModeUnauthorizedCallback(Eegeo::Helpers::ICallback0& callback);
-
+                
             private:
                 void SetGpsMode(GpsMode::Values value);
                 
@@ -92,6 +95,8 @@ namespace ExampleApp
                 void OnFailedToGetLocation();
                 
                 bool NeedsToExitInterior(GpsMode::Values gpsMode);
+                
+                float GetIndoorsHeadingRadians() const;
             };
         }
     }

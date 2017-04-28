@@ -20,12 +20,18 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_destroyNativeCode(JNIEnv* jenv, jobject obj);
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_pauseNativeCode(JNIEnv* jenv, jobject obj);
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_resumeNativeCode(JNIEnv* jenv, jobject obj);
-    JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_setNativeSurface(JNIEnv* jenv, jobject obj, jobject surface);
+    JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_releaseNativeWindow(JNIEnv* jenv, jobject obj, jlong surface);
+    JNIEXPORT jlong JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_setNativeSurface(JNIEnv* jenv, jobject obj, jobject surface);
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_stopUpdatingNativeCode(JNIEnv* jenv, jobject obj);
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_updateNativeCode(JNIEnv* jenv, jobject obj, jfloat deltaSeconds);
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_updateUiViewCode(JNIEnv* jenv, jobject obj, jfloat deltaSeconds);
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_destroyApplicationUi(JNIEnv* jenv, jobject obj);
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_handleUrlOpenEvent(JNIEnv* jenv, jobject obj, jstring host, jstring path);
+<<<<<<< HEAD
+=======
+
+    JNIEXPORT jstring JNICALL Java_com_eegeo_entrypointinfrastructure_NativeJniCalls_getAppConfigurationPath(JNIEnv* jenv, jobject obj);
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
     //input
     JNIEXPORT void JNICALL Java_com_eegeo_entrypointinfrastructure_EegeoSurfaceView_processNativePointerDown(JNIEnv* jenv, jobject obj,

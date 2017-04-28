@@ -5,6 +5,10 @@ package com.eegeo.initialexperience.intro;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.mobileexampleapp.R;
 
+import android.content.res.Resources;
+import android.graphics.Point;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -12,7 +16,6 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,12 +29,14 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
 	private int m_animationDuration;
 	
 	private RelativeLayout m_banner;
-	private LinearLayout m_settingMenuDialog;
-	private LinearLayout m_searchMenuDialog;
-	private LinearLayout m_compassDialog;
-	private LinearLayout m_mapmodeDialog;
-	private LinearLayout m_pinCreationDialog;
+	private RelativeLayout m_bannerInner;
+	private ViewGroup m_searchMenuDialog;
+	private ViewGroup m_compassDialog;
+	private ViewGroup m_mapmodeDialog;
+	private ViewGroup m_pinCreationDialog;
 	private View m_view;
+	private TextView m_welcomeIntroText;
+	private TextView m_welcomeIntroDescription;
 	
 	private Animation m_mainAnimationOn;
 	private Animation m_mainAnimationOff;
@@ -54,17 +59,27 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
         m_view = m_activity.getLayoutInflater().inflate(R.layout.initial_experience_intro_layout, m_uiRoot, false);
         
         m_banner = (RelativeLayout)m_view.findViewById(R.id.initial_ux_intro_banner);
-        m_settingMenuDialog = (LinearLayout)m_view.findViewById(R.id.initial_ux_settings_menu_dialog);
-        m_searchMenuDialog = (LinearLayout)m_view.findViewById(R.id.initial_ux_search_menu_dialog);
-        m_compassDialog = (LinearLayout)m_view.findViewById(R.id.initial_ux_compass_dialog);
-        m_mapmodeDialog = (LinearLayout)m_view.findViewById(R.id.initial_ux_mapmode_dialog);
-        m_pinCreationDialog = (LinearLayout)m_view.findViewById(R.id.initial_ux_pin_creation_dialog);
+		m_bannerInner = (RelativeLayout)m_view.findViewById(R.id.welcome_intro_banner_inner);
+        m_searchMenuDialog = (ViewGroup)m_view.findViewById(R.id.initial_ux_search_menu_dialog);
+        m_compassDialog = (ViewGroup)m_view.findViewById(R.id.initial_ux_compass_dialog);
+        m_mapmodeDialog = (ViewGroup)m_view.findViewById(R.id.initial_ux_mapmode_dialog);
+        m_pinCreationDialog = (ViewGroup)m_view.findViewById(R.id.initial_ux_pin_creation_dialog);
+		m_welcomeIntroText = (TextView)m_view.findViewById(R.id.welcome_intro_text);
+		m_welcomeIntroDescription = (TextView)m_view.findViewById(R.id.welcome_intro_description);
         
-        setDialogText(m_settingMenuDialog, "Settings Menu", "Change your settings here");
-        setDialogText(m_searchMenuDialog, "Search Menu", "Start exploring here");
-        setDialogText(m_compassDialog, "Compass", "Find me\nLock rotation");
-        setDialogText(m_mapmodeDialog, "Map Mode", "Simple 2D View");
-        setDialogText(m_pinCreationDialog, "My Pins", "Create your own pins");
+        Resources resources = m_activity.getResources();
+        setDialogText(m_searchMenuDialog,
+                      resources.getString(R.string.initial_ux_search_dialog_title),
+                      resources.getString(R.string.initial_ux_search_dialog_description));
+        setDialogText(m_compassDialog,
+                      resources.getString(R.string.initial_ux_compass_dialog_title),
+                      resources.getString(R.string.initial_ux_compass_dialog_description));
+        setDialogText(m_mapmodeDialog,
+                      resources.getString(R.string.initial_ux_mapmode_dialog_title),
+                      resources.getString(R.string.initial_ux_mapmode_dialog_description));
+        setDialogText(m_pinCreationDialog,
+                      resources.getString(R.string.initial_ux_pincreation_dialog_title),
+                      resources.getString(R.string.initial_ux_pincreation_dialog_description));
         m_view.setOnClickListener(this);
         
         m_awaitingInput = false;
@@ -78,9 +93,46 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
     	m_view.setOnClickListener(null);
 	    m_uiRoot.removeView(m_view);
 	}
+
+	public void scaleDimensions()
+	{
+		boolean isTablet = !m_activity.getResources().getBoolean(R.bool.isPhone);
+		if(isTablet)
+		{
+			DisplayMetrics metrics = m_activity.getApplicationContext().getResources().getDisplayMetrics();
+			Point screenSize = new Point();
+			m_activity.getWindowManager().getDefaultDisplay().getRealSize(screenSize);
+			final float dpScale = 1.7f / metrics.density;
+			final float tabletScalingFactor = (1705.f / screenSize.y) / dpScale;
+			final int introTextYPosition = (int) ((m_banner.getLayoutParams().height * 0.1f) / tabletScalingFactor);
+			final int descriptionTextYPosition = (int) ((m_banner.getLayoutParams().height * 0.55f) / tabletScalingFactor);
+			final float welcomeDescriptionTextsize = m_welcomeIntroDescription.getTextSize() / metrics.density;
+			final float welcomeIntroTextSize = m_welcomeIntroText.getTextSize() / metrics.density;
+
+			RelativeLayout.LayoutParams welcomeDescriptionLayout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+			welcomeDescriptionLayout.setMargins(0, descriptionTextYPosition, 0, 0);
+			welcomeDescriptionLayout.addRule(RelativeLayout.CENTER_HORIZONTAL);
+			m_welcomeIntroDescription.setLayoutParams(welcomeDescriptionLayout);
+			m_welcomeIntroDescription.setTextSize(TypedValue.COMPLEX_UNIT_SP, welcomeDescriptionTextsize / tabletScalingFactor);
+
+			RelativeLayout.LayoutParams introTextLayout = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+			introTextLayout.setMargins(0, descriptionTextYPosition, 0, 0);
+			introTextLayout.addRule(RelativeLayout.CENTER_HORIZONTAL);
+			introTextLayout.setMargins(0, introTextYPosition, 0, 0);
+			m_welcomeIntroText.setLayoutParams(introTextLayout);
+			m_welcomeIntroText.setTextSize(TypedValue.COMPLEX_UNIT_SP, welcomeIntroTextSize / tabletScalingFactor);
+
+			m_banner.getLayoutParams().height = (int) (m_banner.getLayoutParams().height / tabletScalingFactor);
+			m_banner.requestLayout();
+			m_bannerInner.getLayoutParams().height = (int) (m_bannerInner.getLayoutParams().height / tabletScalingFactor);
+			m_bannerInner.requestLayout();
+		}
+	}
     
     public void show()
     {
+		scaleDimensions();
+
     	m_awaitingInput = true;
     	m_view.setVisibility(View.VISIBLE);
 
@@ -89,8 +141,6 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
     	m_mainAnimationOn.setInterpolator(new DecelerateInterpolator());
     	m_banner.startAnimation(m_mainAnimationOn);
     	
-    	Animation settingsDialogAnim = createDialogAnimation(0.0f, 1.0f, m_animationDuration/4, 0);
-    	m_settingMenuDialog.startAnimation(settingsDialogAnim);
     	Animation searchDialogAnim = createDialogAnimation(0.0f, 1.0f, m_animationDuration/4, (m_animationDuration/4)*1);
     	m_searchMenuDialog.startAnimation(searchDialogAnim);
     	Animation mapModeAnim = createDialogAnimation(0.0f, 1.0f, m_animationDuration/4, (m_animationDuration/4)*2);
@@ -99,6 +149,7 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
     	m_compassDialog.startAnimation(compassAnim);
     	Animation pinCreateAnim = createDialogAnimation(0.0f, 1.0f, m_animationDuration/4, (m_animationDuration/4)*4);
     	m_pinCreationDialog.startAnimation(pinCreateAnim);
+		m_banner.bringToFront();
     }
 
     public void dismiss()
@@ -110,8 +161,6 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
     	m_mainAnimationOff.setAnimationListener(this);
     	m_banner.startAnimation(m_mainAnimationOff);
     	
-    	Animation settingDialogAnim = createDialogAnimation(1.0f, 0.0f, m_animationDuration/4, 0);
-    	m_settingMenuDialog.startAnimation(settingDialogAnim);
     	Animation searchDialogAnim = createDialogAnimation(1.0f, 0.0f, m_animationDuration/4, (m_animationDuration/4)*1);
     	m_searchMenuDialog.startAnimation(searchDialogAnim);
     	Animation mapModeAnim = createDialogAnimation(1.0f, 0.0f, m_animationDuration/4, (m_animationDuration/4)*2);
@@ -132,15 +181,10 @@ public class InitialExperienceIntroView implements View.OnClickListener, Animati
     	return result;
     }
     
-    private void setDialogText(LinearLayout dialogRoot, String titleText, String descText)
+    private void setDialogText(ViewGroup dialogRoot, String titleText, String descText)
     {
-    	ViewGroup dialog = (ViewGroup)dialogRoot.getChildAt(0);
-    	if(dialog instanceof RelativeLayout)
-    	{
-    		dialog = (ViewGroup)dialogRoot.getChildAt(1);
-    	}
-    	TextView title = (TextView)dialog.getChildAt(0);
-    	TextView description = (TextView)dialog.getChildAt(1);
+    	TextView title = (TextView)dialogRoot.findViewById(R.id.initial_ux_dialog_title);
+    	TextView description = (TextView)dialogRoot.findViewById(R.id.initial_ux_dialog_description);
     	title.setText(titleText);
     	description.setText(descText);
     }

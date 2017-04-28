@@ -8,14 +8,18 @@
 #include "LatLongAltitude.h"
 #include "RenderCamera.h"
 #include "SearchResultModel.h"
+#include "BidirectionalBus.h"
+#include "SearchQueryResultsRemovedMessage.h"
+#include "CameraState.h"
 
 namespace
 {
     float GetSearchRadius(const Eegeo::Camera::RenderCamera& renderCamera)
     {
+        const float SearchRadiusMin = 1000.f;
         const float SearchRadiusMax = 50000.f;
         float radius = (renderCamera.GetAltitude() * Eegeo::Math::Tan(renderCamera.GetFOV()));
-        return Eegeo::Min(SearchRadiusMax, radius);
+        return Eegeo::Clamp(radius, SearchRadiusMin, SearchRadiusMax);
     }
 }
 
@@ -27,13 +31,15 @@ namespace ExampleApp
         {
             SearchQueryPerformer::SearchQueryPerformer(ISearchService& searchService,
                                                        ISearchResultRepository& searchResultRepository,
-                                                       Eegeo::Camera::GlobeCamera::GpsGlobeCameraController& cameraController)
+                                                       ExampleApp::AppCamera::SdkModel::IAppCameraController& cameraController,
+                                                       ExampleAppMessaging::TMessageBus& messageBus)
                 : m_searchService(searchService)
                 , m_searchResultsRepository(searchResultRepository)
                 , m_pSearchResultResponseReceivedCallback(Eegeo_NEW((Eegeo::Helpers::TCallback2<SearchQueryPerformer, const SearchQuery&, const std::vector<SearchResultModel>&>))(this, &SearchQueryPerformer::HandleSearchResultsResponseReceived))
                 , m_previousQuery("", false, false, Eegeo::Space::LatLongAltitude(0.0, 0.0, 0.0), 0.f)
                 , m_hasQuery(false)
                 , m_cameraController(cameraController)
+                , m_messageBus(messageBus)
             {
                 m_searchService.InsertOnReceivedQueryResultsCallback(*m_pSearchResultResponseReceivedCallback);
             }
@@ -52,13 +58,13 @@ namespace ExampleApp
 
             void SearchQueryPerformer::PerformSearchQuery(const std::string& query, bool isTag, bool tryInteriorSearch)
             {
-                Eegeo::Space::LatLongAltitude location = Eegeo::Space::LatLongAltitude::FromECEF(m_cameraController.GetEcefInterestPoint());
+                Eegeo::Space::LatLongAltitude location = Eegeo::Space::LatLongAltitude::FromECEF(m_cameraController.GetCameraState().InterestPointEcef());
                 PerformSearchQuery(query, isTag, tryInteriorSearch, location);
             }
             
             void SearchQueryPerformer::PerformSearchQuery(const std::string& query, bool isTag, bool tryInteriorSearch, float radius)
             {
-                const Eegeo::Space::LatLongAltitude& location = Eegeo::Space::LatLongAltitude::FromECEF(m_cameraController.GetEcefInterestPoint());
+                Eegeo::Space::LatLongAltitude location = Eegeo::Space::LatLongAltitude::FromECEF(m_cameraController.GetCameraState().InterestPointEcef());
                 PerformSearchQuery(query, isTag, tryInteriorSearch, location, radius);
             }
 
@@ -92,6 +98,7 @@ namespace ExampleApp
                 RemoveExistingSearchResults();
 
                 m_queryResultsClearedCallbacks.ExecuteCallbacks();
+                m_messageBus.Publish(SearchQueryResultsRemovedMessage());
             }
 
             void SearchQueryPerformer::InsertOnSearchResultsClearedCallback(Eegeo::Helpers::ICallback0& callback)

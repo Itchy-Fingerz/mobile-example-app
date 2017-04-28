@@ -78,7 +78,6 @@ namespace
         self.pDescriptionCardContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
         [self.pLabelsContainer addSubview: self.pDescriptionCardContainer];
         
-        
         self.pTitleCardContainer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pTitleCardContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
         [self.pControlContainer addSubview: self.pTitleCardContainer];
@@ -88,7 +87,9 @@ namespace
         [self.pTitleCardContainer addSubview: self.pTagIconContainer];
         
         self.pTitleLabel = [self createLabel :ExampleApp::Helpers::ColorPalette::UiTextTitleColor :ExampleApp::Helpers::ColorPalette::UiBackgroundColor];
+
         self.pTitleLabel.adjustsFontSizeToFitWidth = YES;
+
         [self.pTitleCardContainer addSubview: self.pTitleLabel];
         
         self.pTitleCardHeaderLine = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
@@ -404,6 +405,7 @@ namespace
                                          0.f,
                                          titleCardImageSize,
                                          titleCardImageSize);
+
     
     self.pTitleCardHeaderLine.frame = CGRectMake(sideMargin,
                                                  titleCardContainerHeight + topMargin,
@@ -454,6 +456,8 @@ namespace
     self.pTitleLabel.textAlignment = NSTextAlignmentLeft;
     self.pTitleLabel.font = [UIFont systemFontOfSize:22.0f];
     
+    self.pTitleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    
     self->m_pVendorBrandingImage = [ExampleApp::Helpers::ImageHelpers::LoadImage(@"yelp_logo_100x50", true) retain];
     self.pVendorBrandingImageContainer = [[[UIImageView alloc] initWithImage:self->m_pVendorBrandingImage] autorelease];
     
@@ -493,15 +497,27 @@ namespace
     
     const float reviewCountWidth = 40.0f;
     const float reviewCountHeight = 17.0f;
-    const float yelpButtonWidth = 115.0f;
+    const float yelpButtonWidth = 138.0f;
     const float yelpButtonHeight = 25.0f;
     const float reviewSpacing = 4.0f;
     
     const float fullRatingsWidth = (m_ratingsImageWidth + reviewSpacing + reviewCountWidth);
     const CGFloat barButtonCentredX = (cardContainerWidth * 0.5f - yelpButtonWidth * 0.5f);
-    const CGFloat reviewBarOffsetX = (cardContainerWidth * 0.5f - (yelpButtonWidth + fullRatingsWidth) * 0.5f);
-    const CGFloat yelpButtonOffsetX = reviewBarOffsetX + fullRatingsWidth;
+
+    CGFloat reviewBarOffsetX = (cardContainerWidth * 0.5f) - fullRatingsWidth;
     
+    bool reviewBarIsOffScreen = reviewBarOffsetX < 0;
+    if(reviewBarIsOffScreen)
+    {
+        reviewBarOffsetX = 0.f;
+    }
+    float yelpButtonOffsetX = fullRatingsWidth;
+  
+    bool yelpButtonIsOffScreen = (yelpButtonOffsetX + yelpButtonWidth) > cardContainerWidth;
+    if(yelpButtonIsOffScreen)
+    {
+        yelpButtonOffsetX = yelpButtonOffsetX + (cardContainerWidth - (yelpButtonOffsetX + yelpButtonWidth));
+    }
     const CGFloat rateBarOriginX = hasImage ? barButtonCentredX : reviewBarOffsetX;
     const CGFloat yelpButtonX = (hasImage || !hasReviewBar) ? barButtonCentredX : yelpButtonOffsetX;
     const CGFloat imageBottomPadding = 8.0;
@@ -899,8 +915,8 @@ namespace
     {
         case PhoneAlertViewTag:
             if (buttonIndex == 1)
-            {
-                NSString * phoneUrlString = [NSString stringWithFormat:@"tel://%@", self.pPhoneContent.text];
+            { 
+                NSString * phoneUrlString = [NSString stringWithFormat:@"tel:%@", [self.pPhoneContent.text stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding]];
                 NSURL *url = [NSURL URLWithString:phoneUrlString];
                 if (![[UIApplication sharedApplication] openURL:url])
                 {

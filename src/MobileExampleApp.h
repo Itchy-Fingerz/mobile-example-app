@@ -72,23 +72,28 @@
 #include "ICustomAlertModule.h"
 #include "ApplicationConfiguration.h"
 #include "InteriorsExplorer.h"
-#include "InteriorsEntitiesPins.h"
 #include "MapMode.h"
 #include "AppModes.h"
-#include "IToursModule.h"
 #include "IAppCameraModule.h"
 #include "CameraTransitionService.h"
 #include "UserInteraction.h"
-#include "TwitterFeed.h"
-#include "TwitterFeedTour.h"
 #include "VisualMap.h"
 #include "Surveys.h"
 #include "IMenuReactionModel.h"
 #include "IMenuIgnoredReactionModel.h"
-#include "DoubleTapIndoorInteraction.h"		
+#include "DoubleTapIndoorInteraction.h"
 #include "IRayCaster.h"
-#include "IPathDrawingModule.h"
+#include "InteriorsEntityIdHighlightVisibilityController.h"
+#include "DeepLink.h"
+#include "YelpCategoryMapperUpdater.h"
+#include "IUserIdleService.h"
+#include "GlobalAppModeTransitionRules.h"
+#include "CameraSplinePlaybackController.h"
+#include "SurveyTimer.h"
+#include "InitialLocation.h"
+#include "AutomatedScreenshotController.h"
 
+#include "IPathDrawingModule.h"
 #include "DirectionsMenuInitiation.h"
 #include "DirectionsMenu.h"
 #include "DirectionResultSection.h"
@@ -98,10 +103,6 @@
 
 #include "InteriorsEntityIdHighlightVisibilityController.h"
 #include "BillBoardsModule.h"
-#include "DeepLink.h"
-#include "YelpCategoryMapperUpdater.h"
-#include "IUserIdleService.h"
-#include "GlobalAppModeTransitionRules.h"
 #include "SearchVendorNames.h"
 #include "ISearchServiceModule.h"
 
@@ -112,6 +113,7 @@ namespace ExampleApp
     private:
         Eegeo::Camera::GlobeCamera::GpsGlobeCameraController* m_pGlobeCameraController;
         AppCamera::SdkModel::AppGlobeCameraWrapper* m_pGlobeCameraWrapper;
+        Eegeo::Camera::SplinePlayback::CameraSplinePlaybackController* m_pCameraSplinePlaybackController;
         AppCamera::SdkModel::AppInteriorCameraWrapper* m_pInteriorCameraWrapper;
         Eegeo::ITouchController* m_pCameraTouchController;
         Eegeo::ITouchController* m_pCurrentTouchController;
@@ -124,11 +126,9 @@ namespace ExampleApp
         bool m_setMetricsLocation;
         float m_pinDiameter;
         
-        const bool m_enableTours;
-
         CameraTransitions::SdkModel::ICameraTransitionController* m_pCameraTransitionController;
         CameraTransitions::SdkModel::CameraTransitionService* m_pCameraTransitionService;
-
+        
         ExampleApp::PersistentSettings::IPersistentSettingsModel& m_persistentSettings;
         ExampleApp::Metrics::IMetricsService& m_metricsService;
         
@@ -137,7 +137,7 @@ namespace ExampleApp
         ExampleApp::SearchMenu::SdkModel::ISearchMenuModule* m_pSearchMenuModule;
         
         ExampleApp::DirectionsMenu::SdkModel::IDirectionsMenuModule* m_pDirectionsMenuModule;
-
+        
         ExampleApp::SearchResultSection::SdkModel::ISearchResultSectionModule* m_pSearchResultSectionModule;
         ExampleApp::DirectionResultSection::SdkModel::IDirectionsResultSectionModule* m_pDirectionResultSectionModule;
         ExampleApp::Direction::SdkModel::FindDirectionServiceModule* m_pFindDirectionServiceModule;
@@ -152,6 +152,7 @@ namespace ExampleApp
         ExampleApp::WorldPins::SdkModel::IWorldPinIconMapping* m_pWorldPinsIconMapping;
         ExampleApp::WorldPins::SdkModel::IWorldPinsModule* m_pWorldPinsModule;
         ExampleApp::WorldPins::SdkModel::IWorldPinsModule* m_pRouteWorldPinsModule;
+        ExampleApp::WorldPins::SdkModel::IWorldPinsFocusModule* m_pWorldPinsFocusModule;
         SearchResultOnMap::SdkModel::ISearchResultOnMapModule* m_pSearchResultOnMapModule;
         ExampleApp::Reaction::View::IReactionModelModule* m_pReactionModelModule;
         ExampleApp::Reaction::View::IReactionControllerModule* m_pReactionControllerModule;
@@ -165,6 +166,10 @@ namespace ExampleApp
         ExampleApp::InitialExperience::SdkModel::IInitialExperienceModule& m_initialExperienceModule;
         
         ExampleApp::DirectionsMenuInitiation::SdkModel::IDirectionsMenuInitiationModule* m_pDirectionsMenuInitiationModule;
+        
+        ExampleApp::PathDrawing::SdkModel::IPathDrawingModule* m_pPathDrawingModule;
+        
+         BillBoards::View::BillBoardsModule *m_pBillBoardModule;
         
         ExampleApp::MyPinCreation::PoiRing::SdkModel::IPoiRingModule* m_pPoiRingModule;
         ExampleApp::MyPinCreation::SdkModel::IMyPinCreationModule* m_pMyPinCreationModule;
@@ -182,59 +187,53 @@ namespace ExampleApp
         std::map<std::string,ExampleApp::Search::SdkModel::ISearchServiceModule*> m_searchServiceModules;
         Search::SdkModel::ISearchServiceModule* m_pSearchServiceModule;
         InteriorsExplorer::SdkModel::IInteriorsExplorerModule* m_pInteriorsExplorerModule;
-        InteriorsEntitiesPins::SdkModel::IInteriorsEntitiesPinsModule* m_pInteriorsEntitiesPinsModule;
         UserInteraction::SdkModel::UserInteractionModule* m_pUserInteractionModule;
-        Social::TwitterFeed::ITwitterFeedModule* m_pTwitterFeedModule;
         VisualMap::SdkModel::IVisualMapModule* m_pVisualMapModule;
         Surveys::SdkModel::ISurveyModule* m_pSurveyModule;
+        Surveys::SdkModel::SurveyTimer* m_pSurveyTimer;
         DeepLink::SdkModel::DeepLinkModule* m_pDeepLinkModule;
         InteriorsExplorer::SdkModel::Highlights::InteriorsHighlightVisibilityController* m_pInteriorsHighlightVisibilityController;
         InteriorsExplorer::SdkModel::Highlights::IHighlightColorMapper* m_pHighlightColorMapper;
         InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController* m_pInteriorsEntityIdHighlightVisibilityController;
+        ExampleApp::InitialLocation::SdkModel::IInitialLocationModel* m_pInitialLocationModel;
         
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
         Net::SdkModel::ConnectivityChangedObserver* m_pConnectivityChangedObserver;
         
-        Tours::IToursModule* m_pToursModule;
-        float m_toursPinDiameter;
-        Tours::SdkModel::TourInstances::TwitterFeed::ITwitterFeedTourModule* m_pTwitterFeedTourModule;
-        
         AppCamera::SdkModel::IAppCameraModule* m_pAppCameraModule;
         ExampleApp::DoubleTapIndoorInteraction::SdkModel::IDoubleTapIndoorInteractionController* m_pDoubleTapIndoorInteractionController;
         Eegeo::Collision::IRayCaster* m_pRayCaster;
-
+        
         Menu::View::IMenuReactionModel& m_menuReaction;
         Menu::View::IMenuIgnoredReactionModel* m_pModalityIgnoredReactionModel;
         Menu::View::IMenuIgnoredReactionModel* m_pReactorIgnoredReactionModel;
         
-        const bool m_interiorsEnabled;
-        const bool m_usingLegacyInteriorLabels;
-        const bool m_useIndoorEntryMarkerLabels;
-
         Eegeo::Input::IUserIdleService& m_userIdleService;
         AppModes::GlobalAppModeTransitionRules* m_pGlobalAppModeTransitionRules;
-
-        ExampleApp::PathDrawing::SdkModel::IPathDrawingModule* m_pPathDrawingModule;
+        
+        Automation::AutomatedScreenshotController* m_pAutomatedScreenshotController;
+        
+        ExampleApp::Automation::IScreenshotService& m_screenshotService;
         
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
                                            const bool interiorsAffectedByFlattening);
-
+        
         void DestroyApplicationModelModules();
-
+        
         void UpdateLoadingScreen(float dt);
-
+        
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> GetOpenableControls() const;
-
+        
         std::vector<ExampleApp::ScreenControl::View::IScreenControlViewModel*> GetReactorControls() const;
         
         Search::EegeoPois::SdkModel::EegeoSearchServiceModule *m_pPoiSearchModule;
         
         Eegeo::Pins::PinsModule* CreatePlatformPinsModuleInstance(Eegeo::EegeoWorld& world,
-            const Eegeo::Helpers::GLHelpers::TextureInfo& pinTextureInfo,
-            const Eegeo::Rendering::AtlasTexturePageLayout& atlasTexturePageLayou);
-
+                                                                  const Eegeo::Helpers::GLHelpers::TextureInfo& pinTextureInfo,
+                                                                  const Eegeo::Rendering::AtlasTexturePageLayout& atlasTexturePageLayou);
+        
         void InitialisePinsModules(Eegeo::Modules::Map::MapModule& mapModule,
                                    Eegeo::EegeoWorld& world,
                                    const bool interiorsAffectedByFlattening,
@@ -243,17 +242,6 @@ namespace ExampleApp
         void InitialiseAppState(Eegeo::UI::NativeUIFactories& nativeUIFactories);
         
         bool CanAcceptTouch() const;
-        
-        void AddTours();
-        
-        void InitialiseToursModules(Eegeo::Modules::Map::MapModule& mapModule,
-                                    Eegeo::EegeoWorld& world,
-                                    const bool interiorsAffectedByFlattening);
-        
-        const bool IsTourCameraActive() const;
-    
-        BillBoards::View::BillBoardsModule *m_pBillBoardModule;
-        
         
     public:
         MobileExampleApp(const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration,
@@ -268,43 +256,39 @@ namespace ExampleApp
                          ExampleAppMessaging::TMessageBus& messageBus,
                          ExampleAppMessaging::TSdkModelDomainEventBus& sdkModelDomainEventBus,
                          ExampleApp::Net::SdkModel::INetworkCapabilities& networkCapabilities,
-                         ExampleApp::Metrics::IMetricsService& metricsService,                         
+                         ExampleApp::Metrics::IMetricsService& metricsService,
                          Eegeo::IEegeoErrorHandler& errorHandler,
                          Menu::View::IMenuReactionModel& menuReaction,
-                         Eegeo::Input::IUserIdleService& userIdleService);
-
+                         Eegeo::Input::IUserIdleService& userIdleService,
+                         ExampleApp::Automation::IScreenshotService& screenshotService);
+        
         ~MobileExampleApp();
-
+        
         Eegeo::EegeoWorld& World() const
         {
             return * m_pWorld;
         }
-       
+        
         ExampleApp::ApplicationConfig::ApplicationConfiguration GetApplicationConfiguration() const
         {
             return m_applicationConfiguration;
         }
-
+        
         float PinDiameter() const
         {
             return m_pinDiameter;
-        }
-
-        float ToursPinDiameter() const
-        {
-            return m_toursPinDiameter;
         }
         
         CameraTransitions::SdkModel::ICameraTransitionController& CameraTransitionController() const
         {
             return *m_pCameraTransitionService;
         }
-
+        
         Menu::View::IMenuIgnoredReactionModel& ModalityIgnoredReactionModel() const
         {
             return *m_pModalityIgnoredReactionModel;
         }
-
+        
         Menu::View::IMenuIgnoredReactionModel& ReactorIgnoredReactionModel() const
         {
             return *m_pReactorIgnoredReactionModel;
@@ -314,91 +298,96 @@ namespace ExampleApp
         {
             return *m_pSettingsMenuModule;
         }
-
+        
         const SearchMenu::SdkModel::ISearchMenuModule& SearchMenuModule() const
         {
             return *m_pSearchMenuModule;
+        }
+        
+        const DirectionResultSection::SdkModel::IDirectionsResultSectionModule& DirectionResultSectionModule() const
+        {
+            return *m_pDirectionResultSectionModule;
         }
         
         const SearchResultSection::SdkModel::ISearchResultSectionModule& SearchResultSectionModule() const
         {
             return *m_pSearchResultSectionModule;
         }
-        const DirectionResultSection::SdkModel::IDirectionsResultSectionModule& DirectionResultSectionModule() const
-        {
-            return *m_pDirectionResultSectionModule;
-        }
         
         const ExampleApp::Modality::View::IModalityModule& ModalityModule() const
         {
             return *m_pModalityModule;
         }
-
+        
         const ExampleApp::FlattenButton::SdkModel::IFlattenButtonModule& FlattenButtonModule() const
         {
             return *m_pFlattenButtonModule;
         }
-
+        
         const Search::SdkModel::ISearchModule& SearchModule() const
         {
             return *m_pSearchModule;
         }
-
+        
         const Eegeo::Pins::PinsModule& PinsModule() const
         {
             return *m_pPinsModule;
         }
-
+        
         const ExampleApp::WorldPins::SdkModel::IWorldPinsModule& WorldPinsModule() const
         {
             return *m_pWorldPinsModule;
         }
-
         const ExampleApp::WorldPins::SdkModel::IWorldPinsModule& RouteWorldPinsModule() const
         {
             return *m_pRouteWorldPinsModule;
         }
- 
+        
+        const ExampleApp::WorldPins::SdkModel::IWorldPinsFocusModule* WorldPinsFocusModule() const
+        {
+            return m_pWorldPinsFocusModule;
+        }
+        
         const SearchResultOnMap::SdkModel::ISearchResultOnMapModule& SearchResultOnMapModule() const
         {
             return *m_pSearchResultOnMapModule;
         }
-
+        
         const Reaction::View::IReactionModelModule& ReactionModelModule() const
         {
             return *m_pReactionModelModule;
         }
-
+        
         const Reaction::View::IReactionControllerModule& ReactionControllerModule() const
         {
             return *m_pReactionControllerModule;
         }
-
+        
         const ExampleApp::SearchResultPoi::View::ISearchResultPoiModule& SearchResultPoiModule() const
         {
             return *m_pSearchResultPoiModule;
         }
-
+        
         const ExampleApp::PlaceJumps::SdkModel::IPlaceJumpsModule& PlaceJumpsModule() const
         {
             return *m_pPlaceJumpsModule;
         }
-
+        
         const ExampleApp::WeatherMenu::SdkModel::IWeatherMenuModule& WeatherMenuModule() const
         {
             return *m_pWeatherMenuModule;
         }
-
+        
         const ExampleApp::Compass::SdkModel::ICompassModule& CompassModule() const
         {
             return *m_pCompassModule;
         }
-
+        
         const ExampleApp::AboutPage::View::IAboutPageModule& AboutPageModule() const
         {
             return *m_pAboutPageModule;
         }
-
+        
         const ExampleApp::TagSearch::SdkModel::ITagSearchModule& TagSearchModule() const
         {
             return *m_pTagSearchModule;
@@ -408,22 +397,32 @@ namespace ExampleApp
         {
             return *m_pDirectionsMenuInitiationModule;
         }
-        
+    
         const ExampleApp::DirectionsMenu::SdkModel::IDirectionsMenuModule& DirectionsMenuModule() const
         {
             return *m_pDirectionsMenuModule;
         }
- 
+        
+        const ExampleApp::PathDrawing::SdkModel::IPathDrawingModule& PathDrawingModule() const
+        {
+            return *m_pPathDrawingModule;
+        }
+
+        const AppCamera::SdkModel::AppGlobeCameraWrapper& GlobeCameraWrapper() const
+        {
+            return *m_pGlobeCameraWrapper;
+        }
+        
         const ExampleApp::MyPinCreation::SdkModel::IMyPinCreationModule& MyPinCreationModule() const
         {
             return *m_pMyPinCreationModule;
         }
-
+        
         const ExampleApp::MyPinCreation::PoiRing::SdkModel::IPoiRingModule& PoiRingModule() const
         {
             return *m_pPoiRingModule;
         }
-
+        
         const ExampleApp::MyPinCreationDetails::View::IMyPinCreationDetailsModule& MyPinCreationDetailsModule() const
         {
             return *m_pMyPinCreationDetailsModule;
@@ -433,7 +432,7 @@ namespace ExampleApp
         {
             return *m_pMyPinsModule;
         }
-
+        
         const ExampleApp::MyPinDetails::SdkModel::IMyPinDetailsModule& MyPinDetailsModule() const
         {
             return *m_pMyPinDetailsModule;
@@ -454,36 +453,6 @@ namespace ExampleApp
             return *m_pCustomAlertModule;
         }
         
-        const InteriorsExplorer::SdkModel::IInteriorsExplorerModule& InteriorsExplorerModule() const
-        {
-            return *m_pInteriorsExplorerModule;
-        }
-        
-        const ExampleApp::Social::TwitterFeed::ITwitterFeedModule& TwitterFeedModule() const
-        {
-            return *m_pTwitterFeedModule;
-        }
-        
-        const ExampleApp::Tours::IToursModule& ToursModule() const
-        {
-            return *m_pToursModule;
-        }
-        
-        const ExampleApp::Tours::SdkModel::TourInstances::TwitterFeed::ITwitterFeedTourModule& TwitterFeedTourModule() const
-        {
-            return *m_pTwitterFeedTourModule;
-        }
-        
-        const ExampleApp::PathDrawing::SdkModel::IPathDrawingModule& PathDrawingModule() const
-        {
-            return *m_pPathDrawingModule;
-        }
-        
-        const AppCamera::SdkModel::AppGlobeCameraWrapper& GlobeCameraWrapper() const
-        {
-            return *m_pGlobeCameraWrapper;
-        }
-        
         BillBoards::View::BillBoardsModule& BillBoardModule()
         {
             return *m_pBillBoardModule;
@@ -494,13 +463,14 @@ namespace ExampleApp
             return m_searchServiceModules[Search::EegeoVendorName]->GetSearchService();
         }
         
-        // A flag for opting in/out of tours
-        const bool ToursEnabled() const
+        const InteriorsExplorer::SdkModel::IInteriorsExplorerModule& InteriorsExplorerModule() const
         {
-#ifdef EEGEO_DROID
-            Eegeo_ASSERT(!m_enableTours, "Tours are not currently supported for android");
-#endif
-            return m_enableTours;
+            return *m_pInteriorsExplorerModule;
+        }
+        
+        const GpsMarker::SdkModel::IGpsMarkerModule& GpsMarkerModule() const
+        {
+            return *m_pGpsMarkerModule;
         }
         
         // Exposed to allow view model creation in iOS code.
@@ -509,70 +479,72 @@ namespace ExampleApp
         {
             return m_identityProvider;
         }
-
+        
         AppModes::SdkModel::IAppModeModel& GetAppModeModel() const
         {
             return *m_pAppModeModel;
         }
         
         void OnPause();
-
+        
         void OnResume();
-
+        
         void Update (float dt);
-
+        
         void Draw (float dt);
-
+        
         void NotifyScreenPropertiesChanged(const Eegeo::Rendering::ScreenProperties& screenProperties);
-
-
+        
+        
         Eegeo::Streaming::IStreamingVolume& GetUpdatedStreamingVolume(const Eegeo::Camera::CameraState& cameraState,
-                const Eegeo::Camera::RenderCamera& renderCamera);
-
+                                                                      const Eegeo::Camera::RenderCamera& renderCamera);
+        
         bool IsLoadingScreenComplete() const
         {
             return m_pLoadingScreen == NULL;
         }
-
+        
         bool IsRunning() const;
-
+        
         bool IsApplicationViewStateInitialised() const
         {
             return m_initialisedApplicationViewState;
         }
-
+        
         void InitialiseApplicationViewState();
-
+        
         Eegeo::Camera::GlobeCamera::GpsGlobeCameraController& GetCameraController()
         {
             return *m_pGlobeCameraController;
         }
-
+        
         void Event_TouchRotate 			(const AppInterface::RotateData& data);
         void Event_TouchRotate_Start	(const AppInterface::RotateData& data);
         void Event_TouchRotate_End 		(const AppInterface::RotateData& data);
-
+        
         void Event_TouchPinch 			(const AppInterface::PinchData& data);
         void Event_TouchPinch_Start 	(const AppInterface::PinchData& data);
         void Event_TouchPinch_End 		(const AppInterface::PinchData& data);
-
+        
         void Event_TouchPan				(const AppInterface::PanData& data);
         void Event_TouchPan_Start		(const AppInterface::PanData& data);
         void Event_TouchPan_End 		(const AppInterface::PanData& data);
-
+        
         void Event_TouchTap 			(const AppInterface::TapData& data);
         void Event_TouchDoubleTap		(const AppInterface::TapData& data);
-
+        
         void Event_TouchDown 			(const AppInterface::TouchData& data);
         void Event_TouchMove 			(const AppInterface::TouchData& data);
         void Event_TouchUp 				(const AppInterface::TouchData& data);
-
+        
         void Event_Zoom(const AppInterface::ZoomData& data);
         void Event_Keyboard(const AppInterface::KeyboardData& data);
-
+        
         void Event_TiltStart(const AppInterface::TiltData& data);
         void Event_TiltEnd(const AppInterface::TiltData& data);
         void Event_Tilt(const AppInterface::TiltData& data);
         void Event_OpenUrl(const AppInterface::UrlData& data);
+        
+        Automation::AutomatedScreenshotController* AutomatedScreenshotController() const;
     };
 }

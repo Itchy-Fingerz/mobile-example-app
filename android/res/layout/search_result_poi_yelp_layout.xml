@@ -41,11 +41,19 @@
                 android:layout_marginTop="18dp"
                 android:layout_toLeftOf="@+id/search_result_poi_view_close_button"
                 android:layout_toRightOf="@id/search_result_poi_view_tag_icon"
+<<<<<<< HEAD
                 android:textSize="16dp"
+=======
+                android:textSize="22sp"
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
                 android:textColor="@color/gold"
+<<<<<<< HEAD
+=======
+                android:textStyle="bold"/>
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
             <ImageView
                 android:id="@+id/search_result_poi_view_close_button"
@@ -56,8 +64,12 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/button_pressed_colour_change"
+<<<<<<< HEAD
                 android:src="@drawable/button_pin_close_states" />
 
+=======
+                android:src="@drawable/button_poi_close_states" />
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
         </RelativeLayout>
         
         <View
@@ -210,7 +222,11 @@
          	        android:layout_marginTop="10dp"
          	        android:background="@color/gold" />
 	             <!--  Phone  -->
+<<<<<<< HEAD
 
+=======
+                 
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 	            <TextView
 	                android:id="@+id/search_result_poi_view_phone_header"
 	                android:layout_width="fill_parent"

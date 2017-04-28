@@ -8,6 +8,9 @@
 #include "Modality.h"
 #include "SearchMenu.h"
 #include "IModalityController.h"
+#include "SearchQueryResultsRemovedMessage.h"
+#include "SelectMenuItemMessage.h"
+#include "OpenSearchMenuSectionMessage.h"
 
 namespace ExampleApp
 {
@@ -31,11 +34,15 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback2<SearchMenuController, OpenableControl::View::IOpenableControlViewModel&, float> m_onOpenStateChangedCallback;
                 Eegeo::Helpers::TCallback1<SearchMenuController, const Search::SearchQueryPerformedMessage&> m_performedQueryHandler;
                 Eegeo::Helpers::TCallback1<SearchMenuController, const Search::SearchQueryResponseReceivedMessage&> m_receivedQueryResponseHandler;
+                Eegeo::Helpers::TCallback1<SearchMenuController, const Search::SearchQueryResultsRemovedMessage&> m_receivedQueryResultsRemovedHandler;
+                Eegeo::Helpers::TCallback1<SearchMenuController, const Automation::SelectMenuItemMessage&> m_menuItemSelectedHandler;
                 Eegeo::Helpers::TCallback1<SearchMenuController, const std::string&> m_onSearchCallback;
                 Eegeo::Helpers::TCallback0<SearchMenuController> m_onSearchClearedCallback;
                 Eegeo::Helpers::TCallback1<SearchMenuController, int> m_onSearchItemSelectedCallback;
                 Eegeo::Helpers::TCallback0<SearchMenuController> m_onModalBackgroundTappedCallback;
-                
+                Eegeo::Helpers::TCallback1<SearchMenuController, const OpenSearchMenuMessage&> m_onOpenSearchMenuHandler;
+                Eegeo::Helpers::TCallback1<SearchMenuController, const Automation::OpenSearchMenuSectionMessage&> m_onOpenSearchMenuSectionHandler;
+
                 void OnSearchItemAdded(Menu::View::MenuItemModel& item);
                 
                 void OnSearchItemRemoved(Menu::View::MenuItemModel& item);
@@ -45,7 +52,12 @@ namespace ExampleApp
                 void OnSearchQueryPerformedMessage(const Search::SearchQueryPerformedMessage& message);
                 
                 void OnSearchQueryResponseReceivedMessage(const Search::SearchQueryResponseReceivedMessage& message);
+
+                void OnSearchQueryResultsRemovedMessage(const Search::SearchQueryResultsRemovedMessage& message);
                 
+                void OnSearchItemSelectedMessage(const Automation::SelectMenuItemMessage& message);
+                
+                void OnSearch(const std::string& searchQuery);
                 
                 bool TryDrag();
                 
@@ -54,7 +66,11 @@ namespace ExampleApp
                 void OnSearchItemSelected(int& index);
                 
                 void OnModalBackgroundTapped();
+
+                void OnOpenSearchMenuMessage(const OpenSearchMenuMessage& message);
                 
+                void OnOpenSearchMenuSectionMessage(const Automation::OpenSearchMenuSectionMessage& message);
+
             protected:
                 
                 virtual void RefreshPresentation();

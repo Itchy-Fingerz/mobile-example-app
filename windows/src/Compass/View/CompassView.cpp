@@ -14,12 +14,13 @@ namespace ExampleApp
     {
         namespace View
         {
-            CompassView::CompassView(WindowsNativeState& nativeState)
+            CompassView::CompassView(WindowsNativeState& nativeState,
+                bool isInKioskMode)
                 : m_nativeState(nativeState)
             {
                 m_uiViewClass = GetTypeFromEntryAssembly("ExampleAppWPF.CompassView");
-                ConstructorInfo^ ctor = m_uiViewClass->GetConstructor(CreateTypes(IntPtr::typeid));
-                m_uiView = ctor->Invoke(CreateObjects(gcnew IntPtr(this)));
+                ConstructorInfo^ ctor = m_uiViewClass->GetConstructor(CreateTypes(IntPtr::typeid, System::Boolean::typeid));
+                m_uiView = ctor->Invoke(CreateObjects(gcnew IntPtr(this), gcnew System::Boolean(isInKioskMode)));
 
                 mDestroy.SetupMethod(m_uiViewClass, m_uiView, "Destroy");
                 mShowGpsDisabledView.SetupMethod(m_uiViewClass, m_uiView, "ShowGpsDisabledView");
@@ -30,6 +31,7 @@ namespace ExampleApp
                 mAnimateToIntermediateOnScreenState.SetupMethod(m_uiViewClass, m_uiView, "AnimateToIntermediateOnScreenState");
                 mAnimateToActive.SetupMethod(m_uiViewClass, m_uiView, "AnimateToActive");
                 mAnimateToInactive.SetupMethod(m_uiViewClass, m_uiView, "AnimateToInactive");
+                mSetRotationHighlight.SetupMethod(m_uiViewClass, m_uiView, "SetRotationHighlight");
             }
 
             CompassView::~CompassView()
@@ -80,6 +82,11 @@ namespace ExampleApp
             void CompassView::SetFullyOffScreen()
             {
                 mAnimateToInactive();
+            }
+
+            void CompassView::SetRotationHighlight(bool shouldShowRotationHighlight)
+            {
+                mSetRotationHighlight(shouldShowRotationHighlight);
             }
 
             void CompassView::InsertCycledCallback(Eegeo::Helpers::ICallback0& callback)

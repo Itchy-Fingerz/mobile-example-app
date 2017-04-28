@@ -1,5 +1,14 @@
-﻿using System;
+﻿using QRCoder;
+using System;
+using System.Drawing;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace ExampleAppWPF
 {
@@ -12,5 +21,74 @@ namespace ExampleAppWPF
             return new Uri(uriString, UriKind.Absolute);
         }
 
+        public static IEnumerable<T> FindChildrenOfType<T>(UIElementCollection elements) where T : FrameworkElement
+        {
+            foreach (FrameworkElement element in elements)
+            {
+                if (element != null && element is T)
+                {
+                    yield return (T)element;
+                }
+
+                foreach (T child in FindChildrenOfType<T>(element))
+                {
+                    yield return child;
+                }
+            }
+        }
+
+        public static IEnumerable<T> FindChildrenOfType<T>(DependencyObject obj) where T : FrameworkElement
+        {
+            if (obj == null)
+            {
+               yield break;
+            }
+
+            var numChildren = VisualTreeHelper.GetChildrenCount(obj);
+            for (int i = 0; i < numChildren; ++i)
+            {
+                var child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is T)
+                {
+                    yield return (T)child;
+                }
+                else
+                {
+                    foreach (var recChild in FindChildrenOfType<T>(child))
+                    {
+                        yield return recChild;
+                    }
+                }
+            }
+        }
+
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool DeleteObject([In] IntPtr hObject);
+
+        public static BitmapSource GetQRCodeBitmapSourceFromURL(string url, int maxSize)
+        {
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.L);
+            QRCode qrCode = new QRCode(qrCodeData);
+
+            int qrCodeBorderSize = 8;
+            int moduleCount = (qrCodeData.ModuleMatrix.Count - qrCodeBorderSize);
+            int pixelsPerModule = System.Math.Max((int) System.Math.Floor(maxSize / (float)moduleCount), 1);
+            Bitmap bitmap = qrCode.GetGraphic(pixelsPerModule, "0x012b65", "0xffffff", false);
+
+            IntPtr bitmapHandle = bitmap.GetHbitmap();
+            BitmapSource bitmapSource;
+            try
+            {
+                bitmapSource = Imaging.CreateBitmapSourceFromHBitmap(bitmapHandle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            }
+            finally
+            {
+                DeleteObject(bitmapHandle);
+            }
+
+            return bitmapSource;
+        }
     }
 }

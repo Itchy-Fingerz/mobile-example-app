@@ -106,19 +106,20 @@ namespace ExampleApp
                                 
                                 const char* skipYelpSearchKey = "skip_yelp_search";
                                 const char* yelpMappingKey = "yelp_mapping";
+                                bool skipYelpSearch = false;
                                 if(item.HasMember(skipYelpSearchKey) && item[skipYelpSearchKey].IsBool())
                                 {
-                                    bool skipYelpSearch = item[skipYelpSearchKey].GetBool();
+                                    skipYelpSearch = item[skipYelpSearchKey].GetBool();
                                     if(skipYelpSearch)
                                     {
-                                        Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { "unused_string", false };
+                                        Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { "unused_string", true };
                                         m_yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
                                     }
                                 }
-                                else if(item.HasMember(yelpMappingKey) && item[yelpMappingKey].IsString())
+                                if(item.HasMember(yelpMappingKey) && item[yelpMappingKey].IsString() && skipYelpSearch == false)
                                 {
                                     const std::string& yelpMapping = item[yelpMappingKey].GetString();
-                                    Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { yelpMapping, true };
+                                    Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { yelpMapping, false };
                                     m_yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
                                 }
                                 
@@ -200,23 +201,24 @@ namespace ExampleApp
                         
                         const char* skipYelpSearchKey = "skip_yelp_search";
                         const char* yelpMappingKey = "yelp_mapping";
+                        bool skipYelpSearch = false;
                         if(item.HasMember(skipYelpSearchKey) && item[skipYelpSearchKey].IsBool())
                         {
-                            bool skipYelpSearch = item[skipYelpSearchKey].GetBool();
+                            skipYelpSearch = item[skipYelpSearchKey].GetBool();
                             if(skipYelpSearch)
                             {
-                                Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { "unused_string", false };
+                                Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { "unused_string", true };
                                 m_yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
                             }
                         }
-                        else if(item.HasMember(yelpMappingKey) && item[yelpMappingKey].IsString())
+                        if(item.HasMember(yelpMappingKey) && item[yelpMappingKey].IsString() && skipYelpSearch == false)
                         {
                             const std::string& yelpMapping = item[yelpMappingKey].GetString();
-                            Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { yelpMapping, true };
+                            Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { yelpMapping, false };
                             m_yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
                         }
-                      
-
+                        
+                        
                         m_tagSearchRepository.AddItem(TagSearch::View::TagSearchModel(name, searchTag, interior, icon, visibleInSearchMenu));
                         m_previousTagSearchRepository.AddItem(TagSearch::View::TagSearchModel(name, searchTag, interior, icon, visibleInSearchMenu));
                     }
@@ -226,7 +228,7 @@ namespace ExampleApp
                     Eegeo_TTY("outdoor_search_menu_items not a member or not an array");
                 }
             }
-
+            
             
             void InteriorMenuObserver::UpdateDefaultOutdoorSearchMenuItems(const std::string config)
             {

@@ -4,6 +4,9 @@ set(resources ${resources}
         Resources/Alert_Tutorial_icon.png
         Resources/Alert_Tutorial_icon@2x.png
         Resources/Alert_Tutorial_icon@3x.png
+        Resources/Alert_Tutorial_icon_phone.png
+        Resources/Alert_Tutorial_icon_phone@2x.png
+        Resources/Alert_Tutorial_icon_phone@3x.png
         Resources/Arrow.png
         Resources/arrow1.png
         Resources/arrow1@2x.png
@@ -11,9 +14,15 @@ set(resources ${resources}
         Resources/arrow3_down.png
         Resources/arrow3_down@2x.png
         Resources/arrow3_down@3x.png
+        Resources/arrow3_down_blue.png
+        Resources/arrow3_down_blue@2x.png
+        Resources/arrow3_down_blue@3x.png
         Resources/arrow3_left.png
         Resources/arrow3_left@2x.png
         Resources/arrow3_left@3x.png
+        Resources/arrow3_left_blue.png
+        Resources/arrow3_left_blue@2x.png
+        Resources/arrow3_left_blue@3x.png
         Resources/arrow3_right.png
         Resources/arrow3_right@2x.png
         Resources/arrow3_right@3x.png
@@ -23,11 +32,11 @@ set(resources ${resources}
         Resources/arrow3_up.png
         Resources/arrow3_up@2x.png
         Resources/arrow3_up@3x.png
+        Resources/arrow3_up_blue.png
+        Resources/arrow3_up_blue@2x.png
+        Resources/arrow3_up_blue@3x.png
         Resources/Arrow@2x.png
         Resources/Arrow@3x.png
-        Resources/banner_logo.png
-        Resources/banner_logo@2x.png
-        Resources/banner_logo@3x.png
         Resources/button_add_pin_off.png
         Resources/button_add_pin_off@0.75x.png
         Resources/button_add_pin_off@1.5x.png
@@ -231,11 +240,15 @@ set(resources ${resources}
         Resources/detail_icon_web_link@1.5x.png
         Resources/detail_icon_web_link@2x.png
         Resources/detail_icon_web_link@3x.png
-        Resources/DejaVuSansBold.fnt
-        Resources/DejaVuSansBold_0.png
         Resources/eegeo_logo.png
         Resources/eegeo_logo@2x.png
         Resources/eegeo_logo@3x.png
+        Resources/eegeo_logo_tablet.png
+        Resources/eegeo_logo_tablet@2x.png
+        Resources/eegeo_logo_tablet@3x.png
+        Resources/eegeo_logo_about.png
+        Resources/eegeo_logo_about@2x.png
+        Resources/eegeo_logo_about@3x.png
         Resources/embedded_manifest.bin
         Resources/exit_blue_x_button.png
         Resources/exit_blue_x_button@0.75x.png
@@ -253,8 +266,6 @@ set(resources ${resources}
         Resources/floor_selection_top.png
         Resources/floor_selection_top@2x.png
         Resources/floor_selection_top@3x.png
-        Resources/FrankBold50_A8_icons.fnt
-        Resources/FrankBold50_A8_icons_0.png
         Resources/Geosphere_01.pod
         Resources/gps_marker.png
         Resources/gps_marker@2x.png
@@ -650,14 +661,6 @@ set(resources ${resources}
         Resources/image_blank@2x.png
         Resources/image_blank@3x.png
         Resources/Interiors
-        Resources/IPAexGothic32_A8_icons_0.png
-        Resources/IPAexGothic32_A8_icons_1.png
-        Resources/IPAexGothic32_A8_icons_2.png
-        Resources/IPAexGothic32_A8_icons_3.png
-        Resources/IPAexGothic32_A8_icons_4.png
-        Resources/IPAexGothic32_A8_icons_5.png
-        Resources/IPAexGothic32_A8_icons_6.png
-        Resources/IPAexGothic32_A8_icons.fnt
         Resources/menu_background1.png
         Resources/menu_background1@2x.png
         Resources/menu_background1@3x.png
@@ -727,7 +730,7 @@ set(resources ${resources}
         Resources/poi_placeholder.png
         Resources/poi_placeholder@2x.png
         Resources/poi_placeholder@3x.png
-		Resources/results_anchor_arrow.png
+	 Resources/results_anchor_arrow.png
 		Resources/results_anchor_arrow@2x.png
 		Resources/results_anchor_arrow@3x.png
 		Resources/search_mag_glass_off.png
@@ -793,11 +796,9 @@ set(resources ${resources}
 	 Resources/20Discount@1x.png
         Resources/20Discount@2x.png
         Resources/20Discount@3x.png
-
         Resources/Scroll@1x.png
         Resources/Scroll@2x.png
         Resources/Scroll@3x.png
-
         Resources/results_anchor_arrow.png
         Resources/results_anchor_arrow@2x.png
         Resources/results_anchor_arrow@3x.png
@@ -878,34 +879,6 @@ set(resources ${resources}
 		Resources/sub_menu_arrow_on@3x.png
 		Resources/search_tags.json
 		Resources/EmbeddedTheme
-		Resources/Tours
-		Resources/Tours/browser_back.png
-		Resources/Tours/browser_forward.png
-		Resources/Tours/page.png
-		Resources/Tours/placeholder.png
-		Resources/Tours/play_icon.png
-		Resources/Tours/play_icon@2x.png
-		Resources/Tours/play_icon@3x.png
-		Resources/Tours/States
-		Resources/Tours/States/Twitter
-		Resources/Tours/States/Twitter/browser_back.png
-		Resources/Tours/States/Twitter/browser_forward.png
-		Resources/Tours/States/Twitter/favoriteIcon.png
-		Resources/Tours/States/Twitter/NotLoaded
-		Resources/Tours/States/Twitter/NotLoaded/ProfilePicCatNotLoaded.png
-		Resources/Tours/States/Twitter/NotLoaded/ProfilePicCatNotLoaded@2x.png
-		Resources/Tours/States/Twitter/NotLoaded/ProfilePicCatNotLoaded@3x.png
-		Resources/Tours/States/Twitter/NotLoaded/ProfilePicNotLoaded.png
-		Resources/Tours/States/Twitter/NotLoaded/ProfilePicNotLoaded@2x.png
-		Resources/Tours/States/Twitter/NotLoaded/ProfilePicNotLoaded@3x.png
-		Resources/Tours/States/Twitter/play_icon.png
-		Resources/Tours/States/Twitter/play_icon@2x.png
-		Resources/Tours/States/Twitter/play_icon@3x.png
-		Resources/Tours/States/Twitter/replyIcon.png
-		Resources/Tours/States/Twitter/retweetIcon.png
-		Resources/Tours/States/Twitter/tweet_bird.png
-		Resources/Tours/States/Twitter/tweet_bird@2x.png
-		Resources/Tours/States/Twitter/tweet_bird@3x.png
 		Resources/weatherstates.json
 		Resources/Yelp
 		Resources/yelp_map.json
@@ -1092,119 +1065,5 @@ set(resources ${resources}
         Resources/Sphere_8bit.pvr
         Resources/Sphere_Night_8bit.pvr
         Resources/Stalk.POD
-        Resources/SplashScreen
-        Resources/SplashScreen/Icon-60@2x.png
-        Resources/SplashScreen/Icon-60@3x.png
-        Resources/SplashScreen/Icon-76.png
-        Resources/SplashScreen/Icon-76@2x.png
-        Resources/SplashScreen/Icon-Small-40.png
-        Resources/SplashScreen/Icon-Small-40@2x.png
-        Resources/SplashScreen/Icon-Small-40@3x.png
-        Resources/SplashScreen/Icon-Small.png
-        Resources/SplashScreen/Icon-Small@2x.png
-        Resources/SplashScreen/Icon-Small@3x.png
-        Resources/SplashScreen/SplashScreen.png
-        Resources/SplashScreen/SplashScreen@2x.png
-        Resources/SplashScreen/SplashScreen@3x.png
-        Resources/sub_menu_arrow_off.png
-        Resources/sub_menu_arrow_off@2x.png
-        Resources/sub_menu_arrow_off@3x.png
-        Resources/sub_menu_arrow_on.png
-        Resources/sub_menu_arrow_on@2x.png
-        Resources/sub_menu_arrow_on@3x.png
-        Resources/search_tags.json
-        Resources/EmbeddedTheme
-        Resources/Tours
-        Resources/Tours/browser_back.png
-        Resources/Tours/browser_forward.png
-        Resources/Tours/page.png
-        Resources/Tours/placeholder.png
-        Resources/Tours/play_icon.png
-        Resources/Tours/play_icon@2x.png
-        Resources/Tours/play_icon@3x.png
-        Resources/Tours/States
-        Resources/Tours/States/Twitter
-        Resources/Tours/States/Twitter/browser_back.png
-        Resources/Tours/States/Twitter/browser_forward.png
-        Resources/Tours/States/Twitter/favoriteIcon.png
-        Resources/Tours/States/Twitter/NotLoaded
-        Resources/Tours/States/Twitter/NotLoaded/ProfilePicCatNotLoaded.png
-        Resources/Tours/States/Twitter/NotLoaded/ProfilePicCatNotLoaded@2x.png
-        Resources/Tours/States/Twitter/NotLoaded/ProfilePicCatNotLoaded@3x.png
-        Resources/Tours/States/Twitter/NotLoaded/ProfilePicNotLoaded.png
-        Resources/Tours/States/Twitter/NotLoaded/ProfilePicNotLoaded@2x.png
-        Resources/Tours/States/Twitter/NotLoaded/ProfilePicNotLoaded@3x.png
-        Resources/Tours/States/Twitter/play_icon.png
-        Resources/Tours/States/Twitter/play_icon@2x.png
-        Resources/Tours/States/Twitter/play_icon@3x.png
-        Resources/Tours/States/Twitter/replyIcon.png
-        Resources/Tours/States/Twitter/retweetIcon.png
-        Resources/Tours/States/Twitter/tweet_bird.png
-        Resources/Tours/States/Twitter/tweet_bird@2x.png
-        Resources/Tours/States/Twitter/tweet_bird@3x.png
-        Resources/weatherstates.json
-        Resources/Yelp
-        Resources/yelp_map.json
-        Resources/Yelp/reviewsFromYelpRED.png
-        Resources/Yelp/reviewsFromYelpRED@2x.png
-        Resources/Yelp/reviewsFromYelpRED@3x.png
-        Resources/yelp_powered_btn_light.png
-        Resources/yelp_powered_btn_light@2x.png
-        Resources/yelp_powered_btn_light@3x.png
-        Resources/yelp_review_btn_light.png
-        Resources/yelp_review_btn_light@2x.png
-        Resources/yelp_review_btn_light@3x.png
-        Resources/Yelp/stars_0_0.png
-        Resources/Yelp/stars_0_0@2x.png
-        Resources/Yelp/stars_0_0@3x.png
-        Resources/Yelp/stars_1_0.png
-        Resources/Yelp/stars_1_0@2x.png
-        Resources/Yelp/stars_1_0@3x.png
-        Resources/Yelp/stars_1_5.png
-        Resources/Yelp/stars_1_5@2x.png
-        Resources/Yelp/stars_1_5@3x.png
-        Resources/Yelp/stars_2_0.png
-        Resources/Yelp/stars_2_0@2x.png
-        Resources/Yelp/stars_2_0@3x.png
-        Resources/Yelp/stars_2_5.png
-        Resources/Yelp/stars_2_5@2x.png
-        Resources/Yelp/stars_2_5@3x.png
-        Resources/Yelp/stars_3_0.png
-        Resources/Yelp/stars_3_0@2x.png
-        Resources/Yelp/stars_3_0@3x.png
-        Resources/Yelp/stars_3_5.png
-        Resources/Yelp/stars_3_5@2x.png
-        Resources/Yelp/stars_3_5@3x.png
-        Resources/Yelp/stars_4_0.png
-        Resources/Yelp/stars_4_0@2x.png
-        Resources/Yelp/stars_4_0@3x.png
-        Resources/Yelp/stars_4_5.png
-        Resources/Yelp/stars_4_5@2x.png
-        Resources/Yelp/stars_4_5@3x.png
-        Resources/Yelp/stars_5_0.png
-        Resources/Yelp/stars_5_0@2x.png
-        Resources/Yelp/stars_5_0@3x.png
-        Resources/Yelp/yelp_logo.png
-        Resources/Yelp/yelp_logo@2x.png
-        Resources/Yelp/yelp_logo@3x.png
-        Resources/Yelp/yelp_logo_100x50.png
-        Resources/interior_exit_down.png
-        Resources/interior_exit_down@2x.png
-        Resources/interior_exit_down@3x.png
-        Resources/interior_exit.png
-        Resources/interior_exit@2x.png
-        Resources/interior_exit@3x.png
-        Resources/floor_selection_button_down.png
-        Resources/floor_selection_button_down@2x.png
-        Resources/floor_selection_button_down@3x.png
-        Resources/floor_selection_button.png
-        Resources/floor_selection_button@2x.png
-        Resources/floor_selection_button@3x.png
-        Resources/default_water_reflection_cube_map_negX.png
-        Resources/default_water_reflection_cube_map_negY.png
-        Resources/default_water_reflection_cube_map_negZ.png
-        Resources/default_water_reflection_cube_map_posX.png
-        Resources/default_water_reflection_cube_map_posY.png
-        Resources/default_water_reflection_cube_map_posZ.png
         ExampleApp/Images.xcassets
 )

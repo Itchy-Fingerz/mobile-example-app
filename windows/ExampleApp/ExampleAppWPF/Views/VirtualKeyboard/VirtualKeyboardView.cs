@@ -20,7 +20,7 @@ namespace ExampleAppWPF
             m_currentWindow = (MainWindow)Application.Current.MainWindow;
             m_currentWindow.ContentRendered += (o, e) =>
             {
-                OnLoadedAddVirtualKeyboardFocusHandlers<TextBox>(m_currentWindow.MainGrid.Children);
+                OnLoadedAddVirtualKeyboardFocusHandlers();
                 m_currentWindow.MainGrid.Children.Add(this);
             };
 
@@ -37,6 +37,10 @@ namespace ExampleAppWPF
                 if (key == "HideKeyboard")
                 {
                     HideVirtualKeyboard();
+                }
+                else
+                {
+                    KeyboardLayout = key;
                 }
             };
         }
@@ -55,42 +59,21 @@ namespace ExampleAppWPF
             m_currentWindow.MainGrid.Children.Remove(this);
         }
 
-        private void OnLoadedAddVirtualKeyboardFocusHandlers<T>(UIElementCollection elements) where T : Control
+        protected override void OnTouchDown(TouchEventArgs e)
         {
-            foreach (FrameworkElement element in elements)
-            {
-                AddVirtualKeyboardFocusHandlers<T>(element);
-            }
+            // Consume touch events to disable double-tap zooming through the keyboard.
+            e.Handled = true;
         }
 
-        private IEnumerable<T> FindChildrenOfType<T>(DependencyObject obj) where T : Control
+        protected override void OnTouchMove(TouchEventArgs e)
         {
-            if (obj == null)
-            {
-                yield break;
-            }
-
-            var numChildren = VisualTreeHelper.GetChildrenCount(obj);
-            for (int i = 0; i < numChildren; ++i)
-            {
-                var child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is T)
-                {
-                    yield return (T)child;
-                }
-                else
-                {
-                    foreach (var recChild in FindChildrenOfType<T>(child))
-                    {
-                        yield return recChild;
-                    }
-                }
-            }
+            // Consume touch events to disable panning through the keyboard.
+            e.Handled = true;
         }
 
-        private void AddVirtualKeyboardFocusHandlers<T>(DependencyObject obj) where T : Control
+        private void OnLoadedAddVirtualKeyboardFocusHandlers()
         {
-            foreach (var child in FindChildrenOfType<T>(obj))
+            foreach (var child in ViewHelpers.FindChildrenOfType<TextBox>(m_currentWindow.MainGrid.Children))
             {
                 child.PreviewMouseDown += (o, e) => ShowVirtualKeyboard();
                 child.GotFocus += (o, e) => ShowVirtualKeyboard();

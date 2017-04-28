@@ -264,6 +264,7 @@ namespace
 
 - (void) updateFloors: (const std::vector<std::string>&) floorShortNames withCurrentFloor: (int) currentlySelectedFloorIndex;
 {
+    m_floorSelection = 0.0;
     m_tableViewFloorNames = floorShortNames;
     std::reverse(m_tableViewFloorNames.begin(), m_tableViewFloorNames.end());
     
@@ -674,8 +675,8 @@ static NSString *CellIdentifier = @"floorCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     const float divisionWidth = 30;
-    const float divisionLabelWidth = 25;
-    const float divisionLabelSpacing = 15;
+    const float divisionLabelWidth = 35;
+    const float divisionLabelSpacing = 5;
     
     int floorIndex = static_cast<int>(indexPath.row);
     int floorCount = static_cast<int>(m_tableViewFloorNames.size());

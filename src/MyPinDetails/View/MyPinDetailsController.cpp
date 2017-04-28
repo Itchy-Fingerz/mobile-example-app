@@ -82,8 +82,8 @@ namespace ExampleApp
 
             void MyPinDetailsController::OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message)
             {
-                const bool appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::TourMode &&
-                                               message.GetAppMode() != AppModes::SdkModel::AttractMode;
+
+                const bool appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::AttractMode;
 
                 if (!appModeAllowsOpen)
                 {

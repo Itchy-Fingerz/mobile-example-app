@@ -1,16 +1,8 @@
 // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 
 #include "InteriorWorldPinController.h"
-#include "InteriorMarkerModelRepository.h"
-#include "IWorldPinsService.h"
-#include "InteriorMarkerModel.h"
-#include "WorldPinInteriorData.h"
-#include "WorldPinFocusData.h"
-#include "InteriorId.h"
-#include "InteriorWorldPinSelectionHandler.h"
-#include "WorldPinVisibility.h"
+#include "InteriorSelectionModel.h"
 #include "MenuDragStateChangedMessage.h"
-#include "SearchVendorNames.h"
 #include "IInitialExperienceModel.h"
 #include "InteriorSelectionController.h"
 
@@ -21,36 +13,32 @@ namespace ExampleApp
         namespace SdkModel
         {
             InteriorWorldPinController::InteriorWorldPinController(Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
-                                                                   Eegeo::Resources::Interiors::Markers::InteriorMarkerModelRepository& markerRepository,
-                                                                   WorldPins::SdkModel::IWorldPinsService& worldPinsService,
-                                                                   Eegeo::Resources::Interiors::InteriorsCameraController& cameraController,
                                                                    ExampleAppMessaging::TMessageBus& messageBus,
                                                                    const InitialExperience::SdkModel::IInitialExperienceModel& initialExperienceModel,
                                                                    bool useIndoorEntryMarkerLabels)
             : m_interiorSelectionModel(interiorSelectionModel)
-            , m_markerRepository(markerRepository)
-            , m_worldPinsService(worldPinsService)
-            , m_cameraController(cameraController)
             , m_messageBus(messageBus)
-            , m_markerAddedCallback(this, &InteriorWorldPinController::HandleMarkerAdded)
-            , m_markerRemovedCallback(this, &InteriorWorldPinController::HandleMarkerRemoved)
             , m_menuDraggedCallback(this, &InteriorWorldPinController::HandleMenuDragged)
             , m_menuIsDragging(false)
             , m_initialExperienceModel(initialExperienceModel)
             , m_useIndoorEntryMarkerLabels(useIndoorEntryMarkerLabels)
             {
+<<<<<<< HEAD
                 if (!m_useIndoorEntryMarkerLabels)
                 {
                     m_markerRepository.RegisterNotifyAddedCallback(m_markerAddedCallback);
                     m_markerRepository.RegisterNotifyRemovedCallback(m_markerRemovedCallback);
                 }
                 
+=======
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
                 m_messageBus.SubscribeNative(m_menuDraggedCallback);
             }
             
             InteriorWorldPinController::~InteriorWorldPinController()
             {
                 m_messageBus.UnsubscribeNative(m_menuDraggedCallback);
+<<<<<<< HEAD
                 
                 if (!m_useIndoorEntryMarkerLabels)
                 {
@@ -67,12 +55,15 @@ namespace ExampleApp
                 }
                 
                 m_interiorIdToWorldPinMap.clear();
+=======
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
             }
             
             const bool InteriorWorldPinController::PinInteractionAllowed(const std::string& interiorId) const
             {
                 const bool cameraUnlocked = m_initialExperienceModel.LockedCameraStepsCompleted();
                 return !m_menuIsDragging && cameraUnlocked &&
+<<<<<<< HEAD
                     !m_interiorSelectionModel.IsInteriorSelected() &&
                     m_deferedRemovalMap.find(interiorId) == m_deferedRemovalMap.end();
             }
@@ -138,6 +129,9 @@ namespace ExampleApp
                 WorldPins::SdkModel::WorldPinItemModel* pPinModel = m_interiorIdToWorldPinMap[markerModel.GetInteriorId().Value()];
                 
                 m_deferedRemovalMap[markerModel.GetInteriorId().Value()] = pPinModel;
+=======
+                    !m_interiorSelectionModel.IsInteriorSelected();
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
             }
             
             void InteriorWorldPinController::HandleMenuDragged(const Menu::MenuDragStateChangedMessage &message)

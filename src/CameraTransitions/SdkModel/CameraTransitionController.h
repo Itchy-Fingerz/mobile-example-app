@@ -26,7 +26,7 @@ namespace ExampleApp
             class CameraTransitionController : public ICameraTransitionController
             {
             public:
-
+                
                 CameraTransitionController(Eegeo::Camera::GlobeCamera::GpsGlobeCameraController& cameraController,
                                            Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                            Eegeo::Location::NavigationService& navigationService,
@@ -37,8 +37,9 @@ namespace ExampleApp
                                            Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                            const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel,
                                            InteriorsExplorer::SdkModel::InteriorsExplorerModel& interiorsExplorerModel,
+                                           Eegeo::Resources::Interiors::InteriorsModelRepository& interiorsModelRepository,
                                            ExampleAppMessaging::TMessageBus& messageBus);
-
+                
                 void StartTransitionTo(const Eegeo::dv3& newInterestPoint,
                                        float distanceFromInterest,
                                        bool jumpIfFar=true);
@@ -62,11 +63,14 @@ namespace ExampleApp
                                        float newHeadingRadians,
                                        const Eegeo::Resources::Interiors::InteriorId& interiorId,
                                        int targetFloorIndex,
-                                       bool jumpIfFar=true);
+                                       bool jumpIfFar=true,
+                                       bool setGpsModeOff=true,
+                                       bool setInteriorHeading=false,
+                                       bool setDistanceToInterest=true);
                 
                 void StopCurrentTransition();
                 void Update(float dt);
-
+                
                 const bool IsTransitioning() const
                 {
                     return m_isTransitioning;
@@ -74,9 +78,9 @@ namespace ExampleApp
                 
                 void InsertTransitioningChangedCallback(Eegeo::Helpers::ICallback0& callback);
                 void RemoveTransitioningChangedCallback(Eegeo::Helpers::ICallback0& callback);
-
+                
             private:
-
+                
                 std::queue<ICameraTransitionStage*> m_transitionStages;
                 
                 void EnqueueExitInteriorStage();
@@ -89,7 +93,10 @@ namespace ExampleApp
                 void EnqueueTransitionToInteriorStage(const Eegeo::dv3& newInterestPoint,
                                                       float newDistanceToInterest,
                                                       const Eegeo::Resources::Interiors::InteriorId& interiorId,
-                                                      int targetFloorIndex);
+                                                      int targetFloorIndex,
+                                                      float newHeadingRadians,
+                                                      bool setInteriorHeading=false,
+                                                      bool setDisntaceToInterest=true);
                 
                 void EnqueueTransitionToInteriorPointStage(const Eegeo::dv3& newInterestPoint,
                                                            float newDistanceFromInterest,
@@ -110,7 +117,8 @@ namespace ExampleApp
                 Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                 const Eegeo::Resources::Interiors::InteriorTransitionModel& m_interiorTransitionModel;
                 InteriorsExplorer::SdkModel::InteriorsExplorerModel& m_interiorsExplorerModel;
-               
+                Eegeo::Resources::Interiors::InteriorsModelRepository& m_interiorsModelRepository;
+                
                 Eegeo::Resources::Interiors::InteriorId m_defaultInteriorId;
                 bool m_isTransitioning;
                 

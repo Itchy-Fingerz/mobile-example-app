@@ -13,6 +13,8 @@
 #include "IAlertBoxFactory.h"
 #include "InteriorsExplorerModel.h"
 #include "InteriorNavigationHelpers.h"
+#include "InteriorsCameraController.h"
+#include "InteriorsModel.h"
 
 namespace ExampleApp
 {
@@ -27,24 +29,26 @@ namespace ExampleApp
                                        Metrics::IMetricsService& metricsService,
                                        InteriorsExplorer::SdkModel::InteriorsExplorerModel& interiorExplorerModel,
                                        AppModes::SdkModel::IAppModeModel& appModeModel,
-                                       Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory)
-                :m_navigationService(navigationService)
-                ,m_interiorInteractionModel(interiorInteractionModel)
-                ,m_locationService(locationService)
-                ,m_cameraController(cameraController)
-                ,m_metricsService(metricsService)
-                , m_interiorExplorerModel(interiorExplorerModel)
-                , m_appModeModel(appModeModel)
-                , m_appModeChangedCallback(this, &CompassModel::OnAppModeChanged)
-                , m_alertBoxFactory(alertBoxFactory)
-                , m_failAlertHandler(this, &CompassModel::OnFailedToGetLocation)
-                , m_interiorFloorChangedCallback(this, &CompassModel::OnInteriorFloorChanged)
-                , m_exitInteriorTriggered(false)
+                                       Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
+                                       bool isInKioskMode)
+            : m_navigationService(navigationService)
+            , m_interiorInteractionModel(interiorInteractionModel)
+            , m_locationService(locationService)
+            , m_cameraController(cameraController)
+            , m_metricsService(metricsService)
+            , m_interiorExplorerModel(interiorExplorerModel)
+            , m_appModeModel(appModeModel)
+            , m_appModeChangedCallback(this, &CompassModel::OnAppModeChanged)
+            , m_alertBoxFactory(alertBoxFactory)
+            , m_failAlertHandler(this, &CompassModel::OnFailedToGetLocation)
+            , m_interiorFloorChangedCallback(this, &CompassModel::OnInteriorFloorChanged)
+            , m_exitInteriorTriggered(false)
+            , m_isInKioskMode(isInKioskMode)
             {
                 m_compassGpsModeToNavigationGpsMode[Eegeo::Location::NavigationService::GpsModeOff] = GpsMode::GpsDisabled;
                 m_compassGpsModeToNavigationGpsMode[Eegeo::Location::NavigationService::GpsModeFollow] = GpsMode::GpsFollow;
                 m_compassGpsModeToNavigationGpsMode[Eegeo::Location::NavigationService::GpsModeCompass] = GpsMode::GpsCompassMode;
-
+                
                 m_navigationGpsModeToCompassGpsMode[GpsMode::GpsDisabled] = Eegeo::Location::NavigationService::GpsModeOff;
                 m_navigationGpsModeToCompassGpsMode[GpsMode::GpsFollow] = Eegeo::Location::NavigationService::GpsModeFollow;
                 m_navigationGpsModeToCompassGpsMode[GpsMode::GpsCompassMode] = Eegeo::Location::NavigationService::GpsModeCompass;
@@ -57,24 +61,24 @@ namespace ExampleApp
                 m_appModeModel.RegisterAppModeChangedCallback(m_appModeChangedCallback);
                 m_interiorExplorerModel.InsertInteriorExplorerFloorSelectionDraggedCallback(m_interiorFloorChangedCallback);
             }
-
+            
             CompassModel::~CompassModel()
             {
                 
                 m_interiorExplorerModel.RemoveInteriorExplorerFloorSelectionDraggedCallback(m_interiorFloorChangedCallback);
                 m_appModeModel.UnregisterAppModeChangedCallback(m_appModeChangedCallback);
             }
-
+            
             bool CompassModel::GetGpsModeActive() const
             {
                 return GetGpsMode() != GpsMode::GpsDisabled;
             }
-
+            
             GpsMode::Values CompassModel::GetGpsMode() const
             {
                 return m_gpsMode;
             }
-
+            
             void CompassModel::CycleToNextGpsMode()
             {
                 if(!m_locationService.GetIsAuthorized())
@@ -97,7 +101,7 @@ namespace ExampleApp
                 int gpsMode = static_cast<int>(m_gpsMode);
                 gpsMode = (gpsMode + 1) % static_cast<int>(GpsMode::GpsMode_Max);
                 GpsMode::Values newGpsMode = static_cast<GpsMode::Values>(gpsMode);
-
+                
                 if(GetGpsModeActive() && newGpsMode == GpsMode::GpsDisabled)
                 {
                     m_gpsMode = newGpsMode;
@@ -112,12 +116,19 @@ namespace ExampleApp
             bool CompassModel::NeedsToExitInterior(GpsMode::Values gpsMode)
             {
                 const AppModes::SdkModel::AppMode appMode = m_appModeModel.GetAppMode();
-                return ((appMode != AppModes::SdkModel::WorldMode) &&
-                        !m_exitInteriorTriggered &&
-                        (gpsMode != GpsMode::GpsDisabled) &&
-                        !Helpers::InteriorNavigationHelpers::IsPositionInInterior(m_interiorInteractionModel, m_locationService));
+                const bool gpsIsEnabled = gpsMode != GpsMode::GpsDisabled;
+                const bool notCurrentlyExitingToWorldMode = appMode != AppModes::SdkModel::WorldMode &&
+                !m_exitInteriorTriggered;
+                const Eegeo::Resources::Interiors::InteriorsModel* selectedInteriorModel = m_interiorInteractionModel.GetInteriorModel();
+                const bool notInCurrentInterior = !(m_locationService.IsIndoors() &&
+                                                    selectedInteriorModel != nullptr &&
+                                                    m_locationService.GetInteriorId() == selectedInteriorModel->GetId() &&
+                                                    Helpers::InteriorNavigationHelpers::IsPositionInInterior(m_interiorInteractionModel, m_locationService));
+                return gpsIsEnabled &&
+                notCurrentlyExitingToWorldMode &&
+                notInCurrentInterior;
             }
-
+            
             void CompassModel::TryUpdateToNavigationServiceGpsMode(Eegeo::Location::NavigationService::GpsMode value)
             {
                 if(!m_locationService.GetIsAuthorized())
@@ -152,15 +163,15 @@ namespace ExampleApp
                     SetGpsMode(gpsModeValueFromNavigationService);
                 }
             }
-
+            
             void CompassModel::DisableGpsMode()
             {
-            	if (GetGpsMode() != GpsMode::GpsDisabled)
-            	{
-            		SetGpsMode(GpsMode::GpsDisabled);
-            	}
+                if (GetGpsMode() != GpsMode::GpsDisabled)
+                {
+                    SetGpsMode(GpsMode::GpsDisabled);
+                }
             }
-
+            
             void CompassModel::SetGpsMode(GpsMode::Values gpsMode)
             {
                 m_gpsMode = gpsMode;
@@ -169,14 +180,14 @@ namespace ExampleApp
                 
                 m_gpsModeChangedCallbacks.ExecuteCallbacks();
             }
-
+            
             float CompassModel::GetHeadingRadians() const
             {
                 const Eegeo::Camera::RenderCamera renderCamera = m_cameraController.GetRenderCamera();
                 const Eegeo::m44& cameraModelMatrix = renderCamera.GetModelMatrix();
-
+                
                 const Eegeo::v3& viewDirection = cameraModelMatrix.GetRow(2);
-
+                
                 Eegeo::v3 ecefUp = renderCamera.GetEcefLocation().ToSingle().Norm();
                 const float epsilon = 0.001f;
                 Eegeo::v3 heading;
@@ -189,21 +200,21 @@ namespace ExampleApp
                 {
                     heading = viewDirection;
                 }
-
+                
                 return Eegeo::Camera::CameraHelpers::GetAbsoluteBearingRadians(renderCamera.GetEcefLocation(), heading);
             }
-
+            
             float CompassModel::GetHeadingDegrees() const
             {
                 float headingRadians = GetHeadingRadians();
                 return Eegeo::Math::Rad2Deg(headingRadians);
             }
-
+            
             void CompassModel::InsertGpsModeChangedCallback(Eegeo::Helpers::ICallback0& callback)
             {
                 m_gpsModeChangedCallbacks.AddCallback(callback);
             }
-
+            
             void CompassModel::RemoveGpsModeChangedCallback(Eegeo::Helpers::ICallback0& callback)
             {
                 m_gpsModeChangedCallbacks.RemoveCallback(callback);
@@ -222,7 +233,7 @@ namespace ExampleApp
             void CompassModel::OnAppModeChanged()
             {
                 const AppModes::SdkModel::AppMode appMode = m_appModeModel.GetAppMode();
-                if (appMode != AppModes::SdkModel::WorldMode)
+                if (appMode != AppModes::SdkModel::WorldMode && !m_isInKioskMode)
                 {
                     DisableGpsMode();
                     return;
@@ -236,7 +247,15 @@ namespace ExampleApp
             
             void CompassModel::OnFailedToGetLocation()
             {
-                Eegeo_TTY("Failed to get comapass loation");
+                Eegeo_TTY("Failed to get compass location");
+            }
+            
+            float CompassModel::GetIndoorsHeadingRadians() const
+            {
+                double heading;
+                return m_isInKioskMode && m_locationService.GetHeadingDegrees(heading)
+                ? Eegeo::Math::Deg2Rad(heading)
+                : GetHeadingRadians();
             }
         }
     }

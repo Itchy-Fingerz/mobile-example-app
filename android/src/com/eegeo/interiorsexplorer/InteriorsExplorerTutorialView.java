@@ -53,7 +53,7 @@ public class InteriorsExplorerTutorialView implements View.OnTouchListener
         m_uiExitDialogOuterArrow = (RelativeLayout) m_uiExitDialog.findViewById(R.id.interiors_explorer_tutorial_dialog_outer_arrow);
         
         m_uiChangeFloorDialog = (LinearLayout) m_uiRootView.findViewById(R.id.interiors_explorer_tutorial_change_floor_dialog);
-        setDialogText(m_uiChangeFloorDialog, "Change Floors", "Slide the elevator button\nup and down to move\nbetween floors.");
+        setDialogText(m_uiChangeFloorDialog, "Change Floors", "Slide the elevator \nbutton to move \nbetween floors.");
         m_uiChangeFloorDialog.setAlpha(0);
         
         m_uiChangeFloorDialogArrow = (RelativeLayout) m_uiChangeFloorDialog.findViewById(R.id.interiors_explorer_tutorial_dialog_arrow);
@@ -104,6 +104,8 @@ public class InteriorsExplorerTutorialView implements View.OnTouchListener
     
     public void hide()
     {
+        m_uiExitDialog.setAlpha(0.0f);
+        m_uiChangeFloorDialog.setAlpha(0.0f);
     	m_uiRoot.removeView(m_uiRootView);
     }
     

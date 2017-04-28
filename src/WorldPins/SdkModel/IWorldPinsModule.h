@@ -18,19 +18,13 @@ namespace ExampleApp
                 
                 virtual IWorldPinsRepository& GetWorldPinsRepository() const = 0;
 
+                virtual void Update(float dt) = 0;
+
                 virtual IWorldPinsService& GetWorldPinsService() const = 0;
 
                 virtual IWorldPinsFactory& GetWorldPinsFactory() const = 0;
 
-                virtual IWorldPinsScaleController& GetWorldPinsScaleController() const = 0;
-                
-                virtual IWorldPinsFloorHeightController& GetWorldPinsFloorHeightController() const = 0;
-
-                virtual View::IWorldPinInFocusViewModel& GetWorldPinInFocusViewModel() const = 0;
-
-                virtual IWorldPinsInFocusController& GetWorldPinsInFocusController() const = 0;
-
-                virtual ScreenControl::View::IScreenControlViewModel& GetScreenControlViewModel() const = 0;
+                virtual IWorldPinsVisibilityController& GetWorldPinsVisibilityController() const = 0;
             };
         }
     }

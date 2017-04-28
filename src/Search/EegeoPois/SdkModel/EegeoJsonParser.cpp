@@ -158,13 +158,6 @@ namespace ExampleApp
                             userData = strbuf.GetString();
                         }
                         
-                        std::string subTitle = "";
-                        if (json.HasMember("subtitle") &&  !json["subtitle"].IsNull() )
-                        {
-                            subTitle = json["subtitle"].GetString();
-                        }
-
-
                         return ExampleApp::Search::SdkModel::SearchResultModel(ExampleApp::Search::SdkModel::SearchResultModel::CurrentVersion,
                                                                                idStream.str(),
                                                                                title,

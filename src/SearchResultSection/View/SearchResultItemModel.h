@@ -41,6 +41,8 @@ namespace ExampleApp
                 int m_itemIndex;
 
                 const Menu::View::IMenuReactionModel& m_menuReaction;
+                
+                const std::string m_modelIdentifier;
             public:
                 SearchResultItemModel(const std::string& name,
                                       const Eegeo::dv3& searchResultModelLocationEcef,
@@ -48,6 +50,7 @@ namespace ExampleApp
                                       const bool isDirections,
                                       const Eegeo::Resources::Interiors::InteriorId& interiorId,
                                       const int floorIndex,
+                                      const std::string modelIdentifier,
                                       OpenableControl::View::IOpenableControlViewModel& searchMenuViewModel,
                                       SearchResultPoi::View::ISearchResultPoiViewModel& searchResultPoiViewModel,
                                       int itemIndex,

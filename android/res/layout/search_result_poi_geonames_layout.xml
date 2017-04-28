@@ -43,7 +43,11 @@
                 android:layout_marginTop="18dp"
                 android:layout_toLeftOf="@+id/search_result_poi_view_close_button"
                 android:layout_toRightOf="@id/search_result_poi_view_tag_icon"
+<<<<<<< HEAD
                 android:textSize="16dp"
+=======
+                android:textSize="22sp"
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"

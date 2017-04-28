@@ -5,6 +5,8 @@ set(currsources
   ios_src/SenionLab/CMakeLists.txt
   ios_src/SenionLab/SenionLabLocationController.h
   ios_src/SenionLab/SenionLabLocationController.mm
+  ios_src/SenionLab/SenionLabLocationManagerInterop.h
+  ios_src/SenionLab/SenionLabLocationManagerInterop.mm
   ios_src/SenionLab/SenionLabLocationManager.h
   ios_src/SenionLab/SenionLabLocationManager.mm
   ios_src/SenionLab/SenionLabLocationModule.h

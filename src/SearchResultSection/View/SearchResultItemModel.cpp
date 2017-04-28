@@ -18,6 +18,7 @@ namespace ExampleApp
                                                          const bool isDirections,
                                                          const Eegeo::Resources::Interiors::InteriorId& interiorId,
                                                          const int floorIndex,
+                                                         const std::string modelIdentifier,
                                                          OpenableControl::View::IOpenableControlViewModel& searchMenuViewModel,
                                                          SearchResultPoi::View::ISearchResultPoiViewModel& searchResultPoiViewModel,
                                                          int itemIndex,
@@ -31,6 +32,7 @@ namespace ExampleApp
             , m_isDirections(isDirections)
             , m_interiorId(interiorId)
             , m_floorIndex(floorIndex)
+            , m_modelIdentifier(modelIdentifier)
             , m_searchMenuViewModel(searchMenuViewModel)
             , m_searchResultPoiViewModel(searchResultPoiViewModel)
             , m_messageBus(messageBus)
@@ -65,7 +67,8 @@ namespace ExampleApp
                                                                             m_isInterior,
                                                                             m_interiorId,
                                                                             m_floorIndex,
-                                                                            m_itemIndex));
+                                                                            m_itemIndex,
+                                                                            m_modelIdentifier));
             }
             
             int SearchResultItemModel::GetItemIndex()

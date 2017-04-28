@@ -17,10 +17,12 @@
 #include "YelpSearchResultPoiView.h"
 #include "GeoNamesSearchResultPoiView.h"
 #include "EegeoSearchResultPoiView.h"
+
 #include "ExampleTourSearchResultPoiView.h"
 #include "EegeoSearchResultSecurityOfficePoiView.h"
 #include "EegeoSearchResultRatingPoiView.h"
 #include "EegeoSearchResultGatePoiView.h"
+
 
 @interface SearchResultPoiViewContainer()<UIGestureRecognizerDelegate>
 {
@@ -113,10 +115,6 @@
             return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop];
         }
             
-    }
-    else if(vendor == ExampleApp::Search::ExampleTourVendorName)
-    {
-        return [[ExampleTourSearchResultPoiView alloc] initWithInterop:m_pInterop];
     }
     
     Eegeo_ASSERT(false, "Unknown POI vendor %s, cannot create view instance.\n", vendor.c_str());

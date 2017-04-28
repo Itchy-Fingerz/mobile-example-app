@@ -17,55 +17,65 @@ namespace ExampleApp
         namespace SdkModel
         {
             SearchRefreshService::SearchRefreshService(ISearchService& searchService,
-                    ISearchQueryPerformer& searchQueryPerformer,
-                    CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionsController,
-                    Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
-                    TagSearch::View::ITagSearchRepository& tagSearchRepository,
-                    float minimumSecondsBetweenUpdates,
-                    float minimumInterestLateralDeltaAt1km,
-                    float minimumInteriorInterestLateralDelta,
-                    float maximumInterestLateralSpeedAt1km,
-                    InteriorMenuObserver& interiorMenuObserver)
-                : m_minimumSecondsBetweenUpdates(minimumSecondsBetweenUpdates)
-                , m_minimumInterestLateralDeltaAt1km(minimumInterestLateralDeltaAt1km)
-                , m_minimumInteriorInterestLateralDelta(minimumInteriorInterestLateralDelta)
-                , m_maximumInterestLateralSpeedAt1km(maximumInterestLateralSpeedAt1km)
-                , m_searchService(searchService)
-                , m_searchQueryPerformer(searchQueryPerformer)
-                , m_cameraTransitionsController(cameraTransitionsController)
-                , m_interiorInteractionModel(interiorInteractionModel)
-                , m_searchResultQueryIssuedCallback(this, &SearchRefreshService::HandleSearchQueryIssued)
-                , m_searchResultResponseReceivedCallback(this, &SearchRefreshService::HandleSearchResultsResponseReceived)
-                , m_searchQueryResultsClearedCallback(this, &SearchRefreshService::HandleSearchQueryResultsCleared)
-                , m_queriesPending(0)
-                , m_searchResultsExist(false)
-                , m_searchResultsCleared(false)
-                , m_secondsSincePreviousRefresh(0.f)
-                , m_enabled(true)
-                , m_previousQueryFloorIndex(0)
-                , m_previousQueryLocationEcef(Eegeo::dv3::Zero())
-                , m_previousInterestEcefLocation(Eegeo::dv3::Zero())
-                , m_previousQueryInterestDistance(0.f)
-                , m_previousQueryInteriorId()
-                , m_interiorHasChanged(false)
-                , m_tagSearchRepository(tagSearchRepository)
-                , m_interiorMenuObserver(interiorMenuObserver)
-                , m_interiorTagsUpdatedCallback(this, &SearchRefreshService::HandleInteriorChanged)
+                                                       ISearchQueryPerformer& searchQueryPerformer,
+                                                       CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionsController,
+                                                       Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
+                                                       TagSearch::View::ITagSearchRepository& tagSearchRepository,
+                                                       float minimumSecondsBetweenUpdates,
+                                                       float minimumInterestLateralDeltaAt1km,
+                                                       float minimumInteriorInterestLateralDelta,
+                                                       float maximumInterestLateralSpeedAt1km,
+                                                       InteriorMenuObserver& interiorMenuObserver)
+            : m_minimumSecondsBetweenUpdates(minimumSecondsBetweenUpdates)
+            , m_minimumInterestLateralDeltaAt1km(minimumInterestLateralDeltaAt1km)
+            , m_minimumInteriorInterestLateralDelta(minimumInteriorInterestLateralDelta)
+            , m_maximumInterestLateralSpeedAt1km(maximumInterestLateralSpeedAt1km)
+            , m_searchService(searchService)
+            , m_searchQueryPerformer(searchQueryPerformer)
+            , m_cameraTransitionsController(cameraTransitionsController)
+            , m_interiorInteractionModel(interiorInteractionModel)
+            , m_searchResultQueryIssuedCallback(this, &SearchRefreshService::HandleSearchQueryIssued)
+            , m_searchResultResponseReceivedCallback(this, &SearchRefreshService::HandleSearchResultsResponseReceived)
+            , m_searchQueryResultsClearedCallback(this, &SearchRefreshService::HandleSearchQueryResultsCleared)
+            , m_queriesPending(0)
+            , m_searchResultsExist(false)
+            , m_searchResultsCleared(false)
+            , m_secondsSincePreviousRefresh(0.f)
+            , m_enabled(true)
+            , m_previousQueryFloorIndex(0)
+            , m_previousQueryLocationEcef(Eegeo::dv3::Zero())
+            , m_previousInterestEcefLocation(Eegeo::dv3::Zero())
+            , m_previousQueryInterestDistance(0.f)
+            , m_previousQueryInteriorId()
+            , m_interiorHasChanged(false)
+            , m_tagSearchRepository(tagSearchRepository)
+            , m_interiorMenuObserver(interiorMenuObserver)
+            , m_interiorTagsUpdatedCallback(this, &SearchRefreshService::HandleInteriorTagsChanged)
+            , m_interiorModelChangedCallback(this, &SearchRefreshService::HandleInteriorModelChanged)
             {
                 m_searchService.InsertOnPerformedQueryCallback(m_searchResultQueryIssuedCallback);
                 m_searchService.InsertOnReceivedQueryResultsCallback(m_searchResultResponseReceivedCallback);
                 m_searchQueryPerformer.InsertOnSearchResultsClearedCallback(m_searchQueryResultsClearedCallback);
                 m_interiorMenuObserver.RegisterInteriorTagsUpdatedCallback(m_interiorTagsUpdatedCallback);
+                m_interiorInteractionModel.RegisterModelChangedCallback(m_interiorModelChangedCallback);
             }
-
+            
             SearchRefreshService::~SearchRefreshService()
             {
+                m_interiorInteractionModel.UnregisterModelChangedCallback(m_interiorModelChangedCallback);
                 m_interiorMenuObserver.UnregisterInteriorTagsUpdatedCallback(m_interiorTagsUpdatedCallback);
                 m_searchQueryPerformer.RemoveOnSearchResultsClearedCallback(m_searchQueryResultsClearedCallback);
                 m_searchService.RemoveOnReceivedQueryResultsCallback(m_searchResultResponseReceivedCallback);
                 m_searchService.RemoveOnPerformedQueryCallback(m_searchResultQueryIssuedCallback);
             }
-
+            
+            void SearchRefreshService::SetAnchorPoint(const Eegeo::dv3& interestPointEcef)
+            {
+                m_previousQueryLocationEcef = interestPointEcef;
+                m_previousInterestEcefLocation = interestPointEcef;
+                m_previousQueryInterestDistance = 0.0f;
+            }
+            
             void SearchRefreshService::SetEnabled(bool enabled)
             {
                 m_enabled = enabled;
@@ -97,25 +107,21 @@ namespace ExampleApp
                 {
                     return false;
                 }
-
+                
                 bool hasChangedInteriorFloors = m_interiorInteractionModel.HasInteriorModel() &&
                 m_previousQueryFloorIndex != m_interiorInteractionModel.GetSelectedFloorIndex();
-                if (hasChangedInteriorFloors)
+                if (hasChangedInteriorFloors || m_interiorHasChanged)
                 {
                     if (m_interiorHasChanged)
                     {
                         m_interiorHasChanged = false;
-
-                        m_previousQueryFloorIndex = m_interiorInteractionModel.GetSelectedFloorIndex();
-
-                        return false;
                     }
                     
                     return true;
                 }
                 
                 const double viewpointDistance = (viewpointEcef - interestPointEcef).Length();
-
+                
                 const double distanceRatio = std::min(viewpointDistance, m_previousQueryInterestDistance) / std::max(viewpointDistance, m_previousQueryInterestDistance);
                 if (distanceRatio < 0.75)
                 {
@@ -125,7 +131,7 @@ namespace ExampleApp
                 const double angularInterestDeltaFromQuery = (interestPointEcef - m_previousQueryLocationEcef).Length() / viewpointDistance;
                 const double multiplier = 0.001;
                 const double minimumInterestLateralDeltaAngle = m_interiorInteractionModel.HasInteriorModel() ? m_minimumInteriorInterestLateralDelta * m_minimumInteriorInterestLateralDelta : m_minimumInterestLateralDeltaAt1km * multiplier;
-
+                
                 const bool belowLateralThreshold = (angularInterestDeltaFromQuery < minimumInterestLateralDeltaAngle);
                 if (belowLateralThreshold)
                 {
@@ -143,39 +149,47 @@ namespace ExampleApp
                 
                 return true;
             }
-
+            
             void SearchRefreshService::TryRefreshSearch(float deltaSeconds, const Eegeo::dv3& interestPointEcef, const Eegeo::dv3& viewpointEcef)
             {
                 m_secondsSincePreviousRefresh += deltaSeconds;
                 
                 bool shouldRefresh = ShouldRefreshSearch(deltaSeconds, interestPointEcef, viewpointEcef);
-
+                
                 if (m_previousQueryInterestDistance == 0.0f)
                 {
                     shouldRefresh = false;
                 }
                 
                 const SearchQuery& previousQuery = m_searchQueryPerformer.GetPreviousSearchQuery();
-                if (shouldRefresh && TagStillPresent(previousQuery))
+                if (shouldRefresh && (!previousQuery.IsTag() || TagStillPresent(previousQuery)))
                 {
                     const Eegeo::Space::LatLongAltitude& currentLocation = Eegeo::Space::LatLongAltitude::FromECEF(interestPointEcef);
                     m_searchQueryPerformer.PerformSearchQuery(previousQuery.Query(), previousQuery.IsTag(), previousQuery.ShouldTryInteriorSearch(), currentLocation);
-
+                    
                     if (m_interiorInteractionModel.HasInteriorModel())
                     {
                         m_previousQueryInteriorId = m_interiorInteractionModel.GetInteriorModel()->GetId();
                         m_previousQueryFloorIndex = m_interiorInteractionModel.GetSelectedFloorIndex();
                     }
-
+                    
                     m_previousQueryLocationEcef = interestPointEcef;
                     m_secondsSincePreviousRefresh = 0.f;
                 }
-
+                
                 m_previousQueryInterestDistance = (viewpointEcef - interestPointEcef).Length();
                 m_previousInterestEcefLocation = interestPointEcef;
             }
-
-            void SearchRefreshService::HandleInteriorChanged()
+            
+            void SearchRefreshService::HandleInteriorModelChanged()
+            {
+                if (!m_searchResultsCleared && m_searchResultsExist)
+                {
+                    m_interiorHasChanged = true;
+                }
+            }
+            
+            void SearchRefreshService::HandleInteriorTagsChanged()
             {
                 if (!m_searchResultsCleared && m_searchResultsExist)
                 {
@@ -183,14 +197,7 @@ namespace ExampleApp
                     
                     if (previousQuery.IsTag())
                     {
-                        if(TagStillPresent(previousQuery))
-                        {
-                            m_searchQueryPerformer.PerformSearchQuery(previousQuery.Query(), previousQuery.IsTag(), previousQuery.ShouldTryInteriorSearch());
-                            m_secondsSincePreviousRefresh = 0.f;
-
-                            m_interiorHasChanged = true;
-                        }
-                        else
+                        if(!TagStillPresent(previousQuery))
                         {
                             m_searchQueryPerformer.RemoveSearchQueryResults();
                         }
@@ -209,16 +216,16 @@ namespace ExampleApp
                 }
                 return false;
             }
-
+            
             void SearchRefreshService::HandleSearchQueryIssued(const SearchQuery& query)
             {
                 ++ m_queriesPending;
                 m_searchResultsCleared = false;
                 m_previousQueryFloorIndex = m_interiorInteractionModel.GetSelectedFloorIndex();
             }
-
+            
             void SearchRefreshService::HandleSearchResultsResponseReceived(const SearchQuery& query,
-                    const std::vector<SearchResultModel>& results)
+                                                                           const std::vector<SearchResultModel>& results)
             {
                 if (!m_searchResultsCleared)
                 {
@@ -228,7 +235,7 @@ namespace ExampleApp
                 -- m_queriesPending;
                 Eegeo_ASSERT(m_queriesPending >= 0);
             }
-
+            
             void SearchRefreshService::HandleSearchQueryResultsCleared()
             {
                 m_searchResultsCleared = true;

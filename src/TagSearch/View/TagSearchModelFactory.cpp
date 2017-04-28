@@ -19,38 +19,37 @@ namespace ExampleApp
                 void ParseJson(const std::string& json, std::vector<ExampleApp::TagSearch::View::TagSearchModel>& out_models, const std::string& jsonAttributeName, Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater)
                 {
                     rapidjson::Document document;
-
+                    
                     if (document.Parse<0>(json.c_str()).HasParseError())
                     {
                         Eegeo_ASSERT(false, "failed to parse json");
                         return;
                     }
-
+                    
                     const char* itemKey = jsonAttributeName.c_str();
                     Eegeo_ASSERT(document.HasMember(itemKey));
-
+                    
                     const auto& tagSearchModelsMember = document[itemKey];
                     Eegeo_ASSERT(tagSearchModelsMember.IsArray());
-
+                    
                     out_models = std::vector<ExampleApp::TagSearch::View::TagSearchModel>();
-                    yelpCategoryMapperUpdater.ResetMapping();
                     for (rapidjson::Value::ConstValueIterator it = tagSearchModelsMember.Begin();
                          it != tagSearchModelsMember.End();
                          ++it)
                     {
                         const auto& item = *it;
-
+                        
                         const char* nameKey = "name";
                         Eegeo_ASSERT(item.HasMember(nameKey))
                         Eegeo_ASSERT(item[nameKey].IsString())
                         const std::string& name = item[nameKey].GetString();
-
+                        
                         // search tag
                         const char* searchTagKey = "search_tag";
                         Eegeo_ASSERT(item.HasMember(searchTagKey))
                         Eegeo_ASSERT(item[searchTagKey].IsString());
                         const std::string& searchTag = item[searchTagKey].GetString();
-
+                        
                         // icon
                         const char* iconKey = "icon_key";
                         Eegeo_ASSERT(item.HasMember(iconKey));
@@ -59,32 +58,33 @@ namespace ExampleApp
                         
                         const char* skipYelpSearchKey = "skip_yelp_search";
                         const char* yelpMappingKey = "yelp_mapping";
+                        bool skipYelpSearch = false;
                         if(item.HasMember(skipYelpSearchKey) && item[skipYelpSearchKey].IsBool())
                         {
-                            bool skipYelpSearch = item[skipYelpSearchKey].GetBool();
+                            skipYelpSearch = item[skipYelpSearchKey].GetBool();
                             if(skipYelpSearch)
                             {
-                                Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { "unused_string", false };
+                                Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { "unused_string", true };
                                 yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
                             }
                         }
-                        else if(item.HasMember(yelpMappingKey) && item[yelpMappingKey].IsString())
+                        if(item.HasMember(yelpMappingKey) && item[yelpMappingKey].IsString() && skipYelpSearch == false)
                         {
                             const std::string& yelpMapping = item[yelpMappingKey].GetString();
-                            Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { yelpMapping, true };
+                            Search::Yelp::SdkModel::YelpCategoryModel yelpCategoryModel { yelpMapping, false };
                             yelpCategoryMapperUpdater.AddMapping(searchTag, yelpCategoryModel);
                         }
-
+                        
                         const bool visibleInSearchMenu = true;
                         const bool interior = true;
-
+                        
                         // TODO: do parsing for extended options, such as is_interior? and radius searching. This needs
                         // looked at in conjunction with other apps.
                         out_models.push_back(TagSearchModel(name, searchTag, interior, icon, visibleInSearchMenu));
                     }
                 }
             }
-
+            
             std::vector<TagSearch::View::TagSearchModel> CreateTagSearchModelsFromFile(const std::string& json, const std::string& jsonAttributeName, Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater)
             {
                 std::vector<ExampleApp::TagSearch::View::TagSearchModel> result;

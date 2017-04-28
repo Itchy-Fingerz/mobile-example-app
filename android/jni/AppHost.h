@@ -19,6 +19,7 @@
 #include "AndroidInputBoxFactory.h"
 #include "AndroidKeyboardInputFactory.h"
 #include "AndroidAlertBoxFactory.h"
+#include "AndroidAutomatedScreenshotController.h"
 #include "NativeUIFactories.h"
 #include "TerrainHeightRepository.h"
 #include "GlobalShadowing.h"
@@ -33,7 +34,6 @@
 #include "ModalBackgroundViewIncludes.h"
 #include "FlattenButtonViewIncludes.h"
 #include "SearchResultPoiViewIncludes.h"
-#include "WorldPinOnMapViewIncludes.h"
 #include "CompassViewIncludes.h"
 #include "AboutPageViewIncludes.h"
 #include "MyPinCreationViewIncludes.h"
@@ -57,6 +57,18 @@
 #include "IMenuReactionModel.h"
 #include "TagSearchViewIncludes.h"
 #include "AlwaysActiveUserIdleService.h"
+<<<<<<< HEAD
+=======
+#include "ISurveyViewModule.h"
+#include "CurrentLocationService.h"
+#include "SenionLabLocationModule.h"
+#include "IndoorAtlasLocationModule.h"
+#include "InteriorsLocationServiceModule.h"
+#include "SenionLabBroadcastReceiver.h"
+#include "AndroidAutomatedScreenshotController.h"
+#include "AndroidScreenshotService.h"
+#include "SurfaceScreenshotService.h"
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -103,6 +115,7 @@ private:
     bool m_isPaused;
     Eegeo::Helpers::Jpeg::IJpegLoader* m_pJpegLoader;
     Eegeo::Android::AndroidLocationService* m_pAndroidLocationService;
+    Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
     Eegeo::Android::AndroidConnectivityService* m_pAndroidConnectivityService;
 
     AndroidNativeState& m_nativeState;
@@ -127,7 +140,6 @@ private:
     ExampleApp::ModalBackground::View::IModalBackgroundViewModule* m_pModalBackgroundViewModule;
     ExampleApp::FlattenButton::View::IFlattenButtonViewModule* m_pFlattenButtonViewModule;
     ExampleApp::SearchResultPoi::View::ISearchResultPoiViewModule* m_pSearchResultPoiViewModule;
-    ExampleApp::WorldPins::View::IWorldPinOnMapViewModule* m_pWorldPinOnMapViewModule;
     ExampleApp::AboutPage::View::IAboutPageViewModule* m_pAboutPageViewModule;
     ExampleApp::Compass::View::ICompassViewModule* m_pCompassViewModule;
     ExampleApp::MyPinCreation::View::IMyPinCreationViewModule* m_pMyPinCreationViewModule;
@@ -136,6 +148,7 @@ private:
     ExampleApp::InteriorsExplorer::View::IInteriorsExplorerViewModule* m_pInteriorsExplorerViewModule;
     ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule* m_pInitialExperienceIntroViewModule; // TODO: Interface.
     ExampleApp::Options::View::IOptionsViewModule* m_pOptionsViewModule;
+    ExampleApp::Surveys::View::ISurveyViewModule* m_pSurveyViewModule;
     ExampleApp::Watermark::View::IWatermarkViewModule* m_pWatermarkViewModule;
     ExampleApp::Net::SdkModel::INetworkCapabilities* m_pNetworkCapabilities;
     ExampleApp::Metrics::AndroidFlurryMetricsService* m_pAndroidFlurryMetricsService;
@@ -159,6 +172,18 @@ private:
 
     Eegeo::Input::AlwaysActiveUserIdleService m_userIdleService;
 
+<<<<<<< HEAD
+=======
+    ExampleApp::InteriorsPosition::SdkModel::SenionLab::SenionLabLocationModule* m_pSenionLabLocationModule;
+    ExampleApp::InteriorsPosition::SdkModel::IndoorAtlas::IndoorAtlasLocationModule* m_pIndoorAtlasLocationModule;
+    ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceModule* m_pInteriorsLocationServiceModule;
+    ExampleApp::InteriorsPosition::View::SenionLab::SenionLabBroadcastReceiver* m_pSenionLabBroadcastReceiver;
+
+    ExampleApp::Automation::SdkModel::AndroidAutomatedScreenshotController* m_pAndroidAutomatedScreenshotController;
+    ExampleApp::Automation::SdkModel::SurfaceScreenshotService m_surfaceScreenshotService;
+    ExampleApp::Automation::SdkModel::AndroidScreenshotService m_screenshotService;
+
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
     void DispatchRevealUiMessageToUiThreadFromNativeThread();
     void DispatchUiCreatedMessageToNativeThreadFromUiThread();
     void CreateApplicationViewModulesFromUiThread();

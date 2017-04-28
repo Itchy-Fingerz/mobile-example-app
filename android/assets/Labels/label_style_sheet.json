@@ -450,6 +450,18 @@
         "masked_halo_color_rgba": "1040A0",
         "halo_width": 3.0,
         "halo_hardness": 1.0
+<<<<<<< HEAD
+=======
+    },
+    {
+        "name": "marker_default",
+        "label_resource_font_binding": "markers",
+        "size_px": 9.5,
+        "glyph_color_rgba": "FFFFFFFF",
+        "halo_color_rgba": "3A3A3AFF",
+        "halo_width": 2.0,
+        "halo_hardness": 1.0
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
     }
     ],
     "LabelIconStyles":[
@@ -464,6 +476,15 @@
         "size_px": 40,
         "color": "FFFFFFFF",
         "masked_color": "F0F0F080"
+<<<<<<< HEAD
+=======
+    },
+    {
+        "name": "marker_default",
+        "size_px": 28,
+        "color": "FFFFFFFF",
+        "masked_color": "F0F0F080"
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
     }
 	],
 	"LabelStyles": [{
@@ -825,6 +846,11 @@
         "label_vertical_alignment": "bottom",
         "constraint_radius_scale": 1.0,
         "stencil_mode": "always",
+<<<<<<< HEAD
+=======
+        "screen_margin": 24.0,
+        "screen_margin_hiding": "if_icon_outside_margin",
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
         "priority": 5
     },
     {
@@ -837,6 +863,11 @@
         "label_vertical_alignment": "bottom",
         "constraint_radius_scale": 1.0,
         "stencil_mode": "always",
+<<<<<<< HEAD
+=======
+        "screen_margin": 24.0,
+        "screen_margin_hiding": "if_icon_outside_margin",
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
         "priority": 3
     },
     {
@@ -849,6 +880,11 @@
         "label_vertical_alignment": "bottom",
         "constraint_radius_scale": 1.0,
         "stencil_mode": "always",
+<<<<<<< HEAD
+=======
+        "screen_margin": 24.0,
+        "screen_margin_hiding": "if_icon_outside_margin",
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
         "priority": 2
     },
     {
@@ -862,7 +898,31 @@
         "constraint_radius_scale": 1.0,
         "pickable": true,
         "stencil_mode": "always",
+<<<<<<< HEAD
         "priority": 5
+=======
+        "screen_margin": 36.0,
+        "screen_margin_hiding": "if_icon_outside_margin",
+        "priority": 1
+    },
+
+    {
+        "name": "marker_default",
+        "label_text_style_name": "marker_default",
+        "label_icon_style_name": "marker_default",
+        "label_orientation": "screen",
+        "label_display": "screen_space",
+        "label_horizontal_alignment": "left",
+        "label_vertical_alignment": "middle",
+        "constraint_radius_scale": 1.0,
+        "pickable": true,
+        "fade_duration": 0.25,
+        "screen_margin": 36.0,
+        "screen_margin_hiding": "if_icon_outside_margin",
+        "stencil_mode": "always",
+        "initially_faded_out":true,
+        "priority": 0
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
     }
     ],
 	"LabelStyleBindings": [{
@@ -1257,5 +1317,9 @@
         "label_anchor_category": "indoor_map",
         "label_style_name": "indoor_map_marker"
     }
+<<<<<<< HEAD
+=======
+                           
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
     ]
 }

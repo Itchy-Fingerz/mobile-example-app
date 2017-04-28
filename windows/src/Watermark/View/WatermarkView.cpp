@@ -33,6 +33,8 @@ namespace ExampleApp
                 mAnimateToActive.SetupMethod(m_uiViewClass, m_uiView, "AnimateToActive");
                 mAnimateToInactive.SetupMethod(m_uiViewClass, m_uiView, "AnimateToInactive");
 				mUpdateWatermarkData.SetupMethod(m_uiViewClass, m_uiView, "UpdateWatermarkData");
+				mDismiss.SetupMethod(m_uiViewClass, m_uiView, "Dismiss");
+                mSetInteriorStylingState.SetupMethod(m_uiViewClass, m_uiView, "SetInteriorStylingState");
             }
 
             WatermarkView::~WatermarkView()
@@ -58,6 +60,7 @@ namespace ExampleApp
             void WatermarkView::SetFullyOffScreen()
             {
                 mAnimateToInactive();
+                Close();
             }
 
             void WatermarkView::InsertSelectedCallback(Eegeo::Helpers::ICallback0& callback)
@@ -83,6 +86,16 @@ namespace ExampleApp
 			{
 				// Windows build doesn't really need to implement -- used to align watermark to bottom of screen on portrait devices
 			}
+
+            void WatermarkView::Close()
+            {
+                mDismiss();
+            }
+
+            void WatermarkView::SetInteriorStylingState(bool shouldUseInteriorStyling)
+            {
+                mSetInteriorStylingState(shouldUseInteriorStyling);
+            }
         }
     }
 }

@@ -27,7 +27,9 @@ namespace ExampleApp
                                                                            Eegeo::Web::IWebLoadRequestFactory& webFactory,
                                                                            Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory, ApplicationConfig::ApplicationConfiguration& defaultConfig,
                                                                            Eegeo::Streaming::CoverageTrees::ICoverageTreeManifestLoader& manifestLoader,
+                                                                           Eegeo::Streaming::CoverageTrees::CoverageTreeManifestNotifier& manifestNotifier,
                                                                            Eegeo::Resources::CityThemes::CityThemeLoader& cityThemeLoader,
+                                                                           Eegeo::Resources::CityThemes::ICityThemesService& cityThemeService,
                                                                            Search::SdkModel::InteriorMenuObserver& interiorMenuObserver,
                                                                            AboutPage::View::IAboutPageViewModel& aboutPageViewModule,
                                                                            Eegeo::Location::NavigationService& navigationService,
@@ -36,32 +38,34 @@ namespace ExampleApp
                 m_pDeepLinkModel = Eegeo_NEW(DeepLinkModel)();
                 DeepLinkLocationHandler* locationHandler = Eegeo_NEW(DeepLinkLocationHandler)(cameraTransitionController, alertBoxFactory);
                 m_pDeepLinkModel->AddRoute(LOCATION_PATH, locationHandler);
-
+                
                 if(CONFIG_DEEP_LINK_ENABLED)
                 {
                     DeepLinkConfigHandler* configHandler= Eegeo_NEW(DeepLinkConfigHandler)(cameraTransitionController,
-                    webFactory,
-                    alertBoxFactory,
-                    defaultConfig,
-                    manifestLoader,
-                    cityThemeLoader,
-                    interiorMenuObserver,
-                    aboutPageViewModule,
-                    navigationService,
-                    apiTokenService);
-
+                                                                                           webFactory,
+                                                                                           alertBoxFactory,
+                                                                                           defaultConfig,
+                                                                                           manifestLoader,
+                                                                                           manifestNotifier,
+                                                                                           cityThemeLoader,
+                                                                                           cityThemeService,
+                                                                                           interiorMenuObserver,
+                                                                                           aboutPageViewModule,
+                                                                                           navigationService,
+                                                                                           apiTokenService);
+                    
                     m_pDeepLinkModel->AddRoute(MYMAP_PATH, configHandler);
                 }
-
+                
                 m_pDeepLinkController = Eegeo_NEW(DeepLinkController)(*m_pDeepLinkModel);
             }
-
+            
             ExampleApp::DeepLink::SdkModel::DeepLinkModule::~DeepLinkModule()
             {
                 Eegeo_DELETE(m_pDeepLinkModel);
                 Eegeo_DELETE(m_pDeepLinkController);
             }
-
+            
             ExampleApp::DeepLink::SdkModel::DeepLinkController& ExampleApp::DeepLink::SdkModel::DeepLinkModule::GetDeepLinkController()
             {
                 return *m_pDeepLinkController;

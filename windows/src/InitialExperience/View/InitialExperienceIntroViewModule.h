@@ -6,6 +6,7 @@
 #include "InitialExperience.h"
 #include "WindowsNativeState.h"
 #include "BidirectionalBus.h"
+#include "CameraTransitions.h"
 
 namespace ExampleApp
 {
@@ -16,9 +17,13 @@ namespace ExampleApp
             class InitialExperienceIntroViewModule
             {
             public:
-                InitialExperienceIntroViewModule(WindowsNativeState& nativeState, ExampleAppMessaging::TMessageBus& messageBus);
+                InitialExperienceIntroViewModule(WindowsNativeState& nativeState,
+                                                 ExampleAppMessaging::TMessageBus& messageBus,
+                                                 bool isInKioskMode,
+                                                 CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController);
                 ~InitialExperienceIntroViewModule();
 
+                InitialExperienceIntroController& GetController() { return *m_pController; }
 
             private:
 

@@ -15,8 +15,9 @@ namespace ExampleApp
         namespace View
         {
             SearchMenuView::SearchMenuView(WindowsNativeState& nativeState,
-                const std::string& viewClassName)
-                : Menu::View::MenuView(nativeState, viewClassName)
+                const std::string& viewClassName,
+                bool isInKioskMode)
+                : Menu::View::MenuView(nativeState, viewClassName, isInKioskMode)
                 , m_currentSections(0)
             {
                 m_uiViewClass = GetTypeFromEntryAssembly("ExampleAppWPF.SearchMenuView");
@@ -26,6 +27,8 @@ namespace ExampleApp
                 mSetSearchEnded.SetupMethod(m_uiViewClass, m_uiView, "SetSearchEnded");
                 mSetEditText.SetupMethod(m_uiViewClass, m_uiView, "SetEditText");
                 mSetSearchResultCount.SetupMethod(m_uiViewClass, m_uiView, "SetSearchResultCount");
+                mHideSearchResultCount.SetupMethod(m_uiViewClass, m_uiView, "HideSearchResultCount");
+                mRemoveSearchQueryResults.SetupMethod(m_uiViewClass, m_uiView, "RemoveSearchQueryResults");
             }
 
             void SearchMenuView::SetSearchSection(Menu::View::IMenuSectionViewModel& searchSection)
@@ -73,6 +76,16 @@ namespace ExampleApp
             void SearchMenuView::SetSearchResultCount(int searchResultCount)
             {
                 mSetSearchResultCount(searchResultCount);
+            }
+
+            void SearchMenuView::HideSearchResultCount()
+            {
+                mHideSearchResultCount();
+            }
+
+            void SearchMenuView::RemoveSearchQueryResults()
+            {
+                mRemoveSearchQueryResults();
             }
 
             void SearchMenuView::CollapseAll()

@@ -1,10 +1,10 @@
 <a href="http://www.eegeo.com/">
-    <img src="http://cdn2.eegeo.com/wp-content/uploads/2016/03/eegeo_logo_quite_big.png" alt="eeGeo Logo" title="eegeo" align="right" height="80px" />
+    <img src="http://www.eegeo.com/wp-content/uploads/2016/03/eegeo_logo_quite_big.png" title="WRLD" align="right" height="80px" />
 </a>
 
 # eeGeo Example App
 
-![eeGeo](http://cdn2.eegeo.com/wp-content/uploads/2016/03/readme-banner.jpg)
+![eeGeo](images/Screensample02.png)
 
 * [Support](#support)
 * [Getting Started](#getting-started)
@@ -82,7 +82,7 @@ This app uses third-party search service providers to allow users to search for 
 
 The [eeGeo Example App](https://github.com/eegeo/eegeo-example-app) demonstrates a variety of SDK features and is a good starting point to learn how the SDK works.
 
-![eeGeo Example App features](http://cdn2.eegeo.com/wp-content/uploads/2016/03/eegeo-example-app-features.jpg)
+![eeGeo Example App features](http://www.eegeo.com/wp-content/uploads/2016/03/eegeo-example-app-features.jpg)
 
 See [here](https://www.eegeo.com/features/) to learn more about what the eeGeo SDK has to offer.
 
@@ -92,4 +92,8 @@ See the [eeGeo API reference](http://cdn1.eegeo.com/docs/mobile-sdk/namespaces.h
 
 ## License
 
+<<<<<<< HEAD
 The eeGeo 3D Maps Example App is released under the Simplified BSD License. See the [LICENSE.md](https://github.com/eegeo/eegeo-example-app/blob/master/LICENSE.md) file for details.
+=======
+The eeGeo 3D Maps Example App is released under the Simplified BSD License. See the [LICENSE.md](https://github.com/eegeo/eegeo-example-app/blob/master/LICENSE.md) file for details.
+>>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3

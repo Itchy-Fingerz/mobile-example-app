@@ -6,6 +6,7 @@
 #include "BidirectionalBus.h"
 #include "InitialExperience.h"
 #include "ShowInitialExperienceIntroMessage.h"
+#include "CameraTransitions.h"
 #include <string>
 
 namespace ExampleApp
@@ -18,8 +19,16 @@ namespace ExampleApp
             {
             public:
              
-                InitialExperienceIntroController(IInitialExperienceIntroView& view, ExampleAppMessaging::TMessageBus& messageBus);
+                InitialExperienceIntroController(IInitialExperienceIntroView& view,
+                                                 ExampleAppMessaging::TMessageBus& messageBus,
+                                                 bool isInKioskMode,
+                                                 CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController);
                 ~InitialExperienceIntroController();
+
+                void ReplayExitIUX(const bool enableExitIUX);
+
+                void InsertReplayExitIUXChangedCallback(Eegeo::Helpers::ICallback1<bool>& callback);
+                void RemoveReplayExitIUXChangedCallback(Eegeo::Helpers::ICallback1<bool>& callback);
                 
             private:
                 
@@ -31,6 +40,25 @@ namespace ExampleApp
                 
                 void OnShowIntro(const ShowInitialExperienceIntroMessage& message);
                 void OnViewDismissed();
+
+                bool m_isInKioskMode;
+
+                bool m_replayExitIUX;
+                int m_exitIUXViewedCount;
+                AppModes::SdkModel::AppMode m_currAppMode;
+
+                Eegeo::Helpers::CallbackCollection1<bool> m_replayExitIUXCallbacks;
+
+                Eegeo::Helpers::TCallback1<InitialExperienceIntroController, const AppModes::AppModeChangedMessage&> m_appModeChangedHandler;
+                void OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message);
+
+                void ShowExitIUX();
+
+                bool m_shouldShowExitIUX;
+
+                CameraTransitions::SdkModel::ICameraTransitionController& m_cameraTransitionController;
+                Eegeo::Helpers::TCallback0<InitialExperienceIntroController> m_transitionCompleteHandler;
+                void OnTransitionCompleteHandler();
             
             };
         }

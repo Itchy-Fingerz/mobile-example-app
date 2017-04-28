@@ -40,10 +40,10 @@ namespace ExampleApp
             std::string m_eegeoSearchServiceUrl;
             std::string m_myPinsWebServiceUrl;
             std::string m_myPinsWebServiceAuthToken;
-            std::string m_twitterAuthCode;
+            std::string m_myPinsPoiSetId;
             bool m_isKioskTouchInputEnabled;
             bool m_isInKioskMode;
-            bool m_useLabels;
+
             bool m_useJapaneseFont;
 
             SdkModel::ApplicationFixedIndoorLocation m_fixedIndoorLocation;
@@ -56,6 +56,14 @@ namespace ExampleApp
 
             long long m_attractModeTimeoutMs;
             float m_attractModePlaybackSpeed;
+
+
+            std::string m_optionsAdminPassword;
+            
+            long long m_surveyRequirementTimeSec;
+            std::string m_timerSurveyUrl;
+            
+            std::string m_hockeyAppId;
 
         public:
             
@@ -83,10 +91,9 @@ namespace ExampleApp
                 const std::string& eegeoSearchServiceUrl,
                 const std::string& myPinsWebServiceUrl,
                 const std::string& myPinsWebServiceAuthToken,
-                const std::string& twitterAuthCode,
+                const std::string& myPinsPoiSetId,
                 const bool isKioskTouchInputEnabled,
                 const bool isInKioskMode,
-                bool useLabels,
                 bool useJapaneseFont,
                 const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfo,
                 const std::string& rawConfig,
@@ -94,7 +101,11 @@ namespace ExampleApp
                 const std::vector<Eegeo::Space::LatLongAltitude>& attractModeTargetSplinePoints,
                 const std::vector<Eegeo::Space::LatLongAltitude>& attractModePositionSplinePoints,
                 const long long attractModeTimeoutMs,
-                const float attractModePlaybackSpeed
+                const float attractModePlaybackSpeed,
+                const std::string& optionsAdminPassword,
+                const long long& surveyRequirementTimeSec,
+                const std::string& timerSurveyUrl,
+                const std::string& hockeyAppId
             );
             
             std::string Name() const;
@@ -143,13 +154,11 @@ namespace ExampleApp
 
             std::string MyPinsWebServiceAuthToken() const;
 
-            std::string TwitterAuthCode() const;
+            std::string MyPinsPoiSetId() const;
 
             bool IsKioskTouchInputEnabled() const;
 
             bool IsInKioskMode() const;
-            
-            bool UseLabels() const;
             
             bool UseJapaneseFont() const;
             
@@ -165,6 +174,14 @@ namespace ExampleApp
             const long long AttractModeTimeoutMs() const;
             const float AttractModePlaybackSpeed() const;
             const bool IsAttractModeEnabled() const;
+
+
+            std::string OptionsAdminPassword() const;
+            
+            const long long SurveyRequirementTimeSec() const;
+            const std::string TimerSurveyUrl() const;
+            
+            const std::string HockeyAppId() const;
         };
     }
 }
