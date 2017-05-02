@@ -184,7 +184,7 @@ AppHost::AppHost(
     
     Eegeo::Modules::Map::MapModule& mapModule = m_pApp->World().GetMapModule();
     Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
-    m_pIndoorAtlasLocationModule = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::IndoorAtlas::IndoorAtlasLocationModule)(m_pApp->GetAppModeModel(),
+    m_pIndoorAtlasLocationModule = Eegeo_NEW(ExampleApp::IndoorAtlas::IndoorAtlasLocationModule)(m_pApp->GetAppModeModel(),
                                                                                                                               interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                                                               interiorsPresentationModule.GetInteriorSelectionModel(),
                                                                                                                               mapModule.GetEnvironmentFlatteningService(),
@@ -416,10 +416,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 
     m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService, m_messageBus);
     
-    m_pOptionsViewModule = Eegeo_NEW(ExampleApp::Options::View::OptionsViewModule)(app.OptionsModule().GetOptionsViewModel(),
-                                                                                   m_piOSPlatformAbstractionModule->GetiOSHttpCache(),
-                                                                                   m_messageBus,
-                                                                                   app.World().GetWorkPool());
 
     
     m_pDirectionsMenuInitiationViewModule = Eegeo_NEW(ExampleApp::DirectionsMenuInitiation::View::DirectionsMenuInitiationViewModule)(m_messageBus,

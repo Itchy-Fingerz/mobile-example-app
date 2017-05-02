@@ -49,6 +49,7 @@ namespace ExampleApp
                                                                              "",
                                                                              "",
                                                                              "",
+                                                                             0,
                                                                              0);
                     
                     WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(Eegeo::Resources::Interiors::InteriorId(wayPoint->GetBuildingID()), wayPoint->GetLevel());

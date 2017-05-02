@@ -122,7 +122,7 @@ private:
     Eegeo::iOS::iOSPlatformAbstractionModule* m_piOSPlatformAbstractionModule;
     
 
-    ExampleApp::InteriorsPosition::SdkModel::IndoorAtlas::IndoorAtlasLocationModule* m_pIndoorAtlasLocationModule;
+    ExampleApp::IndoorAtlas::IndoorAtlasLocationModule* m_pIndoorAtlasLocationModule;
     ExampleApp::SenionLab::SenionLabLocationModule* m_pSenionLabLocationModule;
     Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
     ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceModule* m_pInteriorsLocationServiceModule;

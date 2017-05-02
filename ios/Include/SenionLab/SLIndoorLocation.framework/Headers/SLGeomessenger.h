@@ -1,27 +1,12 @@
 //
-<<<<<<< HEAD
-//  SLGeomessenger.h
-//  SLIndoorLocation
-//
-//  Copyright (c) 2010-2016, SenionLab AB. All rights reserved.
-=======
 //  SLGeoMessenger.h
 //  SLIndoorLocation
 //
 //  Copyright (c) 2010-2017, Senion AB. All rights reserved.
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 //
 
 #import <Foundation/Foundation.h>
 
-<<<<<<< HEAD
-@protocol SLGeomessengerDelegate;
-
-/**
- The SLGeomessenger protocol is used by classes that detects when certain areas are entered/left.
- */
-@protocol SLGeomessenger <NSObject>
-=======
 @protocol SLGeoMessengerDelegate;
 @class SLGeoMessengerZone;
 
@@ -96,25 +81,10 @@ typedef NS_ENUM(NSInteger, SLGeoMessengerErrorType) {
  @return an NSArray with all SLGeoMessengerZone the user is currently in.
  */
 - (NSArray<SLGeoMessengerZone *> *)currentZones;
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
 /// @name Delegate
 
 /**
-<<<<<<< HEAD
- Use this method to subscribe to updates when entering and leaving monitored areas.
- 
- @param delegate The delegate object.
- */
-- (void)addDelegate:(id<SLGeomessengerDelegate>)delegate;
-
-/**
- Unsubscribe from notifications.
- 
- @param delegate The delegate object.
- */
-- (void)removeDelegate:(id<SLGeomessengerDelegate>)delegate;
-=======
  @abstract Use this method to get updates to the delegate when entering and leaving monitored areas.
  
  @param delegate The delegate object.
@@ -127,6 +97,5 @@ typedef NS_ENUM(NSInteger, SLGeoMessengerErrorType) {
  @param delegate The delegate object.
  */
 - (void)removeDelegate:(id<SLGeoMessengerDelegate>)delegate;
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
 @end

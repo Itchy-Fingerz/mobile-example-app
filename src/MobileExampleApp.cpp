@@ -693,21 +693,6 @@ namespace ExampleApp
                                                                           m_messageBus,
                                                                           m_metricsService);
         
-        m_pMapModeModule = Eegeo_NEW(MapMode::SdkModel::MapModeModule)(m_pVisualMapModule->GetVisualMapService());
-        
-        m_pSearchResultPoiModule = Eegeo_NEW(ExampleApp::SearchResultPoi::View::SearchResultPoiModule)(m_identityProvider,
-                                                                                                       m_pReactionControllerModule->GetReactionControllerModel(),
-                                                                                                       m_pMyPinsModule->GetMyPinsService(),
-                                                                                                       m_pSearchModule->GetSearchResultMyPinsService(),
-                                                                                                       m_pTagSearchModule->GetSearchResultIconKeyMapper(),
-                                                                                                       world.GetPlatformAbstractionModule().GetWebLoadRequestFactory(),
-                                                                                                       m_messageBus);
-        
-        m_pFlattenButtonModule = Eegeo_NEW(ExampleApp::FlattenButton::SdkModel::FlattenButtonModule)(m_pMapModeModule->GetMapModeModel(),
-                                                                                                     m_identityProvider,
-                                                                                                     m_messageBus);
-        
-        
         InitialisePinsModules(mapModule, world, interiorsAffectedByFlattening, m_screenProperties.GetOversampleScale());
         
         m_pMyPinsModule = Eegeo_NEW(ExampleApp::MyPins::SdkModel::MyPinsModule)(m_pWorldPinsModule->GetWorldPinsService(),
@@ -724,6 +709,22 @@ namespace ExampleApp
                                                                                 m_applicationConfiguration.MyPinsPoiSetId(),
                                                                                 m_menuReaction,
                                                                                 *m_pModalityIgnoredReactionModel);
+        
+        m_pMapModeModule = Eegeo_NEW(MapMode::SdkModel::MapModeModule)(m_pVisualMapModule->GetVisualMapService());
+        
+        m_pSearchResultPoiModule = Eegeo_NEW(ExampleApp::SearchResultPoi::View::SearchResultPoiModule)(m_identityProvider,
+                                                                                                       m_pReactionControllerModule->GetReactionControllerModel(),
+                                                                                                       m_pMyPinsModule->GetMyPinsService(),
+                                                                                                       m_pSearchModule->GetSearchResultMyPinsService(),
+                                                                                                       m_pTagSearchModule->GetSearchResultIconKeyMapper(),
+                                                                                                       world.GetPlatformAbstractionModule().GetWebLoadRequestFactory(),
+                                                                                                       m_messageBus);
+        
+        m_pFlattenButtonModule = Eegeo_NEW(ExampleApp::FlattenButton::SdkModel::FlattenButtonModule)(m_pMapModeModule->GetMapModeModel(),
+                                                                                                     m_identityProvider,
+                                                                                                     m_messageBus);
+        
+        
         
         m_pSearchResultPoiModule =
         Eegeo_NEW(ExampleApp::SearchResultPoi::View::SearchResultPoiModule)(m_identityProvider,
@@ -1167,7 +1168,7 @@ namespace ExampleApp
         openables.push_back(&MyPinCreationDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinCreationModule().GetObservableOpenableControl());
-//      openables.push_back(&DirectionsMenuInitiationModule().GetObservableOpenableControl());
+//        openables.push_back(&DirectionsMenuInitiationModule().GetObservableOpenableControl());
         openables.push_back(&OptionsModule().GetObservableOpenableControl());
 //      openables.push_back(&DirectionsMenuModule().GetDirectionsMenuViewModel());
 
@@ -1307,9 +1308,6 @@ namespace ExampleApp
         {
             m_pWorldPinsModule->Update(dt);
             
-            RouteWorldPinsModule().GetWorldPinsService().Update(dt);
-            RouteWorldPinsModule().GetWorldPinsScaleController().Update(dt, renderCamera);
-            RouteWorldPinsModule().GetWorldPinsFloorHeightController().Update(dt);
             CompassModule().GetCompassUpdateController().Update(dt);
             m_pGpsMarkerModule->GetGpsMarkerController().Update(dt, renderCamera);
             
@@ -1356,12 +1354,6 @@ namespace ExampleApp
         Eegeo::Camera::CameraState cameraState = m_pAppCameraModule->GetController().GetCameraState();
         
         Eegeo::dv3 ecefInterestPoint(cameraState.InterestPointEcef());
-        
-        if(!eegeoWorld.Initialising())
-        {
-            WorldPinsModule().GetWorldPinsInFocusController().Update(dt, ecefInterestPoint, renderCamera);
-            RouteWorldPinsModule().GetWorldPinsInFocusController().Update(dt, ecefInterestPoint, renderCamera);
-        }
         
         Eegeo::EegeoDrawParameters drawParameters(cameraState.LocationEcef(),
                                                   cameraState.InterestPointEcef(),

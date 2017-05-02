@@ -32,8 +32,6 @@ namespace ExampleApp
                 
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 
-                ExampleAppMessaging::TMessageBus& m_messageBus;
-                
                 Metrics::IMetricsService& m_metricsService;
                 
                 Eegeo::Helpers::TCallback1<AboutPageController, const AboutPageIndoorPositionTypeMessage&> m_aboutPageIndoorPositionTypeMessage;

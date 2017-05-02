@@ -41,12 +41,19 @@ namespace ExampleApp
                     if (query.ShouldTryInteriorSearch())
                     {
                         
+                        const std::string InteriorId = "westport_house";
+                        
+                        const std::string& id = "";
+                        
+                        const Eegeo::Resources::Interiors::InteriorId& interiorId(id);
                         
                         return Eegeo_NEW(EegeoPois::SdkModel::EegeoSearchQuery)(m_webRequestFactory,
                                                            m_urlEncoder,
                                                            query,
                                                            m_serviceUrl,
                                                            m_apiTokenModel,
+                                                            interiorId,
+                                                           2,
                                                            completionCallback);
                     }
                     else

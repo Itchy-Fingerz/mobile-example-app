@@ -57,8 +57,6 @@ namespace ExampleApp
                 
                 void OnSearchItemSelectedMessage(const Automation::SelectMenuItemMessage& message);
                 
-                void OnSearch(const std::string& searchQuery);
-                
                 bool TryDrag();
                 
                 void OnViewClicked();
@@ -87,11 +85,9 @@ namespace ExampleApp
                                      Modality::View::IModalBackgroundView& modalBackgroundView,
                                      ExampleAppMessaging::TMessageBus& messageBus);
 
-                
-                void OnSearch(const std::string& searchQuery);
-
                 void OnSearchCleared();
 
+                void OnSearch(const std::string& searchQuery);
                 
                 virtual ~SearchMenuController();
             };

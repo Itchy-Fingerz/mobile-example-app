@@ -23,19 +23,17 @@ namespace ExampleApp
                 
                 InteriorWorldPinController(Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
                                            ExampleAppMessaging::TMessageBus& messageBus,
-                                           const InitialExperience::SdkModel::IInitialExperienceModel& initialExperienceModel,
-                                           const bool useIndoorEntryMarkerLabels);
+                                           const InitialExperience::SdkModel::IInitialExperienceModel& initialExperienceModel);
                 ~InteriorWorldPinController();
                 
                 const bool PinInteractionAllowed(const std::string& interiorId) const;
                 
             private:
-
+                
                 Eegeo::Resources::Interiors::InteriorSelectionModel& m_interiorSelectionModel;
-
+                
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 const InitialExperience::SdkModel::IInitialExperienceModel& m_initialExperienceModel;
-                const bool m_useIndoorEntryMarkerLabels;
                 bool m_menuIsDragging;
                 
                 

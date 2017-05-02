@@ -2,11 +2,7 @@
 //  SLIndoorLocationManager.h
 //  SLIndoorLocation
 //
-<<<<<<< HEAD
-//  Copyright (c) 2010-2016, SenionLab AB. All rights reserved.
-=======
 //  Copyright (c) 2010-2017, Senion AB. All rights reserved.
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 //
 
 #import <Foundation/Foundation.h>
@@ -21,76 +17,11 @@
  SLIndoorLocationManager specifies the positioning interactions. Initiation, starting the positioning,
  ending the positioning, changing the user position and step length, all is specified there.
  */
-<<<<<<< HEAD
-@interface SLIndoorLocationManager: NSObject <SLIndoorLocationManagerDelegate>
-=======
 @interface SLIndoorLocationManager: NSObject
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
 /// @name Initializer
 
 /**
-<<<<<<< HEAD
- Init location using Map Key and Customer ID.
- 
- @param mapKey Map Key (obtained from SenionLab).
- @param customerId Customer ID (obtained from SenionLab).
- */
-- (instancetype)initWithMapKey:(NSString *)mapKey andCustomerId:(NSString *)customerId;
-
-/// @name Delegate
-
-/**
- Set delegate class that will receive updates from SLIndoorLocationManager.
- 
- @param delegate The delegate object.
- */
-- (void)setDelegate:(id<SLIndoorLocationManagerDelegate>)delegate;
-
-/// @name Start/Stop location updates
-
-/**
- Start location updates. Must be called to start location updates after initializing the class.
- */
-- (void)startUpdatingLocation;
-
-/**
- Stops location updates (both real and mockup locations). To start positioning again, use SLIndoorLocationManager::startUpdatingLocation.
- */
-- (void)stopUpdatingLocation;
-
-/**
- This function can be called to simulate a position for testing purposes when testing off site. Observe that this function can only be used if [SLIndoorLocationManager startUpdatingLocation] has not been called.
- 
- @param locationStateArray An array of SLLocationState.
- @param timeInterval A time interval in seconds between location updates.
- */
-- (void)startMockupLocationWithLocationStateArray:(NSArray *)locationStateArray andTimeInterval:(double)timeInterval;
-
-/**
- This function can be called to simulate a position for testing purposes when testing off site. Observe that this function can only be used if [SLIndoorLocationManager startUpdatingLocation] has not been called.
- 
- @param locationState A SLLocationState.
- @param timeInterval A time interval in seconds between location updates.
- */
-- (void)startMockupLocationWithLocationState:(SLLocationState *)locationState andTimeInterval:(double) timeInterval;
-
-
-/**
- Stop mockup location updates. This function is also invoked if SLIndoorLocationManager::stopUpdatingLocation is called.
- */
-- (void)stopUpdatingMockupLocation;
-
-/// @name Getter/Setter
-
-/**
- Step length in [m] is specified using this function. Since different users have different 
- steplengths, this should be possible to set.
- 
- @param stepLength Step length in meters.
- */
-- (void)setStepLength:(double)stepLength;
-=======
  Create the default SLIndoorLocationManager for one specific Map Key. 
  
  @param mapKey Map Key (obtained from Senion).
@@ -172,7 +103,6 @@
 - (void)stopUpdatingLocation;
 
 /// @name Getter/Setter
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
 /**
  Check if bluetooth is powered on.
@@ -182,14 +112,6 @@
 - (BOOL)isBleEnabled;
 
 /**
-<<<<<<< HEAD
- @return Current steplength in meters.
- */
-- (double)stepLength;
-
-/**
-=======
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
  @return The map ID of the loaded map.
  */
 - (NSString *)getMapId;
@@ -199,8 +121,6 @@
  */
 - (NSString *)getMapVersionId;
 
-<<<<<<< HEAD
-=======
 /**
  @return The current location availability status.
  */
@@ -211,7 +131,6 @@
  */
 - (BOOL)isLocationAvailable;
 
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 /// @name Heading calibration
 
 /**
@@ -224,37 +143,21 @@
 /// @name Geofencing/Geomessenger
 
 /**
-<<<<<<< HEAD
- @return The geofencing manager, used to create alerts when the user enters specific areas.
-=======
  @return The Geofencing manager, used to create alerts when the user enters specific areas.
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
  */
 - (id<SLGeofencing>)getGeofencingManager;
 
 /**
-<<<<<<< HEAD
- @return the geomessenger manager, used to recieve notifications when the user enters specific areas defined on our servers.
- */
-- (id<SLGeomessenger>)getGeomessengerManager;
-=======
  @return the GeoMessenger manager, used to recieve notifications when the user enters specific areas defined on our servers.
  */
 - (id<SLGeoMessenger>)getGeoMessengerManager;
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
 
 /// @name Shortest path
 
 /**
-<<<<<<< HEAD
- Get shortest path between two locations.
- 
- @warning Note that this function is mainly for demonstrating a possible user navigation feature. Please contact SenionLab if you plan to use this feature in your app.
-=======
  Get shortest path between two locations in the same building. This method does not work for multiple buildings and will only give you the shortest path for the building the user is currently inside.
  
  @note Note that this function is mainly for demonstrating a possible user navigation feature. Please contact Senion if you plan to use this feature in your app.
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
  
  @param startLocation The start location.
  @param endLocation The end location.

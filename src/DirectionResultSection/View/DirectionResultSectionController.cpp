@@ -151,10 +151,13 @@ namespace ExampleApp
                                                                                                               true,
                                                                                                               m_buildingId,
                                                                                                               stepRouteModel.GetLevel(),
-                                                                                                              m_directionMenuViewModel,                                                                           m_searchResultPoiViewModel,
+                                                                                                              "",
+                                                                                                              m_directionMenuViewModel,                                                                   m_searchResultPoiViewModel,
                                                                                                               m_wayPointCount,
                                                                                                               m_messageBus,
-                                                                                                              m_menuReaction,wayPointNumber,wayPointype));
+                                                                                                              m_menuReaction,
+                                                                                                              wayPointNumber,
+                                                                                                              wayPointype));
                             m_wayPointCount++;
 
                         

@@ -4,7 +4,7 @@
 #include "BillBoardsRepository.h"
 #include "LatLongAltitude.h"
 #include "SearchServiceBase.h"
-
+#include "document.h"
 
 #define BOX_WIDTH 12.5
 #define BOX_HEIGHT 8.3333

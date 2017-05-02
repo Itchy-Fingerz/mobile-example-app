@@ -30,17 +30,10 @@
                         <key>CFBundleTypeRole</key>
                         <string>Editor</string>
                         <key>CFBundleURLName</key>
-<<<<<<< HEAD
-                        <string>com.eegeo</string>
-                        <key>CFBundleURLSchemes</key>
-                        <array>
-=======
                         <string>com.wrld</string>
                         <key>CFBundleURLSchemes</key>
                         <array>
                                 <string>wrld</string>
->>>>>>> 7fa4ef117951caca815b63afd6989315815ae2f3
-                                <string>eegeo</string>
                         </array>
                 </dict>
 	</array>

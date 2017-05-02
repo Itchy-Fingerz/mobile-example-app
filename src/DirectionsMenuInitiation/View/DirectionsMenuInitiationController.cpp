@@ -55,16 +55,16 @@ namespace ExampleApp
             
             void DirectionsMenuInitiationController::OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message)
             {
-                m_appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::TourMode;
+                //m_appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::TourMode;
                 
-                if(m_appModeAllowsOpen)
-                {
+                //if(m_appModeAllowsOpen)
+                //{
                     m_viewModel.AddToScreen();
-                }
-                else
-                {
-                    m_viewModel.RemoveFromScreen();
-                }
+               // }
+                //else
+                //{
+                  //  m_viewModel.RemoveFromScreen();
+                //}
             }
 
         }
