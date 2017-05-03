@@ -1168,9 +1168,7 @@ namespace ExampleApp
         openables.push_back(&MyPinCreationDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinCreationModule().GetObservableOpenableControl());
-//        openables.push_back(&DirectionsMenuInitiationModule().GetObservableOpenableControl());
         openables.push_back(&OptionsModule().GetObservableOpenableControl());
-//      openables.push_back(&DirectionsMenuModule().GetDirectionsMenuViewModel());
 
         return openables;
     }
@@ -1183,9 +1181,9 @@ namespace ExampleApp
         reactors.push_back(&FlattenButtonModule().GetScreenControlViewModel());
         reactors.push_back(&CompassModule().GetScreenControlViewModel());
         reactors.push_back(&MyPinCreationModule().GetInitiationScreenControlViewModel());
+        reactors.push_back(&DirectionsMenuInitiationModule().GetInitiationScreenControlViewModel());
         reactors.push_back(&WatermarkModule().GetScreenControlViewModel());
         reactors.push_back(&InteriorsExplorerModule().GetScreenControlViewModel());
-//      reactors.push_back(&DirectionsMenuModule().GetDirectionsMenuViewModel());
 
         return reactors;
     }

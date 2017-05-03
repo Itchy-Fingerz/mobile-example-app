@@ -67,6 +67,10 @@ namespace ExampleApp
                     bool HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     bool HideLabelByNamePredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     
+                    bool IsAdvertisementModeOn();
+                    
+                    bool IsBillBoardAlreadySelected(std::string poid);
+                    
                     Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
 
@@ -95,6 +99,9 @@ namespace ExampleApp
                     
                     Eegeo::Labels::TLabelAnchorFilter<InteriorsHighlightVisibilityController> m_hideLabelAlwaysFilter;
                     Eegeo::Labels::TLabelAnchorFilter<InteriorsHighlightVisibilityController> m_hideLabelByNameFilter;
+                    
+                    std::vector<Search::SdkModel::SearchResultModel> m_selectedBillBoards;
+
                 };
             }
         }

@@ -122,6 +122,7 @@ namespace ExampleApp
                 {
                     DeactivateHighlightRenderables();
                     ActivateLabels(true);
+                    m_selectedBillBoards.clear();
                 }
 
                 void InteriorsHighlightVisibilityController::OnInteriorChanged()
@@ -203,16 +204,14 @@ namespace ExampleApp
                 {
                     DeactivateHighlightRenderables();
                     
-                    if(query.Query() == "advertisements" && !m_isOffersActivated)
+                    if(IsAdvertisementModeOn())
                     {
-                        return;
-                    }
-                    
-                    if (m_isOffersActivated)
-                    {
-                        if(OnShowOffers())
+                        if (m_isOffersActivated)
                         {
-                            ActivateLabels(false);
+                            if(OnShowOffers())
+                            {
+                                ActivateLabels(false);
+                            }
                         }
                         
                         return;
@@ -224,16 +223,22 @@ namespace ExampleApp
 
                 bool InteriorsHighlightVisibilityController::ShowHighlightsForCurrentResults()
                 {
-                    if(m_searchQueryPerformer.GetPreviousSearchQuery().Query() == "advertisements" && !m_isOffersActivated)
+                    if(IsAdvertisementModeOn())
                     {
+                        if (m_isOffersActivated)
+                        {
+                            OnShowOffers();
+                        }
+                        
+                        ShowHighlightsForResults(m_selectedBillBoards);
+                        
+                        if(m_selectedBillBoards.size() > 0)
+                        {
+                            return true;
+                        }
+                        
                         return false;
                     }
-                    
-                    if (m_isOffersActivated)
-                    {
-                        return OnShowOffers();
-                    }
-                    
                     std::vector<Search::SdkModel::SearchResultModel> results;
                     results.reserve(m_searchResultRepository.GetItemCount());
 
@@ -246,10 +251,61 @@ namespace ExampleApp
                     return ShowHighlightsForResults(results);
                 }
                 
+                bool InteriorsHighlightVisibilityController::ShowHighlightsForResults(const std::vector<Search::SdkModel::SearchResultModel> &results)
+                {
+                    bool showingHighlights = false;
+                    
+                    if (m_interiorInteractionModel.HasInteriorModel() && m_currentHighlightRenderables.size() == 0)
+                    {
+                        OnInteriorChanged();
+                    }
+                    
+                    rapidjson::Document json;
+                    std::string highlightedRoomId = "";
+                    
+                    for (std::vector<Search::SdkModel::SearchResultModel>::const_iterator resultsItt = results.begin(); resultsItt != results.end(); ++resultsItt)
+                    {
+                        if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("highlight"))
+                        {
+                            highlightedRoomId = json["highlight"].GetString();
+                            
+                            for (std::map<std::string, std::vector<Eegeo::Rendering::Renderables::InteriorHighlightRenderable*>>::iterator renderItt = m_currentHighlightRenderables.begin();
+                                 renderItt != m_currentHighlightRenderables.end();
+                                 ++renderItt)
+                            {
+                                for (auto& renderable : renderItt->second)
+                                {
+                                    if (renderable->GetRenderableId().compare("entity_highlight " + highlightedRoomId) == 0)
+                                    {
+                                        renderable->SetDiffuseColor(m_highlightColorMapper.GetColor(*resultsItt, "highlight_color"));
+                                        showingHighlights = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    return showingHighlights;
+                }
+                
+                bool InteriorsHighlightVisibilityController::HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const
+                {
+                    return true;
+                }
+                
+                bool InteriorsHighlightVisibilityController::HideLabelByNamePredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const
+                {
+                    const std::string& labelCategoryName = anchoredLabel.GetLabelAnchorCategory().GetId();
+                    bool shouldHide =  labelCategoryName != "interior_facility_escalator"
+                    && labelCategoryName != "interior_facility_stairs"
+                    && labelCategoryName != "interior_facility_elevator"
+                    && labelCategoryName != "interior_facility_toilets";
+                    return shouldHide;
+                }
+
+                
                 void InteriorsHighlightVisibilityController::BillboardsSelected(const BillBoards::BillBoardSelectedMessage& selectedMessage)
                 {
-                    std::vector<Search::SdkModel::SearchResultModel> results;
-                    results.reserve(m_searchResultRepository.GetItemCount());
                     
                     for (int i = 0; i < m_searchResultRepository.GetItemCount(); i++)
                     {
@@ -257,11 +313,12 @@ namespace ExampleApp
                         
                         if(pResult->GetIdentifier() == selectedMessage.GetPoiId())
                         {
-                            results.push_back(*pResult);
+                            if(!IsBillBoardAlreadySelected(selectedMessage.GetPoiId()))
+                                m_selectedBillBoards.push_back(*pResult);
                         }
                     }
                     
-                    ShowHighlightsForResults(results);
+                    ShowHighlightsForResults(m_selectedBillBoards);
                 }
                 
                 void InteriorsHighlightVisibilityController::ShowOffersSlected(const BillBoards::ShowOfferHighlightMessage& selectedMessage)
@@ -291,59 +348,28 @@ namespace ExampleApp
                     m_isOffersActivated = true;
                     return ShowHighlightsForResults(results);
                 }
-
-                bool InteriorsHighlightVisibilityController::ShowHighlightsForResults(const std::vector<Search::SdkModel::SearchResultModel> &results)
+                
+                bool InteriorsHighlightVisibilityController::IsAdvertisementModeOn()
                 {
-                    bool showingHighlights = false;
-
-                    if (m_interiorInteractionModel.HasInteriorModel() && m_currentHighlightRenderables.size() == 0)
+                    if(m_searchQueryPerformer.GetPreviousSearchQuery().Query() == "advertisements")
+                       return true;
+                    
+                    return false;
+                }
+                
+                bool InteriorsHighlightVisibilityController::IsBillBoardAlreadySelected(std::string poid)
+                {
+                    for (int i = 0; i < m_selectedBillBoards.size(); i++)
                     {
-                        OnInteriorChanged();
-                    }
-
-                    rapidjson::Document json;
-                    std::string highlightedRoomId = "";
-
-                    for (std::vector<Search::SdkModel::SearchResultModel>::const_iterator resultsItt = results.begin(); resultsItt != results.end(); ++resultsItt)
-                    {
-                        if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("highlight"))
+                        Search::SdkModel::SearchResultModel pResult = m_selectedBillBoards.at(i);
+                        
+                        if(pResult.GetIdentifier() == poid)
                         {
-                            highlightedRoomId = json["highlight"].GetString();
-
-                            for (std::map<std::string, std::vector<Eegeo::Rendering::Renderables::InteriorHighlightRenderable*>>::iterator renderItt = m_currentHighlightRenderables.begin();
-                                renderItt != m_currentHighlightRenderables.end();
-                                ++renderItt)
-                            {
-                                for (auto& renderable : renderItt->second)
-                                {
-                                    if (renderable->GetRenderableId().compare("entity_highlight " + highlightedRoomId) == 0)
-                                    {
-                                        renderable->SetDiffuseColor(m_highlightColorMapper.GetColor(*resultsItt, "highlight_color"));
-                                        showingHighlights = true;
-                                    }
-                                }
-                            }
+                            return true;
                         }
                     }
-
-                    return showingHighlights;
+                    return false;
                 }
-                
-                bool InteriorsHighlightVisibilityController::HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const
-                {
-                    return true;
-                }
-                
-                bool InteriorsHighlightVisibilityController::HideLabelByNamePredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const
-                {
-                    const std::string& labelCategoryName = anchoredLabel.GetLabelAnchorCategory().GetId();
-                    bool shouldHide =  labelCategoryName != "interior_facility_escalator"
-                                    && labelCategoryName != "interior_facility_stairs"
-                                    && labelCategoryName != "interior_facility_elevator"
-                                    && labelCategoryName != "interior_facility_toilets";
-                    return shouldHide;
-                }
-                
 
             }
         }

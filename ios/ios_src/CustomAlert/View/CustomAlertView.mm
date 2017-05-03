@@ -23,36 +23,12 @@
     if(self = [super init])
     {
         
-        
-//        m_pController = [UIViewController alloc];
-//        [m_pController setView:self];
-//        
-//        m_pixelScale = 1.f;
         m_screenWidth = width/pixelScale;
         m_screenHeight = height/pixelScale;
-//        
+
         m_pInterop = new ExampleApp::CustomAlert::View::CustomAlertViewInterop(self);
         self.hidden = true;
-//
-//        m_width = 140 * m_pixelScale;
-//        m_height = 52 * m_pixelScale;
-//        
-//        float xPosition = 0.0f;
-//        if(ExampleApp::Helpers::UIHelpers::UsePhoneLayout())
-//        {
-//            m_yPosActive = (20 * m_pixelScale);
-//            m_yPosInactive = (-m_height);
-//            
-//            xPosition = ((m_screenWidth * 0.5f) - (m_width * 0.5f));
-//        }
-//        else
-//        {
-//            m_yPosActive = m_screenHeight - m_height - (8 * m_pixelScale);
-//            m_yPosInactive = (m_screenWidth + m_height);
-//            
-//            xPosition = ((m_screenWidth) - (m_width) - (8 * m_pixelScale));
-//        }
-//        
+
         self.frame = CGRectMake(0,
                                 0,
                                 m_screenWidth,
@@ -62,7 +38,7 @@
         
         
         
-        UIView *customAlertView = [[[NSBundle mainBundle] loadNibNamed:@"CustomAlertView" owner:self options:nil] objectAtIndex:0];
+        customAlertView = [[[NSBundle mainBundle] loadNibNamed:@"CustomAlertView" owner:self options:nil] objectAtIndex:0];
         
         UIButton *yesBtn = (UIButton *)[customAlertView viewWithTag:998];
         [yesBtn addTarget:self action:@selector(AcceptButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -93,63 +69,16 @@
         noBtn.layer.borderWidth = 1.0f;
         [self addSubview:customAlertView];
         
-//
-//        self.pShadowGradient = [[UIView alloc] initWithFrame:CGRectMake(0, 0, m_screenWidth, m_height)];
-//        
-//        CAGradientLayer *gradient = [CAGradientLayer layer];
-//        gradient.frame =  CGRectMake(0, 0.f, m_screenWidth, m_screenHeight - m_yPosActive);
-//        
-//        UIColor *topColor = [UIColor clearColor];
-//        UIColor *bottomColor = [[UIColor blackColor] colorWithAlphaComponent:0.85];
-//        
-//        gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[bottomColor CGColor], nil];
-//        
-//        [self.pShadowGradient.layer insertSublayer:gradient atIndex:0];
-//        self.pShadowGradient.layer.shouldRasterize = YES;
-//        [self.pShadowGradient setAlpha:0.0];
-//        [self addSubview:self.pShadowGradient];
-//        
-//        m_stateChangeAnimationTimeSeconds = 0.2f;
-//        self.pButton = [[UIButton alloc] initWithFrame:CGRectMake(xPosition, 0, m_width, m_height)];
-//        [self addSubview: self.pButton];
-//        
-//        [self.pButton addTarget:self action:@selector(onClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [self updateWatermarkData: watermarkData];
-//        
-//        [self.pButton setAlpha:0.8];
-//        
-//        m_alignAlongBottom = false;
-//        
-//        
-//#ifdef AUTOMATED_SCREENSHOTS
-//        // move offscreen
-//        m_yPosActive = -10000.f;
-//        m_yPosActive = -10000.f;
-//#endif
-//        
-//        m_alignAlongBottom = false;
-        
-        
-    
     }
     
     return self;
-}
-
-+(CustomAlertView*)CustomAlertViewWithInterop
-{
-    CustomAlertView *customAlertView = (CustomAlertView*)[[[NSBundle mainBundle] loadNibNamed:@"CustomAlertView" owner:self options:nil] objectAtIndex:0];
-    customAlertView->m_pInterop = new ExampleApp::CustomAlert::View::CustomAlertViewInterop(customAlertView);
-    customAlertView.hidden = true;
-    
-    return customAlertView;
-
 }
 
 - (ExampleApp::CustomAlert::View::CustomAlertViewInterop *)getInterop
 {
     return m_pInterop;
 }
+
 - (IBAction)AcceptButtonPressed:(id)sender
 {
     self.hidden = true;
@@ -162,6 +91,13 @@
     m_pInterop->OnCancel();
 }
 
+- (BOOL)consumesTouch:(UITouch *)touch
+{
+    if(!self.isHidden)
+        return true;
+    else
+        return false;
+}
 
 - (void)dealloc
 {

@@ -16,13 +16,16 @@
     
     float m_screenWidth;
     float m_screenHeight;
+    UIView *customAlertView;
 }
 
 - (id) initWithDimensions:(float)width
                          :(float)height
                          :(float)pixelScale;
-+(CustomAlertView*)CustomAlertViewWithInterop;
 
 - (ExampleApp::CustomAlert::View::CustomAlertViewInterop*) getInterop;
+
+- (BOOL)consumesTouch:(UITouch *)touch;
+
 
 @end
