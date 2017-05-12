@@ -1228,7 +1228,7 @@ namespace ExampleApp
                                                                                          mapModule.GetMarkersModule().GetMarkerService());
         
         ExampleApp::WorldPins::SdkModel::WorldPinIconMappingFactory worldRoutePinIconMappingFactory(m_platformAbstractions.GetFileIO(),
-                                                                                                    "SearchResultOnMap/pin_sheet_numbers.json",
+                                                                                                    "SearchResultOnMap/pin_sheet.json",
                                                                                                     m_platformAbstractions.GetTextureFileLoader());
         //here create local
         ExampleApp::WorldPins::SdkModel::IWorldPinIconMapping* m_pWorldPinsIconMapping2 = worldRoutePinIconMappingFactory.Create();

@@ -96,7 +96,7 @@ namespace ExampleApp
             
             std::string WayPointOnMapModel::GetWayPointIconForType(int wayPointId)
             {
-                return std::to_string(wayPointId);
+                return "pin_number_" + std::to_string(wayPointId);
             }
         }
     }

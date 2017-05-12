@@ -84,27 +84,27 @@ namespace ExampleApp
                             std::string s = stream.str();
                             ExampleApp::PathDrawing::WayPointType::Values wayPointype = ExampleApp::PathDrawing::WayPointType::None;
                             
-                            if(stepManeuver.GetType() == "depart" && stepManeuver.GetModifier() == "")
+                            if(stepManeuver.GetType() == "depart" && stepManeuver.GetModifier() == "" && stepRouteModel.GetStepType() != "Entrance")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Start;
-                                wayPointNumber = 17;
+                                wayPointNumber = 21;
                             }
-                            else if(stepManeuver.GetType() == "arrive" && stepManeuver.GetModifier() == "")
+                            else if(stepManeuver.GetType() == "arrive" && stepManeuver.GetModifier() == "" && stepRouteModel.GetStepType() != "Entrance")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::End;
-                                wayPointNumber = 18;
+                                wayPointNumber = 22;
 
                             }
                             else if(stepRouteModel.GetStepType() == "Entrance")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Entrance;
-                                wayPointNumber = 19;
+                                wayPointNumber = 23;
 
                             }
                             else if(stepRouteModel.GetStepType() == "Elevator")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Elevator;
-                                wayPointNumber = 20;
+                                wayPointNumber = 24;
 
                             }
                             else if (stepManeuver.GetModifier() == "left")
