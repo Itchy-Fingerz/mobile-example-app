@@ -347,6 +347,7 @@ namespace ExampleApp
             void BillBoardService::UpdateBillBoardOnFloorChange(int floor_index)
             {
                 m_billBoardsForFloor = floor_index;
+                m_isSpecialOfferShown = false;
             }
             
             void BillBoardService::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)

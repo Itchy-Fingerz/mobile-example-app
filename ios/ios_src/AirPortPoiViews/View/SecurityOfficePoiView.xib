@@ -28,7 +28,7 @@
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poi_security_office_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dyw-2K-YFN">
                                             <rect key="frame" x="0.0" y="0.0" width="330" height="170"/>
-                                            <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Dyw-2K-YFN" secondAttribute="height" multiplier="1:1" id="XXK-91-yMc"/>
                                                 <constraint firstAttribute="width" secondItem="Dyw-2K-YFN" secondAttribute="height" multiplier="1:1" id="plf-21-d8O"/>

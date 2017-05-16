@@ -96,7 +96,7 @@
     }
     else if(vendor == ExampleApp::Search::EegeoVendorName)
     {
-        if (pModel->GetTitle() == "Duty Free Shopping" || pModel->GetTitle() == "Hugo Boss" || pModel->GetTitle() == "Armani" || pModel->GetTitle() == "Umami Burger")
+        if (pModel->GetTitle() == "Duty Free Shopping" || pModel->GetTitle() == "Hogo Boss" || pModel->GetTitle() == "Armani" || pModel->GetTitle() == "McDonalds")
         {
             return [[EegeoSearchResultRatingPoiView EegeoSearchResultRatingPoiViewWithInterop:m_pInterop] retain];
         }

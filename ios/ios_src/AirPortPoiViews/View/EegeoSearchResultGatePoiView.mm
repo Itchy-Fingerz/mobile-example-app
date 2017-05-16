@@ -56,7 +56,7 @@
     
     m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel("American","AA 398","Lima","133","12:24","12:34"));
     
-    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel("American","AA 399","New York","134","12:34","15:34"));
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel("American","AA 399","New York","134","12:34","12:34"));
 
     m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel("American","AA 400","Dusseldorf","135","12:44","12:34"));
 
@@ -83,7 +83,14 @@
         hours = m_boardingTimeLeft / 3600;
         minutes = (m_boardingTimeLeft % 3600) / 60;
         seconds = (m_boardingTimeLeft %3600) % 60;
-        m_pBoardingTimeCountDown.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)hours, (long)minutes, (long)seconds];
+        if (hours >= 1)
+        {
+            m_pBoardingTimeCountDown.text = [NSString stringWithFormat:@"%02ldhr:%02ld min", (long)hours, (long)minutes];
+        }
+        else
+        {
+            m_pBoardingTimeCountDown.text = [NSString stringWithFormat:@"%02ld min", (long)minutes];
+        }
     }
     else
     {
@@ -94,7 +101,15 @@
         hours = m_departureTimeLeft / 3600;
         minutes = (m_departureTimeLeft % 3600) / 60;
         seconds = (m_departureTimeLeft %3600) % 60;
-        m_pDepartingTimeCountDown.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)hours, (long)minutes, (long)seconds];
+        if (hours >= 1)
+        {
+            m_pDepartingTimeCountDown.text = [NSString stringWithFormat:@"%02ldhr:%02ld min", (long)hours, (long)minutes];
+        }
+        else
+        {
+            m_pDepartingTimeCountDown.text = [NSString stringWithFormat:@"%02ld min", (long)minutes];
+
+        }
     }
     else
     {
@@ -272,6 +287,10 @@
 
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath      *)indexPath;
+{
+    return 25;
+}
 //UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return m_flightsVector.size()+1;

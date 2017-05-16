@@ -29,13 +29,13 @@
     m_pTitleLabel.text = [NSString stringWithCString:pModel->GetTitle().c_str()
                                             encoding:[NSString defaultCStringEncoding]];
     
-    if ([m_pTitleLabel.text isEqualToString:@"Duty Free Shopping"] || [m_pTitleLabel.text isEqualToString:@"Hugo Boss"] || [m_pTitleLabel.text isEqualToString:@"Armani"]  )
+    if ([m_pTitleLabel.text isEqualToString:@"Duty Free Shopping"] || [m_pTitleLabel.text isEqualToString:@"Hogo Boss"] || [m_pTitleLabel.text isEqualToString:@"Armani"]  )
     {
         m_pContentViewHeightConstraint.constant -= m_pCouponViewHeightConstraint.constant;
         m_pCouponViewHeightConstraint.constant = -1;
         
     }
-    else if([m_pTitleLabel.text isEqualToString:@"Umami Burger"])
+    else if([m_pTitleLabel.text isEqualToString:@"McDonalds"])
     {
         m_pCoverImage.image = [UIImage imageNamed:@"McDonaldsImg02"];
         m_pPoiLogoImageView.image = [UIImage imageNamed:@"McDonald-icon"];

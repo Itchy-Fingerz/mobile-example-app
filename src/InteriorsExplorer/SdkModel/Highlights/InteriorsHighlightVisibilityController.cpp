@@ -123,6 +123,7 @@ namespace ExampleApp
                     DeactivateHighlightRenderables();
                     ActivateLabels(true);
                     m_selectedBillBoards.clear();
+                    m_isOffersActivated = false;
                 }
 
                 void InteriorsHighlightVisibilityController::OnInteriorChanged()
@@ -340,13 +341,20 @@ namespace ExampleApp
                             std::string tag = pResult->GetTags()[j];
                             if(tag == "specialoffer")
                             {
-                                results.push_back(*pResult);
+                                 results.push_back(*pResult);
+                                
+                                if(!IsBillBoardAlreadySelected(pResult->GetIdentifier()))
+                                    m_selectedBillBoards.push_back(*pResult);
+                                
                             }
+                            
                         }
+                        
                     }
                     
                     m_isOffersActivated = true;
-                    return ShowHighlightsForResults(results);
+//                    return ShowHighlightsForResults(results);
+                    return ShowHighlightsForResults(m_selectedBillBoards);
                 }
                 
                 bool InteriorsHighlightVisibilityController::IsAdvertisementModeOn()
