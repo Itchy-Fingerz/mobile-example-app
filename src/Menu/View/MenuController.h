@@ -24,6 +24,7 @@ namespace ExampleApp
             private:
                 Eegeo::Helpers::TCallback0<MenuController> m_onClickedCallback;
                 Eegeo::Helpers::TCallback0<MenuController> m_onViewOpenedCallback;
+                Eegeo::Helpers::TCallback0<MenuController> m_onViewOpenStartedCallback;
                 Eegeo::Helpers::TCallback0<MenuController> m_onViewClosedCallback;
                 Eegeo::Helpers::TCallback0<MenuController> m_onDragStartedCallback;
                 Eegeo::Helpers::TCallback1<MenuController, float> m_onDragCallback;
@@ -56,13 +57,15 @@ namespace ExampleApp
 
                 virtual bool TryDrag();
 
-                virtual void RefreshPresentation();
+                virtual void RefreshPresentation(bool forceRefresh);
 
                 virtual void UpdateUiThread(float dt);
 
                 virtual void OnViewClicked();
 
                 virtual void OnViewOpened();
+
+                virtual void OnViewOpenStarted();
 
                 virtual void OnViewClosed();
 

@@ -131,7 +131,7 @@ namespace ExampleApp
 {
     namespace
     {
-        const float PanToUnlockThreshold = 0.03f;
+        float PanToUnlockThreshold = 0.03f;
 
         Eegeo::Rendering::LoadingScreen* CreateLoadingScreen(const Eegeo::Rendering::ScreenProperties& screenProperties,
                                                              const Eegeo::Modules::Core::RenderingModule& renderingModule,
@@ -307,6 +307,11 @@ namespace ExampleApp
     , m_pAutomatedScreenshotController(NULL)
     , m_screenshotService(screenshotService)
     {
+        if (m_applicationConfiguration.IsInKioskMode())
+        {
+            PanToUnlockThreshold = 0.0001f;
+        }
+
         m_metricsService.BeginSession(m_applicationConfiguration.FlurryAppKey(), EEGEO_PLATFORM_VERSION_NUMBER);
 
         m_pWorld = Eegeo_NEW(Eegeo::EegeoWorld)(applicationConfiguration.EegeoApiKey(),
@@ -473,6 +478,7 @@ namespace ExampleApp
             m_pWorld->GetMapModule().GetCityThemesModule().GetCityThemeLoader(),
             m_pWorld->GetMapModule().GetCityThemesModule().GetCityThemesService(),
             m_pSearchModule->GetInteriorMenuObserver(),
+            m_pSearchModule->GetSearchQueryPerformer(),
             m_pAboutPageModule->GetAboutPageViewModel(),
             *m_pNavigationService,
             m_pWorld->GetApiTokenService());
@@ -630,6 +636,9 @@ namespace ExampleApp
                                                                                 m_metricsService,
                                                                                 m_menuReaction);
 
+        auto defaultFindMenuItems = TagSearch::View::CreateTagSearchModelsFromFile(m_applicationConfiguration.RawConfig(),
+                                                                                   "outdoor_search_menu_items",
+                                                                                   m_yelpCategoryMapperUpdater);
         m_pSearchModule = Eegeo_NEW(Search::SdkModel::SearchModule)(m_pSearchServiceModule->GetSearchService(),
                                                                     m_pAppCameraModule->GetController(),
                                                                     *m_pCameraTransitionService,
@@ -639,7 +648,8 @@ namespace ExampleApp
                                                                     m_metricsService,
                                                                     m_pWorld->GetMapModule().GetInteriorsPresentationModule().GetInteriorSelectionModel(),
                                                                     mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
-                                                                    m_yelpCategoryMapperUpdater);
+                                                                    m_yelpCategoryMapperUpdater,
+                                                                    defaultFindMenuItems);
         m_pTagSearchModule = &m_pSearchModule->GetTagSearchModule();
 
         m_pMapModeModule = Eegeo_NEW(MapMode::SdkModel::MapModeModule)(m_pVisualMapModule->GetVisualMapService());
@@ -909,9 +919,15 @@ namespace ExampleApp
                                                                               m_screenProperties,
                                                                               m_messageBus,
                                                                               *m_pNavigationService,
-                                                                              m_pSearchModule->GetSearchQueryPerformer());
+                                                                              m_pSearchModule->GetSearchQueryPerformer(),
+                                                                              m_pFlattenButtonModule->GetFlattenButtonModel());
 
         m_pAppModeModel->InitialiseStateMachine(appModeStatesFactory.CreateStateMachineStates(*m_pGlobalAppModeTransitionRules), AppModes::SdkModel::WorldMode, m_pGlobalAppModeTransitionRules);
+        
+        if (m_applicationConfiguration.ShouldPerformStartUpSearch())
+        {
+            m_pSearchModule->GetSearchQueryPerformer().PerformSearchQuery(m_applicationConfiguration.StartUpSearchTag(), true, false);
+        }
     }
 
     void MobileExampleApp::DestroyApplicationModelModules()

@@ -66,7 +66,7 @@ namespace ExampleApp
                 return m_viewModel.TryAcquireReactorControl();
             }
 
-            void MenuController::RefreshPresentation()
+            void MenuController::RefreshPresentation(bool forceRefresh)
             {
                 const size_t numSections = m_viewModel.SectionsCount();
                 TSections sections;
@@ -78,7 +78,7 @@ namespace ExampleApp
                     sections.push_back(&section);
                 }
 
-                if(!m_viewModel.IsFullyClosed())
+                if(!m_viewModel.IsFullyClosed() || forceRefresh)
                 {
                     m_view.UpdateMenuSectionViews(sections, m_menuContentsChanged);
                     m_presentationDirty = false;
@@ -90,7 +90,7 @@ namespace ExampleApp
             {
                 if(m_presentationDirty)
                 {
-                    RefreshPresentation();
+                    RefreshPresentation(false);
                 }
 
                 if(m_dragInProgress)
@@ -148,6 +148,19 @@ namespace ExampleApp
             {
                 Eegeo_ASSERT(!m_dragInProgress, "identity %d\n", Identity());
 
+                if(!m_viewModel.IsFullyOpen())
+                {
+                    m_viewModel.Open();
+                }
+
+                if(m_viewModel.HasReactorControl())
+                {
+                    m_viewModel.ReleaseReactorControl();
+                }
+            }
+
+            void MenuController::OnViewOpenStarted()
+            {
                 if(!m_viewModel.IsFullyOpen())
                 {
                     m_viewModel.Open();
@@ -266,10 +279,7 @@ namespace ExampleApp
                 const bool appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::AppMode::AttractMode;
                 if (!appModeAllowsOpen)
                 {
-                    if (!m_viewModel.IsFullyOffScreen())
-                    {
-                        m_viewModel.RemoveFromScreen();
-                    }
+                    m_viewModel.RemoveFromScreen();
                 }
                 else
                 {
@@ -277,6 +287,18 @@ namespace ExampleApp
                     {
                         m_viewModel.AddToScreen();
                     }
+                }
+
+                if (message.GetAppMode() == AppModes::SdkModel::AppMode::AttractMode)
+                {
+                    // Collapse all sections
+                    for (size_t i = 0; i < m_viewModel.SectionsCount(); ++i)
+                    {
+                        m_viewModel.GetMenuSection(static_cast<int>(i)).Contract();
+                    }
+
+                    RefreshPresentation(true);
+                    
                 }
             }
 
@@ -291,6 +313,7 @@ namespace ExampleApp
                 , m_view(view)
                 , m_onClickedCallback(this, &MenuController::OnViewClicked)
                 , m_onViewOpenedCallback(this, &MenuController::OnViewOpened)
+                , m_onViewOpenStartedCallback(this, &MenuController::OnViewOpenStarted)
                 , m_onViewClosedCallback(this, &MenuController::OnViewClosed)
                 , m_onDragStartedCallback(this, &MenuController::OnDragStarted)
                 , m_onDragCallback(this, &MenuController::OnDrag)
@@ -316,6 +339,7 @@ namespace ExampleApp
                 m_view.InsertOnItemSelected(m_onItemSelectedCallback);
                 m_view.InsertOnViewClicked(m_onClickedCallback);
                 m_view.InsertOnViewClosed(m_onViewClosedCallback);
+                m_view.InsertOnViewOpenStarted(m_onViewOpenStartedCallback);
                 m_view.InsertOnViewOpened(m_onViewOpenedCallback);
                 m_view.SetTryDragFunc(m_tryDragFunc);
 
@@ -354,6 +378,7 @@ namespace ExampleApp
                 
                 m_view.ClearTryDragFunc();
                 m_view.RemoveOnViewOpened(m_onViewOpenedCallback);
+                m_view.RemoveOnViewOpenStarted(m_onViewOpenStartedCallback);
                 m_view.RemoveOnViewClosed(m_onViewClosedCallback);
                 m_view.RemoveOnViewClicked(m_onClickedCallback);
                 m_view.RemoveOnItemSelected(m_onItemSelectedCallback);

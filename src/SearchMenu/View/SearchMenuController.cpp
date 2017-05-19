@@ -146,7 +146,14 @@ namespace ExampleApp
             
             void SearchMenuController::OnViewClicked()
             {
-                MenuController::OnViewClicked();
+                if(IsFullyOpen() && m_searchMenuView.GetEditText().length() > 0)
+                {
+                    OnSearch(m_searchMenuView.GetEditText());
+                }
+                else
+                {
+                    MenuController::OnViewClicked();
+                }
             }
             
             void SearchMenuController::OnSearchCleared()
@@ -179,15 +186,15 @@ namespace ExampleApp
                     return;
                 }
                 
-                if(m_viewModel.IsFullyOpen())
+                if(m_viewModel.IsFullyOpen() && !m_view.IsAnimating())
                 {
                     m_viewModel.Close();
                 }
             }
             
-            void SearchMenuController::RefreshPresentation()
+            void SearchMenuController::RefreshPresentation(bool forceRefresh)
             {
-                MenuController::RefreshPresentation();
+                MenuController::RefreshPresentation(forceRefresh);
                 
                 if(!m_viewModel.IsFullyClosed())
                 {
