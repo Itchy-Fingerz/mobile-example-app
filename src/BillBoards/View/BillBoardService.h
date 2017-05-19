@@ -15,7 +15,7 @@
 #include <list>
 #include "AppInterface.h"
 #include "IAppCameraController.h"
-#include "Quadline.h"
+#include "QuadLine.h"
 #include "QuadLineFactory.h"
 #include "VideoAssetReaderService.h"
 

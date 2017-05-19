@@ -136,7 +136,8 @@ namespace ExampleApp
                                  Eegeo::dv3 fromEcef,
                                  Eegeo::dv3 toEcef,
                                  float tileLength,
-                                 float thickness)
+                                 float thickness,
+                                 Eegeo::Rendering::TShaderId shaderId)
         : m_renderingModule(renderingModule)
         , m_debugRenderer(debugRenderer)
         , m_environmentFlatteningService(environmentFlatteningService)
@@ -156,9 +157,19 @@ namespace ExampleApp
             
             Eegeo::Rendering::RenderableFilters& platformRenderableFilters = m_renderingModule.GetRenderableFilters();
             
+            m_pShader = Eegeo::Rendering::Shaders::ColorShader::Create(shaderId);
+            
+            m_pMaterial = new (QuadLineMeshUnlitColorMaterial)(
+                                                               m_renderingModule.GetMaterialIdGenerator().GetNextId(),
+                                                               "QuadLineMat",
+                                                               *m_pShader,
+                                                               m_quadColor
+                                                               );
+            
             Start();
             
             platformRenderableFilters.AddRenderableFilter(*this);
+            
         }
         
         QuadLine::~QuadLine()
@@ -176,16 +187,6 @@ namespace ExampleApp
         
         void QuadLine::Start()
         {
-            
-            m_pShader = Eegeo::Rendering::Shaders::ColorShader::Create(m_renderingModule.GetShaderIdGenerator().GetNextId());
-            
-            
-            m_pMaterial = new (QuadLineMeshUnlitColorMaterial)(
-                                                                 m_renderingModule.GetMaterialIdGenerator().GetNextId(),
-                                                                 "QuadLineMat",
-                                                                 *m_pShader,
-                                                                 m_quadColor
-                                                                 );
             
             m_pUnlitBoxMesh = CreateUnlitBoxMesh(m_thickness*4, m_thickness, *m_pPositionUvVertexLayout, m_renderingModule.GetGlBufferPool());
             

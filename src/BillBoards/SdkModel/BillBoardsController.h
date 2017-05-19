@@ -2,8 +2,8 @@
 
 #pragma once
 
-#include "iCallback.h"
-#include "Billboards.h"
+#include "ICallback.h"
+#include "BillBoards.h"
 #include "BillBoardModel.h"
 #include "BillBoardService.h"
 #include "QuadLineFactory.h"

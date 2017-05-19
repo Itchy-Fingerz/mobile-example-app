@@ -9,6 +9,7 @@
 #include "IAppCameraController.h"
 #include <vector>
 #include "DebugRenderer.h"
+#include "IdTypes.h"
 
 namespace ExampleApp
 {
@@ -25,14 +26,14 @@ namespace ExampleApp
             typedef std::vector<QuadLineRenderable*> ExampleMeshRenderableVector;
             
             QuadLine(Eegeo::Modules::Core::RenderingModule& renderingModule,
-                        Eegeo::DebugRendering::DebugRenderer &debugRenderer,
-                        Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService,
-                        Eegeo::v4 quadColor,
-                        Eegeo::dv3 fromEcef,
-                        Eegeo::dv3 toEcef,
-                        float tileLength,
-                        float thickness);
-            
+                     Eegeo::DebugRendering::DebugRenderer &debugRenderer,
+                     Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService,
+                     Eegeo::v4 quadColor,
+                     Eegeo::dv3 fromEcef,
+                     Eegeo::dv3 toEcef,
+                     float tileLength,
+                     float thickness,
+                     Eegeo::Rendering::TShaderId shaderId);
             virtual ~QuadLine();
             
             void Start();

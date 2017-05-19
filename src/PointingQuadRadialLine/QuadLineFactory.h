@@ -16,6 +16,7 @@ namespace ExampleApp
             Eegeo::Modules::Core::RenderingModule& m_renderingModule;
             Eegeo::DebugRendering::DebugRenderer &m_debugRenderer;
             Eegeo::Rendering::EnvironmentFlatteningService& m_environmentFlatteningService;
+            Eegeo::Rendering::TShaderId m_shaderId;
         public:
             QuadLineFactory(Eegeo::Modules::Core::RenderingModule& renderingModule,
                                Eegeo::DebugRendering::DebugRenderer &debugRenderer,
@@ -30,4 +31,5 @@ namespace ExampleApp
                                        float thickness) const;
         };
     }
+    
 }

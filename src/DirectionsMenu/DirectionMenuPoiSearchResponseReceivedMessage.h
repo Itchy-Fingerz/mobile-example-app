@@ -5,7 +5,7 @@
 #include <string>
 
 #include "Types.h"
-#include "space.h"
+#include "Space.h"
 #include <vector>
 #include "SearchResultModel.h"
 

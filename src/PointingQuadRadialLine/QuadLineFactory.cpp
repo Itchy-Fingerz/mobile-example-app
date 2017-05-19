@@ -5,6 +5,8 @@
 #include "CoreModule.h"
 #include "RenderingModule.h"
 #include "CoordinateConversion.h"
+#include "ShaderIdGenerator.h"
+
 namespace ExampleApp
 {
     namespace PointingQuadRadialLine
@@ -16,7 +18,7 @@ namespace ExampleApp
         , m_debugRenderer(debugRenderer)
         , m_environmentFlatteningService(environmentFlatteningService)
         {
-            
+            m_shaderId = m_renderingModule.GetShaderIdGenerator().GetNextId();
         }
         
         QuadLine* QuadLineFactory::CreateQuadLine(Eegeo::v4 quadColor,
@@ -32,7 +34,8 @@ namespace ExampleApp
                                                                        Eegeo::Space::ConvertLatLongAltitudeToEcef(fromPosition),
                                                                        Eegeo::Space::ConvertLatLongAltitudeToEcef(toPosition),
                                                                        tileLength,
-                                                                       thickness);
+                                                                       thickness,
+                                                                       m_shaderId);
             
         }
 

@@ -4,7 +4,7 @@
 
 #include "Types.h"
 #include "WayPointType.h"
-#include "space.h"
+#include "Space.h"
 #include <string>
 #include "LatLongAltitude.h"
 namespace ExampleApp

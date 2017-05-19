@@ -6,7 +6,7 @@
 #include <string>
 
 #include "Types.h"
-#include "space.h"
+#include "Space.h"
 #include "LatLongAltitude.h"
 #include "string.h"
 
