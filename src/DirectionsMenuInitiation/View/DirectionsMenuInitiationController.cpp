@@ -22,7 +22,6 @@ namespace ExampleApp
                 : m_view(view)
                 , m_viewModel(viewModel)
                 , m_messageBus(messageBus)
-                , m_appModeAllowsOpen(true)
                 , m_selectedCallback(this, &DirectionsMenuInitiationController::OnToggle)
                 , m_viewStateCallback(this, &DirectionsMenuInitiationController::OnViewStateChangeScreenControl)
                 , m_appModeChangedHandler(this, &DirectionsMenuInitiationController::OnAppModeChangedMessage)
@@ -41,11 +40,10 @@ namespace ExampleApp
 
             void DirectionsMenuInitiationController::OnToggle(bool& toggle)
             {
-                if(m_appModeAllowsOpen)
-                {
-                    DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Active,false);
-                    m_messageBus.Publish(message);
-                }
+                
+                DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Active);
+                m_messageBus.Publish(message);
+                
             }
 
             void DirectionsMenuInitiationController::OnViewStateChangeScreenControl(ScreenControl::View::IScreenControlViewModel &viewModel, float &state)
@@ -55,16 +53,6 @@ namespace ExampleApp
             
             void DirectionsMenuInitiationController::OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message)
             {
-                //m_appModeAllowsOpen = message.GetAppMode() != AppModes::SdkModel::TourMode;
-                
-                //if(m_appModeAllowsOpen)
-                //{
-                    m_viewModel.AddToScreen();
-               // }
-                //else
-                //{
-                  //  m_viewModel.RemoveFromScreen();
-                //}
             }
 
         }

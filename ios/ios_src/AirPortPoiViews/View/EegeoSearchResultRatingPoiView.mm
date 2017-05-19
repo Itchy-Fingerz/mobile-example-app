@@ -195,6 +195,11 @@
 
 }
 
+- (IBAction)HandleSubmitButtonSelected:(id)sender
+{
+    [m_pReviewTextField resignFirstResponder];
+}
+
 -(IBAction)HandleClosedButtonSelected:(id) sender
 {
     m_pInterop->HandleCloseClicked();
@@ -244,11 +249,12 @@
 
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
-    int move_up = 50;
+    int move_up = 150;
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
-         move_up = 200;
+         move_up = 250;
     }
+    [m_pScrollView setContentSize:CGSizeMake(m_pScrollView.contentSize.width, m_pScrollView.contentSize.height + move_up)];
     [m_pScrollView setContentOffset:CGPointMake(m_pScrollView.contentOffset.x, m_pScrollView.contentOffset.y + move_up) animated:true];
     
     // Look for the default message and highlight it if present
@@ -265,12 +271,14 @@
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    int move_down = 50;
+    int move_down = 150;
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
     {
-        move_down = 200;
+        move_down = 250;
     }
-    [m_pScrollView setContentOffset:CGPointMake(m_pScrollView.contentOffset.x, m_pScrollView.contentOffset.y - move_down) animated:true];
+    [m_pScrollView setContentSize:CGSizeMake(m_pScrollView.contentSize.width, m_pScrollView.contentSize.height - move_down)];
+    [m_pScrollView setContentOffset:CGPointMake(m_pScrollView.contentOffset.x, 0) animated:true];
+
     
 
 

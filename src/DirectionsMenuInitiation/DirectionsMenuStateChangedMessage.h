@@ -11,14 +11,12 @@ namespace ExampleApp
         class DirectionsMenuStateChangedMessage
         {
         public:
-            DirectionsMenuStateChangedMessage(DirectionsMenuStage stage, bool close);
+            DirectionsMenuStateChangedMessage(DirectionsMenuStage stage);
 
             const DirectionsMenuStage& GetDirectionsMenuStage() const;
-            const bool GetCloseForWorldPin() const;
 
         private:
             DirectionsMenuStage m_stage;
-            bool m_closeForWorldPin;
         };
     }
 }
