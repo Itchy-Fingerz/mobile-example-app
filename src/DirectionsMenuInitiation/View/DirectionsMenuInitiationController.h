@@ -41,7 +41,6 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<DirectionsMenuInitiationController, const AppModes::AppModeChangedMessage&> m_appModeChangedHandler;
                 void OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message);
                 
-                bool m_appModeAllowsOpen;
             };
         }
     }

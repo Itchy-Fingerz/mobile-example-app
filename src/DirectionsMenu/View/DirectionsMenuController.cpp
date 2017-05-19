@@ -131,7 +131,7 @@ namespace ExampleApp
                 if (m_isExitDirections)
                 {
                     m_isExitDirections = false;
-                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false);
+                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive);
                     m_messageBus.Publish(message);
                     
                     RefreshPresentation();
@@ -141,21 +141,7 @@ namespace ExampleApp
             
             void DirectionsMenuController::UpdateUiThread(float dt)
             {
-                MenuController::UpdateUiThread(dt);
-                const bool isAnimating = m_view.IsAnimating();
-                if(isAnimating)
-                {
-//                    const float normalisedAnimationProgress = m_view.GetAnimationProgress();
-                    //if (normalisedAnimationProgress > 0)
-                    //{
-//                        m_updateDirectionMenuStateCallbacks.ExecuteCallbacks(normalisedAnimationProgress,m_isDirectionMenuOpen);
-                    //}
-
-                }
-
-
-
-                
+                MenuController::UpdateUiThread(dt);                
             }
 
             
@@ -309,6 +295,11 @@ namespace ExampleApp
             }
             void DirectionsMenuController::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)
             {
+                if(m_isDirectionMenuOpen)
+                {
+                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Active);
+                    m_messageBus.Publish(message);
+                }
                 if (message.GetAppMode() == AppModes::SdkModel::InteriorMode)
                 {
                     m_isInterior = true;
@@ -316,27 +307,6 @@ namespace ExampleApp
                 else
                 {
                     m_isInterior = false;
-//                    if(m_searchSectionViewModel.Size() > 0)
-//                    {
-//                        m_directionsMenuView.ExitDirectionsOnInteriorExit();
-//                        if(IsFullyOpen())
-//                        {
-//                            OnExitDirectionsClicked();
-//                        }
-//                        else
-//                        {
-//                            DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false);
-//                            m_messageBus.Publish(message);
-//                            
-//                            m_isExitDirections = false;
-//                            m_isDirectionMenuOpen = false;
-//                            m_settingsMenuViewModel.AddToScreen();
-//                            m_searchMenuViewModel.AddToScreen();
-//                        }
-//
-
-                        
-//                    }
                 }
             }
             
@@ -344,27 +314,12 @@ namespace ExampleApp
             {
                 if (message.GetDirectionsMenuStage() == DirectionsMenuInitiation::Active)
                 {
-                    if(message.GetCloseForWorldPin())
+                    DirectionsMenuController::ToggleSettingMenuButton();
+                    if (!m_viewModel.IsAddedToScreen())
                     {
-                        if(m_isDirectionMenuOpen)
-                        {
-                            DirectionsMenuController::ToggleSettingMenuButton();
-                            m_viewModel.RemoveFromScreen();
-
-                        }
-
+                        m_viewModel.AddToScreen();
                     }
-                    else
-                    {
-                        DirectionsMenuController::ToggleSettingMenuButton();
-                        if (!m_viewModel.IsAddedToScreen())
-                        {
-                            m_viewModel.AddToScreen();
-                        }
-                        MenuController::OnViewClicked();
-
-                    }
-
+                    MenuController::OnViewClicked();
                 }
             }
             

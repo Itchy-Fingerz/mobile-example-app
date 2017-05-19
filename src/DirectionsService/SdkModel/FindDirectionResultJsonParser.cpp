@@ -199,8 +199,7 @@ namespace ExampleApp
                                                         }
                                                         stepInInterior = true;
                                                     }
-                                                    
-                                                    if (stepName.find("level:") != std::string::npos)
+                                                    else if (stepName.find("level:") != std::string::npos)
                                                     {
                                                         buildingLevelString = stepName.substr(stepName.find("level:") + 6);
                                                         if(buildingLevelString.find("}{") != std::string::npos)
@@ -213,8 +212,13 @@ namespace ExampleApp
                                                             
                                                         }
                                                     }
-                                                    
-                                                    if (stepName.find("type:") != std::string::npos)
+                                                    else if (stepName.find("highway:") != std::string::npos)
+                                                    {
+                                                        stepName = stepName.substr(stepName.find("highway:") + 8);
+                                                        stepName = stepName.substr(0,stepName.find("}"));
+
+                                                    }
+                                                    else if (stepName.find("type:") != std::string::npos)
                                                     {
                                                         stepTypeString = stepName.substr(stepName.find("type:") + 5);
                                                         if(stepTypeString.find("}{") != std::string::npos)
