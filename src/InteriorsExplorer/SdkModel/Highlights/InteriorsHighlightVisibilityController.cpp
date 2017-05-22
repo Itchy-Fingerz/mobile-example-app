@@ -58,6 +58,8 @@ namespace ExampleApp
                     , m_isOffersActivated(false)
                     , m_messageBus (messageBus)
                     , m_hideLabelByNameFilter(this, &InteriorsHighlightVisibilityController::HideLabelByNamePredicate)
+                    , m_isSearchResultsCleared(false)
+                
                 {
                     m_searchService.InsertOnReceivedQueryResultsCallback(m_searchResultsHandler);
                     m_searchQueryPerformer.InsertOnSearchResultsClearedCallback(m_searchResultsClearedHandler);
@@ -69,6 +71,7 @@ namespace ExampleApp
                     m_interiorsCellResourceObserver.RegisterAddedToSceneGraphCallback(m_interiorCellAddedHandler);
 
                     m_labelHiddenFilterModel.SetFilter(m_interiorLabelLayer, &m_hideLabelAlwaysFilter);
+                    m_lastSelectedBillBoard = "";
 
                 }
 
@@ -124,6 +127,8 @@ namespace ExampleApp
                     ActivateLabels(true);
                     m_selectedBillBoards.clear();
                     m_isOffersActivated = false;
+                    m_isSearchResultsCleared = true;
+                    m_lastSelectedBillBoard = "";
                 }
 
                 void InteriorsHighlightVisibilityController::OnInteriorChanged()
@@ -203,16 +208,22 @@ namespace ExampleApp
 
                 void InteriorsHighlightVisibilityController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
                 {
+                    m_isSearchResultsCleared = false;
                     DeactivateHighlightRenderables();
-                    
                     if(IsAdvertisementModeOn())
                     {
+                        AddBillBoardToSelected(m_lastSelectedBillBoard);
+                        
                         if (m_isOffersActivated)
                         {
                             if(OnShowOffers())
                             {
                                 ActivateLabels(false);
                             }
+                        }
+                        else
+                        {
+                            ShowHighlightsForResults(m_selectedBillBoards);
                         }
                         
                         return;
@@ -307,24 +318,37 @@ namespace ExampleApp
                 
                 void InteriorsHighlightVisibilityController::BillboardsSelected(const BillBoards::BillBoardSelectedMessage& selectedMessage)
                 {
+                    m_lastSelectedBillBoard = selectedMessage.GetPoiId();
                     
-                    for (int i = 0; i < m_searchResultRepository.GetItemCount(); i++)
-                    {
-                        Search::SdkModel::SearchResultModel* pResult = m_searchResultRepository.GetItemAtIndex(i);
-                        
-                        if(pResult->GetIdentifier() == selectedMessage.GetPoiId())
-                        {
-                            if(!IsBillBoardAlreadySelected(selectedMessage.GetPoiId()))
-                                m_selectedBillBoards.push_back(*pResult);
-                        }
-                    }
+                    AddBillBoardToSelected(selectedMessage.GetPoiId());
                     
                     ShowHighlightsForResults(m_selectedBillBoards);
+
+                    if(IsAdvertisementModeOn() == false)
+                    {
+                        m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
+                    }
                 }
                 
                 void InteriorsHighlightVisibilityController::ShowOffersSlected(const BillBoards::ShowOfferHighlightMessage& selectedMessage)
                 {
-                    OnShowOffers();
+                    if(selectedMessage.GetSelectedOption())
+                    {
+                        if(IsAdvertisementModeOn() == false)
+                        {
+                            m_isOffersActivated = true;
+                            m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
+                        }
+                        else
+                        {
+                            OnShowOffers();
+                        }
+                    }
+                    else
+                    {
+                        //m_isOffersActivated = false;
+                    }
+                    
                 }
                 
                 bool InteriorsHighlightVisibilityController::OnShowOffers()
@@ -347,22 +371,37 @@ namespace ExampleApp
                                     m_selectedBillBoards.push_back(*pResult);
                                 
                             }
-                            
                         }
-                        
                     }
                     
                     m_isOffersActivated = true;
-//                    return ShowHighlightsForResults(results);
                     return ShowHighlightsForResults(m_selectedBillBoards);
                 }
                 
                 bool InteriorsHighlightVisibilityController::IsAdvertisementModeOn()
                 {
+                    if(m_isSearchResultsCleared)
+                        return false;
+                    
                     if(m_searchQueryPerformer.GetPreviousSearchQuery().Query() == "advertisements")
                        return true;
                     
                     return false;
+                }
+                
+                void InteriorsHighlightVisibilityController::AddBillBoardToSelected(std::string poid)
+                {
+                    for (int i = 0; i < m_searchResultRepository.GetItemCount(); i++)
+                    {
+                        Search::SdkModel::SearchResultModel* pResult = m_searchResultRepository.GetItemAtIndex(i);
+                        
+                        if(pResult->GetIdentifier() == poid)
+                        {
+                            if(!IsBillBoardAlreadySelected(poid))
+                                m_selectedBillBoards.push_back(*pResult);
+                        }
+                    }
+                    
                 }
                 
                 bool InteriorsHighlightVisibilityController::IsBillBoardAlreadySelected(std::string poid)

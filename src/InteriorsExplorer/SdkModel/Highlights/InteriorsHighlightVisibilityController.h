@@ -68,7 +68,7 @@ namespace ExampleApp
                     bool HideLabelByNamePredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     
                     bool IsAdvertisementModeOn();
-                    
+                    void AddBillBoardToSelected(std::string poid);
                     bool IsBillBoardAlreadySelected(std::string poid);
                     
                     Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
@@ -83,6 +83,8 @@ namespace ExampleApp
                     
                     ExampleAppMessaging::TMessageBus& m_messageBus;
                     bool m_isOffersActivated;
+                    bool m_isSearchResultsCleared;
+                    std::string m_lastSelectedBillBoard;
                     
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::BillBoardSelectedMessage&> m_billBoardSelectedHandler;
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::ShowOfferHighlightMessage&> m_showOfferMessageHandler;

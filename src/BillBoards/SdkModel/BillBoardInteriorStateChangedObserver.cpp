@@ -43,7 +43,7 @@ namespace ExampleApp
                 m_billBoardService.StopResetVideoService();
                 m_billBoardService.UpdateBillBoardOnFloorChange(message.GetFloor());
                 m_billBoardService.ResetBillBoardsAfterResume();
-                
+                m_billBoardService.ResetOffsersShownFlag();
             }
 
             void BillBoardInteriorStateChangedObserver::OnInteriorExit(const InteriorsExplorer::InteriorsExplorerExitMessage &message)
@@ -52,6 +52,7 @@ namespace ExampleApp
                 m_billBoardService.StopResetVideoService();
                 m_billBoardService.ReSetFloorIndex();
                 m_billBoardService.RemoveAllBillboards();
+                m_billBoardService.ResetOffsersShownFlag();
             }
             
             void BillBoardInteriorStateChangedObserver::OnDraggedFloor(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message)

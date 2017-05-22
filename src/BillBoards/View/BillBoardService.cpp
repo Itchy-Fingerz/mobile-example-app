@@ -347,7 +347,6 @@ namespace ExampleApp
             void BillBoardService::UpdateBillBoardOnFloorChange(int floor_index)
             {
                 m_billBoardsForFloor = floor_index;
-                m_isSpecialOfferShown = false;
             }
             
             void BillBoardService::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
@@ -577,7 +576,7 @@ namespace ExampleApp
             void BillBoardService::SetVideoService(ExampleApp::VideoAssetReader::VideoAssetReaderService &service)
             {
                 m_pVideoAssetReaderService = &service;
-            }
+            } 
             
             void BillBoardService::StopResetVideoService()
             {
@@ -723,7 +722,6 @@ namespace ExampleApp
             
             void BillBoardService::RemoveAllRenderables()
             {
-//                m_isSpecialOfferShown = false;
                 
                 if(m_quadLine != NULL)
                 {
@@ -775,6 +773,10 @@ namespace ExampleApp
                     }
                 }
                 
+            }
+            void BillBoardService::ResetOffsersShownFlag()
+            {
+                m_isSpecialOfferShown = false;
             }
             
         }
