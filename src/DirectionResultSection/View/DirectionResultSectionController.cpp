@@ -107,13 +107,13 @@ namespace ExampleApp
                                 wayPointNumber = 24;
 
                             }
-                            else if (stepManeuver.GetModifier() == "left")
+                            else if (stepManeuver.GetModifier() == "left" || stepManeuver.GetModifier() == "slight left" || stepManeuver.GetModifier() == "sharp left")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Left;
                                 leftRightCount++;
                                 wayPointNumber = leftRightCount;
                             }
-                            else if (stepManeuver.GetModifier() == "right")
+                            else if (stepManeuver.GetModifier() == "right" || stepManeuver.GetModifier() == "slight right" || stepManeuver.GetModifier() == "sharp right")
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Right;
                                 leftRightCount++;
