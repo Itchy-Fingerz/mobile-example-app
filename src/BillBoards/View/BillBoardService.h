@@ -62,6 +62,7 @@ namespace ExampleApp
                 void ReSetFloorIndex();
                 void RemoveAllBillboards();
                 void ResetBillBoardsAfterResume();
+                void ResetOffsersShownFlag();
                 
             private:
                 

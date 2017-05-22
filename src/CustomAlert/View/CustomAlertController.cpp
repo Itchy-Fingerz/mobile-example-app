@@ -36,10 +36,7 @@ namespace ExampleApp
             
             void CustomAlertController::OnOfferShowHideCallBackHandler(const bool &shoulShow)
             {
-                if (shoulShow)
-                {
-                    m_messageBus.Publish(ExampleApp::BillBoards::ShowOfferHighlightMessage());
-                }
+                m_messageBus.Publish(ExampleApp::BillBoards::ShowOfferHighlightMessage(shoulShow));
             }
             
             CustomAlertController::CustomAlertController(

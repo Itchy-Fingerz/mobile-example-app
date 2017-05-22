@@ -9,12 +9,19 @@ namespace ExampleApp
         class ShowOfferHighlightMessage
         {
         public:
-            ShowOfferHighlightMessage()
+            ShowOfferHighlightMessage(bool isOffersShownSelected)
+            : m_isShowOffersSelected(isOffersShownSelected)
             {
             }
             
+            bool GetSelectedOption() const
+            {
+                return m_isShowOffersSelected;
+            }
             
         private:
+            
+            const bool m_isShowOffersSelected;
         };
     }
 }
