@@ -89,6 +89,8 @@
     float m_anchorArrowOpenHeight;
     
     float m_totalTableHeight;
+    
+    bool m_SearchMenuScrollButtonContainerAnimation;
 }
 
 @property (nonatomic, retain) UILabel* pSearchCountLabel;
@@ -124,7 +126,7 @@
     
     m_pSearchResultsDataProvider = searchResultsDataProvider;
     [m_pSearchResultsDataProvider initWithParams:self];
-    
+    m_SearchMenuScrollButtonContainerAnimation = true;
     return self;
 }
 
@@ -981,10 +983,11 @@
     }
     else
     {
-        if(_pSearchMenuScrollButtonContainer.hidden == true)
+        if(_pSearchMenuScrollButtonContainer.hidden == true && m_SearchMenuScrollButtonContainerAnimation == false)
         {
+            m_SearchMenuScrollButtonContainerAnimation = true;
             _pSearchMenuScrollButton.alpha = 0.0;
-            [UIView animateWithDuration:1.0 animations:^{_pSearchMenuScrollButton.alpha = 1.0;}];
+            [UIView animateWithDuration:1.0 animations:^{_pSearchMenuScrollButton.alpha = 1.0; m_SearchMenuScrollButtonContainerAnimation = false;}];
         }
         _pSearchMenuScrollButtonContainer.hidden = false;
         _pSearchMenuFadeImage.hidden = false;
