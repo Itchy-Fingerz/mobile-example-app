@@ -81,7 +81,7 @@ namespace ExampleApp
                             double di = stepRouteModel.GetStepRouteDistance();
                             std::stringstream stream;
                             stream << std::fixed << std::setprecision(1) << di;
-                            std::string s = stream.str();
+                            std::string distanceString = stream.str();
                             ExampleApp::PathDrawing::WayPointType::Values wayPointype = ExampleApp::PathDrawing::WayPointType::None;
                             
                             if(stepManeuver.GetType() == "depart" && stepManeuver.GetModifier() == "" && stepRouteModel.GetStepType() != "Entrance")
@@ -120,7 +120,7 @@ namespace ExampleApp
                                 wayPointNumber = leftRightCount;
                             }
                             
-                            std::string sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetModifier()+" "+s+"m";
+                            std::string sTitleCategory = stepRouteModel.GetManeuverRouteModel().GetModifier()+" "+distanceString+"m";
                             
                             if (stepManeuver.GetType() == "depart" || stepManeuver.GetType() == "arrive")
                             {

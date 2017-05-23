@@ -148,10 +148,8 @@ namespace ExampleApp
         ExampleApp::FlattenButton::SdkModel::IFlattenButtonModule* m_pFlattenButtonModule;
         Search::SdkModel::ISearchModule* m_pSearchModule;
         Eegeo::Pins::PinsModule* m_pPinsModule;
-        Eegeo::Pins::PinsModule* m_pPinsRouteModule;
         ExampleApp::WorldPins::SdkModel::IWorldPinIconMapping* m_pWorldPinsIconMapping;
         ExampleApp::WorldPins::SdkModel::IWorldPinsModule* m_pWorldPinsModule;
-        ExampleApp::WorldPins::SdkModel::IWorldPinsModule* m_pRouteWorldPinsModule;
         ExampleApp::WorldPins::SdkModel::IWorldPinsFocusModule* m_pWorldPinsFocusModule;
         SearchResultOnMap::SdkModel::ISearchResultOnMapModule* m_pSearchResultOnMapModule;
         ExampleApp::Reaction::View::IReactionModelModule* m_pReactionModelModule;
@@ -337,12 +335,7 @@ namespace ExampleApp
         const ExampleApp::WorldPins::SdkModel::IWorldPinsModule& WorldPinsModule() const
         {
             return *m_pWorldPinsModule;
-        }
-        const ExampleApp::WorldPins::SdkModel::IWorldPinsModule& RouteWorldPinsModule() const
-        {
-            return *m_pRouteWorldPinsModule;
-        }
-        
+        }        
         const ExampleApp::WorldPins::SdkModel::IWorldPinsFocusModule* WorldPinsFocusModule() const
         {
             return m_pWorldPinsFocusModule;

@@ -268,8 +268,6 @@ namespace ExampleApp
     , m_pFlattenButtonModule(NULL)
     , m_pSearchModule(NULL)
     , m_pPinsModule(NULL)
-    , m_pPinsRouteModule(NULL)
-    , m_pRouteWorldPinsModule(NULL)
     , m_pWorldPinsModule(NULL)
     , m_pWorldPinsIconMapping(NULL)
     , m_pSearchResultOnMapModule(NULL)
@@ -461,7 +459,7 @@ namespace ExampleApp
 
         
         m_pPathDrawingModule = Eegeo_NEW(ExampleApp::PathDrawing::SdkModel::PathDrawingModule)(DirectionsMenuModule().GetDirectionsSectionViewModel(),
-                                                                                               m_pRouteWorldPinsModule->GetWorldPinsService(),
+                                                                                               m_pWorldPinsModule->GetWorldPinsService(),
                                                                                                m_pWorld->GetRoutesModule().GetRouteService(),
                                                                                                *m_pGlobeCameraWrapper,m_pTagSearchModule->GetSearchResultIconKeyMapper(),
                                                                                                m_messageBus);
@@ -1127,11 +1125,7 @@ namespace ExampleApp
         
         Eegeo_DELETE m_pWorldPinsModule;
         
-        Eegeo_DELETE m_pRouteWorldPinsModule;
-        
         Eegeo_DELETE m_pPinsModule;
-        
-        Eegeo_DELETE m_pPinsRouteModule;
         
         Eegeo_DELETE m_pWorldPinsIconMapping;
         
@@ -1226,25 +1220,7 @@ namespace ExampleApp
                                                                                          m_sdkDomainEventBus,
                                                                                          interiorsPresentationModule.GetInteriorMarkerPickingService(),
                                                                                          mapModule.GetMarkersModule().GetMarkerService());
-        
-        ExampleApp::WorldPins::SdkModel::WorldPinIconMappingFactory worldRoutePinIconMappingFactory(m_platformAbstractions.GetFileIO(),
-                                                                                                    "SearchResultOnMap/pin_sheet.json",
-                                                                                                    m_platformAbstractions.GetTextureFileLoader());
-        //here create local
-        ExampleApp::WorldPins::SdkModel::IWorldPinIconMapping* m_pWorldPinsIconMapping2 = worldRoutePinIconMappingFactory.Create();
-        
-        m_pPinsRouteModule = CreatePlatformPinsModuleInstance(world, m_pWorldPinsIconMapping2->GetTextureInfo(), m_pWorldPinsIconMapping2->GetTexturePageLayout());
-        
-        
-        m_pRouteWorldPinsModule = Eegeo_NEW(ExampleApp::WorldPins::SdkModel::WorldPinsModule)(m_messageBus,
-                                                                                              interiorsPresentationModule.GetInteriorInteractionModel(),
-                                                                                              interiorsPresentationModule.GetInteriorTransitionModel(),
-                                                                                              m_sdkDomainEventBus,
-                                                                                              interiorsPresentationModule.GetInteriorMarkerPickingService(),
-                                                                                              mapModule.GetMarkersModule().GetMarkerService());
-                                                                                              
-                                                                                              
-                                                                                              
+    
         
     }
     
@@ -1300,7 +1276,6 @@ namespace ExampleApp
         m_pSearchModule->GetSearchRefreshService().TryRefreshSearch(dt, ecefInterestPoint, cameraState.LocationEcef());
         
         m_pPinsModule->GetController().Update(dt, renderCamera);
-        m_pPinsRouteModule->GetController().Update(dt, renderCamera);
         
         if(!eegeoWorld.Initialising() || (m_pLoadingScreen == NULL && eegeoWorld.Initialising()))
         {
@@ -1377,9 +1352,6 @@ namespace ExampleApp
         }
         
         m_pPinsModule->UpdateScreenProperties(m_screenProperties);
-        
-        m_pPinsRouteModule->UpdateScreenProperties(m_screenProperties);
-
         
         m_pGlobeCameraController->UpdateScreenProperties(m_screenProperties);
         
@@ -1567,10 +1539,6 @@ namespace ExampleApp
         {
             return;
         }
-        if(m_pRouteWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point))
-        {
-            return;
-        }
         
         m_pCurrentTouchController->Event_TouchTap(data);
         m_messageBus.Publish(DirectionsMenu::OnSecreenTapMessage());
@@ -1594,10 +1562,6 @@ namespace ExampleApp
             return;
         }
         
-        if (m_pRouteWorldPinsModule->GetWorldPinsService().HandleTouchDoubleTap(data.point))
-        {
-            return;
-        }
 
         if (m_pAppModeModel->GetAppMode() == AppModes::SdkModel::InteriorMode)
         {
