@@ -22,20 +22,15 @@ namespace ExampleApp
                                                       Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule);
                 ~BillBoardInteriorStateChangedObserver();
 
-            private:
-                Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage&> m_draggedFloorCallback;
-                
+            private:                
                 Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const InteriorsExplorer::InteriorsExplorerSelectFloorMessage&> m_selectFloorCallback;
-                Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const InteriorsExplorer::InteriorsExplorerExitMessage&> m_exitInteriorCallback;
+                Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const AppModes::AppModeChangedMessage&> m_appModeChangedCallback;
                 
                 View::BillBoardService& m_billBoardService;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 Eegeo::Modules::Map::Layers::InteriorsPresentationModule& m_interiorsPresentationModule;
                 
-                Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const AppModes::AppModeChangedMessage&> m_appModeChangedCallback;
-                
                 void OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message);
-                void OnInteriorExit(const InteriorsExplorer::InteriorsExplorerExitMessage &message);
                 void OnDraggedFloor(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message);
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage& message);
             };

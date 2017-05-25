@@ -2,7 +2,6 @@
 
 #include "BillBoardInteriorStateChangedObserver.h"
 #include "SearchMenuPerformedSearchMessage.h"
-#include "SetCustomAlertVisibilityMessage.h"
 #include "InteriorSelectionModel.h"
 
 namespace ExampleApp
@@ -15,25 +14,18 @@ namespace ExampleApp
                  ,View::BillBoardService& billBoardService,
                 Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule)
             : m_selectFloorCallback(this,&BillBoardInteriorStateChangedObserver::OnSelectFloor)
-            , m_exitInteriorCallback(this,&BillBoardInteriorStateChangedObserver::OnInteriorExit)
-            , m_draggedFloorCallback(this,&BillBoardInteriorStateChangedObserver::OnDraggedFloor)
             , m_messageBus(messageBus)
             , m_billBoardService(billBoardService)
             , m_appModeChangedCallback(this, &BillBoardInteriorStateChangedObserver::OnAppModeChanged)
             , m_interiorsPresentationModule(interiorsPresentationModule)
             {
                 m_messageBus.SubscribeNative(m_selectFloorCallback);
-                m_messageBus.SubscribeNative(m_exitInteriorCallback);
-                m_messageBus.SubscribeNative(m_draggedFloorCallback);
                 m_messageBus.SubscribeUi(m_appModeChangedCallback);
-
             }
             
             BillBoardInteriorStateChangedObserver::~BillBoardInteriorStateChangedObserver()
             {
                 m_messageBus.UnsubscribeNative(m_selectFloorCallback);
-                m_messageBus.UnsubscribeNative(m_exitInteriorCallback);
-                m_messageBus.UnsubscribeNative(m_draggedFloorCallback);
                 m_messageBus.UnsubscribeUi(m_appModeChangedCallback);
             }
             
@@ -43,15 +35,6 @@ namespace ExampleApp
                 m_billBoardService.StopResetVideoService();
                 m_billBoardService.UpdateBillBoardOnFloorChange(message.GetFloor());
                 m_billBoardService.ResetBillBoardsAfterResume();
-                m_billBoardService.ResetOffsersShownFlag();
-            }
-
-            void BillBoardInteriorStateChangedObserver::OnInteriorExit(const InteriorsExplorer::InteriorsExplorerExitMessage &message)
-            {
-                m_billBoardService.RemoveAllRenderables();
-                m_billBoardService.StopResetVideoService();
-                m_billBoardService.ReSetFloorIndex();
-                m_billBoardService.RemoveAllBillboards();
                 m_billBoardService.ResetOffsersShownFlag();
             }
             
@@ -71,11 +54,18 @@ namespace ExampleApp
                     }
  
                 }
-                else
+                else if (message.GetAppMode() == AppModes::SdkModel::WorldMode)
                 {
+                    m_billBoardService.RemoveAllRenderables();
+                    m_billBoardService.StopResetVideoService();
+                    m_billBoardService.ReSetFloorIndex();
+                    m_billBoardService.RemoveAllBillboards();
+                    m_billBoardService.ResetOffsersShownFlag();
+                    
                     m_messageBus.Publish(SearchResultSection::SearchResultViewClearedMessage());
                 }
             }
+            
         }
     }
 }

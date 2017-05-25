@@ -17,7 +17,7 @@
 
 #include "BillBoardSelectedMessage.h"
 #include "ShowOfferHighlightMessage.h"
-
+#include "InteriorsExplorerSelectFloorMessage.h"
 
 namespace ExampleApp
 {
@@ -63,14 +63,17 @@ namespace ExampleApp
                     void BillboardsSelected(const BillBoards::BillBoardSelectedMessage& selectedMessage);
                     void ShowOffersSlected(const BillBoards::ShowOfferHighlightMessage& selectedMessage);
                     bool OnShowOffers();
-                    
+                    bool OnHideOffers();
+
                     bool HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     bool HideLabelByNamePredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     
                     bool IsAdvertisementModeOn();
                     void AddBillBoardToSelected(std::string poid);
                     bool IsBillBoardAlreadySelected(std::string poid);
-                    
+                    bool IsSpecialOfferBillBoard(Search::SdkModel::SearchResultModel* pResult);
+                    void OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message);
+
                     Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
 
@@ -88,7 +91,7 @@ namespace ExampleApp
                     
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::BillBoardSelectedMessage&> m_billBoardSelectedHandler;
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::ShowOfferHighlightMessage&> m_showOfferMessageHandler;
-                    
+                    Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const InteriorsExplorer::InteriorsExplorerSelectFloorMessage&> m_selectFloorCallback;
                     Eegeo::Helpers::TCallback2<InteriorsHighlightVisibilityController, const Search::SdkModel::SearchQuery&, const std::vector<Search::SdkModel::SearchResultModel>&> m_searchResultsHandler;
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const Eegeo::Resources::Interiors::InteriorsCellResource> m_interiorCellAddedHandler;
                     Eegeo::Helpers::TCallback0<InteriorsHighlightVisibilityController> m_searchResultsClearedHandler;
