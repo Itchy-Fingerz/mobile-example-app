@@ -216,7 +216,7 @@ namespace ExampleApp
                     DeactivateHighlightRenderables();
                     if(IsAdvertisementModeOn())
                     {
-                        AddBillBoardToSelected(m_lastSelectedBillBoard);
+                        AddBillBoardToSelectedFromResults(m_lastSelectedBillBoard,results);
                         
                         if (m_isOffersActivated)
                         {
@@ -418,6 +418,20 @@ namespace ExampleApp
                         {
                             if(!IsBillBoardAlreadySelected(poid))
                                 m_selectedBillBoards.push_back(*pResult);
+                        }
+                    }
+                }
+                
+                void InteriorsHighlightVisibilityController::AddBillBoardToSelectedFromResults(std::string poid,const std::vector<Search::SdkModel::SearchResultModel>& results)
+                {
+                    for (int i = 0; i < results.size(); i++)
+                    {
+                       const Search::SdkModel::SearchResultModel pResult = results.at(i);
+                        
+                        if(pResult.GetIdentifier() == poid)
+                        {
+                            if(!IsBillBoardAlreadySelected(poid))
+                                m_selectedBillBoards.push_back(pResult);
                         }
                     }
                 }

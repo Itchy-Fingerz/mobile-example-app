@@ -73,6 +73,8 @@ namespace ExampleApp
                     bool IsBillBoardAlreadySelected(std::string poid);
                     bool IsSpecialOfferBillBoard(Search::SdkModel::SearchResultModel* pResult);
                     void OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message);
+                    void AddBillBoardToSelectedFromResults(std::string poid,const std::vector<Search::SdkModel::SearchResultModel>& results);
+
 
                     Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
