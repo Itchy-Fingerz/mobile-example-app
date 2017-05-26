@@ -27,6 +27,7 @@ namespace ExampleApp
             private:
                 
                 std::vector<std::string> TokenizeString(std::string mainString , std::string delimiter, bool skipFirstchar);
+                int GetBuildingLevel(const rapidjson::Value& stepNextValue);
 
 
             };

@@ -234,6 +234,11 @@ namespace ExampleApp
                                                                 else if (stepSubNameKey == "type")
                                                                 {
                                                                     stepTypeString = stepNameSubVector[1];
+                                                                    if (stepTypeString == "elevator" && b+1 < numOfSteps)
+                                                                    {
+                                                                        const rapidjson::Value& stepNextValue = stepsValueArray[b+1];
+                                                                        buildingLevel = GetBuildingLevel(stepNextValue);
+                                                                    }
                                                                 }
                                                             }
 
@@ -397,6 +402,34 @@ namespace ExampleApp
                     routes.clear();
                 }
                 return DirectionResultModel(responseCode,responseType,routes);
+            }
+            
+            int FindDirectionResultJsonParser::GetBuildingLevel(const rapidjson::Value& stepNextValue)
+            {
+                const rapidjson::Value& nextNameValue = stepNextValue["name"];
+                std::string nextStepName = nextNameValue.GetString();
+                std::vector<std::string> nextStepNameVector = this->TokenizeString(nextStepName, "}", true);
+                if (nextStepNameVector.size() != 0)
+                {
+                    for (std::vector<std::string>::iterator it = nextStepNameVector.begin() ; it != nextStepNameVector.end(); ++it)
+                    {
+                        std::vector<std::string> nextStepNameSubVector = this->TokenizeString(*it, ":",false);
+                        if (nextStepNameSubVector.size() == 2)
+                        {
+                            std::string nextStepSubNameKey = nextStepNameSubVector[0];
+                            if (nextStepSubNameKey == "level")
+                            {
+                                std::string nextBuildingLevelString = nextStepNameSubVector[1];
+                                if (nextBuildingLevelString != "multiple")
+                                {
+                                    return  std::stoi(nextBuildingLevelString);
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+                return 0;
             }
             
             std::vector<std::string> FindDirectionResultJsonParser::TokenizeString(std::string mainString , std::string delimiter, bool skipFirstchar)
