@@ -220,7 +220,7 @@ namespace ExampleApp
                         
                         if (m_isOffersActivated)
                         {
-                            if(OnShowOffers())
+                            if(OnShowOffersFromResults(results))
                             {
                                 ActivateLabels(false);
                             }
@@ -353,19 +353,31 @@ namespace ExampleApp
                 
                 bool InteriorsHighlightVisibilityController::OnShowOffers()
                 {
-                    std::vector<Search::SdkModel::SearchResultModel> results;
-                    results.reserve(m_searchResultRepository.GetItemCount());
-                    
                     for (int i = 0; i < m_searchResultRepository.GetItemCount(); i++)
                     {
                         Search::SdkModel::SearchResultModel* pResult = m_searchResultRepository.GetItemAtIndex(i);
                         
                         if(IsSpecialOfferBillBoard(pResult))
                         {
-                            results.push_back(*pResult);
                             if(!IsBillBoardAlreadySelected(pResult->GetIdentifier()))
                                 m_selectedBillBoards.push_back(*pResult);
-                                
+                        }
+                    }
+                    
+                    m_isOffersActivated = true;
+                    return ShowHighlightsForResults(m_selectedBillBoards);
+                }
+                
+                bool InteriorsHighlightVisibilityController::OnShowOffersFromResults(const std::vector<Search::SdkModel::SearchResultModel>& results)
+                {
+                    for (int i = 0; i < results.size(); i++)
+                    {
+                        Search::SdkModel::SearchResultModel pResult = results.at(i);
+                        
+                        if(IsSpecialOfferBillBoard(&pResult))
+                        {
+                            if(!IsBillBoardAlreadySelected(pResult.GetIdentifier()))
+                                m_selectedBillBoards.push_back(pResult);
                         }
                     }
                     
