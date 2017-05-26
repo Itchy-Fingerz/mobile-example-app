@@ -14,7 +14,7 @@ namespace ExampleApp
             class StepRouteModel
             {
             public:
-                StepRouteModel(const int stepId,const ManeuverRouteModel maneuverRouteModel, const float distance,const float duration,const std::string mode,const std::string name, const std::string building_id, const bool inInterior,const int level,std::string stepType);
+                StepRouteModel(const int stepId,const ManeuverRouteModel maneuverRouteModel, const float distance,const float duration,const std::string mode,const std::string name, const std::string building_id, const bool inInterior,const int level,const int nextLevel,std::string stepType);
                 ~StepRouteModel();
                 
                 const int GetStepID() const;
@@ -26,6 +26,7 @@ namespace ExampleApp
                 const std::string& GetBuildingID() const;
                 const bool GetInInterior() const;
                 const int GetLevel() const;
+                const int GetNextLevel() const;
                 const std::string& GetStepType() const;
 
                 
@@ -40,6 +41,7 @@ namespace ExampleApp
                 bool m_inInterior;
                 ManeuverRouteModel m_maneuverRouteModel;
                 int m_level;
+                int m_nextLevel;
                 std::string m_stepType;
 
 

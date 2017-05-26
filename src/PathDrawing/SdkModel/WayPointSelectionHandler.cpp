@@ -9,9 +9,10 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            WayPointSelectionHandler::WayPointSelectionHandler(WayPointModel& wayPointModel,ExampleAppMessaging::TMessageBus& messageBus)
+            WayPointSelectionHandler::WayPointSelectionHandler(WayPointModel& wayPointModel,ExampleAppMessaging::TMessageBus& messageBus,ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService)
             :m_wayPointModel(wayPointModel)
             ,m_messageBus(messageBus)
+            ,m_cameraTransitionService(cameraTransitionService)
             
             {
             
@@ -24,6 +25,10 @@ namespace ExampleApp
             
             void WayPointSelectionHandler::SelectPin()
             {
+                if (m_wayPointModel.GetType() == ExampleApp::PathDrawing::WayPointType::Elevator)
+                {
+                    m_cameraTransitionService.StartTransitionTo(100.0, m_wayPointModel.GetBuildingID(), m_wayPointModel.GetNextStepLevel());
+                }
                 DirectionsMenuInitiation::DirectionsMenuItemHighlightMessage message(m_wayPointModel.GetWpId());
                 m_messageBus.Publish(message);
             }

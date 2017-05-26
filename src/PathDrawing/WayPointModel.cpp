@@ -13,6 +13,7 @@ namespace ExampleApp
                                      , const std::string title
                                      , const std::string buildingID
                                      , const int level
+                                     , const int nextLevel
                                      , const bool inInterior
                                      , const int waypointNumber)
         : m_id(wpId)
@@ -20,6 +21,7 @@ namespace ExampleApp
         , m_location(location)
         , m_title(title)
         , m_level(level)
+        , m_nextSteplevel(nextLevel)
         , m_buildingID(buildingID)
         , m_inInterior(inInterior)
         , m_wayPointNumber(waypointNumber)
@@ -64,6 +66,11 @@ namespace ExampleApp
         const int WayPointModel::GetWayPointNumber()
         {
             return m_wayPointNumber;
+        }
+        
+        const int WayPointModel::GetNextStepLevel()
+        {
+            return m_nextSteplevel;
         }
 
     }

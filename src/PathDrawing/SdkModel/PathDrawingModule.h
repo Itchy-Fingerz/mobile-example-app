@@ -16,7 +16,7 @@
 #include "TagSearch.h"
 #include "WayPointOnMapModel.h"
 #include "DirectionsMenuStateChangedMessage.h"
-
+#include "CameraTransitionService.h"
 namespace ExampleApp
 {
     namespace PathDrawing
@@ -36,7 +36,8 @@ namespace ExampleApp
                                   , Eegeo::Routes::RouteService& routeService
                                   , AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper
                                   , TagSearch::ISearchResultIconKeyMapper& searchResultIconCategoryMapper
-                                  , ExampleAppMessaging::TMessageBus& messageBus);
+                                  , ExampleAppMessaging::TMessageBus& messageBus
+                                  , ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService);
 
                 virtual ~PathDrawingModule();
 

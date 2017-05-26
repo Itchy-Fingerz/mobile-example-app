@@ -17,7 +17,8 @@ namespace ExampleApp
                                                                  , Eegeo::Routes::RouteService& routeService
                                                                  , AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper
                                                                  , TagSearch::ISearchResultIconKeyMapper& searchResultIconCategoryMapper
-                                                                 , ExampleAppMessaging::TMessageBus& messageBus)
+                                                                 , ExampleAppMessaging::TMessageBus& messageBus
+                                                                , ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService)
             
             {
                 m_pWayPointsRepository = Eegeo_NEW(WayPointsRepository);
@@ -29,7 +30,8 @@ namespace ExampleApp
                 m_pWayPointOnMapModel = Eegeo_NEW(ExampleApp::PathDrawing::SdkModel::WayPointOnMapModel)(worldPinsService
                                                                                                          , searchResultIconCategoryMapper
                                                                                                          , *m_pWayPointsRepository
-                                                                                                         , messageBus);
+                                                                                                         , messageBus
+                                                                                                         , cameraTransitionService);
                             }
             
             PathDrawingModule::~PathDrawingModule()
