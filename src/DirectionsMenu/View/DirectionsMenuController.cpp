@@ -295,14 +295,15 @@ namespace ExampleApp
             }
             void DirectionsMenuController::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)
             {
+
                 if(m_isDirectionMenuOpen)
                 {
-                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Active);
-                    m_messageBus.Publish(message);
+                    m_settingsMenuViewModel.RemoveFromScreen();
                 }
                 if (message.GetAppMode() == AppModes::SdkModel::InteriorMode)
                 {
                     m_isInterior = true;
+
                 }
                 else
                 {
