@@ -197,6 +197,7 @@
 
 - (IBAction)HandleSubmitButtonSelected:(id)sender
 {
+    [m_pReviewTextField setText:@""];
     [m_pReviewTextField resignFirstResponder];
 }
 

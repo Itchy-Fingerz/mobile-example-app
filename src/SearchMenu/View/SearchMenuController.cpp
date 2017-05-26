@@ -160,6 +160,8 @@ namespace ExampleApp
 
             void SearchMenuController::OnSearchQueryResultsRemovedMessage(const Search::SearchQueryResultsRemovedMessage& message)
             {
+                m_searchMenuView.HideSearchResultCount();
+
                 m_searchMenuView.RemoveSearchQueryResults();
             }
             

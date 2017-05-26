@@ -1308,7 +1308,7 @@ namespace ExampleApp
             }
         }
         
-        m_pdirectionReCalculationService->Update(dt);
+        //m_pdirectionReCalculationService->Update(dt); // will be uncomented when relcalcuation required
         
         m_pFindDirectionServiceModule->GetFindDirectionService().Update(dt);
 

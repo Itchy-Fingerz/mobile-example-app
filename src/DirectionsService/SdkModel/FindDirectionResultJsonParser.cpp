@@ -83,10 +83,10 @@ namespace ExampleApp
                                 size_t numOfInnerEntries = innerRouteJsonList.Size();
 
                                 
-                                for(int j = 0; (j < numOfInnerEntries && j< 1); ++j)
+                                for(int innerRouteNumber = 0; (innerRouteNumber < numOfInnerEntries && innerRouteNumber< 1); ++innerRouteNumber)
                                 {
                                     int innerRouteDuration,innerRouteDistance;
-                                    const rapidjson::Value& innerRouteJson = innerRouteJsonList[j];
+                                    const rapidjson::Value& innerRouteJson = innerRouteJsonList[innerRouteNumber];
                                     
                                     if (innerRouteJson.HasMember("duration"))
                                     {
@@ -185,55 +185,60 @@ namespace ExampleApp
                                                     const rapidjson::Value& nameValue = stepValue["name"];
                                                     stepName = nameValue.GetString();
                                                     
-                                                    if (stepName.find("bid:") != std::string::npos)
+                                                    std::vector<std::string> stepNameNameVector = this->TokenizeString(stepName, "}", true);
+                                                    if (stepNameNameVector.size() != 0)
                                                     {
-                                                        stepBuildingID = stepName.substr(stepName.find("bid:") + 4);
-                                                        stepBuildingID = stepBuildingID.substr(0,stepBuildingID.size()-1);//
-                                                        if(stepBuildingID == "c857d08d-7de1-4447-9ff8-6747649a00e0")
+                                                        for (std::vector<std::string>::iterator it = stepNameNameVector.begin() ; it != stepNameNameVector.end(); ++it)
                                                         {
-                                                            stepBuildingID = "70f9b00f-8c4f-4570-9a23-62bd80a76f8a";
-                                                        }
-                                                        else
-                                                        {
-                                                            stepBuildingID = "westport_house";
-                                                        }
-                                                        stepInInterior = true;
-                                                    }
-                                                    else if (stepName.find("level:") != std::string::npos)
-                                                    {
-                                                        buildingLevelString = stepName.substr(stepName.find("level:") + 6);
-                                                        if(buildingLevelString.find("}{") != std::string::npos)
-                                                        {
-                                                            buildingLevelString = buildingLevelString.substr(0,buildingLevelString.find("}{"));
-                                                            if (buildingLevelString != "multiple")
+                                                            std::vector<std::string> stepNameSubVector = this->TokenizeString(*it, ":",false);
+                                                            if (stepNameSubVector.size() == 2)
                                                             {
-                                                                buildingLevel = std::stoi(buildingLevelString);
-                                                            }
-                                                            
-                                                        }
-                                                    }
-                                                    else if (stepName.find("highway:") != std::string::npos)
-                                                    {
-                                                        stepName = stepName.substr(stepName.find("highway:") + 8);
-                                                        stepName = stepName.substr(0,stepName.find("}"));
-
-                                                    }
-                                                    else if (stepName.find("type:") != std::string::npos)
-                                                    {
-                                                        stepTypeString = stepName.substr(stepName.find("type:") + 5);
-                                                        if(stepTypeString.find("}{") != std::string::npos)
-                                                        {
-                                                            stepTypeString = stepTypeString.substr(0,stepTypeString.find("}{"));
-                                                            if(stepTypeString == "pathway")
-                                                            {
-                                                                //wayPointype = ExampleApp::PathDrawing::WayPointType::Pathway;
-                                                            }
-                                                            else if (stepTypeString == "entrance")
-                                                            {
-                                                               // wayPointype = ExampleApp::PathDrawing::WayPointType::Entrance;
+                                                                std::string stepSubNameKey = stepNameSubVector[0];
                                                                 
+                                                                if (stepSubNameKey == "bid")
+                                                                {
+                                                                    stepBuildingID = stepNameSubVector[1];
+                                                                    if(stepBuildingID == "c857d08d-7de1-4447-9ff8-6747649a00e0")
+                                                                    {
+                                                                        stepBuildingID = "70f9b00f-8c4f-4570-9a23-62bd80a76f8a";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        stepBuildingID = "westport_house";
+                                                                    }
+                                                                    stepInInterior = true;
+                                                                }
+                                                                else if (stepSubNameKey == "level")
+                                                                {
+                                                                    buildingLevelString = stepNameSubVector[1];
+                                                                    if (buildingLevelString != "multiple")
+                                                                    {
+                                                                        buildingLevel = std::stoi(buildingLevelString);
+                                                                    }
+                                                                }
+                                                                else if (stepSubNameKey == "highway")
+                                                                {
+                                                                    if (stepNameSubVector[1] == "service")
+                                                                    {
+                                                                        stepName = stepNameSubVector[1] + " road on highway";
+                                                                    }
+                                                                    else if (stepNameSubVector[1] == "unclassified")
+                                                                    {
+                                                                        stepName = stepNameSubVector[1] + " highway";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        stepName = stepNameSubVector[1] + " on highway";
+                                                                    }
+                                                                }
+                                                                else if (stepSubNameKey == "type")
+                                                                {
+                                                                    stepTypeString = stepNameSubVector[1];
+                                                                }
                                                             }
+
                                                         }
+
                                                     }
 
                                                     
@@ -245,9 +250,21 @@ namespace ExampleApp
                                                 }
                                                 const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation,menuModifer);
                                                 const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel,stepTypeString);
-                                                
-                                                stepVector.push_back(stepModelObject);
-                                                routeStepID++;
+                                                if(stepVector.size() != 0 &&  maneuverType != "arrive")
+                                                {
+                                                    StepRouteModel previousStep = stepVector[stepVector.size()-1];
+                                                    if (!(previousStep.GetManeuverRouteModel().GetLocation().GetLatitude() == maneuverLocation.GetLatitude()  && previousStep.GetManeuverRouteModel().GetLocation().GetLongitude() == maneuverLocation.GetLongitude()))
+                                                    {
+                                                        stepVector.push_back(stepModelObject);
+                                                        routeStepID++;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    stepVector.push_back(stepModelObject);
+                                                    routeStepID++;
+                                                }
+
 
                                                 
                                             }
@@ -380,8 +397,33 @@ namespace ExampleApp
                     routes.clear();
                 }
                 return DirectionResultModel(responseCode,responseType,routes);
+            }
+            
+            std::vector<std::string> FindDirectionResultJsonParser::TokenizeString(std::string mainString , std::string delimiter, bool skipFirstchar)
+            {
+                std::vector<std::string> resultList;
+                std::string mainStrCopy = mainString;
+                
+                size_t pos = 0;
+                std::string token;
+                while ((pos = mainStrCopy.find(delimiter)) != std::string::npos)
+                {
+                    token = mainStrCopy.substr(0, pos);
+                    if (skipFirstchar == true)
+                    {
+                        token.erase(0, 1);
+                    }
+                    resultList.push_back(token);
+                    mainStrCopy.erase(0, pos + delimiter.length());
+                }
+                if (mainStrCopy !=  "")
+                {
+                    resultList.push_back(mainStrCopy);
+                }
+                return resultList;
 
             }
+
         }
     }
 }

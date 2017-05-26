@@ -657,6 +657,7 @@
 -(void)SetHighlightItem:(int)highlightItem  {
     
     selectedIndex = highlightItem;
+    [_wayPointsTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:false];
     [_wayPointsTableView reloadData];
 }
 

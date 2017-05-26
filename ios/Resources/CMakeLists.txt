@@ -979,6 +979,9 @@ set(resources ${resources}
         Resources/DirectionCard_TurnSharpRight.png
         Resources/DirectionCard_TurnSharpRight@2x.png
         Resources/DirectionCard_TurnSharpRight@3x.png
+        Resources/DirectionCard_TurnSharpLeft.png
+        Resources/DirectionCard_TurnSharpLeft@2x.png
+        Resources/DirectionCard_TurnSharpLeft@3x.png
         Resources/DirectionCard_UTurnRight.png
         Resources/DirectionCard_UTurnRight@2x.png
         Resources/DirectionCard_UTurnRight@3x.png
