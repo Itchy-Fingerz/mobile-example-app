@@ -16,12 +16,14 @@ namespace ExampleApp
             WayPointOnMapModel::WayPointOnMapModel(WorldPins::SdkModel::IWorldPinsService& worldPinsService,
                                                    TagSearch::ISearchResultIconKeyMapper& searchResultIconCategoryMapper,
                                                    PathDrawing::SdkModel::IWayPointsRepository& wayPointsRepository,
-                                                   ExampleAppMessaging::TMessageBus& messageBus)
+                                                   ExampleAppMessaging::TMessageBus& messageBus,
+                                                   ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService)
             : m_onWayPointAddedCallBack(this, &WayPointOnMapModel::OnWayPointAdded)
             , m_onWayPointRemovedCallBack(this, &WayPointOnMapModel::OnWayPointRemoved)
             , m_worldPinsService(worldPinsService)
             , m_wayPointsRepository(wayPointsRepository)
             , m_messageBus(messageBus)
+            , m_cameraTransitionService(cameraTransitionService)
             {
                 wayPointsRepository.InsertItemAddedCallback(m_onWayPointAddedCallBack);
                 wayPointsRepository.InsertItemRemovedCallback(m_onWayPointRemovedCallBack);
@@ -55,7 +57,7 @@ namespace ExampleApp
                     WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(Eegeo::Resources::Interiors::InteriorId(wayPoint->GetBuildingID()), wayPoint->GetLevel());
                     
                     ExampleApp::WorldPins::SdkModel::WorldPinItemModel *pinItemModel =
-                    m_worldPinsService.AddPin(Eegeo_NEW(WayPointSelectionHandler(*wayPoint,m_messageBus))
+                    m_worldPinsService.AddPin(Eegeo_NEW(WayPointSelectionHandler(*wayPoint,m_messageBus,m_cameraTransitionService))
                                               , NULL
                                               , worldPinFocusData
                                               , wayPoint->GetInInterior()

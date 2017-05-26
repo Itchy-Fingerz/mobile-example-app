@@ -9,7 +9,7 @@ namespace ExampleApp
         namespace SdkModel
         {
 
-            StepRouteModel::StepRouteModel(const int stepId,const ManeuverRouteModel maneuverRouteModel, const float distance,const float duration,const std::string mode,const std::string name, const std::string building_id,const bool inInterior,const int level,std::string stepType)
+            StepRouteModel::StepRouteModel(const int stepId,const ManeuverRouteModel maneuverRouteModel, const float distance,const float duration,const std::string mode,const std::string name, const std::string building_id,const bool inInterior,const int level,const int nextLevel,std::string stepType)
             : m_stepId(stepId)
             , m_maneuverRouteModel(maneuverRouteModel)
             , m_distance(distance)
@@ -19,6 +19,7 @@ namespace ExampleApp
             , m_building_id(building_id)
             , m_inInterior(inInterior)
             , m_level(level)
+            , m_nextLevel(nextLevel)
             , m_stepType(stepType)
             {
             
@@ -68,6 +69,11 @@ namespace ExampleApp
             const int StepRouteModel::GetLevel() const
             {
                 return m_level;
+            }
+            
+            const int StepRouteModel::GetNextLevel() const
+            {
+                return m_nextLevel;
             }
             
             const std::string& StepRouteModel::GetStepType() const

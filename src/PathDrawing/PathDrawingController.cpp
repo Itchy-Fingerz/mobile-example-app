@@ -66,7 +66,7 @@ namespace ExampleApp
            WayPointModel* point = Eegeo_NEW(ExampleApp::PathDrawing::WayPointModel)(searchItem.GetItemIndex()
                                                                          , searchItem.GetWayPointType()
                                                                          , latLongStart
-                                                                         , "",searchItem.GetInteriorID(),searchItem.GetFloorIndex(),searchItem.GetIsInterior(),searchItem.GetWayPointNumber());
+                                                                         , "",searchItem.GetInteriorID(),searchItem.GetFloorIndex(),searchItem.GetNextFloorIndex(),searchItem.GetIsInterior(),searchItem.GetWayPointNumber());
             m_pWayPointsRepository.AddItem(point); 
         }
         

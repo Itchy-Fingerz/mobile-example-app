@@ -176,6 +176,7 @@ namespace ExampleApp
                                                 std::string stepBuildingID = "";
                                                 bool stepInInterior = false;
                                                 int buildingLevel = 0;
+                                                int nextStepBuildingLevel = 0;
                                                 std::string buildingLevelString = "";
                                                 std::string stepTypeString = "";
 
@@ -215,6 +216,16 @@ namespace ExampleApp
                                                                     {
                                                                         buildingLevel = std::stoi(buildingLevelString);
                                                                     }
+                                                                    else
+                                                                    {
+                                                                        if (b+1 < numOfSteps)
+                                                                        {
+                                                                            const rapidjson::Value& previousNextValue = stepsValueArray[b-1];
+                                                                            buildingLevel = GetBuildingLevel(previousNextValue);
+                                                                            const rapidjson::Value& stepNextValue = stepsValueArray[b+1];
+                                                                            nextStepBuildingLevel = GetBuildingLevel(stepNextValue);
+                                                                        }
+                                                                    }
                                                                 }
                                                                 else if (stepSubNameKey == "highway")
                                                                 {
@@ -245,11 +256,19 @@ namespace ExampleApp
                                                     if (stepInInterior)
                                                     {
                                                         stepTypeString[0] = toupper(stepTypeString[0]);
-                                                        stepName =   stepTypeString + " to Floor " + std::to_string(buildingLevel);
+                                                        if (stepTypeString == "Elevator")
+                                                        {
+                                                            stepName =   stepTypeString + " to Floor " + std::to_string(nextStepBuildingLevel);
+                                                        }
+                                                        else
+                                                        {
+                                                            stepName =   stepTypeString + " to Floor " + std::to_string(buildingLevel);
+                                                        }
+                                                        
                                                     }
                                                 }
                                                 const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation,menuModifer);
-                                                const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel,stepTypeString);
+                                                const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel,nextStepBuildingLevel,stepTypeString);
                                                 if(stepVector.size() != 0 &&  maneuverType != "arrive")
                                                 {
                                                     StepRouteModel previousStep = stepVector[stepVector.size()-1];
@@ -379,7 +398,7 @@ namespace ExampleApp
                                         longi = wayPointLocationJson[0].GetDouble();
                                     }
                                     Eegeo::Space::LatLong latLongStart = Eegeo::Space::LatLong::FromDegrees(lat,longi);
-                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(wayPointsID,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,inInterior,j);
+                                    ExampleApp::PathDrawing::WayPointModel wayPointModel(wayPointsID,wayPointype,latLongStart,wayPointName,buildingID,buildingLevel,buildingLevel +1,inInterior,j);
                                     wayPointsVector.push_back(wayPointModel);
                                     wayPointsID++;
                                     
@@ -397,6 +416,34 @@ namespace ExampleApp
                     routes.clear();
                 }
                 return DirectionResultModel(responseCode,responseType,routes);
+            }
+            
+            int FindDirectionResultJsonParser::GetBuildingLevel(const rapidjson::Value& stepNextValue)
+            {
+                const rapidjson::Value& nextNameValue = stepNextValue["name"];
+                std::string nextStepName = nextNameValue.GetString();
+                std::vector<std::string> nextStepNameVector = this->TokenizeString(nextStepName, "}", true);
+                if (nextStepNameVector.size() != 0)
+                {
+                    for (std::vector<std::string>::iterator it = nextStepNameVector.begin() ; it != nextStepNameVector.end(); ++it)
+                    {
+                        std::vector<std::string> nextStepNameSubVector = this->TokenizeString(*it, ":",false);
+                        if (nextStepNameSubVector.size() == 2)
+                        {
+                            std::string nextStepSubNameKey = nextStepNameSubVector[0];
+                            if (nextStepSubNameKey == "level")
+                            {
+                                std::string nextBuildingLevelString = nextStepNameSubVector[1];
+                                if (nextBuildingLevelString != "multiple")
+                                {
+                                    return  std::stoi(nextBuildingLevelString);
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+                return 0;
             }
             
             std::vector<std::string> FindDirectionResultJsonParser::TokenizeString(std::string mainString , std::string delimiter, bool skipFirstchar)

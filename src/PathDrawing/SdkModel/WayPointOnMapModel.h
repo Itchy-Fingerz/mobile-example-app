@@ -13,6 +13,7 @@
 #include "TagSearch.h"
 #include "IWayPointsRepository.h"
 #include "BidirectionalBus.h"
+#include "CameraTransitionService.h"
 
 namespace ExampleApp
 {
@@ -27,6 +28,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<WayPointOnMapModel, WayPointModel*> m_onWayPointRemovedCallBack;
                 PathDrawing::SdkModel::IWayPointsRepository& m_wayPointsRepository;
                 WorldPins::SdkModel::IWorldPinsService& m_worldPinsService;
+                ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& m_cameraTransitionService;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
 
                 void OnWayPointAdded(WayPointModel*& wayPoint);
@@ -46,7 +48,8 @@ namespace ExampleApp
                 WayPointOnMapModel(WorldPins::SdkModel::IWorldPinsService& worldPinsService,
                                    TagSearch::ISearchResultIconKeyMapper& searchResultIconCategoryMapper,
                                    PathDrawing::SdkModel::IWayPointsRepository& wayPointsRepository,
-                                   ExampleAppMessaging::TMessageBus& messageBus);
+                                   ExampleAppMessaging::TMessageBus& messageBus,
+                                   ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService);
                 
                 
                 

@@ -71,6 +71,7 @@ namespace ExampleApp
                                                                            false,
                                                                            model.GetBuildingId(),
                                                                            model.GetFloor(),
+                                                                           0,
                                                                            model.GetIdentifier(),
                                                                            m_searchMenuViewModel,
                                                                            m_searchResultPoiViewModel,

@@ -6,7 +6,7 @@
 #include "IWorldPinSelectionHandler.h"
 #include "BidirectionalBus.h"
 #include "WayPointModel.h"
-
+#include "CameraTransitionService.h"
 namespace ExampleApp
 {
     namespace PathDrawing
@@ -17,8 +17,10 @@ namespace ExampleApp
             {
                 WayPointModel &m_wayPointModel;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
+                ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& m_cameraTransitionService;
+
             public:
-                WayPointSelectionHandler(WayPointModel& wayPointModel,ExampleAppMessaging::TMessageBus& messageBus);
+                WayPointSelectionHandler(WayPointModel& wayPointModel,ExampleAppMessaging::TMessageBus& messageBus,ExampleApp::CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService);
                 
                 virtual ~WayPointSelectionHandler();
 
