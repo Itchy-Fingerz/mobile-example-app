@@ -374,7 +374,7 @@
                 [cell.wayPointMainTitlelbl setText:[NSString stringWithCString:title.c_str() encoding:NSUTF8StringEncoding]];
                 cell.wayPointSubCategorylbl.hidden = false;
             }
-            
+            cell.wayPointMainTitlelbl.text = [cell.wayPointMainTitlelbl.text capitalizedString];
             NSString * pSubtitle = [NSString stringWithCString:stitle.c_str() encoding:NSUTF8StringEncoding];
             if ([pSubtitle rangeOfString:@"straight"].location != NSNotFound)
             {
