@@ -266,6 +266,8 @@ namespace ExampleApp
                                                         }
                                                         
                                                     }
+                                                    stepName[0] = toupper(stepName[0]);
+
                                                 }
                                                 const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation,menuModifer);
                                                 const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel,nextStepBuildingLevel,stepTypeString);
