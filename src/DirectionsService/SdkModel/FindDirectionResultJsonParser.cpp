@@ -239,7 +239,7 @@ namespace ExampleApp
                                                                     }
                                                                     else
                                                                     {
-                                                                        stepName = stepNameSubVector[1] + " on highway";
+                                                                        stepName = "Footpath";
                                                                     }
                                                                 }
                                                                 else if (stepSubNameKey == "type")
