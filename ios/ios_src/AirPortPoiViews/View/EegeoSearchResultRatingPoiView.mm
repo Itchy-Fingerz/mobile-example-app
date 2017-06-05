@@ -197,8 +197,10 @@
 
 - (IBAction)HandleSubmitButtonSelected:(id)sender
 {
-    [m_pReviewTextField setText:@""];
+    [m_pReviewTextField setText:@"Enter Text Review..."];
     [m_pReviewTextField resignFirstResponder];
+    m_pscrollDownButton.hidden = false;
+
 }
 
 -(IBAction)HandleClosedButtonSelected:(id) sender
