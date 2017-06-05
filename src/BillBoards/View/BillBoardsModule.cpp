@@ -52,7 +52,6 @@ namespace ExampleApp
                 Eegeo_DELETE m_pBillBoardService;
                 Eegeo_DELETE m_pFloorChangeObserver;
                 Eegeo_DELETE m_pQuadLineFactory;
-                Eegeo_DELETE m_pSearchBillBoardsPoi;
             }
             
         }

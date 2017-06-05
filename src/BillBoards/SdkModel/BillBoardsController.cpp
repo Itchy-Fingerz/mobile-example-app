@@ -120,7 +120,11 @@ namespace ExampleApp
                             {
                                 config.textureFilename = json["texture_file_name"].GetString();
                             }
-                            
+
+                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("unique_tag"))
+                            {
+                                config.unique_tag = json["unique_tag"].GetString();
+                            }
                             for (std::vector<std::string>::const_iterator tagsItt = resultsItt->GetTags().begin(); tagsItt != resultsItt->GetTags().end(); ++tagsItt)
                             {
                                 std::string tag = tagsItt->c_str();

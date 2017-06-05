@@ -72,8 +72,10 @@ namespace ExampleApp
                 {
                     std::string tagName;
                     const bool foundName = tagSearchRepository.TryGetTagSearchNameByQuery(query.Query(), tagName);
-                    Eegeo_ASSERT(foundName, "Unable to find name for tag query %s.\n", query.Query().c_str());
+                    //Eegeo_ASSERT(foundName, "Unable to find name for tag query %s.\n", query.Query().c_str());
                     
+                    if(foundName == false)
+                        return "Advertisements";
                     return tagName;
                 }
                 else

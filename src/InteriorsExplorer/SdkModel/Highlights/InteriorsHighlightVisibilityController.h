@@ -68,7 +68,7 @@ namespace ExampleApp
                     bool HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     bool HideLabelByNamePredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     
-                    bool IsAdvertisementModeOn();
+                    bool IsFullAdvertisementModeOn();
                     void AddBillBoardToSelected(std::string poid);
                     bool IsBillBoardAlreadySelected(std::string poid);
                     bool IsSpecialOfferBillBoard(Search::SdkModel::SearchResultModel* pResult);
