@@ -12,6 +12,7 @@
 #include "DirectionMenuPoiSearchResponseReceivedMessage.h"
 #include "ILocationService.h"
 #include "DirectionQueryResponseReceivedMessage.h"
+#include "ShowMeDirectionMessage.h"
 
 
 namespace ExampleApp
@@ -62,6 +63,9 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionResultSection::DirectionQueryResponseReceivedMessage&> m_directionResponseReceivedHandler;
                 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::OnSecreenTapMessage&> m_onScreenSingleTapCallback;
+                
+                Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::ShowMeDirectionMessage&> m_showMeDirectionMessageCallback;
+
 
 
 
@@ -109,6 +113,8 @@ namespace ExampleApp
                 void UpdateUiThread(float dt);
                 
                 void OnSearchQueryResponseReceivedMessage(const DirectionResultSection::DirectionQueryResponseReceivedMessage& message);
+                
+                void OnShowMeDirectionMessage(const DirectionsMenu::ShowMeDirectionMessage& message);
                 
             protected:
                 

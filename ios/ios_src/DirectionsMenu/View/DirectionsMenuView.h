@@ -32,6 +32,8 @@
 
 - (void)SetEndLocationSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isGeoName:(bool)geoName;
 
+- (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel) searchModel;
+
 - (void)ExitDirectionsClicked;
 - (void)ExitDirectionsClickedOnInteriorExit;
 - (void)SetSearchInProgress:(bool) inProgress;

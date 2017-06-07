@@ -19,6 +19,8 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection0 m_closeClickedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_togglePinClickedCallbacks;
                 Eegeo::Helpers::CallbackCollection2<const Search::SdkModel::SearchResultModel&, const std::string&> m_availabilityChangedCallbacks;
+                Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_showMeWayClickedCallbacks;
+
 
             public:
                 SearchResultPoiViewInterop(SearchResultPoiViewContainer* pView);
@@ -49,6 +51,12 @@ namespace ExampleApp
                 void RemoveTogglePinnedCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback);
                 
                 void HandlePinToggleClicked(Search::SdkModel::SearchResultModel& searchResultModel);
+                
+                void InsertShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback);
+                void RemoveShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback);
+                
+                void HandleShowMeWayClicked(Search::SdkModel::SearchResultModel searchResultModel);
+
             };
         }
     }

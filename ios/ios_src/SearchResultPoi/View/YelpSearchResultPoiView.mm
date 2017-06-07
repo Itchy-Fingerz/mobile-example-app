@@ -132,9 +132,10 @@ namespace
         [self.pControlContainer addSubview:self.pDropPinContainer];
         
         self.pPinButton = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        [self.pPinButton setTitle:@"Save Location" forState:UIControlStateNormal];
-        [self.pPinButton setTitleColor:ExampleApp::Helpers::ColorPalette::UiBorderColor forState:UIControlStateHighlighted];
-        [self.pPinButton setDefaultStatesWithImageNames:@"button_close_off" :@"button_close_on"];
+        //[self.pPinButton setTitle:@"Save Location" forState:UIControlStateNormal];
+        //[self.pPinButton setTitleColor:ExampleApp::Helpers::ColorPalette::UiBorderColor forState:UIControlStateHighlighted];
+        //[self.pPinButton setDefaultStatesWithImageNames:@"ShowMeTheWayDefault" :@"ShowMeTheWayDefault"];
+        [self.pPinButton setBackgroundImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"ShowMeTheWayDefault.png") forState:UIControlStateNormal];
         [self.pPinButton addTarget:self action:@selector(handlePinButtonSelected) forControlEvents:UIControlEventTouchUpInside];
         [self.pDropPinContainer addSubview: self.pPinButton];
         
@@ -755,7 +756,7 @@ namespace
     m_yelpModel = ExampleApp::Search::Yelp::SdkModel::Helpers::TransformToYelpSearchResult(m_model);
     
     m_isPinned = isPinned;
-    [self updatePinnedButtonState];
+    //[self updatePinnedButtonState];
     
     self.pTitleLabel.text = [NSString stringWithUTF8String:pModel->GetTitle().c_str()];
     
@@ -953,14 +954,10 @@ namespace
 
 - (void) handlePinButtonSelected
 {
-    if(m_isPinned)
-    {
-        [self performPinRemoveWarningCeremony];
-    }
-    else
-    {
-        [self togglePinState];
-    }
+    ExampleApp::Search::SdkModel::SearchResultModel model = m_model;
+    m_pInterop->HandleCloseClicked();
+    m_pInterop->HandleShowMeWayClicked(model);
+
 }
 
 - (void) togglePinState

@@ -74,6 +74,20 @@ namespace ExampleApp
             {
                 m_togglePinClickedCallbacks.ExecuteCallbacks(searchResultModel);
             }
+            
+            void SearchResultPoiViewInterop::InsertShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback)
+            {
+               m_showMeWayClickedCallbacks.AddCallback(callback);
+            }
+            void SearchResultPoiViewInterop::RemoveShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback)
+            {
+                m_showMeWayClickedCallbacks.RemoveCallback(callback);
+            }
+            
+            void SearchResultPoiViewInterop::HandleShowMeWayClicked(Search::SdkModel::SearchResultModel searchResultModel)
+            {
+                m_showMeWayClickedCallbacks.ExecuteCallbacks(searchResultModel);
+            }
         }
     }
 }
