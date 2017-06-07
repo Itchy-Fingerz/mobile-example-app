@@ -134,11 +134,9 @@ namespace
         self.pPinCreationDialogArrowOutline = [self createDialogArrowOutline: self.pPinCreationDialogContent arrowEdge: useSmallScreen ? ArrowEdge::Bottom : ArrowEdge::Left];
         self.pPinCreationDialogArrow = [self createDialogArrow: self.pPinCreationDialogContent arrowEdge: useSmallScreen ? ArrowEdge::Bottom : ArrowEdge::Left];
         self.pPinCreationDialogIcon = [self createDialogIcon:self.pPinCreationDialogContent];
-        self.pPinCreationDialogTitle = [self createDialogTitle:@"Drop Pin"];
+        self.pPinCreationDialogTitle = [self createDialogTitle:@"Directions"];
         [self.pPinCreationDialogContent addSubview:self.pPinCreationDialogTitle];
-        self.pPinCreationDialogDescription = [self createDialogDescription:useSmallScreen
-                                              ? @"Drop a pin on map\nto bookmark a place."
-                                              : @"Drop a pin to bookmark\na place on the map."];
+        self.pPinCreationDialogDescription = [self createDialogDescription:@"Get directions to your destination."];
         [self.pPinCreationDialogContent addSubview:self.pPinCreationDialogDescription];
         
         m_awaitingInput = false;
