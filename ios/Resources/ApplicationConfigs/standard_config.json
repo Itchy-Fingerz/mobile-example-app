@@ -71,10 +71,6 @@
                                   "name": "Transport",
                                   "search_tag": "transport",
                                   "icon_key": "transport"
-                                  },{
-                                  "name": "Advertisements",
-                                  "search_tag": "advertisements",
-                                  "icon_key": "transport"
                                   }],
     "indoor_tracked_buildings": [{
                                  "interior_id": "westport_house",

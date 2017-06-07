@@ -8,8 +8,6 @@ set(currsources
   ../src/BillBoards/SdkModel/BillBoardModel.h
   ../src/BillBoards/SdkModel/BillBoardsRepository.cpp
   ../src/BillBoards/SdkModel/BillBoardsRepository.h
-  ../src/BillBoards/SdkModel/BillBoardsPoiSearch.cpp
-  ../src/BillBoards/SdkModel/BillBoardsPoiSearch.h
   ../src/BillBoards/SdkModel/BillBoardInteriorStateChangedObserver.h
   ../src/BillBoards/SdkModel/BillBoardInteriorStateChangedObserver.cpp
 )

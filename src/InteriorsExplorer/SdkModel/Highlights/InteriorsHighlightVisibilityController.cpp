@@ -178,6 +178,7 @@ namespace ExampleApp
                     {
                         DeactivateHighlightRenderables();
                         m_currentHighlightRenderables.clear();
+                        m_isSearchResultsCleared = false;
                     }
                 }
 
@@ -212,9 +213,9 @@ namespace ExampleApp
 
                 void InteriorsHighlightVisibilityController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
                 {
-                    m_isSearchResultsCleared = false;
+//                    m_isSearchResultsCleared = false;
                     DeactivateHighlightRenderables();
-                    if(IsAdvertisementModeOn())
+                    if(IsFullAdvertisementModeOn())
                     {
                         AddBillBoardToSelectedFromResults(m_lastSelectedBillBoard,results);
                         
@@ -239,7 +240,7 @@ namespace ExampleApp
 
                 bool InteriorsHighlightVisibilityController::ShowHighlightsForCurrentResults()
                 {
-                    if(IsAdvertisementModeOn())
+                    if(IsFullAdvertisementModeOn())
                     {
                         ShowHighlightsForResults(m_selectedBillBoards);
                         
@@ -323,9 +324,9 @@ namespace ExampleApp
                     
                     ShowHighlightsForResults(m_selectedBillBoards);
 
-                    if(IsAdvertisementModeOn() == false)
+                    if(IsFullAdvertisementModeOn() == false)
                     {
-                        m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
+                        m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage(selectedMessage.GetUniqueTag(), true, true));
                     }
                 }
                 
@@ -335,9 +336,9 @@ namespace ExampleApp
                     {
                         m_isOffersActivated = true;
                         
-                        if(IsAdvertisementModeOn() == false)
+                        if(IsFullAdvertisementModeOn() == false)
                         {
-                            m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
+                            m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("Specialoffer", true, true));
                         }
                         else
                         {
@@ -380,7 +381,6 @@ namespace ExampleApp
                                 m_selectedBillBoards.push_back(pResult);
                         }
                     }
-                    
                     m_isOffersActivated = true;
                     return ShowHighlightsForResults(m_selectedBillBoards);
                 }
@@ -409,15 +409,9 @@ namespace ExampleApp
                 }
                 
                 
-                bool InteriorsHighlightVisibilityController::IsAdvertisementModeOn()
+                bool InteriorsHighlightVisibilityController::IsFullAdvertisementModeOn()
                 {
-                    if(m_isSearchResultsCleared)
-                        return false;
-                    
-                    if(m_searchQueryPerformer.GetPreviousSearchQuery().Query() == "advertisements")
-                       return true;
-                    
-                    return false;
+                    return m_isSearchResultsCleared ? false : true;
                 }
                 
                 void InteriorsHighlightVisibilityController::AddBillBoardToSelected(std::string poid)

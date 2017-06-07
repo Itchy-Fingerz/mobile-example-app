@@ -19,6 +19,7 @@ namespace ExampleApp
                 int billBoardId;
                 std::string poiID;
                 std::string textureFilename;
+                std::string unique_tag;
                 std::string videoURL;
                 int numberOfFrames;
                 mutable int currentIndex;
@@ -66,7 +67,7 @@ namespace ExampleApp
                 , isSpecialOffer(false)
                 , highlightColor(0,0,1,1)
                 {
-                    
+                    unique_tag = "";
                 }
                 
                 bool IsInStoppedState() const

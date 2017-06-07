@@ -373,7 +373,7 @@ namespace ExampleApp
                 if (IsInterSectingWithBillBoard(data, m_selectedConfig))
                 {
                     DrawLine(m_selectedConfig);
-                    m_messageBus.Publish(BillBoardSelectedMessage(m_selectedConfig.poiID));
+                    m_messageBus.Publish(BillBoardSelectedMessage(m_selectedConfig.poiID, m_selectedConfig.unique_tag));
                 }
             }
             
