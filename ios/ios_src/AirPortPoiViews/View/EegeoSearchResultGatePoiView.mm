@@ -7,7 +7,7 @@
 @interface EegeoSearchResultGatePoiView()
 {
     IBOutlet UITableView *m_pFlightTimingTableView;
-    const ExampleApp::Search::SdkModel::SearchResultModel* m_pCurrentModel;
+    ExampleApp::Search::SdkModel::SearchResultModel m_pCurrentModel;
     std::vector<ExampleApp::Search::SdkModel::FlightResultModel> m_flightsVector;
     IBOutlet UILabel *m_pBoardingTimeLabel;
     IBOutlet UILabel *m_pDepartingLabel;
@@ -127,7 +127,7 @@
 }
 - (void) setContent:(const ExampleApp::Search::SdkModel::SearchResultModel*)pModel :(bool)isPinned
 {
-    m_pCurrentModel = pModel;
+    m_pCurrentModel = *pModel;
     [self FlightListFromSearchResult];
     for(int i=0;i<m_flightsVector.size();i++)
     {
@@ -262,14 +262,18 @@
                             mainWindowHeight);
     
     
-    // m_pContentViewHeightConstraint.constant = 15 + m_pAddressInfoView.bounds.size.height + m_pAvailabilityStateView.bounds.size.height + m_pCalenderContainerView.bounds.size.height + m_pOrgChartView.bounds.size.height;
-    
 }
 
 -(IBAction)HandleClosedButtonSelected:(id) sender
 {
     m_pInterop->HandleCloseClicked();
     
+}
+- (IBAction)HandleShowMeWayButtonClick:(id)sender
+{
+    ExampleApp::Search::SdkModel::SearchResultModel model = m_pCurrentModel;
+    m_pInterop->HandleCloseClicked();
+    m_pInterop->HandleShowMeWayClicked(model);
 }
 
 -(void)dealloc
