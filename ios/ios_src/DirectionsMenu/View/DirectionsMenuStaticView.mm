@@ -502,6 +502,12 @@
     
 }
 
+- (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel) searchModel
+{
+    m_pEndLoc = searchModel;
+    endLocationSearched = true;
+    [_endRouteTextField setText:[NSString stringWithFormat:@"%s",m_pEndLoc.GetTitle().c_str()]];
+}
 -(void)UpdateRouteTime  {
     
     

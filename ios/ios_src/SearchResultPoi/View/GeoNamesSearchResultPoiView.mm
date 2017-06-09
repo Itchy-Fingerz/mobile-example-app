@@ -81,10 +81,8 @@ namespace
         [self.pControlContainer addSubview:self.pDropPinContainer];
         
         self.pPinButton = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        [self.pPinButton setTitle:@"Drop Pin" forState:UIControlStateNormal];
-        [self.pPinButton setTitleColor:ExampleApp::Helpers::ColorPalette::UiBorderColor forState:UIControlStateHighlighted];
-        [self.pPinButton setDefaultStatesWithImageNames:@"button_close_off" :@"button_close_on"];
-        [self.pPinButton addTarget:self action:@selector(handlePinButtonSelected) forControlEvents:UIControlEventTouchUpInside];
+        [self.pPinButton setBackgroundImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"ShowMeTheWayDefault.png") forState:UIControlStateNormal];
+        [self.pPinButton addTarget:self action:@selector(handleShowMeWayButtonSelected) forControlEvents:UIControlEventTouchUpInside];
         [self.pDropPinContainer addSubview: self.pPinButton];
 
         self.pPinButton.titleLabel.font = [UIFont systemFontOfSize:21.0f];
@@ -285,7 +283,6 @@ namespace
     
     m_model = *pModel;
     m_isPinned = isPinned;
-    [self updatePinnedButtonState];
     
     self.pTitleLabel.text = [NSString stringWithUTF8String:pModel->GetTitle().c_str()];
     
@@ -382,16 +379,11 @@ namespace
     m_pInterop->HandleCloseClicked();
 }
 
-- (void) handlePinButtonSelected
+- (void) handleShowMeWayButtonSelected
 {
-    if(m_isPinned)
-    {
-        [self performPinRemoveWarningCeremony];
-    }
-    else
-    {
-        [self togglePinState];
-    }
+    ExampleApp::Search::SdkModel::SearchResultModel model = m_model;
+    m_pInterop->HandleCloseClicked();
+    m_pInterop->HandleShowMeWayClicked(model);
 }
 
 - (void) togglePinState

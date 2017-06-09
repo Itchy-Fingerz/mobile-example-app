@@ -20,12 +20,16 @@
     IBOutlet UILabel *m_pWebsiteLabel;
     
     IBOutlet UIButton *m_pscrollDownButton;
+    
+    ExampleApp::Search::SdkModel::SearchResultModel m_pCurrentModel;
+
 }
 @end
 @implementation EegeoSearchResultRatingPoiView
 
 - (void) setContent:(const ExampleApp::Search::SdkModel::SearchResultModel*)pModel :(bool)isPinned
 {
+    m_pCurrentModel = *pModel;
     m_pTitleLabel.text = [NSString stringWithCString:pModel->GetTitle().c_str()
                                             encoding:[NSString defaultCStringEncoding]];
     
@@ -207,6 +211,13 @@
 {
     m_pInterop->HandleCloseClicked();
     
+}
+
+- (IBAction)HandleShowMeWayButtonClick:(id)sender
+{
+    ExampleApp::Search::SdkModel::SearchResultModel model = m_pCurrentModel;
+    m_pInterop->HandleCloseClicked();
+    m_pInterop->HandleShowMeWayClicked(model);
 }
 
 -(void)dealloc

@@ -339,6 +339,9 @@
                                     <exclude reference="N9R-hB-kgn"/>
                                 </mask>
                             </variation>
+                            <connections>
+                                <action selector="HandleShowMeWayButtonClick:" destination="b17-So-FWc" eventType="touchUpInside" id="uiL-ZY-7lg"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

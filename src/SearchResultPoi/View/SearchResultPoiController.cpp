@@ -3,6 +3,8 @@
 #include "SearchResultPoiController.h"
 #include "SearchResultPoiViewOpenedMessage.h"
 #include "SearchJsonParser.h"
+#include "DirectionMenuFindDirectionMessage.h"
+#include "ShowMeDirectionMessage.h"
 
 namespace ExampleApp
 {
@@ -53,6 +55,15 @@ namespace ExampleApp
                 m_messageBus.Publish(SearchResultPoiPinToggledMessage(searchResultModel));
             }
             
+            void SearchResultPoiController::OnShowMeWayButtonClicked(Search::SdkModel::SearchResultModel& searchResultModel)
+            {
+                
+                DirectionsMenu::ShowMeDirectionMessage message(searchResultModel);
+                m_messageBus.Publish(message);
+                
+            }
+
+            
             void SearchResultPoiController::OnSearchResultImageLoaded(const SearchResultPoiViewImageDownloadCompletedMessage& message)
             {
                 const std::vector<Byte>* pDownloadedImageData = message.GetImageBytes();
@@ -93,11 +104,13 @@ namespace ExampleApp
                 , m_viewClosedCallback(this, &SearchResultPoiController::OnViewClosed)
                 , m_closeButtonCallback(this, &SearchResultPoiController::OnCloseButtonClicked)
                 , m_togglePinnedCallback(this, &SearchResultPoiController::OnPinToggledButtonClicked)
+                , m_showMeWayCallback(this, &SearchResultPoiController::OnShowMeWayButtonClicked)
                 , m_imageLoadedHandlerBinding(this, &SearchResultPoiController::OnSearchResultImageLoaded)
                 , m_closePoiMessageHandler(this, &SearchResultPoiController::OnClosePoiMessageRecieved)
             {
                 m_view.InsertClosedCallback(m_closeButtonCallback);
                 m_view.InsertTogglePinnedCallback(m_togglePinnedCallback);
+                m_view.InsertShowMeWayCallback(m_showMeWayCallback);
                 m_viewModel.InsertOpenedCallback(m_viewOpenedCallback);
                 m_viewModel.InsertClosedCallback(m_viewClosedCallback);
                 m_messageBus.SubscribeUi(m_imageLoadedHandlerBinding);
@@ -110,6 +123,7 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeUi(m_imageLoadedHandlerBinding);
                 m_viewModel.RemoveClosedCallback(m_viewClosedCallback);
                 m_viewModel.RemoveOpenedCallback(m_viewOpenedCallback);
+                m_view.RemoveShowMeWayCallback(m_showMeWayCallback);
                 m_view.RemoveTogglePinnedCallback(m_togglePinnedCallback);
                 m_view.RemoveClosedCallback(m_closeButtonCallback);
             }

@@ -67,6 +67,8 @@ namespace ExampleApp
                 virtual void ExitDirectionsOnInteriorExit() = 0;
                 
                 virtual void HandleTapEvent() = 0;
+                
+                virtual void StartSearchForShowMeWay(Search::SdkModel::SearchResultModel searchResult) = 0;
 
 
             };

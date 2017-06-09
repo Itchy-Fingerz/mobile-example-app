@@ -56,6 +56,7 @@ namespace ExampleApp
             , m_pInteriorInteractionModel(interiorInteractionModel)
             , m_directionResponseReceivedHandler(this, &DirectionsMenuController::OnSearchQueryResponseReceivedMessage)
             , m_onScreenSingleTapCallback(this, &DirectionsMenuController::OnScreenSingleTap)
+            , m_showMeDirectionMessageCallback(this, &DirectionsMenuController::OnShowMeDirectionMessage)
             {
                 m_directionsMenuView.InsertSearchPeformedCallback(m_searchPerformedCallbacks);
                 m_directionsMenuView.InsertSearchClearedCallback(m_searchClearedCallbacks);
@@ -79,6 +80,7 @@ namespace ExampleApp
 
                 m_messageBus.SubscribeUi(m_directionResponseReceivedHandler);
                 m_messageBus.SubscribeUi(m_onScreenSingleTapCallback);
+                m_messageBus.SubscribeUi(m_showMeDirectionMessageCallback);
 
                 
             }
@@ -103,6 +105,7 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeUi(m_onStartLocationResponseReceivedCallback);
                 m_messageBus.UnsubscribeUi(m_onInternalPoiSearchResponseReceivedCallback);
                 m_messageBus.UnsubscribeUi(m_directionResponseReceivedHandler);
+                m_messageBus.SubscribeUi(m_showMeDirectionMessageCallback);
 
 
             }
@@ -161,7 +164,10 @@ namespace ExampleApp
                         return;
                     }
                     m_locationService.GetLocation(currentLatLong);
-                    //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
+                    if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
+                    {
+                        currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
+                    }
                     if(m_isInterior)
                     {
                         startLevel = pSelectedFloor->GetFloorNumber();
@@ -309,6 +315,14 @@ namespace ExampleApp
                 {
                     m_isInterior = false;
                 }
+            }
+            
+            void DirectionsMenuController::OnShowMeDirectionMessage(const DirectionsMenu::ShowMeDirectionMessage& message)
+            {
+                
+                m_directionsMenuView.StartSearchForShowMeWay(message.GetSearchResultModel());
+                m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active));
+            
             }
             
             void DirectionsMenuController::OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message)

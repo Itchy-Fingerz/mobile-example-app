@@ -314,6 +314,13 @@
     [self updateContainerFrame];
 }
 
+- (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel ) searchModel
+{
+    [m_pDirectionsMenuView  updateEndLocation:searchModel];
+    [self EndRouteEntered];
+}
+
+
 - (void)onSectionExpanded
 {
 

@@ -6,6 +6,8 @@
 @interface EegeoSearchResultSecurityOfficePoiView()
 {
     IBOutletCollection(UIButton) NSArray *m_pRatingButtons;
+    ExampleApp::Search::SdkModel::SearchResultModel m_pCurrentModel;
+
 }
 @end
 
@@ -34,6 +36,7 @@
 
 - (void) setContent:(const ExampleApp::Search::SdkModel::SearchResultModel*)pModel :(bool)isPinned
 {
+    m_pCurrentModel = *pModel;
 }
 
 - (void) updateImage:(const std::string&)url :(bool)success bytes:(const std::vector<Byte>*)bytes;
@@ -132,6 +135,13 @@
 -(IBAction)HandleClosedButtonSelected:(id) sender
 {
     m_pInterop->HandleCloseClicked();
+}
+
+- (IBAction)HandleShowMeWayButtonClick:(id)sender
+{
+    ExampleApp::Search::SdkModel::SearchResultModel model = m_pCurrentModel;
+    m_pInterop->HandleCloseClicked();
+    m_pInterop->HandleShowMeWayClicked(model);
 }
 
 -(void)dealloc

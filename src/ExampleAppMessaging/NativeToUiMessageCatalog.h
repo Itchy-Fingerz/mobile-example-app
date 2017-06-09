@@ -49,6 +49,7 @@
 #include "DirectionMenuGeoNamesResponseReceivedMessage.h"
 #include "DirectionMenuPoiSearchResponseReceivedMessage.h"
 #include "OnSecreenTapMessage.h"
+#include "ShowMeDirectionMessage.h"
 #include "VirtualKeyboardStateChangedMessage.h"
 #include "AboutPageIndoorPositionTypeMessage.h"
 #include "AttractModeStateChangedMessage.h"
@@ -109,6 +110,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::OnSecreenTapMessage>
+            , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::ShowMeDirectionMessage>
             , public Eegeo::Messaging::CatalogBinding<VirtualKeyboard::VirtualKeyboardStateChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<AboutPage::AboutPageIndoorPositionTypeMessage>
             , public Eegeo::Messaging::CatalogBinding<AttractMode::AttractModeStateChangedMessage>
