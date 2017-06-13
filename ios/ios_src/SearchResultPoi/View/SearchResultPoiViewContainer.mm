@@ -96,7 +96,7 @@
     }
     else if(vendor == ExampleApp::Search::EegeoVendorName)
     {
-        if (pModel->GetTitle() == "Duty Free Shopping" || pModel->GetTitle() == "Hugo Boss" || pModel->GetTitle() == "Armani" || pModel->GetTitle() == "McDonalds")
+        if (pModel->GetTitle() == "Duty Free Shopping" || pModel->GetTitle() == "Hugo Boss" || pModel->GetTitle() == "Armani" || pModel->GetTitle() == "McDonalds"  || pModel->GetTitle() == "Chaya Brasserie" || pModel->GetTitle() == "Coffee Bean & Tea Leaf")
         {
             return [[EegeoSearchResultRatingPoiView EegeoSearchResultRatingPoiViewWithInterop:m_pInterop] retain];
         }

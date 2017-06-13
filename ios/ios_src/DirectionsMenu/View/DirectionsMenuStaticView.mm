@@ -501,7 +501,12 @@
     interop->HandleWayPointSelected(static_cast<int>(indexPath.row));
     
 }
+- (void) updateStartLocationToMyLocation
+{
+    startMyLocationSelected = true;
+    [_startRouteTextField setText:@"My Location"];
 
+}
 - (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel) searchModel
 {
     m_pEndLoc = searchModel;

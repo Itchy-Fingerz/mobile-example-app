@@ -316,6 +316,7 @@
 
 - (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel ) searchModel
 {
+    [m_pDirectionsMenuView updateStartLocationToMyLocation];
     [m_pDirectionsMenuView  updateEndLocation:searchModel];
     [self EndRouteEntered];
 }

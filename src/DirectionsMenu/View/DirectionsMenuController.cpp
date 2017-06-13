@@ -166,7 +166,9 @@ namespace ExampleApp
                     m_locationService.GetLocation(currentLatLong);
                     if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                     {
-                        currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
+                        //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
+                        currentLatLong = Eegeo::Space::LatLong::FromDegrees(33.943465, -118.409004); // lax airport
+
                     }
                     if(m_isInterior)
                     {

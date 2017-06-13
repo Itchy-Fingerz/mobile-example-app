@@ -29,6 +29,7 @@
 - (void)updateStartSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isForGeoNames:(bool)geoName;
 - (void)updateEndSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isForGeoNames:(bool)geoName;
 - (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel) searchModel;
+- (void) updateStartLocationToMyLocation;
 
 -(float)getEstimatedHeight;
 -(void)SetSearchMenuView:(UIView *)parentView;

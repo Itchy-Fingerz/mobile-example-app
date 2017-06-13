@@ -33,7 +33,7 @@
     m_pTitleLabel.text = [NSString stringWithCString:pModel->GetTitle().c_str()
                                             encoding:[NSString defaultCStringEncoding]];
     
-    if ([m_pTitleLabel.text isEqualToString:@"Duty Free Shopping"] || [m_pTitleLabel.text isEqualToString:@"Hogo Boss"] || [m_pTitleLabel.text isEqualToString:@"Armani"]  )
+    if ([m_pTitleLabel.text isEqualToString:@"Duty Free Shopping"] || [m_pTitleLabel.text isEqualToString:@"Hugo Boss"] || [m_pTitleLabel.text isEqualToString:@"Armani"]  )
     {
         m_pContentViewHeightConstraint.constant -= m_pCouponViewHeightConstraint.constant;
         m_pCouponViewHeightConstraint.constant = -1;
