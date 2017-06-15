@@ -203,7 +203,8 @@ namespace ExampleApp
                                                                     {
                                                                         stepBuildingID = "70f9b00f-8c4f-4570-9a23-62bd80a76f8a";
                                                                     }
-                                                                    else
+                                                                    else if(stepBuildingID != "98a265e2-b890-4c6b-a28f-948c92e36914")
+
                                                                     {
                                                                         stepBuildingID = "westport_house";
                                                                     }
@@ -220,10 +221,19 @@ namespace ExampleApp
                                                                     {
                                                                         if (b+1 < numOfSteps)
                                                                         {
-                                                                            const rapidjson::Value& previousNextValue = stepsValueArray[b-1];
-                                                                            buildingLevel = GetBuildingLevel(previousNextValue);
+                                                                            
                                                                             const rapidjson::Value& stepNextValue = stepsValueArray[b+1];
                                                                             nextStepBuildingLevel = GetBuildingLevel(stepNextValue);
+                                                                            if (b == 0)
+                                                                            {
+                                                                                buildingLevel = nextStepBuildingLevel-1;
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                const rapidjson::Value& previousNextValue = stepsValueArray[b-1];
+                                                                                buildingLevel = GetBuildingLevel(previousNextValue);
+                                                                            }
+
                                                                         }
                                                                     }
                                                                 }
@@ -256,7 +266,7 @@ namespace ExampleApp
                                                     if (stepInInterior)
                                                     {
                                                         stepTypeString[0] = toupper(stepTypeString[0]);
-                                                        if (stepTypeString == "Elevator")
+                                                        if (stepTypeString == "Elevator" || stepTypeString == "escalator")
                                                         {
                                                             stepName =   stepTypeString + " to Floor " + std::to_string(nextStepBuildingLevel);
                                                         }
@@ -270,6 +280,11 @@ namespace ExampleApp
 
                                                 }
                                                 const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation,menuModifer);
+                                                if(stepBuildingID == "98a265e2-b890-4c6b-a28f-948c92e36914")
+                                                {
+                                                    buildingLevel = buildingLevel - 2;
+                                                }
+
                                                 const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel,nextStepBuildingLevel,stepTypeString);
                                                 if(stepVector.size() != 0 &&  maneuverType != "arrive")
                                                 {
@@ -359,7 +374,10 @@ namespace ExampleApp
                                             if(buildingLevelString.find("}{") != std::string::npos)
                                             {
                                                 buildingLevelString = buildingLevelString.substr(0,buildingLevelString.find("}{"));
-                                                buildingLevel = std::stoi(buildingLevelString);
+                                                if (buildingLevelString != "multiple")
+                                                {
+                                                    buildingLevel = std::stoi(buildingLevelString);
+                                                }
                                             }
                                         }
                                         

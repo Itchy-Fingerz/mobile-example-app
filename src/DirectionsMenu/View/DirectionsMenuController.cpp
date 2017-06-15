@@ -155,24 +155,32 @@ namespace ExampleApp
                 Eegeo::Space::LatLong endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(directionInfo.EndLocation().GetLatitudeInDegrees(), directionInfo.EndLocation().GetLongitudeInDegrees());
                 int startLevel = directionInfo.StartLocationLevel();
                 int endLevel = directionInfo.EndLocationLevel();
+                std::string startBuildingID = directionInfo.StartBuildingID();
                 
                 const Eegeo::Resources::Interiors::InteriorsFloorModel *pSelectedFloor = m_pInteriorInteractionModel.GetSelectedFloorModel();
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                 {
                     if (!m_locationService.GetIsAuthorized())
                     {
-                        return;
-                    }
-                    m_locationService.GetLocation(currentLatLong);
-                    if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
-                    {
-                        //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
                         currentLatLong = Eegeo::Space::LatLong::FromDegrees(33.943465, -118.409004); // lax airport
-
+                        startLevel = 4;
+                        startBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
                     }
-                    if(m_isInterior)
+                    else
                     {
-                        startLevel = pSelectedFloor->GetFloorNumber();
+                        m_locationService.GetLocation(currentLatLong);
+                        if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
+                        {
+                            //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
+                            currentLatLong = Eegeo::Space::LatLong::FromDegrees(33.943465, -118.409004); // lax airport
+                            startLevel = 4;
+                            startBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
+                            
+                        }
+                        if(m_isInterior)
+                        {
+                            startLevel = pSelectedFloor->GetFloorNumber();
+                        }
                     }
 
                 }

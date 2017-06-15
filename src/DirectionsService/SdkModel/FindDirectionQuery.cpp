@@ -44,11 +44,19 @@ namespace ExampleApp
 
             const int FindDirectionQuery::StartLocationLevel() const
             {
+                if(m_startBuildingID == "98a265e2-b890-4c6b-a28f-948c92e36914")
+                {
+                    return m_startLocLevel + 2;
+                }
                 return m_startLocLevel;
             }
             
             const int FindDirectionQuery::EndLocationLevel() const
             {
+                if(m_startBuildingID == "98a265e2-b890-4c6b-a28f-948c92e36914")
+                {
+                    return m_endLocLevel + 2;
+                }
                 return m_endLocLevel;
             }
 

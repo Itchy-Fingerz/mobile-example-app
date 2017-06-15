@@ -101,7 +101,7 @@ namespace ExampleApp
                                 wayPointNumber = 23;
 
                             }
-                            else if(stepRouteModel.GetStepType() == "Elevator")
+                            else if(stepRouteModel.GetStepType() == "Elevator" || stepRouteModel.GetStepType() == "Escalator" )
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Elevator;
                                 wayPointNumber = 24;
@@ -199,7 +199,7 @@ namespace ExampleApp
                 {
                     iconKey = "DirectionCard_EnterMallSelected";
                 }
-                else if(stepManeuver.GetStepType() == "Elevator")
+                else if(stepManeuver.GetStepType() == "Elevator" || stepManeuver.GetStepType() == "Escalator")
                 {
                     iconKey = "DirectionCard_ElevatorStandard";
                 }
