@@ -137,7 +137,7 @@ namespace ExampleApp
                     DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive);
                     m_messageBus.Publish(message);
                     
-                    RefreshPresentation();
+                    RefreshPresentation(true);
                 }
             
             }
@@ -378,9 +378,9 @@ namespace ExampleApp
                 }
             }
             
-            void DirectionsMenuController::RefreshPresentation()
+            void DirectionsMenuController::RefreshPresentation(bool forceRefresh)
             {
-                MenuController::RefreshPresentation();
+                MenuController::RefreshPresentation(forceRefresh);
                 
                 if(!m_viewModel.IsFullyClosed())
                 {

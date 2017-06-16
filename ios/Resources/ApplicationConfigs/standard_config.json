@@ -1,14 +1,16 @@
 {
 
     "name": "WRLD App",
-    "eegeo_api_key": "b488cb833b4d73f0ff4662160743e8f2",
+    "eegeo_api_key": "0479e1b377238385c497b4de0e61fac6",
     "start_location_latitude": 33.943465,
     "start_location_longitude": -118.409004,
     "start_location_altitude": 2.7,
     "start_location_distance": 1781.0,
     "start_location_orientation_degrees": 0.0,
     "try_start_at_gps_location": false,
-    "coveragetree_manifest_url": "http://d2xvsc8j92rfya.cloudfront.net/chunk/indoor_maps/api_requests/98a265e2-b890-4c6b-a28f-948c92e36914_2017_06_07_10_51_40/manifest.bin.gz",
+    "coveragetree_manifest_url": "",
+    "perform_start_up_search": false,
+    "start_up_search_tag": "",
     "theme_manifest_url": "",
     "google_analytics_referrer_token": "mea_ios",
     "flurry_app_key": "",

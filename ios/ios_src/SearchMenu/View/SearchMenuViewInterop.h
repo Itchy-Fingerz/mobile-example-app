@@ -58,6 +58,16 @@ namespace ExampleApp
                     [m_pView.pInputDelegate setEditText :[NSString stringWithUTF8String:searchText.c_str()] :isTag];
                 }
                 
+                std::string GetEditText()
+                {
+                    return [m_pView.pInputDelegate getEditText];
+                }
+                
+                bool HasTagSearch()
+                {
+                    return [m_pView.pInputDelegate hasTagSearch];
+                }
+                
                 void SetSearchResultCount(int searchResultCount)
                 {
                     [m_pView setSearchResultCount:searchResultCount];

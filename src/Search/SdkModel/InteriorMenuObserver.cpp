@@ -15,7 +15,8 @@ namespace ExampleApp
             InteriorMenuObserver::InteriorMenuObserver(Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
                                                        Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository& interiorMetaDataRepo,
                                                        TagSearch::View::ITagSearchRepository& tagSearchRepository,
-                                                       Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater)
+                                                       Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater,
+                                                       std::vector<TagSearch::View::TagSearchModel> defaultFindMenuEntries)
             : m_tagSearchRepository(tagSearchRepository)
             , m_interiorSelectionChangedCallback(this, &InteriorMenuObserver::OnSelectionChanged)
             , m_interiorSelectionModel(interiorSelectionModel)
@@ -23,16 +24,34 @@ namespace ExampleApp
             , m_hasSelectedInterior(false)
             , m_hasSearchMenuItems(false)
             , m_yelpCategoryMapperUpdater(yelpCategoryMapperUpdater)
+            , m_defaultFindMenuEntries(defaultFindMenuEntries)
+            , m_loadInteriorOnAdd(false)
+            , m_idToBeLoaded()
             {
                 m_interiorSelectionModel.RegisterSelectionChangedCallback(m_interiorSelectionChangedCallback);
                 m_hasSelectedInterior = m_interiorSelectionModel.IsInteriorSelected();
+                m_interiorMetaDataRepo.AddObserver(*this);
             }
             
             InteriorMenuObserver::~InteriorMenuObserver()
             {
+                m_interiorMetaDataRepo.RemoveObserver(*this);
                 m_interiorSelectionModel.UnregisterSelectionChangedCallback(m_interiorSelectionChangedCallback);
             }
             
+            void InteriorMenuObserver::OnItemAdded(const Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository::ItemType& item)
+            {
+                if (m_loadInteriorOnAdd && m_interiorMetaDataRepo.Contains(m_idToBeLoaded))
+                {
+                    OnEnterInterior(m_idToBeLoaded);
+                    m_loadInteriorOnAdd = false;
+                }
+            }
+
+            void InteriorMenuObserver::OnItemRemoved(const Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository::ItemType& item)
+            {
+            }
+
             void InteriorMenuObserver::OnSelectionChanged(const Eegeo::Resources::Interiors::InteriorId& interiorId)
             {
                 TransitionState transitionState = HandleTransitionStates();
@@ -40,15 +59,20 @@ namespace ExampleApp
                 {
                     OnExitInterior();
                 }
-                else if (m_interiorMetaDataRepo.Contains(interiorId) && (transitionState == TransitionState::EnteringBuilding || transitionState == TransitionState::SwitchingBuilding))
+                else if (!m_interiorMetaDataRepo.Contains(interiorId))
                 {
-                    OnEnterInterior(interiorId, transitionState);
+                    m_loadInteriorOnAdd = true;
+                    m_idToBeLoaded = interiorId;
+                }
+                else if (transitionState == TransitionState::EnteringBuilding || transitionState == TransitionState::SwitchingBuilding)
+                {
+                    OnEnterInterior(interiorId);
                 }
                 
                 NotifyInteriorTagsUpdated();
             }
             
-            void InteriorMenuObserver::OnEnterInterior(const Eegeo::Resources::Interiors::InteriorId& interiorId, const TransitionState& transtionState)
+            void InteriorMenuObserver::OnEnterInterior(const Eegeo::Resources::Interiors::InteriorId& interiorId)
             {
                 const Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto* dto = m_interiorMetaDataRepo.Get(interiorId);
                 
@@ -160,12 +184,10 @@ namespace ExampleApp
                 if (document.HasMember(itemKey) && document[itemKey].IsArray())
                 {
                     const auto& tagSearchModelsMember = document[itemKey];
-                    if(tagSearchModelsMember.Size() > 0)
-                    {
-                        ClearTagSearchRepository();
-                        ClearDefaultOutdoorTags();
-                    }
-                    
+
+                    ClearTagSearchRepository();
+                    ClearDefaultOutdoorTags();
+
                     const bool visibleInSearchMenu = true;
                     const bool interior = true;
                     m_yelpCategoryMapperUpdater.ResetMapping();
@@ -222,6 +244,15 @@ namespace ExampleApp
                         m_tagSearchRepository.AddItem(TagSearch::View::TagSearchModel(name, searchTag, interior, icon, visibleInSearchMenu));
                         m_previousTagSearchRepository.AddItem(TagSearch::View::TagSearchModel(name, searchTag, interior, icon, visibleInSearchMenu));
                     }
+
+                    const bool shouldUseDefaultFindMenuEntries = tagSearchModelsMember.Size() == 0;
+                    if (shouldUseDefaultFindMenuEntries)
+                    {
+                        for (auto& item : m_defaultFindMenuEntries)
+                        {
+                            m_tagSearchRepository.AddItem(item);
+                        }
+                    }
                 }
                 else
                 {
@@ -233,6 +264,7 @@ namespace ExampleApp
             void InteriorMenuObserver::UpdateDefaultOutdoorSearchMenuItems(const std::string config)
             {
                 ParseJson(config);
+                NotifyInteriorTagsUpdated();
             }
             
             void InteriorMenuObserver::OnExitInterior()

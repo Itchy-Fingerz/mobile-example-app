@@ -92,6 +92,36 @@ namespace ExampleApp
 				env->DeleteLocalRef(searchTextString);
 			}
 
+			std::string SearchMenuView::GetEditText()
+			{
+				ASSERT_UI_THREAD
+
+				AndroidSafeNativeThreadAttachment attached(m_nativeState);
+				JNIEnv* env = attached.envForThread;
+
+				jmethodID getEditTextMethod = env->GetMethodID(m_uiViewClass, "getEditText", "()Ljava/lang/String;");
+				jstring editText = static_cast<jstring>(env->CallObjectMethod(m_uiView, getEditTextMethod));
+
+				const char* chars = env->GetStringUTFChars(editText, 0);
+				std::string editString = chars;
+				env->ReleaseStringUTFChars(editText, chars);
+
+				return editString;
+			}
+
+			bool SearchMenuView::HasTagSearch()
+			{
+				ASSERT_UI_THREAD
+
+				AndroidSafeNativeThreadAttachment attached(m_nativeState);
+				JNIEnv* env = attached.envForThread;
+
+				jmethodID hasTagSearchMethod = env->GetMethodID(m_uiViewClass, "hasTagSearch", "()Z");
+				jboolean hasTagSearch = env->CallBooleanMethod(m_uiView, hasTagSearchMethod);
+
+				return hasTagSearch;
+			}
+
 			void SearchMenuView::SetSearchResultCount(int searchResultCount)
 			{
 				ASSERT_UI_THREAD

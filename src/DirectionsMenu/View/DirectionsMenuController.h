@@ -118,7 +118,7 @@ namespace ExampleApp
                 
             protected:
                 
-                virtual void RefreshPresentation();
+                virtual void RefreshPresentation(bool forceRefresh);
                 bool IsFullyOpen() const;
                 void UpdateOpenState();
                 

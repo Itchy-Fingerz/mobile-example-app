@@ -7,6 +7,7 @@
 #include "InteriorMetaDataRepository.h"
 #include "TagSearchRepository.h"
 #include "YelpCategoryMapperUpdater.h"
+#include "IModelRepository.h"
 
 namespace ExampleApp
 {
@@ -14,13 +15,14 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            class InteriorMenuObserver : private Eegeo::NonCopyable
+            class InteriorMenuObserver : private Eegeo::NonCopyable, public Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository::ObserverType
             {
             public:
                 InteriorMenuObserver(Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
                                      Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository& interiorMetaDataRepo,
                                      TagSearch::View::ITagSearchRepository& tagSearchRepository,
-                                     Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater);
+                                     Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater,
+                                     std::vector<TagSearch::View::TagSearchModel> defaultFindMenuEntries);
                 ~InteriorMenuObserver();
                 TagSearch::View::ITagSearchRepository& GetTagsRepository() { return m_tagSearchRepository; }
                 void RegisterInteriorTagsUpdatedCallback(Eegeo::Helpers::ICallback0& callback);
@@ -37,11 +39,14 @@ namespace ExampleApp
                     SwitchingBuilding,
                     NoTransition
                 };
+
+                void OnItemAdded(const Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository::ItemType& item);
+                void OnItemRemoved(const Eegeo::Resources::Interiors::MetaData::IInteriorMetaDataRepository::ItemType& item);
                 
                 void OnSelectionChanged(const Eegeo::Resources::Interiors::InteriorId& interiorId);
                 
                 Eegeo::Helpers::TCallback1<InteriorMenuObserver, const Eegeo::Resources::Interiors::InteriorId> m_interiorSelectionChangedCallback;
-                void OnEnterInterior(const Eegeo::Resources::Interiors::InteriorId& interiorId, const TransitionState& transitionState);
+                void OnEnterInterior(const Eegeo::Resources::Interiors::InteriorId& interiorId);
                 void OnExitInterior();
                 void ClearTagSearchRepository();
                 void NotifyInteriorTagsUpdated() const;
@@ -57,8 +62,12 @@ namespace ExampleApp
                 
                 bool m_hasSelectedInterior;
                 bool m_hasSearchMenuItems;
+
+                bool m_loadInteriorOnAdd;
+                Eegeo::Resources::Interiors::InteriorId m_idToBeLoaded;
                 
                 Eegeo::Helpers::CallbackCollection0 m_interiorTagsUpdatedCallbacks;
+                std::vector<TagSearch::View::TagSearchModel> m_defaultFindMenuEntries;
             };
             
         }

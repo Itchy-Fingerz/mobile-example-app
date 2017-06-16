@@ -4,6 +4,7 @@
 #include "InteriorSelectionModel.h"
 #include "InteriorInteractionModel.h"
 #include "IPSConfigurationParser.h"
+#include "AboutPageIndoorPositionSettingsMessage.h"
 
 namespace ExampleApp
 {
@@ -35,6 +36,8 @@ namespace ExampleApp
                 
                 void SenionLabLocationController::OnAppModeChanged()
                 {
+                    m_locationManager.StopUpdatingLocation();
+
                     typedef std::map<std::string, ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo> TrackingInfoMap;
 
                     Eegeo::Resources::Interiors::InteriorId interiorId = m_interiorSelectionModel.GetSelectedInteriorId();
@@ -48,9 +51,7 @@ namespace ExampleApp
                     {
                         return;
                     }
-                    
-                    m_locationManager.StopUpdatingLocation();
-                 
+
                     if (m_appModeModel.GetAppMode() == AppModes::SdkModel::InteriorMode)
                     {
                         const TrackingInfoMap::const_iterator trackingInfoEntry = trackingInfoMap.find(interiorId.Value());
@@ -66,10 +67,11 @@ namespace ExampleApp
                                 const std::map<int, std::string>& floorMap = trackingInfo.GetFloorIndexMap();
 
                                 m_locationManager.StartUpdatingLocation(apiKey, apiSecret, floorMap);
-                                m_messageBus.Publish(AboutPage::AboutPageSenionSettingsTypeMessage(apiKey,
-                                                                                                   apiSecret,
-                                                                                                   floorMap,
-                                                                                                   trackingInfo.GetInteriorId().Value()));
+                                m_messageBus.Publish(AboutPage::AboutPageIndoorPositionSettingsMessage(
+                                        apiKey,
+                                        apiSecret,
+                                        floorMap,
+                                        trackingInfo.GetInteriorId().Value()));
                             }
                         }
                     }

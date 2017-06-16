@@ -34,6 +34,7 @@ namespace ExampleApp
             , m_modalBackgroundView(modalBackgroundView)
             , m_messageBus(messageBus)
             , m_appModeAllowsOpen(true)
+            , m_lastPerformedQuery(Search::SdkModel::SearchQuery("", false, false, Eegeo::Space::LatLongAltitude(0, 0, 0), 0))
             , m_onSearchItemAddedCallback(this, &SearchMenuController::OnSearchItemAdded)
             , m_onSearchItemRemovedCallback(this, &SearchMenuController::OnSearchItemRemoved)
             , m_onOpenStateChangedCallback(this, &SearchMenuController::OnOpenStateChanged)
@@ -126,11 +127,20 @@ namespace ExampleApp
                 
                 m_searchMenuView.SetEditText(headerString, message.Query().IsTag());
                 m_searchMenuView.SetSearchInProgress(true);
+
+                m_lastPerformedQuery = message.Query();
+
+                m_lastPerformedQuery = message.Query();
             }
             
             void SearchMenuController::OnSearchQueryResponseReceivedMessage(const Search::SearchQueryResponseReceivedMessage& message)
             {
-                m_searchMenuView.CollapseAll();
+				if (message.GetResults().size() <= 0)
+				{
+					m_messageBus.Publish(SearchResultSection::SearchResultViewClearedMessage());
+				}
+
+			    m_searchMenuView.CollapseAll();
                 m_searchMenuView.SetSearchInProgress(false);
                 
                 m_searchMenuView.SetSearchResultCount(static_cast<int>(message.GetResults().size()));
@@ -148,7 +158,16 @@ namespace ExampleApp
             
             void SearchMenuController::OnViewClicked()
             {
-                MenuController::OnViewClicked();
+                if(IsFullyOpen() && m_searchMenuView.GetEditText().length() > 0)
+                {
+                    m_messageBus.Publish(SearchMenuPerformedSearchMessage(m_searchMenuView.HasTagSearch() ? m_lastPerformedQuery.Query() : m_searchMenuView.GetEditText(),
+                                                                          m_searchMenuView.HasTagSearch(),
+                                                                          m_searchMenuView.HasTagSearch() ? m_lastPerformedQuery.ShouldTryInteriorSearch() : false));
+                }
+                else
+                {
+                    MenuController::OnViewClicked();
+                }
             }
             
             void SearchMenuController::OnSearchCleared()
@@ -183,15 +202,15 @@ namespace ExampleApp
                     return;
                 }
                 
-                if(m_viewModel.IsFullyOpen())
+                if(m_viewModel.IsFullyOpen() && !m_view.IsAnimating())
                 {
                     m_viewModel.Close();
                 }
             }
             
-            void SearchMenuController::RefreshPresentation()
+            void SearchMenuController::RefreshPresentation(bool forceRefresh)
             {
-                MenuController::RefreshPresentation();
+                MenuController::RefreshPresentation(forceRefresh);
                 
                 if(!m_viewModel.IsFullyClosed())
                 {
