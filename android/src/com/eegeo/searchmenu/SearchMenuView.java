@@ -234,7 +234,7 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count)
     {
-        if(count != 0)
+        if(s.length() > 0)
         {
             setClearButtonVisible(true);
             m_editingText = true;
@@ -247,6 +247,8 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
 
             showCloseButtonView(true);
         }
+
+        m_isTag = false;
     }
 
     public void removeSearchKeyboard()
@@ -288,6 +290,11 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     public String getEditText()
     {
         return m_editText.getText().toString();
+    }
+
+    public boolean hasTagSearch()
+    {
+        return m_isTag;
     }
     
     private void setClearButtonVisible(boolean visible)
@@ -370,6 +377,7 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
         if(!m_editingText)
         {
             m_editText.setText("");
+            showCloseButtonView(true);
         }
     }
     
@@ -437,11 +445,12 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
         
         final float occupiedHeight = topBar.getHeight() + menuListContainerCollapsedSize + totalMenuSeparatorSize;
         final float availableHeight = viewHeight - occupiedHeight;
-        
-    	final float cellHeight = m_activity.getResources().getDimension(R.dimen.search_menu_result_cell_height);
-    	final float fullHeight = cellHeight * resultCount;
 
-    	final int height = (int)Math.min(fullHeight, availableHeight);
+        final float cellDividerHeight = m_activity.getResources().getDimension(R.dimen.search_menu_result_cell_divider_height);
+    	final float cellHeight = m_activity.getResources().getDimension(R.dimen.search_menu_result_cell_height);
+    	final float fullHeight = ((cellHeight + cellDividerHeight) * resultCount) - cellDividerHeight;
+
+    	final int height = (int)Math.max(Math.min(fullHeight, availableHeight), 0);
     	
     	ViewGroup.LayoutParams params = m_searchList.getLayoutParams();
     	int oldHeight = params.height;

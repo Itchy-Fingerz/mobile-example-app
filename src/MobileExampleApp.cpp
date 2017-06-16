@@ -161,47 +161,6 @@ namespace ExampleApp
             return loadingScreen;
         }
 
-        void AddLocalMaterials(
-                               Eegeo::Helpers::IFileIO& fileIO,
-                               Eegeo::Resources::Interiors::IInteriorsTextureResourceService& interiorsTextureResourceService,
-                               Eegeo::Resources::Interiors::Materials::IInteriorsMaterialDtoRepository& interiorsMaterialDtoRepository)
-        {
-            std::fstream stream;
-            size_t size;
-
-            if(fileIO.OpenFile(stream, size, "Interiors/Custom/custom_material_definitions.json"))
-            {
-                std::string materialsJson((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
-
-                rapidjson::Document document;
-                if (document.Parse<0>(materialsJson.c_str()).HasParseError())
-                {
-                    Eegeo_ASSERT(false, "Error parsing local materials JSON file.\n");
-                }
-
-                for (rapidjson::Value::ConstMemberIterator iter = document.MemberBegin();
-                     iter != document.MemberEnd();
-                     ++iter)
-                {
-                    std::string interiorName(iter->name.GetString());
-                    const rapidjson::Value& materials(iter->value);
-
-                    size_t materialsCount(materials.Size());
-                    for(size_t i = 0; i < materialsCount; ++ i)
-                    {
-                        const rapidjson::Value& materialJson(materials[static_cast<int>(i)]);
-                        Eegeo::Resources::Interiors::Materials::InteriorsMaterialDto dto(Eegeo::Resources::Interiors::Materials::ParseMaterial(materialJson));
-                        Eegeo_ASSERT(!interiorsMaterialDtoRepository.Contains(interiorName, dto.materialName));
-                        interiorsMaterialDtoRepository.Add(interiorName, dto);
-
-                        const bool localTexture = true;
-                        Eegeo::Resources::Interiors::Materials::CreateAndRegisterTextures(dto, interiorsTextureResourceService, localTexture);
-                        Eegeo::Resources::Interiors::Materials::CreateAndRegisterCubeMapTextures(dto, interiorsTextureResourceService, localTexture);
-                    }
-                }
-            }
-        }
-
         void AddTagSearchModels(
                                 TagSearch::View::ITagSearchRepository& repository,
                                 std::string rawConfig,
@@ -217,6 +176,10 @@ namespace ExampleApp
                 {
                     repository.AddItem(t);
                 }
+            }
+            else
+            {
+                repository.ForceRefresh();
             }
         }
     }
@@ -327,11 +290,7 @@ namespace ExampleApp
                                                 );
         
         m_pWorld->GetMapModule().GetLabelsModule().GetLabelOptionsModel().SetOcclusionMode(Eegeo::Labels::OcclusionResolverMode::Always);
-
-        AddLocalMaterials(m_platformAbstractions.GetFileIO(),
-                          m_pWorld->GetMapModule().GetInteriorsMaterialsModule().GetInteriorsTextureResourceService(),
-                          m_pWorld->GetMapModule().GetInteriorsMaterialsModule().GetInteriorsMaterialDtoRepository());
-
+        
         m_pConnectivityChangedObserver = Eegeo_NEW(Net::SdkModel::ConnectivityChangedObserver)(m_pWorld->GetWebConnectivityValidator(), messageBus);
 
         Eegeo::Modules::Map::Layers::TerrainModelModule& terrainModelModule = m_pWorld->GetTerrainModelModule();
@@ -1107,7 +1066,10 @@ namespace ExampleApp
         m_pCameraTransitionService->Update(dt);
         m_pAppCameraModule->GetController().Update(dt);
 
-        m_pAppModeModel->Update(dt);
+        if(!eegeoWorld.Initialising() && m_initialisedApplicationViewState)
+        {
+            m_pAppModeModel->Update(dt);
+        }
 
         m_pInteriorsExplorerModule->Update(dt);
 
@@ -1251,7 +1213,7 @@ namespace ExampleApp
             MyPinsModule().GetMyPinsService().LoadAllPinsFromDisk();
 
             AddTagSearchModels(m_pTagSearchModule->GetTagSearchRepository(), m_applicationConfiguration.RawConfig(),
-                               m_yelpCategoryMapperUpdater);
+                              m_yelpCategoryMapperUpdater);
 
             if (m_applicationConfiguration.IsAttractModeEnabled())
             {

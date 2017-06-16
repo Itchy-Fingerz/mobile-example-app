@@ -105,7 +105,14 @@ namespace ExampleApp
                 void IndoorAtlasLocationManager::DidUpdateLocation(const double latitude, const double longitude, const std::string& floorId)
                 {
                     ASSERT_UI_THREAD
-                    m_messageBus.Publish(InteriorsLocationChangedMessage(latitude, longitude, FloorIdToFloorIndex(floorId)));
+                    int wrldFloorId;
+                    if(!TryMapFloorIdToFloorIndex(floorId, wrldFloorId))
+                    {
+                        wrldFloorId = -1;
+                    }
+
+                    m_messageBus.Publish(InteriorsLocationChangedMessage(latitude, longitude, wrldFloorId));
+                    m_messageBus.Publish(AboutPage::AboutPageIndoorAtlasDataMessage(wrldFloorId, floorId, latitude, longitude));
                 }
 
                 void IndoorAtlasLocationManager::SetIsAuthorized(const bool isAuthorized)
@@ -128,17 +135,19 @@ namespace ExampleApp
                 	m_indoorAtlasLocationService.SetIsAuthorized(message.IsAuthorized());
                 }
 
-                int IndoorAtlasLocationManager::FloorIdToFloorIndex(const std::string floorId)
+                bool IndoorAtlasLocationManager::TryMapFloorIdToFloorIndex(const std::string floorId, int& wrldFloorId)
                 {
                     for (auto &kv : m_floorMap)
                     {
                         if (kv.second == floorId)
                         {
-                            return kv.first;
+                            wrldFloorId =  kv.first;
+                            return true;
                         }
                     }
 
-                    return 0;
+                    wrldFloorId = -1;
+                    return false;
                 }
             }
         }
