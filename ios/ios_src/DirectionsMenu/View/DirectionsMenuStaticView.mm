@@ -276,6 +276,10 @@
     }
     else
     {
+        if (startLocationSearched == false && endLocationSearched == false)
+        {
+            return 0;
+        }
         return m_pSearchResultsSection->Size();        
     }
 }
@@ -632,6 +636,10 @@
     endLocationSearched = false;
     startMyLocationSelected = true;
     selectedIndex = -1;
+    
+    [self.minCounterLabel setHidden:YES];
+    [self.secCounterLabel setHidden:YES];
+    [self.staticMinsLabel setHidden:YES];
     [_wayPointsTableView reloadData];
 }
 - (BOOL) shouldPerformSearch
