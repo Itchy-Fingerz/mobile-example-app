@@ -282,7 +282,7 @@ namespace ExampleApp
                                                 const ManeuverRouteModel maneuverModelObject(maneuverBearingAfter,maneuverBearingBefore,maneuverType,maneuverLocation,menuModifer);
                                                 if(stepBuildingID == "98a265e2-b890-4c6b-a28f-948c92e36914")
                                                 {
-                                                    buildingLevel = buildingLevel - 2;
+                                                    //buildingLevel = buildingLevel;
                                                 }
 
                                                 const StepRouteModel stepModelObject(routeStepID,maneuverModelObject,setepDistance,setepDuration,stepMode,stepName,stepBuildingID,stepInInterior,buildingLevel,nextStepBuildingLevel,stepTypeString);

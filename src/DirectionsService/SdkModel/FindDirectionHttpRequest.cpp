@@ -26,6 +26,11 @@ namespace ExampleApp
             , m_requestBuilder(requestBuilder)
             , m_webRequestCompleteCallback(this, &FindDirectionHttpRequest::HandleWebResponseComplete)
             {
+                std::string limitValue = "100";
+                if(query.StartBuildingID() == "98a265e2-b890-4c6b-a28f-948c92e36914" || query.EndBuildingID() == "98a265e2-b890-4c6b-a28f-948c92e36914")
+                {
+                    limitValue = "10";
+                }
                 if (query.StartBuildingID() != "" && query.EndBuildingID() != "" &&  query.StartBuildingID() != query.EndBuildingID())   // multipart request b/w buildings
                 {
                     //#Multipart
@@ -41,7 +46,7 @@ namespace ExampleApp
                     std::string endLocLat = std::to_string(end.GetLatitudeInDegrees());
                     std::string endLocLong = std::to_string(end.GetLongitudeInDegrees());
                     std::string url = requestUrl+ "multiroute/?" + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + "&levels="+std::to_string(query.StartLocationLevel()) + "%3B"+std::to_string(query.EndLocationLevel())+"&apikey="
-                    + eegeoApiKey+"&limit=400";
+                    + eegeoApiKey+"&limit=" + limitValue;
                     
                     
                     m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();
@@ -50,10 +55,6 @@ namespace ExampleApp
                 }
                 else if  (query.StartBuildingID() != "" && query.EndBuildingID() != "") // Indoor ROute Case
                 {
-//                    std::string apiCall = m_requestBuilder.CreateRouteRequestWithLevels(query.StartLocation(), query.StartLocationLevel(), query.EndLocation(),query.EndLocationLevel());
-//                    m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, apiCall, m_webRequestCompleteCallback)
-//                    .SetShouldCacheAggressively(false)
-//                    .Build();
                     
                     Eegeo::Space::LatLongAltitude start = query.StartLocation();
                     Eegeo::Space::LatLongAltitude end = query.EndLocation();
@@ -66,7 +67,7 @@ namespace ExampleApp
                     std::string endLocLat = std::to_string(end.GetLatitudeInDegrees());
                     std::string endLocLong = std::to_string(end.GetLongitudeInDegrees());
                     std::string url = requestUrl+ "routelevels/?" + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + "&levels="+std::to_string(query.StartLocationLevel()) + "%3B"+std::to_string(query.EndLocationLevel())+"&apikey="
-                    + eegeoApiKey+"&limit=400";
+                    + eegeoApiKey+"&limit="+ limitValue;
                     
                     
                     m_pWebLoadRequest = m_webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();
@@ -82,7 +83,7 @@ namespace ExampleApp
                     
                     std::string endLocLat = std::to_string(end.GetLatitudeInDegrees());
                     std::string endLocLong = std::to_string(end.GetLongitudeInDegrees());
-                    std::string url = requestUrl+ "route?" + "loc=" + startLocLong + "," + startLocLat + ","+std::to_string(query.StartLocationLevel())+"%3B" + endLocLong+ "," + endLocLat + "&limit=200" +"&apikey="
+                    std::string url = requestUrl+ "route?" + "loc=" + startLocLong + "," + startLocLat + ","+std::to_string(query.StartLocationLevel())+"%3B" + endLocLong+ "," + endLocLat + "&limit="+ limitValue +"&apikey="
                     + eegeoApiKey;
                     
                     
@@ -100,7 +101,7 @@ namespace ExampleApp
                     
                     std::string endLocLat = std::to_string(end.GetLatitudeInDegrees());
                     std::string endLocLong = std::to_string(end.GetLongitudeInDegrees());
-                    std::string url = requestUrl+ "route?" + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + ","+std::to_string(query.EndLocationLevel())+ "&limit=200" +"&apikey="
+                    std::string url = requestUrl+ "route?" + "loc=" + startLocLong + "," + startLocLat + "%3B" + endLocLong+ "," + endLocLat + ","+std::to_string(query.EndLocationLevel())+ "&limit="+ limitValue +"&apikey="
                     + eegeoApiKey;
                     
                     
