@@ -235,7 +235,13 @@ namespace ExampleApp
                     }
 
                     ShowHighlightsForResults(results);
-                    ActivateLabels(false);
+//<<<<<<< HEAD
+//                    ActivateLabels(false);
+//=======
+                    
+                    bool hasResults = m_searchResultRepository.GetItemCount() > 0;
+                    ActivateLabels(!hasResults);
+//>>>>>>> 71375456ea8a2948af7abb41392f0ebac15559e2
                 }
 
                 bool InteriorsHighlightVisibilityController::ShowHighlightsForCurrentResults()

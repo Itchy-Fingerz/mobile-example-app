@@ -48,7 +48,7 @@ namespace ExampleApp
                     const Eegeo::Routes::Route* route = routes[0];
                     Eegeo::Space::LatLong currentLatLong = Eegeo::Space::LatLong::FromDegrees(0.0, 0.0);
                     m_locationService.GetLocation(currentLatLong);
-                    Eegeo::Space::LatLongAltitude firstLatLong = Eegeo::Space::LatLongAltitude::FromDegrees(currentLatLong.GetLatitudeInDegrees(), currentLatLong.GetLongitudeInDegrees(),0.0);
+                    const Eegeo::Space::LatLongAltitude firstLatLong = Eegeo::Space::LatLongAltitude::FromDegrees(currentLatLong.GetLatitudeInDegrees(), currentLatLong.GetLongitudeInDegrees(),0.0);
                     double out_closestApproch;
                     int out_immedeiatly_before;
                     double distance = Eegeo::Routes::Route::DistanceToRoute(route->GetPoints(),firstLatLong.ToECEF(),out_closestApproch,out_immedeiatly_before);
@@ -64,7 +64,7 @@ namespace ExampleApp
                         {
                             const Eegeo::Routes::RouteVertex lastPoint = points[points.size()-1];
                             m_pathDrawingController.RemoveRoutePlan();
-                            m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(firstLatLong,lastPoint.GetLocation(),-1,-1,true,"",""));
+                            m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(firstLatLong,Eegeo::Space::LatLongAltitude::FromLatLong(lastPoint.GetLocation(), 0),-1,-1,true,"",""));
 
 
                         }

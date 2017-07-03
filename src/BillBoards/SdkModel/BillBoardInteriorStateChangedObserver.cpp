@@ -62,7 +62,7 @@ namespace ExampleApp
                     m_billBoardService.RemoveAllBillboards();
                     m_billBoardService.ResetOffsersShownFlag();
                     
-                    m_messageBus.Publish(SearchResultSection::SearchResultViewClearedMessage());
+                    //m_messageBus.Publish(SearchResultSection::SearchResultViewClearedMessage());
                 }
             }
             

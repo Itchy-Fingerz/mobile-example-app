@@ -37,7 +37,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<FindDirectionService> m_handleResponseCallback;
                 FindDirectionResultJsonParser& m_findDirectionResultParser;
                 Eegeo::Routes::Webservice::JsonRouteParser& m_resultParser;
-                Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
+//                Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
                 Eegeo::Routes::RouteService& m_routeService;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 Eegeo::UI::NativeAlerts::IAlertBoxFactory& m_alertBoxFactory;

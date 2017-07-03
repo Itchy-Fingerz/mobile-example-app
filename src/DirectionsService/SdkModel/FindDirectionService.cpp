@@ -33,7 +33,7 @@ namespace ExampleApp
             , m_messageBus(messageBus)
             , m_routeService(routeService)
             , m_routeRepository(routeRepository)
-            , m_pInteriorInteractionModel(interiorInteractionModel)
+//            , m_pInteriorInteractionModel(interiorInteractionModel)
             , m_directionsMenuStateChangedCallback(this, &FindDirectionService::OnDirectionsMenuStateChanged)
             , m_onFindNewDirectionCallback(this, &FindDirectionService::OnFindNewDirection)
             , m_appModeChangedCallback(this, &FindDirectionService::OnAppModeChanged)
@@ -113,7 +113,8 @@ namespace ExampleApp
                         Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::InteriorEntities, true);
 
                         // this will asynchronously parse the result and add the resulting route to m_routeService
-                        m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
+//                        m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
+                        m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle);
                         
                         if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
                         {
