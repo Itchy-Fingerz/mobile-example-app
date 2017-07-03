@@ -156,6 +156,8 @@ namespace ExampleApp
                 int startLevel = directionInfo.StartLocationLevel();
                 int endLevel = directionInfo.EndLocationLevel();
                 std::string startBuildingID = directionInfo.StartBuildingID();
+                std::string endBuildingID = directionInfo.EndBuildingID();
+
                 
                 const Eegeo::Resources::Interiors::InteriorsFloorModel *pSelectedFloor = m_pInteriorInteractionModel.GetSelectedFloorModel();
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
@@ -172,6 +174,10 @@ namespace ExampleApp
                     else
                     {
                         m_locationService.GetLocation(currentLatLong);
+                        if(m_isInterior)
+                        {
+                            startLevel = pSelectedFloor->GetFloorNumber();
+                        }
                         if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                         {
                             //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
@@ -180,10 +186,7 @@ namespace ExampleApp
                             startBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
                             
                         }
-                        if(m_isInterior)
-                        {
-                            startLevel = pSelectedFloor->GetFloorNumber();
-                        }
+
                     }
 
                 }
@@ -191,19 +194,33 @@ namespace ExampleApp
                 {
                     if (!m_locationService.GetIsAuthorized())
                     {
-                        return;
+                        //endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
+                        endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(33.9429135, -118.4101622); // lax airport
+                        endLevel = 2;
+                        endBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
                     }
-                    m_locationService.GetLocation(endcurrentLatLong);
-                    if(m_isInterior)
+                    else
                     {
-                        endLevel =  pSelectedFloor->GetFloorNumber();
+                        m_locationService.GetLocation(endcurrentLatLong);
+                        if(m_isInterior)
+                        {
+                            endLevel =  pSelectedFloor->GetFloorNumber();
+                        }
+                        if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
+                        {
+                            //endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
+                            endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(33.9429135, -118.4101622); // lax airport
+                            endLevel = 2;
+                            endBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
+                        }
+
                     }
                 }
             
                 const Eegeo::Space::LatLongAltitude startLoc = Eegeo::Space::LatLongAltitude::FromDegrees(currentLatLong.GetLatitudeInDegrees(), currentLatLong.GetLongitudeInDegrees(),0.0);
                 const Eegeo::Space::LatLongAltitude endLoc = Eegeo::Space::LatLongAltitude::FromDegrees(endcurrentLatLong.GetLatitudeInDegrees(), endcurrentLatLong.GetLongitudeInDegrees(),0.0);
                 
-                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,startLevel, endLevel, m_isInterior,startBuildingID,directionInfo.EndBuildingID()));
+                m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuFindDirectionMessage(startLoc,endLoc,startLevel, endLevel, m_isInterior,startBuildingID,endBuildingID));
                 
             }
             
