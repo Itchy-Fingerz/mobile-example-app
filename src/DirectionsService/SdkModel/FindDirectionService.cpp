@@ -78,16 +78,16 @@ namespace ExampleApp
                     m_pCurrentRequest->Cancel();
                 }
                 m_pIsInteriorRoute = findDirectionQuery.IsInterior();
-//                if (findDirectionQuery.IsInterior())
-//                {
-//                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
-//                    
-//                }
-//                else
-//                {
-//                    m_routeThicknessPolicy.SetScaleFactor(7.7f);
-//                }
-                m_routeThicknessPolicy.SetScaleFactor(1.7f);                
+                if (findDirectionQuery.IsInterior())
+                {
+                    m_routeThicknessPolicy.SetScaleFactor(0.3f);
+                    
+                }
+                else
+                {
+                    m_routeThicknessPolicy.SetScaleFactor(1.7f);
+                }
+//                m_routeThicknessPolicy.SetScaleFactor(0.3f);
                 m_pCurrentRequest = m_findDirectionHttpRequestFactory.CreateFindDirectionQuery(findDirectionQuery, m_handleResponseCallback);
                 m_pCurrentRequest->Dispatch();
 
@@ -110,10 +110,10 @@ namespace ExampleApp
                     {
                         
 //                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
-                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::InteriorEntities, true);
+                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, true, 0.0f);
 
                         // this will asynchronously parse the result and add the resulting route to m_routeService
-//                        m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
+//                      m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
                         m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle);
                         
                         if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
