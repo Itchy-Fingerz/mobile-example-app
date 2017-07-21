@@ -162,8 +162,26 @@ namespace ExampleApp
                                                 
                                                 const rapidjson::Value& maneuverLocationValue = maneuverValue["location"];
                                                 
-                                                const double maneuverlongitude = maneuverLocationValue[0].GetDouble();
-                                                const double maneuverLat = maneuverLocationValue[1].GetDouble();
+                                                double maneuverlongitude = maneuverLocationValue[0].GetDouble();
+                                                double maneuverLat = maneuverLocationValue[1].GetDouble();
+                                                if (b == numOfSteps-1)// for last step use geometory last coordinate location
+                                                {//geometry
+                                                    const rapidjson::Value& geometeryValue = stepValue["geometry"];
+                                                    const rapidjson::Value& coordinatesArray = geometeryValue["coordinates"];
+                                                    if (coordinatesArray.Size() >0)
+                                                    {
+                                                        const rapidjson::Value& lastCoordinate = coordinatesArray[coordinatesArray.Size()-1];
+                                                        
+                                                        maneuverlongitude = lastCoordinate[0].GetDouble();
+                                                        maneuverLat = lastCoordinate[1].GetDouble();
+                                                        
+
+                                                    }
+
+
+                                                    
+
+                                                }
                                                 const Eegeo::Space::LatLong maneuverLocation = Eegeo::Space::LatLong::FromDegrees(maneuverLat,maneuverlongitude);
 
                                                 std::string menuModifer = "";
