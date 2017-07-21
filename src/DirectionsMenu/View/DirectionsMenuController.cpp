@@ -134,7 +134,7 @@ namespace ExampleApp
                 if (m_isExitDirections)
                 {
                     m_isExitDirections = false;
-                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive);
+                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false);
                     m_messageBus.Publish(message);
                     
                     RefreshPresentation(true);
@@ -351,7 +351,7 @@ namespace ExampleApp
             {
                 
                 m_directionsMenuView.StartSearchForShowMeWay(message.GetSearchResultModel());
-                m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active));
+                m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active,false));
             
             }
             
@@ -359,12 +359,24 @@ namespace ExampleApp
             {
                 if (message.GetDirectionsMenuStage() == DirectionsMenuInitiation::Active)
                 {
-                    DirectionsMenuController::ToggleSettingMenuButton();
-                    if (!m_viewModel.IsAddedToScreen())
+                    
+                    if(message.GetCloseForWorldPin())
                     {
-                        m_viewModel.AddToScreen();
+                            if(m_isDirectionMenuOpen)
+                            {
+                                DirectionsMenuController::ToggleSettingMenuButton();
+                                m_viewModel.RemoveFromScreen();
+                            }
                     }
-                    MenuController::OnViewClicked();
+                    else
+                    {
+                        DirectionsMenuController::ToggleSettingMenuButton();
+                        if (!m_viewModel.IsAddedToScreen())
+                        {
+                            m_viewModel.AddToScreen();
+                        }
+                        MenuController::OnViewClicked();
+                    }
                 }
             }
             

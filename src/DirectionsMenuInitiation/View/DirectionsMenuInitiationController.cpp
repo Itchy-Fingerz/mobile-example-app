@@ -41,7 +41,7 @@ namespace ExampleApp
             void DirectionsMenuInitiationController::OnToggle(bool& toggle)
             {
                 
-                DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Active);
+                DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Active,false);
                 m_messageBus.Publish(message);
                 
             }

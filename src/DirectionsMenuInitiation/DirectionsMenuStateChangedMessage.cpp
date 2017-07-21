@@ -6,9 +6,15 @@ namespace ExampleApp
 {
     namespace DirectionsMenuInitiation
     {
-        DirectionsMenuStateChangedMessage::DirectionsMenuStateChangedMessage(DirectionsMenuStage stage)
+        DirectionsMenuStateChangedMessage::DirectionsMenuStateChangedMessage(DirectionsMenuStage stage, bool close)
         : m_stage(stage)
+        , m_closeForWorldPin(close)
         {
+        }
+        
+        const bool DirectionsMenuStateChangedMessage::GetCloseForWorldPin() const
+        {
+            return m_closeForWorldPin;
         }
 
         const DirectionsMenuStage& DirectionsMenuStateChangedMessage::GetDirectionsMenuStage() const

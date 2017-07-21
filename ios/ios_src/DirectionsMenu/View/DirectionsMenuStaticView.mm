@@ -79,13 +79,18 @@
     
     [_startRouteTextField setText:@"My Location"];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onKeyboardHide:) name:UIKeyboardWillHideNotification object:nil];
+    
     [self.minCounterLabel setHidden:YES];
     [self.secCounterLabel setHidden:YES];
     [self.staticMinsLabel setHidden:YES];
 
 }
 
-
+-(void) onKeyboardHide:(NSNotification *)notifiaction
+{
+    [self endEditing:true];
+}
 - (void) layoutSubviews
 {
     [super layoutSubviews];
@@ -734,6 +739,7 @@
     [_spinner release];
     [_waypointspinner release];
     [_heightConstraintForMyLocationView release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
