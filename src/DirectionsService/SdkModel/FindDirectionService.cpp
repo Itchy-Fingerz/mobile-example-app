@@ -109,11 +109,8 @@ namespace ExampleApp
                     {
                         
 //                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
-<<<<<<< HEAD
-                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmented, Eegeo::Rendering::LayerIds::InteriorEntities, true);
-=======
+
                         Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, true, 0.0f);
->>>>>>> 4dc3da4e29ce8b34ec0b7d254d2e9fbdd1710907
 
                         // this will asynchronously parse the result and add the resulting route to m_routeService
 //                      m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
