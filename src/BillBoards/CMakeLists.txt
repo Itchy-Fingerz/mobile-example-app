@@ -3,7 +3,7 @@ set(headers ${headers} ../src/BillBoards
 set(currsources
   ../src/BillBoards/BillBoards.h
   ../src/BillBoards/BillBoardSelectedMessage.h
-  ../src/BillBoards/ShowOfferHighlightMessage
+  ../src/BillBoards/ShowOfferHighlightMessage.h
   ../src/BillBoards/CMakeLists.txt
 )
 set(sources ${sources} ${currsources})
