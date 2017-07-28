@@ -315,6 +315,18 @@
         DirectionSuggestionTableViewCell *cell = (DirectionSuggestionTableViewCell*)[self.suggestionsTableView dequeueReusableCellWithIdentifier:@"DirectionSuggestionsViewCell"];
         
         [cell.titleLabel setText:[NSString stringWithFormat:@"%s",item.GetTitle().c_str()]];
+        NSString *subTitle = [NSString stringWithFormat:@"%s",item.GetSubtitle().c_str()];
+        if (![subTitle isEqualToString:@""])
+        {
+            [cell.subTitleLabel setHidden:false];
+            [cell.subTitleLabel setText:[NSString stringWithFormat:@"%s",item.GetSubtitle().c_str()]];
+            cell.titleLabelHeightConstraint.constant = 0;
+        }
+        else
+        {
+            [cell.subTitleLabel setHidden:true];
+            cell.titleLabelHeightConstraint.constant = cell.subTitleLabel.frame.size.height;
+        }
 
         return cell;
         
