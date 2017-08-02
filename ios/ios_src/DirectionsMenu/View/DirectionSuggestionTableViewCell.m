@@ -23,6 +23,8 @@
 
 - (void)dealloc {
     [_titleLabel release];
+    [_subTitleLabel release];
+    [_titleLabelHeightConstraint release];
     [super dealloc];
 }
 @end

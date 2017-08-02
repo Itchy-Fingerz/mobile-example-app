@@ -13,5 +13,7 @@
     
 }
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
+@property (retain, nonatomic) IBOutlet UILabel *subTitleLabel;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *titleLabelHeightConstraint;
 
 @end

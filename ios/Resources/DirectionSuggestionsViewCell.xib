@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,17 +17,23 @@
             <rect key="frame" x="0.0" y="0.0" width="288" height="45"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="288" height="45"/>
+                <rect key="frame" x="0.0" y="0.0" width="288" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDg-Dc-20B">
-                        <rect key="frame" x="8" y="0.0" width="272" height="44"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <rect key="frame" x="8" y="0.0" width="272" height="22.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5EU-3z-DCR" userLabel="subTitle Label">
+                        <rect key="frame" x="8" y="23" width="272" height="19"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aZR-IZ-riQ">
-                        <rect key="frame" x="8" y="43" width="272" height="1"/>
+                        <rect key="frame" x="8" y="43.5" width="272" height="1"/>
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="tOg-lQ-JFm"/>
@@ -41,10 +48,14 @@
                     <constraint firstItem="LDg-Dc-20B" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="7G9-NE-Qjh"/>
                     <constraint firstAttribute="trailing" secondItem="aZR-IZ-riQ" secondAttribute="trailing" constant="24" id="H38-1p-CMz"/>
                     <constraint firstItem="aZR-IZ-riQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="24" id="IJp-hZ-pK8"/>
+                    <constraint firstItem="aZR-IZ-riQ" firstAttribute="top" secondItem="5EU-3z-DCR" secondAttribute="bottom" constant="1" id="Spp-eE-Ozp"/>
                     <constraint firstItem="aZR-IZ-riQ" firstAttribute="leading" secondItem="LDg-Dc-20B" secondAttribute="leading" id="UDh-Ji-lMy"/>
-                    <constraint firstAttribute="bottom" secondItem="LDg-Dc-20B" secondAttribute="bottom" id="fyV-O3-6Y9"/>
+                    <constraint firstAttribute="trailing" secondItem="5EU-3z-DCR" secondAttribute="trailing" constant="8" id="aXS-Qx-JmJ"/>
                     <constraint firstAttribute="trailing" secondItem="aZR-IZ-riQ" secondAttribute="trailing" constant="8" id="hf6-d3-hsv"/>
                     <constraint firstAttribute="trailing" secondItem="LDg-Dc-20B" secondAttribute="trailing" constant="8" id="isq-R1-Qzz"/>
+                    <constraint firstItem="5EU-3z-DCR" firstAttribute="top" secondItem="LDg-Dc-20B" secondAttribute="bottom" constant="0.5" id="jPJ-Zw-ts3"/>
+                    <constraint firstItem="5EU-3z-DCR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="wkY-tK-6J6"/>
+                    <constraint firstItem="LDg-Dc-20B" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.5" id="zIC-5G-THV"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
@@ -55,7 +66,9 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="subTitleLabel" destination="5EU-3z-DCR" id="HIG-Nb-Rap"/>
                 <outlet property="titleLabel" destination="LDg-Dc-20B" id="uUG-E9-QMT"/>
+                <outlet property="titleLabelHeightConstraint" destination="zIC-5G-THV" id="k7s-0n-div"/>
             </connections>
             <point key="canvasLocation" x="124" y="210.5"/>
         </tableViewCell>
