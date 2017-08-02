@@ -1,6 +1,16 @@
 if(${IOS})
 set(headers ${headers} ios_src
 )
+
+set(currsources1
+ios_src/ViewController.h
+ios_src/ViewController.mm
+)
+set(sources ${sources} ${currsources1})
+source_group(\\ios_src FILES ${currsources1})
+
+set_source_files_properties(${currsources1} PROPERTIES COMPILE_FLAGS "-w")
+
 set(currsources
   ios_src/AppDelegate.h
   ios_src/AppDelegate.mm

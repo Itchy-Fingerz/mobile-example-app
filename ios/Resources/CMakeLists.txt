@@ -1009,8 +1009,6 @@ set(resources ${resources}
         Resources/DirectionCard_VeerLeft.png
         Resources/DirectionCard_VeerLeft@2x.png
         Resources/DirectionCard_VeerLeft@3x.png
-        Resources/tagad.mp4
-        Resources/sample.mp4
         Resources/Billboards
 	Resources/tag_huer_place_holder.png
 	Resources/poi_call_icon.png
