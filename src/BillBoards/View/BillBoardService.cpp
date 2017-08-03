@@ -38,6 +38,8 @@
 #include <cmath>
 #include "BillBoardSelectedMessage.h"
 #include "SetCustomAlertVisibilityMessage.h"
+#include "VisualMapService.h"
+#include "VisualMapState.h"
 
 #define LINE_TIMEOUT_DURATION 15
 #define VIDEO_PLAYBACK_CONST 0.04
@@ -215,6 +217,9 @@ namespace ExampleApp
             , m_isSpecialOfferShown(false)
             , m_screenProperties(screenProperties)
             , m_messageBus(messageBus)
+            , m_dayTime("Day")
+            , m_weather("Default")
+            , m_season("Summer")
             {
                 
                 m_textureInfo.textureId = 0;
@@ -276,7 +281,7 @@ namespace ExampleApp
             void BillBoardService::CreateBillBoard(const BillBoardConfig& config)
             {
                 
-                if (IsEligibleForTimePeriod(config.startDisplayingAtHour, config.endDisplayingAtHour) == true)
+                if (IsEligibleForTimePeriod(config) == true)
                 {
                     Eegeo::m33 m_basisToEcef = BuildBasisToEcef(config.originLatLong.first, config.originLatLong.second, config.planeRotation);
                     
@@ -321,17 +326,13 @@ namespace ExampleApp
                 }
             }
             
-            bool BillBoardService::IsEligibleForTimePeriod(int startHour , int endHour)
+            bool BillBoardService::IsEligibleForTimePeriod(const BillBoardConfig& config)
             {
-                std::chrono::time_point<std::chrono::system_clock> currentTime;
-                currentTime = std::chrono::system_clock::now();
-                std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
-                struct tm * now = gmtime(&currentTime_t);
-                if (now->tm_hour >= startHour && now->tm_hour <= endHour)
-                {
+                
+                if(m_dayTime == config.dayTime && m_weather == config.weather && m_season == config.season)
                     return true;
-                }
-                return false;
+                
+                return false;                
             }
             
             void BillBoardService::RenderVideoBillBoard()
@@ -600,10 +601,11 @@ namespace ExampleApp
                 tempConfig.boxHeight = 12.5f/1.5;
                 tempConfig.planeRotation = config.planeRotation;
                 tempConfig.floorIndex = config.floorIndex;
-                tempConfig.startDisplayingAtHour = 1;   // 24 hours clock 7:00
-                tempConfig.endDisplayingAtHour = 23;
                 tempConfig.isSpinner = true;
                 tempConfig.highlightColor = config.highlightColor;
+                tempConfig.dayTime = config.dayTime;
+                tempConfig.weather = config.weather;
+                tempConfig.season = config.season;
                 
                 CreateBillBoard(tempConfig);
                 
@@ -639,8 +641,9 @@ namespace ExampleApp
                 tempConfig.boxHeight = 12.5f/1.5;
                 tempConfig.planeRotation = config.planeRotation;
                 tempConfig.floorIndex = config.floorIndex;
-                tempConfig.startDisplayingAtHour = 1;   // 24 hours clock 7:00
-                tempConfig.endDisplayingAtHour = 23;
+                tempConfig.dayTime = config.dayTime;   // 24 hours clock 7:00
+                tempConfig.weather = config.weather;
+                tempConfig.season = config.season;
                 tempConfig.isPlayBtn = true;
                 tempConfig.highlightColor = config.highlightColor;
 

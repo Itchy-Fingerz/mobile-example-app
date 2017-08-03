@@ -6,8 +6,6 @@ set(currsources
   ios_src/BillBoards/View/BillBoardsViewModule.cpp
   ios_src/BillBoards/View/BillBoardsViewModule.h
   ios_src/BillBoards/View/BillBoardsIncludes.h
-  ios_src/BillBoards/View/ChangeBillBoardObserver.h
-  ios_src/BillBoards/View/ChangeBillBoardObserver.mm
 
 )
 set(sources ${sources} ${currsources})

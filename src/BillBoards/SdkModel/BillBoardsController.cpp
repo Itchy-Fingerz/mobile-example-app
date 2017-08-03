@@ -87,14 +87,18 @@ namespace ExampleApp
                                 config.planeRotation = json["plane_rotation"].GetDouble();
                             }
                             
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("start_hour"))
+                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("time"))
                             {
-                                config.startDisplayingAtHour = json["start_hour"].GetDouble();
+                                config.dayTime = json["time"].GetString();
                             }
                             
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("end_hour"))
+                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("weather"))
                             {
-                                config.endDisplayingAtHour = json["end_hour"].GetDouble();
+                                config.weather = json["weather"].GetString();
+                            }
+                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("season"))
+                            {
+                                config.season = json["season"].GetString();
                             }
                             
                             if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("video_url"))
@@ -173,8 +177,6 @@ namespace ExampleApp
             {
                 m_pBillBoardService.RemoveAllRenderables();
                 m_pBillBoardService.StopResetVideoService();
-                m_pBillBoardService.ResetBillBoardsAfterResume();
-                                
             }
 
             
@@ -325,8 +327,9 @@ namespace ExampleApp
                 tempConfig.planeRotation = config.planeRotation;
                 tempConfig.isVideo = false;
                 tempConfig.isVideoFrame = true;
-                tempConfig.startDisplayingAtHour = config.startDisplayingAtHour;
-                tempConfig.endDisplayingAtHour = config.endDisplayingAtHour;                
+                tempConfig.dayTime = config.dayTime;
+                tempConfig.weather = config.weather;
+                tempConfig.season = config.season;
                 tempConfig.poiID = config.poiID;
                 tempConfig.highlightColor = config.highlightColor;
                 

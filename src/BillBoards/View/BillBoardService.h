@@ -18,6 +18,7 @@
 #include "QuadLine.h"
 #include "QuadLineFactory.h"
 #include "VideoAssetReaderService.h"
+#include "VisualMap.h"
 
 namespace ExampleApp
 {
@@ -61,8 +62,21 @@ namespace ExampleApp
                 void ResetAnimatingFlag();
                 void ReSetFloorIndex();
                 void RemoveAllBillboards();
-                void ResetBillBoardsAfterResume();
                 void ResetOffsersShownFlag();
+                void ResetBillBoardsAfterResume();
+                
+                void SetDayTime(std::string dayTime)
+                {
+                    m_dayTime = dayTime;
+                }
+                void SetWeather(std::string weather)
+                {
+                    m_weather = weather;
+                }
+                void SetSeason(std::string season)
+                {
+                    m_season = season;
+                }
                 
             private:
                 
@@ -71,6 +85,9 @@ namespace ExampleApp
                 bool m_isSpecialOfferShown;
                 float m_timer;
                 int m_billBoardsForFloor;
+                std::string m_dayTime;
+                std::string m_weather;
+                std::string m_season;
                 
                 Eegeo::Modules::Core::RenderingModule& m_renderingModule;
                 Eegeo::Helpers::ITextureFileLoader& m_textureFileLoader;
@@ -92,7 +109,7 @@ namespace ExampleApp
                 bool IsInterSectingWithBillBoard(const AppInterface::TapData& data, BillBoardConfig &out_config);
                 
                 void CreateBillBoard(const BillBoardConfig& config);
-                bool IsEligibleForTimePeriod(int startHour , int endHour);
+                bool IsEligibleForTimePeriod(const BillBoardConfig& config);
                 void CheckLineDrawingTimmedOut();
                 void DrawLine(const BillBoardConfig& config);
                 void RemoveLine();

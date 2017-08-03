@@ -14,16 +14,12 @@ namespace ExampleApp
             {
                 m_pBillBoardsController = Eegeo_NEW(ExampleApp::BillBoards::SdkModel::BillBoardsController)(billBoardRepository,billBoardServices, videoAssetService, searchService);
                 m_pBillBoardsController->CreateMockBillBoards();
-                
-                m_pChangeBillBoardsObserver = [[ChangeBillBoardObserver alloc] init:m_pBillBoardsController];
             }
             
             BillBoardsViewModule::~BillBoardsViewModule()
             {
                 Eegeo_DELETE(m_pBillBoardsController);
                 
-                [m_pChangeBillBoardsObserver release];
-                m_pChangeBillBoardsObserver = nil;
             }
         }
     }

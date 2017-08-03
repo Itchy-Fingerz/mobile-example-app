@@ -21,6 +21,9 @@ namespace ExampleApp
                 std::string textureFilename;
                 std::string unique_tag;
                 std::string videoURL;
+                std::string dayTime;
+                std::string weather;
+                std::string season;
                 int numberOfFrames;
                 mutable int currentIndex;
                 mutable bool isAnimating;
@@ -35,8 +38,6 @@ namespace ExampleApp
                 float environmentFlatteningCyclesPerMinute;
                 float planeRotation;
                 int floorIndex;
-                int startDisplayingAtHour;
-                int endDisplayingAtHour;
                 bool isVideo;
                 bool isVideoFrame;
                 bool isSpinner;
@@ -57,8 +58,6 @@ namespace ExampleApp
                 , currentIndex(0)
                 , isAnimating(false)
                 , billBoardId(0)
-                , startDisplayingAtHour(0)
-                , endDisplayingAtHour(0)
                 , isVideo(false)
                 , isPaused(false)
                 , isVideoFrame(false)
@@ -66,6 +65,9 @@ namespace ExampleApp
                 , isPlayBtn(false)
                 , isSpecialOffer(false)
                 , highlightColor(0,0,1,1)
+                , dayTime("Day")
+                , weather("Default")
+                , season("Summer")
                 {
                     unique_tag = "";
                 }

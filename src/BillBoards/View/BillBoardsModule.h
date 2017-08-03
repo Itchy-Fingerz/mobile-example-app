@@ -12,6 +12,7 @@
 #include "AggregateCollisionBvhProvider.h"
 #include "BillBoardInteriorStateChangedObserver.h"
 #include "QuadLineFactory.h"
+#include "BillBoardWeatherStateChangedObserver.h"
 
 namespace ExampleApp
 {
@@ -33,6 +34,8 @@ namespace ExampleApp
                 BillBoards::View::BillBoardService *m_pBillBoardService;
                 AppCamera::SdkModel::IAppCameraController& m_iCameraController;
                 SdkModel::BillBoardInteriorStateChangedObserver* m_pFloorChangeObserver;
+                
+                SdkModel::BillBoardWeatherStateChangedObserver * m_pWeatherChangeObserver;
                 
             public:
                 BillBoardsModule(Eegeo::Modules::Core::RenderingModule& renderingModule,
