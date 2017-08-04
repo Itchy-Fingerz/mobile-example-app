@@ -62,11 +62,6 @@ namespace ExampleApp
                                                                                                                         *m_pGlobeCameraTouchController,
                                                                                                                         *m_pGpsGlobeCameraController);
                 
-                
-                m_pInteriorSelectionController = Eegeo_NEW(InteriorSelectionController)(interiorSelectionModel,
-                                                                                        markerRepository,
-                                                                                        *m_pInteriorsCameraController);
-                
                 m_pWorldPinController = Eegeo_NEW(InteriorWorldPinController)(interiorSelectionModel,
                                                                               messageBus,
                                                                               initialExperienceModel);
@@ -78,6 +73,13 @@ namespace ExampleApp
                                                              metricsService,
                                                              persistentSettings,
                                                              navigationService);
+                
+                m_pInteriorSelectionController = Eegeo_NEW(InteriorSelectionController)(interiorSelectionModel,
+                                                                                        *m_pModel,
+                                                                                        *m_pUserInteractionModel,
+                                                                                        markerRepository,
+                                                                                        *m_pInteriorsCameraController);
+
                 
                 m_pViewModel = Eegeo_NEW(View::InteriorsExplorerViewModel)(false, identityProvider.GetNextIdentity(), messageBus);
                 
