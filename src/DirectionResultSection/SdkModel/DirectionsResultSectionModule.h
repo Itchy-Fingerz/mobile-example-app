@@ -14,7 +14,6 @@
 #include "Interiors.h"
 #include "AppCamera.h"
 #include "Types.h"
-#include "DirectionResultSectionWayPointSelectedMessageHandler.h"
 
 namespace ExampleApp
 {
