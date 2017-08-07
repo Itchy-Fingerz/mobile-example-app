@@ -25,6 +25,7 @@
     [_titleLabel release];
     [_subTitleLabel release];
     [_titleLabelHeightConstraint release];
+    [_cellIcon release];
     [super dealloc];
 }
 @end
