@@ -9,6 +9,9 @@
 #include "DirectionSuggestionTableViewCell.h"
 #include "LatLongAltitude.h"
 #include "SearchResultItemModel.h"
+#include "IconResources.h"
+#include "ImageHelpers.h"
+#include "UIHelpers.h"
 
 @interface DirectionsMenuStaticView()
 {
@@ -328,6 +331,13 @@
             cell.titleLabelHeightConstraint.constant = cell.subTitleLabel.frame.size.height;
         }
 
+        const std::string icon = item.GetIconKey();
+        
+        const std::string iconResourceName = ExampleApp::Helpers::IconResources::GetSmallIconPathForResourceName(icon);
+        
+        cell.cellIcon.image = ExampleApp::Helpers::ImageHelpers::LoadImage(iconResourceName);
+        
+        
         return cell;
         
     }
