@@ -1,10 +1,10 @@
 // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 
 #include "FlightResultModel.h"
-#import "EegeoSearchResultGatePoiView.h"
+#import "EegeoSearchResultCheckInPoiView.h"
 #import "EegeoSearchResultFlightTimingTableViewCell.h"
 
-@interface EegeoSearchResultGatePoiView()
+@interface EegeoSearchResultCheckInPoiView()
 {
     IBOutlet UITableView *m_pFlightTimingTableView;
     ExampleApp::Search::SdkModel::SearchResultModel m_pCurrentModel;
@@ -23,7 +23,7 @@
 }
 -(void) FlightListFromSearchResult;
 @end
-@implementation EegeoSearchResultGatePoiView
+@implementation EegeoSearchResultCheckInPoiView
 
 -(NSInteger)GetTimeDifferenc:(NSString*)timeStr
 {
@@ -46,7 +46,54 @@
     
     m_flightsVector.clear();
     
-    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel("American","AA 399","New York","134","12:34","12:34"));
+    std::string airLineName = "";
+    std::string flightCode = "";
+    NSString *title = [NSString stringWithUTF8String:m_pCurrentModel.GetTitle().c_str()];
+    
+    if([title containsString:@"Delta"] )
+    {
+        airLineName = "Delta";
+        flightCode = "DL";
+    }
+    else if ([title containsString:@"JetBlue"])
+    {
+        airLineName = "JetBlue";
+        flightCode = "JBU";
+    }
+    else if ([title containsString:@"United"])
+    {
+        airLineName = "United";
+        flightCode = "UT";
+    }
+    else if ([title containsString:@"Virgin"])
+    {
+        airLineName = "Virgin";
+        flightCode = "VX";
+    }
+    
+    ExampleApp::Search::SdkModel::FlightResultModel flightModel(airLineName,flightCode + " 395","Paris","130","11:54","12:34");
+    m_flightsVector.push_back(flightModel);
+    
+    
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 396","Chicago","131","12:04","12:34"));
+    
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 397","Amsterdam","132","12:14","12:34"));
+    
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 398","Lima","133","12:24","12:34"));
+    
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 399","New York","134","12:34","12:34"));
+
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 400","Dusseldorf","135","12:44","12:34"));
+
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 401","San Salvidor","136","12:54","12:34"));
+
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 402","Guatemala Cty","137","13:04","12:34"));
+
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 403","Beijing","138","13:14","12:34"));
+
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel(airLineName,flightCode + " 404","Hong Kong","139","13:24","12:34"));
+
+
 }
 
 -(void) updateCountdown {
@@ -104,6 +151,9 @@
 - (void) setContent:(const ExampleApp::Search::SdkModel::SearchResultModel*)pModel :(bool)isPinned
 {
     m_pCurrentModel = *pModel;
+    
+    self.pTitleLbl.text = [NSString stringWithUTF8String:pModel->GetTitle().c_str()];
+    
     [self FlightListFromSearchResult];
     for(int i=0;i<m_flightsVector.size();i++)
     {
@@ -178,10 +228,10 @@
     return m_pInterop;
 }
 
-+(EegeoSearchResultGatePoiView *)EegeoSearchResultGatePoiViewWithInterop:(ExampleApp::SearchResultPoi::View::SearchResultPoiViewInterop*)pInterop
++(EegeoSearchResultCheckInPoiView *)EegeoSearchResultCheckInPoiViewWithInterop:(ExampleApp::SearchResultPoi::View::SearchResultPoiViewInterop*)pInterop
 {
     
-    EegeoSearchResultGatePoiView *poiView = (EegeoSearchResultGatePoiView*)[[[NSBundle mainBundle] loadNibNamed:@"GatePoiView" owner:self options:nil] objectAtIndex:0];
+    EegeoSearchResultCheckInPoiView *poiView = (EegeoSearchResultCheckInPoiView*)[[[NSBundle mainBundle] loadNibNamed:@"CheckInPoiView" owner:self options:nil] objectAtIndex:0];
     poiView->m_pInterop = pInterop;
     
     poiView->m_pController = [UIViewController alloc];
@@ -262,6 +312,7 @@
     //[m_pFlightTimingTableView release];
     [m_pController release];
     [m_pDepartingTimeCountDown release];
+    [_pTitleLbl release];
     [super dealloc];
 
 

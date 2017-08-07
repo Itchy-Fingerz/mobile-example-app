@@ -22,6 +22,7 @@
 #include "EegeoSearchResultSecurityOfficePoiView.h"
 #include "EegeoSearchResultRatingPoiView.h"
 #include "EegeoSearchResultGatePoiView.h"
+#include "EegeoSearchResultCheckInPoiView.h"
 
 
 @interface SearchResultPoiViewContainer()<UIGestureRecognizerDelegate>
@@ -109,6 +110,11 @@
         {
             return [[EegeoSearchResultGatePoiView EegeoSearchResultGatePoiViewWithInterop:m_pInterop] retain];
 
+        }
+        else if (pModel->GetTitle().find("Check In") != std::string::npos)
+        {
+            return [[EegeoSearchResultCheckInPoiView EegeoSearchResultCheckInPoiViewWithInterop:m_pInterop] retain];
+            
         }
         else
         {

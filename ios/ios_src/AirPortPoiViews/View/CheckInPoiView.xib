@@ -13,7 +13,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="b17-So-FWc" userLabel="GatePoiView" customClass="EegeoSearchResultGatePoiView">
+        <view contentMode="scaleToFill" id="b17-So-FWc" userLabel="CheckInPoiView" customClass="EegeoSearchResultCheckInPoiView">
             <rect key="frame" x="0.0" y="0.0" width="360" height="713"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -24,10 +24,10 @@
                             <rect key="frame" x="0.0" y="0.0" width="360" height="600"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rS0-uD-Cvz">
-                                    <rect key="frame" x="15" y="0.0" width="330" height="75"/>
+                                    <rect key="frame" x="15" y="0.0" width="330" height="300"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pV9-PH-Lt1">
-                                            <rect key="frame" x="0.0" y="74" width="330" height="1"/>
+                                            <rect key="frame" x="0.0" y="299" width="330" height="1"/>
                                             <color key="backgroundColor" red="0.1764705882" green="0.44705882349999998" blue="0.74509803919999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="1" id="88X-Z9-fMA"/>
@@ -41,7 +41,7 @@
                                             </variation>
                                         </view>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" rowHeight="36" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YZz-9Q-dOL">
-                                            <rect key="frame" x="0.0" y="10" width="330" height="59"/>
+                                            <rect key="frame" x="0.0" y="10" width="330" height="284"/>
                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <connections>
                                                 <outlet property="dataSource" destination="b17-So-FWc" id="hvc-2t-URE"/>
@@ -55,19 +55,19 @@
                                         <constraint firstItem="YZz-9Q-dOL" firstAttribute="top" secondItem="rS0-uD-Cvz" secondAttribute="top" constant="10" id="b2p-S2-k8v"/>
                                         <constraint firstItem="YZz-9Q-dOL" firstAttribute="leading" secondItem="rS0-uD-Cvz" secondAttribute="leading" id="gAp-mB-bFC"/>
                                         <constraint firstAttribute="bottom" secondItem="pV9-PH-Lt1" secondAttribute="bottom" id="hKK-XP-Ycd"/>
-                                        <constraint firstAttribute="height" constant="75" id="kHM-2o-NQE"/>
+                                        <constraint firstAttribute="height" constant="300" id="kHM-2o-NQE"/>
                                         <constraint firstItem="pV9-PH-Lt1" firstAttribute="leading" secondItem="rS0-uD-Cvz" secondAttribute="leading" id="slD-X7-BPP"/>
                                         <constraint firstAttribute="trailing" secondItem="YZz-9Q-dOL" secondAttribute="trailing" id="wrZ-SA-ty5"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I8d-nR-DXe">
-                                    <rect key="frame" x="15" y="81" width="330" height="317"/>
+                                    <rect key="frame" x="15" y="306" width="330" height="317"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bLd-ZB-qqu">
                                             <rect key="frame" x="0.0" y="0.0" width="330" height="21"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Flight Status:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n0l-cx-Zee">
-                                                    <rect key="frame" x="6" y="1" width="95.666666666666671" height="19.333333333333343"/>
+                                                    <rect key="frame" x="6" y="1" width="95.666666666666671" height="19.333333333333314"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.070588235289999995" green="0.29803921570000003" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -98,7 +98,7 @@
                                             <rect key="frame" x="0.0" y="73" width="330" height="21"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boarding:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DmT-Ub-nQ5">
-                                                    <rect key="frame" x="6" y="1" width="69.666666666666671" height="19.333333333333343"/>
+                                                    <rect key="frame" x="6" y="1" width="69.666666666666671" height="19.333333333333314"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.070588235289999995" green="0.29803921570000003" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -135,7 +135,7 @@
                                             <rect key="frame" x="0.0" y="146" width="330" height="21"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Departing:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qyX-IN-KlP">
-                                                    <rect key="frame" x="6" y="1" width="76.666666666666671" height="19.333333333333314"/>
+                                                    <rect key="frame" x="6" y="1" width="76.666666666666671" height="19.333333333333371"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.070588235289999995" green="0.29803921570000003" blue="0.65490196079999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -247,7 +247,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nsG-Uv-nRS">
                     <rect key="frame" x="15" y="5" width="330" height="40"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poi_gate_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="NIz-m0-OOc">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon1_airport.png" translatesAutoresizingMaskIntoConstraints="NO" id="NIz-m0-OOc">
                             <rect key="frame" x="0.0" y="0.0" width="36" height="36"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="DpS-9T-JrI"/>
@@ -384,13 +384,14 @@
                 <outlet property="m_pDepartingLabel" destination="Ah9-2d-sm6" id="hW0-gw-Z5f"/>
                 <outlet property="m_pDepartingTimeCountDown" destination="7Br-QE-ynT" id="sGi-gL-XPS"/>
                 <outlet property="m_pFlightTimingTableView" destination="YZz-9Q-dOL" id="YnC-6A-Am9"/>
+                <outlet property="pTitleLbl" destination="D93-9D-8gE" id="ieX-or-Mxc"/>
             </connections>
             <point key="canvasLocation" x="439" y="306.5"/>
         </view>
     </objects>
     <resources>
         <image name="ShowMeTheWayDefault.png" width="328" height="52"/>
+        <image name="icon1_airport.png" width="36" height="36"/>
         <image name="poi_close_icon.png" width="74" height="78"/>
-        <image name="poi_gate_logo.png" width="40" height="40"/>
     </resources>
 </document>
