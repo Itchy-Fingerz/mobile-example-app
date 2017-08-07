@@ -5,8 +5,6 @@ set(currsources
   ../src/DirectionResultSection/SdkModel/DirectionsResultSectionModule.cpp
   ../src/DirectionResultSection/SdkModel/DirectionsResultSectionModule.h
   ../src/DirectionResultSection/SdkModel/IDirectionsResultSectionModule.h
-  ../src/DirectionResultSection/SdkModel/DirectionResultSectionWayPointSelectedMessageHandler.cpp
-  ../src/DirectionResultSection/SdkModel/DirectionResultSectionWayPointSelectedMessageHandler.h
   ../src/DirectionResultSection/SdkModel/DirectionsMenuOptionsModel.h
   ../src/DirectionResultSection/SdkModel/DirectionsMenuOptionsModel.cpp
   ../src/DirectionResultSection/SdkModel/DirectionsMenuJsonSerializer.h

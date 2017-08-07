@@ -18,7 +18,7 @@ namespace ExampleApp
             
             BillBoardsController::BillBoardsController(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository, BillBoards::View::BillBoardService& billBoardServices, ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService)
             : m_billBoardrepository(billBoardRepository)
-            , m_pBillBoardService(billBoardServices)
+            , m_billBoardService(billBoardServices)
             , m_videoAssetReaderService(videoAssetService)
             , m_billBoardAddedCallback(this, &BillBoardsController::OnBillBoardAdded)
             , m_billBoardRemoveCallback(this, &BillBoardsController::OnBillBoardAdded)
@@ -28,7 +28,7 @@ namespace ExampleApp
                 
                 m_billBoardrepository.InsertItemAddedCallback(m_billBoardAddedCallback);
                 m_billBoardrepository.InsertItemRemovedCallback(m_billBoardRemoveCallback);
-                m_pBillBoardService.SetVideoService(m_videoAssetReaderService);
+                m_billBoardService.SetVideoService(m_videoAssetReaderService);
                 
                 m_searchService.InsertOnReceivedQueryResultsCallback(m_searchResultsHandler);
 
@@ -51,132 +51,134 @@ namespace ExampleApp
             void BillBoardsController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
             {
                 
-                rapidjson::Document json;
-                std::string descriptionJsonString = "";
-                
-                for (std::vector<Search::SdkModel::SearchResultModel>::const_iterator resultsItt = results.begin(); resultsItt != results.end(); ++resultsItt)
+                if(query.Query() == "advertisements")
                 {
+                    rapidjson::Document json;
+                    std::string descriptionJsonString = "";
                     
-                    if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("is_billboard_attached"))
+                    for (std::vector<Search::SdkModel::SearchResultModel>::const_iterator resultsItt = results.begin(); resultsItt != results.end(); ++resultsItt)
                     {
                         
-                        if(json["is_billboard_attached"].GetBool())
+                        if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("is_billboard_attached"))
                         {
                             
-                            double originLat;
-                            double originLng;
-                            
-                            BillBoards::View::BillBoardConfig config;
-                            config.boxWidth = BOX_WIDTH;
-                            config.boxHeight = BOX_HEIGHT;
-                            config.poiID = resultsItt->GetIdentifier();
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("board_id"))
+                            if(json["is_billboard_attached"].GetBool())
                             {
-                                config.billBoardId = json["board_id"].GetInt();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("origin_lat"))
-                            {
-                                originLat = json["origin_lat"].GetDouble();
-                                originLng = json["origin_lng"].GetDouble();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("plane_rotation"))
-                            {
-                                config.planeRotation = json["plane_rotation"].GetDouble();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("start_hour"))
-                            {
-                                config.startDisplayingAtHour = json["start_hour"].GetDouble();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("end_hour"))
-                            {
-                                config.endDisplayingAtHour = json["end_hour"].GetDouble();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("video_url"))
-                            {
-                                config.videoURL = json["video_url"].GetString();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("is_video"))
-                            {
-                                config.isVideo = json["is_video"].GetBool();
-                            }
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("floor_index"))
-                            {
-                                config.floorIndex = json["floor_index"].GetInt();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("altitude"))
-                            {
-                                config.altitude = json["altitude"].GetDouble();
-                            }
-                            
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("texture_file_name"))
-                            {
-                                config.textureFilename = json["texture_file_name"].GetString();
-                            }
-
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("unique_tag"))
-                            {
-                                config.unique_tag = json["unique_tag"].GetString();
-                            }
-                            for (std::vector<std::string>::const_iterator tagsItt = resultsItt->GetTags().begin(); tagsItt != resultsItt->GetTags().end(); ++tagsItt)
-                            {
-                                std::string tag = tagsItt->c_str();
                                 
-                                if(tag == "specialoffer")
-                                {
-                                    config.isSpecialOffer = true;
-                                }
-                            }
-                            
-                            Eegeo::v4 highlightColor = Eegeo::v4(0,0,1,1);
-                            std::string highlightColorData = "highlight_color";
-                            if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember(highlightColorData.c_str()))
-                            {
-                                const rapidjson::Value& entity_highlight_color = json[highlightColorData.c_str()];
-                                assert(entity_highlight_color.IsArray());
+                                double originLat;
+                                double originLng;
                                 
-                                if (entity_highlight_color.Size() == 4)
+                                BillBoards::View::BillBoardConfig config;
+                                config.boxWidth = BOX_WIDTH;
+                                config.boxHeight = BOX_HEIGHT;
+                                config.poiID = resultsItt->GetIdentifier();
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("board_id"))
                                 {
-                                    highlightColor.Set(entity_highlight_color[0].GetDouble()/255.0,
-                                                       entity_highlight_color[1].GetDouble()/255.0,
-                                                       entity_highlight_color[2].GetDouble()/255.0,
-                                                       entity_highlight_color[3].GetDouble()/255.0);
+                                    config.billBoardId = json["board_id"].GetInt();
                                 }
-                            }
-                            
-                            config.highlightColor = highlightColor;
-
-                            
-                            config.originLatLong = std::make_pair(originLat, originLng);
-                            config.lineEndTo = std::make_pair(resultsItt->GetLocation().GetLatitudeInDegrees(),resultsItt->GetLocation().GetLongitudeInDegrees());
-                            
-                            m_pBillBoardService.AddBillboard(config);
-                            
-                            if(config.isVideo)
-                            {
-                                AddVideoFrame(config);
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("origin_lat"))
+                                {
+                                    originLat = json["origin_lat"].GetDouble();
+                                    originLng = json["origin_lng"].GetDouble();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("plane_rotation"))
+                                {
+                                    config.planeRotation = json["plane_rotation"].GetDouble();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("time"))
+                                {
+                                    config.dayTime = json["time"].GetString();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("weather"))
+                                {
+                                    config.weather = json["weather"].GetString();
+                                }
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("season"))
+                                {
+                                    config.season = json["season"].GetString();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("video_url"))
+                                {
+                                    config.videoURL = json["video_url"].GetString();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("is_video"))
+                                {
+                                    config.isVideo = json["is_video"].GetBool();
+                                }
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("floor_index"))
+                                {
+                                    config.floorIndex = json["floor_index"].GetInt();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("altitude"))
+                                {
+                                    config.altitude = json["altitude"].GetDouble();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("texture_file_name"))
+                                {
+                                    config.textureFilename = json["texture_file_name"].GetString();
+                                }
+                                
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember("unique_tag"))
+                                {
+                                    config.unique_tag = json["unique_tag"].GetString();
+                                }
+                                for (std::vector<std::string>::const_iterator tagsItt = resultsItt->GetTags().begin(); tagsItt != resultsItt->GetTags().end(); ++tagsItt)
+                                {
+                                    std::string tag = tagsItt->c_str();
+                                    
+                                    if(tag == "specialoffer")
+                                    {
+                                        config.isSpecialOffer = true;
+                                    }
+                                }
+                                
+                                Eegeo::v4 highlightColor = Eegeo::v4(0,0,1,1);
+                                std::string highlightColorData = "highlight_color";
+                                if (!json.Parse<0>(resultsItt->GetJsonData().c_str()).HasParseError() && json.HasMember(highlightColorData.c_str()))
+                                {
+                                    const rapidjson::Value& entity_highlight_color = json[highlightColorData.c_str()];
+                                    assert(entity_highlight_color.IsArray());
+                                    
+                                    if (entity_highlight_color.Size() == 4)
+                                    {
+                                        highlightColor.Set(entity_highlight_color[0].GetDouble()/255.0,
+                                                           entity_highlight_color[1].GetDouble()/255.0,
+                                                           entity_highlight_color[2].GetDouble()/255.0,
+                                                           entity_highlight_color[3].GetDouble()/255.0);
+                                    }
+                                }
+                                
+                                config.highlightColor = highlightColor;
+                                
+                                
+                                config.originLatLong = std::make_pair(originLat, originLng);
+                                config.lineEndTo = std::make_pair(resultsItt->GetLocation().GetLatitudeInDegrees(),resultsItt->GetLocation().GetLongitudeInDegrees());
+                                
+                                m_billBoardService.AddBillboard(config);
+                                
+                                if(config.isVideo)
+                                {
+                                    AddVideoFrame(config);
+                                }
                             }
                         }
                     }
+                    
+                    //#TO DO: Add Interior ID Condition for the following
+                    m_billBoardService.SetFloorIndex(1);
+                    m_billBoardService.CreateBillBoardsFromConfigList();
                 }
-                
-            }
-            
-            void BillBoardsController::RefreshBillBoards()
-            {
-                m_pBillBoardService.RemoveAllRenderables();
-                m_pBillBoardService.StopResetVideoService();
-                m_pBillBoardService.ResetBillBoardsAfterResume();
-                                
-            }
 
+            }
             
             void BillBoardsController::CreateMockBillBoards()
             {
@@ -325,18 +327,19 @@ namespace ExampleApp
                 tempConfig.planeRotation = config.planeRotation;
                 tempConfig.isVideo = false;
                 tempConfig.isVideoFrame = true;
-                tempConfig.startDisplayingAtHour = config.startDisplayingAtHour;
-                tempConfig.endDisplayingAtHour = config.endDisplayingAtHour;                
+                tempConfig.dayTime = config.dayTime;
+                tempConfig.weather = config.weather;
+                tempConfig.season = config.season;
                 tempConfig.poiID = config.poiID;
                 tempConfig.highlightColor = config.highlightColor;
                 
-                m_pBillBoardService.AddBillboard(tempConfig);
+                m_billBoardService.AddBillboard(tempConfig);
                 
             }
             
             void BillBoardsController::Update(float dt)
             {
-                m_pBillBoardService.Update(dt);
+                m_billBoardService.Update(dt);
             }
 
         }

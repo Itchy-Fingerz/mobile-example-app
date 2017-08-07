@@ -10,6 +10,8 @@ set(currsources
   ../src/BillBoards/SdkModel/BillBoardsRepository.h
   ../src/BillBoards/SdkModel/BillBoardInteriorStateChangedObserver.h
   ../src/BillBoards/SdkModel/BillBoardInteriorStateChangedObserver.cpp
+  ../src/BillBoards/SdkModel/BillBoardWeatherStateChangedObserver.h
+  ../src/BillBoards/SdkModel/BillBoardWeatherStateChangedObserver.cpp
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\BillBoards\\SdkModel FILES ${currsources})

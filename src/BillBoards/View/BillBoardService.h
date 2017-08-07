@@ -18,6 +18,7 @@
 #include "QuadLine.h"
 #include "QuadLineFactory.h"
 #include "VideoAssetReaderService.h"
+#include "VisualMap.h"
 
 namespace ExampleApp
 {
@@ -52,17 +53,30 @@ namespace ExampleApp
                 void AddBillboard(const BillBoardConfig& config);
                 void OnSingleTap(const AppInterface::TapData& data);
                 
-                void UpdateBillBoardOnFloorChange(int floor_index);
+                void SetFloorIndex(int floor_index);
                 void RemoveAllRenderables();
                 void SetUpTexture(GLuint texture);
                 void SetVideoService(ExampleApp::VideoAssetReader::VideoAssetReaderService &service);
                 void RenderVideoBillBoard();
                 void StopResetVideoService();
                 void ResetAnimatingFlag();
-                void ReSetFloorIndex();
+                void ResetFloorIndex();
                 void RemoveAllBillboards();
-                void ResetBillBoardsAfterResume();
                 void ResetOffsersShownFlag();
+                void CreateBillBoardsFromConfigList();
+                
+                void SetDayTime(std::string dayTime)
+                {
+                    m_dayTime = dayTime;
+                }
+                void SetWeather(std::string weather)
+                {
+                    m_weather = weather;
+                }
+                void SetSeason(std::string season)
+                {
+                    m_season = season;
+                }
                 
             private:
                 
@@ -70,7 +84,10 @@ namespace ExampleApp
                 bool m_isPlayButtonAdded;
                 bool m_isSpecialOfferShown;
                 float m_timer;
-                int m_billBoardsForFloor;
+                int m_currentFloorIndex;
+                std::string m_dayTime;
+                std::string m_weather;
+                std::string m_season;
                 
                 Eegeo::Modules::Core::RenderingModule& m_renderingModule;
                 Eegeo::Helpers::ITextureFileLoader& m_textureFileLoader;
@@ -92,7 +109,7 @@ namespace ExampleApp
                 bool IsInterSectingWithBillBoard(const AppInterface::TapData& data, BillBoardConfig &out_config);
                 
                 void CreateBillBoard(const BillBoardConfig& config);
-                bool IsEligibleForTimePeriod(int startHour , int endHour);
+                bool IsEligibleForTimePeriod(const BillBoardConfig& config);
                 void CheckLineDrawingTimmedOut();
                 void DrawLine(const BillBoardConfig& config);
                 void RemoveLine();

@@ -8,7 +8,7 @@
 #include "BillBoardsController.h"
 #include "VideoAssetReaderService.h"
 #include "Search.h"
-#include "ChangeBillBoardObserver.h"
+
 
 
 namespace ExampleApp
@@ -21,7 +21,6 @@ namespace ExampleApp
             {
             private:
                 ExampleApp::BillBoards::SdkModel::BillBoardsController* m_pBillBoardsController;
-                ChangeBillBoardObserver* m_pChangeBillBoardsObserver;
                 
             public:
                 BillBoardsViewModule(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository,BillBoards::View::BillBoardService& billBoardServices,ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService,  ExampleAppMessaging::TMessageBus& messageBus);

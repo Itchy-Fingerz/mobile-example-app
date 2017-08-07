@@ -213,7 +213,6 @@ namespace ExampleApp
 
                 void InteriorsHighlightVisibilityController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
                 {
-//                    m_isSearchResultsCleared = false;
                     DeactivateHighlightRenderables();
                     if(IsFullAdvertisementModeOn())
                     {
@@ -235,13 +234,9 @@ namespace ExampleApp
                     }
 
                     ShowHighlightsForResults(results);
-//<<<<<<< HEAD
-//                    ActivateLabels(false);
-//=======
-                    
+
                     bool hasResults = m_searchResultRepository.GetItemCount() > 0;
                     ActivateLabels(!hasResults);
-//>>>>>>> 71375456ea8a2948af7abb41392f0ebac15559e2
                 }
 
                 bool InteriorsHighlightVisibilityController::ShowHighlightsForCurrentResults()
