@@ -33,16 +33,6 @@ namespace ExampleApp
                 if(message.Model().HasSeasonState())
                     m_billBoardService.SetSeason(message.Model().GetSeasonState());                
                 
-                if (message.Model().HasTimeState())
-                {
-                    m_billBoardService.RemoveAllRenderables();
-                    m_billBoardService.StopResetVideoService();
-                    m_billBoardService.ReSetFloorIndex();
-                    m_billBoardService.RemoveAllBillboards();
-                    m_billBoardService.ResetOffsersShownFlag();
-                    
-                    //m_messageBus.Publish(SearchResultSection::SearchResultViewClearedMessage());
-                }
             }
             
         }

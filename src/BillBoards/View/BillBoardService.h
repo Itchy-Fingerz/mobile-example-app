@@ -53,17 +53,17 @@ namespace ExampleApp
                 void AddBillboard(const BillBoardConfig& config);
                 void OnSingleTap(const AppInterface::TapData& data);
                 
-                void UpdateBillBoardOnFloorChange(int floor_index);
+                void SetFloorIndex(int floor_index);
                 void RemoveAllRenderables();
                 void SetUpTexture(GLuint texture);
                 void SetVideoService(ExampleApp::VideoAssetReader::VideoAssetReaderService &service);
                 void RenderVideoBillBoard();
                 void StopResetVideoService();
                 void ResetAnimatingFlag();
-                void ReSetFloorIndex();
+                void ResetFloorIndex();
                 void RemoveAllBillboards();
                 void ResetOffsersShownFlag();
-                void ResetBillBoardsAfterResume();
+                void CreateBillBoardsFromConfigList();
                 
                 void SetDayTime(std::string dayTime)
                 {
@@ -84,7 +84,7 @@ namespace ExampleApp
                 bool m_isPlayButtonAdded;
                 bool m_isSpecialOfferShown;
                 float m_timer;
-                int m_billBoardsForFloor;
+                int m_currentFloorIndex;
                 std::string m_dayTime;
                 std::string m_weather;
                 std::string m_season;

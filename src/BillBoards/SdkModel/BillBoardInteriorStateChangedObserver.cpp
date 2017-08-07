@@ -33,13 +33,9 @@ namespace ExampleApp
             {
                 m_billBoardService.RemoveAllRenderables();
                 m_billBoardService.StopResetVideoService();
-                m_billBoardService.UpdateBillBoardOnFloorChange(message.GetFloor());
-                m_billBoardService.ResetBillBoardsAfterResume();
                 m_billBoardService.ResetOffsersShownFlag();
-            }
-            
-            void BillBoardInteriorStateChangedObserver::OnDraggedFloor(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message)
-            {
+                m_billBoardService.SetFloorIndex(message.GetFloor());
+                m_billBoardService.CreateBillBoardsFromConfigList();
             }
             
             void BillBoardInteriorStateChangedObserver::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)
@@ -58,11 +54,9 @@ namespace ExampleApp
                 {
                     m_billBoardService.RemoveAllRenderables();
                     m_billBoardService.StopResetVideoService();
-                    m_billBoardService.ReSetFloorIndex();
+                    m_billBoardService.ResetFloorIndex();
                     m_billBoardService.RemoveAllBillboards();
-                    m_billBoardService.ResetOffsersShownFlag();
-                    
-                    //m_messageBus.Publish(SearchResultSection::SearchResultViewClearedMessage());
+                    m_billBoardService.ResetOffsersShownFlag();                    
                 }
             }
             

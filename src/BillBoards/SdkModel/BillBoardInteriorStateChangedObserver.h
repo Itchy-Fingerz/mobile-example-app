@@ -31,7 +31,6 @@ namespace ExampleApp
                 Eegeo::Modules::Map::Layers::InteriorsPresentationModule& m_interiorsPresentationModule;
                 
                 void OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message);
-                void OnDraggedFloor(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message);
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage& message);
             };
         }

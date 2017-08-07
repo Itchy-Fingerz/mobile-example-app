@@ -213,7 +213,7 @@ namespace ExampleApp
             , m_pVideoAssetReaderService(NULL)
             , m_isSpinnerShown(false)
             , m_isPlayButtonAdded(false)
-            , m_billBoardsForFloor(-1)
+            , m_currentFloorIndex(-1)
             , m_isSpecialOfferShown(false)
             , m_screenProperties(screenProperties)
             , m_messageBus(messageBus)
@@ -264,16 +264,22 @@ namespace ExampleApp
             
             void BillBoardService::AddBillboard(const BillBoardConfig& config)
             {
-                
                 if(!IsBillBoardAdded(config))
                 {
                     m_billBoardConfigList.push_back(config);
-                    
-                    
-                    if (m_billBoardsForFloor == config.floorIndex)
+                }
+            }
+            
+            void BillBoardService::CreateBillBoardsFromConfigList()
+            {
+                
+                for (BillBoardsConfigList::const_iterator iter = m_billBoardConfigList.begin(); iter != m_billBoardConfigList.end(); ++iter)
+                {
+                    const BillBoardConfig& configIter = *iter;
+                    if (m_currentFloorIndex == configIter.floorIndex)
                     {
-                        CreateBillBoard(config);
-                    }                    
+                        CreateBillBoard(configIter);
+                    }
                 }
                 
             }
@@ -345,9 +351,14 @@ namespace ExampleApp
                     StopResetVideoService();
             }
             
-            void BillBoardService::UpdateBillBoardOnFloorChange(int floor_index)
+            void BillBoardService::SetFloorIndex(int floor_index)
             {
-                m_billBoardsForFloor = floor_index;
+                m_currentFloorIndex = floor_index;
+            }
+            
+            void BillBoardService::ResetFloorIndex()
+            {
+                m_currentFloorIndex = -1;
             }
             
             void BillBoardService::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
@@ -758,25 +769,7 @@ namespace ExampleApp
                 return isAlreadyAdded;
                 
             }
-            
-            void BillBoardService::ReSetFloorIndex()
-            {
-                m_billBoardsForFloor = -1;
-            }
 
-            void BillBoardService::ResetBillBoardsAfterResume()
-            {
-                
-                for (BillBoardsConfigList::const_iterator iter = m_billBoardConfigList.begin(); iter != m_billBoardConfigList.end(); ++iter)
-                {
-                    const BillBoardConfig& configIter = *iter;
-                    if (m_billBoardsForFloor == configIter.floorIndex)
-                    {
-                        CreateBillBoard(configIter);
-                    }
-                }
-                
-            }
             void BillBoardService::ResetOffsersShownFlag()
             {
                 m_isSpecialOfferShown = false;

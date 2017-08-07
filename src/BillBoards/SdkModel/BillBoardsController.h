@@ -20,7 +20,7 @@ namespace ExampleApp
             {
             private:
                 
-                BillBoards::View::BillBoardService& m_pBillBoardService;
+                BillBoards::View::BillBoardService& m_billBoardService;
                 ExampleApp::BillBoards::SdkModel::BillBoardsRepository& m_billBoardrepository;
                 Eegeo::Helpers::TCallback1<BillBoardsController, ExampleApp::BillBoards::SdkModel::BillBoardModel*> m_billBoardAddedCallback;
                 Eegeo::Helpers::TCallback1<BillBoardsController, ExampleApp::BillBoards::SdkModel::BillBoardModel*> m_billBoardRemoveCallback;
@@ -44,7 +44,6 @@ namespace ExampleApp
                 
                 void Update(float dt);
                 void CreateMockBillBoards();
-                void RefreshBillBoards();
 
             };
         }

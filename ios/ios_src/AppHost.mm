@@ -601,6 +601,8 @@ void AppHost::DestroyApplicationViewModules()
     Eegeo_DELETE m_pDirectionsMenuInitiationViewModule;
     
     Eegeo_DELETE m_pCustomAlertViewModule;
+    
+    Eegeo_DELETE m_pBillBoardsViewModule;
 }
 
 void AppHost::SetTouchExclusivity()
