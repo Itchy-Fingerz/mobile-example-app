@@ -45,6 +45,8 @@ namespace ExampleApp
                 m_pFloorChangeObserver = Eegeo_NEW(SdkModel::BillBoardInteriorStateChangedObserver)(messageBus,*m_pBillBoardService,interiorsPresentationModule);
 
                 m_pWeatherChangeObserver = Eegeo_NEW(SdkModel::BillBoardWeatherStateChangedObserver)(messageBus,*m_pBillBoardService);
+                
+                m_pShowOffersSelectionObserver = Eegeo_NEW(SdkModel::BillBoardShowOffersSelectionObserver)(messageBus,*m_pBillBoardService);
             }
             
             BillBoardsModule::~BillBoardsModule()
@@ -54,6 +56,8 @@ namespace ExampleApp
                 Eegeo_DELETE m_pFloorChangeObserver;
                 Eegeo_DELETE m_pQuadLineFactory;
                 Eegeo_DELETE m_pWeatherChangeObserver;
+                Eegeo_DELETE m_pShowOffersSelectionObserver;
+                
             }
             
         }

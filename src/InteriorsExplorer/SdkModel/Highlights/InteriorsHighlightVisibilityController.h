@@ -62,7 +62,7 @@ namespace ExampleApp
 
                     void BillboardsSelected(const BillBoards::BillBoardSelectedMessage& selectedMessage);
                     void ShowOffersSlected(const BillBoards::ShowOfferHighlightMessage& selectedMessage);
-                    bool OnShowOffers();
+//                    bool OnShowOffers();
                     bool OnHideOffers();
 
                     bool HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;

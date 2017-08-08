@@ -16,7 +16,7 @@ namespace ExampleApp
         namespace SdkModel
         {
             
-            BillBoardsController::BillBoardsController(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository, BillBoards::View::BillBoardService& billBoardServices, ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService)
+            BillBoardsController::BillBoardsController(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository, BillBoards::View::BillBoardService& billBoardServices, ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService, Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel)
             : m_billBoardrepository(billBoardRepository)
             , m_billBoardService(billBoardServices)
             , m_videoAssetReaderService(videoAssetService)
@@ -24,6 +24,7 @@ namespace ExampleApp
             , m_billBoardRemoveCallback(this, &BillBoardsController::OnBillBoardAdded)
             , m_searchResultsHandler(this, &BillBoardsController::OnSearchResultsLoaded)
             , m_searchService(searchService)
+            , m_interiorInteractionModel(interiorInteractionModel)
             {
                 
                 m_billBoardrepository.InsertItemAddedCallback(m_billBoardAddedCallback);
@@ -38,6 +39,8 @@ namespace ExampleApp
             {
                 m_billBoardrepository.RemoveItemAddedCallback(m_billBoardAddedCallback);
                 m_billBoardrepository.RemoveItemRemovedCallback(m_billBoardRemoveCallback);
+                
+                m_searchService.RemoveOnReceivedQueryResultsCallback(m_searchResultsHandler);
             }
             
             void BillBoardsController::OnBillBoardAdded(ExampleApp::BillBoards::SdkModel::BillBoardModel*&)
@@ -173,11 +176,11 @@ namespace ExampleApp
                         }
                     }
                     
-                    //#TO DO: Add Interior ID Condition for the following
-                    m_billBoardService.SetFloorIndex(1);
+                    
+                    m_billBoardService.SetFloorIndex(m_interiorInteractionModel.GetSelectedFloorIndex());
                     m_billBoardService.CreateBillBoardsFromConfigList();
+                    
                 }
-
             }
             
             void BillBoardsController::CreateMockBillBoards()

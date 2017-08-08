@@ -13,6 +13,7 @@
 #include "BillBoardInteriorStateChangedObserver.h"
 #include "QuadLineFactory.h"
 #include "BillBoardWeatherStateChangedObserver.h"
+#include "BillBoardShowOffersSelectionObserver.h"
 
 namespace ExampleApp
 {
@@ -36,6 +37,7 @@ namespace ExampleApp
                 SdkModel::BillBoardInteriorStateChangedObserver* m_pFloorChangeObserver;
                 
                 SdkModel::BillBoardWeatherStateChangedObserver * m_pWeatherChangeObserver;
+                SdkModel::BillBoardShowOffersSelectionObserver * m_pShowOffersSelectionObserver;
                 
             public:
                 BillBoardsModule(Eegeo::Modules::Core::RenderingModule& renderingModule,

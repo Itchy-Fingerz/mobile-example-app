@@ -60,10 +60,10 @@ namespace ExampleApp
                 void RenderVideoBillBoard();
                 void StopResetVideoService();
                 void ResetAnimatingFlag();
-                void ResetFloorIndex();
-                void RemoveAllBillboards();
-                void ResetOffsersShownFlag();
+
+                void PartialRefreshService();
                 void CreateBillBoardsFromConfigList();
+                void FullRefreshService();
                 
                 void SetDayTime(std::string dayTime)
                 {

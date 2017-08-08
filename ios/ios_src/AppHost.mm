@@ -471,7 +471,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 
     m_pVideoAssetReaderModule = Eegeo_NEW(ExampleApp::VideoAssetReader::VideoAssetReaderModule)(m_messageBus);
     
-    m_pBillBoardsViewModule = Eegeo_NEW(ExampleApp::BillBoards::View::BillBoardsViewModule)(m_pApp->BillBoardModule().GetBillBoardRepository(),m_pApp->BillBoardModule().GetBillBoardService(),m_pVideoAssetReaderModule->GetVideoAssetReaderService(), m_pApp->GetEegeoSearchService(), m_messageBus);
+    m_pBillBoardsViewModule = Eegeo_NEW(ExampleApp::BillBoards::View::BillBoardsViewModule)(m_pApp->BillBoardModule().GetBillBoardRepository(),m_pApp->BillBoardModule().GetBillBoardService(),m_pVideoAssetReaderModule->GetVideoAssetReaderService(), m_pApp->GetEegeoSearchService(),app.World().GetMapModule().GetInteriorsPresentationModule().GetInteriorInteractionModel(), m_messageBus);
 
     
     // 3d map view layer.

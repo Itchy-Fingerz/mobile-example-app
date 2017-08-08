@@ -256,10 +256,21 @@ namespace ExampleApp
                 }
                 
             }
-            
-            void BillBoardService::RemoveAllBillboards()
+            void BillBoardService::FullRefreshService()
             {
+                RemoveAllRenderables();
+                StopResetVideoService();                
+                m_isSpecialOfferShown = false;
+                m_currentFloorIndex = -1;
                 m_billBoardConfigList.clear();
+            }
+            
+            void BillBoardService::PartialRefreshService()
+            {
+                RemoveAllRenderables();
+                StopResetVideoService();
+                m_isSpecialOfferShown = false;
+                
             }
             
             void BillBoardService::AddBillboard(const BillBoardConfig& config)
@@ -356,10 +367,10 @@ namespace ExampleApp
                 m_currentFloorIndex = floor_index;
             }
             
-            void BillBoardService::ResetFloorIndex()
-            {
-                m_currentFloorIndex = -1;
-            }
+//            void BillBoardService::ResetFloorIndex()
+//            {
+//
+//            }
             
             void BillBoardService::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
             {
@@ -770,10 +781,10 @@ namespace ExampleApp
                 
             }
 
-            void BillBoardService::ResetOffsersShownFlag()
-            {
-                m_isSpecialOfferShown = false;
-            }
+//            void BillBoardService::ResetOffsersShownFlag()
+//            {
+//                
+//            }
             
         }
     }

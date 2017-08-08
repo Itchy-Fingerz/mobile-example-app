@@ -214,21 +214,21 @@ namespace ExampleApp
                 void InteriorsHighlightVisibilityController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
                 {
                     DeactivateHighlightRenderables();
+                    
+                    if (m_isOffersActivated)
+                    {
+                        if(OnShowOffersFromResults(results))
+                        {
+                            ActivateLabels(false);
+                        }
+                        return;
+                    }
+                    
                     if(IsFullAdvertisementModeOn())
                     {
                         AddBillBoardToSelectedFromResults(m_lastSelectedBillBoard,results);
                         
-                        if (m_isOffersActivated)
-                        {
-                            if(OnShowOffersFromResults(results))
-                            {
-                                ActivateLabels(false);
-                            }
-                        }
-                        else
-                        {
-                            ShowHighlightsForResults(m_selectedBillBoards);
-                        }
+                        ShowHighlightsForResults(m_selectedBillBoards);
                         
                         return;
                     }
@@ -325,7 +325,7 @@ namespace ExampleApp
                     
                     ShowHighlightsForResults(m_selectedBillBoards);
 
-                    if(IsFullAdvertisementModeOn() == false)
+                    if(!IsFullAdvertisementModeOn() && !m_isOffersActivated)
                     {
                         m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage(selectedMessage.GetUniqueTag(), true, true));
                     }
@@ -333,41 +333,7 @@ namespace ExampleApp
                 
                 void InteriorsHighlightVisibilityController::ShowOffersSlected(const BillBoards::ShowOfferHighlightMessage& selectedMessage)
                 {
-                    if(selectedMessage.GetSelectedOption())
-                    {
-                        m_isOffersActivated = true;
-                        
-                        if(IsFullAdvertisementModeOn() == false)
-                        {
-                            m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("Specialoffer", true, true));
-                        }
-                        else
-                        {
-                            OnShowOffers();
-                        }
-                    }
-                    else
-                    {
-                        //m_isOffersActivated = false;
-                        //OnHideOffers();
-                    }
-                }
-                
-                bool InteriorsHighlightVisibilityController::OnShowOffers()
-                {
-                    for (int i = 0; i < m_searchResultRepository.GetItemCount(); i++)
-                    {
-                        Search::SdkModel::SearchResultModel* pResult = m_searchResultRepository.GetItemAtIndex(i);
-                        
-                        if(IsSpecialOfferBillBoard(pResult))
-                        {
-                            if(!IsBillBoardAlreadySelected(pResult->GetIdentifier()))
-                                m_selectedBillBoards.push_back(*pResult);
-                        }
-                    }
-                    
-                    m_isOffersActivated = true;
-                    return ShowHighlightsForResults(m_selectedBillBoards);
+                    m_isOffersActivated = selectedMessage.GetSelectedOption();
                 }
                 
                 bool InteriorsHighlightVisibilityController::OnShowOffersFromResults(const std::vector<Search::SdkModel::SearchResultModel>& results)

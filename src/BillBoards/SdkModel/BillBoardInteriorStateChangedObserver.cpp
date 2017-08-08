@@ -31,9 +31,8 @@ namespace ExampleApp
             
             void BillBoardInteriorStateChangedObserver::OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message)
             {
-                m_billBoardService.RemoveAllRenderables();
-                m_billBoardService.StopResetVideoService();
-                m_billBoardService.ResetOffsersShownFlag();
+                m_billBoardService.PartialRefreshService();
+                
                 m_billBoardService.SetFloorIndex(message.GetFloor());
                 m_billBoardService.CreateBillBoardsFromConfigList();
             }
@@ -52,11 +51,7 @@ namespace ExampleApp
                 }
                 else if (message.GetAppMode() == AppModes::SdkModel::WorldMode)
                 {
-                    m_billBoardService.RemoveAllRenderables();
-                    m_billBoardService.StopResetVideoService();
-                    m_billBoardService.ResetFloorIndex();
-                    m_billBoardService.RemoveAllBillboards();
-                    m_billBoardService.ResetOffsersShownFlag();                    
+                    m_billBoardService.FullRefreshService();
                 }
             }
             

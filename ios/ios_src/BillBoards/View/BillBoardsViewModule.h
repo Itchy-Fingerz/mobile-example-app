@@ -23,7 +23,7 @@ namespace ExampleApp
                 ExampleApp::BillBoards::SdkModel::BillBoardsController* m_pBillBoardsController;
                 
             public:
-                BillBoardsViewModule(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository,BillBoards::View::BillBoardService& billBoardServices,ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService,  ExampleAppMessaging::TMessageBus& messageBus);
+                BillBoardsViewModule(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository,BillBoards::View::BillBoardService& billBoardServices,ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel, ExampleAppMessaging::TMessageBus& messageBus);
                 ~BillBoardsViewModule();
                         
             };

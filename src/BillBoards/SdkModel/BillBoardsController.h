@@ -9,6 +9,7 @@
 #include "QuadLineFactory.h"
 #include "VideoAssetReaderService.h"
 #include "Search.h"
+#include "InteriorInteractionModel.h"
 
 namespace ExampleApp
 {
@@ -26,6 +27,9 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<BillBoardsController, ExampleApp::BillBoards::SdkModel::BillBoardModel*> m_billBoardRemoveCallback;
 
                 ExampleApp::VideoAssetReader::VideoAssetReaderService& m_videoAssetReaderService;
+                
+                Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
+                
                 void OnBillBoardAdded(ExampleApp::BillBoards::SdkModel::BillBoardModel*&);
                 void OnBillBoardRemoved(ExampleApp::BillBoards::SdkModel::BillBoardModel*&);
 
@@ -38,7 +42,7 @@ namespace ExampleApp
                 void AddVideoFrame(const View::BillBoardConfig& config);
             public:
                 
-                BillBoardsController(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository, BillBoards::View::BillBoardService& billBoardServices, ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService);
+                BillBoardsController(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository, BillBoards::View::BillBoardService& billBoardServices, ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService, Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel);
                 
                 ~BillBoardsController();
                 

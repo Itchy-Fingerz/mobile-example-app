@@ -10,9 +10,9 @@ namespace ExampleApp
     {
         namespace View
         {
-            BillBoardsViewModule::BillBoardsViewModule(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository,BillBoards::View::BillBoardService& billBoardServices,ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService, ExampleAppMessaging::TMessageBus& messageBus)
+            BillBoardsViewModule::BillBoardsViewModule(ExampleApp::BillBoards::SdkModel::BillBoardsRepository& billBoardRepository,BillBoards::View::BillBoardService& billBoardServices,ExampleApp::VideoAssetReader::VideoAssetReaderService& videoAssetService, Search::SdkModel::ISearchService& searchService,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel, ExampleAppMessaging::TMessageBus& messageBus)
             {
-                m_pBillBoardsController = Eegeo_NEW(ExampleApp::BillBoards::SdkModel::BillBoardsController)(billBoardRepository,billBoardServices, videoAssetService, searchService);
+                m_pBillBoardsController = Eegeo_NEW(ExampleApp::BillBoards::SdkModel::BillBoardsController)(billBoardRepository,billBoardServices, videoAssetService, searchService, interiorInteractionModel);
                 m_pBillBoardsController->CreateMockBillBoards();
             }
             
