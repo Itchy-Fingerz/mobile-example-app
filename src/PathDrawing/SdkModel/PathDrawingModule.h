@@ -15,7 +15,6 @@
 #include "WorldPins.h"
 #include "TagSearch.h"
 #include "WayPointOnMapModel.h"
-#include "DirectionsMenuStateChangedMessage.h"
 #include "CameraTransitionService.h"
 namespace ExampleApp
 {
@@ -45,6 +44,7 @@ namespace ExampleApp
                 
                 IPathDrawingController& GetPathDrawingController() const;
                 
+                WayPointOnMapModel& GetWayPointOnMapModel() const;
                 
                 void Update(float dt);
                                 

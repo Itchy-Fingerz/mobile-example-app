@@ -51,6 +51,11 @@ namespace ExampleApp
                 return *m_pPathDrawingController;
             }
             
+            WayPointOnMapModel& PathDrawingModule::GetWayPointOnMapModel() const
+            {
+                return *m_pWayPointOnMapModel;
+            }
+
             void PathDrawingModule::Update(float dt)
             {
                 

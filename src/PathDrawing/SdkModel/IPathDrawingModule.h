@@ -5,6 +5,8 @@
 #include "IScreenControlViewModel.h"
 #include "WayPointsRepository.h"
 #include "IPathDrawingController.h"
+#include "WayPointOnMapModel.h"
+
 namespace ExampleApp
 {
     namespace PathDrawing
@@ -19,6 +21,8 @@ namespace ExampleApp
                 virtual IWayPointsRepository& GetWayPointsRepository() const = 0;
                 
                 virtual IPathDrawingController& GetPathDrawingController() const = 0;
+         
+                virtual WayPointOnMapModel& GetWayPointOnMapModel() const = 0;
                 
                 virtual void Update(float dt) = 0;
             };

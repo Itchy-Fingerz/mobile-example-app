@@ -21,6 +21,8 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
+            typedef std::map<ExampleApp::PathDrawing::WayPointModel*, ExampleApp::WorldPins::SdkModel::WorldPinItemModel*> WayPointModelToPinMap;
+            
             class WayPointOnMapModel : private Eegeo::NonCopyable
             {
             private:
@@ -39,7 +41,7 @@ namespace ExampleApp
                 
                 typedef std::map<ExampleApp::PathDrawing::WayPointModel*, ExampleApp::WorldPins::SdkModel::WorldPinItemModel*>::iterator mapIt;
                 
-                std::map<ExampleApp::PathDrawing::WayPointModel*, ExampleApp::WorldPins::SdkModel::WorldPinItemModel*> m_wayPointsToPinModel;
+                WayPointModelToPinMap m_wayPointsToPinModel;
                 
                 public:
                 
@@ -55,6 +57,8 @@ namespace ExampleApp
                 
                 std::string GetWayPointIconForType(int wayPointId);
                 
+                void HideAllWayPoints();
+                void ShowAllWayPoints();
             };
         }
     }

@@ -367,11 +367,6 @@ namespace ExampleApp
                 m_currentFloorIndex = floor_index;
             }
             
-//            void BillBoardService::ResetFloorIndex()
-//            {
-//
-//            }
-            
             void BillBoardService::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
             {
                 const float environmentFlatteningScale = m_environmentFlatteningService.GetCurrentScale();
@@ -780,11 +775,6 @@ namespace ExampleApp
                 return isAlreadyAdded;
                 
             }
-
-//            void BillBoardService::ResetOffsersShownFlag()
-//            {
-//                
-//            }
             
         }
     }

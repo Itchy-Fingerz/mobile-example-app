@@ -68,8 +68,6 @@ namespace ExampleApp
                                               , WorldPins::SdkModel::WorldPinVisibility::World);
                     
                     pinItemModel->SetFocusable(false);
-                    // Add pin to map
-                    
                     m_wayPointsToPinModel.insert(std::make_pair(wayPoint, pinItemModel));
                 }
 
@@ -99,6 +97,51 @@ namespace ExampleApp
             std::string WayPointOnMapModel::GetWayPointIconForType(int wayPointId)
             {
                 return "pin_number_" + std::to_string(wayPointId);
+            }
+            
+            void WayPointOnMapModel::HideAllWayPoints()
+            {
+                for (WayPointModelToPinMap::iterator it = m_wayPointsToPinModel.begin(); it != m_wayPointsToPinModel.end(); ++it)
+                {
+                    ExampleApp::WorldPins::SdkModel::WorldPinItemModel* pinItemModel = it->second;
+                    m_worldPinsService.RemovePin(pinItemModel);
+                }
+            }
+            
+            void WayPointOnMapModel::ShowAllWayPoints()
+            {
+                for (WayPointModelToPinMap::iterator it = m_wayPointsToPinModel.begin(); it != m_wayPointsToPinModel.end(); ++it)
+                {
+                    WayPointModel *wayPoint = it->first;
+                    
+                    if(wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Start || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::End || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Left || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Right || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Elevator || wayPoint->GetType() == ExampleApp::PathDrawing::WayPointType::Entrance )
+                    {
+                        
+                        WorldPins::SdkModel::WorldPinFocusData worldPinFocusData("",
+                                                                                 "",
+                                                                                 "",
+                                                                                 "",
+                                                                                 "",
+                                                                                 0,
+                                                                                 0);
+                        
+                        WorldPins::SdkModel::WorldPinInteriorData worldPinInteriorData(Eegeo::Resources::Interiors::InteriorId(wayPoint->GetBuildingID()), wayPoint->GetLevel());
+                        
+                        ExampleApp::WorldPins::SdkModel::WorldPinItemModel *pinItemModel =
+                        m_worldPinsService.AddPin(Eegeo_NEW(WayPointSelectionHandler(*wayPoint,m_messageBus,m_cameraTransitionService))
+                                                  , NULL
+                                                  , worldPinFocusData
+                                                  , wayPoint->GetInInterior()
+                                                  , worldPinInteriorData
+                                                  , wayPoint->GetLocation()
+                                                  , GetWayPointIconForType(wayPoint->GetWayPointNumber())
+                                                  , 0.f
+                                                  , WorldPins::SdkModel::WorldPinVisibility::World);
+                        
+                        pinItemModel->SetFocusable(false);
+                        it->second = pinItemModel;
+                    }
+                }
             }
         }
     }

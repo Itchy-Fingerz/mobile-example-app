@@ -422,14 +422,6 @@ namespace ExampleApp
 
         m_pLoadingScreen = CreateLoadingScreen(screenProperties, m_pWorld->GetRenderingModule(), m_pWorld->GetPlatformAbstractionModule());
         
-
-        
-        m_pPathDrawingModule = Eegeo_NEW(ExampleApp::PathDrawing::SdkModel::PathDrawingModule)(DirectionsMenuModule().GetDirectionsSectionViewModel(),
-                                                                                               m_pWorldPinsModule->GetWorldPinsService(),
-                                                                                               m_pWorld->GetRoutesModule().GetRouteService(),
-                                                                                               *m_pGlobeCameraWrapper,m_pTagSearchModule->GetSearchResultIconKeyMapper(),
-                                                                                               m_messageBus,*m_pCameraTransitionService);
-        
         m_pdirectionReCalculationService = Eegeo_NEW(ExampleApp::DirectionReCalculationService::SdkModel::DirectionReCalculationService)(m_pWorld->GetLocationService(),
                                                                                                                                          m_pPathDrawingModule->GetPathDrawingController(),
                                                                                                                                          m_messageBus,
@@ -925,6 +917,12 @@ namespace ExampleApp
         Eegeo::Modules::Core::DebugRenderingModule& debugRenderingModule = m_pWorld->GetDebugRenderingModule();        const Eegeo::Modules::IPlatformAbstractionModule& platformAbstractionModule = m_pWorld->GetPlatformAbstractionModule();
         
         
+        m_pPathDrawingModule = Eegeo_NEW(ExampleApp::PathDrawing::SdkModel::PathDrawingModule)(DirectionsMenuModule().GetDirectionsSectionViewModel(),
+                                                                                               m_pWorldPinsModule->GetWorldPinsService(),
+                                                                                               m_pWorld->GetRoutesModule().GetRouteService(),
+                                                                                               *m_pGlobeCameraWrapper,m_pTagSearchModule->GetSearchResultIconKeyMapper(),
+                                                                                               m_messageBus,*m_pCameraTransitionService);
+        
         m_pBillBoardModule = Eegeo_NEW(BillBoards::View::BillBoardsModule)(renderingModule,
                                                                            debugRenderingModule.GetDebugRenderer(),
                                                                            platformAbstractionModule.GetTextureFileLoader(),
@@ -932,6 +930,7 @@ namespace ExampleApp
                                                                            m_pAppCameraModule->GetController(),
                                                                            m_screenProperties,
                                                                            m_pWorld->GetMapModule().GetInteriorsPresentationModule(),
+                                                                           m_pPathDrawingModule->GetWayPointOnMapModel(),
                                                                            m_messageBus);
         
         m_pSearchMenuModule->SetSearchSection("Search Results", m_pSearchResultSectionModule->GetSearchResultSectionModel());

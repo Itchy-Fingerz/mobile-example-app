@@ -33,7 +33,6 @@ namespace ExampleApp
             , m_messageBus(messageBus)
             , m_routeService(routeService)
             , m_routeRepository(routeRepository)
-//            , m_pInteriorInteractionModel(interiorInteractionModel)
             , m_directionsMenuStateChangedCallback(this, &FindDirectionService::OnDirectionsMenuStateChanged)
             , m_onFindNewDirectionCallback(this, &FindDirectionService::OnFindNewDirection)
             , m_appModeChangedCallback(this, &FindDirectionService::OnAppModeChanged)
@@ -107,13 +106,9 @@ namespace ExampleApp
                     }
                     else
                     {
-                        
-//                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleNone, Eegeo::Rendering::LayerIds::AfterWorld);
 
                         Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, true, 0.0f);
 
-                        // this will asynchronously parse the result and add the resulting route to m_routeService
-//                      m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle, m_pInteriorInteractionModel);
                         m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle);
                         
                         if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
@@ -122,7 +117,6 @@ namespace ExampleApp
                         }
                         
                     }
-                    
                 }
                 else
                 {
@@ -172,17 +166,13 @@ namespace ExampleApp
                         
                          m_routes = m_routeRepository.GetRoutes();
                     }
-
                 }
-                
             }
             
             void FindDirectionService::Update(float dt)
             {
-
                 float altitude = m_cameraWrapper.GetRenderCamera().GetAltitude();
                 altitude = 0;
-              //  m_routeThicknessPolicy.SetAltitude(altitude);
             }
         }
     }

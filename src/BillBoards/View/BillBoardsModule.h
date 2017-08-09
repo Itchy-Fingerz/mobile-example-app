@@ -47,6 +47,7 @@ namespace ExampleApp
                                  AppCamera::SdkModel::IAppCameraController& iCameraController,
                                  const Eegeo::Rendering::ScreenProperties& screenProperties,
                                  Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule,
+                                 PathDrawing::SdkModel::WayPointOnMapModel &wayPointModel,
                                  ExampleAppMessaging::TMessageBus& messageBus);
                 ~BillBoardsModule();
                 
