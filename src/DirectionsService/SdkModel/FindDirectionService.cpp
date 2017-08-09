@@ -39,7 +39,7 @@ namespace ExampleApp
             , m_pIsInteriorRoute(false)
             , m_routes (NULL)
             , m_cameraWrapper(cameraWrapper)
-
+            , isRouteDrawn(false)
 
             {
                 m_messageBus.SubscribeUi(m_directionsMenuStateChangedCallback);
@@ -98,8 +98,10 @@ namespace ExampleApp
                 if(m_pCurrentRequest->IsSucceeded())
                 {
                     const std::string& response(m_pCurrentRequest->ResponseString());
+                    responseString = response;
                     DirectionResultModel result =  m_findDirectionResultParser.ParseGeoNamesQueryResults(response);
                     m_messageBus.Publish(DirectionResultSection::DirectionQueryResponseReceivedMessage(result));
+                    
                     if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
                     {
                         m_alertBoxFactory.CreateSingleOptionAlertBox("Failed to obtain route.", "No location found matching.", m_failAlertHandler);
@@ -110,6 +112,7 @@ namespace ExampleApp
                         Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, true, 0.0f);
 
                         m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle);
+                        isRouteDrawn = true;
                         
                         if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
                         {
@@ -133,6 +136,22 @@ namespace ExampleApp
             void FindDirectionService::ClearRoutes()
             {
                 m_routeService.DestroyAllRoutes();
+                isRouteDrawn = false;
+            }
+            
+            void FindDirectionService::HideAllRoutes()
+            {
+                m_routeService.DestroyAllRoutes();
+            }
+            
+            void FindDirectionService::ShowLastRequestRoutes()
+            {
+                if(isRouteDrawn)
+                {
+                    Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, true, 0.0f);
+                
+                    m_resultParser.CreateRouteFromJSON(responseString, m_routeService, routeStyle);
+                }
             }
             
             void FindDirectionService::OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message)

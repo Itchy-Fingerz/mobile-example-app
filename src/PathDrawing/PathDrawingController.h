@@ -11,7 +11,6 @@
 #include "IPathDrawingController.h"
 #include "AppGlobeCameraWrapper.h"
 #include "IWayPointsRepository.h"
-#include "DirectionQueryResponseReceivedMessage.h"
 #include "DirectionsMenuStateChangedMessage.h"
 #include "BidirectionalBus.h"
 #include "PathDrawingOptionsModel.h"

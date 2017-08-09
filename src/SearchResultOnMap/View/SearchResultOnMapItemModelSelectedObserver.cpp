@@ -30,7 +30,7 @@ namespace ExampleApp
                 {
                     if (!m_searchResultPoiViewModel.IsOpen())
                     {
-                        DirectionsMenuInitiation::DirectionsMenuStateChangedMessage directionMenuStateChangeMessage(ExampleApp::DirectionsMenuInitiation::Active,true);
+                        DirectionsMenuInitiation::DirectionsMenuStateChangedMessage directionMenuStateChangeMessage(ExampleApp::DirectionsMenuInitiation::Active,true,false);
                         m_messageBus.Publish(directionMenuStateChangeMessage);
                         m_searchResultPoiViewModel.Open(message.GetModel(), false);
 

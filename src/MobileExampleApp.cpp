@@ -931,6 +931,8 @@ namespace ExampleApp
                                                                            m_screenProperties,
                                                                            m_pWorld->GetMapModule().GetInteriorsPresentationModule(),
                                                                            m_pPathDrawingModule->GetWayPointOnMapModel(),
+                                                                           m_pFindDirectionServiceModule->GetFindDirectionService(),
+                                                                           m_pDirectionsMenuModule->GetDirectionsMenuViewModel(),
                                                                            m_messageBus);
         
         m_pSearchMenuModule->SetSearchSection("Search Results", m_pSearchResultSectionModule->GetSearchResultSectionModel());

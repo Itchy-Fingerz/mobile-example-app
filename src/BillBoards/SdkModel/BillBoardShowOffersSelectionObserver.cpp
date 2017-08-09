@@ -8,12 +8,14 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            BillBoardShowOffersSelectionObserver::BillBoardShowOffersSelectionObserver(ExampleAppMessaging::TMessageBus& messageBus,View::BillBoardService& billBoardService,PathDrawing::SdkModel::WayPointOnMapModel &wayPointModel)
+            BillBoardShowOffersSelectionObserver::BillBoardShowOffersSelectionObserver(View::BillBoardService& billBoardService,PathDrawing::SdkModel::WayPointOnMapModel &wayPointModel,Direction::SdkModel::FindDirectionService &findDirectionService, Menu::View::IMenuViewModel& directionViewModel,ExampleAppMessaging::TMessageBus& messageBus)
             : m_showOfferSelectionCallback(this,&BillBoardShowOffersSelectionObserver::OnShowOfferSelected)
             , m_directionsMenuStateChangedCallback(this,&BillBoardShowOffersSelectionObserver::OnDirectionMenuStateChanged)
             , m_wayPointModel(wayPointModel)
             , isSpecialOffersModeOn(false)
             , m_messageBus(messageBus)
+            , m_findDirectionService(findDirectionService)
+            , m_directionViewModel(directionViewModel)
             {
                 m_messageBus.SubscribeNative(m_showOfferSelectionCallback);
                 m_messageBus.SubscribeUi(m_directionsMenuStateChangedCallback);
@@ -31,16 +33,25 @@ namespace ExampleApp
                 {
                     isSpecialOffersModeOn = true;
                     m_wayPointModel.HideAllWayPoints();
+                    m_findDirectionService.HideAllRoutes();
+
+                    // Add condition here to check the current state of Directions menu
+                    
                     m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("Specialoffer", true, true));
+                    if(m_directionViewModel.IsFullyOpen())
+                    {
+                        m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active,false,true));
+                    }
                 }
             }
          
             void BillBoardShowOffersSelectionObserver::OnDirectionMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage &message)
             {
-                if(isSpecialOffersModeOn)
+                if(message.GetDirectionsMenuStage() == DirectionsMenuInitiation::Active && isSpecialOffersModeOn && !message.GetSpecialOffersFlag())
                 {
                     isSpecialOffersModeOn = false;
                     m_wayPointModel.ShowAllWayPoints();
+                    m_findDirectionService.ShowLastRequestRoutes();
                 }
             }
         }

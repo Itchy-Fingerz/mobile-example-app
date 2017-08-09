@@ -134,7 +134,7 @@ namespace ExampleApp
                 if (m_isExitDirections)
                 {
                     m_isExitDirections = false;
-                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false);
+                    DirectionsMenuInitiation::DirectionsMenuStateChangedMessage message(ExampleApp::DirectionsMenuInitiation::Inactive,false,false);
                     m_messageBus.Publish(message);
                     
                     RefreshPresentation(true);
@@ -351,7 +351,7 @@ namespace ExampleApp
             {
                 
                 m_directionsMenuView.StartSearchForShowMeWay(message.GetSearchResultModel());
-                m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active,false));
+                m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active,false,false));
             
             }
             

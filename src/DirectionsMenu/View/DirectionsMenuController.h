@@ -65,10 +65,6 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::OnSecreenTapMessage&> m_onScreenSingleTapCallback;
                 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::ShowMeDirectionMessage&> m_showMeDirectionMessageCallback;
-
-
-
-
                 
                 
                 void OnOpenStateChanged(OpenableControl::View::IOpenableControlViewModel& viewModel, float& openState);

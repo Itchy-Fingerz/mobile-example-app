@@ -60,7 +60,9 @@ namespace ExampleApp
                 std::vector<const Eegeo::Routes::Route *> m_routes;
                 AppCamera::SdkModel::AppGlobeCameraWrapper& m_cameraWrapper;
 
-
+                std::string responseString;
+                bool isRouteDrawn;
+                
             public:
                 
                 FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& m_findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper);
@@ -70,6 +72,8 @@ namespace ExampleApp
                 void RemoveOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback1<const DirectionResultModel& >& callback);
                 void PerformLocationQuerySearch(const Direction::SdkModel::FindDirectionQuery& findDirectionQuery);
                 void ClearRoutes();
+                void HideAllRoutes();
+                void ShowLastRequestRoutes();
                 void Update(float dt);
 
             };

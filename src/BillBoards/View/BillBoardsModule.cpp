@@ -13,14 +13,17 @@ namespace ExampleApp
         namespace View
         {
             BillBoardsModule::BillBoardsModule(Eegeo::Modules::Core::RenderingModule& renderingModule,
-                                                               Eegeo::DebugRendering::DebugRenderer& debugRenderer,
-                                                               Eegeo::Helpers::ITextureFileLoader& textureFileLoader,
-                                                               Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService,
-                                                               AppCamera::SdkModel::IAppCameraController& iCameraController,
-                                                               const Eegeo::Rendering::ScreenProperties& screenProperties,
-                                                               Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule,
-                                                               PathDrawing::SdkModel::WayPointOnMapModel &wayPointModel,
-                                                               ExampleAppMessaging::TMessageBus& messageBus)            :m_renderingModule(renderingModule)
+                                               Eegeo::DebugRendering::DebugRenderer& debugRenderer,
+                                               Eegeo::Helpers::ITextureFileLoader& textureFileLoader,
+                                               Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService,
+                                               AppCamera::SdkModel::IAppCameraController& iCameraController,
+                                               const Eegeo::Rendering::ScreenProperties& screenProperties,
+                                               Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule,
+                                               PathDrawing::SdkModel::WayPointOnMapModel &wayPointModel,
+                                               Direction::SdkModel::FindDirectionService &findDirectionService,
+                                               Menu::View::IMenuViewModel& directionViewModel,
+                                               ExampleAppMessaging::TMessageBus& messageBus)
+            :m_renderingModule(renderingModule)
             , m_debugRenderer(debugRenderer)
             ,m_textureFileLoader(textureFileLoader)
             ,m_environmentFlatteningService(environmentFlatteningService)
@@ -46,7 +49,7 @@ namespace ExampleApp
 
                 m_pWeatherChangeObserver = Eegeo_NEW(SdkModel::BillBoardWeatherStateChangedObserver)(messageBus,*m_pBillBoardService);
                 
-                m_pShowOffersSelectionObserver = Eegeo_NEW(SdkModel::BillBoardShowOffersSelectionObserver)(messageBus,*m_pBillBoardService,wayPointModel);
+                m_pShowOffersSelectionObserver = Eegeo_NEW(SdkModel::BillBoardShowOffersSelectionObserver)(*m_pBillBoardService,wayPointModel,findDirectionService,directionViewModel,messageBus);
             }
             
             BillBoardsModule::~BillBoardsModule()

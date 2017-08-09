@@ -48,6 +48,8 @@ namespace ExampleApp
                                  const Eegeo::Rendering::ScreenProperties& screenProperties,
                                  Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule,
                                  PathDrawing::SdkModel::WayPointOnMapModel &wayPointModel,
+                                 Direction::SdkModel::FindDirectionService &findDirectionService,
+                                 Menu::View::IMenuViewModel& directionViewModel,
                                  ExampleAppMessaging::TMessageBus& messageBus);
                 ~BillBoardsModule();
                 

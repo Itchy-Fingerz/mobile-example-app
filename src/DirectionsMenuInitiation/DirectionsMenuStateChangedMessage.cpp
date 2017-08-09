@@ -6,9 +6,10 @@ namespace ExampleApp
 {
     namespace DirectionsMenuInitiation
     {
-        DirectionsMenuStateChangedMessage::DirectionsMenuStateChangedMessage(DirectionsMenuStage stage, bool close)
+        DirectionsMenuStateChangedMessage::DirectionsMenuStateChangedMessage(DirectionsMenuStage stage, bool close, bool specialOffers)
         : m_stage(stage)
         , m_closeForWorldPin(close)
+        , m_closeForSpecialOffers(specialOffers)
         {
         }
         
@@ -21,5 +22,10 @@ namespace ExampleApp
         {
             return m_stage;
         }
+        const bool DirectionsMenuStateChangedMessage::GetSpecialOffersFlag() const
+        {
+            return m_closeForSpecialOffers;
+        }
+
     }
 }
