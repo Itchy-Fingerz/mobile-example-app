@@ -18,7 +18,7 @@
 #include "DirectionsMenuStateChangedMessage.h"
 #include "DirectionMenuFindDirectionMessage.h"
 #include "AppGlobeCameraWrapper.h"
-
+#include "Helpers.h"
 
 
 namespace ExampleApp
@@ -62,10 +62,11 @@ namespace ExampleApp
 
                 std::string responseString;
                 bool isRouteDrawn;
+                Eegeo::Helpers::IFileIO& m_fileIO;
                 
             public:
                 
-                FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& m_findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper);
+                FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& m_findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper, Eegeo::Helpers::IFileIO& fileIO);
                 ~FindDirectionService();
                 void InsertOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback1<const DirectionResultModel& >& callback);
                 

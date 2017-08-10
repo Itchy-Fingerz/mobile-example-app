@@ -16,13 +16,17 @@
 #include "RenderCamera.h"
 #include "InteriorInteractionModel.h"
 
+#include <fstream>
+#include "IFileIO.h"
+
+
 namespace ExampleApp
 {
     namespace Direction
     {
         namespace SdkModel
         {
-            FindDirectionService::FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper)
+            FindDirectionService::FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper, Eegeo::Helpers::IFileIO& fileIO)
             : m_pCurrentRequest(NULL)
             , m_findDirectionHttpRequestFactory(findDirectionHttpRequestFactory)
             , m_handleResponseCallback(this,&FindDirectionService::HandleRouteDirectionResponse)
@@ -40,12 +44,26 @@ namespace ExampleApp
             , m_routes (NULL)
             , m_cameraWrapper(cameraWrapper)
             , isRouteDrawn(false)
-
+            , m_fileIO(fileIO)
             {
                 m_messageBus.SubscribeUi(m_directionsMenuStateChangedCallback);
                 m_messageBus.SubscribeNative(m_onFindNewDirectionCallback);
 
                 m_messageBus.SubscribeUi(m_appModeChangedCallback);
+                
+                std::fstream stream;
+                size_t size;
+                
+                if(!m_fileIO.OpenFile(stream, size, "SearchResultOnMap/directions_mock.json"))
+                {
+                    Eegeo_ASSERT(false, "Failed to load pin sheet definitions file.");
+                }
+                
+                std::string json((std::istreambuf_iterator<char>(stream)),
+                                 (std::istreambuf_iterator<char>()));
+
+                responseString = json;
+                printf("temp");
 
             }
             FindDirectionService::~FindDirectionService()
@@ -98,9 +116,11 @@ namespace ExampleApp
                 if(m_pCurrentRequest->IsSucceeded())
                 {
                     const std::string& response(m_pCurrentRequest->ResponseString());
-                    responseString = response;
+                    //responseString = response;
                     DirectionResultModel result =  m_findDirectionResultParser.ParseGeoNamesQueryResults(response);
                     m_messageBus.Publish(DirectionResultSection::DirectionQueryResponseReceivedMessage(result));
+                    
+                    
                     
                     if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)
                     {
@@ -111,7 +131,8 @@ namespace ExampleApp
 
                         Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, true, 0.0f);
 
-                        m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle);
+                        m_resultParser.CreateRouteFromJSON(responseString, m_routeService, routeStyle);
+                        
                         isRouteDrawn = true;
                         
                         if(result.GetCode() == "Error" || result.GetRoutes().size() == 0)

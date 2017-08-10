@@ -17,7 +17,7 @@ namespace ExampleApp
                                                                    ,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory
                                                                    ,const std::string& eegeoApiKey,ExampleAppMessaging::TMessageBus& messageBus
                                                                    ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder
-                                                                   ,AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper)
+                                                                   ,AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper, Eegeo::Helpers::IFileIO& fileIO)
             :m_workPool(workPool)
             ,m_routeService(routeService)
             ,m_routeRepository(routeRepository)
@@ -27,7 +27,7 @@ namespace ExampleApp
                 m_pDirectionHttpRequestFactory = Eegeo_NEW(FindDirectionHttpRequestFactory)(eegeoApiKey,webRequestFactory,urlEncoder,requestBuilder);
                 m_resultParser = Eegeo_NEW(Eegeo::Routes::Webservice::JsonRouteParser)(m_workPool);
 
-                m_pDirectionService = Eegeo_NEW(FindDirectionService)(*m_pDirectionHttpRequestFactory,*m_resultParser,m_routeService,m_routeRepository,m_pInteriorInteractionModel,*m_pDirectionResultJsonParser,alertBoxFactory,messageBus,cameraWrapper);
+                m_pDirectionService = Eegeo_NEW(FindDirectionService)(*m_pDirectionHttpRequestFactory,*m_resultParser,m_routeService,m_routeRepository,m_pInteriorInteractionModel,*m_pDirectionResultJsonParser,alertBoxFactory,messageBus,cameraWrapper, fileIO);
                 m_pDirectionQueryPerformer = Eegeo_NEW(FindDirectionQueryPerformer)(GetFindDirectionService());
             
 

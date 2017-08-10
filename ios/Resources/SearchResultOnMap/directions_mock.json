@@ -1,0 +1,957 @@
+{
+    "code": "Ok",
+    "type": "multipart",
+    "routes": [
+        {
+            "code": "Ok",
+            "routes": [
+                {
+                    "legs": [
+                        {
+                            "annotation": {
+                                "datasources": [
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "nodes": [
+                                    157,
+                                    157,
+                                    156,
+                                    155,
+                                    154,
+                                    153,
+                                    152,
+                                    151,
+                                    125,
+                                    132,
+                                    131,
+                                    304,
+                                    373,
+                                    299,
+                                    297,
+                                    295,
+                                    293,
+                                    291,
+                                    289,
+                                    372,
+                                    371,
+                                    108,
+                                    287,
+                                    144,
+                                    135,
+                                    285,
+                                    106,
+                                    370,
+                                    363,
+                                    267,
+                                    265,
+                                    263,
+                                    261,
+                                    259,
+                                    260
+                                ],
+                                "duration": [
+                                    6.1,
+                                    1.9,
+                                    12.2,
+                                    14,
+                                    3.4,
+                                    8.7,
+                                    24.9,
+                                    10.7,
+                                    5.2,
+                                    3.2,
+                                    82.7,
+                                    7.2,
+                                    2.7,
+                                    5.8,
+                                    3.3,
+                                    3.9,
+                                    5.2,
+                                    7.4,
+                                    1.4,
+                                    14.8,
+                                    2.3,
+                                    0.9,
+                                    2,
+                                    1.3,
+                                    3.6,
+                                    0.5,
+                                    3.8,
+                                    8.7,
+                                    5.2,
+                                    2.9,
+                                    2.7,
+                                    5.4,
+                                    3,
+                                    5.2
+                                ],
+                                "distance": [
+                                    8.470121,
+                                    2.584693,
+                                    16.917406,
+                                    19.391129,
+                                    4.704196,
+                                    12.102823,
+                                    34.630028,
+                                    14.884012,
+                                    4.464335,
+                                    4.464335,
+                                    114.79238,
+                                    9.971553,
+                                    3.809213,
+                                    7.998261,
+                                    4.55539,
+                                    5.393211,
+                                    7.160429,
+                                    10.223371,
+                                    1.950435,
+                                    20.616721,
+                                    3.168638,
+                                    1.204682,
+                                    2.788199,
+                                    1.767225,
+                                    5.027181,
+                                    0.738176,
+                                    5.21015,
+                                    12.096012,
+                                    7.277248,
+                                    4.04224,
+                                    3.69935,
+                                    7.50907,
+                                    4.141153,
+                                    7.330972
+                                ]
+                            },
+                            "summary": "{level:1}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}, {level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                            "duration": 272.2,
+                            "steps": [
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 0,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                175,
+                                                175
+                                            ],
+                                            "location": [
+                                                -118.408646,
+                                                33.944204
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.408646,
+                                                33.944204
+                                            ],
+                                            [
+                                                -118.408642,
+                                                33.944164
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 175,
+                                        "bearing_before": 355,
+                                        "location": [
+                                            -118.408646,
+                                            33.944204
+                                        ],
+                                        "modifier": "uturn",
+                                        "type": "turn"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 3.2,
+                                    "name": "{level:multiple}{type:elevator}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 4.5
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 1,
+                                            "in": 2,
+                                            "entry": [
+                                                true,
+                                                true,
+                                                true,
+                                                false
+                                            ],
+                                            "bearings": [
+                                                84,
+                                                244,
+                                                355,
+                                                355
+                                            ],
+                                            "location": [
+                                                -118.408642,
+                                                33.944164
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.408642,
+                                                33.944164
+                                            ],
+                                            [
+                                                -118.409761,
+                                                33.943713
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 244,
+                                        "bearing_before": 175,
+                                        "location": [
+                                            -118.408642,
+                                            33.944164
+                                        ],
+                                        "modifier": "right",
+                                        "type": "turn"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 82.7,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 114.8
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 0,
+                                            "in": 1,
+                                            "entry": [
+                                                true,
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                60,
+                                                180
+                                            ],
+                                            "location": [
+                                                -118.409761,
+                                                33.943713
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.409761,
+                                                33.943713
+                                            ],
+                                            [
+                                                -118.409774,
+                                                33.943802
+                                            ],
+                                            [
+                                                -118.409815,
+                                                33.943798
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 353,
+                                        "bearing_before": 244,
+                                        "location": [
+                                            -118.409761,
+                                            33.943713
+                                        ],
+                                        "modifier": "right",
+                                        "type": "continue"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 9.9,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 13.8
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 2,
+                                            "in": 1,
+                                            "entry": [
+                                                true,
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                135,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.409815,
+                                                33.943798
+                                            ]
+                                        },
+                                        {
+                                            "out": 2,
+                                            "in": 1,
+                                            "entry": [
+                                                true,
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                90,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.409901,
+                                                33.943789
+                                            ]
+                                        },
+                                        {
+                                            "out": 1,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                90,
+                                                270,
+                                                345
+                                            ],
+                                            "location": [
+                                                -118.40995,
+                                                33.943784
+                                            ]
+                                        },
+                                        {
+                                            "out": 2,
+                                            "in": 1,
+                                            "entry": [
+                                                true,
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                90,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.410008,
+                                                33.943778
+                                            ]
+                                        },
+                                        {
+                                            "out": 2,
+                                            "in": 1,
+                                            "entry": [
+                                                true,
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                90,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.410085,
+                                                33.94377
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.409815,
+                                                33.943798
+                                            ],
+                                            [
+                                                -118.409901,
+                                                33.943789
+                                            ],
+                                            [
+                                                -118.40995,
+                                                33.943784
+                                            ],
+                                            [
+                                                -118.410008,
+                                                33.943778
+                                            ],
+                                            [
+                                                -118.410085,
+                                                33.94377
+                                            ],
+                                            [
+                                                -118.410195,
+                                                33.943759
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 263,
+                                        "bearing_before": 263,
+                                        "location": [
+                                            -118.409815,
+                                            33.943798
+                                        ],
+                                        "modifier": "left",
+                                        "type": "continue"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 25.6,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 35.3
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 2,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                90,
+                                                180,
+                                                345
+                                            ],
+                                            "location": [
+                                                -118.410195,
+                                                33.943759
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.410195,
+                                                33.943759
+                                            ],
+                                            [
+                                                -118.410216,
+                                                33.943757
+                                            ],
+                                            [
+                                                -118.410189,
+                                                33.943573
+                                            ],
+                                            [
+                                                -118.410223,
+                                                33.943569
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 263,
+                                        "bearing_before": 263,
+                                        "location": [
+                                            -118.410195,
+                                            33.943759
+                                        ],
+                                        "modifier": "left",
+                                        "type": "end of road"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 18.5,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 25.7
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 3,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                19,
+                                                165,
+                                                165,
+                                                265
+                                            ],
+                                            "location": [
+                                                -118.410223,
+                                                33.943569
+                                            ]
+                                        },
+                                        {
+                                            "out": 1,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                90,
+                                                270,
+                                                345
+                                            ],
+                                            "location": [
+                                                -118.410236,
+                                                33.943568
+                                            ]
+                                        },
+                                        {
+                                            "out": 1,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                83,
+                                                263,
+                                                342,
+                                                342
+                                            ],
+                                            "location": [
+                                                -118.410266,
+                                                33.943565
+                                            ]
+                                        },
+                                        {
+                                            "out": 3,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                83,
+                                                167,
+                                                167,
+                                                262
+                                            ],
+                                            "location": [
+                                                -118.410285,
+                                                33.943563
+                                            ]
+                                        },
+                                        {
+                                            "out": 2,
+                                            "in": 1,
+                                            "entry": [
+                                                true,
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                75,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.410339,
+                                                33.943557
+                                            ]
+                                        },
+                                        {
+                                            "out": 3,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                90,
+                                                167,
+                                                167,
+                                                263
+                                            ],
+                                            "location": [
+                                                -118.410347,
+                                                33.943557
+                                            ]
+                                        },
+                                        {
+                                            "out": 2,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                90,
+                                                180,
+                                                255
+                                            ],
+                                            "location": [
+                                                -118.410403,
+                                                33.943551
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.410223,
+                                                33.943569
+                                            ],
+                                            [
+                                                -118.410236,
+                                                33.943568
+                                            ],
+                                            [
+                                                -118.410266,
+                                                33.943565
+                                            ],
+                                            [
+                                                -118.410285,
+                                                33.943563
+                                            ],
+                                            [
+                                                -118.410339,
+                                                33.943557
+                                            ],
+                                            [
+                                                -118.410347,
+                                                33.943557
+                                            ],
+                                            [
+                                                -118.410403,
+                                                33.943551
+                                            ],
+                                            [
+                                                -118.410533,
+                                                33.943537
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 265,
+                                        "bearing_before": 262,
+                                        "location": [
+                                            -118.410223,
+                                            33.943569
+                                        ],
+                                        "modifier": "right",
+                                        "type": "continue"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 20.8,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 28.8
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 2,
+                                            "in": 1,
+                                            "entry": [
+                                                true,
+                                                false,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                90,
+                                                180
+                                            ],
+                                            "location": [
+                                                -118.410533,
+                                                33.943537
+                                            ]
+                                        },
+                                        {
+                                            "out": 1,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                165,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.410524,
+                                                33.943472
+                                            ]
+                                        },
+                                        {
+                                            "out": 1,
+                                            "in": 2,
+                                            "entry": [
+                                                true,
+                                                true,
+                                                false
+                                            ],
+                                            "bearings": [
+                                                75,
+                                                180,
+                                                345
+                                            ],
+                                            "location": [
+                                                -118.410518,
+                                                33.943436
+                                            ]
+                                        },
+                                        {
+                                            "out": 1,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                180,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.410513,
+                                                33.943403
+                                            ]
+                                        },
+                                        {
+                                            "out": 1,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                180,
+                                                270
+                                            ],
+                                            "location": [
+                                                -118.410503,
+                                                33.943336
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.410533,
+                                                33.943537
+                                            ],
+                                            [
+                                                -118.410524,
+                                                33.943472
+                                            ],
+                                            [
+                                                -118.410518,
+                                                33.943436
+                                            ],
+                                            [
+                                                -118.410513,
+                                                33.943403
+                                            ],
+                                            [
+                                                -118.410503,
+                                                33.943336
+                                            ],
+                                            [
+                                                -118.410498,
+                                                33.943299
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 173,
+                                        "bearing_before": 263,
+                                        "location": [
+                                            -118.410533,
+                                            33.943537
+                                        ],
+                                        "modifier": "left",
+                                        "type": "end of road"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 19.2,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 26.7
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "out": 1,
+                                            "in": 0,
+                                            "entry": [
+                                                false,
+                                                true,
+                                                true
+                                            ],
+                                            "bearings": [
+                                                0,
+                                                90,
+                                                165
+                                            ],
+                                            "location": [
+                                                -118.410498,
+                                                33.943299
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.410498,
+                                                33.943299
+                                            ],
+                                            [
+                                                -118.410419,
+                                                33.943306
+                                            ]
+                                        ],
+                                        "type": "LineString"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 84,
+                                        "bearing_before": 174,
+                                        "location": [
+                                            -118.410498,
+                                            33.943299
+                                        ],
+                                        "modifier": "left",
+                                        "type": "continue"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 5.2,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 7.3
+                                },
+                                {
+                                    "intersections": [
+                                        {
+                                            "in": 0,
+                                            "entry": [
+                                                true
+                                            ],
+                                            "bearings": [
+                                                264
+                                            ],
+                                            "location": [
+                                                -118.410419,
+                                                33.943306
+                                            ]
+                                        }
+                                    ],
+                                    "geometry": {
+                                        "coordinates": [
+                                            [
+                                                -118.410419,
+                                                33.943306
+                                            ]
+                                        ],
+                                        "type": "Point"
+                                    },
+                                    "mode": "walking",
+                                    "maneuver": {
+                                        "bearing_after": 0,
+                                        "bearing_before": 84,
+                                        "location": [
+                                            -118.410498,
+                                            33.943299
+                                        ],
+                                        "type": "arrive"
+                                    },
+                                    "building_id": "98a265e2-b890-4c6b-a28f-948c92e36914",
+                                    "duration": 0,
+                                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                                    "distance": 0
+                                }
+                            ],
+                            "distance": 375.1
+                        }
+                    ],
+                    "duration": 272.2,
+                    "distance": 375.1
+                }
+            ],
+            "waypoints": [
+                {
+                    "hint": "8AAAgAEBAIA2AAAAPAAAAAsAAAAAAAAAAAAAAN4AAADRAAAABAAAgLs58fgj7wUCuznx-CPvBQIAAAMDiTQ6RA==",
+                    "name": "{level:1}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                    "location": [
+                        -118.408773,
+                        33.943331
+                    ]
+                },
+                {
+                    "hint": "pwEAgKkBAIA5AAAANAAAAAAAAAAAAAAAAAAAAMkBAADHAQAABAAAgE0z8fgK7wUCTTPx-ArvBQIAAAMDiTQ6RA==",
+                    "name": "{level:2}{type:pathway}{bid:98a265e2-b890-4c6b-a28f-948c92e36914}",
+                    "location": [
+                        -118.410419,
+                        33.943306
+                    ]
+                }
+            ]
+        }
+    ]
+}

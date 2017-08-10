@@ -719,7 +719,7 @@ namespace ExampleApp
                                                                                                    m_pWorld->GetNativeUIFactories().AlertBoxFactory(),
                                                                                                    m_applicationConfiguration.EegeoApiKey(),
                                                                                                    m_messageBus,
-                                                                                                   m_pWorld->GetRoutesModule().GetRoutingRequestBuilder(),*m_pGlobeCameraWrapper);
+                                                                                                   m_pWorld->GetRoutesModule().GetRoutingRequestBuilder(),*m_pGlobeCameraWrapper, m_platformAbstractions.GetFileIO());
 
         
         m_pPoiSearchModule =  Eegeo_NEW(Search::EegeoPois::SdkModel::EegeoSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),

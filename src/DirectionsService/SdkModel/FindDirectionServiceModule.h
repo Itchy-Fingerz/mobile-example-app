@@ -20,7 +20,6 @@
 #include "AppGlobeCameraWrapper.h"
 
 
-
 namespace ExampleApp
 {
     namespace Direction
@@ -35,7 +34,7 @@ namespace ExampleApp
                                            Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
                                            const std::string& eegeoApiKey, ExampleAppMessaging::TMessageBus& messageBus
                                            ,const Eegeo::Routes::Webservice::RoutingRequestBuilder& requestBuilder
-                                           ,AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper);
+                                           ,AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper, Eegeo::Helpers::IFileIO& fileIO);
                 ~FindDirectionServiceModule();
                 FindDirectionService& GetFindDirectionService() const;
                 FindDirectionQueryPerformer& GetFindDirectionQueryPerformer() const;
