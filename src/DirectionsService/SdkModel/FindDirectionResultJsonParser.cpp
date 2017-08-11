@@ -144,6 +144,8 @@ namespace ExampleApp
                                             std::vector<StepRouteModel> stepVector;
                                             const size_t numOfSteps = stepsValueArray.Size();
                                             
+                                            document.RemoveMember(legValue);
+                                            
                                             for(int b = 0; b < numOfSteps; ++b)
                                             {
                                                 const rapidjson::Value& stepValue = stepsValueArray[b];

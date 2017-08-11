@@ -18,7 +18,9 @@
 
 #include <fstream>
 #include "IFileIO.h"
-
+#include "stringbuffer.h"
+#include "writer.h"
+#include "document.h"
 
 namespace ExampleApp
 {
@@ -26,6 +28,8 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
+            void Test(std::string input);
+            
             FindDirectionService::FindDirectionService(FindDirectionHttpRequestFactory& findDirectionHttpRequestFactory,Eegeo::Routes::Webservice::JsonRouteParser& resultParser,Eegeo::Routes::RouteService& routeService,Eegeo::Routes::RouteRepository& routeRepository,Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,FindDirectionResultJsonParser& findDirectionResultParser,Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,ExampleAppMessaging::TMessageBus& messageBus, AppCamera::SdkModel::AppGlobeCameraWrapper& cameraWrapper, Eegeo::Helpers::IFileIO& fileIO)
             : m_pCurrentRequest(NULL)
             , m_findDirectionHttpRequestFactory(findDirectionHttpRequestFactory)
@@ -54,7 +58,7 @@ namespace ExampleApp
                 std::fstream stream;
                 size_t size;
                 
-                if(!m_fileIO.OpenFile(stream, size, "SearchResultOnMap/directions_mock.json"))
+                if(!m_fileIO.OpenFile(stream, size, "SearchResultOnMap/directions_mock_full_response.json"))
                 {
                     Eegeo_ASSERT(false, "Failed to load pin sheet definitions file.");
                 }
@@ -63,9 +67,189 @@ namespace ExampleApp
                                  (std::istreambuf_iterator<char>()));
 
                 responseString = json;
-                printf("temp");
+                Test(responseString);
 
+                printf("s");
             }
+            
+            std::vector<std::string> TokenizeString(std::string mainString , std::string delimiter, bool skipFirstchar)
+            {
+                std::vector<std::string> resultList;
+                std::string mainStrCopy = mainString;
+                
+                size_t pos = 0;
+                std::string token;
+                while ((pos = mainStrCopy.find(delimiter)) != std::string::npos)
+                {
+                    token = mainStrCopy.substr(0, pos);
+                    if (skipFirstchar == true)
+                    {
+                        token.erase(0, 1);
+                    }
+                    resultList.push_back(token);
+                    mainStrCopy.erase(0, pos + delimiter.length());
+                }
+                if (mainStrCopy !=  "")
+                {
+                    resultList.push_back(mainStrCopy);
+                }
+                return resultList;
+                
+            }
+
+            
+            void Test(std::string input)
+            {
+                rapidjson::Document document;
+                
+                if (!document.Parse<0>(input.c_str()).HasParseError())
+                {
+                    
+                    if(document.HasMember("routes"))
+                    {
+                        rapidjson::Value& entries = document["routes"];
+                        size_t numEntries = entries.Size();
+                        
+                        for(int i = 0; i < numEntries; ++i)
+                        {
+                            std::string routeCode,routeType;
+                            
+                            rapidjson::Value& json = entries[i];
+                            
+                            if(json.HasMember("routes") && routeCode != "InternalError")
+                            {
+                                rapidjson::Value& innerRouteJsonList = json["routes"];
+                                if (innerRouteJsonList.IsNull())
+                                {
+                                    continue;
+                                }
+                                
+                                size_t numOfInnerEntries = innerRouteJsonList.Size();
+                                
+                                for(int innerRouteNumber = 0; (innerRouteNumber < numOfInnerEntries && innerRouteNumber< 1); ++innerRouteNumber)
+                                {
+                                    rapidjson::Value& innerRouteJson = innerRouteJsonList[innerRouteNumber];
+                                    
+                                    std::vector<LegRouteModel> innerRouteLegsVector;
+                                    
+                                    if(innerRouteJson.HasMember("legs"))
+                                    {
+                                        rapidjson::Value& innerRouteLegsValue = innerRouteJson["legs"];
+                                        if (innerRouteLegsValue.IsNull())
+                                        {
+                                            continue;
+                                        }
+                                        size_t numOfLegs = innerRouteLegsValue.Size();
+                                        for(int a = 0; a < numOfLegs; ++a)
+                                        {
+                                            rapidjson::Value& legValue = innerRouteLegsValue[a];
+                                            
+                                            const std::string legSummary = legValue["summary"].GetString();
+                                            
+                                            rapidjson::Value& stepsValueArray = legValue["steps"];
+
+                                            //const size_t numOfSteps = stepsValueArray.Size();
+                                            
+                                            for(int b = 0; b < stepsValueArray.Size(); ++b)
+                                            {
+                                                const rapidjson::Value& stepValue = stepsValueArray[b];
+                                                
+                                                
+//                                                const std::string stepMode = stepValue["mode"].GetString();
+                                                
+                                                
+//                                                const rapidjson::Value& maneuverValue = stepValue["maneuver"];
+                                                
+//                                                const std::string maneuverType = maneuverValue["type"].GetString();
+                                                
+//                                                const rapidjson::Value& maneuverLocationValue = maneuverValue["location"];
+                                                
+//                                                double maneuverlongitude = maneuverLocationValue[0].GetDouble();
+//                                                double maneuverLat = maneuverLocationValue[1].GetDouble();
+//                                                if (b == numOfSteps-1)// for last step use geometory last coordinate location
+//                                                {//geometry
+//                                                    const rapidjson::Value& geometeryValue = stepValue["geometry"];
+//                                                    const rapidjson::Value& coordinatesArray = geometeryValue["coordinates"];
+//                                                    if (coordinatesArray.Size() >0)
+//                                                    {
+//                                                        const rapidjson::Value& lastCoordinate = coordinatesArray[coordinatesArray.Size()-1];
+//                                                        
+//                                                        maneuverlongitude = lastCoordinate[0].GetDouble();
+//                                                        maneuverLat = lastCoordinate[1].GetDouble();
+//                                                        
+//                                                    }
+//                                                    
+//                                                }
+//                                                
+                                                std::string stepName = "";
+                                                int buildingLevel = 0;
+                                                std::string buildingLevelString = "";
+                                                std::string stepTypeString = "";
+                                                
+                                                if (stepValue.HasMember("name"))
+                                                {
+                                                    const rapidjson::Value& nameValue = stepValue["name"];
+                                                    stepName = nameValue.GetString();
+                                                    
+                                                    std::vector<std::string> stepNameNameVector = TokenizeString(stepName, "}", true);
+                                                    if (stepNameNameVector.size() != 0)
+                                                    {
+                                                        for (std::vector<std::string>::iterator it = stepNameNameVector.begin() ; it != stepNameNameVector.end(); ++it)
+                                                        {
+                                                            std::vector<std::string> stepNameSubVector = TokenizeString(*it, ":",false);
+                                                            if (stepNameSubVector.size() == 2)
+                                                            {
+                                                                std::string stepSubNameKey = stepNameSubVector[0];
+                                                                if (stepSubNameKey == "level")
+                                                                {
+                                                                    buildingLevelString = stepNameSubVector[1];
+                                                                    if (buildingLevelString != "multiple")
+                                                                    {
+                                                                        buildingLevel = std::stoi(buildingLevelString);
+                                                                        if(buildingLevel == 1)
+                                                                        {
+                                                                            stepsValueArray.Erase(stepsValueArray.Begin() + a);
+                                                                            
+                                                                            //break;
+//                                                                            document.RemoveMember(stepValue);
+                                                                            
+//                                                                            stepsValueArray.Erase(stepsValueArray.Begin());
+                                                                            
+                                                                            //stepsValueArray.RemoveMember(stepValue,document.GetAllocator());
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                        }
+                                                        
+                                                    }
+                                                    
+                                                }
+                                            }
+                                            
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                rapidjson::StringBuffer buffer;
+                rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+                document.Accept(writer);
+                
+                printf("%s", strdup( buffer.GetString() ));
+            }
+            
+            
             FindDirectionService::~FindDirectionService()
             {
                 m_messageBus.UnsubscribeUi(m_directionsMenuStateChangedCallback);
