@@ -40,9 +40,11 @@ namespace ExampleApp
                                 if (json.HasMember("countryName")) {
                                     countryName = json["countryName"].GetString();
                                 }
-                                if (json.HasMember("population")) {
-                                    population = json["population"].GetInt();
-                                }
+                                
+//                                if (json.HasMember("population")) {
+//                                    population = json["population"].GetInt();
+//                                }
+                                
                                 GeoNamesSearchResultDto dto(ss.str(),
                                                             json["name"].GetString(),
                                                             countryName,
