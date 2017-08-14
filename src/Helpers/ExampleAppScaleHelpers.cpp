@@ -1,13 +1,13 @@
 // Copyright eeGeo Ltd (2012-2016), All Rights Reserved
 
-#include "ScaleHelpers.h"
+#include "ExampleAppScaleHelpers.h"
 #include "TransformHelpers.h"
 
 namespace ExampleApp
 {
 	namespace Helpers
 	{
-		namespace ScaleHelpers
+		namespace ExampleAppScaleHelpers
 		{
 			float ComputeModelScaleForScreenWithPixelScaling(const Eegeo::Camera::RenderCamera& renderCamera,
                                                              const Eegeo::dv3& objectEcefPosition,

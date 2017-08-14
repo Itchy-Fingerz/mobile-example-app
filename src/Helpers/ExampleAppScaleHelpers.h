@@ -9,7 +9,7 @@ namespace ExampleApp
 {
 	namespace Helpers
 	{
-		namespace ScaleHelpers
+		namespace ExampleAppScaleHelpers
 		{
 			float ComputeModelScaleForScreenWithPixelScaling(const Eegeo::Camera::RenderCamera& renderCamera,
                                                              const Eegeo::dv3& objectEcefPosition,
