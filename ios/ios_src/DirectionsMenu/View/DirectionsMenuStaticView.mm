@@ -389,66 +389,33 @@
             std::string duration = document.HasMember("duration") ? document["duration"].GetString() : "";
             
             [cell.wayPointImageView setImage:[UIImage imageNamed:[NSString stringWithCString:icon.c_str() encoding:NSUTF8StringEncoding]]];
-            if(indexPath.row == 0)
-            {
-                [cell.wayPointMainTitlelbl setText:_startRouteTextField.text];
-                cell.wayPointSubCategorylbl.hidden = true;
 
-            }
-            else if (indexPath.row == m_pSearchResultsSection->Size() - 1)
-            {
-                [cell.wayPointMainTitlelbl setText:_endRouteTextField.text];
-                cell.wayPointSubCategorylbl.hidden = true;
-            }
-            else
-            {
-                [cell.wayPointMainTitlelbl setText:[NSString stringWithCString:title.c_str() encoding:NSUTF8StringEncoding]];
-                cell.wayPointSubCategorylbl.hidden = false;
-            }
-            cell.wayPointMainTitlelbl.text = [cell.wayPointMainTitlelbl.text capitalizedString];
-            NSString * pSubtitle = [NSString stringWithCString:stitle.c_str() encoding:NSUTF8StringEncoding];
-            if ([pSubtitle rangeOfString:@"straight"].location != NSNotFound)
-            {
-                pSubtitle = [NSString stringWithFormat:@"Then %@",pSubtitle];
-            }
-            else if ([pSubtitle rangeOfString:@"right"].location != NSNotFound)
-            {
-                pSubtitle = [NSString stringWithFormat:@"Turn %@",pSubtitle];
-
-            }
-            else if ([pSubtitle rangeOfString:@"left"].location != NSNotFound)
-            {
-                pSubtitle = [NSString stringWithFormat:@"Turn %@",pSubtitle];
-
-            }
-            else
-            {
-                pSubtitle = [pSubtitle capitalizedString];
-            }
+            cell.wayPointSubCategorylbl.text = [self GetMainTitle:(int)indexPath.row
+                                                  ndTitleString:title];
             
-            NSArray *pSubTitleArray = [pSubtitle componentsSeparatedByString: @" "];
+            NSString *pSubtitle = [self GetSubTitle:stitle];
             
-            if ([pSubTitleArray count] >= 2)
-            {
-                NSString *pDistanceString = [pSubTitleArray lastObject];
-                
-                NSRange range1 = [pSubtitle rangeOfString:pDistanceString];
-                
-                NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:pSubtitle];
-                
-                [attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:cell.wayPointSubCategorylbl.font.pointSize]}
-                                        range:range1];
-                
-                
-                
-                [cell.wayPointSubCategorylbl setAttributedText:attributedText];
-            }
-            else
-            {
-                [cell.wayPointSubCategorylbl setText:pSubtitle];
+//            NSArray *pSubTitleArray = [pSubtitle componentsSeparatedByString: @" "];
+            
+//            if ([pSubTitleArray count] >= 2)
+//            {
+//                NSString *pDistanceString = [pSubTitleArray lastObject];
+//                
+//                NSRange range1 = [pSubtitle rangeOfString:pDistanceString];
+//                
+//                NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:pSubtitle];
+//                
+//                [attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:cell.wayPointSubCategorylbl.font.pointSize]}
+//                                        range:range1];
+//                
+//                [cell.wayPointMainTitlelbl setAttributedText:attributedText];
+//
+//            }
+//            else
+//            {
+                [cell.wayPointMainTitlelbl setText:pSubtitle];
 
-            }
-
+//            }
 
         }
         UIView *pView = [[UIView alloc]init];
@@ -532,6 +499,52 @@
     interop->HandleWayPointSelected(static_cast<int>(indexPath.row));
     
 }
+
+-(NSString *)GetMainTitle:(int)cellNumber ndTitleString:(std::string)titleString
+{
+    NSString *returnTitle = @"";
+    
+    if(cellNumber == 0)
+    {
+        returnTitle = _startRouteTextField.text;
+    }
+    else if (cellNumber == m_pSearchResultsSection->Size() - 1)
+    {
+        returnTitle = _endRouteTextField.text;
+    }
+    else
+    {
+        returnTitle = [NSString stringWithCString:titleString.c_str() encoding:NSUTF8StringEncoding];
+    }
+    
+    return [returnTitle capitalizedString];
+}
+-(NSString *)GetSubTitle:(std::string)subTitleString
+{
+    NSString * pSubtitle = [NSString stringWithCString:subTitleString.c_str() encoding:NSUTF8StringEncoding];
+    
+    if ([pSubtitle rangeOfString:@"straight"].location != NSNotFound)
+    {
+        pSubtitle = [NSString stringWithFormat:@"Then %@",pSubtitle];
+    }
+    else if ([pSubtitle rangeOfString:@"right"].location != NSNotFound)
+    {
+        pSubtitle = [NSString stringWithFormat:@"Turn %@",pSubtitle];
+        
+    }
+    else if ([pSubtitle rangeOfString:@"left"].location != NSNotFound)
+    {
+        pSubtitle = [NSString stringWithFormat:@"Turn %@",pSubtitle];
+        
+    }
+    else
+    {
+        pSubtitle = [pSubtitle capitalizedString];
+    }
+    return pSubtitle;
+}
+
+
 - (void) updateStartLocationToMyLocation
 {
     startMyLocationSelected = true;
