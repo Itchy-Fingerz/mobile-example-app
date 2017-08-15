@@ -325,8 +325,10 @@
         else
         {
             [cell.subTitleLabel setHidden:true];
-            cell.titleLabelHeightConstraint.constant = cell.subTitleLabel.frame.size.height;
+            //cell.titleLabelHeightConstraint.constant = cell.subTitleLabel.frame.size.height;
         }
+        cell.subTitleLabel.textColor = ExampleApp::Helpers::ColorPalette::TableSearchDetailTextColor;
+
 
         const std::string icon = item.GetIconKey();
         
