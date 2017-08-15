@@ -22,8 +22,6 @@ namespace ExampleApp
                                Eegeo::DebugRendering::DebugRenderer &debugRenderer,
                                Eegeo::Rendering::EnvironmentFlatteningService& environmentFlatteningService);
             
-            std::string ExampleName() const;
-            
             QuadLine* CreateQuadLine(Eegeo::v4 quadColor,
                                        Eegeo::Space::LatLongAltitude fromPosition,
                                        Eegeo::Space::LatLongAltitude toPosition,

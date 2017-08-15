@@ -47,7 +47,6 @@ namespace ExampleApp
             
         private:            
             
-            int currentStep;
             Eegeo::Modules::Core::RenderingModule& m_renderingModule;
             Eegeo::DebugRendering::DebugRenderer& m_debugRenderer;
             Eegeo::Rendering::EnvironmentFlatteningService& m_environmentFlatteningService;
@@ -63,6 +62,7 @@ namespace ExampleApp
             Eegeo::dv3 m_toEcef;
             float m_tileLength;
             float m_thickness;
+            int m_currentStep;            
             
             void DrawQuadLine();
             Eegeo::m33 GetLookAtOrientationMatrix(const Eegeo::v3& targetPosition, const Eegeo::v3& objectPosition, Eegeo::v3 up);

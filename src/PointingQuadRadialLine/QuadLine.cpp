@@ -150,7 +150,7 @@ namespace ExampleApp
         , m_toEcef(toEcef)
         , m_tileLength(tileLength)
         , m_thickness(thickness)
-        , currentStep(0)
+        , m_currentStep(0)
         
         {
             m_pPositionUvVertexLayout = CreatePositionUvVertexLayout();
@@ -169,6 +169,7 @@ namespace ExampleApp
             Start();
             
             platformRenderableFilters.AddRenderableFilter(*this);
+            m_debugRenderer.SetLineWidth(10.0f);
             
         }
         
@@ -213,7 +214,7 @@ namespace ExampleApp
             float angle = 0.0f;
             double angleIter = Eegeo::Math::Rad2Deg(Eegeo::Math::ATan2(m_tileLength+0.3, radius));
             int i=0;
-            currentStep += 5;
+            m_currentStep += 5;
             
             double iter = 180.f/angleIter;
             Eegeo::dv3 delta = (m_toEcef-m_fromEcef)/iter;
@@ -224,7 +225,7 @@ namespace ExampleApp
             for (Eegeo::dv3 ecefCenter=m_fromEcef; angle<170 ; ecefCenter+=delta)
             {
                 
-                if(angle < currentStep)
+                if(angle < m_currentStep)
                     m_quadColor.SetW((float)(i/iter) * 1);
                 else
                 {
@@ -242,8 +243,9 @@ namespace ExampleApp
                 (tangentBasis.GetRow(1) * 50 * Eegeo::Math::Sin(Eegeo::Math::Deg2Rad(angle)));
                 
                 Eegeo::m33 orientation = GetLookAtOrientationMatrix(centerPoint.ToSingle(), posOrientation.ToSingle(), (m_toEcef-pos).ToSingle().Norm());
-                m_debugRenderer.DrawQuad(pos, orientation.GetRow(1) *m_tileLength , orientation.GetRow(0) * m_thickness, orientation.GetRow(2), m_quadColor);
-                m_debugRenderer.DrawQuad(pos, orientation.GetRow(1) *m_tileLength , orientation.GetRow(0) * m_thickness*(-1), orientation.GetRow(2), m_quadColor);
+                m_debugRenderer.DrawQuad(pos, orientation.GetRow(1) * m_tileLength , orientation.GetRow(0) * m_thickness, orientation.GetRow(2), m_quadColor);
+                m_debugRenderer.DrawQuad(pos, orientation.GetRow(1) * m_tileLength , orientation.GetRow(0) * m_thickness*(-1), orientation.GetRow(2), m_quadColor);
+                
                 lastOrientation = orientation;
                 i++;
                 angle+=angleIter;

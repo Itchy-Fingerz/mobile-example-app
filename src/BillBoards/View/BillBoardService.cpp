@@ -689,11 +689,8 @@ namespace ExampleApp
             void BillBoardService::DrawLine(const BillBoardConfig& config)
             {
                 
+                RemoveLine();
                 
-                if(m_quadLine != NULL)
-                {
-                    RemoveLine();
-                }
                 m_quadLine = m_lineDrawingFactory.CreateQuadLine(config.highlightColor,
                                                                  Eegeo::Space::LatLongAltitude::FromDegrees(config.originLatLong.first,config.originLatLong.second,config.altitude),
                                                                  Eegeo::Space::LatLongAltitude::FromDegrees(config.lineEndTo.first,config.lineEndTo.second,config.altitude-10),
