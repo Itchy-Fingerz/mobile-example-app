@@ -209,20 +209,19 @@
 }
 - (void)updateStartSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isForGeoNames:(bool)geoName
 {
-    if (geoName)
-    {
-        m_pSuggestionsResults = results;
-    }
-    else
-    {
-        m_internalPoiSuggestions = results;
-        
-    }
-//    startLocationSearched = false;
-//    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
+    //#new merge order
+
+//    if (geoName)
 //    {
-//        [self showStartSuggestions];
+        m_pSuggestionsResults = results;
 //    }
+//    else
+//    {
+//        m_internalPoiSuggestions = results;
+//        
+//    }
+    
+
     [_spinner stopAnimating];
     [_suggestionsTableView reloadData];
     
@@ -230,21 +229,19 @@
 
 - (void)updateEndSuggestions:(const std::vector<ExampleApp::Search::SdkModel::SearchResultModel>&) results isForGeoNames:(bool)geoName
 {
-    if (geoName)
-    {
-        m_pSuggestionsResults = results;
-    }
-    else
-    {
-        m_internalPoiSuggestions = results;
-        
-    }
-//    endLocationSearched = false;
-    
-//    if (m_pSuggestionsResults.size() > 0 || m_internalPoiSuggestions.size() > 0)
+    //#new merge order
+//    if (geoName)
 //    {
-//        [self showEndSuggestions];
+        m_pSuggestionsResults = results;
 //    }
+//    else
+//    {
+//        m_internalPoiSuggestions = results;
+//        
+//    }
+    
+    
+
     [_spinner stopAnimating];
     [_suggestionsTableView reloadData];
     
@@ -255,7 +252,7 @@
 {
     if(tableView == _suggestionsTableView)
     {
-        return 2;
+        return 1;
     }
     else
     {
@@ -267,14 +264,14 @@
     
     if (tableView == _suggestionsTableView)
     {
-        if(section == 0)
-        {
-            return m_internalPoiSuggestions.size();
-        }
-        else
-        {
+//        if(section == 0)
+//        {
+//            return m_internalPoiSuggestions.size();
+//        }
+//        else
+//        {
             return m_pSuggestionsResults.size();
-        }
+//        }
         
         
     }
@@ -306,14 +303,14 @@
     if (tableView == _suggestionsTableView) {
         
         ExampleApp::Search::SdkModel::SearchResultModel item;
-        if(indexPath.section == 0)
-        {
-            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
-        }
-        else
-        {
+//        if(indexPath.section == 0)
+//        {
+//            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
+//        }
+//        else
+//        {
             item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
-        }
+//        }
         
         DirectionSuggestionTableViewCell *cell = (DirectionSuggestionTableViewCell*)[self.suggestionsTableView dequeueReusableCellWithIdentifier:@"DirectionSuggestionsViewCell"];
         
@@ -467,14 +464,14 @@
     if (tableView == _suggestionsTableView) {
     
         ExampleApp::Search::SdkModel::SearchResultModel item;
-        if(indexPath.section == 0)
-        {
-            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
-        }
-        else
-        {
+//        if(indexPath.section == 0)
+//        {
+//            item = m_internalPoiSuggestions[(static_cast<int>(indexPath.row))];
+//        }
+//        else
+//        {
             item = m_pSuggestionsResults[(static_cast<int>(indexPath.row))];
-        }
+//        }
         
         if(searchType == 1 ) //start
         {

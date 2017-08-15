@@ -13,6 +13,7 @@
 #include "ILocationService.h"
 #include "DirectionQueryResponseReceivedMessage.h"
 #include "ShowMeDirectionMessage.h"
+#include "SearchResultSectionOrder.h"
 
 
 namespace ExampleApp
@@ -65,7 +66,12 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::OnSecreenTapMessage&> m_onScreenSingleTapCallback;
                 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::ShowMeDirectionMessage&> m_showMeDirectionMessageCallback;
-                
+
+                SearchResultSection::View::ISearchResultSectionOrder* m_pSearchResultSectionOrder;
+
+                std::vector<Search::SdkModel::SearchResultModel> m_lastAddedResults;
+                std::vector<Search::SdkModel::SearchResultModel> m_lastAddedResultsGeo;
+
                 
                 void OnOpenStateChanged(OpenableControl::View::IOpenableControlViewModel& viewModel, float& openState);
                 

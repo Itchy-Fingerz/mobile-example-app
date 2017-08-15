@@ -15,6 +15,23 @@ namespace ExampleApp
     {
         namespace View
         {
+            class OrderWrapper
+            {
+            private:
+                SearchResultSection::View::ISearchResultSectionOrder& m_order;
+            public:
+                OrderWrapper(SearchResultSection::View::ISearchResultSectionOrder& order)
+                : m_order(order)
+                {
+                }
+                
+                bool operator() (const Search::SdkModel::SearchResultModel& a, const Search::SdkModel::SearchResultModel& b)
+                {
+                    return m_order(a, b);
+                }
+                
+            };
+            
             DirectionsMenuController::DirectionsMenuController(Menu::View::IMenuModel& model,
                                                                Menu::View::IMenuViewModel& viewModel,
                                                                Menu::View::IMenuView& view,
@@ -81,6 +98,9 @@ namespace ExampleApp
                 m_messageBus.SubscribeUi(m_directionResponseReceivedHandler);
                 m_messageBus.SubscribeUi(m_onScreenSingleTapCallback);
                 m_messageBus.SubscribeUi(m_showMeDirectionMessageCallback);
+                
+                
+                m_pSearchResultSectionOrder = Eegeo_NEW(SearchResultSection::View::SearchResultSectionOrder)();
 
                 
             }
@@ -106,6 +126,9 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeUi(m_onInternalPoiSearchResponseReceivedCallback);
                 m_messageBus.UnsubscribeUi(m_directionResponseReceivedHandler);
                 m_messageBus.SubscribeUi(m_showMeDirectionMessageCallback);
+
+                Eegeo_DELETE m_pSearchResultSectionOrder;
+
 
 
             }
@@ -238,26 +261,49 @@ namespace ExampleApp
             
             void DirectionsMenuController::OnGeoNamesStartLocationResponseReceived(const DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage& message)
             {
+                m_lastAddedResultsGeo = message.SearchResults();
+                
+                std::vector<Search::SdkModel::SearchResultModel> unorderedResults = m_lastAddedResultsGeo;
+                
+                unorderedResults.insert(unorderedResults.end(), m_lastAddedResults.begin(), m_lastAddedResults.end());
+                
+                OrderWrapper orderWrapper(*m_pSearchResultSectionOrder);
+                std::stable_sort(unorderedResults.begin(), unorderedResults.end(), orderWrapper);
+                
+                printf("********************* %lu",unorderedResults.size());
+
                 if(message.IsStartLocationActive())
                 {
-                    m_directionsMenuView.SetStartLocationSuggestions(message.SearchResults(), true);
+                    m_directionsMenuView.SetStartLocationSuggestions(unorderedResults, true);
                 }
                 else
                 {
-                    m_directionsMenuView.SetEndLocationSuggestions(message.SearchResults(), true);
+                    m_directionsMenuView.SetEndLocationSuggestions(unorderedResults, true);
                 }
             }
             
             void DirectionsMenuController::OnPoiSearchResponseReceived(const DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage& message)
             {
+                m_lastAddedResults = message.SearchResults();
+
+                std::vector<Search::SdkModel::SearchResultModel> unorderedResults = m_lastAddedResults;
+                
+                unorderedResults.insert(unorderedResults.end(), m_lastAddedResultsGeo.begin(), m_lastAddedResultsGeo.end());
+
+                OrderWrapper orderWrapper(*m_pSearchResultSectionOrder);
+                std::stable_sort(unorderedResults.begin(), unorderedResults.end(), orderWrapper);
+                
+                printf("********************* %lu",unorderedResults.size());
+                
                 if(message.IsForStartLocation())
                 {
-                    m_directionsMenuView.SetStartLocationSuggestions(message.SearchResults(), false);
+                    m_directionsMenuView.SetStartLocationSuggestions(unorderedResults, false);
                 }
                 else
                 {
-                    m_directionsMenuView.SetEndLocationSuggestions(message.SearchResults(), false);
+                    m_directionsMenuView.SetEndLocationSuggestions(unorderedResults, false);
                 }
+                
             }
             
             void DirectionsMenuController::OnSearchCleared()
