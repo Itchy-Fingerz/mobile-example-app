@@ -100,7 +100,7 @@ namespace ExampleApp
                 m_messageBus.SubscribeUi(m_showMeDirectionMessageCallback);
                 
                 
-                m_pSearchResultSectionOrder = Eegeo_NEW(SearchResultSection::View::SearchResultSectionOrder)();
+                m_pSearchResultSectionOrder = Eegeo_NEW(DirectionsResultsOrder)();
 
                 
             }
@@ -251,12 +251,14 @@ namespace ExampleApp
             {
                 Eegeo_TTY("OnStartLocationChanged");
                 m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuGetGeoNamesMessage(startLocationQuery, m_isInterior, true));
+                m_pSearchResultSectionOrder->SetQueryString(startLocationQuery);
             }
             
             void DirectionsMenuController::OnEndLocationChanged(const std::string& startLocationQuery)
             {
                 Eegeo_TTY("OnEndLocationChanged");
                 m_messageBus.Publish(ExampleApp::DirectionsMenu::DirectionMenuGetGeoNamesMessage(startLocationQuery, m_isInterior, false));
+                m_pSearchResultSectionOrder->SetQueryString(startLocationQuery);
             }
             
             void DirectionsMenuController::OnGeoNamesStartLocationResponseReceived(const DirectionsMenu::DirectionMenuGeoNamesResponseReceivedMessage& message)

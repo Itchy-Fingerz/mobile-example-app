@@ -54,7 +54,7 @@ namespace ExampleApp
             void BillBoardsController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
             {
                 
-                if(query.Query() == "advertisements")
+                if(query.Query() == "advertisements" || query.Query() == "Specialoffer")
                 {
                     rapidjson::Document json;
                     std::string descriptionJsonString = "";

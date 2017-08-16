@@ -99,6 +99,20 @@ namespace ExampleApp
                             {
                                 wayPointype = ExampleApp::PathDrawing::WayPointType::Entrance;
                                 wayPointNumber = 23;
+                                
+                                if (stepManeuver.GetModifier() == "left" || stepManeuver.GetModifier() == "slight left" || stepManeuver.GetModifier() == "sharp left")
+                                {
+                                    wayPointype = ExampleApp::PathDrawing::WayPointType::Left;
+                                    leftRightCount++;
+                                    wayPointNumber = leftRightCount;
+                                }
+                                
+                                else if (stepManeuver.GetModifier() == "right" || stepManeuver.GetModifier() == "slight right" || stepManeuver.GetModifier() == "sharp right")
+                                {
+                                    wayPointype = ExampleApp::PathDrawing::WayPointType::Right;
+                                    leftRightCount++;
+                                    wayPointNumber = leftRightCount;
+                                }
 
                             }
                             else if(stepRouteModel.GetStepType() == "Elevator" || stepRouteModel.GetStepType() == "Escalator" )
@@ -195,11 +209,11 @@ namespace ExampleApp
             ExampleApp::Search::SdkModel::TagIconKey DirectionResultSectionController::GetIconImageName(const Direction::SdkModel::StepRouteModel &stepManeuver)
             {
                 ExampleApp::Search::SdkModel::TagIconKey iconKey = ""; //DirectionCard_ElevatorSelected
-                if(stepManeuver.GetStepType() == "Entrance")
-                {
-                    iconKey = "DirectionCard_EnterMallSelected";
-                }
-                else if(stepManeuver.GetStepType() == "Elevator" || stepManeuver.GetStepType() == "Escalator")
+//                if(stepManeuver.GetStepType() == "Entrance")
+//                {
+//                    iconKey = "DirectionCard_EnterMallSelected";
+//                }
+                if(stepManeuver.GetStepType() == "Elevator" || stepManeuver.GetStepType() == "Escalator")
                 {
                     iconKey = "DirectionCard_ElevatorStandard";
                 }

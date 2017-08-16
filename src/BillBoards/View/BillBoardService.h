@@ -78,6 +78,8 @@ namespace ExampleApp
                     m_season = season;
                 }
                 
+                void ShowSpecialOfferBillBoardsOnly();
+                
             private:
                 
                 bool m_isSpinnerShown;
@@ -128,7 +130,7 @@ namespace ExampleApp
                 
                 ExampleApp::VideoAssetReader::VideoAssetReaderService *m_pVideoAssetReaderService;
                 
-                void SpecialOffersTriger(BillBoardsMeshRenderable& renderable);
+                void SpecialOffersTriger();
             };
         }
     }

@@ -394,27 +394,7 @@
             
             NSString *pSubtitle = [self GetSubTitle:stitle];
             
-//            NSArray *pSubTitleArray = [pSubtitle componentsSeparatedByString: @" "];
-            
-//            if ([pSubTitleArray count] >= 2)
-//            {
-//                NSString *pDistanceString = [pSubTitleArray lastObject];
-//                
-//                NSRange range1 = [pSubtitle rangeOfString:pDistanceString];
-//                
-//                NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:pSubtitle];
-//                
-//                [attributedText setAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:cell.wayPointSubCategorylbl.font.pointSize]}
-//                                        range:range1];
-//                
-//                [cell.wayPointMainTitlelbl setAttributedText:attributedText];
-//
-//            }
-//            else
-//            {
-                [cell.wayPointMainTitlelbl setText:pSubtitle];
-
-//            }
+            [cell.wayPointMainTitlelbl setText:pSubtitle];
 
         }
         UIView *pView = [[UIView alloc]init];

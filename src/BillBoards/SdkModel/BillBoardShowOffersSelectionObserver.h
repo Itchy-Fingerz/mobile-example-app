@@ -29,6 +29,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<BillBoardShowOffersSelectionObserver, const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage&> m_directionsMenuStateChangedCallback;
                 PathDrawing::SdkModel::WayPointOnMapModel &m_wayPointModel;
                 Direction::SdkModel::FindDirectionService &m_findDirectionService;
+                View::BillBoardService& m_billBoardService;
                 
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 bool isSpecialOffersModeOn;

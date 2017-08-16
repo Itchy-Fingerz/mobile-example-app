@@ -45,6 +45,9 @@
 #define VIDEO_PLAYBACK_CONST 0.04
 #define SPECIAL_OFFER_ALTITUDE 350
 
+#define SPECIAL_OFFER_TRIGGER_LATITUDE 33.9435013
+#define SPECIAL_OFFER_TRIGGER_LNGITUDE -118.4100398
+
 namespace ExampleApp
 {
     
@@ -346,7 +349,7 @@ namespace ExampleApp
             bool BillBoardService::IsEligibleForTimePeriod(const BillBoardConfig& config)
             {
                 
-                if(m_dayTime == config.dayTime && m_weather == config.weather && m_season == config.season)
+                if(m_dayTime == config.dayTime)
                     return true;
                 
                 return false;                
@@ -560,12 +563,6 @@ namespace ExampleApp
                                     continue;
                                 }
                             }
-                            
-                        }
-                    
-                        if(renderable.GetConfig().isSpecialOffer && !m_isSpecialOfferShown)
-                        {
-                            SpecialOffersTriger(renderable);
                         }
                     }
                 }
@@ -574,14 +571,19 @@ namespace ExampleApp
                 {
                     CheckLineDrawingTimmedOut();
                 }
+                
+                if(!m_isSpecialOfferShown)
+                {
+                    SpecialOffersTriger();
+                }
             }
             
-            void BillBoardService::SpecialOffersTriger(BillBoardsMeshRenderable& renderable)
+            void BillBoardService::SpecialOffersTriger()
             {
                 const Eegeo::Camera::RenderCamera& renderCamera = m_iCameraController.GetRenderCamera();
                 if(renderCamera.GetAltitude() < SPECIAL_OFFER_ALTITUDE)
                 {
-                Eegeo::v3 resultCoordinates = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(Eegeo::Space::LatLong::FromDegrees(renderable.GetConfig().originLatLong.first,renderable.GetConfig().originLatLong.second), renderCamera);
+                Eegeo::v3 resultCoordinates = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(Eegeo::Space::LatLong::FromDegrees(SPECIAL_OFFER_TRIGGER_LATITUDE,SPECIAL_OFFER_TRIGGER_LNGITUDE), renderCamera);
                     
                     if(resultCoordinates.GetX() > 0 && resultCoordinates.GetX() < m_screenProperties.GetScreenWidth() && resultCoordinates.GetY() > 0 && m_screenProperties.GetScreenHeight())
                     {
@@ -771,6 +773,13 @@ namespace ExampleApp
                 
                 return isAlreadyAdded;
                 
+            }
+            
+            void BillBoardService::ShowSpecialOfferBillBoardsOnly()
+            {
+                RemoveAllRenderables();
+                StopResetVideoService();
+                m_billBoardConfigList.clear();
             }
             
         }

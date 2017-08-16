@@ -113,7 +113,7 @@ namespace ExampleApp
                         const bool shouldDrawInScreenSpace = true;
                         const bool shouldDrawForCurrentFloorOnly = true;
                         
-                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, shouldDrawInScreenSpace, shouldDrawForCurrentFloorOnly, 0.0f);
+                        Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleCellColours, Eegeo::Rendering::LayerIds::InteriorEntities, shouldDrawInScreenSpace, shouldDrawForCurrentFloorOnly, 0.0f);
 
                         m_resultParser.CreateRouteFromJSON(response, m_routeService, routeStyle);
                         isRouteDrawn = true;
@@ -155,7 +155,7 @@ namespace ExampleApp
                     const bool shouldDrawInScreenSpace = true;
                     const bool shouldDrawForCurrentFloorOnly = true;
 
-                    Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleSegmentedWithDirection, Eegeo::Rendering::LayerIds::InteriorEntities, shouldDrawInScreenSpace, shouldDrawForCurrentFloorOnly, 0.0f);
+                    Eegeo::Routes::Style::RouteStyle routeStyle(&m_routeThicknessPolicy, Eegeo::Routes::Style::RouteStyle::DebugStyleCellColours, Eegeo::Rendering::LayerIds::InteriorEntities, shouldDrawInScreenSpace, shouldDrawForCurrentFloorOnly, 0.0f);
                 
                     m_resultParser.CreateRouteFromJSON(responseString, m_routeService, routeStyle);
                 }

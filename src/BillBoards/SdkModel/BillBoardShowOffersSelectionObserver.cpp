@@ -16,6 +16,7 @@ namespace ExampleApp
             , m_messageBus(messageBus)
             , m_findDirectionService(findDirectionService)
             , m_directionViewModel(directionViewModel)
+            , m_billBoardService(billBoardService)
             {
                 m_messageBus.SubscribeNative(m_showOfferSelectionCallback);
                 m_messageBus.SubscribeUi(m_directionsMenuStateChangedCallback);
@@ -34,7 +35,7 @@ namespace ExampleApp
                     isSpecialOffersModeOn = true;
                     m_wayPointModel.HideAllWayPoints();
                     m_findDirectionService.HideAllRoutes();
-
+                    m_billBoardService.ShowSpecialOfferBillBoardsOnly();
                     // Add condition here to check the current state of Directions menu
                     
                     m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("Specialoffer", true, true));
