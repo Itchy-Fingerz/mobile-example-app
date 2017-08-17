@@ -188,7 +188,8 @@ namespace ExampleApp
         ExampleApp::Automation::IScreenshotService& m_screenshotService;
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                           const bool interiorsAffectedByFlattening);
+                                           const bool interiorsAffectedByFlattening,
+                                           const bool createBlueSphereViews);
 
         void DestroyApplicationModelModules();
 
@@ -407,6 +408,11 @@ namespace ExampleApp
         AppModes::SdkModel::IAppModeModel& GetAppModeModel() const
         {
             return *m_pAppModeModel;
+        }
+
+        Eegeo::Location::NavigationService& GetNavigationService() const
+        {
+            return *m_pNavigationService;
         }
         
         void OnPause();

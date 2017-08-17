@@ -92,6 +92,8 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     private Drawable m_dragButtonSearchStates;
     private Drawable m_dragButtonCloseStates;
 
+    private boolean m_menuOpen = false;
+
     public SearchMenuView(MainActivity activity, long nativeCallerPointer)
     {
         super(activity, nativeCallerPointer);
@@ -315,8 +317,17 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
         m_searchCountText.setText(m_searchCount.toString());
         m_searchMenuAnimationHandler.showSearchResultsView();
         m_closeButtonView.setVisibility(View.VISIBLE);
-        m_anchorArrow.setVisibility(View.VISIBLE);
-        m_searchMenuResultsSeparator.setVisibility(View.VISIBLE);
+
+        if(searchResultCount > 0)
+        {
+            m_anchorArrow.setVisibility(View.VISIBLE);
+            m_searchMenuResultsSeparator.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            m_anchorArrow.setVisibility(View.GONE);
+            m_searchMenuResultsSeparator.setVisibility(View.GONE);
+        }
     }
 
     public void fadeInButtonAnimation()
@@ -333,15 +344,16 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     @Override
     public void animateOffScreen()
     {
-    	super.animateOffScreen();
+        super.animateOffScreen();
+        m_menuOpen = false;
         showCloseButtonView(false);
-
     }
     
     @Override
     public void animateToClosedOnScreen()
     {
-    	super.animateToClosedOnScreen();
+        super.animateToClosedOnScreen();
+        m_menuOpen = false;
         showCloseButtonView(false);
     }
 
@@ -349,6 +361,7 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
     public void animateToOpenOnScreen()
     {
         super.animateToOpenOnScreen();
+        m_menuOpen = true;
         showCloseButtonView(m_editText.getText().length() == 0);
     }
 
@@ -377,7 +390,7 @@ public class SearchMenuView extends MenuView implements TextView.OnEditorActionL
         if(!m_editingText)
         {
             m_editText.setText("");
-            showCloseButtonView(true);
+            showCloseButtonView(m_menuOpen);
         }
     }
     

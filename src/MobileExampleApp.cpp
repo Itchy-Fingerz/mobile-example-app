@@ -357,7 +357,7 @@ namespace ExampleApp
                                                                                        Eegeo::Streaming::QuadTreeCube::MAX_DEPTH_TO_VISIT,
                                                                                        mapModule.GetEnvironmentFlatteningService());
 
-        CreateApplicationModelModules(nativeUIFactories, platformConfig.OptionsConfig.InteriorsAffectedByFlattening);
+        CreateApplicationModelModules(nativeUIFactories, platformConfig.OptionsConfig.InteriorsAffectedByFlattening, platformConfig.MapLayersConfig.BlueSphereConfig.CreateViews);
 
         namespace IntHighlights = InteriorsExplorer::SdkModel::Highlights;
 
@@ -441,6 +441,17 @@ namespace ExampleApp
             m_pAboutPageModule->GetAboutPageViewModel(),
             *m_pNavigationService,
             m_pWorld->GetApiTokenService());
+
+        if (applicationConfiguration.HasMapScene())
+        {
+            // TODO: This is a bit smelly & needs refactoring because the MapScene responsibility is tightly coupled
+            // to the DeepLink domain. Building up a fake deep link for now....
+            const std::string mapScenePath = "/" + applicationConfiguration.MapSceneId();
+            AppInterface::UrlData data;
+            data.host = "mapscene";
+            data.path = mapScenePath.c_str();
+            m_pDeepLinkModule->GetDeepLinkController().HandleDeepLinkOpen(data);
+        }
     }
     
     MobileExampleApp::~MobileExampleApp()
@@ -480,7 +491,8 @@ namespace ExampleApp
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                                         const bool interiorsAffectedByFlattening)
+                                                         const bool interiorsAffectedByFlattening,
+                                                         const bool createBlueSphereViews)
     {
         Eegeo::EegeoWorld& world = *m_pWorld;
 
@@ -556,15 +568,12 @@ namespace ExampleApp
 
         Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
 
-        m_pGpsMarkerModule = Eegeo_NEW(ExampleApp::GpsMarker::SdkModel::GpsMarkerModule)(m_pWorld->GetRenderingModule(),
-                                                                                         m_pWorld->GetSceneModelsModule().GetLocalSceneModelFactory(),
-                                                                                         m_platformAbstractions,
-                                                                                         m_pWorld->GetLocationService(),
+        m_pGpsMarkerModule = Eegeo_NEW(ExampleApp::GpsMarker::SdkModel::GpsMarkerModule)(m_pWorld->GetLocationService(),
                                                                                          m_pWorld->GetTerrainModelModule(),
                                                                                          m_pWorld->GetMapModule(),
                                                                                          interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                          m_pVisualMapModule->GetVisualMapService(),
-                                                                                         m_screenProperties,
+                                                                                         createBlueSphereViews,
                                                                                          m_messageBus);
 
         m_pSurveyModule = Eegeo_NEW(Surveys::SdkModel::SurveyModule)(m_messageBus,
@@ -1035,7 +1044,8 @@ namespace ExampleApp
                                                                                          interiorsPresentationModule.GetInteriorTransitionModel(),
                                                                                          m_sdkDomainEventBus,
                                                                                          interiorsPresentationModule.GetInteriorMarkerPickingService(),
-                                                                                         mapModule.GetMarkersModule().GetMarkerService());
+                                                                                         mapModule.GetMarkersModule().GetMarkerService(),
+                                                                                         *m_pNavigationService);
     }
 
     void MobileExampleApp::OnPause()

@@ -23,11 +23,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
+import com.eegeo.helpers.IBackButtonListener;
 import com.eegeo.helpers.TintablePinToggleButton;
 import com.eegeo.mobileexampleapp.R;
 import com.eegeo.tags.TagResources;
 
-public class EegeoSearchResultPoiView implements View.OnClickListener 
+public class EegeoSearchResultPoiView implements View.OnClickListener, IBackButtonListener
 {
     protected MainActivity m_activity = null;
     protected long m_nativeCallerPointer;
@@ -130,11 +131,14 @@ public class EegeoSearchResultPoiView implements View.OnClickListener
         m_facebookUrl.setOnClickListener(this);
         m_twitterUrl.setOnClickListener(this);
         m_email.setOnClickListener(this);
+
+        m_activity.addBackButtonPressedListener(this);
     }
 
     public void destroy()
     {
         m_uiRoot.removeView(m_view);
+        m_activity.removeBackButtonPressedListener(this);
     }
 
     public void displayPoiInfo(
@@ -328,13 +332,15 @@ public class EegeoSearchResultPoiView implements View.OnClickListener
         if(!customViewUrl.equals(""))
         {
         	m_webView.loadUrl(customViewUrl);
-        	if(customViewHeight != -1)
-        	{
-        		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) m_webView.getLayoutParams();
-            	params.height = m_activity.dipAsPx(customViewHeight);
-            	m_webView.setLayoutParams(params);
-        	}
-        	m_webView.getSettings().setLoadWithOverviewMode(true);
+
+            final int defaultViewHeight = 256;
+            final int viewHeight = (customViewHeight != -1) ? customViewHeight : defaultViewHeight;
+            
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) m_webView.getLayoutParams();
+            params.height = m_activity.dipAsPx(viewHeight);
+            m_webView.setLayoutParams(params);
+
+            m_webView.getSettings().setLoadWithOverviewMode(true);
         	m_webView.getSettings().setUseWideViewPort(true);
         	m_poiImageViewContainer.setVisibility(View.GONE);
         	m_webViewContainer.setVisibility(View.VISIBLE);
@@ -531,5 +537,15 @@ public class EegeoSearchResultPoiView implements View.OnClickListener
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public boolean onBackButtonPressed() {
+        if (m_view.getVisibility() == View.VISIBLE)
+        {
+            handleCloseClicked();
+            return true;
+        }
+        return false;
     }
 }

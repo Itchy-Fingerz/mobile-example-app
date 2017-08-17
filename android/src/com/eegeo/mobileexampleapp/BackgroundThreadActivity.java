@@ -164,44 +164,12 @@ public class BackgroundThreadActivity extends MainActivity
     		registerCrashLogging();
     	}
 
-        runOnNativeThread(new Runnable()
-        {
-            public void run()
-            {
-                NativeJniCalls.resumeNativeCode();
-                if (m_rotationInitialised)
-                {
-                    m_threadedRunner.start();
-                }
-
-                if(m_surfaceHolder != null && m_surfaceHolder.getSurface() != null)
-                {
-                    long oldWindow = NativeJniCalls.setNativeSurface(m_surfaceHolder.getSurface());
-                    releaseNativeWindowDeferred(oldWindow);
-
-                    if(m_deepLinkUrlData != null)
-                    {
-                        NativeJniCalls.handleUrlOpenEvent(m_deepLinkUrlData.getHost(), m_deepLinkUrlData.getPath());
-                        m_deepLinkUrlData = null;
-                    }
-                }
-            }
-        });
     }
 
     @Override
     protected void onPause()
     {
         super.onPause();
-
-        if(m_locationPermissionRecieved) {
-            runOnNativeThread(new Runnable() {
-                public void run() {
-                    m_threadedRunner.stop();
-                    NativeJniCalls.pauseNativeCode();
-                }
-            });
-        }
     }
 
     @Override
@@ -245,7 +213,10 @@ public class BackgroundThreadActivity extends MainActivity
     @Override
     public void onBackPressed()
     {
-        moveTaskToBack(true);
+        if (!checkLocalBackButtonListeners())
+        {
+            moveTaskToBack(true);
+        }
     }
 
     @Override
@@ -262,6 +233,7 @@ public class BackgroundThreadActivity extends MainActivity
             public void run()
             {
                 m_threadedRunner.stop();
+                NativeJniCalls.pauseNativeCode();
             }
         });
     }
@@ -291,6 +263,8 @@ public class BackgroundThreadActivity extends MainActivity
                         NativeJniCalls.handleUrlOpenEvent(m_deepLinkUrlData.getHost(), m_deepLinkUrlData.getPath());
                         m_deepLinkUrlData = null;
                     }
+
+                    NativeJniCalls.resumeNativeCode();
                 }
             }
         });
