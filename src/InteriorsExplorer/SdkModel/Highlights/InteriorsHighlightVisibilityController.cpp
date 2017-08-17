@@ -428,7 +428,7 @@ namespace ExampleApp
                     for(int j = 0; j<pResult->GetTags().size();j++)
                     {
                         std::string tag = pResult->GetTags()[j];
-                        if(tag == "specialoffer")
+                        if(tag == "offers")
                         {
                             return true;
                         }

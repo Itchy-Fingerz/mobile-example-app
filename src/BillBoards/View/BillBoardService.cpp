@@ -290,7 +290,7 @@ namespace ExampleApp
                 for (BillBoardsConfigList::const_iterator iter = m_billBoardConfigList.begin(); iter != m_billBoardConfigList.end(); ++iter)
                 {
                     const BillBoardConfig& configIter = *iter;
-                    if (m_currentFloorIndex == configIter.floorIndex)
+                    if (m_currentFloorIndex == configIter.floorIndex && IsEligibleForTimePeriod(configIter))
                     {
                         CreateBillBoard(configIter);
                     }
@@ -301,55 +301,55 @@ namespace ExampleApp
             void BillBoardService::CreateBillBoard(const BillBoardConfig& config)
             {
                 
-                if (IsEligibleForTimePeriod(config) == true)
-                {
-                    Eegeo::m33 m_basisToEcef = BuildBasisToEcef(config.originLatLong.first, config.originLatLong.second, config.planeRotation);
-                    
-                    const bool generateMipmaps = false;
-                    bool success = false;
-                    
-                    success = m_textureFileLoader.LoadTexture(m_textureInfo, config.GetInitialFrame(), generateMipmaps);
-                    
-                    Eegeo_ASSERT(success, "failed to load texture");
-                    if (!success)
-                        return;
-                    
-                  
-                    
-                    BillBoardsMeshUnlitTexturedMaterial *pMaterial = new (BillBoardsMeshUnlitTexturedMaterial)(
-                                                                            m_renderingModule.GetMaterialIdGenerator().GetNextId(),
-                                                                            "MeshExampleMat",
-                                                                            *m_pShader,
-                                                                            m_textureInfo.textureId,
-                                                                            *this,
-                                                                            config.isVideo
-                                                                            );
-                    
-                    
-                    m_pUnlitBoxMesh = CreateUnlitBoxMesh(config.boxWidth, config.boxHeight, *m_pPositionUvVertexLayout, m_renderingModule.GetGlBufferPool(), config);
-                    
-                    Eegeo::Rendering::VertexLayouts::VertexBindingPool& vertexBindingPool = m_renderingModule.GetVertexBindingPool();
-                    
-                    const Eegeo::Space::LatLongAltitude& lla = Eegeo::Space::LatLongAltitude::FromDegrees(
-                                                                                                          config.originLatLong.first ,
-                                                                                                          config.originLatLong.second,
-                                                                                                          config.altitude);
-                    const Eegeo::dv3& positionEcef = Eegeo::Space::ConvertLatLongAltitudeToEcef(lla);
-                    BillBoardsMeshRenderable* pRenderable = CreateMeshRenderable(*m_pUnlitBoxMesh, *pMaterial, vertexBindingPool, positionEcef);
-                    
-                    pRenderable->SetOrientationEcef(m_basisToEcef);
-                    pRenderable->SetConfig(config);
-                    
-                    m_renderables.push_back(pRenderable);
-                    m_pUnlitBoxMesh = NULL;
-                    pMaterial = NULL;
-                }
+                Eegeo::m33 m_basisToEcef = BuildBasisToEcef(config.originLatLong.first, config.originLatLong.second, config.planeRotation);
+                
+                const bool generateMipmaps = false;
+                bool success = false;
+                
+                success = m_textureFileLoader.LoadTexture(m_textureInfo, config.GetInitialFrame(), generateMipmaps);
+                
+                Eegeo_ASSERT(success, "failed to load texture");
+                if (!success)
+                    return;
+                
+                
+                
+                BillBoardsMeshUnlitTexturedMaterial *pMaterial = new (BillBoardsMeshUnlitTexturedMaterial)(
+                                                                                                           m_renderingModule.GetMaterialIdGenerator().GetNextId(),
+                                                                                                           "MeshExampleMat",
+                                                                                                           *m_pShader,
+                                                                                                           m_textureInfo.textureId,
+                                                                                                           *this,
+                                                                                                           config.isVideo
+                                                                                                           );
+                
+                
+                m_pUnlitBoxMesh = CreateUnlitBoxMesh(config.boxWidth, config.boxHeight, *m_pPositionUvVertexLayout, m_renderingModule.GetGlBufferPool(), config);
+                
+                Eegeo::Rendering::VertexLayouts::VertexBindingPool& vertexBindingPool = m_renderingModule.GetVertexBindingPool();
+                
+                const Eegeo::Space::LatLongAltitude& lla = Eegeo::Space::LatLongAltitude::FromDegrees(
+                                                                                                      config.originLatLong.first ,
+                                                                                                      config.originLatLong.second,
+                                                                                                      config.altitude);
+                const Eegeo::dv3& positionEcef = Eegeo::Space::ConvertLatLongAltitudeToEcef(lla);
+                BillBoardsMeshRenderable* pRenderable = CreateMeshRenderable(*m_pUnlitBoxMesh, *pMaterial, vertexBindingPool, positionEcef);
+                
+                pRenderable->SetOrientationEcef(m_basisToEcef);
+                pRenderable->SetConfig(config);
+                
+                m_renderables.push_back(pRenderable);
+                m_pUnlitBoxMesh = NULL;
+                pMaterial = NULL;
+                
             }
             
             bool BillBoardService::IsEligibleForTimePeriod(const BillBoardConfig& config)
             {
+                if(config.isSpecialOffer)
+                    return true;
                 
-                if(m_dayTime == config.dayTime)
+                if(m_dayTime == config.dayTime || config.dayTime == "")
                     return true;
                 
                 return false;                
@@ -563,6 +563,11 @@ namespace ExampleApp
                                     continue;
                                 }
                             }
+                            
+                            if(!m_isSpecialOfferShown)
+                            {
+                                SpecialOffersTriger(renderable);
+                            }
                         }
                     }
                 }
@@ -571,14 +576,9 @@ namespace ExampleApp
                 {
                     CheckLineDrawingTimmedOut();
                 }
-                
-                if(!m_isSpecialOfferShown)
-                {
-                    SpecialOffersTriger();
-                }
             }
             
-            void BillBoardService::SpecialOffersTriger()
+            void BillBoardService::SpecialOffersTriger(BillBoardsMeshRenderable& renderable)
             {
                 const Eegeo::Camera::RenderCamera& renderCamera = m_iCameraController.GetRenderCamera();
                 if(renderCamera.GetAltitude() < SPECIAL_OFFER_ALTITUDE)

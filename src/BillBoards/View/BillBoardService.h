@@ -130,7 +130,7 @@ namespace ExampleApp
                 
                 ExampleApp::VideoAssetReader::VideoAssetReaderService *m_pVideoAssetReaderService;
                 
-                void SpecialOffersTriger();
+                void SpecialOffersTriger(BillBoardsMeshRenderable& renderable);
             };
         }
     }

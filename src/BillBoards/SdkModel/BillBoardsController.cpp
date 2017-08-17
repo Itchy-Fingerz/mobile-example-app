@@ -54,7 +54,7 @@ namespace ExampleApp
             void BillBoardsController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
             {
                 
-                if(query.Query() == "advertisements" || query.Query() == "Specialoffer")
+                if(query.Query() == "advertisements" || query.Query() == "offers")
                 {
                     rapidjson::Document json;
                     std::string descriptionJsonString = "";
@@ -138,7 +138,7 @@ namespace ExampleApp
                                 {
                                     std::string tag = tagsItt->c_str();
                                     
-                                    if(tag == "specialoffer")
+                                    if(tag == "offers")
                                     {
                                         config.isSpecialOffer = true;
                                     }
@@ -335,6 +335,7 @@ namespace ExampleApp
                 tempConfig.season = config.season;
                 tempConfig.poiID = config.poiID;
                 tempConfig.highlightColor = config.highlightColor;
+                tempConfig.isSpecialOffer = config.isSpecialOffer;
                 
                 m_billBoardService.AddBillboard(tempConfig);
                 

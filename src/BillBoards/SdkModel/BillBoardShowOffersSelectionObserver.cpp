@@ -38,7 +38,7 @@ namespace ExampleApp
                     m_billBoardService.ShowSpecialOfferBillBoardsOnly();
                     // Add condition here to check the current state of Directions menu
                     
-                    m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("Specialoffer", true, true));
+                    m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("offers", true, true));
                     if(m_directionViewModel.IsFullyOpen())
                     {
                         m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active,false,true));
