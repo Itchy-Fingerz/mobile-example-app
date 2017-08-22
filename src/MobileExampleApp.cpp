@@ -134,8 +134,7 @@
 #include "OnSecreenTapMessage.h"
 #include "BillBoardsController.h"
 #include "CustomAlertModule.h"
-
-
+#include "BlueSphereModel.h"
 
 namespace ExampleApp
 {
@@ -465,6 +464,21 @@ namespace ExampleApp
             m_pAboutPageModule->GetAboutPageViewModel(),
             *m_pNavigationService,
             m_pWorld->GetApiTokenService());
+        
+        
+        Eegeo::Space::LatLongAltitude latLng =  Eegeo::Space::LatLongAltitude::FromDegrees(33.944146, -118.4086872,0);
+        int floorIndex = 2;
+        std::string interiorIdString = "98a265e2-b890-4c6b-a28f-948c92e36914";
+        
+        m_pFixedIndoorLocationCompassModeObserver = Eegeo_NEW(Compass::SdkModel::FixedIndoorLocationCompassModeObserver)(m_pCompassModule->GetCompassModel(),latLng,interiorIdString,floorIndex,*m_pCameraTransitionController,messageBus);
+        
+        m_pBlueSphereModule = Eegeo::BlueSphere::BlueSphereModule::Create(m_pWorld->GetRenderingModule(), m_pWorld->GetSceneModelsModule().GetLocalSceneModelFactory(), m_platformAbstractions.GetFileIO(), platformAbstractions.GetTextureFileLoader(), m_pWorld->GetTerrainModelModule(), interiorsPresentationModule.GetInteriorInteractionModel(), m_screenProperties, m_pWorld->GetMapModule().GetPositioningModule(), Eegeo::BlueSphere::BlueSphereModule::DefaultConfig());
+        m_pBlueSphereModule->GetBlueSphereModel().SetCoordinate(Eegeo::Space::LatLong(latLng.GetLatitude(),latLng.GetLongitude()));
+        m_pBlueSphereModule->GetBlueSphereModel().SetIndoorMap(interiorIdString, floorIndex);
+        m_pBlueSphereModule->GetBlueSphereModel().SetElevationMode(Eegeo::Positioning::ElevationMode::HeightAboveGround);
+        m_pBlueSphereModule->GetBlueSphereModel().SetElevation(0.0);
+        m_pBlueSphereModule->GetBlueSphereModel().SetHeadingRadians(0.5);
+        m_pBlueSphereModule->GetBlueSphereModel().SetEnabled(true);
     }
     
     MobileExampleApp::~MobileExampleApp()
@@ -505,6 +519,9 @@ namespace ExampleApp
         Eegeo_DELETE m_pWorld;
         
         Eegeo_DELETE m_pPathDrawingModule;
+        
+        Eegeo_DELETE m_pBlueSphereModule;
+        Eegeo_DELETE m_pFixedIndoorLocationCompassModeObserver;
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
@@ -1235,6 +1252,8 @@ namespace ExampleApp
 
         eegeoWorld.Update(updateParameters);
 
+        m_pBlueSphereModule->Update(dt, renderCamera);
+        m_pBlueSphereModule->GetBlueSphereModel().UpdatePosition(renderCamera);
         m_pSearchModule->GetSearchRefreshService().TryRefreshSearch(dt, ecefInterestPoint, cameraState.LocationEcef());
 
         m_pPinsModule->GetController().Update(dt, renderCamera);

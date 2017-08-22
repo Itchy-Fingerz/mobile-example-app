@@ -183,161 +183,30 @@ namespace ExampleApp
                 }
             }
             
-            void BillBoardsController::CreateMockBillBoards()
-            {
-//                BillBoards::View::BillBoardConfig config;
-//                
-//                config.billBoardId = 0;
-//                config.textureFilename = "girl";
-//                config.originLatLong = std::make_pair(33.944636, -118.411034);
-//                config.lineStartFrom = std::make_pair(33.944666, -118.410920);
-//                config.lineEndTo = std::make_pair(33.944746, -118.410544);
-//                config.altitude = 32.f;
-//                config.boxWidth = BOX_WIDTH;
-//                config.boxHeight = BOX_HEIGHT;
-//                config.planeRotation = -7.0f;
-//                config.floorIndex = 2;
-//                config.startDisplayingAtHour = 1;   // 24 hours clock 7:00
-//                config.endDisplayingAtHour = 23;     //
-//                //                m_pBillBoardService->AddBillboard(config);
-//                
-//                config.billBoardId = 1;
-//                config.textureFilename = "test";
-//                config.originLatLong = std::make_pair(33.946862, -118.410776);
-//                config.lineStartFrom = std::make_pair(33.946724, -118.410759);
-//                config.lineEndTo = std::make_pair(33.946190, -118.410288);
-//                config.planeRotation = 84.0f;
-//                //                m_pBillBoardService->AddBillboard(config);                
-//                config.billBoardId = 2;
-//                config.floorIndex = 3;
-//                config.altitude = 34.f;
-//                config.textureFilename = "hardees";
-//                config.originLatLong = std::make_pair(33.943890, -118.409679);
-//                config.lineStartFrom = std::make_pair(33.943890, -118.409679);
-//                config.lineEndTo = std::make_pair(33.943731, -118.410237);
-//                config.planeRotation = 174.0f;
-//                config.startDisplayingAtHour = 6;   // 24 hours clock 7:00
-//                config.endDisplayingAtHour = 23;
-//                
-//                m_pBillBoardService.AddBillboard(config);
-                
-//                config.billBoardId = 3;
-//                config.floorIndex = 1;
-//                config.numberOfFrames = 1;
-//                config.altitude = 25.f;
-//                config.textureFilename = "sample";
-//                config.videoURL = "http://netsolbeta.com/ahmad/TAG.mp4"; //"https://turbooz.com/media/tag.mp4";
-//                config.originLatLong = std::make_pair(33.943537, -118.408302);
-//                config.lineStartFrom = std::make_pair(33.943530, -118.408376);
-//                config.lineEndTo = std::make_pair(33.943333, -118.408784);
-//                config.planeRotation = 174.0f;
-//                config.isVideo = true;
-//                config.startDisplayingAtHour = 1;   // 24 hours clock 7:00
-//                config.endDisplayingAtHour = 23;     //
-//                m_pBillBoardService.AddBillboard(config);
-                
-//                config.billBoardId = 4;
-//                config.floorIndex = 1;
-//                config.altitude = 25.f;
-//                config.textureFilename = "video_frame";
-//                config.videoURL = "";
-//                config.originLatLong = std::make_pair(33.943537, -118.408302);
-//                config.lineStartFrom = std::make_pair(33.943518, -118.408407);
-//                config.lineEndTo = std::make_pair(33.943290, -118.409007);
-//                config.planeRotation = 174.0f;
-//                config.isVideo = false;
-//                config.isVideoFrame = true;
-//                m_pBillBoardService.AddBillboard(config);
-                
-//                config.billBoardId = 5;
-//                config.floorIndex = 2;
-//                config.numberOfFrames = 1;
-//                config.altitude = 30.f;
-//                config.textureFilename = "chaya";
-//                config.originLatLong = std::make_pair(33.943697, -118.410977);
-//                config.lineStartFrom = std::make_pair(33.943716, -118.410896);
-//                config.lineEndTo = std::make_pair(33.943522, -118.410638);
-//                config.planeRotation = -18.0f;
-//                config.isVideo = false;
-//                m_pBillBoardService.AddBillboard(config);
-
-//                config.billBoardId = 4;
-//                config.floorIndex = 2;
-//                config.numberOfFrames = 1;
-//                config.altitude = 30.f;
-//                config.textureFilename = "chaya";
-//                config.videoURL = "https://turbooz.com/media/tag.mp4";
-//                config.originLatLong = std::make_pair(33.943697, -118.410977);
-//                config.lineStartFrom = std::make_pair(33.943741, -118.410929);
-//                config.lineEndTo = std::make_pair(33.943630, -118.410723);
-//                config.planeRotation = -18.0f;
-//                config.isVideo = true;
-//                m_pBillBoardService.AddBillboard(config);
-                
-//                config.billBoardId = 6;
-//                config.floorIndex = 2;
-//                config.altitude = 33.f;
-//                config.textureFilename = "tagad";
-//                config.videoURL = "http://netsolbeta.com/ahmad/TAG.mp4";//"https://turbooz.com/media/tag.mp4";
-//                config.originLatLong = std::make_pair(33.942680, -118.410836);
-//                config.lineStartFrom = std::make_pair(33.942687, -118.410762);
-//                config.lineEndTo = std::make_pair(33.942656, -118.410554);
-//                config.planeRotation = -16.0f;
-//                config.isVideo = true;
-//                m_pBillBoardService.AddBillboard(config);
-//                
-//                config.billBoardId = 7;
-//                config.floorIndex = 2;
-//                config.altitude = 33.f;
-//                config.textureFilename = "video_frame";
-//                config.videoURL = "";
-//                config.originLatLong = std::make_pair(33.942680, -118.410836);
-//                config.lineStartFrom = std::make_pair(33.942687, -118.410762);
-//                config.lineEndTo = std::make_pair(33.942656, -118.410554);
-//                config.planeRotation = -16.0f;
-//                config.isVideo = false;
-//                config.isVideoFrame = true;
-//                m_pBillBoardService.AddBillboard(config);
-                
-                ///
-                
-//                config.billBoardId = 8;
-//                config.floorIndex = 2;
-//                config.altitude = 30.f;
-//                config.textureFilename = "chaya";
-//                config.originLatLong = std::make_pair(33.945093, -118.411105);
-//                config.lineStartFrom = std::make_pair(33.945105, -118.411038);
-//                config.lineEndTo = std::make_pair(33.945225, -118.410916);
-//                config.planeRotation = -10.0f;
-//                config.isVideo = false;
-//                m_pBillBoardService.AddBillboard(config);
-                
-            }
-            
             void BillBoardsController::AddVideoFrame(const View::BillBoardConfig& config)
             {
-                BillBoards::View::BillBoardConfig tempConfig;
+                BillBoards::View::BillBoardConfig billBoardonfig;
                 
-                tempConfig.boxWidth = config.boxWidth;
-                tempConfig.boxHeight = config.boxHeight;
-                tempConfig.billBoardId = (config.billBoardId * 100);
-                tempConfig.floorIndex = config.floorIndex;
-                tempConfig.altitude = config.altitude;
-                tempConfig.textureFilename = "video_frame";
-                tempConfig.videoURL = "";
-                tempConfig.originLatLong = config.originLatLong;
-                tempConfig.lineEndTo = config.lineEndTo;
-                tempConfig.planeRotation = config.planeRotation;
-                tempConfig.isVideo = false;
-                tempConfig.isVideoFrame = true;
-                tempConfig.dayTime = config.dayTime;
-                tempConfig.weather = config.weather;
-                tempConfig.season = config.season;
-                tempConfig.poiID = config.poiID;
-                tempConfig.highlightColor = config.highlightColor;
-                tempConfig.isSpecialOffer = config.isSpecialOffer;
+                billBoardonfig.boxWidth = config.boxWidth;
+                billBoardonfig.boxHeight = config.boxHeight;
+                billBoardonfig.billBoardId = (config.billBoardId * 100);
+                billBoardonfig.floorIndex = config.floorIndex;
+                billBoardonfig.altitude = config.altitude;
+                billBoardonfig.textureFilename = "video_frame";
+                billBoardonfig.videoURL = "";
+                billBoardonfig.originLatLong = config.originLatLong;
+                billBoardonfig.lineEndTo = config.lineEndTo;
+                billBoardonfig.planeRotation = config.planeRotation;
+                billBoardonfig.isVideo = false;
+                billBoardonfig.isVideoFrame = true;
+                billBoardonfig.dayTime = config.dayTime;
+                billBoardonfig.weather = config.weather;
+                billBoardonfig.season = config.season;
+                billBoardonfig.poiID = config.poiID;
+                billBoardonfig.highlightColor = config.highlightColor;
+                billBoardonfig.isSpecialOffer = config.isSpecialOffer;
                 
-                m_billBoardService.AddBillboard(tempConfig);
+                m_billBoardService.AddBillboard(billBoardonfig);
                 
             }
             

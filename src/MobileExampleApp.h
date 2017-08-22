@@ -105,6 +105,8 @@
 #include "BillBoardsModule.h"
 #include "SearchVendorNames.h"
 #include "ISearchServiceModule.h"
+#include "BlueSphere.h"
+#include "FixedIndoorLocationCompassModeObserver.h"
 
 namespace ExampleApp
 {
@@ -167,7 +169,10 @@ namespace ExampleApp
         
         ExampleApp::PathDrawing::SdkModel::IPathDrawingModule* m_pPathDrawingModule;
         
-         BillBoards::View::BillBoardsModule *m_pBillBoardModule;
+        BillBoards::View::BillBoardsModule *m_pBillBoardModule;
+        Compass::SdkModel::FixedIndoorLocationCompassModeObserver *m_pFixedIndoorLocationCompassModeObserver;
+        Eegeo::BlueSphere::BlueSphereModule *m_pBlueSphereModule;
+        
         
         ExampleApp::MyPinCreation::PoiRing::SdkModel::IPoiRingModule* m_pPoiRingModule;
         ExampleApp::MyPinCreation::SdkModel::IMyPinCreationModule* m_pMyPinCreationModule;
