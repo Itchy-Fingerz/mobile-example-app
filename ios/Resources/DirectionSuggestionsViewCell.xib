@@ -21,20 +21,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LlB-Rp-gCQ">
-                        <rect key="frame" x="6" y="6" width="35" height="35"/>
+                        <rect key="frame" x="6" y="5" width="35" height="35"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="35" id="TKc-Og-5bP"/>
                             <constraint firstAttribute="width" constant="35" id="Wsw-3q-eyR"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LDg-Dc-20B">
-                        <rect key="frame" x="47" y="3" width="233" height="22.5"/>
+                        <rect key="frame" x="47" y="2.5" width="233" height="22.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5EU-3z-DCR" userLabel="subTitle Label">
-                        <rect key="frame" x="47" y="26" width="233" height="13.5"/>
+                        <rect key="frame" x="47" y="25.5" width="233" height="13.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -61,7 +61,7 @@
                     <constraint firstAttribute="trailing" secondItem="LDg-Dc-20B" secondAttribute="trailing" constant="8" id="isq-R1-Qzz"/>
                     <constraint firstItem="5EU-3z-DCR" firstAttribute="top" secondItem="LDg-Dc-20B" secondAttribute="bottom" id="jPJ-Zw-ts3"/>
                     <constraint firstItem="LDg-Dc-20B" firstAttribute="leading" secondItem="LlB-Rp-gCQ" secondAttribute="trailing" constant="6" id="kjQ-Nx-f1N"/>
-                    <constraint firstItem="LlB-Rp-gCQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" multiplier="1.04" id="lEd-d3-1r6"/>
+                    <constraint firstItem="LlB-Rp-gCQ" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="lEd-d3-1r6"/>
                     <constraint firstItem="LDg-Dc-20B" firstAttribute="top" secondItem="LlB-Rp-gCQ" secondAttribute="top" multiplier="0.5" id="z8D-8t-TPq"/>
                     <constraint firstItem="LDg-Dc-20B" firstAttribute="height" secondItem="H2p-sc-9uM" secondAttribute="height" multiplier="0.5" id="zIC-5G-THV"/>
                 </constraints>
