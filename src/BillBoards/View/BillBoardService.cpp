@@ -259,7 +259,7 @@ namespace ExampleApp
                 }
                 
             }
-            void BillBoardService::FullRefreshService()
+            void BillBoardService::OnInteriorsExit()
             {
                 RemoveAllRenderables();
                 StopResetVideoService();                
@@ -268,12 +268,13 @@ namespace ExampleApp
                 m_billBoardConfigList.clear();
             }
             
-            void BillBoardService::PartialRefreshService()
+            void BillBoardService::OnFloorChange(int floorIndex)
             {
                 RemoveAllRenderables();
                 StopResetVideoService();
-                m_isSpecialOfferShown = false;
                 
+                SetFloorIndex(floorIndex);
+                CreateBillBoardsFromConfigList();
             }
             
             void BillBoardService::AddBillboard(const BillBoardConfig& config)
@@ -369,7 +370,10 @@ namespace ExampleApp
             {
                 m_currentFloorIndex = floor_index;
             }
-            
+            int BillBoardService::GetFloorIndex()
+            {
+                return m_currentFloorIndex;
+            }
             void BillBoardService::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
             {
                 const float environmentFlatteningScale = m_environmentFlatteningService.GetCurrentScale();

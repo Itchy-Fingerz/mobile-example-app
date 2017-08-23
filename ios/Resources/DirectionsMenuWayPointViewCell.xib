@@ -30,12 +30,12 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Westfield Valley Mall" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="bN2-3p-J8O">
-                                <rect key="frame" x="59" y="3.5" width="239" height="18"/>
+                                <rect key="frame" x="59" y="5.5" width="239" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="South Entrance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vuh-k8-NU3">
-                                <rect key="frame" x="59" y="22" width="239" height="13.5"/>
+                                <rect key="frame" x="59" y="23.5" width="239" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -47,6 +47,7 @@
                             <constraint firstItem="bN2-3p-J8O" firstAttribute="leading" secondItem="pi9-vO-BHa" secondAttribute="trailing" constant="15" id="FnU-ao-jBb"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="pi9-vO-BHa" secondAttribute="trailing" constant="15" id="SgJ-Sb-ZuW"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="leading" constant="59" id="UYm-bY-sYE"/>
+                            <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="bN2-3p-J8O" secondAttribute="bottom" id="aPB-Kb-4mb"/>
                             <constraint firstItem="pi9-vO-BHa" firstAttribute="centerY" secondItem="AP6-hD-5bR" secondAttribute="centerY" id="e3w-s4-3pU"/>
                             <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="bN2-3p-J8O" secondAttribute="bottom" id="nUs-QX-xCp"/>
                             <constraint firstItem="pi9-vO-BHa" firstAttribute="height" secondItem="AP6-hD-5bR" secondAttribute="height" id="oLa-CQ-Dve"/>
@@ -143,9 +144,8 @@
                     <constraint firstAttribute="bottom" secondItem="AP6-hD-5bR" secondAttribute="bottom" constant="2" id="Sdb-DN-NQH"/>
                     <constraint firstAttribute="trailing" secondItem="VyB-sb-p8I" secondAttribute="trailing" constant="5" id="VTZ-Yh-PkD"/>
                     <constraint firstItem="VyB-sb-p8I" firstAttribute="height" secondItem="AP6-hD-5bR" secondAttribute="height" id="Vb8-Z9-LMm"/>
-                    <constraint firstItem="vuh-k8-NU3" firstAttribute="top" secondItem="Mdf-jt-ne2" secondAttribute="top" multiplier="1.1" id="ZK4-Go-PA7"/>
                     <constraint firstItem="VyB-sb-p8I" firstAttribute="leading" secondItem="AP6-hD-5bR" secondAttribute="trailing" id="fhy-Ze-bqd"/>
-                    <constraint firstItem="bN2-3p-J8O" firstAttribute="bottom" secondItem="Mdf-jt-ne2" secondAttribute="bottom" multiplier="1.02" id="qh5-BZ-VDx"/>
+                    <constraint firstItem="bN2-3p-J8O" firstAttribute="bottom" secondItem="Mdf-jt-ne2" secondAttribute="bottom" multiplier="1.1" id="qh5-BZ-VDx"/>
                 </constraints>
                 <variation key="default">
                     <mask key="constraints">
@@ -163,7 +163,7 @@
                 <outlet property="wayPointNumberlbl" destination="rO1-u9-9uw" id="iRu-ni-j8z"/>
                 <outlet property="wayPointSubCategorylbl" destination="vuh-k8-NU3" id="OZL-bI-pfc"/>
             </connections>
-            <point key="canvasLocation" x="66" y="-120"/>
+            <point key="canvasLocation" x="66" y="-120.5"/>
         </tableViewCell>
     </objects>
     <resources>

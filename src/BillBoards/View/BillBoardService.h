@@ -54,6 +54,7 @@ namespace ExampleApp
                 void OnSingleTap(const AppInterface::TapData& data);
                 
                 void SetFloorIndex(int floor_index);
+                int GetFloorIndex();
                 void RemoveAllRenderables();
                 void SetUpTexture(GLuint texture);
                 void SetVideoService(ExampleApp::VideoAssetReader::VideoAssetReaderService &service);
@@ -61,9 +62,9 @@ namespace ExampleApp
                 void StopResetVideoService();
                 void ResetAnimatingFlag();
 
-                void PartialRefreshService();
+                void OnFloorChange(int floorIndex);
                 void CreateBillBoardsFromConfigList();
-                void FullRefreshService();
+                void OnInteriorsExit();
                 
                 void SetDayTime(std::string dayTime)
                 {

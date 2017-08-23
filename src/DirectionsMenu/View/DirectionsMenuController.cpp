@@ -182,17 +182,23 @@ namespace ExampleApp
                 std::string endBuildingID = directionInfo.EndBuildingID();
 
                 
+                // NOTE: Mock location for LAX
+                Eegeo::Space::LatLong mocklatLng =  Eegeo::Space::LatLong::FromDegrees(33.944146, -118.4086872);
+                int mockfloorIndex = 2;
+                std::string mockInteriorId = "98a265e2-b890-4c6b-a28f-948c92e36914";
+                
+                // NOTE: MOck location for West Port House
+                // Eegeo::Space::LatLong mocklatLng =  Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
+
                 const Eegeo::Resources::Interiors::InteriorsFloorModel *pSelectedFloor = m_pInteriorInteractionModel.GetSelectedFloorModel();
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                 {
                     
                     if (!m_locationService.GetIsAuthorized())
                     {
-
-                        //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
-                        currentLatLong = Eegeo::Space::LatLong::FromDegrees(33.9429135, -118.4101622); // lax airport
-                        startLevel = 2;
-                        startBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
+                        currentLatLong = mocklatLng;
+                        startLevel = mockfloorIndex;
+                        startBuildingID = mockInteriorId;
                     }
                     else
                     {
@@ -203,24 +209,19 @@ namespace ExampleApp
                         }
                         if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                         {
-                            //currentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
-                            currentLatLong = Eegeo::Space::LatLong::FromDegrees(33.9429135, -118.4101622); // lax airport
-                            startLevel = 2;
-                            startBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
-                            
+                            currentLatLong = mocklatLng;
+                            startLevel = mockfloorIndex;
+                            startBuildingID = mockInteriorId;
                         }
-
                     }
-
                 }
                 else if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
                 {
                     if (!m_locationService.GetIsAuthorized())
                     {
-                        //endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
-                        endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(33.9429135, -118.4101622); // lax airport
-                        endLevel = 2;
-                        endBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
+                        endcurrentLatLong = mocklatLng;
+                        endLevel = mockfloorIndex;
+                        endBuildingID = mockInteriorId;
                     }
                     else
                     {
@@ -231,12 +232,10 @@ namespace ExampleApp
                         }
                         if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
                         {
-                            //endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369); // westport
-                            endcurrentLatLong = Eegeo::Space::LatLong::FromDegrees(33.9429135, -118.4101622); // lax airport
-                            endLevel = 2;
-                            endBuildingID = "98a265e2-b890-4c6b-a28f-948c92e36914";
+                            endcurrentLatLong = mocklatLng;
+                            endLevel = mockfloorIndex;
+                            endBuildingID = mockInteriorId;
                         }
-
                     }
                 }
             

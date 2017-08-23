@@ -11,39 +11,47 @@ namespace ExampleApp
         namespace SdkModel
         {
             BillBoardInteriorStateChangedObserver::BillBoardInteriorStateChangedObserver(ExampleAppMessaging::TMessageBus& messageBus
-                 ,View::BillBoardService& billBoardService,
-                Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule)
+                                                                                         ,View::BillBoardService& billBoardService,
+                                                                                         Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule, Compass::SdkModel::ICompassModel& model)
             : m_selectFloorCallback(this,&BillBoardInteriorStateChangedObserver::OnSelectFloor)
             , m_messageBus(messageBus)
             , m_billBoardService(billBoardService)
             , m_appModeChangedCallback(this, &BillBoardInteriorStateChangedObserver::OnAppModeChanged)
             , m_interiorsPresentationModule(interiorsPresentationModule)
             , m_interiorsExplorerModeChangedCallback(this,&BillBoardInteriorStateChangedObserver::OnInteriorsExplorerStateChanged)
+            , m_handleSearchResultSectionItemSelectedMessageBinding(this,&BillBoardInteriorStateChangedObserver::OnSearchResultSectionItemSelectedMessage)
+            , m_callback(this, &BillBoardInteriorStateChangedObserver::OnCompassClickedForMockedLocation)
+            , m_model(model)
             {
                 m_messageBus.SubscribeNative(m_selectFloorCallback);
                 m_messageBus.SubscribeUi(m_appModeChangedCallback);
                 m_messageBus.SubscribeUi(m_interiorsExplorerModeChangedCallback);
+                m_messageBus.SubscribeNative(m_handleSearchResultSectionItemSelectedMessageBinding);
+
+                model.InsertGpsModeChangedCallback(m_callback);
             }
             
             BillBoardInteriorStateChangedObserver::~BillBoardInteriorStateChangedObserver()
             {
                 m_messageBus.UnsubscribeNative(m_selectFloorCallback);
                 m_messageBus.UnsubscribeUi(m_appModeChangedCallback);
+                m_messageBus.UnsubscribeUi(m_interiorsExplorerModeChangedCallback);
+                m_messageBus.UnsubscribeNative(m_handleSearchResultSectionItemSelectedMessageBinding);
+                m_model.RemoveGpsModeChangedCallback(m_callback);
+
             }
             
             void BillBoardInteriorStateChangedObserver::OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message)
             {
-                m_billBoardService.PartialRefreshService();
+                m_billBoardService.OnFloorChange(message.GetFloor());
                 
-                m_billBoardService.SetFloorIndex(message.GetFloor());
-                m_billBoardService.CreateBillBoardsFromConfigList();
             }
             
             void BillBoardInteriorStateChangedObserver::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)
             {
                 if (message.GetAppMode() == AppModes::SdkModel::WorldMode)
                 {
-                    m_billBoardService.FullRefreshService();
+                    m_billBoardService.OnInteriorsExit();
                 }
             }
             
@@ -54,6 +62,23 @@ namespace ExampleApp
                 if(interiorName == "98a265e2-b890-4c6b-a28f-948c92e36914" || interiorName == "70f9b00f-8c4f-4570-9a23-62bd80a76f8a")    // Currently enabled for Lax and WestPort House
                 {
                     m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
+                }
+            }
+            
+            void BillBoardInteriorStateChangedObserver::OnSearchResultSectionItemSelectedMessage(const SearchResultSection::SearchResultSectionItemSelectedMessage& message)
+            {
+                if(message.FloorIndex() != m_billBoardService.GetFloorIndex())
+                {
+                    m_billBoardService.OnFloorChange(message.FloorIndex());
+                }
+                
+            }
+            
+            void BillBoardInteriorStateChangedObserver::OnCompassClickedForMockedLocation()
+            {
+                if(m_billBoardService.GetFloorIndex() != 2) // NOTE: Floor number for mocked location
+                {
+                    m_billBoardService.OnFloorChange(2);
                 }
             }
             

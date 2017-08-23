@@ -41,13 +41,13 @@
                                     <rect key="frame" x="60" y="19" width="288" height="36"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9H-KK-9eI">
-                                            <rect key="frame" x="20" y="8" width="43" height="21"/>
+                                            <rect key="frame" x="15" y="8" width="43" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="My Location" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="b3N-Kh-zAY">
-                                            <rect key="frame" x="67" y="5" width="213" height="29"/>
+                                            <rect key="frame" x="62" y="5" width="218" height="29"/>
                                             <color key="textColor" red="0.054901960784313725" green="0.18823529411764706" blue="0.42352941176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="next"/>
@@ -59,7 +59,7 @@
                                         <constraint firstItem="e9H-KK-9eI" firstAttribute="centerY" secondItem="4AZ-5v-gdH" secondAttribute="centerY" id="UKE-9i-bAr"/>
                                         <constraint firstItem="b3N-Kh-zAY" firstAttribute="height" secondItem="4AZ-5v-gdH" secondAttribute="height" multiplier="0.8" id="ZGJ-pW-wGE"/>
                                         <constraint firstAttribute="trailing" secondItem="b3N-Kh-zAY" secondAttribute="trailing" constant="8" id="naY-gp-y1E"/>
-                                        <constraint firstItem="e9H-KK-9eI" firstAttribute="leading" secondItem="4AZ-5v-gdH" secondAttribute="leading" constant="20" id="phv-UW-h90"/>
+                                        <constraint firstItem="e9H-KK-9eI" firstAttribute="leading" secondItem="4AZ-5v-gdH" secondAttribute="leading" constant="15" id="phv-UW-h90"/>
                                         <constraint firstItem="b3N-Kh-zAY" firstAttribute="centerY" secondItem="e9H-KK-9eI" secondAttribute="centerY" constant="1" id="xzG-EK-bj9"/>
                                     </constraints>
                                 </view>
@@ -83,6 +83,7 @@
                                     <constraints>
                                         <constraint firstAttribute="width" secondItem="odY-gg-SOX" secondAttribute="height" multiplier="1:1" id="B46-9L-xze"/>
                                         <constraint firstAttribute="width" secondItem="odY-gg-SOX" secondAttribute="height" multiplier="1:1" id="btp-R1-ZDz"/>
+                                        <constraint firstAttribute="width" constant="24" id="gSZ-nt-HsB"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -94,13 +95,13 @@
                                     <rect key="frame" x="60" y="19" width="288" height="36"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="End:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="alD-ix-WMY">
-                                            <rect key="frame" x="29" y="8" width="34" height="21"/>
+                                            <rect key="frame" x="24" y="8" width="34" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Choose End Point" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hDf-y3-L7w">
-                                            <rect key="frame" x="67" y="5" width="213" height="29"/>
+                                            <rect key="frame" x="62" y="5" width="218" height="29"/>
                                             <color key="textColor" red="0.054901960780000002" green="0.18823529410000001" blue="0.42352941179999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>

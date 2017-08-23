@@ -14,6 +14,7 @@
 #include "QuadLineFactory.h"
 #include "BillBoardWeatherStateChangedObserver.h"
 #include "BillBoardShowOffersSelectionObserver.h"
+#include "ICompassModel.h"
 
 namespace ExampleApp
 {
@@ -50,6 +51,7 @@ namespace ExampleApp
                                  PathDrawing::SdkModel::WayPointOnMapModel &wayPointModel,
                                  Direction::SdkModel::FindDirectionService &findDirectionService,
                                  Menu::View::IMenuViewModel& directionViewModel,
+                                 Compass::SdkModel::ICompassModel& model,
                                  ExampleAppMessaging::TMessageBus& messageBus);
                 ~BillBoardsModule();
                 

@@ -442,7 +442,7 @@ namespace ExampleApp
                     DeactivateHighlightRenderables();
                     ActivateLabels(true);
                     m_selectedBillBoards.clear();
-                    m_isOffersActivated = false;
+//                    m_isOffersActivated = false;
                     m_lastSelectedBillBoard = "";
                 }
             }
