@@ -313,7 +313,12 @@
     [m_pDirectionsMenuView updateEndSuggestions:results isForGeoNames:geoName];
     [self updateContainerFrame];
 }
-
+- (void) updateStartAndEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel )startModel endModel:(ExampleApp::Search::SdkModel::SearchResultModel )endModel
+{
+    [m_pDirectionsMenuView  updateStartLocation:startModel];
+    [m_pDirectionsMenuView  updateEndLocation:endModel];
+    [self EndRouteEntered];
+}
 - (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel ) searchModel
 {
     [m_pDirectionsMenuView updateStartLocationToMyLocation];

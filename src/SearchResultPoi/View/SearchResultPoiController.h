@@ -32,6 +32,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<SearchResultPoiController> m_closeButtonCallback;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, Search::SdkModel::SearchResultModel> m_togglePinnedCallback;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, Search::SdkModel::SearchResultModel> m_showMeWayCallback;
+                Eegeo::Helpers::TCallback2<SearchResultPoiController, Search::SdkModel::SearchResultModel, Search::SdkModel::SearchResultModel> m_showWayBetweenTwoPoiCallback;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, const SearchResultPoiViewImageDownloadCompletedMessage&> m_imageLoadedHandlerBinding;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, const Automation::ClosePoiMessage&> m_closePoiMessageHandler;
 
@@ -42,6 +43,8 @@ namespace ExampleApp
                 void OnPinToggledButtonClicked(Search::SdkModel::SearchResultModel& searchResultModel);
                 
                 void OnShowMeWayButtonClicked(Search::SdkModel::SearchResultModel& searchResultModel);
+                
+                void OnShowWayBetweenTwoPoiButtonClicked(Search::SdkModel::SearchResultModel& startPoiModel,Search::SdkModel::SearchResultModel& endPoiModel);
                 
                 void OnSearchResultImageLoaded(const SearchResultPoiViewImageDownloadCompletedMessage& message);
                 

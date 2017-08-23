@@ -62,6 +62,14 @@ namespace ExampleApp
                 m_messageBus.Publish(message);
                 
             }
+            
+            void SearchResultPoiController::OnShowWayBetweenTwoPoiButtonClicked(Search::SdkModel::SearchResultModel& startPoiModel,Search::SdkModel::SearchResultModel& endPoiModel)
+            {
+                DirectionsMenu::ShowMeDirectionMessage message(startPoiModel,endPoiModel);
+                m_messageBus.Publish(message);
+
+            }
+
 
             
             void SearchResultPoiController::OnSearchResultImageLoaded(const SearchResultPoiViewImageDownloadCompletedMessage& message)
@@ -105,12 +113,14 @@ namespace ExampleApp
                 , m_closeButtonCallback(this, &SearchResultPoiController::OnCloseButtonClicked)
                 , m_togglePinnedCallback(this, &SearchResultPoiController::OnPinToggledButtonClicked)
                 , m_showMeWayCallback(this, &SearchResultPoiController::OnShowMeWayButtonClicked)
+                , m_showWayBetweenTwoPoiCallback(this, &SearchResultPoiController::OnShowWayBetweenTwoPoiButtonClicked)
                 , m_imageLoadedHandlerBinding(this, &SearchResultPoiController::OnSearchResultImageLoaded)
                 , m_closePoiMessageHandler(this, &SearchResultPoiController::OnClosePoiMessageRecieved)
             {
                 m_view.InsertClosedCallback(m_closeButtonCallback);
                 m_view.InsertTogglePinnedCallback(m_togglePinnedCallback);
                 m_view.InsertShowMeWayCallback(m_showMeWayCallback);
+                m_view.InsertShowMeGateCallback(m_showWayBetweenTwoPoiCallback);
                 m_viewModel.InsertOpenedCallback(m_viewOpenedCallback);
                 m_viewModel.InsertClosedCallback(m_viewClosedCallback);
                 m_messageBus.SubscribeUi(m_imageLoadedHandlerBinding);

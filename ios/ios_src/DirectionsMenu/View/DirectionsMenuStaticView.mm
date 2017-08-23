@@ -530,11 +530,17 @@
     [_startRouteTextField setText:@"My Location"];
 
 }
+- (void) updateStartLocation:(ExampleApp::Search::SdkModel::SearchResultModel) searchModel
+{
+    m_pStartLoc = searchModel;
+    startLocationSearched = true;
+    [_startRouteTextField setText:[NSString stringWithFormat:@"%s",searchModel.GetTitle().c_str()]];
+}
 - (void) updateEndLocation:(ExampleApp::Search::SdkModel::SearchResultModel) searchModel
 {
     m_pEndLoc = searchModel;
     endLocationSearched = true;
-    [_endRouteTextField setText:[NSString stringWithFormat:@"%s",m_pEndLoc.GetTitle().c_str()]];
+    [_endRouteTextField setText:[NSString stringWithFormat:@"%s",searchModel.GetTitle().c_str()]];
 }
 -(void)UpdateRouteTime  {
     

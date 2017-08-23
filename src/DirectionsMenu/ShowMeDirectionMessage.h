@@ -11,13 +11,20 @@ namespace ExampleApp
         class ShowMeDirectionMessage
         {
         public:
-            ShowMeDirectionMessage(Search::SdkModel::SearchResultModel searchResultModel);
-            ~ShowMeDirectionMessage();
+            ShowMeDirectionMessage(Search::SdkModel::SearchResultModel endLocationModel);
             
-            Search::SdkModel::SearchResultModel GetSearchResultModel() const;
+            ShowMeDirectionMessage(Search::SdkModel::SearchResultModel startLocationModel,Search::SdkModel::SearchResultModel endLocationModel);
+
+            ~ShowMeDirectionMessage();
+                        
+            Search::SdkModel::SearchResultModel GetStartLocationModel() const;
+            Search::SdkModel::SearchResultModel GetEndLocationModel() const;
+            const bool HasStartLocation()const;
             
         private:
-            Search::SdkModel::SearchResultModel m_searchResultModel;
+            Search::SdkModel::SearchResultModel m_startLocationModel;
+            Search::SdkModel::SearchResultModel m_endLocationModel;
+            bool m_hasStartLocation;
         };
     }
 }

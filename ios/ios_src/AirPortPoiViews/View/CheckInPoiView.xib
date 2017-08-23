@@ -330,7 +330,7 @@
                                 <constraint firstAttribute="width" secondItem="nsE-jQ-UVv" secondAttribute="height" multiplier="356:41" id="N9R-hB-kgn"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
-                            <state key="normal" backgroundImage="ShowMeTheWayDefault.png"/>
+                            <state key="normal" backgroundImage="ShowMeTheGateDefault.png"/>
                             <state key="highlighted">
                                 <color key="titleColor" red="0.0039215686269999999" green="0.1176470588" blue="0.31372549020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
@@ -390,7 +390,7 @@
         </view>
     </objects>
     <resources>
-        <image name="ShowMeTheWayDefault.png" width="328" height="52"/>
+        <image name="ShowMeTheGateDefault.png" width="328" height="52"/>
         <image name="icon1_airport.png" width="36" height="36"/>
         <image name="poi_close_icon.png" width="74" height="78"/>
     </resources>

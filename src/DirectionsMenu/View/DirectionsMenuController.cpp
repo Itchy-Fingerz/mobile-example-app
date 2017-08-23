@@ -398,7 +398,14 @@ namespace ExampleApp
             void DirectionsMenuController::OnShowMeDirectionMessage(const DirectionsMenu::ShowMeDirectionMessage& message)
             {
                 
-                m_directionsMenuView.StartSearchForShowMeWay(message.GetSearchResultModel());
+                if (message.HasStartLocation())
+                {
+                    m_directionsMenuView.StartSearchForShowMeWay(message.GetStartLocationModel(), message.GetEndLocationModel());
+                }
+                else
+                {
+                    m_directionsMenuView.StartSearchForShowMeWay(message.GetEndLocationModel());
+                }
                 m_messageBus.Publish(DirectionsMenuInitiation::DirectionsMenuStateChangedMessage(ExampleApp::DirectionsMenuInitiation::Active,false,false));
             
             }

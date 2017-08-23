@@ -183,6 +183,12 @@ namespace ExampleApp
                 {
                     [m_pView updateEndLocation:searchResult];
                 }
+                
+                void StartSearchForShowMeWay(Search::SdkModel::SearchResultModel startLocation,Search::SdkModel::SearchResultModel endLocation)
+                {
+                    [m_pView updateStartAndEndLocation:startLocation endModel:endLocation];
+                }
+
 
                 
                 

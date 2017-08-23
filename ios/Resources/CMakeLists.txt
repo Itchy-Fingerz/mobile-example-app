@@ -778,6 +778,9 @@ set(resources ${resources}
 		Resources/SearchResultOnMap/pin_sheet_1@2x.png
 		Resources/SearchResultOnMap/pin_sheet_1@3x.png
         	Resources/SearchResultOnMap/pin_sheet_numbers.json
+        Resources/ShowMeTheGateDefault.png
+        Resources/ShowMeTheGateDefault@2x.png
+        Resources/ShowMeTheGateDefault@3x.png
         Resources/ShowMeTheWayDefault@1x.png
         Resources/ShowMeTheWayDefault@2x.png
         Resources/ShowMeTheWayDefault@3x.png

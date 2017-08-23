@@ -35,6 +35,11 @@ namespace ExampleApp
                 
                 virtual void InsertShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback) = 0;
                 virtual void RemoveShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback) = 0;
+                
+                virtual void InsertShowMeGateCallback(Eegeo::Helpers::ICallback2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel>& callback) = 0;
+                
+                virtual void RemoveShowMeGateCallback(Eegeo::Helpers::ICallback2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel>& callback) = 0;
+                
             };
         }
     }

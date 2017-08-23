@@ -297,9 +297,31 @@
 }
 - (IBAction)HandleShowMeWayButtonClick:(id)sender
 {
-    ExampleApp::Search::SdkModel::SearchResultModel model = m_pCurrentModel;
+    //uncomment code when navigation graph is ready
+    //ExampleApp::Search::SdkModel::SearchResultModel startLoc = m_pCurrentModel;
+    ExampleApp::Search::SdkModel::SearchResultModel startLoc = [self CreateDummyModel];;
+    ExampleApp::Search::SdkModel::SearchResultModel endLoc = [self CreateGateModel];
+
     m_pInterop->HandleCloseClicked();
-    m_pInterop->HandleShowMeWayClicked(model);
+    m_pInterop->HandleShowMeGateClicked(startLoc,endLoc);
+}
+
+-(ExampleApp::Search::SdkModel::SearchResultModel)CreateGateModel
+{
+    const std::vector<std::string> tags;
+    const std::vector<std::string> humanReadableTags;
+    
+    ExampleApp::Search::SdkModel::SearchResultModel model(-1,"hello","Gate 134","",Eegeo::Space::LatLong::FromDegrees(33.9455898, -118.4111429),0.0,true,Eegeo::Resources::Interiors::InteriorId("98a265e2-b890-4c6b-a28f-948c92e36914"),2,tags,humanReadableTags,"","eeGeo","",0);
+    return model;
+}
+
+-(ExampleApp::Search::SdkModel::SearchResultModel)CreateDummyModel
+{
+    const std::vector<std::string> tags;
+    const std::vector<std::string> humanReadableTags;
+    
+    ExampleApp::Search::SdkModel::SearchResultModel model(-11,"hello2","Armani","",Eegeo::Space::LatLong::FromDegrees(33.9434153,-118.4103904),0.0,true,Eegeo::Resources::Interiors::InteriorId("98a265e2-b890-4c6b-a28f-948c92e36914"),2,tags,humanReadableTags,"","eeGeo","",0);
+    return model;
 }
 
 -(void)dealloc

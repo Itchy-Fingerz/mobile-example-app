@@ -88,6 +88,22 @@ namespace ExampleApp
             {
                 m_showMeWayClickedCallbacks.ExecuteCallbacks(searchResultModel);
             }
+            
+            void SearchResultPoiViewInterop::InsertShowMeGateCallback(Eegeo::Helpers::ICallback2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel>& callback)
+            {
+                m_showMeGateClickedCallbacks.AddCallback(callback);
+            }
+            
+            void SearchResultPoiViewInterop::RemoveShowMeGateCallback(Eegeo::Helpers::ICallback2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel>& callback)
+            {
+                m_showMeGateClickedCallbacks.RemoveCallback(callback);
+            }
+            
+            void SearchResultPoiViewInterop::HandleShowMeGateClicked(Search::SdkModel::SearchResultModel startPoiModel , Search::SdkModel::SearchResultModel endPoiModel)
+            {
+                m_showMeGateClickedCallbacks.ExecuteCallbacks(startPoiModel,endPoiModel);
+            }
+
         }
     }
 }

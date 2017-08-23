@@ -69,6 +69,9 @@ namespace ExampleApp
                 virtual void HandleTapEvent() = 0;
                 
                 virtual void StartSearchForShowMeWay(Search::SdkModel::SearchResultModel searchResult) = 0;
+                
+                virtual void StartSearchForShowMeWay(Search::SdkModel::SearchResultModel startLocation,Search::SdkModel::SearchResultModel endLocation) = 0;
+
 
 
             };

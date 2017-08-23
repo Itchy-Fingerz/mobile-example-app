@@ -20,6 +20,8 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_togglePinClickedCallbacks;
                 Eegeo::Helpers::CallbackCollection2<const Search::SdkModel::SearchResultModel&, const std::string&> m_availabilityChangedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_showMeWayClickedCallbacks;
+                Eegeo::Helpers::CallbackCollection2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel> m_showMeGateClickedCallbacks;
+
 
 
             public:
@@ -53,9 +55,17 @@ namespace ExampleApp
                 void HandlePinToggleClicked(Search::SdkModel::SearchResultModel& searchResultModel);
                 
                 void InsertShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback);
+                
                 void RemoveShowMeWayCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback);
                 
                 void HandleShowMeWayClicked(Search::SdkModel::SearchResultModel searchResultModel);
+                
+                void InsertShowMeGateCallback(Eegeo::Helpers::ICallback2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel>& callback);
+                
+                void RemoveShowMeGateCallback(Eegeo::Helpers::ICallback2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel>& callback);
+                
+                void HandleShowMeGateClicked(Search::SdkModel::SearchResultModel startPoiModel , Search::SdkModel::SearchResultModel endPoiModel);
+
 
             };
         }
