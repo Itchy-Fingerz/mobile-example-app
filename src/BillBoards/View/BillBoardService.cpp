@@ -564,10 +564,11 @@ namespace ExampleApp
                                 }
                             }
                             
-                            if(!m_isSpecialOfferShown)
-                            {
-                                SpecialOffersTriger(renderable);
-                            }
+                        }
+                        
+                        if(!m_isSpecialOfferShown && renderable.GetConfig().isSpecialOffer)
+                        {
+                            SpecialOffersTriger(renderable);
                         }
                     }
                 }
@@ -585,7 +586,7 @@ namespace ExampleApp
                 {
                 Eegeo::v3 resultCoordinates = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(Eegeo::Space::LatLong::FromDegrees(SPECIAL_OFFER_TRIGGER_LATITUDE,SPECIAL_OFFER_TRIGGER_LNGITUDE), renderCamera);
                     
-                    if(resultCoordinates.GetX() > 0 && resultCoordinates.GetX() < m_screenProperties.GetScreenWidth() && resultCoordinates.GetY() > 0 && m_screenProperties.GetScreenHeight())
+                    if(resultCoordinates.GetX() > (m_screenProperties.GetScreenWidth()/4) && (resultCoordinates.GetX() < m_screenProperties.GetScreenWidth()) && resultCoordinates.GetY() > (m_screenProperties.GetScreenHeight()/4) && (resultCoordinates.GetY() < m_screenProperties.GetScreenHeight()))
                     {
                         m_isSpecialOfferShown = true;
                         m_messageBus.Publish(ExampleApp::CustomAlert::SetCustomAlertVisibilityMessage(true));

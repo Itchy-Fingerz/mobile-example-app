@@ -320,7 +320,7 @@
     const std::vector<std::string> tags;
     const std::vector<std::string> humanReadableTags;
     
-    ExampleApp::Search::SdkModel::SearchResultModel model(-11,"hello2","Armani","",Eegeo::Space::LatLong::FromDegrees(33.9434153,-118.4103904),0.0,true,Eegeo::Resources::Interiors::InteriorId("98a265e2-b890-4c6b-a28f-948c92e36914"),2,tags,humanReadableTags,"","eeGeo","",0);
+    ExampleApp::Search::SdkModel::SearchResultModel model(-11,"hello2","Coffee Bean & Tea Leaf","",Eegeo::Space::LatLong::FromDegrees(33.9433507,-118.4087762),0.0,true,Eegeo::Resources::Interiors::InteriorId("98a265e2-b890-4c6b-a28f-948c92e36914"),1,tags,humanReadableTags,"","eeGeo","",0);
     return model;
 }
 
