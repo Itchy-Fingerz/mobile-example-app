@@ -5,8 +5,6 @@ set(currsources
   ../src/DirectionResultSection/DirectionResultSection.h
   ../src/DirectionResultSection/DirectionQueryResponseReceivedMessage.cpp
   ../src/DirectionResultSection/DirectionQueryResponseReceivedMessage.h
-  ../src/DirectionResultSection/DirectionResultSectionItemSelectedMessage.cpp
-  ../src/DirectionResultSection/DirectionResultSectionItemSelectedMessage.h
 
 )
 set(sources ${sources} ${currsources})

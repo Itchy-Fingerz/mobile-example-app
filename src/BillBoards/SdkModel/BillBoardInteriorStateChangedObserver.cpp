@@ -18,9 +18,11 @@ namespace ExampleApp
             , m_billBoardService(billBoardService)
             , m_appModeChangedCallback(this, &BillBoardInteriorStateChangedObserver::OnAppModeChanged)
             , m_interiorsPresentationModule(interiorsPresentationModule)
+            , m_interiorsExplorerModeChangedCallback(this,&BillBoardInteriorStateChangedObserver::OnInteriorsExplorerStateChanged)
             {
                 m_messageBus.SubscribeNative(m_selectFloorCallback);
                 m_messageBus.SubscribeUi(m_appModeChangedCallback);
+                m_messageBus.SubscribeUi(m_interiorsExplorerModeChangedCallback);
             }
             
             BillBoardInteriorStateChangedObserver::~BillBoardInteriorStateChangedObserver()
@@ -39,19 +41,19 @@ namespace ExampleApp
             
             void BillBoardInteriorStateChangedObserver::OnAppModeChanged(const AppModes::AppModeChangedMessage& message)
             {
-                if (message.GetAppMode() == AppModes::SdkModel::InteriorMode)
-                {
-                    const std::string& interiorName = m_interiorsPresentationModule.GetInteriorSelectionModel().GetSelectedInteriorId().Value();
-                
-                    if(interiorName == "98a265e2-b890-4c6b-a28f-948c92e36914" || interiorName == "70f9b00f-8c4f-4570-9a23-62bd80a76f8a")
-                    {
-                        m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
-                    }
- 
-                }
-                else if (message.GetAppMode() == AppModes::SdkModel::WorldMode)
+                if (message.GetAppMode() == AppModes::SdkModel::WorldMode)
                 {
                     m_billBoardService.FullRefreshService();
+                }
+            }
+            
+            void BillBoardInteriorStateChangedObserver::OnInteriorsExplorerStateChanged(const InteriorsExplorer::InteriorsExplorerStateChangedMessage& message)
+            {
+                const std::string& interiorName = m_interiorsPresentationModule.GetInteriorSelectionModel().GetSelectedInteriorId().Value();
+                
+                if(interiorName == "98a265e2-b890-4c6b-a28f-948c92e36914" || interiorName == "70f9b00f-8c4f-4570-9a23-62bd80a76f8a")    // Currently enabled for Lax and WestPort House
+                {
+                    m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
                 }
             }
             

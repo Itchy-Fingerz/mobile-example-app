@@ -34,7 +34,6 @@
 #include "MenuSectionExpandedChangedMessage.h"
 #include "WorldPinsSelectedFocussedMessage.h"
 #include "DirectionMenuFindDirectionMessage.h"
-#include "DirectionResultSectionItemSelectedMessage.h"
 #include "DirectionMenuGetGeoNamesMessage.h"
 #include "BillBoardSelectedMessage.h"
 #include "ShowOfferHighlightMessage.h"
@@ -77,7 +76,6 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<Menu::MenuSectionExpandedChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<WorldPins::WorldPinsSelectedFocussedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuFindDirectionMessage>
-            , public Eegeo::Messaging::CatalogBinding<DirectionResultSection::DirectionResultSectionItemSelectedMessage>
             , public Eegeo::Messaging::CatalogBinding<DirectionsMenu::DirectionMenuGetGeoNamesMessage>
             , public Eegeo::Messaging::CatalogBinding<BillBoards::BillBoardSelectedMessage>
             , public Eegeo::Messaging::CatalogBinding<BillBoards::ShowOfferHighlightMessage>

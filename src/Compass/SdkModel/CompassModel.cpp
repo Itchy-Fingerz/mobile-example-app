@@ -39,7 +39,7 @@ namespace ExampleApp
             , m_interiorExplorerModel(interiorExplorerModel)
             , m_appModeModel(appModeModel)
             , m_appModeChangedCallback(this, &CompassModel::OnAppModeChanged)
-            , m_alertBoxFactory(alertBoxFactory)
+//            , m_alertBoxFactory(alertBoxFactory)
             , m_failAlertHandler(this, &CompassModel::OnFailedToGetLocation)
             , m_interiorFloorChangedCallback(this, &CompassModel::OnInteriorFloorChanged)
             , m_exitInteriorTriggered(false)
@@ -81,22 +81,22 @@ namespace ExampleApp
             
             void CompassModel::CycleToNextGpsMode()
             {
-                if(!m_locationService.GetIsAuthorized())
-                {
-                    DisableGpsMode();
-                    m_gpsModeUnauthorizedCallbacks.ExecuteCallbacks();
-                    return;
-                }
+//                if(!m_locationService.GetIsAuthorized())
+//                {
+//                    DisableGpsMode();
+//                    m_gpsModeUnauthorizedCallbacks.ExecuteCallbacks();
+//                    return;
+//                }
                 
-                Eegeo::Space::LatLong latlong = Eegeo::Space::LatLong::FromDegrees(0.0, 0.0);
-                if(!m_locationService.GetLocation(latlong))
-                {
-                    m_alertBoxFactory.CreateSingleOptionAlertBox("Failed to obtain location",
-                                                                 "Could not get the device location. Please ensure you have GPS enabled",
-                                                                 m_failAlertHandler);
-                    DisableGpsMode();
-                    return;
-                }
+//                Eegeo::Space::LatLong latlong = Eegeo::Space::LatLong::FromDegrees(0.0, 0.0);
+//                if(!m_locationService.GetLocation(latlong))
+//                {
+//                    m_alertBoxFactory.CreateSingleOptionAlertBox("Failed to obtain location",
+//                                                                 "Could not get the device location. Please ensure you have GPS enabled",
+//                                                                 m_failAlertHandler);
+//                    DisableGpsMode();
+//                    return;
+//                }
                 
                 int gpsMode = static_cast<int>(m_gpsMode);
                 gpsMode = (gpsMode + 1) % static_cast<int>(GpsMode::GpsMode_Max);
@@ -178,7 +178,7 @@ namespace ExampleApp
             void CompassModel::SetGpsMode(GpsMode::Values gpsMode)
             {
                 m_gpsMode = gpsMode;
-                m_navigationService.SetGpsMode(m_navigationGpsModeToCompassGpsMode[m_gpsMode]);
+//              m_navigationService.SetGpsMode(m_navigationGpsModeToCompassGpsMode[m_gpsMode]);
                 m_metricsService.SetEvent("SetGpsMode", "GpsMode", m_gpsModeToString[m_gpsMode]);
                 
                 m_gpsModeChangedCallbacks.ExecuteCallbacks();

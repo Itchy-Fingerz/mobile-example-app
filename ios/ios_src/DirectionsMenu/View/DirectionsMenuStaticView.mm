@@ -410,10 +410,10 @@
         }
         else if(searchItem.GetWayPointType() == ExampleApp::PathDrawing::WayPointType::Elevator)
         {
-            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
+            [cell.mainContainerView setBackgroundColor:[UIColor colorWithRed:40.0f/255.0f green:84.0f/255.0f blue:170.0f/255.0f alpha:1.0f]];
             [cell.wayPointMainTitlelbl setTextColor:[UIColor whiteColor]];
             [cell.wayPointSubCategorylbl setTextColor:[UIColor whiteColor]];
-            [cell.m_pWaypointContainer setBackgroundColor:[UIColor colorWithRed:16.0f/255.0f green:64.0f/255.0f blue:160.0f/255.0f alpha:1.0f]];
+            [cell.m_pWaypointContainer setBackgroundColor:[UIColor colorWithRed:40.0f/255.0f green:84.0f/255.0f blue:170.0f/255.0f alpha:1.0f]];
 
         
         }

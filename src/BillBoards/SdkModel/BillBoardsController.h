@@ -47,8 +47,6 @@ namespace ExampleApp
                 ~BillBoardsController();
                 
                 void Update(float dt);
-                void CreateMockBillBoards();
-
             };
         }
     }

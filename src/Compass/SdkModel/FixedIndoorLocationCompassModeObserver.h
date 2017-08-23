@@ -7,9 +7,8 @@
 #include "CompassModeObserver.h"
 #include "ICompassModel.h"
 #include "ICallback.h"
-#include "CameraTransitionService.h"
+#include "ICameraTransitionController.h"
 #include "VectorMath.h"
-#include "ApplicationFixedIndoorLocation.h"
 
 namespace ExampleApp
 {
@@ -17,26 +16,22 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            class FixedIndoorLocationCompassModeObserver : public CompassModeObserver
+            class FixedIndoorLocationCompassModeObserver
             {
             private:
-                CameraTransitions::SdkModel::CameraTransitionService& m_cameraTransitionService;
-                Eegeo::Resources::Interiors::InteriorsCameraController& m_interiorsCameraController;
+                ICompassModel& m_model;
+                CameraTransitions::SdkModel::ICameraTransitionController& m_cameraTransitionController;
                 Eegeo::dv3 m_location;
                 Eegeo::Resources::Interiors::InteriorId m_interiorId;
                 int m_floorIndex;
                 double m_fixedHeadingRadians;
-
+                Eegeo::Helpers::TCallback0<FixedIndoorLocationCompassModeObserver> m_callback;
+                
             protected:
                 void OnGpsModeChanged();
 
             public:
-                FixedIndoorLocationCompassModeObserver(
-                    ICompassModel& model,
-                    ExampleAppMessaging::TMessageBus& messageBus,
-                    CameraTransitions::SdkModel::CameraTransitionService& cameraTransitionService,
-                    Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
-                    const ApplicationConfig::SdkModel::ApplicationFixedIndoorLocation& fixedIndoorLocation);
+                FixedIndoorLocationCompassModeObserver(ICompassModel& model,Eegeo::Space::LatLongAltitude latlng, Eegeo::Resources::Interiors::InteriorId interiorId, int floorIndex,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController, ExampleAppMessaging::TMessageBus& messageBus);
             };
         }
     }

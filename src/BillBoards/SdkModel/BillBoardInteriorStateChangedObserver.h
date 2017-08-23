@@ -7,6 +7,7 @@
 #include "BillBoardService.h"
 #include "InteriorsExplorerSelectFloorMessage.h"
 #include "InteriorsExplorerFloorSelectionDraggedMessage.h"
+#include "InteriorsExplorerStateChangedMessage.h"
 
 namespace ExampleApp
 {
@@ -25,6 +26,7 @@ namespace ExampleApp
             private:                
                 Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const InteriorsExplorer::InteriorsExplorerSelectFloorMessage&> m_selectFloorCallback;
                 Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const AppModes::AppModeChangedMessage&> m_appModeChangedCallback;
+                Eegeo::Helpers::TCallback1<BillBoardInteriorStateChangedObserver, const InteriorsExplorer::InteriorsExplorerStateChangedMessage&> m_interiorsExplorerModeChangedCallback;
                 
                 View::BillBoardService& m_billBoardService;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
@@ -32,6 +34,7 @@ namespace ExampleApp
                 
                 void OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message);
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage& message);
+                void OnInteriorsExplorerStateChanged(const InteriorsExplorer::InteriorsExplorerStateChangedMessage& message);
             };
         }
     }
