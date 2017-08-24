@@ -46,7 +46,17 @@
     
     m_flightsVector.clear();
     
-    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel("American","AA 399","New York","134","12:34","12:34"));
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"HH:mm"];
+    NSDate *currentTime = [NSDate date];
+    NSDate *boardingTime = [currentTime dateByAddingTimeInterval:(20 *60)];
+    NSString *boardingTimeString = [dateFormatter stringFromDate:boardingTime];
+    
+    NSDate *departureTime = [boardingTime dateByAddingTimeInterval: (16 * 60)];
+    NSString *departureTimeString = [dateFormatter stringFromDate:departureTime];
+    
+    
+    m_flightsVector.push_back(ExampleApp::Search::SdkModel::FlightResultModel("American","AA 399","New York","134",std::string([departureTimeString UTF8String]),std::string([boardingTimeString UTF8String])));
 }
 
 -(void) updateCountdown {
@@ -110,9 +120,9 @@
         ExampleApp::Search::SdkModel::FlightResultModel flightInfo = m_flightsVector[i];
         if(flightInfo.GetGateNo() == "134")
         {
+            m_pBoardingTimeLabel.text = [NSString stringWithUTF8String:flightInfo.GetFlightBoardingTime().c_str()];
             m_pDepartingLabel.text = [NSString stringWithUTF8String:flightInfo.GetFlightTime().c_str()];
             
-            m_pBoardingTimeLabel.text = [NSString stringWithUTF8String:flightInfo.GetFlightBoardingTime().c_str()];
             if(m_pContDownTimer != nil)
             {
                 [m_pContDownTimer invalidate];

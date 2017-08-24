@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -145,8 +145,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="gt5-AN-Bgz"/>
                                                     <exclude reference="Yma-Hk-QLI"/>
+                                                    <exclude reference="gt5-AN-Bgz"/>
                                                 </mask>
                                             </variation>
                                         </view>
@@ -176,8 +176,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="Uf7-2f-4gL"/>
                                                     <exclude reference="QCG-Dg-QRN"/>
+                                                    <exclude reference="Uf7-2f-4gL"/>
                                                 </mask>
                                             </variation>
                                         </view>
@@ -207,8 +207,8 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="Zpl-uJ-9sd"/>
                                                     <exclude reference="3fJ-M1-7rZ"/>
+                                                    <exclude reference="Zpl-uJ-9sd"/>
                                                 </mask>
                                             </variation>
                                         </view>
@@ -441,6 +441,8 @@
             </variation>
             <connections>
                 <outlet property="m_pBoardingTimeCountDown" destination="aiI-nR-Qqk" id="FWq-rp-RMq"/>
+                <outlet property="m_pBoardingTimeLabel" destination="pzq-C0-U5K" id="cBi-Ll-JtL"/>
+                <outlet property="m_pDepartingLabel" destination="NGE-JC-YUB" id="csv-Dh-MLz"/>
             </connections>
             <point key="canvasLocation" x="439" y="306.5"/>
         </view>
