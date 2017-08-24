@@ -322,6 +322,13 @@
             [cell.subTitleLabel setText:[NSString stringWithFormat:@"%s",item.GetSubtitle().c_str()]];
             cell.titleLabelHeightConstraint.constant = 0;
         }
+        else if (!item.GetTags().empty())
+        {
+            std::string firstTag = item.GetTags()[0];
+            [cell.subTitleLabel setHidden:false];
+            [cell.subTitleLabel setText:[NSString stringWithFormat:@"%s",firstTag.c_str()]];
+            cell.titleLabelHeightConstraint.constant = 0;
+        }
         else
         {
             [cell.subTitleLabel setHidden:true];
