@@ -33,7 +33,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<BillBoardInteriorStateChangedObserver> m_callback;
                 
                 View::BillBoardService& m_billBoardService;
-                ICompassModel& m_model;
+                Compass::SdkModel::ICompassModel& m_model;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 Eegeo::Modules::Map::Layers::InteriorsPresentationModule& m_interiorsPresentationModule;
                 
