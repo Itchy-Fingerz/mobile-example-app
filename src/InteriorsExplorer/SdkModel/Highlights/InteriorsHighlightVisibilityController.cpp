@@ -217,6 +217,7 @@ namespace ExampleApp
                     
                     if (m_isOffersActivated)
                     {
+                        
                         if(OnShowOffersFromResults(results))
                         {
                             ActivateLabels(false);
@@ -338,6 +339,7 @@ namespace ExampleApp
                 
                 bool InteriorsHighlightVisibilityController::OnShowOffersFromResults(const std::vector<Search::SdkModel::SearchResultModel>& results)
                 {
+                    m_selectedBillBoards.clear();
                     for (int i = 0; i < results.size(); i++)
                     {
                         Search::SdkModel::SearchResultModel pResult = results.at(i);

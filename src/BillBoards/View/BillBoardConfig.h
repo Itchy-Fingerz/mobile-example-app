@@ -28,6 +28,7 @@ namespace ExampleApp
                 mutable int currentIndex;
                 mutable bool isAnimating;
                 mutable bool isPaused;
+                mutable bool isPlayBtnAdded;
                 std::pair<double, double> originLatLong;
                 std::pair<double, double> lineEndTo;
                 
@@ -63,6 +64,7 @@ namespace ExampleApp
                 , isVideoFrame(false)
                 , isSpinner(false)
                 , isPlayBtn(false)
+                , isPlayBtnAdded (false)
                 , isSpecialOffer(false)
                 , highlightColor(0,0,1,1)
                 , dayTime("Day")
@@ -129,6 +131,14 @@ namespace ExampleApp
                     return result;
                 }            
                 
+                bool ShouldAddPlayBtn() const
+                {
+                    return (!isAnimating && isPaused && isVideo && !isPlayBtnAdded) ? true : false;
+                }
+                bool ShouldRemovePlayBtn() const
+                {
+                    return (isAnimating && !isPaused && isVideo && isPlayBtnAdded) ? true : false;
+                }
             };
         }
     }

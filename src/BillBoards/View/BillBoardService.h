@@ -84,7 +84,6 @@ namespace ExampleApp
             private:
                 
                 bool m_isSpinnerShown;
-                bool m_isPlayButtonAdded;
                 bool m_isSpecialOfferShown;
                 float m_timer;
                 int m_currentFloorIndex;
@@ -118,8 +117,9 @@ namespace ExampleApp
                 void RemoveLine();
                 
                 void AddSpinner(const BillBoardConfig& config);
-                void AddPlayButton(const BillBoardConfig& config);
+                void CreatePlayButton(const BillBoardConfig& config);
                 
+                void TogglePlayButton();
                 void RemovePlayButton();
                 void RemoveSpinner();
                 bool IsBillBoardAdded(const BillBoardConfig& config);

@@ -98,11 +98,11 @@ namespace ExampleApp
                     return pLayout;
                 }
                 
-                Eegeo::Rendering::Mesh* CreateUnlitBoxMesh(float width, float height, const Eegeo::Rendering::VertexLayouts::VertexLayout& vertexLayout, Eegeo::Rendering::GlBufferPool& glBufferPool, const BillBoardConfig& config)
+                Eegeo::Rendering::Mesh* CreateUnlitBoxMesh(const Eegeo::Rendering::VertexLayouts::VertexLayout& vertexLayout, Eegeo::Rendering::GlBufferPool& glBufferPool, const BillBoardConfig& config)
                 
                 {
 //                    Eegeo::v3 halfDimensions(width/2, height, width/2);
-                    Eegeo::v3 halfDimensions((width/2) * 0.1, height, width/2);
+                    Eegeo::v3 halfDimensions((config.boxWidth/2) * 0.1, config.boxHeight, config.boxWidth/2);
                     std::vector<Vertex> boxVertices;
                     std::vector<u16> triangleIndices;
                     
@@ -215,7 +215,6 @@ namespace ExampleApp
             , m_quadLine(NULL)
             , m_pVideoAssetReaderService(NULL)
             , m_isSpinnerShown(false)
-            , m_isPlayButtonAdded(false)
             , m_currentFloorIndex(-1)
             , m_isSpecialOfferShown(false)
             , m_screenProperties(screenProperties)
@@ -325,7 +324,7 @@ namespace ExampleApp
                                                                                                            );
                 
                 
-                m_pUnlitBoxMesh = CreateUnlitBoxMesh(config.boxWidth, config.boxHeight, *m_pPositionUvVertexLayout, m_renderingModule.GetGlBufferPool(), config);
+                m_pUnlitBoxMesh = CreateUnlitBoxMesh(*m_pPositionUvVertexLayout, m_renderingModule.GetGlBufferPool(), config);
                 
                 Eegeo::Rendering::VertexLayouts::VertexBindingPool& vertexBindingPool = m_renderingModule.GetVertexBindingPool();
                 
@@ -397,6 +396,7 @@ namespace ExampleApp
             {
                 if (IsInterSectingWithBillBoard(data, m_selectedConfig))
                 {
+                    TogglePlayButton();
                     DrawLine(m_selectedConfig);
                     m_messageBus.Publish(BillBoardSelectedMessage(m_selectedConfig.poiID, m_selectedConfig.unique_tag));
                 }
@@ -491,6 +491,34 @@ namespace ExampleApp
                 return isIntersecting;
             }
 
+            void BillBoardService::TogglePlayButton()
+            {
+                for (BillBoardsMeshRenderableVector::const_iterator iter = m_renderables.begin(); iter != m_renderables.end(); ++iter)
+                {
+                    BillBoardsMeshRenderable& renderable = **iter;
+                    if(renderable.GetConfig().isVideo)
+                    {
+                        if(m_pVideoAssetReaderService->GetIsPausedByUserFlagStatus())
+                        {
+                            if(renderable.GetConfig().ShouldAddPlayBtn())
+                            {
+                                renderable.GetConfig().isPlayBtnAdded = true;
+                                CreatePlayButton(renderable.GetConfig());
+                            }
+                        }
+                        
+                        else
+                        {
+                            if(renderable.GetConfig().ShouldRemovePlayBtn())
+                            {
+                                renderable.GetConfig().isPlayBtnAdded = false;
+                                RemovePlayButton();
+                            }
+                        }
+                    }
+                }
+            }
+            
             void BillBoardService::Update(float dt)
             {
                 
@@ -503,18 +531,18 @@ namespace ExampleApp
                     for (BillBoardsMeshRenderableVector::const_iterator iter = m_renderables.begin(); iter != m_renderables.end(); ++iter)
                     {
                         BillBoardsMeshRenderable& renderable = **iter;
-                        const BillBoardsMeshUnlitTexturedMaterial* tempMaterial =(BillBoardsMeshUnlitTexturedMaterial*)renderable.GetMaterial();
+                        const BillBoardsMeshUnlitTexturedMaterial* billBoardMaterial =(BillBoardsMeshUnlitTexturedMaterial*)renderable.GetMaterial();
                         
                         if(renderable.GetConfig().isSpinner)
                         {
                             m_textureFileLoader.LoadTexture(m_textureInfo, renderable.GetConfig().GetNextFrame(), true);
-                            tempMaterial->SetTextureId(m_textureInfo.textureId);
+                            billBoardMaterial->SetTextureId(m_textureInfo.textureId);
                         }
                         
                         if(renderable.GetConfig().isVideo)
                         {
                             
-                            if(tempMaterial->GetAnimatingState())
+                            if(billBoardMaterial->GetAnimatingState())
                             {
                                 
                                 if(!m_pVideoAssetReaderService->GetHasStartedPlayingFlagStatus() && !m_isSpinnerShown)
@@ -538,19 +566,7 @@ namespace ExampleApp
                                 {
                                     RemoveSpinner();
                                 }
-                            }
-                            
-                            if(m_pVideoAssetReaderService->GetIsPausedByUserFlagStatus() && !m_isPlayButtonAdded)
-                            {
-                                m_isPlayButtonAdded = true;
-                                AddPlayButton(renderable.GetConfig());
-                                
-                            }
-                            
-                            else if (!m_pVideoAssetReaderService->GetIsPausedByUserFlagStatus() && m_isPlayButtonAdded)
-                            {
-                                RemovePlayButton();
-                            }
+                            }                            
                             
                             if (renderable.GetConfig().IsInPlayingState() || m_pVideoAssetReaderService->GetIsPausedByUserFlagStatus())
                             {
@@ -567,7 +583,6 @@ namespace ExampleApp
                                     continue;
                                 }
                             }
-                            
                         }
                         
                         if(!m_isSpecialOfferShown && renderable.GetConfig().isSpecialOffer)
@@ -614,22 +629,17 @@ namespace ExampleApp
             void BillBoardService::AddSpinner(const BillBoardConfig& config)
             {
                 BillBoards::View::BillBoardConfig tempConfig;
+                tempConfig = config;
                 
                 tempConfig.billBoardId = 100;
                 tempConfig.textureFilename = "loading";
                 tempConfig.numberOfFrames = 12;
-                tempConfig.originLatLong = config.originLatLong;
-                tempConfig.lineEndTo = config.lineEndTo;
-                tempConfig.altitude = config.altitude;
                 tempConfig.boxWidth = 18.75f/1.5;
                 tempConfig.boxHeight = 12.5f/1.5;
-                tempConfig.planeRotation = config.planeRotation;
-                tempConfig.floorIndex = config.floorIndex;
                 tempConfig.isSpinner = true;
-                tempConfig.highlightColor = config.highlightColor;
-                tempConfig.dayTime = config.dayTime;
-                tempConfig.weather = config.weather;
-                tempConfig.season = config.season;
+                tempConfig.isVideo = false;
+                tempConfig.isVideoFrame = false;
+                tempConfig.isPlayBtn = false;
                 
                 CreateBillBoard(tempConfig);
                 
@@ -652,29 +662,22 @@ namespace ExampleApp
                 m_isSpinnerShown = false;
             }
             
-            void BillBoardService::AddPlayButton(const BillBoardConfig& config)
+            void BillBoardService::CreatePlayButton(const BillBoardConfig& config)
             {
                 BillBoards::View::BillBoardConfig tempConfig;
+                tempConfig = config;
                 
                 tempConfig.billBoardId = 101;
                 tempConfig.textureFilename = "play_btn";
-                tempConfig.originLatLong = config.originLatLong;
-                tempConfig.lineEndTo = config.lineEndTo;
-                tempConfig.altitude = config.altitude;
                 tempConfig.boxWidth = 18.75f/1.5;
                 tempConfig.boxHeight = 12.5f/1.5;
-                tempConfig.planeRotation = config.planeRotation;
-                tempConfig.floorIndex = config.floorIndex;
-                tempConfig.dayTime = config.dayTime;   // 24 hours clock 7:00
-                tempConfig.weather = config.weather;
-                tempConfig.season = config.season;
                 tempConfig.isPlayBtn = true;
-                tempConfig.highlightColor = config.highlightColor;
-
+                tempConfig.isSpinner = false;
+                tempConfig.isVideo = false;
+                tempConfig.isVideoFrame = false;
                 
                 CreateBillBoard(tempConfig);
                 
-                m_isPlayButtonAdded = true;
             }
 
             void BillBoardService::RemovePlayButton()
@@ -689,8 +692,6 @@ namespace ExampleApp
                         break;
                     }
                 }
-                
-                m_isPlayButtonAdded = false;
             }
             
             void BillBoardService::DrawLine(const BillBoardConfig& config)
