@@ -813,6 +813,11 @@ const int DeletePinAlertViewTag = 2;
     }
     
     [self.pLabelsContainer setContentOffset:CGPointMake(0,0) animated:NO];
+    
+    if (m_model.GetTitle().find("Check In") != std::string::npos)
+    {
+        [self.pPinButton setBackgroundImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"ShowMeTheGateDefault.png") forState:UIControlStateNormal];
+    }
 }
 
 - (void) updateImage:(const std::string&)url :(bool)success bytes:(const std::vector<Byte>*)bytes;
@@ -1028,9 +1033,31 @@ const int DeletePinAlertViewTag = 2;
 - (void) handleShowMeWayButtonSelected
 {
     ExampleApp::Search::SdkModel::SearchResultModel model = m_model;
+    
+    if (model.GetTitle().find("Check In") != std::string::npos)
+    {
+        ExampleApp::Search::SdkModel::SearchResultModel gateModel = [self CreateGateModel];
+        m_pInterop->HandleShowMeGateClicked(model,gateModel);
+
+    }
+    else
+    {
+        m_pInterop->HandleShowMeWayClicked(model);
+    }
+    
     m_pInterop->HandleCloseClicked();
-    m_pInterop->HandleShowMeWayClicked(model);
+
 }
+
+-(ExampleApp::Search::SdkModel::SearchResultModel)CreateGateModel
+{
+    const std::vector<std::string> tags;
+    const std::vector<std::string> humanReadableTags;
+    
+    ExampleApp::Search::SdkModel::SearchResultModel model(-1,"hello","Gate 134","",Eegeo::Space::LatLong::FromDegrees(33.9455898, -118.4111429),0.0,true,Eegeo::Resources::Interiors::InteriorId("98a265e2-b890-4c6b-a28f-948c92e36914"),2,tags,humanReadableTags,"","eeGeo","",0);
+    return model;
+}
+
 
 - (void) togglePinState
 {
