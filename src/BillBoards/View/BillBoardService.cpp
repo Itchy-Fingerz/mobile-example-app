@@ -278,12 +278,9 @@ namespace ExampleApp
             
             void BillBoardService::OnWeatherStateChange()
             {
-             //   if (m_appModeModel.GetAppMode() == AppModes::SdkModel::InteriorMode)
-             //   {
                     RemoveAllRenderables();
                     StopResetVideoService();
                     CreateBillBoardsFromConfigList();
-              //  }
 
             }
             
