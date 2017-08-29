@@ -119,7 +119,9 @@ const int DeletePinAlertViewTag = 2;
         [self.pControlContainer addSubview:self.pDropPinContainer];
         
         self.pPinButton = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        [self.pPinButton setBackgroundImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"ShowMeTheWayDefault.png") forState:UIControlStateNormal];
+        [self.pPinButton setImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"btn_direction_card.png") forState:UIControlStateNormal];
+        [self.pPinButton setBackgroundColor:[UIColor colorWithRed:40.0f/255.0f green:84.0f/255.0f blue:170.0f/255.0f alpha:1.0]];
+        [self.pPinButton setTitle:@"Show me the way" forState:UIControlStateNormal];
         [self.pPinButton addTarget:self action:@selector(handleShowMeWayButtonSelected) forControlEvents:UIControlEventTouchUpInside];
         [self.pDropPinContainer addSubview: self.pPinButton];
         
@@ -132,7 +134,7 @@ const int DeletePinAlertViewTag = 2;
         [self.pPreviewImage addSubview: self.pPoiImageLoadingSpinner];
         
         self.pAddressContent = [self createLabel :ExampleApp::Helpers::ColorPalette::UiTextCopyColor :ExampleApp::Helpers::ColorPalette::UiBackgroundColor];
-        [self.pDetailsCardContainer addSubview: self.pAddressContent];
+//        [self.pDetailsCardContainer addSubview: self.pAddressContent];
         
         self.pDescriptionContent = [self createLabel :ExampleApp::Helpers::ColorPalette::UiTextCopyColor :ExampleApp::Helpers::ColorPalette::UiBackgroundColor];
         [self.pDescriptionCardContainer addSubview: self.pDescriptionContent];
@@ -236,8 +238,8 @@ const int DeletePinAlertViewTag = 2;
     [self.pTitleCardContainer removeFromSuperview];
     [self.pTitleCardContainer release];
     
-    [self.pDetailsCardContainer removeFromSuperview];
-    [self.pDetailsCardContainer release];
+//    [self.pDetailsCardContainer removeFromSuperview];
+//    [self.pDetailsCardContainer release];
     
     [self.pTagsCardContainer removeFromSuperview];
     [self.pTagsCardContainer release];
@@ -432,17 +434,17 @@ const int DeletePinAlertViewTag = 2;
     self.pPinButton.frame = CGRectMake(0.f,
                                        0.f,
                                        cardContainerWidth,
-                                       42.f);
+                                       52.f);
     
     self.pFadeContainer.frame = CGRectMake(sideMargin,
                                            closeButtonSectionOffsetY - 15.f - 60.f,
                                            cardContainerWidth,
                                            40.f);
-
-    [self.pPinButton setImageEdgeInsets:UIEdgeInsetsMake(2.f, -20.f, 2.f, 0.f)];
-    [self.pPinButton setTitleEdgeInsets:UIEdgeInsetsMake(2.f, -10.f, 2.f, 0.f)];
     
-    self.pPinButton.titleLabel.font = [UIFont systemFontOfSize:21.0f];
+    [self.pPinButton.titleLabel setFont:[UIFont systemFontOfSize:23.0f weight:UIFontWeightLight]];
+
+    [self.pPinButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [self.pPinButton setImageEdgeInsets:UIEdgeInsetsMake(0, -15, 0, 0)];
     
     self.pTagIconContainer.frame = CGRectMake(0.f,
                                               0.f,
@@ -517,7 +519,7 @@ const int DeletePinAlertViewTag = 2;
         if(m_eegeoModel.GetCustomViewHeight() != -1)
         {
             m_webPageHeightSpecified = true;
-            webViewHeight = m_eegeoModel.GetCustomViewHeight();
+            webViewHeight = m_eegeoModel.GetCustomViewHeight() * 3;
         }
         [self createWebViewWithHTML:CGRectMake(0, currentLabelY, cardContainerWidth, webViewHeight):errorMessage ];
         currentLabelY += self.pWebView.frame.size.height + headerMargin;
@@ -544,10 +546,10 @@ const int DeletePinAlertViewTag = 2;
         }
     }
     
-    self.pDetailsCardContainer.frame = CGRectMake(0.f,
-                                                  currentLabelY,
-                                                  cardContainerWidth,
-                                                  500.f);
+//    self.pDetailsCardContainer.frame = CGRectMake(0.f,
+//                                                  currentLabelY,
+//                                                  cardContainerWidth,
+//                                                  500.f);
     
     if(!m_eegeoModel.GetAddress().empty())
     {
@@ -673,42 +675,42 @@ const int DeletePinAlertViewTag = 2;
         currentLabelY += headerMargin;
     }
     
-    if(!m_model.GetHumanReadableTags().empty())
-    {
-        self.pTagsContent.frame = CGRectMake(headerTextPadding + detailsImageSize + detailsImageToTextMargin,
-                                             currentLabelY,
-                                             cardTextHorizontalSpace - headerMargin * 2,
-                                             85.f);
-        self.pTagsContent.text = @"";
-        self.pTagsContent.numberOfLines = 0;
-        self.pTagsContent.adjustsFontSizeToFitWidth = NO;
-        self.pTagsContent.lineBreakMode = NSLineBreakByTruncatingTail;
-        
-        std::string tagsText;
-        const std::vector<std::string>& tagsList(m_model.GetHumanReadableTags());
-        for(size_t i = 0; i < tagsList.size()-1; ++i)
-        {
-            tagsText += tagsList[i] + ", ";
-        }
-        tagsText += tagsList.back();
-        
-        self.pTagsContent.text = [NSString stringWithUTF8String:tagsText.c_str()];
-        self.pTagsContent.hidden = false;
-        [self.pTagsContent sizeToFit];
-        
-        self.pTagsIconContainer.frame = CGRectMake(headerTextPadding,
-                                                   currentLabelY,
-                                                   detailsImageSize,
-                                                   detailsImageSize);
-        
-        currentLabelY += labelYSpacing + self.pTagsContent.frame.size.height;
-        
-        self.pTagsCardHeaderLine.frame = CGRectMake(0.f,
-                                                    currentLabelY,
-                                                    cardContainerWidth,
-                                                    1.f);
-        currentLabelY += headerMargin;
-    }
+//    if(!m_model.GetHumanReadableTags().empty())
+//    {
+//        self.pTagsContent.frame = CGRectMake(headerTextPadding + detailsImageSize + detailsImageToTextMargin,
+//                                             currentLabelY,
+//                                             cardTextHorizontalSpace - headerMargin * 2,
+//                                             85.f);
+//        self.pTagsContent.text = @"";
+//        self.pTagsContent.numberOfLines = 0;
+//        self.pTagsContent.adjustsFontSizeToFitWidth = NO;
+//        self.pTagsContent.lineBreakMode = NSLineBreakByTruncatingTail;
+//        
+//        std::string tagsText;
+//        const std::vector<std::string>& tagsList(m_model.GetHumanReadableTags());
+//        for(size_t i = 0; i < tagsList.size()-1; ++i)
+//        {
+//            tagsText += tagsList[i] + ", ";
+//        }
+//        tagsText += tagsList.back();
+//        
+//        self.pTagsContent.text = [NSString stringWithUTF8String:tagsText.c_str()];
+//        self.pTagsContent.hidden = false;
+//        [self.pTagsContent sizeToFit];
+//        
+//        self.pTagsIconContainer.frame = CGRectMake(headerTextPadding,
+//                                                   currentLabelY,
+//                                                   detailsImageSize,
+//                                                   detailsImageSize);
+//        
+//        currentLabelY += labelYSpacing + self.pTagsContent.frame.size.height;
+//        
+//        self.pTagsCardHeaderLine.frame = CGRectMake(0.f,
+//                                                    currentLabelY,
+//                                                    cardContainerWidth,
+//                                                    1.f);
+//        currentLabelY += headerMargin;
+//    }
     
     if(!m_eegeoModel.GetDescription().empty())
     {
@@ -758,7 +760,7 @@ const int DeletePinAlertViewTag = 2;
         float minHeight = 300.f;
         float newHeight = std::max((float)fittingSize.height, minHeight);
         frame.size.height = newHeight;
-        self.pWebView.frame = frame;
+        self.pWebView.frame = CGRectMake(0, 0, self.pLabelsContainer.frame.size.width, self.pLabelsContainer.frame.size.height) ;
         self.pWebView.scalesPageToFit = YES;
         
         [self performDynamicContentLayout];
@@ -774,7 +776,7 @@ const int DeletePinAlertViewTag = 2;
         [self.pWebView setBackgroundColor:[UIColor clearColor]];
 
         [self.pWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-        
+         
         [self.pLabelsContainer addSubview:self.pWebView];
      }
 }
@@ -813,6 +815,11 @@ const int DeletePinAlertViewTag = 2;
     }
     
     [self.pLabelsContainer setContentOffset:CGPointMake(0,0) animated:NO];
+    
+    if (m_model.GetTitle().find("Check In") != std::string::npos)
+    {
+        [self.pPinButton setTitle:@"Show me the gate" forState:UIControlStateNormal];
+    }
 }
 
 - (void) updateImage:(const std::string&)url :(bool)success bytes:(const std::vector<Byte>*)bytes;
@@ -1028,9 +1035,31 @@ const int DeletePinAlertViewTag = 2;
 - (void) handleShowMeWayButtonSelected
 {
     ExampleApp::Search::SdkModel::SearchResultModel model = m_model;
-    m_pInterop->HandleCloseClicked();
-    m_pInterop->HandleShowMeWayClicked(model);
+    
+    if (model.GetTitle().find("Check In") != std::string::npos)
+    {
+        ExampleApp::Search::SdkModel::SearchResultModel gateModel = [self CreateGateModel];
+         m_pInterop->HandleCloseClicked();
+        m_pInterop->HandleShowMeGateClicked(model,gateModel);
+
+    }
+    else
+    {
+        m_pInterop->HandleCloseClicked();
+        m_pInterop->HandleShowMeWayClicked(model);
+    }
+
 }
+
+-(ExampleApp::Search::SdkModel::SearchResultModel)CreateGateModel
+{
+    const std::vector<std::string> tags;
+    const std::vector<std::string> humanReadableTags;
+    
+    ExampleApp::Search::SdkModel::SearchResultModel model(-1,"hello","Gate 134","",Eegeo::Space::LatLong::FromDegrees(33.9455898, -118.4111429),0.0,true,Eegeo::Resources::Interiors::InteriorId("98a265e2-b890-4c6b-a28f-948c92e36914"),2,tags,humanReadableTags,"","eeGeo","",0);
+    return model;
+}
+
 
 - (void) togglePinState
 {

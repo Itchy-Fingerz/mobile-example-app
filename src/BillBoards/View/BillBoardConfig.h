@@ -22,12 +22,11 @@ namespace ExampleApp
                 std::string unique_tag;
                 std::string videoURL;
                 std::string dayTime;
-                std::string weather;
-                std::string season;
                 int numberOfFrames;
                 mutable int currentIndex;
                 mutable bool isAnimating;
                 mutable bool isPaused;
+                mutable bool isPlayBtnAdded;
                 std::pair<double, double> originLatLong;
                 std::pair<double, double> lineEndTo;
                 
@@ -63,11 +62,10 @@ namespace ExampleApp
                 , isVideoFrame(false)
                 , isSpinner(false)
                 , isPlayBtn(false)
+                , isPlayBtnAdded (false)
                 , isSpecialOffer(false)
                 , highlightColor(0,0,1,1)
                 , dayTime("Day")
-                , weather("Default")
-                , season("Summer")
                 {
                     unique_tag = "";
                 }
@@ -129,6 +127,14 @@ namespace ExampleApp
                     return result;
                 }            
                 
+                bool ShouldAddPlayBtn() const
+                {
+                    return (!isAnimating && isPaused && isVideo && !isPlayBtnAdded) ? true : false;
+                }
+                bool ShouldRemovePlayBtn() const
+                {
+                    return (isAnimating && !isPaused && isVideo && isPlayBtnAdded) ? true : false;
+                }
             };
         }
     }

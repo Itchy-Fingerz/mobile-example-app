@@ -97,11 +97,11 @@
     }
     else if(vendor == ExampleApp::Search::EegeoVendorName)
     {
-        if (pModel->GetTitle() == "Duty Free Shopping" || pModel->GetTitle() == "Hugo Boss" || pModel->GetTitle() == "Armani" || pModel->GetTitle() == "McDonalds"  || pModel->GetTitle() == "Chaya Brasserie" || pModel->GetTitle() == "Coffee Bean & Tea Leaf")
-        {
-            return [[EegeoSearchResultRatingPoiView EegeoSearchResultRatingPoiViewWithInterop:m_pInterop] retain];
-        }
-        else if (pModel->GetTitle() == "Airport Security")
+//        if (pModel->GetTitle() == "Coffee Bean & Tea Leaf")
+//        {
+//            return [[EegeoSearchResultRatingPoiView EegeoSearchResultRatingPoiViewWithInterop:m_pInterop] retain];
+//        }
+        if (pModel->GetTitle() == "Airport Security")
         {
             return [[EegeoSearchResultSecurityOfficePoiView EegeoSearchResultSecurityOfficePoiViewWithInterop:m_pInterop] retain];
 
@@ -111,11 +111,11 @@
             return [[EegeoSearchResultGatePoiView EegeoSearchResultGatePoiViewWithInterop:m_pInterop] retain];
 
         }
-        else if (pModel->GetTitle().find("Check In") != std::string::npos)
-        {
-            return [[EegeoSearchResultCheckInPoiView EegeoSearchResultCheckInPoiViewWithInterop:m_pInterop] retain];
-            
-        }
+//        else if (pModel->GetTitle().find("Check In") != std::string::npos)
+//        {
+//            return [[EegeoSearchResultCheckInPoiView EegeoSearchResultCheckInPoiViewWithInterop:m_pInterop] retain];
+//            
+//        }
         else
         {
             return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop];
