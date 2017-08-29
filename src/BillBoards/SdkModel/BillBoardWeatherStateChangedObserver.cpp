@@ -31,7 +31,9 @@ namespace ExampleApp
                 if(message.Model().HasWeatherState())
                     m_billBoardService.SetWeather(message.Model().GetWeatherState());
                 if(message.Model().HasSeasonState())
-                    m_billBoardService.SetSeason(message.Model().GetSeasonState());                
+                    m_billBoardService.SetSeason(message.Model().GetSeasonState());
+                
+                m_billBoardService.OnWeatherStateChange();
                 
             }
             

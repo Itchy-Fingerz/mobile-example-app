@@ -63,6 +63,7 @@ namespace ExampleApp
                 void ResetAnimatingFlag();
 
                 void OnFloorChange(int floorIndex);
+                void OnWeatherStateChange();
                 void CreateBillBoardsFromConfigList();
                 void OnInteriorsExit();
                 

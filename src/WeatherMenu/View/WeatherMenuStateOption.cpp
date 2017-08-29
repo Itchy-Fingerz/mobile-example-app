@@ -25,7 +25,7 @@ namespace ExampleApp
             {
                 m_metricsService.SetEvent("UIItem: Weather", "Name", m_weatherStateModel.GetName().c_str());
                 
-                if (m_appModeModel.GetAppMode() == AppModes::SdkModel::WorldMode)
+                if (m_appModeModel.GetAppMode() == AppModes::SdkModel::WorldMode) //|| m_appModeModel.GetAppMode() == AppModes::SdkModel::InteriorMode
                 {
                     m_messageBus.Publish(FlattenButton::FlattenButtonViewStateChangedMessage(false));
                     m_messageBus.Publish(WeatherSelectedMessage(m_weatherStateModel));

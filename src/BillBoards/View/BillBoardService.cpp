@@ -277,6 +277,17 @@ namespace ExampleApp
                 CreateBillBoardsFromConfigList();
             }
             
+            void BillBoardService::OnWeatherStateChange()
+            {
+             //   if (m_appModeModel.GetAppMode() == AppModes::SdkModel::InteriorMode)
+             //   {
+                    RemoveAllRenderables();
+                    StopResetVideoService();
+                    CreateBillBoardsFromConfigList();
+              //  }
+
+            }
+            
             void BillBoardService::AddBillboard(const BillBoardConfig& config)
             {
                 if(!IsBillBoardAdded(config))
