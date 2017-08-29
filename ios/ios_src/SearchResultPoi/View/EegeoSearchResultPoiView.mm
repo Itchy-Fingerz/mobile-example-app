@@ -119,7 +119,9 @@ const int DeletePinAlertViewTag = 2;
         [self.pControlContainer addSubview:self.pDropPinContainer];
         
         self.pPinButton = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        [self.pPinButton setBackgroundImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"ShowMeTheWayDefault.png") forState:UIControlStateNormal];
+        [self.pPinButton setImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"btn_direction_card.png") forState:UIControlStateNormal];
+        [self.pPinButton setBackgroundColor:[UIColor colorWithRed:40.0f/255.0f green:84.0f/255.0f blue:170.0f/255.0f alpha:1.0]];
+        [self.pPinButton setTitle:@"Show me the way" forState:UIControlStateNormal];
         [self.pPinButton addTarget:self action:@selector(handleShowMeWayButtonSelected) forControlEvents:UIControlEventTouchUpInside];
         [self.pDropPinContainer addSubview: self.pPinButton];
         
@@ -432,17 +434,17 @@ const int DeletePinAlertViewTag = 2;
     self.pPinButton.frame = CGRectMake(0.f,
                                        0.f,
                                        cardContainerWidth,
-                                       42.f);
+                                       52.f);
     
     self.pFadeContainer.frame = CGRectMake(sideMargin,
                                            closeButtonSectionOffsetY - 15.f - 60.f,
                                            cardContainerWidth,
                                            40.f);
-
-    [self.pPinButton setImageEdgeInsets:UIEdgeInsetsMake(2.f, -20.f, 2.f, 0.f)];
-    [self.pPinButton setTitleEdgeInsets:UIEdgeInsetsMake(2.f, -10.f, 2.f, 0.f)];
     
-    self.pPinButton.titleLabel.font = [UIFont systemFontOfSize:21.0f];
+    [self.pPinButton.titleLabel setFont:[UIFont systemFontOfSize:23.0f weight:UIFontWeightLight]];
+
+    [self.pPinButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
+    [self.pPinButton setImageEdgeInsets:UIEdgeInsetsMake(0, -15, 0, 0)];
     
     self.pTagIconContainer.frame = CGRectMake(0.f,
                                               0.f,
@@ -816,7 +818,7 @@ const int DeletePinAlertViewTag = 2;
     
     if (m_model.GetTitle().find("Check In") != std::string::npos)
     {
-        [self.pPinButton setBackgroundImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"ShowMeTheGateDefault.png") forState:UIControlStateNormal];
+        [self.pPinButton setTitle:@"Show me the gate" forState:UIControlStateNormal];
     }
 }
 

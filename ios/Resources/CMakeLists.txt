@@ -1065,6 +1065,9 @@ set(resources ${resources}
     Resources/AirPortPoiViews/poi_full_list@3x.png
     Resources/AirPortPoiViews/poi_rating_selected_icon.png
     Resources/AirPortPoiViews/poi_bookending.png
+    Resources/AirPortPoiViews/btn_direction_card.png
+    Resources/AirPortPoiViews/btn_direction_card@2x.png
+    Resources/AirPortPoiViews/btn_direction_card@3x.png
         Resources/Sphere.POD
         Resources/Sphere_8bit.pvr
         Resources/Sphere_Night_8bit.pvr
