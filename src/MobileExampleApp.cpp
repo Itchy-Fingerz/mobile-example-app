@@ -472,7 +472,9 @@ namespace ExampleApp
         
         m_pFixedIndoorLocationCompassModeObserver = Eegeo_NEW(Compass::SdkModel::FixedIndoorLocationCompassModeObserver)(m_pCompassModule->GetCompassModel(),latLng,interiorIdString,floorIndex,*m_pCameraTransitionController,messageBus);
         
-        m_pBlueSphereModule = Eegeo::BlueSphere::BlueSphereModule::Create(m_pWorld->GetRenderingModule(), m_pWorld->GetSceneModelsModule().GetLocalSceneModelFactory(), m_platformAbstractions.GetFileIO(), platformAbstractions.GetTextureFileLoader(), m_pWorld->GetTerrainModelModule(), interiorsPresentationModule.GetInteriorInteractionModel(), m_screenProperties, m_pWorld->GetMapModule().GetPositioningModule(), Eegeo::BlueSphere::BlueSphereModule::DefaultConfig());
+        Eegeo::BlueSphere::BlueSphereConfiguration defaultConfig = Eegeo::BlueSphere::BlueSphereModule::DefaultConfig();
+        defaultConfig.CreateViews = true;
+        m_pBlueSphereModule = Eegeo::BlueSphere::BlueSphereModule::Create(m_pWorld->GetRenderingModule(), m_pWorld->GetSceneModelsModule().GetLocalSceneModelFactory(), m_platformAbstractions.GetFileIO(), platformAbstractions.GetTextureFileLoader(), m_pWorld->GetTerrainModelModule(), interiorsPresentationModule.GetInteriorInteractionModel(), m_screenProperties, m_pWorld->GetMapModule().GetPositioningModule(), defaultConfig);
         m_pBlueSphereModule->GetBlueSphereModel().SetCoordinate(Eegeo::Space::LatLong(latLng.GetLatitude(),latLng.GetLongitude()));
         m_pBlueSphereModule->GetBlueSphereModel().SetIndoorMap(interiorIdString, floorIndex);
         m_pBlueSphereModule->GetBlueSphereModel().SetElevationMode(Eegeo::Positioning::ElevationMode::HeightAboveGround);
