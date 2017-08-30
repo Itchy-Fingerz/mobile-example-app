@@ -23,7 +23,7 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeNative(m_weatherChangedCallback);
             }
             
-            void BillBoardWeatherStateChangedObserver::OnWeatherStateChanged(const WeatherMenu::WeatherSelectedMessage& message)
+            void BillBoardWeatherStateChangedObserver::OnWeatherStateChanged(const BillBoards::BillBoardsWeatherChangedMessage& message)
             {
                 
                 if(message.Model().HasTimeState())

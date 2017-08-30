@@ -40,6 +40,7 @@
 #include "SurveyTimeRequirementMetMessage.h"
 #include "InteriorsLocationAuthorizationChangedMessage.h"
 #include "InteriorsLocationChangedMessage.h"
+#include "BillBoardsWeatherChangedMessage.h"
 
 namespace ExampleApp
 {
@@ -82,6 +83,8 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<Surveys::SurveyTimeRequirementMetMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsPosition::InteriorsLocationChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsPosition::InteriorsLocationAuthorizationChangedMessage>
+            , public Eegeo::Messaging::CatalogBinding<BillBoards::BillBoardsWeatherChangedMessage>
+        
             , private Eegeo::NonCopyable
         {
 

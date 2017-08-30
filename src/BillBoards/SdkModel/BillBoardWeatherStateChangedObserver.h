@@ -5,7 +5,7 @@
 #include "ICallback.h"
 #include "BidirectionalBus.h"
 #include "BillBoardService.h"
-#include "WeatherSelectedMessage.h"
+#include "BillBoardsWeatherChangedMessage.h"
 
 namespace ExampleApp
 {
@@ -22,12 +22,12 @@ namespace ExampleApp
 
             private:                
 
-                Eegeo::Helpers::TCallback1<BillBoardWeatherStateChangedObserver, const WeatherMenu::WeatherSelectedMessage&> m_weatherChangedCallback;
+                Eegeo::Helpers::TCallback1<BillBoardWeatherStateChangedObserver, const BillBoards::BillBoardsWeatherChangedMessage&> m_weatherChangedCallback;
                 
                 View::BillBoardService& m_billBoardService;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 
-                void OnWeatherStateChanged(const WeatherMenu::WeatherSelectedMessage& message);
+                void OnWeatherStateChanged(const BillBoards::BillBoardsWeatherChangedMessage& message);
             };
         }
     }

@@ -7,6 +7,7 @@
 
 #include "SearchResultModel.h"
 #include "SearchVendorNames.h"
+#include "SearchResultSectionOrder.h"
 
 namespace ExampleApp
 {
@@ -46,17 +47,62 @@ namespace ExampleApp
                     
                     return r;
                 }
+                
+                int VendorPriority(const std::string& vendor)
+                {
+                    const int HighestPriority = std::numeric_limits<int>::max();
+                    enum AscendingVendorPriority {
+                        EegeoVendorPriority,
+                        YelpVendorPriority,
+                        GeoNamesVendorPriority
+                    };
+                    
+                    static const std::map<std::string, int> vendorPriorities{
+                        {Search::EegeoVendorName,    EegeoVendorPriority},
+                        {Search::YelpVendorName,     YelpVendorPriority},
+                        {Search::GeoNamesVendorName, GeoNamesVendorPriority}};
+                    
+                    const std::map<std::string, int>::const_iterator vendorIx = vendorPriorities.find(vendor);
+                    return vendorIx != vendorPriorities.end()
+                    ? vendorIx->second
+                    : HighestPriority;
+                }
+                
+                size_t GetMinimumDistance(const Search::SdkModel::SearchResultModel& searchModel,std::string queryString)
+                {
+                    size_t distanceFromTitle = levenshtein_distance(queryString.c_str(),queryString.size(),searchModel.GetTitle().c_str(),queryString.size());
+                    
+                    size_t minimumdistance = distanceFromTitle;
+                    
+                    for (std::vector<std::string>::const_iterator iterator = searchModel.GetTags().begin(); iterator != searchModel.GetTags().end(); iterator++) {
+                        
+                        std::string tag = *iterator;
+                    size_t distanceFromTag = levenshtein_distance(queryString.c_str(),queryString.size(),tag.c_str(),queryString.size());
+                        
+                        if (distanceFromTag < minimumdistance)
+                        {
+                            minimumdistance = distanceFromTag;
+                        }
+                    }
+                    
+                    return minimumdistance;
+                }
             }
             
             bool DirectionsResultsOrder::operator() (const Search::SdkModel::SearchResultModel& a, const Search::SdkModel::SearchResultModel& b)
             {
-                //return VendorPriority(a.GetVendor()) < VendorPriority(b.GetVendor());
-                
-                size_t distanceFromFirst = levenshtein_distance(m_queryString.c_str(),m_queryString.size(),a.GetTitle().c_str(),m_queryString.size());
-                
-                size_t distanceFromSecond = levenshtein_distance(m_queryString.c_str(),m_queryString.size(),b.GetTitle().c_str(),m_queryString.size());                
-                
-                return distanceFromFirst < distanceFromSecond;
+                if(a.GetVendor() != b.GetVendor())
+                {
+                    return VendorPriority(a.GetVendor()) < VendorPriority(b.GetVendor());
+                }
+                else
+                {
+                    size_t distanceFromFirst = GetMinimumDistance(a, m_queryString);
+                    
+                    size_t distanceFromSecond = GetMinimumDistance(b, m_queryString);
+                    
+                    return distanceFromFirst < distanceFromSecond;
+                }
                 
             }
         }

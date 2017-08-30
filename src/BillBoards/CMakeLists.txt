@@ -4,6 +4,8 @@ set(currsources
   ../src/BillBoards/BillBoards.h
   ../src/BillBoards/BillBoardSelectedMessage.h
   ../src/BillBoards/ShowOfferHighlightMessage.h
+  ../src/BillBoards/BillBoardsWeatherChangedMessage.h
+  ../src/BillBoards/BillBoardsWeatherChangedMessage.cpp
   ../src/BillBoards/CMakeLists.txt
 )
 set(sources ${sources} ${currsources})

@@ -2,6 +2,7 @@
 
 #include "WeatherMenuStateOption.h"
 #include "FlattenButtonViewStateChangedMessage.h"
+#include "BillBoardsWeatherChangedMessage.h"
 
 namespace ExampleApp
 {
@@ -25,12 +26,16 @@ namespace ExampleApp
             {
                 m_metricsService.SetEvent("UIItem: Weather", "Name", m_weatherStateModel.GetName().c_str());
                 
-                if (m_appModeModel.GetAppMode() == AppModes::SdkModel::WorldMode || m_appModeModel.GetAppMode() == AppModes::SdkModel::InteriorMode) //
+                if (m_appModeModel.GetAppMode() == AppModes::SdkModel::WorldMode)
                 {
                     m_messageBus.Publish(FlattenButton::FlattenButtonViewStateChangedMessage(false));
                     m_messageBus.Publish(WeatherSelectedMessage(m_weatherStateModel));
                 }
 
+                if(m_appModeModel.GetAppMode() == AppModes::SdkModel::WorldMode || m_appModeModel.GetAppMode() == AppModes::SdkModel::InteriorMode)
+                {
+                    m_messageBus.Publish(BillBoards::BillBoardsWeatherChangedMessage(m_weatherStateModel));
+                }
                 
             }
         }
