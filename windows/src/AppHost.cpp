@@ -186,6 +186,8 @@ AppHost::AppHost(
         ExampleApp::ApplicationConfig::SdkModel::WindowsApplicationConfigurationVersionProvider(),
         ExampleApp::ApplicationConfigurationPath);
 
+	m_pCustomKeyboardLayout = applicationConfiguration.CustomKeyboardLayout();
+
     m_pWindowsLocationService = Eegeo_NEW(Eegeo::Windows::WindowsLocationService)(&nativeState);
     m_pCurrentLocationService = Eegeo_NEW(Eegeo::Helpers::CurrentLocationService::CurrentLocationService)(*m_pWindowsLocationService);
 
@@ -694,6 +696,7 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     if (IsInKioskMode())
     {
         m_pVirtualKeyboardView = Eegeo_NEW(ExampleApp::VirtualKeyboard::View::VirtualKeyboardView)(m_nativeState, m_messageBus);
+		m_pVirtualKeyboardView->AddCustomKeyboardLayout(m_pCustomKeyboardLayout);
     }
 
     if (m_pApp->GetApplicationConfiguration().IsAttractModeEnabled())
