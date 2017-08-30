@@ -9,6 +9,8 @@
 #include "InteriorInteractionModel.h"
 #include "InteriorsFloorModel.h"
 #include "UIHelpers.h"
+#include "FixedIndoorLocationCompassModeObserver.h"
+
 namespace ExampleApp
 {
     namespace DirectionsMenu
@@ -181,11 +183,10 @@ namespace ExampleApp
                 std::string startBuildingID = directionInfo.StartBuildingID();
                 std::string endBuildingID = directionInfo.EndBuildingID();
 
-                
                 // NOTE: Mock location for LAX
-                Eegeo::Space::LatLong mocklatLng =  Eegeo::Space::LatLong::FromDegrees(33.944146, -118.4086872);
-                int mockfloorIndex = 2;
-                std::string mockInteriorId = "98a265e2-b890-4c6b-a28f-948c92e36914";
+                Eegeo::Space::LatLong mocklatLng =  Eegeo::Space::LatLong::FromDegrees(FIXED_MY_LOCATION_LATITUDE, FIXED_MY_LOCATION_LONGITUDE);
+                int mockfloorIndex = FIXED_MY_LOCATION_FLOOR_INDEX;
+                std::string mockInteriorId = FIXED_MY_LOCATION_INDOOR_ID;
                 
                 // NOTE: MOck location for West Port House
                 // Eegeo::Space::LatLong mocklatLng =  Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);

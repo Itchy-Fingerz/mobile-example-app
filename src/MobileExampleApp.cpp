@@ -466,17 +466,15 @@ namespace ExampleApp
             m_pWorld->GetApiTokenService());
         
         
-        Eegeo::Space::LatLongAltitude latLng =  Eegeo::Space::LatLongAltitude::FromDegrees(33.944146, -118.4086872,0);
-        int floorIndex = 2;
-        std::string interiorIdString = "98a265e2-b890-4c6b-a28f-948c92e36914";
+        Eegeo::Space::LatLongAltitude latLng =  Eegeo::Space::LatLongAltitude::FromDegrees(FIXED_MY_LOCATION_LATITUDE, FIXED_MY_LOCATION_LONGITUDE,0);
         
-        m_pFixedIndoorLocationCompassModeObserver = Eegeo_NEW(Compass::SdkModel::FixedIndoorLocationCompassModeObserver)(m_pCompassModule->GetCompassModel(),latLng,interiorIdString,floorIndex,*m_pCameraTransitionController,messageBus);
+        m_pFixedIndoorLocationCompassModeObserver = Eegeo_NEW(Compass::SdkModel::FixedIndoorLocationCompassModeObserver)(m_pCompassModule->GetCompassModel(),*m_pCameraTransitionController,messageBus);
         
         Eegeo::BlueSphere::BlueSphereConfiguration defaultConfig = Eegeo::BlueSphere::BlueSphereModule::DefaultConfig();
         defaultConfig.CreateViews = true;
         m_pBlueSphereModule = Eegeo::BlueSphere::BlueSphereModule::Create(m_pWorld->GetRenderingModule(), m_pWorld->GetSceneModelsModule().GetLocalSceneModelFactory(), m_platformAbstractions.GetFileIO(), platformAbstractions.GetTextureFileLoader(), m_pWorld->GetTerrainModelModule(), interiorsPresentationModule.GetInteriorInteractionModel(), m_screenProperties, m_pWorld->GetMapModule().GetPositioningModule(), defaultConfig);
         m_pBlueSphereModule->GetBlueSphereModel().SetCoordinate(Eegeo::Space::LatLong(latLng.GetLatitude(),latLng.GetLongitude()));
-        m_pBlueSphereModule->GetBlueSphereModel().SetIndoorMap(interiorIdString, floorIndex);
+        m_pBlueSphereModule->GetBlueSphereModel().SetIndoorMap(FIXED_MY_LOCATION_INDOOR_ID, FIXED_MY_LOCATION_FLOOR_INDEX);
         m_pBlueSphereModule->GetBlueSphereModel().SetElevationMode(Eegeo::Positioning::ElevationMode::HeightAboveGround);
         m_pBlueSphereModule->GetBlueSphereModel().SetElevation(0.0);
         m_pBlueSphereModule->GetBlueSphereModel().SetHeadingRadians(0.5);

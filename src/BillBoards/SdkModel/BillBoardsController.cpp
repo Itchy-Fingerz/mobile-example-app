@@ -56,7 +56,7 @@ namespace ExampleApp
                 
                 if(query.Query() == "advertisements" || query.Query() == "offers")
                 {
-                    m_billBoardService.OnInteriorsExit();
+                    m_billBoardService.OnWeatherStateChange();
                     
                     rapidjson::Document json;
                     std::string descriptionJsonString = "";

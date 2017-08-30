@@ -11,16 +11,18 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            FixedIndoorLocationCompassModeObserver::FixedIndoorLocationCompassModeObserver(ICompassModel& model,Eegeo::Space::LatLongAltitude latlng, Eegeo::Resources::Interiors::InteriorId interiorId, int floorIndex,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController, ExampleAppMessaging::TMessageBus& messageBus)
+            FixedIndoorLocationCompassModeObserver::FixedIndoorLocationCompassModeObserver(ICompassModel& model,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController, ExampleAppMessaging::TMessageBus& messageBus)
             
                 : m_model(model)
                 , m_callback(this, &FixedIndoorLocationCompassModeObserver::OnGpsModeChanged)
                 , m_cameraTransitionController(cameraTransitionController)
-                , m_location(Eegeo::Space::ConvertLatLongAltitudeToEcef(latlng))
-                , m_interiorId(interiorId)
-                , m_floorIndex(floorIndex)
+                , m_interiorId(FIXED_MY_LOCATION_INDOOR_ID)
+                , m_floorIndex(FIXED_MY_LOCATION_FLOOR_INDEX)
                 , m_fixedHeadingRadians(Eegeo::Math::Deg2Rad(50.0f))
             {
+                Eegeo::Space::LatLongAltitude latLng =  Eegeo::Space::LatLongAltitude::FromDegrees(FIXED_MY_LOCATION_LATITUDE, FIXED_MY_LOCATION_LONGITUDE,0);
+
+                m_location = Eegeo::Space::ConvertLatLongAltitudeToEcef(latLng);
                 model.InsertGpsModeChangedCallback(m_callback);
             }
 

@@ -10,6 +10,11 @@
 #include "ICameraTransitionController.h"
 #include "VectorMath.h"
 
+#define FIXED_MY_LOCATION_INDOOR_ID "98a265e2-b890-4c6b-a28f-948c92e36914"
+#define FIXED_MY_LOCATION_FLOOR_INDEX 1
+#define FIXED_MY_LOCATION_LATITUDE 33.9433507
+#define FIXED_MY_LOCATION_LONGITUDE -118.4087762
+
 namespace ExampleApp
 {
     namespace Compass
@@ -31,7 +36,7 @@ namespace ExampleApp
                 void OnGpsModeChanged();
 
             public:
-                FixedIndoorLocationCompassModeObserver(ICompassModel& model,Eegeo::Space::LatLongAltitude latlng, Eegeo::Resources::Interiors::InteriorId interiorId, int floorIndex,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController, ExampleAppMessaging::TMessageBus& messageBus);
+                FixedIndoorLocationCompassModeObserver(ICompassModel& model,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController, ExampleAppMessaging::TMessageBus& messageBus);
             };
         }
     }
