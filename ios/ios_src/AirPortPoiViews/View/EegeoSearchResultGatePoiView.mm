@@ -132,6 +132,7 @@
             m_departureTimeLeft = [self GetTimeDifferenc:[NSString stringWithUTF8String:flightInfo.GetFlightTime().c_str()]];
             if(m_boardingTimeLeft>0 || m_departureTimeLeft>0)
             {
+                [self updateCountdown];
                 m_pContDownTimer = [NSTimer scheduledTimerWithTimeInterval: 1.0 target:self selector:@selector(updateCountdown) userInfo:nil repeats: YES];
             }
 
