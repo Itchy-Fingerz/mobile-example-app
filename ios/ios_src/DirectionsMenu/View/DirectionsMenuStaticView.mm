@@ -326,7 +326,8 @@
         {
             std::string firstTag = item.GetTags()[0];
             [cell.subTitleLabel setHidden:false];
-            [cell.subTitleLabel setText:[NSString stringWithFormat:@"%s",firstTag.c_str()]];
+            NSString * titalCase = [[NSString stringWithFormat:@"%s",firstTag.c_str()] capitalizedString];
+            [cell.subTitleLabel setText:titalCase];
             cell.titleLabelHeightConstraint.constant = 0;
         }
         else
