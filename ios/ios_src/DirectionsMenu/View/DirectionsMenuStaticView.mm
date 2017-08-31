@@ -325,6 +325,10 @@
         else if (!item.GetTags().empty())
         {
             std::string firstTag = item.GetTags()[0];
+            if (firstTag == "food_drink")
+            {
+                firstTag = "Food & Drink";
+            }
             [cell.subTitleLabel setHidden:false];
             NSString * titalCase = [[NSString stringWithFormat:@"%s",firstTag.c_str()] capitalizedString];
             [cell.subTitleLabel setText:titalCase];
