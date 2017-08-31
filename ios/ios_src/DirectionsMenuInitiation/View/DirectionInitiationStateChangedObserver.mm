@@ -24,7 +24,10 @@ namespace ExampleApp
             
             void DirectionInitiationStateChangedObserver::OnDirectionsMenuStateChanged(const DirectionsMenuInitiation::DirectionsMenuStateChangedMessage& message)
             {
-                
+                if (message.GetCloseForWorldPin() == true)
+                {
+                    return;
+                }
                 if(message.GetDirectionsMenuStage() == DirectionsMenuInitiation::Inactive)
                 {
                     // Inactive
