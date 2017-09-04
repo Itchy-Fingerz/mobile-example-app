@@ -584,20 +584,20 @@ namespace ExampleApp
                                 }
                             }                            
                             
-                            if (renderable.GetConfig().IsInPlayingState() || m_pVideoAssetReaderService->GetIsPausedByUserFlagStatus())
+                            if (!renderable.GetConfig().IsInStoppedState())
                             {
-                                const Eegeo::Camera::RenderCamera& renderCamera = m_iCameraController.GetRenderCamera();
-                                float screenPixelX = m_screenProperties.GetScreenWidth() / 2;
-                                float screenPixelY = m_screenProperties.GetScreenHeight() / 2;
-                                Eegeo::dv3 rayOrigin = renderCamera.GetEcefLocation();
-                                Eegeo::dv3 rayDirection;
-                                Eegeo::Camera::CameraHelpers::GetScreenPickRay(renderCamera, screenPixelX, screenPixelY, rayDirection);
-                                
-                                if(IsBillBoardHidden(renderable.GetForwardVector(), rayDirection.ToSingle()))
-                                {
-                                    StopResetVideoService();
-                                    continue;
-                                }
+                                    const Eegeo::Camera::RenderCamera& renderCamera = m_iCameraController.GetRenderCamera();
+                                    float screenPixelX = m_screenProperties.GetScreenWidth() / 2;
+                                    float screenPixelY = m_screenProperties.GetScreenHeight() / 2;
+                                    Eegeo::dv3 rayOrigin = renderCamera.GetEcefLocation();
+                                    Eegeo::dv3 rayDirection;
+                                    Eegeo::Camera::CameraHelpers::GetScreenPickRay(renderCamera, screenPixelX, screenPixelY, rayDirection);
+                                    
+                                    if(IsBillBoardHidden(renderable.GetForwardVector(), rayDirection.ToSingle()))
+                                    {
+                                        StopResetVideoService();
+                                        continue;
+                                    }
                             }
                         }
                         
