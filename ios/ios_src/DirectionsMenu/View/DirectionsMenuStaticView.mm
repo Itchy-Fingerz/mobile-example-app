@@ -330,8 +330,15 @@
                 firstTag = "Food & Drink";
             }
             [cell.subTitleLabel setHidden:false];
+            
             NSString * titalCase = [[NSString stringWithFormat:@"%s",firstTag.c_str()] capitalizedString];
             [cell.subTitleLabel setText:titalCase];
+            
+            if(firstTag == "atm")
+            {
+                [cell.subTitleLabel setText:[[NSString stringWithFormat:@"%s",firstTag.c_str()] uppercaseString]];
+            }
+            
             cell.titleLabelHeightConstraint.constant = 0;
         }
         else

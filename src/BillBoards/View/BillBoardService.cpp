@@ -258,6 +258,14 @@ namespace ExampleApp
                 }
                 
             }
+            
+            void BillBoardService::OnAdvertisementSearch()
+            {
+                RemoveAllRenderables();
+                StopResetVideoService();
+                m_billBoardConfigList.clear();
+            }
+            
             void BillBoardService::OnInteriorsExit()
             {
                 RemoveAllRenderables();

@@ -66,6 +66,7 @@ namespace ExampleApp
                 void OnWeatherStateChange();
                 void CreateBillBoardsFromConfigList();
                 void OnInteriorsExit();
+                void OnAdvertisementSearch();
                 
                 void SetDayTime(std::string dayTime)
                 {
