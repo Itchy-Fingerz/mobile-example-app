@@ -67,49 +67,57 @@ namespace ExampleApp
             
             std::string m_hockeyAppId;
 
+            bool m_hasMapScene;
+            std::string m_mapSceneId;
+
+			std::vector<std::vector<std::string>> m_customKeyboardLayout;
+
         public:
             
-            ApplicationConfiguration(
-                const std::string& name,
-                const std::string& eegeoApiKey,
-                const std::string& productVersion,
-                const std::string& buildNumber,
-                const std::string& combinedVersionString,
-                const std::string& coverageTreeManifestURL,
-                const std::string& themeManifestURL,
-                const std::string& embeddedThemeTexturePath,
-                const Eegeo::Space::LatLongAltitude& interestLocation,
-                float distanceToInterestMetres,
-                float orientationDegrees,
-                bool tryStartAtGpsLocation,
-                bool startFullscreen,
-                bool performStartUpSearch,
-                const std::string& startUpSearchTag,
-                const std::string& googleAnalyticsReferrerToken,
-                const std::string& flurryAppKey,
-                const std::string& yelpConsumerKey,
-                const std::string& yelpConsumerSecret,
-                const std::string& yelpOAuthToken,
-                const std::string& yelpOAuthTokenSecret,
-                const std::string& geoNamesUserName,
-                const std::string& eegeoSearchServiceUrl,
-                const std::string& myPinsWebServiceUrl,
-                const std::string& myPinsWebServiceAuthToken,
-                const std::string& myPinsPoiSetId,
-                const bool isKioskTouchInputEnabled,
-                const bool isInKioskMode,
-                bool useJapaneseFont,
-                const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfo,
-                const std::string& rawConfig,
-                const SdkModel::ApplicationFixedIndoorLocation& fixedIndoorLocation,
-                const std::vector<Eegeo::Space::LatLongAltitude>& attractModeTargetSplinePoints,
-                const std::vector<Eegeo::Space::LatLongAltitude>& attractModePositionSplinePoints,
-                const long long attractModeTimeoutMs,
-                const float attractModePlaybackSpeed,
-                const std::string& optionsAdminPassword,
-                const long long& surveyRequirementTimeSec,
-                const std::string& timerSurveyUrl,
-                const std::string& hockeyAppId
+			ApplicationConfiguration(
+				const std::string& name,
+				const std::string& eegeoApiKey,
+				const std::string& productVersion,
+				const std::string& buildNumber,
+				const std::string& combinedVersionString,
+				const std::string& coverageTreeManifestURL,
+				const std::string& themeManifestURL,
+				const std::string& embeddedThemeTexturePath,
+				const Eegeo::Space::LatLongAltitude& interestLocation,
+				float distanceToInterestMetres,
+				float orientationDegrees,
+				bool tryStartAtGpsLocation,
+				bool startFullscreen,
+				bool performStartUpSearch,
+				const std::string& startUpSearchTag,
+				const std::string& googleAnalyticsReferrerToken,
+				const std::string& flurryAppKey,
+				const std::string& yelpConsumerKey,
+				const std::string& yelpConsumerSecret,
+				const std::string& yelpOAuthToken,
+				const std::string& yelpOAuthTokenSecret,
+				const std::string& geoNamesUserName,
+				const std::string& eegeoSearchServiceUrl,
+				const std::string& myPinsWebServiceUrl,
+				const std::string& myPinsWebServiceAuthToken,
+				const std::string& myPinsPoiSetId,
+				const bool isKioskTouchInputEnabled,
+				const bool isInKioskMode,
+				bool useJapaneseFont,
+				const std::map<std::string, SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfo,
+				const std::string& rawConfig,
+				const SdkModel::ApplicationFixedIndoorLocation& fixedIndoorLocation,
+				const std::vector<Eegeo::Space::LatLongAltitude>& attractModeTargetSplinePoints,
+				const std::vector<Eegeo::Space::LatLongAltitude>& attractModePositionSplinePoints,
+				const long long attractModeTimeoutMs,
+				const float attractModePlaybackSpeed,
+				const std::string& optionsAdminPassword,
+				const long long& surveyRequirementTimeSec,
+				const std::string& timerSurveyUrl,
+				const std::string& hockeyAppId,
+				bool hasMapScene,
+				const std::string& mapSceneId,
+				const std::vector<std::vector<std::string>>& customKeyboardLayout
             );
             
             std::string Name() const;
@@ -190,6 +198,11 @@ namespace ExampleApp
             const std::string TimerSurveyUrl() const;
             
             const std::string HockeyAppId() const;
+
+            bool HasMapScene() const;
+            const std::string MapSceneId() const;
+
+			const std::vector<std::vector<std::string>> CustomKeyboardLayout() const;
         };
     }
 }

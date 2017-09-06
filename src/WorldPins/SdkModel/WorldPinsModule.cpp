@@ -20,13 +20,14 @@ namespace ExampleApp
                                              const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel,
                                              ExampleAppMessaging::TSdkModelDomainEventBus& sdkDomainEventBus,
                                              Eegeo::Resources::Interiors::Markers::IInteriorMarkerPickingService& interiorMarkerPickingService,
-                                             Eegeo::Markers::IMarkerService& markerService)
+                                             Eegeo::Markers::IMarkerService& markerService,
+                                             Eegeo::Location::NavigationService& navigationService)
             {
                 m_pWorldPinsFactory = Eegeo_NEW(WorldPinsFactory);
-                
+
                 m_pWorldPinsRepository = Eegeo_NEW(WorldPinsRepository);
                 
-                m_pWorldPinsService = Eegeo_NEW(WorldPinsService)(*m_pWorldPinsRepository, interiorMarkerPickingService, markerService, sdkDomainEventBus, messageBus);
+                m_pWorldPinsService = Eegeo_NEW(WorldPinsService)(*m_pWorldPinsRepository, interiorMarkerPickingService, markerService, sdkDomainEventBus, messageBus, navigationService);
                 
                 m_pWorldPinsVisibilityController = Eegeo_NEW(WorldPinsVisibilityController)(*m_pWorldPinsRepository,
                                                                                             messageBus,
@@ -37,7 +38,7 @@ namespace ExampleApp
                 m_pWorldPinsModalityObserver = Eegeo_NEW(WorldPinsModalityObserver)(*m_pWorldPinsVisibilityController,
                                                                                     messageBus);
             }
-            
+
             WorldPinsModule::~WorldPinsModule()
             {
                 Eegeo_DELETE m_pWorldPinsModalityObserver;
@@ -56,17 +57,17 @@ namespace ExampleApp
             {
                 m_pWorldPinsVisibilityController->Update(dt);
             }
-            
+
             IWorldPinsService& WorldPinsModule::GetWorldPinsService() const
             {
                 return *m_pWorldPinsService;
             }
-            
+
             IWorldPinsFactory& WorldPinsModule::GetWorldPinsFactory() const
             {
                 return *m_pWorldPinsFactory;
             }
-            
+
             IWorldPinsVisibilityController& WorldPinsModule::GetWorldPinsVisibilityController() const
             {
                 return *m_pWorldPinsVisibilityController;

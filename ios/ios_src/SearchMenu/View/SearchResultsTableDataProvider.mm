@@ -176,8 +176,8 @@ static NSString *CellIdentifier = @"searchCell";
         
         const float imageSize = 36.0f;
         const float imageInset = 6.0f;
-        
-        const std::string icon = document.HasMember("icon") ? document["icon"].GetString() : "misc";
+
+        const std::string icon = document.HasMember("icon") ? document["icon"].GetString() : "pin";
         const std::string iconResourceName = ExampleApp::Helpers::IconResources::GetSmallIconPathForResourceName(icon);
         
         cell.imageView.image = ExampleApp::Helpers::ImageHelpers::LoadImage(iconResourceName);
@@ -194,6 +194,7 @@ static NSString *CellIdentifier = @"searchCell";
         
         cell.textLabel.text = [NSString stringWithUTF8String:name.c_str()];
         cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
         cell.textLabel.textColor = ExampleApp::Helpers::ColorPalette::TableSearchTextColor;
         [cell.textLabel sizeToFit];
         cell.textLabel.backgroundColor = [UIColor clearColor];
@@ -211,6 +212,7 @@ static NSString *CellIdentifier = @"searchCell";
         
         cell.detailTextLabel.text = [NSString stringWithUTF8String:details.c_str()];
         cell.detailTextLabel.font = [UIFont systemFontOfSize:11.0f];
+        cell.detailTextLabel.backgroundColor = [UIColor clearColor];
         cell.detailTextLabel.textColor = ExampleApp::Helpers::ColorPalette::TableSearchDetailTextColor;
         [cell.detailTextLabel sizeToFit];
         cell.detailTextLabel.backgroundColor = [UIColor clearColor];

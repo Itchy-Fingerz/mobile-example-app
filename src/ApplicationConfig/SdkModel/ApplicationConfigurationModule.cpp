@@ -48,7 +48,7 @@ namespace ExampleApp
                     const bool shouldPerformStartUpSearch = false;
                     const std::string startUpSearchTag = "";
 
-                    const SdkModel::ApplicationFixedIndoorLocation fixedIndoorLocation(Eegeo::Space::LatLong(0.0, 0.0), "", 0, 180.0);
+                    const SdkModel::ApplicationFixedIndoorLocation fixedIndoorLocation(Eegeo::Space::LatLong(0.0, 0.0), "", 0, 180.0, 500.0);
 
                     const std::vector<Eegeo::Space::LatLongAltitude> attractModeTargetSplinePoints;
                     const std::vector<Eegeo::Space::LatLongAltitude> attractModePositionSplinePoints;
@@ -62,8 +62,10 @@ namespace ExampleApp
                     const std::string timerSurveyUrl = "";
                     
                     const std::string hockeyAppId = "";
-                    
-                    return ApplicationConfiguration ("Eegeo Example App",
+
+                    const std::vector<std::vector<std::string>> customKeyboardLayout = {};
+
+                    return ApplicationConfiguration("Eegeo Example App",
                         emptyEegeoApiKey,
                         productVersion,
                         buildNumber,
@@ -102,7 +104,10 @@ namespace ExampleApp
                         emptyOptionsAdminPassword,
                         surveyTimeRequirementSec,
                         timerSurveyUrl,
-                        hockeyAppId);
+                        hockeyAppId,
+                        false,
+                        "",
+                        customKeyboardLayout);
                 }
             }
             
@@ -142,6 +147,8 @@ namespace ExampleApp
 
                 platformConfig.MapLayersConfig.Interiors.LabelFontTextureFilename = environmentFontFilename;
                 platformConfig.MapLayersConfig.DebugRenderingModuleConfig.DebugFontFilename = defaultFontFilename;
+                
+                platformConfig.MapLayersConfig.BlueSphereConfig.CreateViews = true;
                 return platformConfig;
             }
             
@@ -154,7 +161,7 @@ namespace ExampleApp
                 m_pApplicationConfigurationReader = Eegeo_NEW(ApplicationConfigurationReader)(fileIO);
                 m_pApplicationConfigurationParser = Eegeo_NEW(ApplicationConfigurationJsonParser)(defaultConfig);
                 m_pApplicationConfigurationService = Eegeo_NEW(ApplicationConfigurationService)(*m_pApplicationConfigurationParser,
-																								*m_pApplicationConfigurationReader);                    
+                                                                                                *m_pApplicationConfigurationReader);                    
             }
             
             ApplicationConfigurationModule::~ApplicationConfigurationModule()

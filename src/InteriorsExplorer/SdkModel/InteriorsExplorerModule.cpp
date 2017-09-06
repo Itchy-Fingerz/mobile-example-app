@@ -71,8 +71,7 @@ namespace ExampleApp
                                                              visualMapService,
                                                              messageBus,
                                                              metricsService,
-                                                             persistentSettings,
-                                                             navigationService);
+                                                             persistentSettings);
                 
                 m_pInteriorSelectionController = Eegeo_NEW(InteriorSelectionController)(interiorSelectionModel,
                                                                                         *m_pModel,

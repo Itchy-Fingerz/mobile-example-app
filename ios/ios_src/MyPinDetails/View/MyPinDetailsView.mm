@@ -225,7 +225,7 @@
 
     const float titlePadding = 23.0f;
     self.pTitleLabel.frame = CGRectMake(iconImageSize + titlePadding,
-                                        4.f,
+                                        0.f,
                                         mainWindowWidth - headlineHeight - titlePadding,
                                         headlineHeight);
     self.pTitleLabel.font = [UIFont systemFontOfSize:24.0f];
@@ -285,6 +285,10 @@
 {
     self.pTitleLabel.text = [NSString stringWithUTF8String:title.c_str()];
     self.pDescriptionContent.text = [NSString stringWithUTF8String: description.c_str()];
+
+    BOOL hideDescription = !(self.pDescriptionContent.text != nil && self.pDescriptionContent.text.length > 0);
+    self.pDescriptionContent.hidden = hideDescription;
+    self.pDescriptionHeaderContainer.hidden = hideDescription;
 
     m_hasImage = NO;
 

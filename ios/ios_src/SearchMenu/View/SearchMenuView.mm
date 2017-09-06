@@ -705,8 +705,6 @@
     
     if(!m_resultsVisible)
     {
-        m_pAnchorAnimationController->Play();
-        
         if([super isAnimating])
         {
             m_titleContainersRequireRefresh = true;
@@ -729,6 +727,15 @@
         m_resultsVisible = true;
     }
     
+    if(searchResultCount > 0)
+    {
+        m_pAnchorAnimationController->Play();
+    }
+    else if(self.pAnchorArrowImage.frame.size.height > 0)
+    {
+        m_pAnchorAnimationController->PlayReverse();
+    }
+    
     [self.pInputDelegate setHasResults: searchResultCount>0];
 }
 
@@ -738,7 +745,10 @@
     
     if(m_resultsVisible)
     {
-        m_pAnchorAnimationController->PlayReverse();
+        if(self.pAnchorArrowImage.frame.size.height > 0)
+        {
+            m_pAnchorAnimationController->PlayReverse();
+        }
         
         if([super isAnimating])
         {
@@ -773,6 +783,14 @@
 
 - (void) onMenuStateUpdated
 {
+    switch (m_menuState)
+    {
+        case OFF_SCREEN: [self.pInputDelegate setMenuOpen:false]; break;
+        case CLOSED_ON_SCREEN: [self.pInputDelegate setMenuOpen:false]; break;
+        case OPEN_ON_SCREEN: [self.pInputDelegate setMenuOpen:true]; break;
+        default: break;
+    }
+    
     if(m_titleContainersRequireRefresh)
     {
         if(m_resultsVisible)

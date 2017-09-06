@@ -135,6 +135,8 @@
 #include "BillBoardsController.h"
 #include "CustomAlertModule.h"
 #include "BlueSphereModel.h"
+#include "InteriorHighlightsModule.h"
+#include "IInteriorsHighlightService.h"
 
 namespace ExampleApp
 {
@@ -373,7 +375,7 @@ namespace ExampleApp
                                                                                        Eegeo::Streaming::QuadTreeCube::MAX_DEPTH_TO_VISIT,
                                                                                        mapModule.GetEnvironmentFlatteningService());
 
-        CreateApplicationModelModules(nativeUIFactories, platformConfig.OptionsConfig.InteriorsAffectedByFlattening);
+        CreateApplicationModelModules(nativeUIFactories, platformConfig.OptionsConfig.InteriorsAffectedByFlattening, platformConfig.MapLayersConfig.BlueSphereConfig.CreateViews);
 
         namespace IntHighlights = InteriorsExplorer::SdkModel::Highlights;
 
@@ -393,15 +395,17 @@ namespace ExampleApp
 
         Eegeo::Modules::Map::Layers::InteriorsModelModule& interiorsModelModule = mapModule.GetInteriorsModelModule();
 
-        Eegeo::Resources::Interiors::InteriorsEntityIdHighlightController& interiorsEntityIdHighlightController = interiorsModelModule.GetInteriorsEntityIdHighlightController();;
+        Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& highlightService =
+                m_pWorld->GetInteriorHighlightsModule().GetHighlightService();
 
         m_pInteriorsEntityIdHighlightVisibilityController = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController)(
-                                                                                                                                                               interiorsEntityIdHighlightController,
-                                                                                                                                                               m_pSearchModule->GetSearchQueryPerformer(),
-                                                                                                                                                               m_pSearchModule->GetSearchResultRepository(),
-                                                                                                                                                               m_messageBus,
-                                                                                                                                                               interiorsModelModule.GetInteriorsInstanceRepository(),
-                                                                                                                                                               *m_pHighlightColorMapper);
+                interiorsPresentationModule.GetInteriorInteractionModel(),
+                highlightService,
+                m_pSearchModule->GetSearchQueryPerformer(),
+                m_pSearchModule->GetSearchResultRepository(),
+                m_messageBus,
+                interiorsModelModule.GetInteriorsInstanceRepository(),
+                *m_pHighlightColorMapper);
 
         m_pCameraTransitionController = Eegeo_NEW(ExampleApp::CameraTransitions::SdkModel::CameraTransitionController)(*m_pGlobeCameraController,
                                                                                                                        m_pInteriorsExplorerModule->GetInteriorsCameraController(),
@@ -464,14 +468,16 @@ namespace ExampleApp
             m_pAboutPageModule->GetAboutPageViewModel(),
             *m_pNavigationService,
             m_pWorld->GetApiTokenService());
-        
-        
+       
         Eegeo::Space::LatLongAltitude latLng =  Eegeo::Space::LatLongAltitude::FromDegrees(FIXED_MY_LOCATION_LATITUDE, FIXED_MY_LOCATION_LONGITUDE,0);
         
         m_pFixedIndoorLocationCompassModeObserver = Eegeo_NEW(Compass::SdkModel::FixedIndoorLocationCompassModeObserver)(m_pCompassModule->GetCompassModel(),*m_pCameraTransitionController,messageBus);
         
+        
         Eegeo::BlueSphere::BlueSphereConfiguration defaultConfig = Eegeo::BlueSphere::BlueSphereModule::DefaultConfig();
         defaultConfig.CreateViews = true;
+        
+        
         m_pBlueSphereModule = Eegeo::BlueSphere::BlueSphereModule::Create(m_pWorld->GetRenderingModule(), m_pWorld->GetSceneModelsModule().GetLocalSceneModelFactory(), m_platformAbstractions.GetFileIO(), platformAbstractions.GetTextureFileLoader(), m_pWorld->GetTerrainModelModule(), interiorsPresentationModule.GetInteriorInteractionModel(), m_screenProperties, m_pWorld->GetMapModule().GetPositioningModule(), defaultConfig);
         m_pBlueSphereModule->GetBlueSphereModel().SetCoordinate(Eegeo::Space::LatLong(latLng.GetLatitude(),latLng.GetLongitude()));
         m_pBlueSphereModule->GetBlueSphereModel().SetIndoorMap(FIXED_MY_LOCATION_INDOOR_ID, FIXED_MY_LOCATION_FLOOR_INDEX);
@@ -479,6 +485,18 @@ namespace ExampleApp
         m_pBlueSphereModule->GetBlueSphereModel().SetElevation(0.0);
         m_pBlueSphereModule->GetBlueSphereModel().SetHeadingRadians(1.3);
         m_pBlueSphereModule->GetBlueSphereModel().SetEnabled(true);
+        
+        
+        if (applicationConfiguration.HasMapScene())
+        {
+            // TODO: This is a bit smelly & needs refactoring because the MapScene responsibility is tightly coupled
+            // to the DeepLink domain. Building up a fake deep link for now....
+            const std::string mapScenePath = "/" + applicationConfiguration.MapSceneId();
+            AppInterface::UrlData data;
+            data.host = "mapscene";
+            data.path = mapScenePath.c_str();
+            m_pDeepLinkModule->GetDeepLinkController().HandleDeepLinkOpen(data);
+        }
     }
     
     MobileExampleApp::~MobileExampleApp()
@@ -525,7 +543,8 @@ namespace ExampleApp
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                                         const bool interiorsAffectedByFlattening)
+                                                         const bool interiorsAffectedByFlattening,
+                                                         const bool createBlueSphereViews)
     {
         Eegeo::EegeoWorld& world = *m_pWorld;
 
@@ -607,15 +626,12 @@ namespace ExampleApp
 
         Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
 
-        m_pGpsMarkerModule = Eegeo_NEW(ExampleApp::GpsMarker::SdkModel::GpsMarkerModule)(m_pWorld->GetRenderingModule(),
-                                                                                         m_pWorld->GetSceneModelsModule().GetLocalSceneModelFactory(),
-                                                                                         m_platformAbstractions,
-                                                                                         m_pWorld->GetLocationService(),
+        m_pGpsMarkerModule = Eegeo_NEW(ExampleApp::GpsMarker::SdkModel::GpsMarkerModule)(m_pWorld->GetLocationService(),
                                                                                          m_pWorld->GetTerrainModelModule(),
                                                                                          m_pWorld->GetMapModule(),
                                                                                          interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                          m_pVisualMapModule->GetVisualMapService(),
-                                                                                         m_screenProperties,
+                                                                                         createBlueSphereViews,
                                                                                          m_messageBus);
 
         m_pSurveyModule = Eegeo_NEW(Surveys::SdkModel::SurveyModule)(m_messageBus,
@@ -1196,9 +1212,8 @@ namespace ExampleApp
                                                                                          interiorsPresentationModule.GetInteriorTransitionModel(),
                                                                                          m_sdkDomainEventBus,
                                                                                          interiorsPresentationModule.GetInteriorMarkerPickingService(),
-                                                                                         mapModule.GetMarkersModule().GetMarkerService());
-    
-        
+                                                                                         mapModule.GetMarkersModule().GetMarkerService(),
+                                                                                         *m_pNavigationService);
     }
 
     void MobileExampleApp::OnPause()
@@ -1532,7 +1547,7 @@ namespace ExampleApp
         }
 
     }
-    
+
     void MobileExampleApp::Event_TouchDoubleTap(const AppInterface::TapData& data)
     {
         if (!CanAcceptTouch())
@@ -1544,8 +1559,6 @@ namespace ExampleApp
         {
             return;
         }
-        
-
         if (m_pAppModeModel->GetAppMode() == AppModes::SdkModel::InteriorMode)
         {
             m_pDoubleTapIndoorInteractionController->OnDoubleTap(data);
