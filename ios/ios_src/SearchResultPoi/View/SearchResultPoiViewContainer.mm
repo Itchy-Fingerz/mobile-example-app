@@ -101,12 +101,12 @@
 //        {
 //            return [[EegeoSearchResultRatingPoiView EegeoSearchResultRatingPoiViewWithInterop:m_pInterop] retain];
 //        }
-        if (pModel->GetTitle() == "Airport Security")
-        {
-            return [[EegeoSearchResultSecurityOfficePoiView EegeoSearchResultSecurityOfficePoiViewWithInterop:m_pInterop] retain];
-
-        }
-        else if (pModel->GetTitle() == "Gate 134")
+//        if (pModel->GetTitle() == "Airport Security")
+//        {
+//            return [[EegeoSearchResultSecurityOfficePoiView EegeoSearchResultSecurityOfficePoiViewWithInterop:m_pInterop] retain];
+//
+//        }
+        if (pModel->GetTitle() == "Gate 134")
         {
             return [[EegeoSearchResultGatePoiView EegeoSearchResultGatePoiViewWithInterop:m_pInterop] retain];
 
