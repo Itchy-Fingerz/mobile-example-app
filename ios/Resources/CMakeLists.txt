@@ -1124,10 +1124,6 @@ set(resources ${resources}
 		Resources/SearchResultOnMap/pin_sheet_0@2x.png
 		Resources/SearchResultOnMap/pin_sheet_0@3x.png
         	Resources/SearchResultOnMap/pin_sheet.json
-		Resources/SearchResultOnMap/pin_sheet_1.png
-		Resources/SearchResultOnMap/pin_sheet_1@2x.png
-		Resources/SearchResultOnMap/pin_sheet_1@3x.png
-        	Resources/SearchResultOnMap/pin_sheet_numbers.json
         Resources/ShowMeTheGateDefault.png
         Resources/ShowMeTheGateDefault@2x.png
         Resources/ShowMeTheGateDefault@3x.png
