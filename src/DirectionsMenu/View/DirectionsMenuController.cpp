@@ -195,26 +195,26 @@ namespace ExampleApp
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                 {
                     
-                    if (!m_locationService.GetIsAuthorized())
-                    {
+//                    if (!m_locationService.GetIsAuthorized())
+//                    {
                         currentLatLong = mocklatLng;
                         startLevel = mockfloorIndex;
                         startBuildingID = mockInteriorId;
-                    }
-                    else
-                    {
-                        m_locationService.GetLocation(currentLatLong);
-                        if(m_isInterior)
-                        {
-                            startLevel = pSelectedFloor->GetFloorNumber();
-                        }
-                        if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
-                        {
-                            currentLatLong = mocklatLng;
-                            startLevel = mockfloorIndex;
-                            startBuildingID = mockInteriorId;
-                        }
-                    }
+//                    }
+//                    else
+//                    {
+//                        m_locationService.GetLocation(currentLatLong);
+//                        if(m_isInterior)
+//                        {
+//                            startLevel = pSelectedFloor->GetFloorNumber();
+//                        }
+//                        if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
+//                        {
+//                            currentLatLong = mocklatLng;
+//                            startLevel = mockfloorIndex;
+//                            startBuildingID = mockInteriorId;
+//                        }
+//                    }
                 }
                 else if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
                 {
