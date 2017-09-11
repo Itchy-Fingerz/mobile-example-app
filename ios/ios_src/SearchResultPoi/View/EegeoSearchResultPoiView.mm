@@ -89,15 +89,15 @@ const int DeletePinAlertViewTag = 2;
         
         self.pPreviewCardHeaderLine = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pPreviewCardHeaderLine.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
-        [self.pPreviewImageContainer addSubview:self.pPreviewCardHeaderLine];
+//        [self.pPreviewImageContainer addSubview:self.pPreviewCardHeaderLine];
         
         self.pDetailsCardHeaderLine = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pDetailsCardHeaderLine.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
-        [self.pDetailsCardContainer addSubview:self.pDetailsCardHeaderLine];
+//        [self.pDetailsCardContainer addSubview:self.pDetailsCardHeaderLine];
         
         self.pTagsCardHeaderLine = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pTagsCardHeaderLine.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
-        [self.pTagsCardContainer addSubview:self.pTagsCardHeaderLine];
+//        [self.pTagsCardContainer addSubview:self.pTagsCardHeaderLine];
         
         self.pFooterLine = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pFooterLine.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
@@ -117,6 +117,7 @@ const int DeletePinAlertViewTag = 2;
         self.pDropPinContainer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pDropPinContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
         [self.pControlContainer addSubview:self.pDropPinContainer];
+//        [self.pControlContainer setBackgroundColor:[UIColor yellowColor]];
         
         self.pPinButton = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         [self.pPinButton setImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"btn_direction_card.png") forState:UIControlStateNormal];
@@ -124,6 +125,7 @@ const int DeletePinAlertViewTag = 2;
         [self.pPinButton setTitle:@"Show me the way" forState:UIControlStateNormal];
         [self.pPinButton addTarget:self action:@selector(handleShowMeWayButtonSelected) forControlEvents:UIControlEventTouchUpInside];
         [self.pDropPinContainer addSubview: self.pPinButton];
+        [self.pDropPinContainer setBackgroundColor:[UIColor redColor]];
         
         self.pPreviewImage = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pPreviewImage.clipsToBounds = YES;
@@ -206,6 +208,7 @@ const int DeletePinAlertViewTag = 2;
         self.pWebView = [[[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pWebView.scalesPageToFit = YES;
         self.pWebView.delegate = self;
+        self.pWebView.opaque = NO;
         
         [self setTouchExclusivity: self];
         
@@ -418,17 +421,17 @@ const int DeletePinAlertViewTag = 2;
     self.pFooterSpace.frame = CGRectMake(sideMargin,
                                          closeButtonSectionOffsetY - bottomMargin - 19.f,
                                          cardContainerWidth,
-                                         19.f);
-    
+                                         14.f);
+//    [self.pFooterSpace setBackgroundColor:[UIColor yellowColor]];
     self.pFooterLine.frame = CGRectMake(sideMargin,
                                         closeButtonSectionOffsetY - bottomMargin - 20.f,
                                         cardContainerWidth,
                                         headerLineThickness);
-    
+//    [self.pFooterLine setBackgroundColor:[UIColor redColor]];
     self.pDropPinContainer.frame = CGRectMake(sideMargin,
-                                              closeButtonSectionOffsetY - bottomMargin,
+                                              closeButtonSectionOffsetY - bottomMargin - 5.f,
                                               cardContainerWidth,
-                                              42.f);
+                                              52.f);
     
     
     self.pPinButton.frame = CGRectMake(0.f,
@@ -782,7 +785,7 @@ const int DeletePinAlertViewTag = 2;
         self.pWebView.frame = CGRectMake(0, 0, self.pLabelsContainer.frame.size.width, self.pLabelsContainer.frame.size.height) ;
         self.pWebView.scalesPageToFit = YES;
         
-        [self performDynamicContentLayout];
+//        [self performDynamicContentLayout];
     }
 }
 
@@ -813,7 +816,13 @@ const int DeletePinAlertViewTag = 2;
     self.pSubtitleLabel.text = [NSString stringWithUTF8String:pModel->GetSubtitle().c_str()];
     
     [self.pTagIconContainer.subviews makeObjectsPerformSelector: @selector(removeFromSuperview)];
-    std::string tagIcon = ExampleApp::Helpers::IconResources::GetSmallIconForTag(pModel->GetIconKey());
+    
+    std::string iconKey = pModel->GetIconKey();
+    if(iconKey == "misc")
+    {
+        iconKey = "pin";
+    }
+    std::string tagIcon = ExampleApp::Helpers::IconResources::GetSmallIconForTag(iconKey);
     ExampleApp::Helpers::ImageHelpers::AddPngImageToParentView(self.pTagIconContainer, tagIcon, ExampleApp::Helpers::ImageHelpers::Centre);
     
     self.pAddressContent.hidden = true;

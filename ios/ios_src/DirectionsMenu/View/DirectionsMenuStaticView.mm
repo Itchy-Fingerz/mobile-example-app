@@ -349,8 +349,12 @@
         cell.subTitleLabel.textColor = ExampleApp::Helpers::ColorPalette::TableSearchDetailTextColor;
 
 
-        const std::string icon = item.GetIconKey();
+        std::string icon = item.GetIconKey();
         
+        if(icon == "misc")
+        {
+            icon = "pin";
+        }
         const std::string iconResourceName = ExampleApp::Helpers::IconResources::GetSmallIconPathForResourceName(icon);
         
         cell.cellIcon.image = ExampleApp::Helpers::ImageHelpers::LoadImage(iconResourceName);

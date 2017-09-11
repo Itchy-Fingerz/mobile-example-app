@@ -3,6 +3,7 @@
 #include "FlightResultModel.h"
 #import "EegeoSearchResultGatePoiView.h"
 #import "EegeoSearchResultFlightTimingTableViewCell.h"
+#import "UIButton+DefaultStates.h"
 
 @interface EegeoSearchResultGatePoiView()
 {
@@ -21,6 +22,8 @@
 
     
 }
+@property (retain, nonatomic) IBOutlet UIButton *m_pCloseBtn;
+
 -(void) FlightListFromSearchResult;
 @end
 @implementation EegeoSearchResultGatePoiView
@@ -71,11 +74,11 @@
         seconds = (m_boardingTimeLeft %3600) % 60;
         if (hours >= 1)
         {
-            m_pBoardingTimeCountDown.text = [NSString stringWithFormat:@"%02ldhr:%02ld min", (long)hours, (long)minutes];
+            m_pBoardingTimeCountDown.text = [NSString stringWithFormat:@"%02ldhr:%02ld mins", (long)hours, (long)minutes];
         }
         else
         {
-            m_pBoardingTimeCountDown.text = [NSString stringWithFormat:@"%02ld min", (long)minutes];
+            m_pBoardingTimeCountDown.text = [NSString stringWithFormat:@"%02ld mins", (long)minutes];
         }
     }
     else
@@ -89,11 +92,11 @@
         seconds = (m_departureTimeLeft %3600) % 60;
         if (hours >= 1)
         {
-            m_pDepartingTimeCountDown.text = [NSString stringWithFormat:@"%02ldhr:%02ld min", (long)hours, (long)minutes];
+            m_pDepartingTimeCountDown.text = [NSString stringWithFormat:@"%02ldhr:%02ld mins", (long)hours, (long)minutes];
         }
         else
         {
-            m_pDepartingTimeCountDown.text = [NSString stringWithFormat:@"%02ld min", (long)minutes];
+            m_pDepartingTimeCountDown.text = [NSString stringWithFormat:@"%02ld mins", (long)minutes];
 
         }
     }
@@ -211,6 +214,8 @@
 
 - (void) layoutSubviews
 {
+    [self.m_pCloseBtn setDefaultStates];
+    
     const float boundsWidth = static_cast<float>(self.superview.bounds.size.width);
     const float boundsHeight = static_cast<float>(self.superview.bounds.size.height);
     
@@ -220,7 +225,7 @@
     
     if(currentOrientation == UIInterfaceOrientationLandscapeLeft || currentOrientation == UIInterfaceOrientationLandscapeRight)
     {
-        boundsOccupyMultiplierHeight = 0.755f;
+        boundsOccupyMultiplierHeight = 0.9f;
     }
     else
     {
@@ -273,6 +278,7 @@
     //[m_pFlightTimingTableView release];
     [m_pController release];
     [m_pDepartingTimeCountDown release];
+    [_m_pCloseBtn release];
     [super dealloc];
 
 

@@ -25,7 +25,7 @@ namespace ExampleApp
             class DirectionsMenuController : public Menu::View::MenuController
             {
             private:
-                Eegeo::Location::ILocationService& m_locationService;
+//                Eegeo::Location::ILocationService& m_locationService;
                 Modality::View::IModalBackgroundView& m_modalBackgroundView;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 IDirectionsMenuView& m_directionsMenuView;
@@ -59,7 +59,7 @@ namespace ExampleApp
                 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionsMenu::DirectionMenuPoiSearchResponseReceivedMessage&> m_onInternalPoiSearchResponseReceivedCallback;
 
-                Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
+//                Eegeo::Resources::Interiors::InteriorInteractionModel& m_pInteriorInteractionModel;
 
                 Eegeo::Helpers::TCallback1<DirectionsMenuController, const DirectionResultSection::DirectionQueryResponseReceivedMessage&> m_directionResponseReceivedHandler;
                 
