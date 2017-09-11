@@ -67,12 +67,12 @@ namespace ExampleApp
             , m_onStartLocationResponseReceivedCallback(this, &DirectionsMenuController::OnGeoNamesStartLocationResponseReceived)
             , m_onInternalPoiSearchResponseReceivedCallback(this, &DirectionsMenuController::OnPoiSearchResponseReceived)
             , m_isExitDirections(false)
-            , m_locationService(locationService)
+//            , m_locationService(locationService)
             , m_settingsMenuViewModel(settingsMenuViewModel)
             , m_searchMenuViewModel(searchMenuViewModel)
             , m_isDirectionMenuOpen(false)
             , m_isInterior(false)
-            , m_pInteriorInteractionModel(interiorInteractionModel)
+//            , m_pInteriorInteractionModel(interiorInteractionModel)
             , m_directionResponseReceivedHandler(this, &DirectionsMenuController::OnSearchQueryResponseReceivedMessage)
             , m_onScreenSingleTapCallback(this, &DirectionsMenuController::OnScreenSingleTap)
             , m_showMeDirectionMessageCallback(this, &DirectionsMenuController::OnShowMeDirectionMessage)
@@ -191,7 +191,7 @@ namespace ExampleApp
                 // NOTE: MOck location for West Port House
                 // Eegeo::Space::LatLong mocklatLng =  Eegeo::Space::LatLong::FromDegrees(56.460127, -2.978369);
 
-                const Eegeo::Resources::Interiors::InteriorsFloorModel *pSelectedFloor = m_pInteriorInteractionModel.GetSelectedFloorModel();
+//                const Eegeo::Resources::Interiors::InteriorsFloorModel *pSelectedFloor = m_pInteriorInteractionModel.GetSelectedFloorModel();
                 if (currentLatLong.GetLongitudeInDegrees() == 0 && currentLatLong.GetLongitudeInDegrees() == 0)
                 {
                     
@@ -218,26 +218,26 @@ namespace ExampleApp
                 }
                 else if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
                 {
-                    if (!m_locationService.GetIsAuthorized())
-                    {
+//                    if (!m_locationService.GetIsAuthorized())
+//                    {
                         endcurrentLatLong = mocklatLng;
                         endLevel = mockfloorIndex;
                         endBuildingID = mockInteriorId;
-                    }
-                    else
-                    {
-                        m_locationService.GetLocation(endcurrentLatLong);
-                        if(m_isInterior)
-                        {
-                            endLevel =  pSelectedFloor->GetFloorNumber();
-                        }
-                        if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
-                        {
-                            endcurrentLatLong = mocklatLng;
-                            endLevel = mockfloorIndex;
-                            endBuildingID = mockInteriorId;
-                        }
-                    }
+//                    }
+//                    else
+//                    {
+//                        m_locationService.GetLocation(endcurrentLatLong);
+//                        if(m_isInterior)
+//                        {
+//                            endLevel =  pSelectedFloor->GetFloorNumber();
+//                        }
+//                        if(endcurrentLatLong.GetLongitudeInDegrees() == 0 && endcurrentLatLong.GetLongitudeInDegrees() == 0)
+//                        {
+//                            endcurrentLatLong = mocklatLng;
+//                            endLevel = mockfloorIndex;
+//                            endBuildingID = mockInteriorId;
+//                        }
+//                    }
                 }
             
                 const Eegeo::Space::LatLongAltitude startLoc = Eegeo::Space::LatLongAltitude::FromDegrees(currentLatLong.GetLatitudeInDegrees(), currentLatLong.GetLongitudeInDegrees(),0.0);
