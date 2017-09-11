@@ -85,7 +85,7 @@ namespace ExampleApp
             {
                 const Search::SdkModel::SearchResultModel& searchResultModel = GetViewModel().GetSearchResultModel();
 
-                GetView().Show(searchResultModel, GetViewModel().IsPinned());
+                GetView().Show(searchResultModel, GetViewModel().IsPinned(),"");
 
                 std::string imageUrl = "";
                 Search::SdkModel::TryParseImageDetails(searchResultModel, imageUrl);

@@ -8,13 +8,14 @@ namespace ExampleApp
     {
         namespace View
         {
-            SearchResultPoiViewInterop::SearchResultPoiViewInterop(SearchResultPoiViewContainer* pView) : m_pView(pView)
+            SearchResultPoiViewInterop::SearchResultPoiViewInterop(SearchResultPoiViewContainer* pView) : m_pView(pView), m_timeState("")
             {
             }
 
             void SearchResultPoiViewInterop::Show(const Search::SdkModel::SearchResultModel& model,
-                                                  bool isPinned)
+                                                  bool isPinned,  std::string timeState)
             {
+                m_timeState = timeState;
                 [m_pView open:&model :isPinned];
             }
 

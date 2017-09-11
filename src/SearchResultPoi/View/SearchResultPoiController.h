@@ -11,6 +11,8 @@
 #include "SearchResultPoiViewImageDownloadCompletedMessage.h"
 #include "IMetricsService.h"
 #include "ClosePoiMessage.h"
+#include "BillBoardsWeatherChangedMessage.h"
+
 
 namespace ExampleApp
 {
@@ -26,6 +28,8 @@ namespace ExampleApp
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 
                 Metrics::IMetricsService& m_metricsService;
+                
+                std::string m_timeState;
 
                 Eegeo::Helpers::TCallback0<SearchResultPoiController> m_viewOpenedCallback;
                 Eegeo::Helpers::TCallback0<SearchResultPoiController> m_viewClosedCallback;
@@ -35,6 +39,8 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback2<SearchResultPoiController, Search::SdkModel::SearchResultModel, Search::SdkModel::SearchResultModel> m_showWayBetweenTwoPoiCallback;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, const SearchResultPoiViewImageDownloadCompletedMessage&> m_imageLoadedHandlerBinding;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, const Automation::ClosePoiMessage&> m_closePoiMessageHandler;
+                Eegeo::Helpers::TCallback1<SearchResultPoiController, const BillBoards::BillBoardsWeatherChangedMessage&> m_weatherChangedCallback;
+
 
                 void OnViewClosed();
 
@@ -49,6 +55,9 @@ namespace ExampleApp
                 void OnSearchResultImageLoaded(const SearchResultPoiViewImageDownloadCompletedMessage& message);
                 
                 void OnClosePoiMessageRecieved(const Automation::ClosePoiMessage& message);
+                
+                void OnWeatherStateChanged(const BillBoards::BillBoardsWeatherChangedMessage& message);
+
 
             protected:
                 ISearchResultPoiView& GetView() { return m_view; }

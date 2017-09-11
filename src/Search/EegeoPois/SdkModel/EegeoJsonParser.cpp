@@ -216,6 +216,10 @@ namespace ExampleApp
                     std::string twitterUrl = "";
                     std::string email = "";
                     std::string customViewUrl = "";
+                    std::string customViewDayUrl = "";
+                    std::string customViewNightUrl = "";
+                    std::string customViewDawnUrl = "";
+                    std::string customViewDuskUrl = "";
                     int customViewHeight = -1;
                     
                     const std::string phoneName = "phone";
@@ -227,7 +231,12 @@ namespace ExampleApp
                     const std::string twitterName = "twitter";
                     const std::string emailName = "email";
                     const std::string customViewUrlName = "custom_view";
+                    const std::string customViewDayUrlName = "custom_view_day";
+                    const std::string customViewNightUrlName = "custom_view_night";
+                    const std::string customViewDawnUrlName = "custom_view_dawn";
+                    const std::string customViewDuskUrlName = "custom_view_dusk";
                     const std::string customViewHeightName = "custom_view_height";
+
                     
                     if (!json.Parse<0>(searchResultModel.GetJsonData().c_str()).HasParseError())
                     {
@@ -276,6 +285,26 @@ namespace ExampleApp
                             customViewUrl = json[customViewUrlName.c_str()].GetString();
                         }
                         
+                        if(json.HasMember(customViewNightUrlName.c_str()) && json[customViewNightUrlName.c_str()].IsString())
+                        {
+                            customViewNightUrl = json[customViewNightUrlName.c_str()].GetString();
+                        }
+                        
+                        if(json.HasMember(customViewDayUrlName.c_str()) && json[customViewDayUrlName.c_str()].IsString())
+                        {
+                            customViewDayUrl = json[customViewDayUrlName.c_str()].GetString();
+                        }
+                        
+                        if(json.HasMember(customViewDawnUrlName.c_str()) && json[customViewDawnUrlName.c_str()].IsString())
+                        {
+                            customViewDawnUrl = json[customViewDawnUrlName.c_str()].GetString();
+                        }
+                        
+                        if(json.HasMember(customViewDuskUrlName.c_str()) && json[customViewDuskUrlName.c_str()].IsString())
+                        {
+                            customViewDuskUrl = json[customViewDuskUrlName.c_str()].GetString();
+                        }
+                        
                         if(json.HasMember(customViewHeightName.c_str()) && json[customViewHeightName.c_str()].IsInt())
                         {
                             customViewHeight = json[customViewHeightName.c_str()].GetInt();
@@ -291,6 +320,10 @@ namespace ExampleApp
                                                   twitterUrl,
                                                   email,
                                                   customViewUrl,
+                                                  customViewDayUrl,
+                                                  customViewNightUrl,
+                                                  customViewDawnUrl,
+                                                  customViewDuskUrl,
                                                   customViewHeight);
                 }
                 

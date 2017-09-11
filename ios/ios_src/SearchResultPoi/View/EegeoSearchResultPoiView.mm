@@ -511,17 +511,36 @@ const int DeletePinAlertViewTag = 2;
     
     float detailsCardY = 0.f;
     
-    if(!m_eegeoModel.GetCustomViewUrl().empty())
+    if(!m_eegeoModel.GetCustomViewUrl().empty() || !m_eegeoModel.GetCustomViewDayUrl().empty() || !m_eegeoModel.GetCustomViewNightUrl().empty() || !m_eegeoModel.GetCustomViewDawnUrl().empty() || !m_eegeoModel.GetCustomViewDuskUrl().empty())
     {
-        NSString *errorMessage = [NSString stringWithCString:m_eegeoModel.GetCustomViewUrl().c_str()
-                                                    encoding:[NSString defaultCStringEncoding]];
+         NSString *urlString = @"";
+        if (m_pInterop->CurrentTimeState() == "Day" && !m_eegeoModel.GetCustomViewDayUrl().empty())
+        {
+            urlString = [NSString stringWithCString:m_eegeoModel.GetCustomViewDayUrl().c_str() encoding:[NSString defaultCStringEncoding]];
+        }
+        else if (m_pInterop->CurrentTimeState() == "Night" && !m_eegeoModel.GetCustomViewNightUrl().empty())
+        {
+            urlString = [NSString stringWithCString:m_eegeoModel.GetCustomViewNightUrl().c_str() encoding:[NSString defaultCStringEncoding]];
+        }
+        else if (m_pInterop->CurrentTimeState() == "Dawn" && !m_eegeoModel.GetCustomViewDawnUrl().empty())
+        {
+            urlString = [NSString stringWithCString:m_eegeoModel.GetCustomViewDawnUrl().c_str() encoding:[NSString defaultCStringEncoding]];
+        }
+        else if (m_pInterop->CurrentTimeState() == "Dusk" && !m_eegeoModel.GetCustomViewDuskUrl().empty())
+        {
+            urlString = [NSString stringWithCString:m_eegeoModel.GetCustomViewDuskUrl().c_str() encoding:[NSString defaultCStringEncoding]];
+        }
+        else if (!m_eegeoModel.GetCustomViewUrl().empty())
+        {
+            urlString = [NSString stringWithCString:m_eegeoModel.GetCustomViewUrl().c_str() encoding:[NSString defaultCStringEncoding]];
+        }
         int webViewHeight = cardContainerWidth;
         if(m_eegeoModel.GetCustomViewHeight() != -1)
         {
             m_webPageHeightSpecified = true;
             webViewHeight = m_eegeoModel.GetCustomViewHeight() * 3;
         }
-        [self createWebViewWithHTML:CGRectMake(0, currentLabelY, cardContainerWidth, webViewHeight):errorMessage ];
+        [self createWebViewWithHTML:CGRectMake(0, currentLabelY, cardContainerWidth, webViewHeight):urlString ];
         currentLabelY += self.pWebView.frame.size.height + headerMargin;
         self.pPreviewImage.frame = CGRectMake(0, 0, 0, 0);
     }

@@ -30,7 +30,7 @@ namespace ExampleApp
                                           "Tag", searchResultModel.GetPrimaryTag().c_str(),
                                           "Vicinity", searchResultModel.GetSubtitle().c_str());
                 
-                m_view.Show(searchResultModel, m_viewModel.IsPinned());
+                m_view.Show(searchResultModel, m_viewModel.IsPinned(),m_timeState);
                 
                 std::string imageUrl = "";
                 Search::SdkModel::TryParseImageDetails(searchResultModel, imageUrl);
@@ -99,6 +99,15 @@ namespace ExampleApp
             {
                 m_viewModel.Close();
             }
+            
+            void SearchResultPoiController::OnWeatherStateChanged(const BillBoards::BillBoardsWeatherChangedMessage& message)
+            {
+                if(message.Model().HasTimeState())
+                {
+                    m_timeState = message.Model().GetTimeState();
+                }
+                
+            }
 
             SearchResultPoiController::SearchResultPoiController(ISearchResultPoiView& view,
                                                                  ISearchResultPoiViewModel& viewModel,
@@ -116,6 +125,8 @@ namespace ExampleApp
                 , m_showWayBetweenTwoPoiCallback(this, &SearchResultPoiController::OnShowWayBetweenTwoPoiButtonClicked)
                 , m_imageLoadedHandlerBinding(this, &SearchResultPoiController::OnSearchResultImageLoaded)
                 , m_closePoiMessageHandler(this, &SearchResultPoiController::OnClosePoiMessageRecieved)
+                , m_weatherChangedCallback(this, &SearchResultPoiController::OnWeatherStateChanged)
+                , m_timeState("Day")
             {
                 m_view.InsertClosedCallback(m_closeButtonCallback);
                 m_view.InsertTogglePinnedCallback(m_togglePinnedCallback);
@@ -125,12 +136,15 @@ namespace ExampleApp
                 m_viewModel.InsertClosedCallback(m_viewClosedCallback);
                 m_messageBus.SubscribeUi(m_imageLoadedHandlerBinding);
                 m_messageBus.SubscribeUi(m_closePoiMessageHandler);
+                m_messageBus.SubscribeNative(m_weatherChangedCallback);
+
             }
             
             SearchResultPoiController::~SearchResultPoiController()
             {
                 m_messageBus.UnsubscribeUi(m_closePoiMessageHandler);
                 m_messageBus.UnsubscribeUi(m_imageLoadedHandlerBinding);
+                m_messageBus.UnsubscribeNative(m_weatherChangedCallback);
                 m_viewModel.RemoveClosedCallback(m_viewClosedCallback);
                 m_viewModel.RemoveOpenedCallback(m_viewOpenedCallback);
                 m_view.RemoveShowMeWayCallback(m_showMeWayCallback);

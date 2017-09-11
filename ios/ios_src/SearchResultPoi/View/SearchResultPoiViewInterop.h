@@ -21,6 +21,7 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection2<const Search::SdkModel::SearchResultModel&, const std::string&> m_availabilityChangedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_showMeWayClickedCallbacks;
                 Eegeo::Helpers::CallbackCollection2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel> m_showMeGateClickedCallbacks;
+                std::string m_timeState;
 
 
 
@@ -28,7 +29,7 @@ namespace ExampleApp
                 SearchResultPoiViewInterop(SearchResultPoiViewContainer* pView);
 
                 void Show(const Search::SdkModel::SearchResultModel& model,
-                          bool isPinned);
+                          bool isPinned, std::string timeState);
 
                 void Hide();
                 
@@ -65,6 +66,10 @@ namespace ExampleApp
                 void RemoveShowMeGateCallback(Eegeo::Helpers::ICallback2<Search::SdkModel::SearchResultModel,Search::SdkModel::SearchResultModel>& callback);
                 
                 void HandleShowMeGateClicked(Search::SdkModel::SearchResultModel startPoiModel , Search::SdkModel::SearchResultModel endPoiModel);
+                std::string CurrentTimeState()
+                {
+                    return m_timeState;
+                }
 
 
             };

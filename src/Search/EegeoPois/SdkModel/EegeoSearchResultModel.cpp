@@ -33,6 +33,10 @@ namespace ExampleApp
                                                                const std::string& twitterUrl,
                                                                const std::string& email,
                                                                const std::string& customViewUrl,
+                                                               const std::string& customViewDayUrl,
+                                                               const std::string& customViewNightUrl,
+                                                               const std::string& customViewDawnUrl,
+                                                               const std::string& customViewDuskUrl,
                                                                const int& customViewHeight)
                     : m_phone(phone)
                     , m_webUrl(webUrl)
@@ -43,6 +47,10 @@ namespace ExampleApp
                     , m_twitterUrl(twitterUrl)
                     , m_email(email)
                     , m_customViewUrl(customViewUrl)
+                    , m_customViewDayUrl(customViewDayUrl)
+                    , m_customViewNightUrl(customViewNightUrl)
+                    , m_customViewDawnUrl(customViewDawnUrl)
+                    , m_customViewDuskUrl(customViewDuskUrl)
                     , m_customViewHeight(customViewHeight)
                 {
                 }
@@ -100,6 +108,26 @@ namespace ExampleApp
                 const std::string& EegeoSearchResultModel::GetCustomViewUrl() const
                 {
                     return m_customViewUrl;
+                }
+                
+                const std::string& EegeoSearchResultModel::GetCustomViewDayUrl() const
+                {
+                    return m_customViewDayUrl;
+                }
+                
+                const std::string& EegeoSearchResultModel::GetCustomViewNightUrl() const
+                {
+                    return m_customViewNightUrl;
+                }
+                
+                const std::string& EegeoSearchResultModel::GetCustomViewDawnUrl() const
+                {
+                    return m_customViewDawnUrl;
+                }
+                
+                const std::string& EegeoSearchResultModel::GetCustomViewDuskUrl() const
+                {
+                    return m_customViewDuskUrl;
                 }
                 
                 const int& EegeoSearchResultModel::GetCustomViewHeight() const

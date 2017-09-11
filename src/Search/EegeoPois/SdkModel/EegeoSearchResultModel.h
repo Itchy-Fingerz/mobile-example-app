@@ -27,6 +27,10 @@ namespace ExampleApp
                     std::string m_twitterUrl;
                     std::string m_email;
                     std::string m_customViewUrl;
+                    std::string m_customViewDayUrl;
+                    std::string m_customViewNightUrl;
+                    std::string m_customViewDawnUrl;
+                    std::string m_customViewDuskUrl;
                     int m_customViewHeight;
                     
                 public:
@@ -40,6 +44,10 @@ namespace ExampleApp
                                            const std::string& twitterUrl,
                                            const std::string& email,
                                            const std::string& customViewUrl,
+                                           const std::string& customViewDayUrl,
+                                           const std::string& customViewNightUrl,
+                                           const std::string& customViewDawnUrl,
+                                           const std::string& customViewDuskUrl,
                                            const int& customViewHeight);
                     
                     EegeoSearchResultModel();
@@ -65,6 +73,14 @@ namespace ExampleApp
                     const std::string& GetImageUrl() const;
                     
                     const std::string& GetCustomViewUrl() const;
+                    
+                    const std::string& GetCustomViewDayUrl() const;
+
+                    const std::string& GetCustomViewNightUrl() const;
+
+                    const std::string& GetCustomViewDawnUrl() const;
+
+                    const std::string& GetCustomViewDuskUrl() const;
                     
                     const int& GetCustomViewHeight() const;
                 };
