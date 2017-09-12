@@ -306,7 +306,7 @@ namespace ExampleApp
                 for (BillBoardsConfigList::const_iterator iter = m_billBoardConfigList.begin(); iter != m_billBoardConfigList.end(); ++iter)
                 {
                     const BillBoardConfig& configIter = *iter;
-                    if (m_currentFloorIndex == configIter.floorIndex && IsEligibleForTimePeriod(configIter))
+                    if (m_currentFloorIndex == configIter.floorIndex && IsEligibleForTimePeriod(configIter) && !IsBillBoardAlreadyCreatedForPoi(configIter))
                     {
                         CreateBillBoard(configIter);
                     }
@@ -365,10 +365,68 @@ namespace ExampleApp
                 if(config.isSpecialOffer)
                     return true;
                 
-                if(m_dayTime == config.dayTime || config.dayTime == "")
+                if(m_dayTime == config.dayTime)
                     return true;
                 
+                if(config.dayTime == "")
+                {
+                    // Check for same POId and match with current day mode
+                    
+                    if(!IsBillBoardPresentInConfigListCurrentDayMode(config))
+                        return true;
+                }
                 return false;                
+            }
+            
+            bool BillBoardService::IsBillBoardAlreadyCreatedForPoi(const BillBoardConfig& config)
+            {
+                
+                for (BillBoardsMeshRenderableVector::const_iterator iter = m_renderables.begin(); iter != m_renderables.end(); ++iter)
+                {
+                    BillBoardsMeshRenderable& renderable = **iter;
+                    
+                    if(renderable.GetConfig().poiID == config.poiID)    // same POI billboards
+                    {
+                        if(renderable.GetConfig().isVideoFrame && config.isVideoFrame)
+                        {
+                            return true;
+                        }
+                        
+                        if(renderable.GetConfig().isVideoFrame != config.isVideoFrame)
+                        {
+                            return false;
+                        }
+                        
+                        if (renderable.GetConfig().dayTime == config.dayTime)
+                        {
+                            return true;
+                        }
+                    }
+                }
+                
+                return false;
+                
+            }
+            
+            bool BillBoardService::IsBillBoardPresentInConfigListCurrentDayMode(const BillBoardConfig& config)
+            {
+                
+                for (BillBoardsConfigList::const_iterator iter = m_billBoardConfigList.begin(); iter != m_billBoardConfigList.end(); ++iter)
+                {
+                    BillBoardConfig configIterator = *iter;
+                    
+                    if(configIterator.poiID == config.poiID)    // same POI billboards
+                    {
+                        if (configIterator.billBoardId != config.billBoardId)
+                        {
+                            if (m_dayTime == configIterator.dayTime)
+                                return true;
+                        }
+                    }
+                }
+                
+                return false;
+                
             }
             
             void BillBoardService::RenderVideoBillBoard()

@@ -114,6 +114,8 @@ namespace ExampleApp
                 
                 void CreateBillBoard(const BillBoardConfig& config);
                 bool IsEligibleForTimePeriod(const BillBoardConfig& config);
+                bool IsBillBoardAlreadyCreatedForPoi(const BillBoardConfig& config);
+                bool IsBillBoardPresentInConfigListCurrentDayMode(const BillBoardConfig& config);
                 void CheckLineDrawingTimmedOut();
                 void DrawLine(const BillBoardConfig& config);
                 void RemoveLine();
