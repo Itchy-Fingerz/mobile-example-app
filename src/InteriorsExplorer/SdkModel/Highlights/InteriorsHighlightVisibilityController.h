@@ -40,7 +40,8 @@ namespace ExampleApp
                                                            Eegeo::Labels::ILabelAnchorFilterModel& labelHiddenFilterModel,
                                                            const Eegeo::Labels::LabelLayer::IdType interiorLabelLayer,
                                                            ExampleAppMessaging::TMessageBus& messageBus,
-                                                           IHighlightColorMapper& highlightColorMapper);
+                                                           IHighlightColorMapper& highlightColorMapper,
+                                                           Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& interiorsHighlightService);
                     
                     ~InteriorsHighlightVisibilityController();
                     
@@ -86,6 +87,8 @@ namespace ExampleApp
                     Search::SdkModel::ISearchQueryPerformer& m_searchQueryPerformer;
                     Search::SdkModel::ISearchResultRepository& m_searchResultRepository;
                     IHighlightColorMapper& m_highlightColorMapper;
+
+                    Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& m_interiorsHighlightService;
                     
                     ExampleAppMessaging::TMessageBus& m_messageBus;
                     bool m_isOffersActivated;

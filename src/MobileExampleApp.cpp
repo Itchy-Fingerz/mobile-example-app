@@ -380,23 +380,24 @@ namespace ExampleApp
         namespace IntHighlights = InteriorsExplorer::SdkModel::Highlights;
 
         m_pHighlightColorMapper = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::HighlightColorMapper)(Eegeo::v4(0.0, 1.0, 0.0, 1.0));
-
+        
+        Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& highlightService =
+        m_pWorld->GetInteriorHighlightsModule().GetHighlightService();
+        
         m_pInteriorsHighlightVisibilityController = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::InteriorsHighlightVisibilityController)(
-                                                                                                                     mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel(),
-                                                                                                                     mapModule.GetInteriorsModelModule().GetInteriorsCellResourceObserver(),
-                                                                                                                     m_searchServiceModules[Search::EegeoVendorName]->GetSearchService(),
-                                                                                                                     m_pSearchModule->GetSearchQueryPerformer(),
-                                                                                                                     m_pSearchModule->GetSearchResultRepository(),
-                                                                                                                     mapModule.GetInteriorsPresentationModule().GetInteriorsLabelsController(),
-                                                                                                                     mapModule.GetLabelsModule().GetLabelHiddenFilterModel(),
-                                                                                                                     mapModule.GetInteriorsStreamingModule().GetLabelLayerId(),
-                                                                                                                     m_messageBus,
-                                                                                                                     *m_pHighlightColorMapper);
+                                                                                                                                               mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel(),
+                                                                                                                                               mapModule.GetInteriorsModelModule().GetInteriorsCellResourceObserver(),
+                                                                                                                                               m_searchServiceModules[Search::EegeoVendorName]->GetSearchService(),
+                                                                                                                                               m_pSearchModule->GetSearchQueryPerformer(),
+                                                                                                                                               m_pSearchModule->GetSearchResultRepository(),
+                                                                                                                                               mapModule.GetInteriorsPresentationModule().GetInteriorsLabelsController(),
+                                                                                                                                               mapModule.GetLabelsModule().GetLabelHiddenFilterModel(),
+                                                                                                                                               mapModule.GetInteriorsStreamingModule().GetLabelLayerId(),
+                                                                                                                                               m_messageBus,
+                                                                                                                                               *m_pHighlightColorMapper,
+                                                                                                                                               highlightService);
 
         Eegeo::Modules::Map::Layers::InteriorsModelModule& interiorsModelModule = mapModule.GetInteriorsModelModule();
-
-        Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& highlightService =
-                m_pWorld->GetInteriorHighlightsModule().GetHighlightService();
 
         m_pInteriorsEntityIdHighlightVisibilityController = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController)(
                 interiorsPresentationModule.GetInteriorInteractionModel(),
@@ -449,7 +450,8 @@ namespace ExampleApp
                                                                                             m_userIdleService,
                                                                                             m_applicationConfiguration.IsAttractModeEnabled(),
                                                                                             m_applicationConfiguration.AttractModeTimeoutMs(),
-                                                                                            m_pMyPinCreationModule->GetMyPinCreationModel());
+                                                                                            m_pMyPinCreationModule->GetMyPinCreationModel(),
+                                                                                            m_pMyPinsModule->GetMyPinsService());
         InitialiseAppState(nativeUIFactories);
 
         m_pUserInteractionModule = Eegeo_NEW(UserInteraction::SdkModel::UserInteractionModule)(m_pAppCameraModule->GetController(), *m_pCameraTransitionService, m_pInteriorsExplorerModule->GetInteriorsExplorerUserInteractionModel(), m_messageBus);
