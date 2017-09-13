@@ -59,7 +59,7 @@ namespace ExampleApp
             {
                 const std::string& interiorName = m_interiorsPresentationModule.GetInteriorSelectionModel().GetSelectedInteriorId().Value();
                 
-                if(interiorName == "98a265e2-b890-4c6b-a28f-948c92e36914" || interiorName == "70f9b00f-8c4f-4570-9a23-62bd80a76f8a")    // Currently enabled for Lax and WestPort House
+                if((interiorName == "98a265e2-b890-4c6b-a28f-948c92e36914" || interiorName == "70f9b00f-8c4f-4570-9a23-62bd80a76f8a") && message.IsInteriorVisible())    // Currently enabled for Lax and WestPort House
                 {
                     m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
                 }
