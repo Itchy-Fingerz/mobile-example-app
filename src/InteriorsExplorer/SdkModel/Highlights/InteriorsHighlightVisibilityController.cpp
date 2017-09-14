@@ -78,7 +78,6 @@ namespace ExampleApp
                     m_interiorsCellResourceObserver.RegisterAddedToSceneGraphCallback(m_interiorCellAddedHandler);
 
                     m_labelHiddenFilterModel.SetFilter(m_interiorLabelLayer, &m_hideLabelAlwaysFilter);
-                    m_lastSelectedBillBoard = "";
 
                 }
 
@@ -135,7 +134,6 @@ namespace ExampleApp
                     m_selectedBillBoards.clear();
                     m_isOffersActivated = false;
                     m_isSearchResultsCleared = true;
-                    m_lastSelectedBillBoard = "";
                 }
 
                 void InteriorsHighlightVisibilityController::OnInteriorChanged()
@@ -229,9 +227,7 @@ namespace ExampleApp
                     }
                     
                     if(IsFullAdvertisementModeOn())
-                    {
-                        AddBillBoardToSelectedFromResults(m_lastSelectedBillBoard,results);
-                        
+                    {                        
                         ShowHighlightsForResults(m_selectedBillBoards);
                         
                         return;
@@ -324,16 +320,16 @@ namespace ExampleApp
                 
                 void InteriorsHighlightVisibilityController::BillboardsSelected(const BillBoards::BillBoardSelectedMessage& selectedMessage)
                 {
-                    m_lastSelectedBillBoard = selectedMessage.GetPoiId();
                     
-                    AddBillBoardToSelected(selectedMessage.GetPoiId());
-                    
-                    ShowHighlightsForResults(m_selectedBillBoards);
-
                     if(!IsFullAdvertisementModeOn() && !m_isOffersActivated)
                     {
                         m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage(selectedMessage.GetUniqueTag(), true, true));
+                        m_selectedBillBoards.clear();
                     }
+                    
+                    AddBillBoardToSelected(selectedMessage.GetPoiId());
+                    ShowHighlightsForResults(m_selectedBillBoards);
+
                 }
                 
                 void InteriorsHighlightVisibilityController::ShowOffersSlected(const BillBoards::ShowOfferHighlightMessage& selectedMessage)
@@ -448,8 +444,6 @@ namespace ExampleApp
                     DeactivateHighlightRenderables();
                     ActivateLabels(true);
                     m_selectedBillBoards.clear();
-//                    m_isOffersActivated = false;
-                    m_lastSelectedBillBoard = "";
                 }
             }
         }

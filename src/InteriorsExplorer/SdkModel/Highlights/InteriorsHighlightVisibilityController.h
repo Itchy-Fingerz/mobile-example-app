@@ -63,7 +63,7 @@ namespace ExampleApp
 
                     void BillboardsSelected(const BillBoards::BillBoardSelectedMessage& selectedMessage);
                     void ShowOffersSlected(const BillBoards::ShowOfferHighlightMessage& selectedMessage);
-//                    bool OnShowOffers();
+
                     bool OnHideOffers();
 
                     bool HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
@@ -93,7 +93,6 @@ namespace ExampleApp
                     ExampleAppMessaging::TMessageBus& m_messageBus;
                     bool m_isOffersActivated;
                     bool m_isSearchResultsCleared;
-                    std::string m_lastSelectedBillBoard;
                     
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::BillBoardSelectedMessage&> m_billBoardSelectedHandler;
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::ShowOfferHighlightMessage&> m_showOfferMessageHandler;

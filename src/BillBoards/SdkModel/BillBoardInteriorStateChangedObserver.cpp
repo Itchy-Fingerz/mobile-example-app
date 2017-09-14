@@ -3,6 +3,7 @@
 #include "BillBoardInteriorStateChangedObserver.h"
 #include "SearchMenuPerformedSearchMessage.h"
 #include "InteriorSelectionModel.h"
+#include "FixedIndoorLocationCompassModeObserver.h"
 
 namespace ExampleApp
 {
@@ -76,9 +77,9 @@ namespace ExampleApp
             
             void BillBoardInteriorStateChangedObserver::OnCompassClickedForMockedLocation()
             {
-                if(m_billBoardService.GetFloorIndex() != 2) // NOTE: Floor number for mocked location
+                if(m_billBoardService.GetFloorIndex() != FIXED_MY_LOCATION_FLOOR_INDEX) // NOTE: Floor number for mocked location
                 {
-                    m_billBoardService.OnFloorChange(2);
+                    m_billBoardService.OnFloorChange(FIXED_MY_LOCATION_FLOOR_INDEX);
                 }
             }
             
