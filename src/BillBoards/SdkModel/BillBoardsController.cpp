@@ -212,7 +212,7 @@ namespace ExampleApp
                                         
                                         if(config.isVideo)
                                         {
-                                            AddVideoFrame(config);
+//                                            AddVideoFrame(config);
                                         }
                                     }
                                 }

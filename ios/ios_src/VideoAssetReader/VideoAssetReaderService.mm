@@ -278,6 +278,8 @@ namespace ExampleApp
         void VideoAssetReaderService::AvailableDuration()
         {
             NSArray *loadedTimeRanges = [[m_pPlayer currentItem] loadedTimeRanges];
+            if([loadedTimeRanges count] > 0)
+            {
             CMTimeRange timeRange = [[loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
             Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
             Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
@@ -302,7 +304,7 @@ namespace ExampleApp
                 printf("Player State Changed to Player state paused for buffering");
                 [m_pPlayer pause];
             }
-            
+            }
         }
         
         bool VideoAssetReaderService::IsVideoEnded() {
