@@ -68,7 +68,7 @@ namespace ExampleApp
                 Eegeo_GL(glActiveTexture(GL_TEXTURE0));
                 
                 bool repeatTexture = false;
-                Eegeo::Rendering::TextureMinifyType textureMinifyType = Eegeo::Rendering::TextureMinify_Linear;
+                Eegeo::Rendering::TextureMinifyType textureMinifyType = Eegeo::Rendering::TextureMinify_Nearest;
                 Eegeo::Helpers::GLHelpers::BindTexture2D(glState, m_shader.GetDiffuseSamplerId(), m_textureId, textureMinifyType, repeatTexture);
                 
                 

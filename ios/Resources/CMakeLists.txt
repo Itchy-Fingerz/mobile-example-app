@@ -1123,7 +1123,7 @@ set(resources ${resources}
 		Resources/SearchResultOnMap/pin_sheet_0.png
 		Resources/SearchResultOnMap/pin_sheet_0@2x.png
 		Resources/SearchResultOnMap/pin_sheet_0@3x.png
-        	Resources/SearchResultOnMap/pin_sheet.json
+        Resources/SearchResultOnMap/pin_sheet.json
         Resources/ShowMeTheGateDefault.png
         Resources/ShowMeTheGateDefault@2x.png
         Resources/ShowMeTheGateDefault@3x.png
@@ -1133,18 +1133,6 @@ set(resources ${resources}
         Resources/ShowMeTheWayHover@1x.png
         Resources/ShowMeTheWayHover@2x.png
         Resources/ShowMeTheWayHover@3x.png
-        Resources/DutyFreeImg02@1x.png
-        Resources/DutyFreeImg02@2x.png
-        Resources/DutyFreeImg02@3x.png
-        Resources/McDonaldsImg02@1x.png
-        Resources/McDonaldsImg02@2x.png
-        Resources/McDonaldsImg02@3x.png
-        Resources/McDonald-icon@1x.png
-        Resources/McDonald-icon@2x.png
-        Resources/McDonald-icon@3x.png
-	 Resources/20Discount@1x.png
-        Resources/20Discount@2x.png
-        Resources/20Discount@3x.png
         Resources/Scroll@1x.png
         Resources/Scroll@2x.png
         Resources/Scroll@3x.png
@@ -1373,31 +1361,20 @@ set(resources ${resources}
 	Resources/poi_call_icon.png
     Resources/poi_phone_call.png
     Resources/AirPortPoiViews/poi_twitter_icon.png
-    Resources/AirPortPoiViews/poi_facebook_icon.png
     Resources/AirPortPoiViews/poi_web_icon.png
     Resources/AirPortPoiViews/poi_top_logo.png
-    Resources/AirPortPoiViews/poi_close_icon.png
-    Resources/AirPortPoiViews/poi_discount_logo.png
     Resources/AirPortPoiViews/poi_rating_icon@3x.png
     Resources/AirPortPoiViews/poi_show_direction.png
     Resources/AirPortPoiViews/poi_submit_review.png
-    Resources/AirPortPoiViews/poi_coupon.png
     Resources/AirPortPoiViews/poi_gate_logo.png
     Resources/AirPortPoiViews/poi_gate_logo@2x.png
     Resources/AirPortPoiViews/poi_gate_logo@3x.png
-    Resources/AirPortPoiViews/poi_security_office_logo.png
-    Resources/AirPortPoiViews/poi_security_office_logo@2x.png
-    Resources/AirPortPoiViews/poi_security_office_logo@3x.png
     Resources/AirPortPoiViews/poi_no_bag.png
     Resources/AirPortPoiViews/poi_no_bag@2x.png
     Resources/AirPortPoiViews/poi_no_bag@3x.png
     Resources/AirPortPoiViews/poi_no_bottle.png
     Resources/AirPortPoiViews/poi_no_bottle@2x.png
     Resources/AirPortPoiViews/poi_no_bottle@3x.png
-    Resources/AirPortPoiViews/poi_no_sharp.png
-    Resources/AirPortPoiViews/poi_no_sharp.png
-    Resources/AirPortPoiViews/poi_no_sharp@2x.png
-    Resources/AirPortPoiViews/poi_no_sharp@3x.png
     Resources/AirPortPoiViews/poi_remove_belt.png
     Resources/AirPortPoiViews/poi_remove_belt@2x.png
     Resources/AirPortPoiViews/poi_remove_belt@3x.png
@@ -1407,20 +1384,13 @@ set(resources ${resources}
     Resources/AirPortPoiViews/poi_remove_shoe.png
     Resources/AirPortPoiViews/poi_remove_shoe@2x.png
     Resources/AirPortPoiViews/poi_remove_shoe@3x.png
-    Resources/AirPortPoiViews/poi_open_laptop.png
-    Resources/AirPortPoiViews/poi_open_laptop@2x.png
-    Resources/AirPortPoiViews/poi_open_laptop@2x.png
     Resources/AirPortPoiViews/poi_security_office_live_icon.png
     Resources/AirPortPoiViews/poi_security_office_rating_unselected.png
     Resources/AirPortPoiViews/poi_security_office_rating_selected.png
-    Resources/AirPortPoiViews/poi_no_flammable.png
-    Resources/AirPortPoiViews/poi_no_flammable@2x.png
-    Resources/AirPortPoiViews/poi_no_flammable@3x.png
     Resources/AirPortPoiViews/poi_full_list.png
     Resources/AirPortPoiViews/poi_full_list@2x.png
     Resources/AirPortPoiViews/poi_full_list@3x.png
     Resources/AirPortPoiViews/poi_rating_selected_icon.png
-    Resources/AirPortPoiViews/poi_bookending.png
     Resources/AirPortPoiViews/btn_direction_card.png
     Resources/AirPortPoiViews/btn_direction_card@2x.png
     Resources/AirPortPoiViews/btn_direction_card@3x.png

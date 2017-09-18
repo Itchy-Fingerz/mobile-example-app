@@ -186,8 +186,8 @@ namespace ExampleApp
                                     {
                                         [[m_pPlayer currentItem] addOutput:m_pVideoOutput];
                                         [m_pVideoOutput requestNotificationOfMediaDataChangeWithAdvanceInterval:ONE_FRAME_DURATION];
-                                        [m_pPlayer play];
                                         m_pCurrentVideoAssetReaderState->SetCurrentPlayerState(PLAYER_STATE_PLAYING);
+                                        [m_pPlayer play];
                                         printf("Player State Changed to Playing");
                                     }
                                 });
@@ -280,30 +280,34 @@ namespace ExampleApp
             NSArray *loadedTimeRanges = [[m_pPlayer currentItem] loadedTimeRanges];
             if([loadedTimeRanges count] > 0)
             {
-            CMTimeRange timeRange = [[loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
-            Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
-            Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
-            NSTimeInterval result = startSeconds + durationSeconds;
-            NSLog(@"Current Duration: %f",result);
-            int duration = CMTimeGetSeconds(m_pPlayer.currentItem.duration);
-            if(((result - m_lastPausedTime) > 4 || (int)result == duration) && (m_pCurrentVideoAssetReaderState->GetCurrentPlayerState() == PLAYER_STATE_PLAYING))
-            {
-                m_lastPausedTime = (int)result;
-//                m_isPausedForBuffering = false;
-//                m_pCurrentVideoAssetReaderState->SetCurrentPlayerState(PLAYER_STATE_PLAYING);
-                [m_pPlayer play];
-                //printf("-------------------\n");
-            }
-//            if(m_pPlayer.rate == 0.0 && !m_isPausedForBuffering && m_hasStartedPlaying)
+                CMTimeRange timeRange = [[loadedTimeRanges objectAtIndex:0] CMTimeRangeValue];
+                Float64 startSeconds = CMTimeGetSeconds(timeRange.start);
+                Float64 durationSeconds = CMTimeGetSeconds(timeRange.duration);
+                NSTimeInterval result = startSeconds + durationSeconds;
+                NSLog(@"Current Duration: %f",result);
+                int duration = CMTimeGetSeconds(m_pPlayer.currentItem.duration);
+                if(((result - m_lastPausedTime) > 4 || (int)result == duration) && (m_pCurrentVideoAssetReaderState->GetCurrentPlayerState() == PLAYER_STATE_PLAYING))
+                {
+                    m_lastPausedTime = (int)result;
+                    printf("Player started playing after every four seconds");
+                    [m_pPlayer play];
+                }
+                
+                if(m_pPlayer.rate == 0.0 && (result - m_lastPausedTime) > 4 &&  m_pCurrentVideoAssetReaderState->GetCurrentPlayerState() == PLAYER_STATE_PAUSED_FOR_BUFFERING)
+                {
+                    m_lastPausedTime = (int)result;
+                    m_pCurrentVideoAssetReaderState->SetCurrentPlayerState(PLAYER_STATE_PLAYING);
+                    printf("Player started playing after buffering");
+                    [m_pPlayer play];
+                }
             
-            if((m_pPlayer.rate == 0.0 && m_pCurrentVideoAssetReaderState->GetCurrentPlayerState() == PLAYER_STATE_PLAYING))
-            {
-                m_lastPausedTime = (int)result;
-//                m_isPausedForBuffering = true;
-                m_pCurrentVideoAssetReaderState->SetCurrentPlayerState(PLAYER_STATE_PAUSED_FOR_BUFFERING);
-                printf("Player State Changed to Player state paused for buffering");
-                [m_pPlayer pause];
-            }
+                if((m_pPlayer.rate == 0.0 && m_pCurrentVideoAssetReaderState->GetCurrentPlayerState() == PLAYER_STATE_PLAYING))
+                {
+                    m_lastPausedTime = (int)result;
+                    m_pCurrentVideoAssetReaderState->SetCurrentPlayerState(PLAYER_STATE_PAUSED_FOR_BUFFERING);
+                    printf("Player State Changed to Player state paused for buffering");
+                    [m_pPlayer pause];
+                }
             }
         }
         

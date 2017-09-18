@@ -19,10 +19,7 @@
 #include "EegeoSearchResultPoiView.h"
 
 #include "ExampleTourSearchResultPoiView.h"
-#include "EegeoSearchResultSecurityOfficePoiView.h"
-#include "EegeoSearchResultRatingPoiView.h"
 #include "EegeoSearchResultGatePoiView.h"
-#include "EegeoSearchResultCheckInPoiView.h"
 
 
 @interface SearchResultPoiViewContainer()<UIGestureRecognizerDelegate>
@@ -97,25 +94,12 @@
     }
     else if(vendor == ExampleApp::Search::EegeoVendorName)
     {
-//        if (pModel->GetTitle() == "Coffee Bean & Tea Leaf")
-//        {
-//            return [[EegeoSearchResultRatingPoiView EegeoSearchResultRatingPoiViewWithInterop:m_pInterop] retain];
-//        }
-//        if (pModel->GetTitle() == "Airport Security")
-//        {
-//            return [[EegeoSearchResultSecurityOfficePoiView EegeoSearchResultSecurityOfficePoiViewWithInterop:m_pInterop] retain];
-//
-//        }
         if (pModel->GetTitle() == "Gate 134")
         {
             return [[EegeoSearchResultGatePoiView EegeoSearchResultGatePoiViewWithInterop:m_pInterop] retain];
 
         }
-//        else if (pModel->GetTitle().find("Check In") != std::string::npos)
-//        {
-//            return [[EegeoSearchResultCheckInPoiView EegeoSearchResultCheckInPoiViewWithInterop:m_pInterop] retain];
-//            
-//        }
+
         else
         {
             return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop];

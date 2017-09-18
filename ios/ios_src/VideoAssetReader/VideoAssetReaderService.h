@@ -52,9 +52,6 @@ namespace ExampleApp
             void ContinueAfterPause();
             
             bool IsVideoEnded();
-//            bool GetIsPausedByUserFlagStatus() { return m_isPausedByUser; }
-//            bool GetIsPausedForBufferingFlagStatus(){ return m_isPausedForBuffering; }
-//            bool GetHasStartedPlayingFlagStatus(){ return m_hasStartedPlaying; }
             
             bool GetIsPausedByUserFlagStatus() { if( m_pCurrentVideoAssetReaderState->GetCurrentPlayerState() == PLAYER_STATE_PAUSED_BY_USER)
                     return true;
