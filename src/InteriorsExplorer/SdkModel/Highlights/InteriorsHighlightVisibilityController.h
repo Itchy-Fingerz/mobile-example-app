@@ -18,6 +18,7 @@
 #include "BillBoardSelectedMessage.h"
 #include "ShowOfferHighlightMessage.h"
 #include "InteriorsExplorerSelectFloorMessage.h"
+#include "SearchResultViewClearedMessage.h"
 
 namespace ExampleApp
 {
@@ -27,6 +28,13 @@ namespace ExampleApp
         {
             namespace Highlights
             {
+             
+                enum BILLBOARDS_MODE:int
+                {
+                    BILLBOARDS_MODE_FULL = 0,
+                    BILLBOARDS_MODE_SINGLE = 1,
+                    BILLBOARDS_MODE_OFFERS = 2,
+                };
                 
                 class InteriorsHighlightVisibilityController : protected Eegeo::NonCopyable
                 {
@@ -53,7 +61,8 @@ namespace ExampleApp
                     void OnInteriorAddedToSceneGraph(const Eegeo::Resources::Interiors::InteriorsCellResource& callback);
                     void OnInteriorLabelsBuilt();
                     void OnAvailabilityChanged();
-                    
+                    void OnSearchResultViewClearedMessage(const SearchResultSection::SearchResultViewClearedMessage& message);
+
                     void DeactivateHighlightRenderables();
                     void AddHighlight(Eegeo::Rendering::Renderables::InteriorHighlightRenderable& renderable);
                     
@@ -69,7 +78,6 @@ namespace ExampleApp
                     bool HideLabelAlwaysPredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     bool HideLabelByNamePredicate(const Eegeo::Labels::IAnchoredLabel& anchoredLabel) const;
                     
-                    bool IsFullAdvertisementModeOn();
                     void AddBillBoardToSelected(std::string poid);
                     bool IsBillBoardAlreadySelected(std::string poid);
                     bool IsSpecialOfferBillBoard(Search::SdkModel::SearchResultModel* pResult);
@@ -91,8 +99,8 @@ namespace ExampleApp
                     Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& m_interiorsHighlightService;
                     
                     ExampleAppMessaging::TMessageBus& m_messageBus;
-                    bool m_isOffersActivated;
-                    bool m_isSearchResultsCleared;
+                    
+                    BILLBOARDS_MODE m_currentBillBoardsMode;
                     
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::BillBoardSelectedMessage&> m_billBoardSelectedHandler;
                     Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const BillBoards::ShowOfferHighlightMessage&> m_showOfferMessageHandler;
@@ -104,7 +112,7 @@ namespace ExampleApp
                     Eegeo::Helpers::TCallback0<InteriorsHighlightVisibilityController> m_interiorLabelsBuiltHandler;
                     
                     Eegeo::Helpers::TCallback0<InteriorsHighlightVisibilityController> m_availabilityChangedHandlerBinding;
-                    
+                    Eegeo::Helpers::TCallback1<InteriorsHighlightVisibilityController, const SearchResultSection::SearchResultViewClearedMessage&> m_handler;
                     std::map<std::string, std::vector<Eegeo::Rendering::Renderables::InteriorHighlightRenderable*>> m_currentHighlightRenderables;
                     
                     Eegeo::Labels::TLabelAnchorFilter<InteriorsHighlightVisibilityController> m_hideLabelAlwaysFilter;

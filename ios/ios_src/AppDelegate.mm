@@ -62,6 +62,8 @@ namespace
     [[BITHockeyManager sharedHockeyManager].authenticator
      authenticateInstallation];
     
+     _launchUrl = [[NSURL alloc] initWithString:@"wrld://mapscene/2c4bfeb"];
+    
     if(launchOptions[@"UIApplicationLaunchOptionsURLKey"])
     {
         NSURL *url = launchOptions[@"UIApplicationLaunchOptionsURLKey"];
