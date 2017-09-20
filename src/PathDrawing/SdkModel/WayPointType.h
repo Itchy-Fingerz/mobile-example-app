@@ -18,6 +18,7 @@ namespace ExampleApp
                 Entrance,
                 Left,
                 Right,
+                Escalator,
                 None
             };
         }

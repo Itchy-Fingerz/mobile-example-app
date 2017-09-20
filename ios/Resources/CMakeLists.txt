@@ -1443,15 +1443,9 @@ set(resources ${resources}
 		Resources/DirectionsMenuStaticView.xib
         Resources/DirectionsMenuWayPointViewCell.xib
         Resources/DirectionSuggestionsViewCell.xib
-        Resources/DirectionCard_RouteStart.png
-        Resources/DirectionCard_RouteStart@2x.png
-        Resources/DirectionCard_RouteStart@3x.png
         Resources/DirectionCard_SetRouteEnd.png
         Resources/DirectionCard_SetRouteEnd@2x.png
         Resources/DirectionCard_SetRouteEnd@3x.png
-        Resources/DirectionCardWayPt_SetRouteEnd.png
-        Resources/DirectionCardWayPt_SetRouteEnd@2x.png
-        Resources/DirectionCardWayPt_SetRouteEnd@3x.png
         Resources/DirectionCard_ReverseRoute.png
         Resources/DirectionCard_ReverseRoute@2x.png
         Resources/DirectionCard_ReverseRoute@3x.png
@@ -1461,24 +1455,6 @@ set(resources ${resources}
         Resources/DirectionCard_EnterMallSelected.png
         Resources/DirectionCard_EnterMallSelected@2x.png
         Resources/DirectionCard_EnterMallSelected@3x.png
-        Resources/DirectionCard_StraightAhead.png
-        Resources/DirectionCard_StraightAhead@2x.png
-        Resources/DirectionCard_StraightAhead@3x.png
-        Resources/DirectionCard_TurnRight.png
-        Resources/DirectionCard_TurnRight@2x.png
-        Resources/DirectionCard_TurnRight@3x.png
-        Resources/DirectionCard_TurnSharpRight.png
-        Resources/DirectionCard_TurnSharpRight@2x.png
-        Resources/DirectionCard_TurnSharpRight@3x.png
-        Resources/DirectionCard_TurnSharpLeft.png
-        Resources/DirectionCard_TurnSharpLeft@2x.png
-        Resources/DirectionCard_TurnSharpLeft@3x.png
-        Resources/DirectionCard_UTurnRight.png
-        Resources/DirectionCard_UTurnRight@2x.png
-        Resources/DirectionCard_UTurnRight@3x.png
-        Resources/DirectionCard_VeerRight.png
-        Resources/DirectionCard_VeerRight@2x.png
-        Resources/DirectionCard_VeerRight@3x.png
         Resources/DirectionCard_NumberBackground.png
         Resources/DirectionCard_NumberBackground@2x.png
         Resources/DirectionCard_NumberBackground@3x.png
@@ -1494,12 +1470,6 @@ set(resources ${resources}
         Resources/DirectionCard_ShowOptionStandardState.png
         Resources/DirectionCard_ShowOptionStandardState@2x.png
         Resources/DirectionCard_ShowOptionStandardState@3x.png
-        Resources/DirectionCard_TurnLeft.png
-        Resources/DirectionCard_TurnLeft@2x.png
-        Resources/DirectionCard_TurnLeft@3x.png
-        Resources/DirectionCard_VeerLeft.png
-        Resources/DirectionCard_VeerLeft@2x.png
-        Resources/DirectionCard_VeerLeft@3x.png
         Resources/Billboards
 	Resources/tag_huer_place_holder.png
 	Resources/poi_call_icon.png
