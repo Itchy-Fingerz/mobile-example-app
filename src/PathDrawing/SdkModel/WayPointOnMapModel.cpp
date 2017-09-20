@@ -96,7 +96,34 @@ namespace ExampleApp
             
             std::string WayPointOnMapModel::GetWayPointIconForType(int wayPointId)
             {
-                return "pin_number_" + std::to_string(wayPointId);
+                switch (wayPointId) {
+                    case 21:
+                    {
+                        return "dir_route_start";
+                        break;
+                    }
+                    case 22:
+                    {
+                        return "dir_route_end";
+                        break;
+                    }
+                    case 23:
+                    {
+                        return "dir_enter_map";
+                        break;
+                    }
+                    case 24:
+                    {
+                        return "dir_elevator";
+                        break;
+                    }
+                    default:
+                    {
+                        return std::to_string(wayPointId);
+                        break;
+                    }
+                }
+                
             }
             
             void WayPointOnMapModel::HideAllWayPoints()
