@@ -119,7 +119,7 @@ namespace ExampleApp
                     }
                     case 25:
                     {
-                        return "escalator";
+                        return "";
                         break;
                     }
                     default:

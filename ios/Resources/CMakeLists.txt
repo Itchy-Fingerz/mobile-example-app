@@ -1464,6 +1464,9 @@ set(resources ${resources}
         Resources/DirectionCard_ElevatorStandard.png
         Resources/DirectionCard_ElevatorStandard@2x.png
         Resources/DirectionCard_ElevatorStandard@3x.png
+        Resources/DirectionCard_EscalatorStandard.png
+        Resources/DirectionCard_EscalatorStandard@2x.png
+        Resources/DirectionCard_EscalatorStandard@3x.png
         Resources/DirectionCard_HideOptionStandardState.png
         Resources/DirectionCard_HideOptionStandardState@2x.png
         Resources/DirectionCard_HideOptionStandardState@3x.png
@@ -1508,6 +1511,9 @@ set(resources ${resources}
     Resources/AirPortPoiViews/btn_direction_card.png
     Resources/AirPortPoiViews/btn_direction_card@2x.png
     Resources/AirPortPoiViews/btn_direction_card@3x.png
+    Resources/DirectionCard_EscalatorStandard.png
+    Resources/DirectionCard_EscalatorStandard@3x.png
+    Resources/DirectionCard_EscalatorStandard@2x.png
         Resources/Sphere.POD
         Resources/Sphere_8bit.pvr
         Resources/Sphere_Night_8bit.pvr

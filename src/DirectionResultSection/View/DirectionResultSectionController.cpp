@@ -223,9 +223,9 @@ namespace ExampleApp
                 {
                     iconKey = "icon1_dir_elevator";
                 }
-                if(stepManeuver.GetStepType() == "Escalator")
+                else if (stepManeuver.GetStepType() == "Escalator")
                 {
-                    iconKey = "icon1_escalator";
+                    iconKey = "DirectionCard_EscalatorStandard";
                 }
                 else if (stepManeuver.GetManeuverRouteModel().GetModifier() == "" && stepManeuver.GetManeuverRouteModel().GetType() == "depart")
                 {
