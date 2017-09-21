@@ -171,6 +171,10 @@ namespace ExampleApp
             platformRenderableFilters.AddRenderableFilter(*this);
             m_debugRenderer.SetLineWidth(10.0f);
             
+            Eegeo::dv3 startPointOfArrow;
+            m_pRenderable->SetEcefPosition(startPointOfArrow);
+
+            
         }
         
         QuadLine::~QuadLine()
