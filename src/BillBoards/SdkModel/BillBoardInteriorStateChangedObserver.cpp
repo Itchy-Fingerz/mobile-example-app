@@ -64,6 +64,11 @@ namespace ExampleApp
                 {
                     m_messageBus.Publish(ExampleApp::SearchMenu::SearchMenuPerformedSearchMessage("advertisements", true, true));
                 }
+                else if (!message.IsInteriorVisible())
+                {
+                    m_messageBus.Publish(ExampleApp::SearchResultSection::SearchResultViewClearedMessage());
+
+                }
             }
             
             void BillBoardInteriorStateChangedObserver::OnSearchResultSectionItemSelectedMessage(const SearchResultSection::SearchResultSectionItemSelectedMessage& message)
