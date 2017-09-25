@@ -194,6 +194,7 @@ namespace ExampleApp
                                                 std::string stepBuildingID = "";
                                                 bool stepInInterior = false;
                                                 int buildingLevel = 0;
+                                                int levelOffSet = 0;
                                                 int nextStepBuildingLevel = 0;
                                                 std::string buildingLevelString = "";
                                                 std::string stepTypeString = "";
@@ -220,6 +221,10 @@ namespace ExampleApp
                                                                     if(stepBuildingID == "c857d08d-7de1-4447-9ff8-6747649a00e0")
                                                                     {
                                                                         stepBuildingID = "70f9b00f-8c4f-4570-9a23-62bd80a76f8a";
+                                                                    }
+                                                                    if(stepBuildingID == "98a265e2-b890-4c6b-a28f-948c92e36914")
+                                                                    {
+                                                                        levelOffSet = 2;
                                                                     }
                                                                     else if(stepBuildingID != "98a265e2-b890-4c6b-a28f-948c92e36914")
 
@@ -284,13 +289,13 @@ namespace ExampleApp
                                                     if (stepInInterior)
                                                     {
                                                         stepTypeString[0] = toupper(stepTypeString[0]);
-                                                        if (stepTypeString == "Elevator" || stepTypeString == "escalator")
+                                                        if (stepTypeString == "Elevator" || stepTypeString == "Escalator")
                                                         {
-                                                            stepName =   stepTypeString + " to Floor " + std::to_string(nextStepBuildingLevel);
+                                                            stepName =   stepTypeString + " to Floor " + std::to_string(nextStepBuildingLevel + levelOffSet);
                                                         }
                                                         else
                                                         {
-                                                            stepName =   stepTypeString + " to Floor " + std::to_string(buildingLevel);
+                                                            stepName =   stepTypeString + " to Floor " + std::to_string(buildingLevel + levelOffSet);
                                                         }
                                                         
                                                     }
