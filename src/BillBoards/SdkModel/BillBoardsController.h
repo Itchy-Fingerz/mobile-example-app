@@ -17,6 +17,11 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
+            #define ADVERTISEMENTS_TAG "advertisements"
+            #define BILLBOARDS_TAG "billboard"
+            #define SPECIALOFFERS_TAG "offers"
+            #define FOOD_TAG "food"
+            
             class BillBoardsController
             {
             private:

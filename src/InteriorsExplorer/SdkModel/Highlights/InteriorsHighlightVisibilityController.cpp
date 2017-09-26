@@ -20,6 +20,7 @@
 #include "IAnchoredLabel.h"
 #include "document.h"
 #include "IInteriorsHighlightService.h"
+#include "BillBoardsController.h"
 
 namespace ExampleApp
 {
@@ -224,27 +225,19 @@ namespace ExampleApp
                 {
                     DeactivateHighlightRenderables();
                     
-                    if(query.Query() == "advertisements")
+                        if(query.Query() == ADVERTISEMENTS_TAG || query.Query() == BILLBOARDS_TAG || query.Query() == FOOD_TAG)
                     {
                         m_currentBillBoardsMode = BILLBOARDS_MODE_FULL;
+                        ShowHighlightsForResults(m_selectedBillBoards);
+                        return;
                     }
-                    else if (query.Query() == "offers")
+                    else if (query.Query() == SPECIALOFFERS_TAG)
                     {
                         m_currentBillBoardsMode = BILLBOARDS_MODE_OFFERS;
-                    }
-                    
-                    if (m_currentBillBoardsMode == BILLBOARDS_MODE_OFFERS)
-                    {
                         if(OnShowOffersFromResults(results))
                         {
                             ActivateLabels(false);
                         }
-                        return;
-                    }
-                    else if(m_currentBillBoardsMode == BILLBOARDS_MODE_FULL)
-                    {
-                        ShowHighlightsForResults(m_selectedBillBoards);
-                        
                         return;
                     }
 

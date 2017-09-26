@@ -54,7 +54,7 @@ namespace ExampleApp
             void BillBoardsController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
             {
                 
-                if(query.Query() == "advertisements" || query.Query() == "offers" || query.Query() == "billboard")
+                if(query.Query() == ADVERTISEMENTS_TAG || query.Query() == SPECIALOFFERS_TAG || query.Query() == BILLBOARDS_TAG)
                 {
                     m_billBoardService.OnAdvertisementSearch();
                     
