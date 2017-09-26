@@ -187,7 +187,7 @@ namespace ExampleApp
                         DeactivateHighlightRenderables();
                         m_currentHighlightRenderables.clear();
                         m_selectedBillBoards.clear();
-                        m_currentBillBoardsMode = BILLBOARDS_MODE_FULL;
+                        //m_currentBillBoardsMode = BILLBOARDS_MODE_FULL;
                     }
                 }
 
@@ -224,16 +224,23 @@ namespace ExampleApp
                 {
                     DeactivateHighlightRenderables();
                     
+                    if(query.Query() == "advertisements")
+                    {
+                        m_currentBillBoardsMode = BILLBOARDS_MODE_FULL;
+                    }
+                    else if (query.Query() == "offers")
+                    {
+                        m_currentBillBoardsMode = BILLBOARDS_MODE_OFFERS;
+                    }
+                    
                     if (m_currentBillBoardsMode == BILLBOARDS_MODE_OFFERS)
                     {
-                        
                         if(OnShowOffersFromResults(results))
                         {
                             ActivateLabels(false);
                         }
                         return;
                     }
-                    
                     else if(m_currentBillBoardsMode == BILLBOARDS_MODE_FULL)
                     {
                         ShowHighlightsForResults(m_selectedBillBoards);
@@ -242,7 +249,6 @@ namespace ExampleApp
                     }
 
                     ShowHighlightsForResults(results);
-
                     //bool hasResults = m_searchResultRepository.GetItemCount() > 0;
                     bool hasResults = results.size() > 0;
                     ActivateLabels(!hasResults);
@@ -345,7 +351,7 @@ namespace ExampleApp
                     
                     if(selectedMessage.GetSelectedOption())
                     {
-                        m_currentBillBoardsMode = BILLBOARDS_MODE_OFFERS;
+                        //m_currentBillBoardsMode = BILLBOARDS_MODE_OFFERS;
                     }
                 }
                 
