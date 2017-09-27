@@ -225,7 +225,7 @@ namespace ExampleApp
                 {
                     DeactivateHighlightRenderables();
                     
-                        if(query.Query() == ADVERTISEMENTS_TAG || query.Query() == BILLBOARDS_TAG || query.Query() == FOOD_TAG)
+                        if(query.Query() == ADVERTISEMENTS_TAG || query.Query() == BILLBOARDS_TAG || query.Query() == FOOD_TAG || query.Query() == AIRPORT_TAG || query.Query() == SHOPPING_TAG || query.Query() ==TOILETS_TAG || query.Query() == HEALTH_TAG || query.Query() == SECURITY_TAG || query.Query() ==  GENERAL_TAG)
                     {
                         m_currentBillBoardsMode = BILLBOARDS_MODE_FULL;
                         ShowHighlightsForResults(m_selectedBillBoards);

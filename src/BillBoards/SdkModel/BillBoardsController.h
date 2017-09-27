@@ -20,7 +20,13 @@ namespace ExampleApp
             #define ADVERTISEMENTS_TAG "advertisements"
             #define BILLBOARDS_TAG "billboard"
             #define SPECIALOFFERS_TAG "offers"
-            #define FOOD_TAG "food"
+            #define FOOD_TAG "food_drink"
+            #define AIRPORT_TAG "airport"
+            #define SHOPPING_TAG "shopping"
+            #define TOILETS_TAG "toilets"
+            #define HEALTH_TAG "defibrillator"
+            #define SECURITY_TAG "security"
+            #define GENERAL_TAG "general"
             
             class BillBoardsController
             {
