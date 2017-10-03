@@ -15,6 +15,7 @@ namespace ExampleApp
                 virtual ~ICustomAlertViewModule() { }
 
                 virtual CustomAlertView& GetCustomAlertView() const = 0;
+                virtual CustomAlertController& GetCustomAlertController() const = 0;
             };
         }
     }

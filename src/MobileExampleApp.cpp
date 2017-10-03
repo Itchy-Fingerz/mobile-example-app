@@ -1612,6 +1612,7 @@ namespace ExampleApp
 
     void MobileExampleApp::Event_Zoom(const AppInterface::ZoomData& data)
     {
+        return;
         if (!CanAcceptTouch())
         {
             return;

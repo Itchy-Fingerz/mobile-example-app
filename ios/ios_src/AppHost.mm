@@ -224,7 +224,7 @@ AppHost::AppHost(
     
     CreateApplicationViewModules(screenProperties);
 
-    m_pAppInputDelegate = Eegeo_NEW(AppInputDelegate)(*m_pApp, m_viewController, screenProperties.GetScreenWidth(), screenProperties.GetScreenHeight(), screenProperties.GetPixelScale());
+    m_pAppInputDelegate = Eegeo_NEW(AppInputDelegate)(*m_pApp, m_viewController, screenProperties.GetScreenWidth(), screenProperties.GetScreenHeight(), screenProperties.GetPixelScale(), m_pCustomAlertViewModule->GetCustomAlertController());
     m_pAppLocationDelegate = Eegeo_NEW(AppLocationDelegate)(*m_piOSLocationService, m_viewController);
     m_pAppUrlDelegate = Eegeo_NEW(AppUrlDelegate)(*m_pApp);
 

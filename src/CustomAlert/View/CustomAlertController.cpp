@@ -23,10 +23,12 @@ namespace ExampleApp
                 if(message.GetShouldSetVisible())
                 {
                     m_view.SetFullyOnScreen();
+                    m_isCustomAlertShown = true;
                 }
                 else
                 {
                     m_view.SetFullyOffScreen();
+                    m_isCustomAlertShown = false;
                 }
             }
             
@@ -37,6 +39,7 @@ namespace ExampleApp
             void CustomAlertController::OnOfferShowHideCallBackHandler(const bool &shoulShow)
             {
                 m_messageBus.Publish(ExampleApp::BillBoards::ShowOfferHighlightMessage(shoulShow));
+                m_isCustomAlertShown = false;
             }
             
             CustomAlertController::CustomAlertController(
@@ -47,6 +50,7 @@ namespace ExampleApp
             : m_viewModel(viewModel)
             , m_view(view)
             , m_messageBus(messageBus)
+            , m_isCustomAlertShown(false)
             , m_selectedCallback(this, &CustomAlertController::OnSelected)
             , m_viewStateCallback(this, &CustomAlertController::OnViewStateChangeScreenControl)
             , m_setVisibilityHandler(this, &CustomAlertController::OnHandleSetVisibility)

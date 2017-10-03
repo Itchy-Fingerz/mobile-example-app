@@ -21,6 +21,16 @@ UITapGestureRecognizer* gestureTap;
 UITapGestureRecognizer* gestureDoubleTap;
 UILongPressGestureRecognizer* gestureTouch;
 
+-(id)initWithCustomController:(ExampleApp::CustomAlert::View::CustomAlertController&) customAlertController
+{
+    if(self = [super init])
+    {
+        m_pCustomAlertController = &customAlertController;
+    }
+    
+    return self;
+}
+
 -(void) bindToViewController:(ViewController*)pViewController :(AppInputDelegate*)pAppInputDelegate :(float)width :(float)height :(float)pixelScale
 {
     m_screenWidth = width;
@@ -77,6 +87,8 @@ UILongPressGestureRecognizer* gestureTouch;
 
 -(void)gestureRotation_Callback:(UIRotationGestureRecognizer*)recognizer
 {
+    if(m_pCustomAlertController->IsAlertShown())
+        return;
     AppInterface::RotateData data;
 
     data.rotation	= static_cast<float>(recognizer.rotation);
@@ -107,6 +119,8 @@ namespace
 
 -(void)gesturePinch_Callback:(UIPinchGestureRecognizer*)recognizer
 {
+    if(m_pCustomAlertController->IsAlertShown())
+        return;
     float dist;
     static bool reset = true;
 
@@ -187,6 +201,8 @@ namespace
 
 -(void)gesturePan_Callback:(UIPanGestureRecognizer*)recognizer
 {
+    if(m_pCustomAlertController->IsAlertShown())
+        return;
     CGPoint position = [recognizer translationInView:m_pViewController.view];
     CGPoint positionAbs = [recognizer locationInView:m_pViewController.view];
     CGPoint velocity = [recognizer velocityInView:m_pViewController.view];
@@ -225,6 +241,8 @@ namespace
 
 -(void)gestureTap_Callback:(UITapGestureRecognizer*)recognizer
 {
+    if(m_pCustomAlertController->IsAlertShown())
+        return;
     if (recognizer.state == UIGestureRecognizerStateEnded)
     {
         CGPoint position = [recognizer locationInView:m_pViewController.view];
@@ -243,6 +261,8 @@ namespace
 
 -(void)gestureDoubleTap_Callback:(UITapGestureRecognizer*)recognizer
 {
+    if(m_pCustomAlertController->IsAlertShown())
+        return;
     if (recognizer.state == UIGestureRecognizerStateEnded)
     {
         CGPoint position = [recognizer locationInView:m_pViewController.view];
@@ -261,6 +281,8 @@ namespace
 
 -(void)gestureTouch_Callback:(UILongPressGestureRecognizer*)recognizer
 {
+    if(m_pCustomAlertController->IsAlertShown())
+        return;
     AppInterface::TouchData data;
 
     CGPoint position = [recognizer locationInView:m_pViewController.view];
@@ -289,11 +311,12 @@ AppInputDelegate::AppInputDelegate(
     ViewController& viewController,
     float width,
     float height,
-    float pixelScale
+    float pixelScale,
+    ExampleApp::CustomAlert::View::CustomAlertController& customAlertController
 )
     :m_exampleApp(exampleApp)
 {
-    m_pAppInputDelegateGestureListener = [[AppInputDelegateGestureListener alloc] init];
+    m_pAppInputDelegateGestureListener = [[AppInputDelegateGestureListener alloc] initWithCustomController:customAlertController];
     [m_pAppInputDelegateGestureListener bindToViewController:&viewController :this :width :height :pixelScale];
 }
 

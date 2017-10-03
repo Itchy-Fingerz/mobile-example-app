@@ -24,7 +24,7 @@ namespace ExampleApp
                 ICustomAlertViewModel& m_viewModel;
                 ICustomAlertView& m_view;
                 ExampleAppMessaging::TMessageBus& m_messageBus;
-               // bool m_appModeAllowsOpen;
+                bool m_isCustomAlertShown;
 
                 Eegeo::Helpers::TCallback0<CustomAlertController> m_selectedCallback;
                 Eegeo::Helpers::TCallback2<CustomAlertController, ScreenControl::View::IScreenControlViewModel&, float> m_viewStateCallback;
@@ -50,6 +50,11 @@ namespace ExampleApp
                     ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~CustomAlertController();
+                
+                bool IsAlertShown()
+                {
+                    return m_isCustomAlertShown;
+                }
             };
         }
     }

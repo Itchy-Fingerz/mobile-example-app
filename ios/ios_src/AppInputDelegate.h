@@ -5,12 +5,16 @@
 #include "Types.h"
 #include "MobileExampleApp.h"
 #import <UIKit/UIKit.h>
+#include "CustomAlertController.h"
 
 @class ViewController;
 
 class AppInputDelegate;
 
-@interface AppInputDelegateGestureListener : NSObject
+@interface AppInputDelegateGestureListener : NSObject   {
+
+    ExampleApp::CustomAlert::View::CustomAlertController* m_pCustomAlertController;
+}
 
 -(void) bindToViewController:(ViewController*)pViewController :(AppInputDelegate*)pAppInputDelegate :(float)width :(float)height :(float)pixelScale;
 
@@ -24,7 +28,8 @@ public:
         ViewController& viewController,
         float width,
         float height,
-        float pixelScale
+        float pixelScale,
+        ExampleApp::CustomAlert::View::CustomAlertController& customAlertController
     );
     ~AppInputDelegate();
 
