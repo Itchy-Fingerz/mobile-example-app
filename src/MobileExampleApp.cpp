@@ -174,11 +174,11 @@ namespace ExampleApp
 
         void AddTagSearchModels(
                                 TagSearch::View::ITagSearchRepository& repository,
-                                std::string rawConfig,
+                                const ApplicationConfig::ApplicationConfiguration& applicationConfig,
                                 Search::Yelp::SdkModel::YelpCategoryMapperUpdater& yelpCategoryMapperUpdater)
         {
-            const auto& tagSearchModels = TagSearch::View::CreateTagSearchModelsFromFile(
-                                                                                         rawConfig,
+            const auto& tagSearchModels = TagSearch::View::CreateTagSearchModelsFromConfig(
+                                                                                         applicationConfig,
                                                                                          "outdoor_search_menu_items",
                                                                                          yelpCategoryMapperUpdater);
             if(repository.GetItemCount() == 0)
@@ -307,8 +307,6 @@ namespace ExampleApp
         
         m_pWorld->GetMapModule().GetLabelsModule().GetLabelOptionsModel().SetOcclusionMode(Eegeo::Labels::OcclusionResolverMode::Always);
         
-
-        
         m_pConnectivityChangedObserver = Eegeo_NEW(Net::SdkModel::ConnectivityChangedObserver)(m_pWorld->GetWebConnectivityValidator(), messageBus);
 
         Eegeo::Modules::Map::Layers::TerrainModelModule& terrainModelModule = m_pWorld->GetTerrainModelModule();
@@ -380,7 +378,10 @@ namespace ExampleApp
         namespace IntHighlights = InteriorsExplorer::SdkModel::Highlights;
 
         m_pHighlightColorMapper = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::HighlightColorMapper)(Eegeo::v4(0.0, 1.0, 0.0, 1.0));
-
+        
+        Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& highlightService =
+            m_pWorld->GetInteriorHighlightsModule().GetHighlightService();
+        
         m_pInteriorsHighlightVisibilityController = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::InteriorsHighlightVisibilityController)(
                                                                                                                      mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel(),
                                                                                                                      mapModule.GetInteriorsModelModule().GetInteriorsCellResourceObserver(),
@@ -391,12 +392,10 @@ namespace ExampleApp
                                                                                                                      mapModule.GetLabelsModule().GetLabelHiddenFilterModel(),
                                                                                                                      mapModule.GetInteriorsStreamingModule().GetLabelLayerId(),
                                                                                                                      m_messageBus,
-                                                                                                                     *m_pHighlightColorMapper);
-
-        Eegeo::Modules::Map::Layers::InteriorsModelModule& interiorsModelModule = mapModule.GetInteriorsModelModule();
-
-        Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& highlightService =
-                m_pWorld->GetInteriorHighlightsModule().GetHighlightService();
+                                                                                                                     *m_pHighlightColorMapper,
+                                                                                                                     highlightService);
+        
+	Eegeo::Modules::Map::Layers::InteriorsModelModule& interiorsModelModule = mapModule.GetInteriorsModelModule();
 
         m_pInteriorsEntityIdHighlightVisibilityController = Eegeo_NEW(InteriorsExplorer::SdkModel::Highlights::InteriorsEntityIdHighlightVisibilityController)(
                 interiorsPresentationModule.GetInteriorInteractionModel(),
@@ -430,8 +429,6 @@ namespace ExampleApp
                                                                                                                                          m_messageBus,
                                                                                                                                          m_pWorld->GetRoutesModule().GetRouteRepository());
 
-        
-        
         if (!m_pInitialLocationModel->HasPersistedInterestLocation())
         {
             if (m_applicationConfiguration.TryStartAtGpsLocation() && !m_applicationConfiguration.IsAttractModeEnabled())
@@ -449,10 +446,17 @@ namespace ExampleApp
                                                                                             m_userIdleService,
                                                                                             m_applicationConfiguration.IsAttractModeEnabled(),
                                                                                             m_applicationConfiguration.AttractModeTimeoutMs(),
-                                                                                            m_pMyPinCreationModule->GetMyPinCreationModel());
+                                                                                            m_pMyPinCreationModule->GetMyPinCreationModel(),
+                                                                                            m_pMyPinsModule->GetMyPinsService());
         InitialiseAppState(nativeUIFactories);
 
         m_pUserInteractionModule = Eegeo_NEW(UserInteraction::SdkModel::UserInteractionModule)(m_pAppCameraModule->GetController(), *m_pCameraTransitionService, m_pInteriorsExplorerModule->GetInteriorsExplorerUserInteractionModel(), m_messageBus);
+        
+        if (!applicationConfiguration.TryStartAtGpsLocation())
+        {
+            const float heading = Eegeo::Math::Deg2Rad(applicationConfiguration.OrientationDegrees());
+            m_pCameraTransitionController->StartTransitionTo(location.ToECEF(), m_applicationConfiguration.DistanceToInterestMetres(), heading, m_applicationConfiguration.IndoorId(), applicationConfiguration.FloorIndex());
+        }
 
         m_pDeepLinkModule = Eegeo_NEW(DeepLink::SdkModel::DeepLinkModule)(
             *m_pCameraTransitionController,
@@ -467,9 +471,11 @@ namespace ExampleApp
             m_pSearchModule->GetSearchQueryPerformer(),
             m_pAboutPageModule->GetAboutPageViewModel(),
             *m_pNavigationService,
-            m_pWorld->GetApiTokenService());
-       
-        Eegeo::Space::LatLongAltitude latLng =  Eegeo::Space::LatLongAltitude::FromDegrees(FIXED_MY_LOCATION_LATITUDE, FIXED_MY_LOCATION_LONGITUDE,0);
+            m_pWorld->GetApiTokenService(),
+            interiorsPresentationModule.GetInteriorSelectionModel(),
+            *m_pAppModeModel);
+
+Eegeo::Space::LatLongAltitude latLng =  Eegeo::Space::LatLongAltitude::FromDegrees(FIXED_MY_LOCATION_LATITUDE, FIXED_MY_LOCATION_LONGITUDE,0);
         
         m_pFixedIndoorLocationCompassModeObserver = Eegeo_NEW(Compass::SdkModel::FixedIndoorLocationCompassModeObserver)(m_pCompassModule->GetCompassModel(),*m_pCameraTransitionController,messageBus);
         
@@ -485,8 +491,7 @@ namespace ExampleApp
         m_pBlueSphereModule->GetBlueSphereModel().SetElevation(0.0);
         m_pBlueSphereModule->GetBlueSphereModel().SetHeadingRadians(1.3);
         m_pBlueSphereModule->GetBlueSphereModel().SetEnabled(true);
-        
-        
+
         if (applicationConfiguration.HasMapScene())
         {
             // TODO: This is a bit smelly & needs refactoring because the MapScene responsibility is tightly coupled
@@ -516,9 +521,7 @@ namespace ExampleApp
         Eegeo_DELETE m_pInteriorsHighlightVisibilityController;
         Eegeo_DELETE m_pInteriorsEntityIdHighlightVisibilityController;
         Eegeo_DELETE m_pHighlightColorMapper;
-        
         DestroyApplicationModelModules();
-        
         Eegeo_DELETE m_pRayCaster;
         Eegeo_DELETE m_pCameraTransitionService;
         Eegeo_DELETE m_pCameraTransitionController;
@@ -594,7 +597,6 @@ namespace ExampleApp
         }
 
         const bool useYelpSearch = true;
-        
         if (useYelpSearch)
         {
             m_searchServiceModules[ExampleApp::Search::YelpVendorName] = Eegeo_NEW(ExampleApp::Search::Yelp::YelpSearchServiceModule)(
@@ -662,7 +664,7 @@ namespace ExampleApp
                                                                                 m_metricsService,
                                                                                 m_menuReaction);
 
-        auto defaultFindMenuItems = TagSearch::View::CreateTagSearchModelsFromFile(m_applicationConfiguration.RawConfig(),
+        auto defaultFindMenuItems = TagSearch::View::CreateTagSearchModelsFromConfig(m_applicationConfiguration,
                                                                                    "outdoor_search_menu_items",
                                                                                    m_yelpCategoryMapperUpdater);
         m_pSearchModule = Eegeo_NEW(Search::SdkModel::SearchModule)(m_pSearchServiceModule->GetSearchService(),
@@ -1156,7 +1158,6 @@ namespace ExampleApp
         openables.push_back(&MyPinDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinCreationModule().GetObservableOpenableControl());
         openables.push_back(&OptionsModule().GetObservableOpenableControl());
-
         return openables;
     }
 
@@ -1171,7 +1172,6 @@ namespace ExampleApp
         reactors.push_back(&DirectionsMenuInitiationModule().GetInitiationScreenControlViewModel());
         reactors.push_back(&WatermarkModule().GetScreenControlViewModel());
         reactors.push_back(&InteriorsExplorerModule().GetScreenControlViewModel());
-
         return reactors;
     }
 
@@ -1213,7 +1213,9 @@ namespace ExampleApp
                                                                                          m_sdkDomainEventBus,
                                                                                          interiorsPresentationModule.GetInteriorMarkerPickingService(),
                                                                                          mapModule.GetMarkersModule().GetMarkerService(),
-                                                                                         *m_pNavigationService);
+                                                                                         *m_pNavigationService,
+                                                                                         m_pSearchModule->GetSearchResultMyPinsService(),
+                                                                                         *m_pCameraTransitionService);
     }
 
     void MobileExampleApp::OnPause()
@@ -1401,7 +1403,7 @@ namespace ExampleApp
             // ... doing it a little later ensures the view will get the notifications when items are added.
             MyPinsModule().GetMyPinsService().LoadAllPinsFromDisk();
 
-            AddTagSearchModels(m_pTagSearchModule->GetTagSearchRepository(), m_applicationConfiguration.RawConfig(),
+            AddTagSearchModels(m_pTagSearchModule->GetTagSearchRepository(), m_applicationConfiguration,
                               m_yelpCategoryMapperUpdater);
 
             if (m_applicationConfiguration.IsAttractModeEnabled())

@@ -43,7 +43,6 @@ namespace ExampleApp
                     const bool isInKioskMode = false;
                     
                     const bool useJapaneseFont = false;
-                    std::string outdoorSearchMenuItems;
                     
                     const bool shouldPerformStartUpSearch = false;
                     const std::string startUpSearchTag = "";
@@ -64,7 +63,12 @@ namespace ExampleApp
                     const std::string hockeyAppId = "";
 
                     const std::vector<std::vector<std::string>> customKeyboardLayout = {};
+                    
+                    const std::string startLocationIndoorId = "";
+                    const int startLocationFloorIndex = 0;
 
+                    const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig> outdoorSearchMenuItems;
+                    bool overrideIndoorSearchMenuItems = false;
                     return ApplicationConfiguration("Eegeo Example App",
                         emptyEegeoApiKey,
                         productVersion,
@@ -76,6 +80,8 @@ namespace ExampleApp
                         Eegeo::Space::LatLongAltitude(37.7858f, -122.401f, 2.7),
                         1781.0f,
                         0.f,
+                        startLocationIndoorId,
+                        startLocationFloorIndex,
                         tryStartAtGpsLocation,
                         shouldStartFullscreen,
                         shouldPerformStartUpSearch,
@@ -95,7 +101,6 @@ namespace ExampleApp
                         isInKioskMode,
                         useJapaneseFont,
                         interiorTrackingInfo,
-                        outdoorSearchMenuItems,
                         fixedIndoorLocation,
                         attractModeTargetSplinePoints,
                         attractModePositionSplinePoints,
@@ -107,7 +112,9 @@ namespace ExampleApp
                         hockeyAppId,
                         false,
                         "",
-                        customKeyboardLayout);
+                        customKeyboardLayout,
+                        outdoorSearchMenuItems,
+                        overrideIndoorSearchMenuItems);
                 }
             }
             

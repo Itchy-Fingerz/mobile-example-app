@@ -11,6 +11,7 @@
 #include "WorldPins.h"
 #include "Menu.h"
 #include "Search.h"
+#include "BidirectionalBus.h"
 
 namespace ExampleApp
 {
@@ -27,7 +28,10 @@ namespace ExampleApp
                               IMyPinVisibilityStateChangedHandlerFactory& myPinVisibilityStateChangedHandlerFactory,
                               IMyPinBoundObjectFactory& myPinBoundObjectFactory,
                               IMyPinBoundObjectRepository& myPinBoundObjectRepository,
-                              WorldPins::SdkModel::IWorldPinsService& worldPinsService);
+                              WorldPins::SdkModel::IWorldPinsService& worldPinsService,
+                              ExampleAppMessaging::TMessageBus& messageBus);
+
+                ~MyPinsService();
                 
                 void LoadAllPinsFromDisk();
 
@@ -35,6 +39,7 @@ namespace ExampleApp
                                                      ExampleApp::WorldPins::SdkModel::WorldPinItemModel*& out_pWorldPinItemModel) const;
                 
                 void RemovePinWithId(const int myPinId);
+                void RemoveAllPins();
                 
                 void SaveUserCreatedPoiPin(const std::string& title,
                                            const std::string& description,
@@ -70,11 +75,16 @@ namespace ExampleApp
                 typedef std::map<int, std::pair<MyPinModel*, WorldPins::SdkModel::WorldPinItemModel*> > TMyPinToWorldPinMap;
                 TMyPinToWorldPinMap m_myPinToWorldPinMap;
 
+                ExampleAppMessaging::TMessageBus& m_messageBus;
+
                 void AddPinToMap(MyPinModel* pMyPinModel, int aditionalMask);
 
                 void SubmitPinToWebService(const MyPinModel& myPinModel);
 
                 MyPinModel* GetPinWithId(int pinId);
+
+                Eegeo::Helpers::TCallback1<MyPinsService, const MyPinSelectedMessage&> m_onMenuPinItemSelected;
+                void OnMenuPinItemSelected(const MyPinSelectedMessage& message);
             };
         }
     }
