@@ -37,7 +37,6 @@ namespace ExampleApp
             const int m_worldCameraHandle;
             const int m_interiorCameraHandle;
             SdkModel::AppMode m_currentState;
-
             MyPins::SdkModel::IMyPinsService& m_myPinsService;
 
             void OnInteriorSelectionModelChanged(const Eegeo::Resources::Interiors::InteriorId& interiorId);

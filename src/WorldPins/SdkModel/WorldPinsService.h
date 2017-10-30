@@ -19,6 +19,8 @@
 #include "SearchResultSectionItemSelectedMessage.h"
 #include "BidirectionalBus.h"
 #include "NavigationService.h"
+#include "Search.h"
+#include "CameraTransitions.h"
 
 namespace ExampleApp
 {
@@ -37,7 +39,9 @@ namespace ExampleApp
                                  Eegeo::Markers::IMarkerService& markerService,
                                  ExampleAppMessaging::TSdkModelDomainEventBus& sdkModelDomainEventBus,
                                  ExampleAppMessaging::TMessageBus& messageBus,
-                                 Eegeo::Location::NavigationService& navigationService);
+                                 Eegeo::Location::NavigationService& navigationService,
+                                 Search::SdkModel::MyPins::ISearchResultMyPinsService& searchResultOnMapMyPinsService,
+                                 CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController);
                 ~WorldPinsService();
                 
                 WorldPinItemModel* AddPin(IWorldPinSelectionHandler* pSelectionHandler,
@@ -49,21 +53,24 @@ namespace ExampleApp
                                           const std::string& pinIconKey,
                                           float heightAboveTerrainMetres,
                                           int visibilityMask,
-                                          std::string identifier = "");
+                                          std::string identifier = "",
+                                          std::string labelStyleName = "marker_default");
                 
                 void RemovePin(WorldPinItemModel* pinItemModel);
+
+                void HighlightPin(WorldPinItemModel* pinItemModel,
+                                    std::string labelStyleName = "selected_highlight");
                 
                 bool HandleTouchTap(const Eegeo::v2& screenTapPoint);
                 
                 bool HandleTouchDoubleTap(const Eegeo::v2& screenTapPoint);
-                
                 
             private:
                 
                 IWorldPinSelectionHandler* GetSelectionHandlerForPin(WorldPinItemModel::WorldPinItemModelId worldPinItemModelId);
                 
                 bool TrySelectPinAtPoint(const Eegeo::v2& screenPoint);
-                
+
                 void SelectPin(WorldPinItemModel::WorldPinItemModelId worldPinItemModelId);
                 
                 void OnWorldPinHiddenStateChanged(const WorldPinHiddenStateChangedMessage& message);
@@ -77,6 +84,14 @@ namespace ExampleApp
                 void ClearSelectedSearchResult();
                 
                 WorldPinItemModel* FindWorldPinItemModelOrNull(const std::string& searchResultId) const;
+                WorldPinItemModel* FindWorldPinItemModelOrNull(SdkModel::WorldPinItemModel::WorldPinItemModelId id) const;
+
+                void AddHighlight(WorldPinItemModel* pinItemModel, std::string labelStyleName = "selected_highlight");
+                void AddHighlightPin(const WorldPinItemModel* pinItemModel, const Eegeo::Markers::IMarker& marker, std::string labelStyleName);
+                void RemoveHighlight(SdkModel::WorldPinItemModel::WorldPinItemModelId id);
+                void RemoveHighlightPin(WorldPinItemModel* pinItemModel);
+
+                void UpdateLabelStyle(WorldPinItemModel* pinItemModel, const std::string& labelStyleName);
                 
                 IWorldPinsRepository& m_worldPinsRepository;
                 Eegeo::Resources::Interiors::Markers::IInteriorMarkerPickingService& m_interiorMarkerPickingService;
@@ -98,7 +113,17 @@ namespace ExampleApp
                 
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 
+                std::map<WorldPinItemModel::WorldPinItemModelId, std::string> m_pinsToIconKeys;
+
                 std::string m_selectedSearchResultId;
+
+                WorldPinItemModel* m_pSelectedPinHighlight;
+
+                WorldPinItemModel::WorldPinItemModelId m_selectedPinId;
+
+                const Search::SdkModel::MyPins::ISearchResultMyPinsService& m_searchResultOnMapMyPinsService;
+
+                CameraTransitions::SdkModel::ICameraTransitionController& m_cameraTransitionController;
             };
             
         }

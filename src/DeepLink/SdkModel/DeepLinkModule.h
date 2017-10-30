@@ -12,6 +12,7 @@
 #include "ISearchQueryPerformer.h"
 #include "AboutPageViewModel.h"
 #include "Location.h"
+#include "AppModes.h"
 
 namespace ExampleApp
 {
@@ -24,20 +25,22 @@ namespace ExampleApp
             public:
                 
                 DeepLinkModule(
-                               CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
-                               Eegeo::Web::IWebLoadRequestFactory& webFactory,
-                               Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
-                               ApplicationConfig::ApplicationConfiguration& defaultConfig,
-                               Eegeo::Streaming::CoverageTrees::ICoverageTreeManifestLoader& manifestLoader,
-                               Eegeo::Streaming::CoverageTrees::CoverageTreeManifestNotifier& manifestNotifier,
-                               Eegeo::Resources::CityThemes::CityThemeLoader& cityThemeLoader,
-                               Eegeo::Resources::CityThemes::ICityThemesService& cityThemeService,
-                               Search::SdkModel::InteriorMenuObserver& interiorMenuObserver,
-                               Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
-                               AboutPage::View::IAboutPageViewModel& aboutPageViewModule,
-                               Eegeo::Location::NavigationService& navigationService,
-                               Eegeo::Web::ApiTokenService& apiTokenService);
-                
+                    CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
+                    Eegeo::Web::IWebLoadRequestFactory& webFactory,
+                    Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
+                    ApplicationConfig::ApplicationConfiguration& defaultConfig,
+                    Eegeo::Streaming::CoverageTrees::ICoverageTreeManifestLoader& manifestLoader,
+                    Eegeo::Streaming::CoverageTrees::CoverageTreeManifestNotifier& manifestNotifier,
+                    Eegeo::Resources::CityThemes::CityThemeLoader& cityThemeLoader,
+                    Eegeo::Resources::CityThemes::ICityThemesService& cityThemeService,
+                    Search::SdkModel::InteriorMenuObserver& interiorMenuObserver,
+                    Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
+                    AboutPage::View::IAboutPageViewModel& aboutPageViewModule,
+                    Eegeo::Location::NavigationService& navigationService,
+                    Eegeo::Web::ApiTokenService& apiTokenService,
+                    Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
+                    const ExampleApp::AppModes::SdkModel::IAppModeModel& appModeModel);
+
                 ~DeepLinkModule();
                 DeepLinkController& GetDeepLinkController();
             private:

@@ -67,7 +67,9 @@ namespace ExampleApp
                     urlstream << "&lon=" << std::setprecision(8) << query.Location().GetLongitudeInDegrees();
                     urlstream << "&n=" << maximumNumberOfResults;
                     urlstream << "&ms=" << std::setprecision(2) << minimumScore;
-                    urlstream << "&apikey=" << m_apiTokenModel.GetApiKey();
+                    urlstream << "&apikey=" << m_apiTokenModel.GetApiKey();//"0479e1b377238385c497b4de0e61fac6";
+                    m_apiTokenModel.GetApiKey(); //"b488cb833b4d73f0ff4662160743e8f2";
+                    
                     
                     std::string url = urlstream.str();
                     m_pWebLoadRequest = webRequestFactory
