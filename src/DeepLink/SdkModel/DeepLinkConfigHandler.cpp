@@ -12,6 +12,7 @@
 #include "ICityThemesService.h"
 #include "NavigationService.h"
 #include "CityThemeData.h"
+#include "IAppModeModel.h"
 
 namespace ExampleApp
 {
@@ -31,7 +32,9 @@ namespace ExampleApp
                                                          Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
                                                          AboutPage::View::IAboutPageViewModel& aboutPageViewModule,
                                                          Eegeo::Location::NavigationService& navigationService,
-                                                         Eegeo::Web::ApiTokenService& apiTokenService)
+                                                         Eegeo::Web::ApiTokenService& apiTokenService,
+                                                         Eegeo::Resources::Interiors::InteriorSelectionModel& interiorSelectionModel,
+                                                         const ExampleApp::AppModes::SdkModel::IAppModeModel& appModeModel)
             :m_webRequestFactory(webRequestFactory)
             ,m_configRequestCompleteCallback(this, &DeepLinkConfigHandler::HandleConfigResponse)
             ,m_failAlertHandler(this, &DeepLinkConfigHandler::OnFailAlertBoxDismissed)
@@ -51,15 +54,23 @@ namespace ExampleApp
             ,m_previouslyLoadedThemeManifestUrl("")
             ,m_newManifestCallback(this, &DeepLinkConfigHandler::HandleNewCoverageTreeManifestLoaded)
             ,m_newThemeDataCallback(this, &DeepLinkConfigHandler::HandleNewThemeManifestLoaded)
+            ,m_interiorSelectionModel(interiorSelectionModel)
+            ,m_appModeModel(appModeModel)
+            ,m_startupSearchTag("")
+            ,m_startupSearchLocation(0, 0, 0)
+            ,m_shouldPerformStartupSearch(false)
+            ,m_startupSearchCameraTransitionCompleteCallback(this, &DeepLinkConfigHandler::HandleStartupSearchCameraTransitionComplete)
             {
                 m_manifestNotifier.AddManifestLoadedObserver(m_newManifestCallback);
                 m_cityThemeService.SubscribeSharedThemeDataChanged(m_newThemeDataCallback);
+                m_cameraTransitionController.InsertTransitionCompletedCallback(m_startupSearchCameraTransitionCompleteCallback);
             }
             
             DeepLinkConfigHandler::~DeepLinkConfigHandler()
             {
                 m_cityThemeService.UnsubscribeSharedThemeDataChanged(m_newThemeDataCallback);
                 m_manifestNotifier.RemoveManifestLoadedObserver(m_newManifestCallback);
+                m_cameraTransitionController.RemoveTransitionCompletedCallback(m_startupSearchCameraTransitionCompleteCallback);
             }
             
             void DeepLinkConfigHandler::HandleDeepLink(const AppInterface::UrlData& data)
@@ -109,8 +120,13 @@ namespace ExampleApp
                         }
                         
                         const float newHeading = Eegeo::Math::Deg2Rad(applicationConfig.OrientationDegrees());
-                        m_cameraTransitionController.StartTransitionTo(applicationConfig.InterestLocation().ToECEF(), applicationConfig.DistanceToInterestMetres(), newHeading);
-                        m_interiorMenuObserver.UpdateDefaultOutdoorSearchMenuItems(applicationConfig.RawConfig());
+                        if(m_appModeModel.GetAppMode() != ExampleApp::AppModes::SdkModel::InteriorMode)
+                        {
+                            m_interiorSelectionModel.ClearSelection();
+                        }
+
+                        m_cameraTransitionController.StartTransitionTo(applicationConfig.InterestLocation().ToECEF(), applicationConfig.DistanceToInterestMetres(), newHeading, applicationConfig.IndoorId(), applicationConfig.FloorIndex());
+                        m_interiorMenuObserver.UpdateDefaultOutdoorSearchMenuItems(applicationConfig.OutdoorSearchMenuItems(), applicationConfig.OverrideIndoorSearchMenuItems());
                         m_aboutPageViewModule.UpdateApplicationName(applicationConfig.Name());
                         
                         const std::string TryStartAtGpsLocation = "try_start_at_gps_location";
@@ -130,7 +146,9 @@ namespace ExampleApp
                         const bool shouldPerformStartUpSearch = mapsceneSpecifiesStartUpSearch && applicationConfig.ShouldPerformStartUpSearch();
                         if (shouldPerformStartUpSearch)
                         {
-                            m_searchQueryPerformer.PerformSearchQuery(applicationConfig.StartUpSearchTag(), true, false, applicationConfig.InterestLocation());
+                            m_startupSearchTag = applicationConfig.StartUpSearchTag();
+                            m_startupSearchLocation = applicationConfig.InterestLocation();
+                            m_shouldPerformStartupSearch = true;
                         }
                         else
                         {
@@ -151,6 +169,17 @@ namespace ExampleApp
             void DeepLinkConfigHandler::OnFailAlertBoxDismissed()
             { //Do nothing
             }
+
+            void DeepLinkConfigHandler::HandleStartupSearchCameraTransitionComplete()
+            {
+                if(m_shouldPerformStartupSearch)
+                {
+                    m_shouldPerformStartupSearch = false;
+                    m_searchQueryPerformer.PerformSearchQuery(m_startupSearchTag, true, false, m_startupSearchLocation);
+                }
+
+            }
+
         }
     }
 }

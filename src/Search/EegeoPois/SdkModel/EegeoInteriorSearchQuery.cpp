@@ -53,7 +53,8 @@ namespace ExampleApp
 
                     urlstream << "&lat=" << std::setprecision(8) << query.Location().GetLatitudeInDegrees();
                     urlstream << "&lon=" << std::setprecision(8) << query.Location().GetLongitudeInDegrees();
-                    urlstream << "&apikey=" << m_apiTokenModel.GetApiKey();
+                    urlstream << "&apikey=" << m_apiTokenModel.GetApiKey();//"0479e1b377238385c497b4de0e61fac6";
+                    m_apiTokenModel.GetApiKey();
                     
                     std::string url = urlstream.str();
                     m_pWebLoadRequest = webRequestFactory.Begin(Eegeo::Web::HttpVerbs::GET, url, m_webRequestCompleteCallback).Build();

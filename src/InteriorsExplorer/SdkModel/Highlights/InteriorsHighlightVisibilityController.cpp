@@ -31,16 +31,16 @@ namespace ExampleApp
             namespace Highlights
             {
                 InteriorsHighlightVisibilityController::InteriorsHighlightVisibilityController(Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
-                                                                                               Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
-                                                                                               Search::SdkModel::ISearchService& searchService,
-                                                                                               Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
-                                                                                               Search::SdkModel::ISearchResultRepository& searchResultRepository,
-                                                                                               Eegeo::Resources::Interiors::Entities::IInteriorsLabelController& legacyLabelController,
-                                                                                               Eegeo::Labels::ILabelAnchorFilterModel& labelHiddenFilterModel,
-                                                                                               const Eegeo::Labels::LabelLayer::IdType interiorLabelLayer,
-                                                                                               ExampleAppMessaging::TMessageBus& messageBus,
-                                                                                               IHighlightColorMapper& highlightColorMapper,
-                                                                                               Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& interiorsHighlightService)
+                    Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
+                    Search::SdkModel::ISearchService& searchService,
+                    Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
+                    Search::SdkModel::ISearchResultRepository& searchResultRepository,
+                    Eegeo::Resources::Interiors::Entities::IInteriorsLabelController& legacyLabelController,
+                    Eegeo::Labels::ILabelAnchorFilterModel& labelHiddenFilterModel,
+                    const Eegeo::Labels::LabelLayer::IdType interiorLabelLayer,
+                    ExampleAppMessaging::TMessageBus& messageBus,
+                    IHighlightColorMapper& highlightColorMapper,
+                    Eegeo::Resources::Interiors::Highlights::IInteriorsHighlightService& interiorsHighlightService)
                     : m_interiorInteractionModel(interiorInteractionModel)
                     , m_interiorsCellResourceObserver(interiorsCellResourceObserver)
                     , m_interiorLabelLayer(interiorLabelLayer)
@@ -224,7 +224,8 @@ namespace ExampleApp
                 void InteriorsHighlightVisibilityController::OnSearchResultsLoaded(const Search::SdkModel::SearchQuery& query, const std::vector<Search::SdkModel::SearchResultModel>& results)
                 {
                     DeactivateHighlightRenderables();
-                    
+                    bool hasResults = results.size() > 0;
+                    ActivateLabels(!hasResults);
                         if(query.Query() == ADVERTISEMENTS_TAG || query.Query() == BILLBOARDS_TAG || query.Query() == FOOD_TAG || query.Query() == AIRPORT_TAG || query.Query() == SHOPPING_TAG || query.Query() ==TOILETS_TAG || query.Query() == HEALTH_TAG || query.Query() == SECURITY_TAG || query.Query() ==  GENERAL_TAG)
                     {
                         m_currentBillBoardsMode = BILLBOARDS_MODE_FULL;
@@ -243,8 +244,6 @@ namespace ExampleApp
 
                     ShowHighlightsForResults(results);
                     //bool hasResults = m_searchResultRepository.GetItemCount() > 0;
-                    bool hasResults = results.size() > 0;
-                    ActivateLabels(!hasResults);
                 }
 
                 bool InteriorsHighlightVisibilityController::ShowHighlightsForCurrentResults()
@@ -296,11 +295,14 @@ namespace ExampleApp
                             {
                                 for (auto& renderable : renderItt->second)
                                 {
-                                    if (renderable->GetRenderableId().compare("entity_highlight " + highlightedRoomId) == 0)
-                                    {
-                                        m_interiorsHighlightService.SetHighlight(renderable->GetInteriorId(), highlightedRoomId, m_highlightColorMapper.GetColor(*resultsItt, "highlight_color"));
-                                        showingHighlights = true;
-                                    }
+									if (renderable->GetInteriorId().compare(resultsItt->GetBuildingId().Value()) == 0)
+									{
+										if (renderable->GetRenderableId().compare("entity_highlight " + highlightedRoomId) == 0)
+										{
+											m_interiorsHighlightService.SetHighlight(renderable->GetInteriorId(), highlightedRoomId, m_highlightColorMapper.GetColor(*resultsItt, "highlight_color"));
+											showingHighlights = true;
+										}
+									}
                                 }
                             }
                         }
@@ -446,7 +448,7 @@ namespace ExampleApp
                 void InteriorsHighlightVisibilityController::OnSelectFloor(const InteriorsExplorer::InteriorsExplorerSelectFloorMessage &message)
                 {
                     DeactivateHighlightRenderables();
-                    ActivateLabels(true);
+//                    ActivateLabels(true);
                     m_selectedBillBoards.clear();
                 }
             }
