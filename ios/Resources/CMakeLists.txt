@@ -1473,6 +1473,9 @@ set(resources ${resources}
         Resources/DirectionCard_ShowOptionStandardState.png
         Resources/DirectionCard_ShowOptionStandardState@2x.png
         Resources/DirectionCard_ShowOptionStandardState@3x.png
+        Resources/DirectionCard_RouteStart.png
+        Resources/DirectionCard_RouteStart@2x.png
+        Resources/DirectionCard_RouteStart@3x.png
         Resources/Billboards
 	Resources/tag_huer_place_holder.png
 	Resources/poi_call_icon.png
