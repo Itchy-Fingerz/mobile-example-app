@@ -43,24 +43,13 @@ namespace
 
 -(BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    _metricsService = Eegeo_NEW(ExampleApp::Metrics::iOSFlurryMetricsService)();
+
+    [[NSNotificationCenter defaultCenter] addObserver: self
+                                             selector: @selector(setAppRootViewController)
+                                                 name: @"setAppRootViewController"
+                                               object: nil];
     
-    const ApplicationConfiguration& appConfig = LoadConfiguration();
-    _applicationConfiguration = Eegeo_NEW(ApplicationConfiguration)(appConfig);
-    
-    // Flurry metrics service must be started during didFinishLaunchingWithOptions (events not logged on >= iOS 8.0 if started later)
-    _metricsService->BeginSession(_applicationConfiguration->FlurryAppKey(), appConfig.CombinedVersionString());
-    
-    NSString *hockeyAppId = [NSString stringWithCString:appConfig.HockeyAppId().c_str()
-                                                encoding:[NSString defaultCStringEncoding]];
-    [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:hockeyAppId];
-    // Do some additional configuration if needed here
-    [BITHockeyManager sharedHockeyManager].logLevel = BITLogLevelDebug;
-    [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
-    [[BITHockeyManager sharedHockeyManager] startManager];
-    [[BITHockeyManager sharedHockeyManager].authenticator
-     authenticateInstallation];
+    [self setAppRootViewController];
     
     if(launchOptions[@"UIApplicationLaunchOptionsURLKey"])
     {
@@ -68,6 +57,48 @@ namespace
         _launchUrl = url;
     }
 	return YES;
+}
+
+-(void) setAppRootViewController
+{
+    NSString *fileName = @"MainStoryboard_iPad";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        fileName = @"MainStoryboard_iPhone";
+    }
+    UIStoryboard *appStoryBoard = [UIStoryboard storyboardWithName:fileName bundle:nil];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isVerified"])
+    {
+        UINavigationController *vc = [appStoryBoard instantiateViewControllerWithIdentifier:@"SmsNavigationController"];
+        self.window.rootViewController = vc;
+        
+    }
+    else
+    {
+        // Override point for customization after application launch.
+        _metricsService = Eegeo_NEW(ExampleApp::Metrics::iOSFlurryMetricsService)();
+        
+        const ApplicationConfiguration& appConfig = LoadConfiguration();
+        _applicationConfiguration = Eegeo_NEW(ApplicationConfiguration)(appConfig);
+        
+        // Flurry metrics service must be started during didFinishLaunchingWithOptions (events not logged on >= iOS 8.0 if started later)
+        _metricsService->BeginSession(_applicationConfiguration->FlurryAppKey(), appConfig.CombinedVersionString());
+        
+        NSString *hockeyAppId = [NSString stringWithCString:appConfig.HockeyAppId().c_str()
+                                                   encoding:[NSString defaultCStringEncoding]];
+        [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:hockeyAppId];
+        // Do some additional configuration if needed here
+        [BITHockeyManager sharedHockeyManager].logLevel = BITLogLevelDebug;
+        [[BITHockeyManager sharedHockeyManager].crashManager setCrashManagerStatus: BITCrashManagerStatusAutoSend];
+        [[BITHockeyManager sharedHockeyManager] startManager];
+        [[BITHockeyManager sharedHockeyManager].authenticator
+         authenticateInstallation];
+        
+        UIViewController *vc = [appStoryBoard instantiateInitialViewController];
+        self.window.rootViewController = vc;
+        
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -103,6 +134,9 @@ namespace
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[NSNotificationCenter defaultCenter]removeObserver: self
+                                                   name: @"setAppRootViewController"
+                                                 object: nil];
     
     [UIApplication sharedApplication].delegate = nil;
 }

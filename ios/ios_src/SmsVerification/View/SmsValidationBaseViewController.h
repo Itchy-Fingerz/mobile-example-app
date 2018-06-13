@@ -1,0 +1,22 @@
+//
+//  SmsValidationBaseViewController.h
+//  ExampleApp
+//
+//  Created by Sohail Khan on 5/22/18.
+//
+
+#import <UIKit/UIKit.h>
+#import "UNIRest.h"
+
+@interface SmsValidationBaseViewController : UIViewController
+{
+    
+}
+@property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
+-(void)sendSmsVerificationRequest:(NSString *)phoneNumber withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock;
+-(void)sendVerifyCodeRequest:(NSString *)code token:(NSString*)token withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock;
+-(void) animateViewUpDown:(CGFloat) yPosition;
+-(void)showAlertView:(NSString*)title withMessage:(NSString*)message;
+-(void) addTapGestureInView;
+-(BOOL) isPhone;
+@end
