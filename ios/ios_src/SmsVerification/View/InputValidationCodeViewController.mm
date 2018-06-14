@@ -103,10 +103,10 @@
     [self.verifyCodeTextfield2 setText:@""];
     [self.verifyCodeTextfield3 setText:@""];
     [self.verifyCodeTextfield4 setText:@""];
-    self.view1.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    self.view2.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    self.view3.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    self.view4.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view1.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view2.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view3.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view4.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
     [self.validateButton setEnabled:false];
     
     [passcodeTextField setText:@""];
@@ -119,10 +119,10 @@
     [self.verifyCodeTextfield2 setText:@""];
     [self.verifyCodeTextfield3 setText:@""];
     [self.verifyCodeTextfield4 setText:@""];
-    self.view1.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    self.view2.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    self.view3.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    self.view4.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view1.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view2.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view3.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    //self.view4.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
     [self.validateButton setEnabled:false];
     
     [passcodeTextField setText:@""];

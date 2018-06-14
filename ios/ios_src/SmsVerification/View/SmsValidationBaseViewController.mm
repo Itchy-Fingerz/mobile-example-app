@@ -28,7 +28,7 @@
     // Do any additional setup after loading the view.
     [self.spiner stopAnimating];
     [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
-    [SVProgressHUD setForegroundColor:[UIColor whiteColor]];
+    [SVProgressHUD setForegroundColor:[UIColor colorWithRed:75/255.0 green:74/255.0 blue:72/255.0 alpha:1.0]];
     [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeBlack];
 }
 
