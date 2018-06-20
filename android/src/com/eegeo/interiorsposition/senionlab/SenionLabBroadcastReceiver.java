@@ -5,6 +5,7 @@ import com.senionlab.slutilities.service.SLBroadcastReceiver;
 import com.senionlab.slutilities.type.LocationAvailability;
 import com.senionlab.slutilities.type.SLCoordinate3D;
 import com.senionlab.slutilities.type.SLHeadingStatus;
+import com.senionlab.slutilities.type.SLLocationStatus;
 import com.senionlab.slutilities.type.SLMotionType;
 
 class SenionLabBroadcastReceiver extends SLBroadcastReceiver
@@ -41,7 +42,19 @@ class SenionLabBroadcastReceiver extends SLBroadcastReceiver
                                                                    location.getFloorNr().intValue());
         }
     }
-    
+
+    @Override
+    public void didUpdateLocation(SLCoordinate3D location, double v, SLLocationStatus slLocationStatus)
+    {
+        synchronized (m_updateLock)
+        {
+            SenionLabBroadcastReceiverJniMethods.DidUpdateLocation(m_nativeCallerPointer,
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    location.getFloorNr().intValue());
+        }
+    }
+
     @Override
     public void didUpdateLocationAvailability(LocationAvailability locationAvailability)
     {

@@ -33,7 +33,7 @@ def getVersionNameFromProjectProperty = { ->
 }
 
 def getApplicationIdFromProjectProperty = { ->
-    def applicationId = project.hasProperty('applicationId') ? applicationId : "com.eegeo.mobileexampleapp"
+    def applicationId = project.hasProperty('applicationId') ? applicationId : "com.netsoltech.jcgroup.mobileexampleapp"
     logger.lifecycle("applicationId is set to $applicationId")
     return applicationId
 }
@@ -156,4 +156,5 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation project(':wrld-android-search-widget-release')
+    implementation 'com.android.volley:volley:1.1.0'
 }

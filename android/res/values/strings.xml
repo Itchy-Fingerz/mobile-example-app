@@ -9,7 +9,29 @@
     <string name="about_page_title">About</string>
     <string name="about_page_developer">Developed by</string>
     <string name="searchbox_query_hint">Search the WRLD</string>
-    
+
+    <!-- Validation Strings -->
+    <string name="validation_title_text">Phone Number Verification</string>
+    <string name="validation_description_text">Enter your phone number to receive a validation code</string>
+    <string name="validation_verify_button_text">Verify</string>
+    <string name="validation_validate_button_text">Validate</string>
+    <string name="validation_resend_text">Validate</string>
+
+    <string name="validation_title">Phone Number Verification</string>
+    <string name="validation_enter_phone_text">Enter your phone number to receive a validation code</string>
+    <string name="validation_enter_code_text">Enter the validation code</string>
+    <string name="validation_phone_hint_text">Phone Number</string>
+    <string name="validation_done_text">Done</string>
+    <string name="validation_success_text">Validation Successful!</string>
+    <string name="validation_resend_code_text">Resend</string>
+    <string name="validation_code_expire_text">The validation code will expire in </string>
+    <string name="validation_code_error_text">Incorrect validation code!</string>
+    <string name="validation_code_attempts_exceed_error_text">Number of attempts exceeded!\nRetry in few minutes</string>
+    <string name="validation_go_back_text">Go Back</string>
+    <string name="validation_change_number_text"><u>CHANGE NUMBER</u></string>
+    <string name="validation_code_getting_text">You should be getting a text message shortly\n+97-XXXXXX855</string>
+    <string name="validation_phone_number_error_text">Entered invalid phone number</string>
+
     <string name="options_title">Options</string>
     <string name="options_view_stream_wifi_only_togglebutton_text">Stream over Wi-fi only</string>
     <string name="options_view_cache_enabled_togglebutton_text">Enable data caching on device</string>
@@ -55,6 +77,7 @@
     <string name="placeholder">Lorem ipsum dolor sit amet.</string>
     <string name="settings_header">Settings</string>
     <string name="required_camera_permission_text">Please provide access to both Camera and Storage permissions for this functionality to work.</string>
+    <string name="required_read_device_state_permission_msg">Please enable read device state permission for the app to uniquely identify your device</string>
     <string name="required_location_permission_text">Please provide access to Location permission for this functionality to work.</string>
     <string name="ok_text">Ok</string>
     <string name="cancel_text">Cancel</string>

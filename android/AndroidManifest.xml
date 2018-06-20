@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- BEGIN_INCLUDE(manifest) -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.eegeo.mobileexampleapp"
+        package="com.netsoltech.jcgroup.mobileexampleapp"
         android:versionCode="1"
         android:versionName="1.0">
     
@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true"/>
     <uses-feature android:name="android.hardware.bluetooth_le"
@@ -31,7 +32,19 @@
     
 
     <application android:icon="@mipmap/icon" android:label="WRLD" android:theme="@android:style/Theme.Holo.Light.NoActionBar">
-       
+        <activity
+            android:name="com.eegeo.mobileexampleapp.validation.NumberValidationActivity"
+            android:label="HBMSU Navigation"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
+            android:windowSoftInputMode="adjustPan"
+            android:hardwareAccelerated="true"
+            android:resizeableActivity="false"
+            android:supportsPictureInPicture="false">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name="com.eegeo.mobileexampleapp.BackgroundThreadActivity"
                   android:label="WRLD"
                   android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
@@ -40,10 +53,6 @@
               	  android:hardwareAccelerated="true"
               	  android:resizeableActivity="false"
               	  android:supportsPictureInPicture="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
