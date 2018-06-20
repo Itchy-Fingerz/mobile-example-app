@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.eegeo.ui.ScrollViewWithMaxHeight;
 
 public class MyPinDetailsView implements View.OnClickListener

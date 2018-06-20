@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.menu.BackwardsCompatibleListView;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.eegeo.view.OnPauseListener;
 
 import android.graphics.Color;

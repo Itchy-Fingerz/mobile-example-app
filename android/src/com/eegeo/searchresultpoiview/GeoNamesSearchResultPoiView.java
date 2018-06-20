@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.eegeo.tags.TagResources;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.TintablePinToggleButton;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 
 public class GeoNamesSearchResultPoiView 
 {

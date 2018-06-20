@@ -35,7 +35,7 @@ import android.widget.ToggleButton;
 import com.eegeo.helpers.IActivityIntentResultHandler;
 import com.eegeo.helpers.IRuntimePermissionResultHandler;
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.eegeo.photos.PhotoIntentDispatcher;
 import com.eegeo.runtimepermissions.RuntimePermissionDispatcher;
 

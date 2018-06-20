@@ -31,10 +31,10 @@
 
     
 
-    <application android:icon="@mipmap/icon" android:label="WRLD" android:theme="@android:style/Theme.Holo.Light.NoActionBar">
+    <application android:icon="@mipmap/icon" android:label="JC Group" android:theme="@android:style/Theme.Holo.Light.NoActionBar">
         <activity
             android:name="com.eegeo.mobileexampleapp.validation.NumberValidationActivity"
-            android:label="HBMSU Navigation"
+            android:label="JC Group"
             android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
             android:windowSoftInputMode="adjustPan"
             android:hardwareAccelerated="true"
@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.eegeo.mobileexampleapp.BackgroundThreadActivity"
-                  android:label="WRLD"
+                  android:label="JC Group"
                   android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
                   android:windowSoftInputMode="adjustPan"
               	  android:launchMode="singleTask"

@@ -3,7 +3,7 @@
 package com.eegeo.watermark;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;

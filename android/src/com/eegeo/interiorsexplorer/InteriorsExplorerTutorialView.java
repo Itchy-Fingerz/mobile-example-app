@@ -1,14 +1,15 @@
 // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 package com.eegeo.interiorsexplorer;
 
-import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.eegeo.entrypointinfrastructure.MainActivity;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
+
 
 public class InteriorsExplorerTutorialView implements View.OnTouchListener
 {

@@ -34,7 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.eegeo.mobileexampleapp.BackgroundThreadActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +46,7 @@ import static com.eegeo.mobileexampleapp.validation.ValidationConstants.KEY_IS_V
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_BASE_URL;
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_ATTEMPTS_EXCEEDED;
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_BLOCKED;
+import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_ERROR;
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_EXPIRED;
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_IN_PROGRESS;
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_VERIFIED;
@@ -269,6 +270,11 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
                 {
                     String error = response.optString("message");
                     addResponseStatusFragment(false, error);
+                }
+                else if(status.equals(STATUS_ERROR.value()))
+                {
+                    String error = response.optString("message");
+                    onErrorResponse.onError(error);
                 }
             }
             else
