@@ -23,6 +23,8 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
+            
+            
             class CameraTransitionController : public ICameraTransitionController
             {
             public:
@@ -40,6 +42,8 @@ namespace ExampleApp
                                            Eegeo::Resources::Interiors::InteriorsModelRepository& interiorsModelRepository,
                                            ExampleAppMessaging::TMessageBus& messageBus);
 
+                void StartTransition(const CameraTransitionOptions& options);
+                
                 void StartTransitionTo(const Eegeo::dv3& newInterestPoint,
                                        float distanceFromInterest,
                                        bool jumpIfFar=true);
@@ -82,31 +86,20 @@ namespace ExampleApp
                 void InsertTransitionCompletedCallback(Eegeo::Helpers::ICallback0& callback);
                 void RemoveTransitionCompletedCallback(Eegeo::Helpers::ICallback0& callback);
 
+                void InsertTransitionFailedCallback(Eegeo::Helpers::ICallback0& callback);
+                void RemoveTransitionFailedCallback(Eegeo::Helpers::ICallback0& callback);
+
             private:
 
                 std::queue<ICameraTransitionStage*> m_transitionStages;
                 
                 void EnqueueExitInteriorStage();
                 
-                void EnqueueTransitionToPointStage(const Eegeo::dv3& newInterestPoint,
-                                                   float distanceFromInterest,
-                                                   float newHeadingRadians,
-                                                   bool jumpIfFar=true);
+                void EnqueueTransitionToPointStage(const CameraTransitionOptions& options);
                 
-                void EnqueueTransitionToInteriorStage(const Eegeo::dv3& newInterestPoint,
-                                                      float newDistanceToInterest,
-                                                      const Eegeo::Resources::Interiors::InteriorId& interiorId,
-                                                      int targetFloorIndex,
-                                                      float newHeadingRadians,
-                                                      bool setInteriorHeading=false,
-                                                      bool setDisntaceToInterest=true);
+                void EnqueueTransitionToInteriorStage(const CameraTransitionOptions& options);
                 
-                void EnqueueTransitionToInteriorPointStage(const Eegeo::dv3& newInterestPoint,
-                                                           float newDistanceFromInterest,
-                                                           float newHeadingRadians,
-                                                           const Eegeo::Resources::Interiors::InteriorId &interiorId,
-                                                           int targetFloorIndex,
-                                                           bool jumpIfFar=true);
+                void EnqueueTransitionToInteriorPointStage(const CameraTransitionOptions& options);
                 
                 void StartQueuedTransition();
                 
@@ -127,6 +120,7 @@ namespace ExampleApp
                 
                 Eegeo::Helpers::CallbackCollection0 m_transitioningChangedCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_transitionCompletedCallbacks;
+                Eegeo::Helpers::CallbackCollection0 m_transitionFailedCallbacks;
             };
         }
     }

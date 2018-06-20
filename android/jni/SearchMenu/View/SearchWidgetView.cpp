@@ -185,14 +185,14 @@ namespace ExampleApp
                 env->CallVoidMethod(m_uiView, animateToIntermediateOpenStateOnScreen, value);
             }
 
-            void SearchWidgetView::SetFullyOnScreen()
+            void SearchWidgetView::SetOnScreen()
             {
                 ASSERT_UI_THREAD
 
                 CallVoidVoidFunction("animateOnScreen");
             }
 
-            void SearchWidgetView::SetFullyOffScreen()
+            void SearchWidgetView::SetOffScreen()
             {
                 ASSERT_UI_THREAD
 
@@ -249,6 +249,21 @@ namespace ExampleApp
             void SearchWidgetView::RemoveResultSelectedCallback(Eegeo::Helpers::ICallback1<int>& callback)
             {
                 m_resultSelectedCallbacks.RemoveCallback(callback);
+            }
+
+            void SearchWidgetView::OnNavigationRequest(int index)
+            {
+                m_navigationRequestedCallbacks.ExecuteCallbacks(index);
+            }
+
+            void SearchWidgetView::InsertOnNavigationRequestedCallback(Eegeo::Helpers::ICallback1<const int>& callback)
+            {
+                m_navigationRequestedCallbacks.AddCallback(callback);
+            }
+
+            void SearchWidgetView::RemoveOnNavigationRequestedCallback(Eegeo::Helpers::ICallback1<const int>& callback)
+            {
+                m_navigationRequestedCallbacks.RemoveCallback(callback);
             }
 
             void SearchWidgetView::InsertOnViewOpened(Eegeo::Helpers::ICallback0& callback)

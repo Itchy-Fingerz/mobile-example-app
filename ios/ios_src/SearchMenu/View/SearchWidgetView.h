@@ -5,7 +5,8 @@
 #include "ISearchWidgetView.h"
 #include "WidgetSearchResultModel.h"
 #include "TagCollection.h"
-
+#include "IScreenControlView.h"
+#include "ISearchNavigationHandler.h"
 #import <WrldSearchWidget/WrldSearchWidget.h>
 
 namespace ExampleApp
@@ -14,7 +15,7 @@ namespace ExampleApp
     {
         namespace View
         {
-            class SearchWidgetView : public SearchMenu::View::ISearchWidgetView
+            class SearchWidgetView : public SearchMenu::View::ISearchWidgetView, public ISearchNavigationHandler
             {
             private:
                 WRLDSearchWidgetView* m_pSearchWidgetView;
@@ -26,6 +27,7 @@ namespace ExampleApp
 
                 Eegeo::Helpers::CallbackCollection0 m_searchClearedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<int> m_resultSelectedCallbacks;
+                Eegeo::Helpers::CallbackCollection1<const int> m_navigationRequestedCallbacks;
                 Eegeo::Helpers::CallbackCollection3<const std::string&, int, int> m_onItemSelectedCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_onViewOpenedCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_onViewClosedCallbacks;
@@ -36,6 +38,7 @@ namespace ExampleApp
                 bool m_hasPopulatedData;
                 
                 void (^m_onResultSelection) (id<WRLDSearchResultModel>);
+                void (^m_willPopulateResultCell) (WRLDSearchResultTableViewCell*);
                 void (^m_onMenuSelection) (NSObject*);
                 void (^m_onResultsReceived) ();
                 void (^m_onResultsCleared) ();
@@ -47,14 +50,18 @@ namespace ExampleApp
 
                 bool m_hasSearchResults;
                 
+                bool m_isNavigationHidden;
+                
                 CGFloat m_widgetAnimationOffset;
 
                 TagCollection m_tagCollection;
                 void UpdateDiscoverGroup(Menu::View::TSections& sections);
                 void PopulateMenuData(Menu::View::TSections& sections);
+                
             public:
                 SearchWidgetView(id<WRLDSearchProvider> searchProvider,
                                  id<WRLDSuggestionProvider> suggestionProvider,
+                                 bool m_navigationEnabled,
                                  ExampleAppMessaging::TMessageBus& messageBus);
                 ~SearchWidgetView();
 
@@ -77,6 +84,9 @@ namespace ExampleApp
 
                 void InsertResultSelectedCallback(Eegeo::Helpers::ICallback1<int>& callback);
                 void RemoveResultSelectedCallback(Eegeo::Helpers::ICallback1<int>& callback);
+                
+                void InsertOnNavigationRequestedCallback(Eegeo::Helpers::ICallback1<const int>& callback);
+                void RemoveOnNavigationRequestedCallback(Eegeo::Helpers::ICallback1<const int>& callback);
 
                 void HandleItemSelected(const std::string& menuText, int sectionIndex, int itemIndex);
 
@@ -94,12 +104,14 @@ namespace ExampleApp
                 void RemoveOnViewClosed(Eegeo::Helpers::ICallback0& callback);
 
                 void SetOnScreenStateToIntermediateValue(float value);
-                void SetFullyOnScreen();
-                void SetFullyOffScreen();
+                void SetOnScreen();
+                void SetOffScreen();
 
                 void CloseMenu();
 
                 void OnSearchResultsReceived();
+                
+                void NavigateTo(id<WRLDSearchResultModel> resultModel);
 
             private:
                 void OnClearResults();

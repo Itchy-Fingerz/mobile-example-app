@@ -14,6 +14,7 @@
 #include "SearchQueryResultsRemovedMessage.h"
 #include "AutocompleteSuggestionsReceivedMessage.h"
 #include "SearchQueryResponseReceivedMessage.h"
+#include "SearchQueryClearRequestMessage.h"
 #include "CompassModeChangedMessage.h"
 #include "CompassHeadingUpdateMessage.h"
 #include "CompassModeUnauthorizedMessage.h"
@@ -55,6 +56,19 @@
 #include "SelectMenuItemMessage.h"
 #include "ClosePoiMessage.h"
 #include "OpenSearchMenuSectionMessage.h"
+#include "NavRoutingViewOpenMessage.h"
+#include "NavRoutingStartLocationSetMessage.h"
+#include "NavRoutingStartLocationClearedMessage.h"
+#include "NavRoutingEndLocationSetMessage.h"
+#include "NavRoutingEndLocationClearedMessage.h"
+#include "NavRoutingRouteChangedMessage.h"
+#include "NavRoutingRouteClearedMessage.h"
+#include "NavRoutingCurrentDirectionSetMessage.h"
+#include "NavRoutingCurrentDirectionUpdatedMessage.h"
+#include "NavRoutingSelectedDirectionSetMessage.h"
+#include "NavRoutingRemainingRouteDurationSetMessage.h"
+#include "NavRoutingModeSetMessage.h"
+#include "NavRoutingShowRerouteDialogMessage.h"
 
 namespace ExampleApp
 {
@@ -71,6 +85,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<Search::SearchQueryRemovedMessage>
             , public Eegeo::Messaging::CatalogBinding<Search::SearchQueryResultsRemovedMessage>
             , public Eegeo::Messaging::CatalogBinding<Search::SearchQueryResponseReceivedMessage>
+            , public Eegeo::Messaging::CatalogBinding<Search::SearchQueryClearRequestMessage>
             , public Eegeo::Messaging::CatalogBinding<Search::AutocompleteSuggestionsReceivedMessage>
             , public Eegeo::Messaging::CatalogBinding<Compass::CompassModeChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<Compass::CompassHeadingUpdateMessage>
@@ -111,6 +126,19 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<Automation::SelectMenuItemMessage>
             , public Eegeo::Messaging::CatalogBinding<Automation::ClosePoiMessage>
             , public Eegeo::Messaging::CatalogBinding<Automation::OpenSearchMenuSectionMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingViewOpenMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingStartLocationSetMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingStartLocationClearedMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingEndLocationSetMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingEndLocationClearedMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingRouteChangedMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingRouteClearedMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingCurrentDirectionSetMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingCurrentDirectionUpdatedMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingSelectedDirectionSetMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingRemainingRouteDurationSetMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingModeSetMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingShowRerouteDialogMessage>
             , private Eegeo::NonCopyable
         {
 

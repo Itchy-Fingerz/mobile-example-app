@@ -4,6 +4,7 @@
 #include "SearchResultSectionItemSelectedMessage.h"
 #include "SearchServicesResult.h"
 #include "IMenuSectionViewModel.h"
+#include "NavigateToMessage.h"
 #include "IMenuView.h"
 #include "IMenuOption.h"
 #include "MenuItemModel.h"
@@ -27,6 +28,8 @@ namespace ExampleApp
             , m_searchServices(searchServices)
             , m_onSearchResultsClearedCallback(this, &SearchWidgetController::OnSearchResultsCleared)
             , m_onSearchResultSelectedCallback(this, &SearchWidgetController::OnSearchResultSelected)
+            , m_onNavigationRequestedCallback(this, &SearchWidgetController::OnNavigationRequested)
+            , m_onSearchQueryClearRequestHandler(this, &SearchWidgetController::OnSearchQueryClearRequest)
             , m_onSearchQueryRefreshedHandler(this, &SearchWidgetController::OnSearchQueryRefreshedMessage)
             , m_onSearchQueryResultsLoadedHandler(this, &SearchWidgetController::OnSearchResultsLoaded)
             , m_deepLinkRequestedHandler(this, &SearchWidgetController::OnSearchRequestedMessage)
@@ -50,6 +53,7 @@ namespace ExampleApp
                 m_view.InsertOnItemSelected(m_onItemSelectedCallback);
                 m_view.InsertOnViewClosed(m_onViewClosedCallback);
                 m_view.InsertOnViewOpened(m_onViewOpenedCallback);
+                m_view.InsertOnNavigationRequestedCallback(m_onNavigationRequestedCallback);
 
                 m_viewModel.InsertOpenStateChangedCallback(m_onOpenableStateChanged);
                 m_viewModel.InsertOnScreenStateChangedCallback(m_onScreenStateChanged);
@@ -59,6 +63,7 @@ namespace ExampleApp
                 m_messageBus.SubscribeUi(m_onSearchQueryRefreshedHandler);
                 
                 m_messageBus.SubscribeUi(m_onSearchQueryResultsLoadedHandler);
+                m_messageBus.SubscribeUi(m_onSearchQueryClearRequestHandler);
                 m_messageBus.SubscribeUi(m_deepLinkRequestedHandler);
                 m_messageBus.SubscribeUi(m_onAppModeChanged);
 
@@ -84,6 +89,7 @@ namespace ExampleApp
 
                 m_messageBus.UnsubscribeUi(m_onAppModeChanged);
                 m_messageBus.UnsubscribeUi(m_onSearchQueryRefreshedHandler);
+                m_messageBus.UnsubscribeUi(m_onSearchQueryClearRequestHandler);
                 m_messageBus.UnsubscribeUi(m_onSearchQueryResultsLoadedHandler);
                 m_messageBus.UnsubscribeUi(m_deepLinkRequestedHandler);
 
@@ -92,10 +98,11 @@ namespace ExampleApp
                 m_viewModel.RemoveOnScreenStateChangedCallback(m_onScreenStateChanged);
                 m_viewModel.RemoveOpenStateChangedCallback(m_onOpenableStateChanged);
 
-                m_view.RemoveOnViewOpened(m_onViewOpenedCallback);
+                m_view.RemoveOnNavigationRequestedCallback(m_onNavigationRequestedCallback);
                 m_view.RemoveOnViewClosed(m_onViewClosedCallback);
                 m_view.RemoveResultSelectedCallback(m_onSearchResultSelectedCallback);
                 m_view.RemoveSearchClearedCallback(m_onSearchResultsClearedCallback);
+                m_view.RemoveOnItemSelected(m_onItemSelectedCallback);
                 m_view.RemoveOnItemSelected(m_onItemSelectedCallback);
 			}
 
@@ -134,6 +141,18 @@ namespace ExampleApp
                     m_searchServices.GetResultOriginalIndexFromCurrentIndex(index),
                     sdkSearchResult.GetIdentifier()));
             }
+
+            void SearchWidgetController::OnNavigationRequested(const int& index)
+            {
+                const SearchServicesResult::TSdkSearchResult& sdkSearchResult = m_searchServices.GetSdkSearchResultByIndex(index);
+                m_messageBus.Publish(NavRouting::NavigateToMessage(
+                        sdkSearchResult.GetTitle(),
+                        sdkSearchResult.GetLocation(),
+                        sdkSearchResult.IsInterior(),
+                        sdkSearchResult.GetBuildingId(),
+                        sdkSearchResult.GetFloor()
+                ));
+            }
             
             void SearchWidgetController::OnSearchResultsLoaded(const Search::SearchQueryResponseReceivedMessage& message)
             {
@@ -165,6 +184,11 @@ namespace ExampleApp
                                                   message.Location(),
                                                   message.Radius()));
             }
+
+            void SearchWidgetController::OnSearchQueryClearRequest(const Search::SearchQueryClearRequestMessage &message)
+            {
+                m_view.ClearSearchResults();
+            }
            
             void SearchWidgetController::OnSearchRequestedMessage(const Search::SearchQueryRequestMessage& message)
             {
@@ -187,6 +211,8 @@ namespace ExampleApp
                         visibleText = tagInfo.VisibleText();
                     }
                 }
+
+                m_previousVisibleTextFromTagSearch = visibleText;
 
                 auto queryContext = QueryContext(clearPreviousResults,
                                                  query.IsTag(),
@@ -257,64 +283,46 @@ namespace ExampleApp
                 m_view.UpdateMenuSectionViews(sections);
             }
 
-            void SearchWidgetController::OnOpenableStateChanged(OpenableControl::View::IOpenableControlViewModel& viewModel, float& state)
+            void SearchWidgetController::OnOpenableStateChanged(OpenableControl::View::IOpenableControlViewModel& viewModel)
             {
-                if(m_viewModel.IsAddedToScreen())
+                if(m_viewModel.IsOnScreen())
                 {
-                    if (m_viewModel.IsFullyClosed() || m_viewModel.IsFullyOpen())
+                    if (m_viewModel.IsOpen())
                     {
-                        m_view.SetFullyOnScreen();
-                    }
-                    else
-                    {
-                        m_view.SetOnScreenStateToIntermediateValue(state);
+                        m_view.SetOnScreen();
                     }
                 }
                 else
                 {
-                    m_view.SetFullyOffScreen();
+                    m_view.SetOffScreen();
                 }
             }
 
-            void SearchWidgetController::OnScreenControlStateChanged(ScreenControl::View::IScreenControlViewModel& viewModel, float& state)
+            void SearchWidgetController::OnScreenControlStateChanged(ScreenControl::View::IScreenControlViewModel& viewModel)
             {
-                if (m_viewModel.IsFullyOnScreen())
+                if (m_viewModel.IsOnScreen())
                 {
-                    m_view.SetFullyOnScreen();
+                    m_view.SetOnScreen();
                 }
-                else if (m_viewModel.IsFullyOffScreen())
+                else if (m_viewModel.IsOffScreen())
                 {
-                    m_view.SetFullyOffScreen();
-                }
-                else
-                {
-                    m_view.SetOnScreenStateToIntermediateValue(state);
+                    m_view.SetOffScreen();
                 }
             }
 
             void SearchWidgetController::OnViewOpened()
             {
-                if(!m_viewModel.IsFullyOpen())
+                if(!m_viewModel.IsOpen())
                 {
                     m_viewModel.Open();
-                }
-
-                if(m_viewModel.HasReactorControl())
-                {
-                    m_viewModel.ReleaseReactorControl();
                 }
             }
 
             void SearchWidgetController::OnViewClosed()
             {
-                if(!m_viewModel.IsFullyClosed())
+                if(!m_viewModel.IsClosed())
                 {
                     m_viewModel.Close();
-                }
-
-                if(m_viewModel.HasReactorControl())
-                {
-                    m_viewModel.ReleaseReactorControl();
                 }
             }
 

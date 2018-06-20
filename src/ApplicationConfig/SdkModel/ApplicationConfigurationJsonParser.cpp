@@ -73,6 +73,7 @@ namespace ExampleApp
                 const std::string CustomKeyboardLayout = "custom_keyboard_layout";
                 const std::string OutdoorSearchMenuItems = "outdoor_search_menu_items";
                 const std::string OverrideIndoorSearchMenuItems = "override_indoor_search_menu_items";
+                const std::string EnableNavigation = "enable_navigation";
                 
                 std::string ParseStringOrDefault(rapidjson::Document& document, const std::string& key, const std::string& defaultValue)
                 {
@@ -337,6 +338,9 @@ namespace ExampleApp
                 const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig> outdoorSearchMenuItems = ParseMenuItems(document, OutdoorSearchMenuItems);
                 bool overrideIndoorSearchMenuItems = ParseBoolOrDefault(document, OverrideIndoorSearchMenuItems, m_defaultConfig.OverrideIndoorSearchMenuItems());
 
+                bool navigationEnabled = ParseBoolOrDefault(document, EnableNavigation,
+                                                           m_defaultConfig.NavigationEnabled());
+
                 return ApplicationConfiguration(
                     name,
                     eegeoApiKey,
@@ -384,7 +388,8 @@ namespace ExampleApp
                     mapSceneId,
                     customKeyboardLayout,
                     outdoorSearchMenuItems,
-                    overrideIndoorSearchMenuItems
+                    overrideIndoorSearchMenuItems,
+                    navigationEnabled
                 );
             }
             

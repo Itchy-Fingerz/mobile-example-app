@@ -25,6 +25,8 @@ namespace ExampleApp
                 
                 void SetTransitionController(ICameraTransitionController& transitionController);
                 
+                void StartTransition(const CameraTransitionOptions& options);
+                
                 void StartTransitionTo(const Eegeo::dv3& newInterestPoint,
                                        float distanceFromInterest,
                                        bool jumpIfFar=true);
@@ -65,10 +67,15 @@ namespace ExampleApp
 
                 void InsertTransitionCompletedCallback(Eegeo::Helpers::ICallback0& callback);
                 void RemoveTransitionCompletedCallback(Eegeo::Helpers::ICallback0& callback);
+
+                void InsertTransitionFailedCallback(Eegeo::Helpers::ICallback0& callback);
+                void RemoveTransitionFailedCallback(Eegeo::Helpers::ICallback0& callback);
                 
             private:
                 
                 void OnTransitioningChanged();
+                void OnTransitioningCompleted();
+                void OnTransitioningFailed();
                 
                 void FailIfNoValidControllerSet();
                 
@@ -76,7 +83,10 @@ namespace ExampleApp
                 
                 Eegeo::Helpers::CallbackCollection0 m_transitioningChangedCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_transitionCompletedCallbacks;
+                Eegeo::Helpers::CallbackCollection0 m_transitionFailedCallbacks;
                 Eegeo::Helpers::TCallback0<CameraTransitionService> m_transitioningChangedHandler;
+                Eegeo::Helpers::TCallback0<CameraTransitionService> m_transitionCompleteHandler;
+                Eegeo::Helpers::TCallback0<CameraTransitionService> m_transitionFailedHandler;
             };
         }
     }
