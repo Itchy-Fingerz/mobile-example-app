@@ -55,6 +55,13 @@
         self.pReplayTutorialsLabel.textColor = ExampleApp::Helpers::ColorPalette::UiTextCopyColor;
         [self.pContentContainer addSubview:self.pReplayTutorialsLabel];
         
+        self.pSignOutButton = [[[UIButton alloc] init] autorelease];
+        [self.pSignOutButton setTitle:@"Sign out" forState:UIControlStateNormal];
+        [self.pSignOutButton setTitleColor:ExampleApp::Helpers::ColorPalette::UiTextTitleColor forState:UIControlStateNormal];
+        //self.pSignOutButton.titleLabel.textAlignment    = NSTextAlignmentLeft;
+        self.pSignOutButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [self.pContentContainer addSubview:self.pSignOutButton];
+        
         
         
         UIImage *onImage =   [UIImage imageNamed:@"FullSwitchOn"];
@@ -115,6 +122,9 @@
     [self.pReplayTutorialsLabel removeFromSuperview];
     [self.pReplayTutorialsLabel release];
     
+    [self.pSignOutButton removeFromSuperview];
+    [self.pSignOutButton release];
+    
     [self.pWifiOnlySwitch removeFromSuperview];
     [self.pWifiOnlySwitch release];
     
@@ -161,7 +171,7 @@
     CGFloat innerMarginWidth = mainWindowWidth - innerMargin.left - innerMargin.right;
     CGFloat contentY = self.pHeaderView.frame.origin.y +  self.pHeaderView.frame.size.height;
     
-    const CGFloat contentHeight = 4*rowHeight + innerMargin.top + innerMargin.bottom;
+    const CGFloat contentHeight = 5*rowHeight + innerMargin.top + innerMargin.bottom;
     const float mainWindowHeight = self.pHeaderView.frame.size.height + contentHeight;
     
     const float mainWindowX = (boundsWidth * 0.5f) - (mainWindowWidth * 0.5f);
@@ -217,7 +227,10 @@
     [self.pClearCacheButton setNeedsLayout];
     
     self.pReplayTutorialsButton.frame = CGRectMake(mainWindowWidth - switchWidth - innerMargin.right,innerMargin.top + 3.0*rowHeight + buttonOffsetY, switchWidth, buttonHeight);
-    [self.pReplayTutorialsButton setNeedsLayout];
+    
+    self.pSignOutButton.frame = CGRectMake(innerMargin.left,contentHeight - rowHeight, 100, rowHeight);
+    [self.pSignOutButton.titleLabel setFont:[UIFont systemFontOfSize:fontSize]];
+    [self.pSignOutButton setNeedsLayout];
    
 }
 - (void) setStreamOverWifiOnlySelected:(bool)isStreamOverWifiOnlySelected

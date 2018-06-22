@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -13,11 +13,28 @@
         <scene sceneID="EHf-IW-A2E">
             <objects>
                 <viewController id="01J-lp-oVM" sceneMemberID="viewController">
-                    <imageView key="view" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashScreen.png" id="88O-fh-k5p">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="HSp-Lm-YhW"/>
+                        <viewControllerLayoutGuide type="bottom" id="i8o-Lz-xWV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="O6X-04-sCb">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </imageView>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="DYn-gn-dMv">
+                                <rect key="frame" x="0.0" y="42" width="375" height="583"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="375" id="IEk-v4-gKK"/>
+                                    <constraint firstAttribute="height" constant="583" id="RZZ-1s-sa8"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="DYn-gn-dMv" firstAttribute="centerY" secondItem="O6X-04-sCb" secondAttribute="centerY" id="DmK-Uo-PIc"/>
+                            <constraint firstItem="DYn-gn-dMv" firstAttribute="centerX" secondItem="O6X-04-sCb" secondAttribute="centerX" id="vKv-d0-27S"/>
+                        </constraints>
+                    </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -25,6 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SplashScreen.png" width="300" height="128"/>
+        <image name="SplashScreen.png" width="375" height="583"/>
     </resources>
 </document>

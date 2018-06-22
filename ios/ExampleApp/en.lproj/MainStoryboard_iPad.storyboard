@@ -75,16 +75,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="xyw-88-ZEm">
-                                <rect key="frame" x="424.5" y="114" width="175" height="105"/>
+                                <rect key="frame" x="422" y="114" width="180" height="151"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="BaK-t7-fkF">
-                                <rect key="frame" x="448" y="269" width="128" height="128"/>
+                                <rect key="frame" x="448" y="315" width="128" height="128"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HgG-ch-DR6">
-                                <rect key="frame" x="493.5" y="447" width="37" height="37"/>
+                                <rect key="frame" x="493.5" y="493" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGF-r0-yCJ">
-                                <rect key="frame" x="374" y="494" width="276.5" height="38.5"/>
+                                <rect key="frame" x="374" y="540" width="276.5" height="38.5"/>
                                 <string key="text">Enter your phone number to receive a 
 validation code</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -92,22 +92,22 @@ validation code</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0y-4s-Ny3">
-                                <rect key="frame" x="362" y="552.5" width="300" height="50"/>
+                                <rect key="frame" x="362" y="598.5" width="300" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="textField_bg_plain.png" translatesAutoresizingMaskIntoConstraints="NO" id="G9C-UE-pBo">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uae_flg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wji-mh-uQC">
-                                        <rect key="frame" x="20" y="12" width="27" height="27"/>
+                                        <rect key="frame" x="20" y="15" width="36" height="21"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+971" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbn-jc-OBd">
-                                        <rect key="frame" x="57" y="0.5" width="32" height="50"/>
+                                        <rect key="frame" x="66" y="0.5" width="32" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-cc-LgC">
-                                        <rect key="frame" x="96" y="1" width="204" height="50"/>
+                                        <rect key="frame" x="105" y="1" width="195" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="fPv-kA-pAn"/>
                                         </constraints>
@@ -142,13 +142,13 @@ validation code</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entered invalid phone number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7T-zf-LGe">
-                                <rect key="frame" x="396.5" y="617.5" width="231.5" height="19.5"/>
+                                <rect key="frame" x="396.5" y="663.5" width="231.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kh3-AF-mpF">
-                                <rect key="frame" x="437" y="652" width="150" height="50"/>
+                                <rect key="frame" x="437" y="698" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Verify" backgroundImage="verify_btn.png">
                                     <color key="titleColor" red="0.078431372550000003" green="0.23137254900000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -206,29 +206,29 @@ validation code</string>
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhK-JO-XVj">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhK-JO-XVj">
                                 <rect key="frame" x="20" y="375.5" width="27" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="US2-yV-rKB">
-                                <rect key="frame" x="424.5" y="114" width="175" height="105"/>
+                                <rect key="frame" x="422" y="114" width="180" height="151"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="mdo-FG-Y5A">
-                                <rect key="frame" x="448" y="269" width="128" height="128"/>
+                                <rect key="frame" x="448" y="315" width="128" height="128"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="B1Z-s9-w3y">
-                                <rect key="frame" x="493.5" y="417" width="37" height="37"/>
+                                <rect key="frame" x="493.5" y="463" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the validation code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1P-ZL-qBe">
-                                <rect key="frame" x="427" y="464" width="170" height="18"/>
+                                <rect key="frame" x="427" y="510" width="170" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1q-T5-LRa">
-                                <rect key="frame" x="402" y="502" width="220" height="45"/>
+                                <rect key="frame" x="402" y="548" width="220" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="N7v-Ug-0EX">
                                         <rect key="frame" x="15" y="3" width="40" height="40"/>
@@ -335,19 +335,19 @@ validation code</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect validation code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrq-Fu-ZP0">
-                                <rect key="frame" x="416" y="562" width="192.5" height="19.5"/>
+                                <rect key="frame" x="416" y="608" width="192.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The validation code will expire in xxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Thw-fi-DVq">
-                                <rect key="frame" x="391" y="591.5" width="242" height="17"/>
+                                <rect key="frame" x="391" y="637.5" width="242" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZy-si-8Z4">
-                                <rect key="frame" x="484.5" y="698.5" width="55" height="32"/>
+                                <rect key="frame" x="484.5" y="744.5" width="55" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Resend"/>
                                 <state key="highlighted" title="Resend">
@@ -358,7 +358,7 @@ validation code</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyW-pd-izu">
-                                <rect key="frame" x="437" y="623.5" width="150" height="50"/>
+                                <rect key="frame" x="437" y="669.5" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Validate" backgroundImage="verify_btn.png">
                                     <color key="titleColor" red="0.078431372550000003" green="0.23137254900000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -434,10 +434,10 @@ validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="X8b-U1-xkK">
-                                        <rect key="frame" x="424.5" y="84" width="175" height="105"/>
+                                        <rect key="frame" x="422" y="84" width="180" height="151"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="7KZ-qT-k5X">
-                                        <rect key="frame" x="447.5" y="209" width="128" height="128"/>
+                                        <rect key="frame" x="447.5" y="255" width="128" height="128"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Validation Successful!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTQ-E5-1DQ">
                                         <rect key="frame" x="426.5" y="584" width="172" height="19.5"/>
@@ -448,8 +448,8 @@ validation code</string>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="veQ-dv-ere">
                                         <rect key="frame" x="437.5" y="628.5" width="150" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="Done" image="confirm_icn.png" backgroundImage="verify_btn.png">
-                                            <color key="titleColor" red="0.078431372550000003" green="0.23137254900000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Done" backgroundImage="verify_btn.png">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                         <connections>
@@ -511,10 +511,10 @@ validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="8dk-g9-8fH">
-                                        <rect key="frame" x="424.5" y="84" width="175" height="105"/>
+                                        <rect key="frame" x="422" y="84" width="180" height="151"/>
                                     </imageView>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="Av6-aj-e1N">
-                                        <rect key="frame" x="447.5" y="209" width="128" height="128"/>
+                                        <rect key="frame" x="447.5" y="255" width="128" height="128"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZn-19-1ob">
                                         <rect key="frame" x="300" y="560" width="424" height="38.5"/>
@@ -572,16 +572,15 @@ Retry in few minutes</string>
         </scene>
     </scenes>
     <resources>
-        <image name="confirm_icn.png" width="30" height="30"/>
-        <image name="hbmsu_logo_text.png" width="175" height="105"/>
+        <image name="hbmsu_logo_text.png" width="180" height="151"/>
         <image name="loc_icn.png" width="128" height="128"/>
         <image name="textField_bg_plain.png" width="300" height="50"/>
-        <image name="uae_flg.png" width="27" height="27"/>
+        <image name="uae_flg.png" width="36" height="21"/>
         <image name="verify_btn.png" width="150" height="50"/>
         <image name="verify_btn_hover.png" width="150" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="FhP-kQ-fdu"/>
-        <segue reference="P3J-PZ-VY9"/>
+        <segue reference="dVa-6g-ZU9"/>
+        <segue reference="JUp-RW-TVL"/>
     </inferredMetricsTieBreakers>
 </document>

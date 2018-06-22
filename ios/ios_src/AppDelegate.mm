@@ -11,6 +11,8 @@
 #include "IApplicationConfigurationService.h"
 #include "iOSFlurryMetricsService.h"
 
+#define DEFAULT_MAP_SCENE @"wrld://mapscene/3ff0966"
+
 namespace
 {
     typedef ExampleApp::ApplicationConfig::ApplicationConfiguration ApplicationConfiguration;
@@ -51,6 +53,7 @@ namespace
     
     [self setAppRootViewController];
     
+    _launchUrl = [[NSURL alloc] initWithString:DEFAULT_MAP_SCENE];
     if(launchOptions[@"UIApplicationLaunchOptionsURLKey"])
     {
         NSURL *url = launchOptions[@"UIApplicationLaunchOptionsURLKey"];
@@ -72,7 +75,7 @@ namespace
     {
         UINavigationController *vc = [appStoryBoard instantiateViewControllerWithIdentifier:@"SmsNavigationController"];
         self.window.rootViewController = vc;
-        
+
     }
     else
     {

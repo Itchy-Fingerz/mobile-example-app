@@ -54,6 +54,8 @@
 @property (nonatomic, retain) UILabel*  pCacheEnabledLabel;
 @property (nonatomic, retain) UILabel*  pClearCacheLabel;
 @property (nonatomic, retain) UILabel*  pReplayTutorialsLabel;
+@property (nonatomic, retain) UIButton*  pSignOutButton;
+
 
 @property (nonatomic, retain) UIView* pContentContainer;
 

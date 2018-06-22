@@ -27,6 +27,12 @@ namespace ExampleApp
             bool NavRoutingLocationFinder::TryGetCurrentLocation(NavRoutingLocationModel &outLocation)
             {
                 outLocation = NavRoutingLocationModel();
+                outLocation = NavRoutingLocationModel("Current Location",
+                                                      Eegeo::Space::LatLong::FromDegrees(56.459924, -2.978125),
+                                                      true,
+                                                      Eegeo::Resources::Interiors::InteriorId("westport_house"),
+                                                      2);
+                return true;
                 if(!m_locationService.GetIsAuthorized())
                 {
                     m_alertBoxFactory.CreateSingleOptionAlertBox("Location service is not authorized",

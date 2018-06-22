@@ -343,7 +343,7 @@ validation code</string>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1G-Hf-3QK">
                                 <rect key="frame" x="16" y="325" width="26.5" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -426,7 +426,7 @@ validation code</string>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSu-jg-l0E">
                                         <rect key="frame" x="113" y="578" width="150" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="Done" image="confirm_icn.png" backgroundImage="verify_btn.png"/>
+                                        <state key="normal" title="Done" backgroundImage="verify_btn.png"/>
                                         <connections>
                                             <action selector="doneButtonPressedL:" destination="LUO-5r-4IO" eventType="touchUpInside" id="LMn-7b-kVO"/>
                                         </connections>
@@ -532,7 +532,6 @@ Retry in few minutes</string>
         </scene>
     </scenes>
     <resources>
-        <image name="confirm_icn.png" width="30" height="30"/>
         <image name="hbmsu_logo_text.png" width="180" height="151"/>
         <image name="textField_bg_plain.png" width="300" height="50"/>
         <image name="uae_flg.png" width="36" height="21"/>
