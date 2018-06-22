@@ -4,7 +4,7 @@ package com.eegeo.compass;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.IRuntimePermissionResultHandler;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.eegeo.runtimepermissions.RuntimePermissionDispatcher;
 import com.wrld.widgets.navigation.widget.WrldNavWidget;
 

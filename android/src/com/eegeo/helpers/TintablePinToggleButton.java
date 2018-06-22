@@ -1,6 +1,6 @@
 package com.eegeo.helpers;
 
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 
 import android.view.View;
 

@@ -10,7 +10,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 
 import android.os.Handler;
 import android.util.Log;

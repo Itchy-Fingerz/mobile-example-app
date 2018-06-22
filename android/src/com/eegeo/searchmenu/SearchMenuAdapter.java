@@ -5,7 +5,7 @@ package com.eegeo.searchmenu;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.eegeo.tags.TagResources;
 
 import android.app.Activity;
