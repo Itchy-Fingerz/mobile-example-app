@@ -145,7 +145,7 @@ namespace ExampleApp
                                                              const Eegeo::Modules::Core::RenderingModule& renderingModule,
                                                              const Eegeo::Modules::IPlatformAbstractionModule& platformAbstractionModule)
         {
-            const Eegeo::v4 bgColor = Eegeo::v4(240.0f/255.0f, 240.0f/255.f, 240.0f/255.f, 1.0f);
+            const Eegeo::v4 bgColor = Eegeo::v4(255.0f/255.0f, 255.0f/255.f, 255.0f/255.f, 1.0f);
             Eegeo::Rendering::LoadingScreenConfig loadingScreenConfig;
             loadingScreenConfig.layout = Eegeo::Rendering::LoadingScreenLayout::Centred;
             loadingScreenConfig.backgroundColor = bgColor;
