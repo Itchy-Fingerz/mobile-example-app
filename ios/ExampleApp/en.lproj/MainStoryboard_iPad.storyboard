@@ -77,22 +77,19 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="xyw-88-ZEm">
                                 <rect key="frame" x="422" y="114" width="180" height="151"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="BaK-t7-fkF">
-                                <rect key="frame" x="448" y="315" width="128" height="128"/>
-                            </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="HgG-ch-DR6">
-                                <rect key="frame" x="493.5" y="493" width="37" height="37"/>
+                                <rect key="frame" x="493.5" y="483" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGF-r0-yCJ">
-                                <rect key="frame" x="374" y="540" width="276.5" height="38.5"/>
+                                <rect key="frame" x="374" y="530" width="276.5" height="38.5"/>
                                 <string key="text">Enter your phone number to receive a 
 validation code</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.50980392159999999" green="0.50588235290000005" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c0y-4s-Ny3">
-                                <rect key="frame" x="362" y="598.5" width="300" height="50"/>
+                                <rect key="frame" x="362" y="588.5" width="300" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="textField_bg_plain.png" translatesAutoresizingMaskIntoConstraints="NO" id="G9C-UE-pBo">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
@@ -100,14 +97,14 @@ validation code</string>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="uae_flg.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wji-mh-uQC">
                                         <rect key="frame" x="20" y="15" width="36" height="21"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+971" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbn-jc-OBd">
-                                        <rect key="frame" x="66" y="0.5" width="32" height="50"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+86" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qbn-jc-OBd">
+                                        <rect key="frame" x="66" y="0.5" width="26.5" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oc6-cc-LgC">
-                                        <rect key="frame" x="105" y="1" width="195" height="50"/>
+                                        <rect key="frame" x="99.5" y="1" width="200.5" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="fPv-kA-pAn"/>
                                         </constraints>
@@ -142,18 +139,15 @@ validation code</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entered invalid phone number" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7T-zf-LGe">
-                                <rect key="frame" x="396.5" y="663.5" width="231.5" height="19.5"/>
+                                <rect key="frame" x="396.5" y="653.5" width="231.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kh3-AF-mpF">
-                                <rect key="frame" x="437" y="698" width="150" height="50"/>
+                                <rect key="frame" x="437" y="688" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Verify" backgroundImage="verify_btn.png">
-                                    <color key="titleColor" red="0.078431372550000003" green="0.23137254900000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
+                                <state key="normal" title="Verify" backgroundImage="verify_btn.png"/>
                                 <connections>
                                     <action selector="verfiyButtonPressed:" destination="bPC-EW-0Jf" eventType="touchUpInside" id="CS7-wB-QOW"/>
                                 </connections>
@@ -161,7 +155,6 @@ validation code</string>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="BaK-t7-fkF" firstAttribute="centerX" secondItem="rji-Ge-qw5" secondAttribute="centerX" id="04t-ec-9Jh"/>
                             <constraint firstItem="xyw-88-ZEm" firstAttribute="top" secondItem="fpK-F8-1Ql" secondAttribute="bottom" constant="50" id="6xH-e6-10y"/>
                             <constraint firstItem="I7T-zf-LGe" firstAttribute="centerX" secondItem="rji-Ge-qw5" secondAttribute="centerX" id="AXu-Vt-pS0"/>
                             <constraint firstItem="xyw-88-ZEm" firstAttribute="centerX" secondItem="rji-Ge-qw5" secondAttribute="centerX" id="Dgb-1O-K6J"/>
@@ -171,10 +164,9 @@ validation code</string>
                             <constraint firstItem="Kh3-AF-mpF" firstAttribute="top" secondItem="I7T-zf-LGe" secondAttribute="bottom" constant="15" id="Zg0-a9-kbi"/>
                             <constraint firstItem="I7T-zf-LGe" firstAttribute="top" secondItem="c0y-4s-Ny3" secondAttribute="bottom" constant="15" id="bnI-KY-x07"/>
                             <constraint firstItem="HgG-ch-DR6" firstAttribute="centerX" secondItem="rji-Ge-qw5" secondAttribute="centerX" id="eKi-B7-ZKb"/>
-                            <constraint firstItem="HgG-ch-DR6" firstAttribute="top" secondItem="BaK-t7-fkF" secondAttribute="bottom" constant="50" id="j9K-NK-1Ed"/>
                             <constraint firstItem="zGF-r0-yCJ" firstAttribute="top" secondItem="HgG-ch-DR6" secondAttribute="bottom" constant="10" id="kAu-1v-q4x"/>
+                            <constraint firstItem="t2d-bI-Odt" firstAttribute="top" secondItem="Kh3-AF-mpF" secondAttribute="bottom" constant="30" id="kCB-tD-aDc"/>
                             <constraint firstItem="c0y-4s-Ny3" firstAttribute="centerX" secondItem="rji-Ge-qw5" secondAttribute="centerX" id="mgp-HQ-14m"/>
-                            <constraint firstItem="BaK-t7-fkF" firstAttribute="top" secondItem="xyw-88-ZEm" secondAttribute="bottom" constant="50" id="pok-yb-oh7"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Phone Number Verification" id="XfU-UQ-Gvk">
@@ -215,20 +207,17 @@ validation code</string>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="US2-yV-rKB">
                                 <rect key="frame" x="422" y="114" width="180" height="151"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="mdo-FG-Y5A">
-                                <rect key="frame" x="448" y="315" width="128" height="128"/>
-                            </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="B1Z-s9-w3y">
-                                <rect key="frame" x="493.5" y="463" width="37" height="37"/>
+                                <rect key="frame" x="493.5" y="434.5" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the validation code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1P-ZL-qBe">
-                                <rect key="frame" x="427" y="510" width="170" height="18"/>
+                                <rect key="frame" x="427" y="481.5" width="170" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.50980392159999999" green="0.50588235290000005" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1q-T5-LRa">
-                                <rect key="frame" x="402" y="548" width="220" height="45"/>
+                                <rect key="frame" x="402" y="519.5" width="220" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="N7v-Ug-0EX">
                                         <rect key="frame" x="15" y="3" width="40" height="40"/>
@@ -237,7 +226,7 @@ validation code</string>
                                             <constraint firstAttribute="width" constant="40" id="Eov-5D-evh"/>
                                             <constraint firstAttribute="height" constant="40" id="fJZ-7M-NEy"/>
                                         </constraints>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -246,7 +235,7 @@ validation code</string>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vgN-dc-oVD">
                                         <rect key="frame" x="15" y="43.5" width="40" height="3"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="3" id="C6a-Mm-OV6"/>
                                         </constraints>
@@ -254,7 +243,7 @@ validation code</string>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mSz-cO-0BR">
                                         <rect key="frame" x="65" y="3" width="39.5" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -263,7 +252,7 @@ validation code</string>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Coe-hs-38P">
                                         <rect key="frame" x="65" y="43.5" width="40" height="3"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="3" id="AV3-hv-1dw"/>
                                         </constraints>
@@ -271,7 +260,7 @@ validation code</string>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tEI-dh-qmD">
                                         <rect key="frame" x="114.5" y="3" width="40" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -280,7 +269,7 @@ validation code</string>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xqc-Ny-vfg">
                                         <rect key="frame" x="114" y="43.5" width="40" height="3"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="3" id="m3p-nL-NKF"/>
                                         </constraints>
@@ -288,7 +277,7 @@ validation code</string>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="H1c-CH-eEe">
                                         <rect key="frame" x="164.5" y="3" width="40.5" height="40"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -297,7 +286,7 @@ validation code</string>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LW5-aX-xfM">
                                         <rect key="frame" x="165" y="43.5" width="40" height="3"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="3" id="Nra-Xy-vJT"/>
                                         </constraints>
@@ -335,21 +324,23 @@ validation code</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect validation code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrq-Fu-ZP0">
-                                <rect key="frame" x="416" y="608" width="192.5" height="19.5"/>
+                                <rect key="frame" x="416" y="579.5" width="192.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The validation code will expire in xxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Thw-fi-DVq">
-                                <rect key="frame" x="391" y="637.5" width="242" height="17"/>
+                                <rect key="frame" x="391" y="609" width="242" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.88235294119999996" green="0.88235294119999996" blue="0.88235294119999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.50980392159999999" green="0.50588235290000005" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZy-si-8Z4">
-                                <rect key="frame" x="484.5" y="744.5" width="55" height="32"/>
+                                <rect key="frame" x="484.5" y="716" width="55" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Resend"/>
+                                <state key="normal" title="Resend">
+                                    <color key="titleColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
                                 <state key="highlighted" title="Resend">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -358,12 +349,9 @@ validation code</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyW-pd-izu">
-                                <rect key="frame" x="437" y="669.5" width="150" height="50"/>
+                                <rect key="frame" x="437" y="641" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Validate" backgroundImage="verify_btn.png">
-                                    <color key="titleColor" red="0.078431372550000003" green="0.23137254900000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
+                                <state key="normal" title="Validate" backgroundImage="verify_btn.png"/>
                                 <connections>
                                     <action selector="validationButtonPressed:" destination="oJf-Ic-LOd" eventType="touchUpInside" id="CdH-b0-Ekk"/>
                                 </connections>
@@ -373,23 +361,21 @@ validation code</string>
                         <constraints>
                             <constraint firstItem="K1P-ZL-qBe" firstAttribute="top" secondItem="B1Z-s9-w3y" secondAttribute="bottom" constant="10" id="0aR-uC-v5a"/>
                             <constraint firstItem="OZy-si-8Z4" firstAttribute="top" secondItem="tyW-pd-izu" secondAttribute="bottom" constant="25" id="2b7-4k-kec"/>
-                            <constraint firstItem="mdo-FG-Y5A" firstAttribute="top" secondItem="US2-yV-rKB" secondAttribute="bottom" constant="50" id="2cq-bM-2JF"/>
                             <constraint firstItem="OZy-si-8Z4" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="9Yn-3d-X2G"/>
                             <constraint firstItem="Thw-fi-DVq" firstAttribute="top" secondItem="vrq-Fu-ZP0" secondAttribute="bottom" constant="10" id="DL4-Yb-TL6"/>
                             <constraint firstItem="K1P-ZL-qBe" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="NWX-zX-4kd"/>
                             <constraint firstItem="m1q-T5-LRa" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="Swk-dK-hUG"/>
-                            <constraint firstItem="B1Z-s9-w3y" firstAttribute="top" secondItem="mdo-FG-Y5A" secondAttribute="bottom" constant="20" id="U2v-Cc-EuH"/>
                             <constraint firstItem="vrq-Fu-ZP0" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="Whw-Ah-AOi"/>
                             <constraint firstItem="qhK-JO-XVj" firstAttribute="leading" secondItem="NdF-L2-prb" secondAttribute="leadingMargin" id="Y2M-4I-CVF"/>
                             <constraint firstItem="vrq-Fu-ZP0" firstAttribute="top" secondItem="m1q-T5-LRa" secondAttribute="bottom" constant="15" id="Y6n-Wq-Ylw"/>
                             <constraint firstItem="qhK-JO-XVj" firstAttribute="centerY" secondItem="NdF-L2-prb" secondAttribute="centerY" id="Ybp-JQ-qO8"/>
                             <constraint firstItem="US2-yV-rKB" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="ckU-Hq-crg"/>
                             <constraint firstItem="tyW-pd-izu" firstAttribute="top" secondItem="Thw-fi-DVq" secondAttribute="bottom" constant="15" id="cxy-7g-q26"/>
-                            <constraint firstItem="mdo-FG-Y5A" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="du8-2S-zg7"/>
                             <constraint firstItem="B1Z-s9-w3y" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="gZP-XM-Z7l"/>
                             <constraint firstItem="US2-yV-rKB" firstAttribute="top" secondItem="Ms9-M3-zqK" secondAttribute="bottom" constant="50" id="kYd-Vo-816"/>
                             <constraint firstItem="Thw-fi-DVq" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="mH5-dY-Vli"/>
                             <constraint firstItem="tyW-pd-izu" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="sxF-y7-wL4"/>
+                            <constraint firstAttribute="bottom" secondItem="OZy-si-8Z4" secondAttribute="bottom" constant="20" id="tku-fV-Ecj"/>
                             <constraint firstItem="m1q-T5-LRa" firstAttribute="top" secondItem="K1P-ZL-qBe" secondAttribute="bottom" constant="20" id="uN1-1e-jah"/>
                         </constraints>
                     </view>
@@ -434,10 +420,7 @@ validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="X8b-U1-xkK">
-                                        <rect key="frame" x="422" y="84" width="180" height="151"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="7KZ-qT-k5X">
-                                        <rect key="frame" x="447.5" y="255" width="128" height="128"/>
+                                        <rect key="frame" x="422" y="164" width="180" height="151"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Validation Successful!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTQ-E5-1DQ">
                                         <rect key="frame" x="426.5" y="584" width="172" height="19.5"/>
@@ -451,7 +434,6 @@ validation code</string>
                                         <state key="normal" title="Done" backgroundImage="verify_btn.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                         <connections>
                                             <action selector="doneButtonPressedL:" destination="MbW-UQ-4sb" eventType="touchUpInside" id="zRo-Ho-4BW"/>
                                         </connections>
@@ -464,11 +446,9 @@ validation code</string>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="veQ-dv-ere" secondAttribute="bottom" constant="89.5" id="16S-po-HoZ"/>
                                     <constraint firstItem="84f-EC-j3v" firstAttribute="centerX" secondItem="p5K-0T-6ho" secondAttribute="centerX" id="8pJ-34-RM5"/>
-                                    <constraint firstItem="7KZ-qT-k5X" firstAttribute="centerX" secondItem="p5K-0T-6ho" secondAttribute="centerX" id="OYX-1w-voK"/>
                                     <constraint firstItem="YTQ-E5-1DQ" firstAttribute="centerX" secondItem="p5K-0T-6ho" secondAttribute="centerX" id="XPP-Ld-y7e"/>
                                     <constraint firstItem="X8b-U1-xkK" firstAttribute="centerX" secondItem="p5K-0T-6ho" secondAttribute="centerX" id="byX-CN-pbs"/>
-                                    <constraint firstItem="7KZ-qT-k5X" firstAttribute="top" secondItem="X8b-U1-xkK" secondAttribute="bottom" constant="20" id="euB-Rf-7bg"/>
-                                    <constraint firstItem="X8b-U1-xkK" firstAttribute="top" secondItem="p5K-0T-6ho" secondAttribute="top" constant="84" id="kD9-Zt-F7p"/>
+                                    <constraint firstItem="X8b-U1-xkK" firstAttribute="top" secondItem="p5K-0T-6ho" secondAttribute="top" constant="164" id="kD9-Zt-F7p"/>
                                     <constraint firstItem="84f-EC-j3v" firstAttribute="top" secondItem="veQ-dv-ere" secondAttribute="bottom" constant="15" id="mCS-RN-Q5Y"/>
                                     <constraint firstItem="veQ-dv-ere" firstAttribute="centerX" secondItem="p5K-0T-6ho" secondAttribute="centerX" id="ngk-wC-mDj"/>
                                     <constraint firstItem="veQ-dv-ere" firstAttribute="top" secondItem="YTQ-E5-1DQ" secondAttribute="bottom" constant="25" id="qNc-Sl-iHk"/>
@@ -511,10 +491,7 @@ validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="8dk-g9-8fH">
-                                        <rect key="frame" x="422" y="84" width="180" height="151"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loc_icn.png" translatesAutoresizingMaskIntoConstraints="NO" id="Av6-aj-e1N">
-                                        <rect key="frame" x="447.5" y="255" width="128" height="128"/>
+                                        <rect key="frame" x="422" y="164" width="180" height="151"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uZn-19-1ob">
                                         <rect key="frame" x="300" y="560" width="424" height="38.5"/>
@@ -528,9 +505,8 @@ Retry in few minutes</string>
                                         <rect key="frame" x="437.5" y="628.5" width="150" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Go Back" backgroundImage="verify_btn.png">
-                                            <color key="titleColor" red="0.078431372550000003" green="0.23137254900000001" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
-                                        <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                         <connections>
                                             <action selector="goBackButtonPressed:" destination="V3m-Zr-JTg" eventType="touchUpInside" id="ecB-Ye-rAC"/>
                                         </connections>
@@ -543,11 +519,9 @@ Retry in few minutes</string>
                                     <constraint firstItem="2k5-jF-S9D" firstAttribute="centerX" secondItem="OX9-LX-tM2" secondAttribute="centerX" id="OD6-Rk-9PW"/>
                                     <constraint firstAttribute="trailing" secondItem="uZn-19-1ob" secondAttribute="trailing" constant="300" id="PcS-rR-ok3"/>
                                     <constraint firstItem="8dk-g9-8fH" firstAttribute="centerX" secondItem="OX9-LX-tM2" secondAttribute="centerX" id="aVL-cZ-XCS"/>
-                                    <constraint firstItem="Av6-aj-e1N" firstAttribute="top" secondItem="8dk-g9-8fH" secondAttribute="bottom" constant="20" id="eNR-Bk-cTM"/>
                                     <constraint firstAttribute="bottom" secondItem="2k5-jF-S9D" secondAttribute="bottom" constant="89.5" id="i4Z-Xu-yra"/>
                                     <constraint firstItem="uZn-19-1ob" firstAttribute="centerX" secondItem="OX9-LX-tM2" secondAttribute="centerX" id="rAi-cc-ajR"/>
-                                    <constraint firstItem="Av6-aj-e1N" firstAttribute="centerX" secondItem="OX9-LX-tM2" secondAttribute="centerX" id="wtz-fR-Bf2"/>
-                                    <constraint firstItem="8dk-g9-8fH" firstAttribute="top" secondItem="OX9-LX-tM2" secondAttribute="top" constant="84" id="zg6-sD-Te7"/>
+                                    <constraint firstItem="8dk-g9-8fH" firstAttribute="top" secondItem="OX9-LX-tM2" secondAttribute="top" constant="164" id="zg6-sD-Te7"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -573,11 +547,9 @@ Retry in few minutes</string>
     </scenes>
     <resources>
         <image name="hbmsu_logo_text.png" width="180" height="151"/>
-        <image name="loc_icn.png" width="128" height="128"/>
         <image name="textField_bg_plain.png" width="300" height="50"/>
         <image name="uae_flg.png" width="36" height="21"/>
         <image name="verify_btn.png" width="150" height="50"/>
-        <image name="verify_btn_hover.png" width="150" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="dVa-6g-ZU9"/>

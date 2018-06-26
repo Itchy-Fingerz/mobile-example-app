@@ -145,7 +145,7 @@
     NSString* text = @"The validation code will expire in here";
     NSRange r = [text rangeOfString:@"here"];
     
-    UIColor* fgColor = [UIColor whiteColor];
+    UIColor* fgColor = [UIColor colorWithRed:130.0/255 green:129.0/255 blue:129.0/255 alpha:1.0];
     NSDictionary* attributesForRange = @{
                                          NSForegroundColorAttributeName: fgColor,
                                          };
