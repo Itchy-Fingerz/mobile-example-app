@@ -29,7 +29,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="DYn-gn-dMv" firstAttribute="centerY" secondItem="O6X-04-sCb" secondAttribute="centerY" id="DmK-Uo-PIc"/>
                             <constraint firstItem="DYn-gn-dMv" firstAttribute="centerX" secondItem="O6X-04-sCb" secondAttribute="centerX" id="vKv-d0-27S"/>
