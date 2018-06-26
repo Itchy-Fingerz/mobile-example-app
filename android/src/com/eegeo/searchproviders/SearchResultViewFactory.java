@@ -90,7 +90,7 @@ public class SearchResultViewFactory implements ISearchResultViewFactory
         {
             super.initialise(view);
 
-            View navButton = view.findViewById(com.eegeo.mobileexampleapp.R.id.search_result_navigation_button);
+            View navButton = view.findViewById(com.netsoltech.jcgroup.mobileexampleapp.R.id.search_result_navigation_button);
 
             navButton.setOnClickListener(new View.OnClickListener() {
                 @Override

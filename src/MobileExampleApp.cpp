@@ -523,7 +523,8 @@ namespace ExampleApp
 
         m_pOptionsModule = Eegeo_NEW(ExampleApp::Options::OptionsModule)(m_identityProvider,
                                                                          m_messageBus,
-                                                                         m_networkCapabilities);
+                                                                         m_networkCapabilities,
+                                                                         m_persistentSettings);
 
         const bool useGeoName = true;
         if(useGeoName)

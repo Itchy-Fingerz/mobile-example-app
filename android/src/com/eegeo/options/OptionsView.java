@@ -1,5 +1,9 @@
 package com.eegeo.options;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -9,7 +13,7 @@ import android.widget.CompoundButton;
 import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 
-public class OptionsView 
+public class OptionsView
 {
     protected MainActivity m_activity = null;
     protected long m_nativeCallerPointer;
@@ -20,7 +24,9 @@ public class OptionsView
     private CompoundButton m_dataCachingButton = null;
     private View m_clearCacheButton = null;
     private View m_playTutorialAgainButton = null;
+    private View m_SignOutButton = null;
     private OptionsCacheClearSubView m_cacheClearSubView = null;
+    private SignOutSubView m_signOutSubView = null;
     private OptionsMessage m_messageView = null;
 
     public OptionsView(MainActivity activity, long nativeCallerPointer)
@@ -42,6 +48,7 @@ public class OptionsView
         configureDataCachingOption();
         configureClearCacheOption();
         configurePlayTutorialAgainOption();
+        configureSignOutOption();
 
         m_activity.recursiveDisableSplitMotionEvents((ViewGroup)m_view);
 		
@@ -111,6 +118,33 @@ public class OptionsView
         });
     }
 
+    public void openSignOutWarning()
+    {
+        assert (m_signOutSubView == null);
+        m_signOutSubView = new SignOutSubView(m_activity);
+
+        m_signOutSubView.displayWarning(new Runnable() {
+            @Override
+            public void run() {
+                OptionsViewJniMethods.SignOutTriggered(m_nativeCallerPointer);
+            }
+        });
+    }
+
+    public void concludeSignOutCeremony()
+    {
+        m_signOutSubView.concludeCeremony();
+        m_signOutSubView = null;
+
+        final Context baseContext = m_activity.getApplicationContext();
+        Intent i = baseContext
+                .getPackageManager()
+                .getLaunchIntentForPackage( baseContext.getPackageName() );
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        baseContext.startActivity(i);
+    }
+
     private void configureStreamOverWifiOption()
     {
         m_streamOverWifiButton = (CompoundButton) m_view.findViewById(R.id.options_view_stream_wifi_only_togglebutton);
@@ -178,6 +212,19 @@ public class OptionsView
         m_playTutorialAgainButton.setOnClickListener(playTutorialAgainClickListener);
         TextView playTutorialAgainLabel = (TextView) m_view.findViewById(R.id.options_view_playtutorial_label);
         playTutorialAgainLabel.setOnClickListener(playTutorialAgainClickListener);
+    }
+
+    private void configureSignOutOption()
+    {
+        View.OnClickListener signOutButtonClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v)
+            {
+                OptionsViewJniMethods.SignOutSelected(m_nativeCallerPointer);
+            }
+        };
+        m_SignOutButton = m_view.findViewById(R.id.options_view_sign_out_button);
+        m_SignOutButton.setOnClickListener(signOutButtonClickListener);
     }
 
     private void ShowMessage(String title, String message)

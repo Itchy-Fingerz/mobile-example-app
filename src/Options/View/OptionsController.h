@@ -36,6 +36,8 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<OptionsController> m_viewClearCacheSelected;
                 Eegeo::Helpers::TCallback0<OptionsController> m_viewClearCacheTriggered;
                 Eegeo::Helpers::TCallback0<OptionsController> m_replayTutorialsSelected;
+                Eegeo::Helpers::TCallback0<OptionsController> m_signOutSelected;
+                Eegeo::Helpers::TCallback0<OptionsController> m_signOutTriggered;
                 Eegeo::Helpers::TCallback1<OptionsController, const AppModes::AppModeChangedMessage&> m_appModeChangedHandler;
 
                 void OnViewModelOpened();
@@ -55,6 +57,10 @@ namespace ExampleApp
                 void OnViewClearCacheTriggered();
 
                 void OnReplayTutorialsSelected();
+
+                void OnSignOutSelected();
+
+                void OnSignOutTriggered();
 
                 void OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message);
             public:

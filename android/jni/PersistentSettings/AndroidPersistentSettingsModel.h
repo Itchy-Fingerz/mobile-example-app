@@ -40,6 +40,8 @@ namespace ExampleApp
 
             void ClearAll();
 
+            void ClearValidationPersistentState();
+
         private:
             bool HasValue(const std::string& name) const;
 

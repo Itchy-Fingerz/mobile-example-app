@@ -31,6 +31,8 @@ namespace ExampleApp
             virtual void SetValue(const std::string& name, const std::string& value) = 0;
 
             virtual void ClearAll() = 0;
+
+            virtual void ClearValidationPersistentState() = 0;
         };
     }
 }

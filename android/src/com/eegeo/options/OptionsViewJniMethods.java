@@ -17,4 +17,8 @@ public class OptionsViewJniMethods
 	public static native void ClearCacheTriggered(long nativeCallerPointer);
 
 	public static native void PlayTutorialAgainSelected(long nativeCallerPointer);
+
+	public static native void SignOutSelected(long nativeCallerPointer);
+
+	public static native void SignOutTriggered(long nativeCallerPointer);
 }

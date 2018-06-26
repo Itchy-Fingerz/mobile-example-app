@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.IBackButtonListener;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.wrld.widgets.navigation.model.WrldNavEvent;
 import com.wrld.widgets.navigation.model.WrldNavLocation;
 import com.wrld.widgets.navigation.model.WrldNavMode;

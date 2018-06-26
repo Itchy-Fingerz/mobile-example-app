@@ -10,6 +10,8 @@ set(currsources
   ../src/Options/SdkModel/OptionsSdkIncludes.h
   ../src/Options/SdkModel/StreamOverWifiOnlyChangedMessageHandler.cpp
   ../src/Options/SdkModel/StreamOverWifiOnlyChangedMessageHandler.h
+  ../src/Options/SdkModel/SignOutMessageHandler.cpp
+  ../src/Options/SdkModel/SignOutMessageHandler.h
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\Options\\SdkModel FILES ${currsources})

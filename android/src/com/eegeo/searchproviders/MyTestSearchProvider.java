@@ -5,7 +5,7 @@ package com.eegeo.searchproviders;
 import android.app.Activity;
 import android.support.v4.content.res.ResourcesCompat;
 
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.jcgroup.mobileexampleapp.R;
 import com.wrld.widgets.search.model.SearchProvider;
 import com.wrld.widgets.search.model.SearchProviderResultsReadyCallback;
 import com.wrld.widgets.search.model.SearchResult;

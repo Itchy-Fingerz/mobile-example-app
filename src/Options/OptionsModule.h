@@ -12,6 +12,7 @@
 #include "IHttpCache.h"
 #include "NetIncludes.h"
 #include "CompletedCacheClearMessageHandler.h"
+#include "PersistentSettings.h"
 
 namespace ExampleApp
 {
@@ -23,11 +24,13 @@ namespace ExampleApp
             SdkModel::StreamOverWifiOnlyChangedMessageHandler* m_pStreamOverWifiOnlyChangedMessageHandler;
             SdkModel::CacheEnabledChangedMessageHandler* m_pCacheEnabledChangedMessageHandler;
             View::CompletedCacheClearMessageHandler* m_pCompletedCacheClearMessageHandler;
+            SdkModel::SignOutMessageHandler* m_pSignOutMessageHandler;
             
         public:
             OptionsModule(Eegeo::Helpers::IIdentityProvider& identityProvider,
                           ExampleAppMessaging::TMessageBus& messageBus,
-                          Net::SdkModel::INetworkCapabilities& networkCapabilities);
+                          Net::SdkModel::INetworkCapabilities& networkCapabilities,
+                          PersistentSettings::IPersistentSettingsModel& persistentSettings);
             
             ~OptionsModule();
             

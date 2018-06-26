@@ -5,6 +5,7 @@
 #include "CacheEnabledChangedMessage.h"
 #include "ClearCacheMessage.h"
 #include "InteriorsExplorerController.h"
+#include "SignOutMessage.h"
 
 namespace ExampleApp
 {
@@ -68,6 +69,17 @@ namespace ExampleApp
                 m_initialExperienceIntroController.ReplayExitIUX(true);
             }
 
+            void OptionsController::OnSignOutSelected()
+            {
+                m_view.OpenSignOutWarning();
+            }
+
+            void OptionsController::OnSignOutTriggered()
+            {
+                m_messageBus.Publish(SignOutMessage());
+                m_view.ConcludeSignOutCeremony();
+            }
+
             void OptionsController::OnAppModeChangedMessage(const AppModes::AppModeChangedMessage& message)
             {
                 const AppModes::SdkModel::AppMode appMode = message.GetAppMode();
@@ -101,6 +113,8 @@ namespace ExampleApp
             , m_viewClearCacheSelected(this, &OptionsController::OnViewClearCacheSelected)
             , m_viewClearCacheTriggered(this, &OptionsController::OnViewClearCacheTriggered)
             , m_replayTutorialsSelected(this, &OptionsController::OnReplayTutorialsSelected)
+            , m_signOutSelected(this, &OptionsController::OnSignOutSelected)
+            , m_signOutTriggered(this, &OptionsController::OnSignOutTriggered)
             , m_appModeChangedHandler(this, &OptionsController::OnAppModeChangedMessage)
             {
                 m_view.InsertCloseSelectedCallback(m_viewCloseSelected);
@@ -109,6 +123,8 @@ namespace ExampleApp
                 m_view.InsertClearCacheSelectedCallback(m_viewClearCacheSelected);
                 m_view.InsertClearCacheTriggeredCallback(m_viewClearCacheTriggered);
                 m_view.InsertReplayTutorialsSelectedCallback(m_replayTutorialsSelected);
+                m_view.InsertSignOutSelectedCallback(m_signOutSelected);
+                m_view.InsertSignOutTriggeredCallback(m_signOutTriggered);
 
                 m_viewModel.InsertClosedCallback(m_viewModelClosed);
                 m_viewModel.InsertOpenedCallback(m_viewModelOpened);
@@ -131,6 +147,8 @@ namespace ExampleApp
                 m_view.RemoveCacheEnabledSelectionChangedCallback(m_viewCacheEnabledSelectionChanged);
                 m_view.RemoveStreamOverWifiOnlySelectionChangedCallback(m_viewStreamOverWifiOnlySelectionChanged);
                 m_view.RemoveCloseSelectedCallback(m_viewCloseSelected);
+                m_view.RemoveSignOutSelectedCallback(m_signOutSelected);
+                m_view.RemoveSignOutTriggeredCallback(m_signOutTriggered);
             }
         }
     }

@@ -13,6 +13,8 @@ set(currsources
   ../src/Options/OptionsModule.h
   ../src/Options/StreamOverWifiOnlyChangedMessage.cpp
   ../src/Options/StreamOverWifiOnlyChangedMessage.h
+  ../src/Options/SignOutMessage.h
+  ../src/Options/SignOutMessage.cpp
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\Options FILES ${currsources})

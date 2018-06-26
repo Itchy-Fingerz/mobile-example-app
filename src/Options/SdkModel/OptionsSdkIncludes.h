@@ -10,6 +10,7 @@ namespace ExampleApp
         {
             class StreamOverWifiOnlyChangedMessageHandler;
             class CacheEnabledChangedMessageHandler;
+            class SignOutMessageHandler;
         }
     }
 }

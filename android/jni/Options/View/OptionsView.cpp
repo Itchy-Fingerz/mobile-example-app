@@ -103,6 +103,28 @@ namespace ExampleApp
                 env->CallVoidMethod(m_uiView, beginClearCacheCeremony);
             }
 
+            void OptionsView::OpenSignOutWarning()
+            {
+                ASSERT_UI_THREAD
+
+                AndroidSafeNativeThreadAttachment attached(m_nativeState);
+                JNIEnv* env = attached.envForThread;
+
+                jmethodID beginSignOutCeremony = env->GetMethodID(m_uiViewClass, "openSignOutWarning", "()V");
+                env->CallVoidMethod(m_uiView, beginSignOutCeremony);
+            }
+
+            void OptionsView::ConcludeSignOutCeremony()
+            {
+                ASSERT_UI_THREAD
+
+                AndroidSafeNativeThreadAttachment attached(m_nativeState);
+                JNIEnv* env = attached.envForThread;
+
+                jmethodID concludeSignOutCeremony = env->GetMethodID(m_uiViewClass, "concludeSignOutCeremony", "()V");
+                env->CallVoidMethod(m_uiView, concludeSignOutCeremony);
+            }
+
             void OptionsView::Open()
             {
                 ASSERT_UI_THREAD
@@ -176,6 +198,20 @@ namespace ExampleApp
                 ASSERT_UI_THREAD
 
                 m_replayTutorialsCallbacks.ExecuteCallbacks();
+            }
+
+            void OptionsView::HandleSignOutSelected()
+            {
+                ASSERT_UI_THREAD
+
+                m_signOutSelectedCallbacks.ExecuteCallbacks();
+            }
+
+            void OptionsView::HandleSignOutTriggered()
+            {
+                ASSERT_UI_THREAD
+
+                m_signOutTriggeredCallbacks.ExecuteCallbacks();
             }
 
             void OptionsView::InsertCloseSelectedCallback(Eegeo::Helpers::ICallback0& callback)
@@ -260,6 +296,34 @@ namespace ExampleApp
                 ASSERT_UI_THREAD
 
                 m_replayTutorialsCallbacks.RemoveCallback(callback);
+            }
+
+            void OptionsView::InsertSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                ASSERT_UI_THREAD
+
+                m_signOutSelectedCallbacks.AddCallback(callback);
+            }
+
+            void OptionsView::RemoveSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                ASSERT_UI_THREAD
+
+                m_signOutSelectedCallbacks.RemoveCallback(callback);
+            }
+
+            void OptionsView::InsertSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                ASSERT_UI_THREAD
+
+                m_signOutTriggeredCallbacks.AddCallback(callback);
+            }
+
+            void OptionsView::RemoveSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                ASSERT_UI_THREAD
+
+                m_signOutTriggeredCallbacks.RemoveCallback(callback);
             }
         }
     }

@@ -3,7 +3,6 @@ package com.eegeo.mobileexampleapp.validation;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,14 +35,13 @@ public class ResponseStatusFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState)
+    public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {   View view = inflater.inflate(R.layout.validation_status_layout, container, false);
         return view;
     }
@@ -56,7 +54,7 @@ public class ResponseStatusFragment extends Fragment implements View.OnClickList
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
@@ -70,14 +68,12 @@ public class ResponseStatusFragment extends Fragment implements View.OnClickList
             m_statusText.setText(m_statusMessage);
             m_statusText.setTextColor(Color.parseColor("#79c942"));
             m_doneButtonText.setText(R.string.validation_done_text);
-            m_doneButtonText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.validation_confirm_icon, 0);
         }
         else
         {
             m_statusText.setText(m_statusMessage);
             m_statusText.setTextColor(Color.RED);
             m_doneButtonText.setText(R.string.validation_go_back_text);
-            m_doneButtonText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
     }
 

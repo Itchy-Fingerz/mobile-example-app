@@ -75,4 +75,12 @@ public class PersistentState
         m_editor.clear();
         m_editor.commit();
     }
+
+    public void clearValidationPersistentState()
+    {
+        SharedPreferences sharedPreferences = m_activity.getSharedPreferences("com.eegeo.mobileexampleapp.validation.NumberValidationActivity", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

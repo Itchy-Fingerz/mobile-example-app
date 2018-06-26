@@ -28,6 +28,8 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection0 m_clearCacheCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_clearCacheTriggeredCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_replayTutorialsCallbacks;
+                Eegeo::Helpers::CallbackCollection0 m_signOutSelectedCallbacks;
+                Eegeo::Helpers::CallbackCollection0 m_signOutTriggeredCallbacks;
 
             public:
                 OptionsView(AndroidNativeState& nativeState);
@@ -43,6 +45,10 @@ namespace ExampleApp
                 void SetCacheEnabledSelected(bool isCacheEnabledSelected);
 
                 void OpenClearCacheWarning();
+
+                void OpenSignOutWarning();
+
+                void ConcludeSignOutCeremony();
 
                 void Open();
 
@@ -62,6 +68,10 @@ namespace ExampleApp
 
                 void HandleReplayTutorialsSelected();
 
+                void HandleSignOutSelected();
+
+                void HandleSignOutTriggered();
+
                 void InsertCloseSelectedCallback(Eegeo::Helpers::ICallback0& callback);
                 void RemoveCloseSelectedCallback(Eegeo::Helpers::ICallback0& callback);
 
@@ -79,6 +89,12 @@ namespace ExampleApp
 
                 void InsertReplayTutorialsSelectedCallback(Eegeo::Helpers::ICallback0& callback);
                 void RemoveReplayTutorialsSelectedCallback(Eegeo::Helpers::ICallback0& callback);
+
+                void InsertSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback);
+                void RemoveSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback);
+
+                void InsertSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback);
+                void RemoveSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback);
             };
         }
     }

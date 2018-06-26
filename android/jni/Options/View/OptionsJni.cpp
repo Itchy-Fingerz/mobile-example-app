@@ -65,3 +65,24 @@ JNIEXPORT void JNICALL Java_com_eegeo_options_OptionsViewJniMethods_PlayTutorial
     pView->HandleReplayTutorialsSelected();
 }
 
+JNIEXPORT void JNICALL Java_com_eegeo_options_OptionsViewJniMethods_SignOutSelected(
+        JNIEnv* jenv, jobject obj,
+        jlong nativeObjectPtr)
+{
+    ASSERT_UI_THREAD
+
+    ExampleApp::Options::View::OptionsView* pView = reinterpret_cast<ExampleApp::Options::View::OptionsView*>(nativeObjectPtr);
+    pView->HandleSignOutSelected();
+}
+
+JNIEXPORT void JNICALL Java_com_eegeo_options_OptionsViewJniMethods_SignOutTriggered(
+        JNIEnv* jenv, jobject obj,
+        jlong nativeObjectPtr)
+{
+    ASSERT_UI_THREAD
+
+    ExampleApp::Options::View::OptionsView* pView = reinterpret_cast<ExampleApp::Options::View::OptionsView*>(nativeObjectPtr);
+    pView->HandleSignOutTriggered();
+}
+
+

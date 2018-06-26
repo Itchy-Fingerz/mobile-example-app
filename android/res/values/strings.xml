@@ -37,6 +37,7 @@
     <string name="options_view_cache_enabled_togglebutton_text">Enable data caching on device</string>
     <string name="options_view_clear_cache_button_text">Clear cached map data</string>
     <string name="options_view_playtutorial_button_text">Play tutorial again</string>
+    <string name="options_view_sign_out_button_text">Sign out</string>
     <string name="options_view_ok_button_text">OK</string>
     <string name="options_view_replay_title">Replay Tutorials</string>
     <string name="options_view_replay_message">The help panels will be visible again when you enter or leave an indoor map.</string>
@@ -46,6 +47,12 @@
     <string name="cache_clear_confirm">Are you sure you want to remove all stored data?</string>
     <string name="cache_clear_working">Please wait, this may take a while...</string>
     <string name="cache_clear_done">Map data deleted from device.</string>
+
+    <string name="sign_out_title">Sign out</string>
+    <string name="sign_out_warning">Warning!</string>
+    <string name="sign_out_confirm">Are you sure you want to sign out from this device?</string>
+    <string name="sign_out_working">Please wait, this may take a while...</string>
+    <string name="sign_out_done">Signed out successfully</string>
     
     <string name="header_address">Address</string>
     <string name="header_phone">Phone</string>

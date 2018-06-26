@@ -23,6 +23,8 @@ namespace ExampleApp
                 virtual void SetCacheEnabledSelected(bool isCacheEnabledSelected) = 0;
 
                 virtual void OpenClearCacheWarning() = 0;
+                virtual void OpenSignOutWarning() = 0;
+                virtual void ConcludeSignOutCeremony() = 0;
 
                 virtual void Open() = 0;
                 virtual void Close() = 0;
@@ -45,6 +47,12 @@ namespace ExampleApp
 
                 virtual void InsertReplayTutorialsSelectedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
                 virtual void RemoveReplayTutorialsSelectedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
+
+                virtual void InsertSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
+                virtual void RemoveSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
+
+                virtual void InsertSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback) = 0;
+                virtual void RemoveSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback) = 0;
             };
         }
     }

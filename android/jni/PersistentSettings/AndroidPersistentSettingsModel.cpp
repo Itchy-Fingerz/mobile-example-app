@@ -186,5 +186,15 @@ namespace ExampleApp
             env->CallVoidMethod(m_jniApiInstance, methodId, keyJstr, value);
             env->DeleteLocalRef(keyJstr);
         }
+
+        void AndroidPersistentSettingsModel::ClearValidationPersistentState()
+        {
+            ASSERT_NATIVE_THREAD
+
+            AndroidSafeNativeThreadAttachment attached(m_nativeState);
+            JNIEnv* env = attached.envForThread;
+            jmethodID methodId = env->GetMethodID(m_jniApiClass, "clearValidationPersistentState", "()V");
+            env->CallVoidMethod(m_jniApiInstance, methodId);
+        }
     }
 }

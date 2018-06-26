@@ -48,6 +48,7 @@
 #include "NavRoutingStartEndRoutingButtonClickedMessage.h"
 #include "NavRoutingViewClosedMessage.h"
 #include "NavRoutingRerouteDialogClosedMessage.h"
+#include "SignOutMessage.h"
 
 namespace ExampleApp
 {
@@ -98,6 +99,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingStartEndRoutingButtonClickedMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingViewClosedMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingRerouteDialogClosedMessage>
+            , public Eegeo::Messaging::CatalogBinding<Options::SignOutMessage>
             , private Eegeo::NonCopyable
         {
 
