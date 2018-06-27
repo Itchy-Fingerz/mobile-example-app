@@ -111,5 +111,10 @@ namespace ExampleApp
         {
             [&m_userDefaults synchronize];
         }
+        
+        void iOSPersistentSettingsModel::ClearValidationPersistentState()
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:false forKey:@"isVerified"];
+        }
     }
 }

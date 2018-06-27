@@ -33,6 +33,8 @@ namespace ExampleApp
             void SetValue(const std::string& name, const std::string& value);
 
             void ClearAll();
+            
+            void ClearValidationPersistentState();
 
         private:
 

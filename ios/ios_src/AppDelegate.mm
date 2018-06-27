@@ -70,7 +70,7 @@ namespace
         fileName = @"MainStoryboard_iPhone";
     }
     UIStoryboard *appStoryBoard = [UIStoryboard storyboardWithName:fileName bundle:nil];
-    
+
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"isVerified"])
     {
         UINavigationController *vc = [appStoryBoard instantiateViewControllerWithIdentifier:@"SmsNavigationController"];

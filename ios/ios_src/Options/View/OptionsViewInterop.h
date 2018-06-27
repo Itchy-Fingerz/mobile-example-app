@@ -26,6 +26,8 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection0 m_clearCacheCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_clearCacheTriggeredCallbacks;
                 Eegeo::Helpers::CallbackCollection0 m_replayTutorialsCallbacks;
+                Eegeo::Helpers::CallbackCollection0 m_signOutSelectedCallbacks;
+                Eegeo::Helpers::CallbackCollection0 m_signOutTriggeredCallbacks;
                 
             public:
                 OptionsViewInterop(OptionsView* pView);
@@ -45,6 +47,14 @@ namespace ExampleApp
                 void OpenClearCacheWarning();
                 
                 void ConcludeCacheClearCeremony();
+                
+                void OpenSignOutWarning();
+                
+                void ConcludeSignOutCeremony();
+                
+                void HandleSignOutSelected();
+                
+                void HandleSignOutTriggered();
                 
                 void HandleCloseSelected();
                 
@@ -77,6 +87,12 @@ namespace ExampleApp
                 
                 void InsertReplayTutorialsSelectedCallback(Eegeo::Helpers::ICallback0& callback);
                 void RemoveReplayTutorialsSelectedCallback(Eegeo::Helpers::ICallback0& callback);
+                
+                void InsertSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback);
+                void RemoveSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback);
+                
+                void InsertSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback);
+                void RemoveSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback);
             };
         }
     }

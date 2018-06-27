@@ -7,6 +7,7 @@
 #include "AppRunner.h"
 #include "UILabelledCheckboxView.h"
 #include "OptionsCacheClearSubView.h"
+#include "OptionsSignOutSubView.h"
 #import "CustomSwitch.h"
 #import "HeaderView.h"
 #include "MessageView.h"
@@ -43,6 +44,10 @@
 
 - (void) concludeCacheClearCeremony;
 
+- (void) openSignOutWarning;
+
+- (void) concludeSignOutCeremony;
+
 @property (nonatomic, retain) HeaderView* pHeaderView;
 
 @property (nonatomic, retain) CustomSwitch*  pWifiOnlySwitch;
@@ -60,5 +65,6 @@
 @property (nonatomic, retain) UIView* pContentContainer;
 
 @property (nonatomic, retain) OptionsCacheClearSubView* pOptionsCacheClearSubView;
+@property (nonatomic, retain) OptionsSignOutSubView* pOptionsSignOutSubView;
 @property (nonatomic, retain) MessageView* pReplayTutorialsMessage;
 @end

@@ -58,8 +58,8 @@
         self.pSignOutButton = [[[UIButton alloc] init] autorelease];
         [self.pSignOutButton setTitle:@"Sign out" forState:UIControlStateNormal];
         [self.pSignOutButton setTitleColor:ExampleApp::Helpers::ColorPalette::UiTextTitleColor forState:UIControlStateNormal];
-        //self.pSignOutButton.titleLabel.textAlignment    = NSTextAlignmentLeft;
         self.pSignOutButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [self.pSignOutButton addTarget:self action:@selector(signOutSelectionHandler) forControlEvents:UIControlEventTouchUpInside];
         [self.pContentContainer addSubview:self.pSignOutButton];
         
         
@@ -91,6 +91,8 @@
         [self.pContentContainer addSubview:self.pReplayTutorialsButton];
         
         self.pOptionsCacheClearSubView = [[[OptionsCacheClearSubView alloc] init] autorelease];
+        
+        self.pOptionsSignOutSubView = [[[OptionsSignOutSubView alloc] init] autorelease];
         
         self.pReplayTutorialsMessage = [[[MessageView alloc] initWithFrame:self.bounds title:@"Replay Tutorials" message:@"The help panels will be visible again when you enter or leave a building."] autorelease];
         self.pReplayTutorialsMessage.hidden = true;
@@ -143,6 +145,9 @@
     [self.pOptionsCacheClearSubView removeFromSuperview];
     [self.pOptionsCacheClearSubView release];
     
+    [self.pOptionsSignOutSubView removeFromSuperview];
+    [self.pOptionsSignOutSubView release];
+    
     [self.pReplayTutorialsMessage removeFromSuperview];
     [self.pReplayTutorialsMessage release];
     
@@ -187,6 +192,9 @@
     [self.pReplayTutorialsMessage layoutIfNeeded];
     
     self.pOptionsCacheClearSubView.frame = self.frame;
+    
+    self.pOptionsSignOutSubView.frame = self.frame;
+
     
     
     self.pContentContainer.frame  = CGRectMake(0.0,contentY , mainWindowWidth, contentHeight);
@@ -262,11 +270,36 @@
                                                     action:@selector(clearCacheSelectionConfirmedHandler)];
 }
 
+- (void) openSignOutWarning
+{
+    Eegeo_ASSERT(![[self pOptionsSignOutSubView] isDisplayed]);
+    
+    [[self pOptionsSignOutSubView] displayWarningInView:self.superview
+                                                    target:self
+                                                    action:@selector(signOutSelectionConfirmedHandler)];
+}
+
 - (void)concludeCacheClearCeremony
 {
     Eegeo_ASSERT([[self pOptionsCacheClearSubView] isDisplayed]);
     [[self pOptionsCacheClearSubView] conclude];
 }
+
+- (void)concludeSignOutCeremony
+{
+    Eegeo_ASSERT([[self pOptionsSignOutSubView] isDisplayed]);
+    
+    [[self pOptionsSignOutSubView] conclude];
+    NSString *fileName = @"MainStoryboard_iPad";
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    {
+        fileName = @"MainStoryboard_iPhone";
+    }
+    UIStoryboard *appStoryBoard = [UIStoryboard storyboardWithName:fileName bundle:nil];
+    UINavigationController *vc = [appStoryBoard instantiateViewControllerWithIdentifier:@"SmsNavigationController"];
+    self.window.rootViewController = vc;
+}
+
 
 - (void)wifiCheckboxSelectionHandler
 {
@@ -281,6 +314,11 @@
 - (void)cacheClearSelectionHandler
 {
     m_pInterop->HandleClearCacheSelected();
+}
+
+- (void)signOutSelectionHandler
+{
+    m_pInterop->HandleSignOutSelected();
 }
 
 - (void)replayTutorialsSelectionHandler
@@ -298,6 +336,10 @@
     m_pInterop->HandleClearCacheTriggered();
 }
 
+- (void)signOutSelectionConfirmedHandler
+{
+    m_pInterop->HandleSignOutTriggered();
+}
 
 - (ExampleApp::Options::View::OptionsViewInterop*)getInterop
 {

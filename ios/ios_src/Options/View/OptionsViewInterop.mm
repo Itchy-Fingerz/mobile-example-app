@@ -53,6 +53,25 @@ namespace ExampleApp
                 [m_pView concludeCacheClearCeremony];
             }
             
+            void OptionsViewInterop::OpenSignOutWarning()
+            {
+                [m_pView openSignOutWarning];
+            }
+            void OptionsViewInterop::ConcludeSignOutCeremony()
+            {
+                [m_pView concludeSignOutCeremony];
+            }
+            
+            void OptionsViewInterop::HandleSignOutSelected()
+            {
+                m_signOutSelectedCallbacks.ExecuteCallbacks();
+            }
+
+            void OptionsViewInterop::HandleSignOutTriggered()
+            {
+                m_signOutTriggeredCallbacks.ExecuteCallbacks();
+            }
+            
             void OptionsViewInterop::HandleCloseSelected()
             {
                 m_closeCallbacks.ExecuteCallbacks();
@@ -141,6 +160,26 @@ namespace ExampleApp
             void OptionsViewInterop::RemoveReplayTutorialsSelectedCallback(Eegeo::Helpers::ICallback0& callback)
             {
                 m_replayTutorialsCallbacks.RemoveCallback(callback);
+            }
+            
+            void OptionsViewInterop::InsertSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                m_signOutSelectedCallbacks.AddCallback(callback);
+                
+            }
+            
+            void OptionsViewInterop::RemoveSignOutSelectedCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                m_signOutSelectedCallbacks.RemoveCallback(callback);
+            }
+            
+            void OptionsViewInterop::InsertSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                m_signOutTriggeredCallbacks.AddCallback(callback);
+            }
+            void OptionsViewInterop::RemoveSignOutTriggeredCallback(Eegeo::Helpers::ICallback0& callback)
+            {
+                m_signOutTriggeredCallbacks.RemoveCallback(callback);
             }
         }
     }

@@ -6,6 +6,8 @@ set(currsources
   ios_src/Options/View/IOptionsViewModule.h
   ios_src/Options/View/OptionsCacheClearSubView.h
   ios_src/Options/View/OptionsCacheClearSubView.mm
+  ios_src/Options/View/OptionsSignOutSubView.h
+  ios_src/Options/View/OptionsSignOutSubView.mm
   ios_src/Options/View/OptionsView.h
   ios_src/Options/View/OptionsView.mm
   ios_src/Options/View/OptionsViewIncludes.h
