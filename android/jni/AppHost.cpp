@@ -566,6 +566,8 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     m_pNavWidgetViewModule = Eegeo_NEW(ExampleApp::NavRouting::View::NavWidgetViewModule)(
                                     m_nativeState,
                                     app.NavUIModule().GetNavWidgetViewModel(),
+                                    m_pSearchWidgetViewModule->GetSearchProvider(),
+                                    m_pSearchWidgetViewModule->GetSuggestionsRepository(),
                                     m_navWidgetViewTopHeightChangedCallbacks,
                                     m_navWidgetViewBottomHeightChangedCallbacks,
                                     m_messageBus);
@@ -604,6 +606,7 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(
 									m_nativeState,
 									m_messageBus,
+                                    app.NavUIModule().GetNavWidgetViewModel(),
 									app.CameraTransitionController()
 								);
 

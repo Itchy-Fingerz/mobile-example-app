@@ -31,10 +31,7 @@ namespace ExampleApp
                 const std::string EmbeddedThemeTexturePath = "embedded_theme_texture_path";
                 const std::string GoogleAnalyticsReferrerToken = "google_analytics_referrer_token";
                 const std::string FlurryAppKey = "flurry_app_key";
-                const std::string YelpConsumerKey = "yelp_consumer_key";
-                const std::string YelpConsumerSecret = "yelp_consumer_secret";
-                const std::string YelpOAuthToken = "yelp_oauth_token";
-                const std::string YelpOAuthTokenSecret = "yelp_oauth_token_secret";
+                const std::string YelpApiKey = "yelp_api_key";
                 const std::string GeoNamesUserName = "geonames_username";
                 const std::string EegeoSearchServiceUrl = "eegeo_search_service_url";
                 const std::string MyPinsWebServiceUrl = "mypins_web_service_url";
@@ -66,6 +63,10 @@ namespace ExampleApp
                 const std::string AttractModeTimeoutMillis = "attract_mode_timeout_millis";
                 const std::string AttractModePlaybackSpeed = "attract_mode_playback_speed";
                 const std::string OptionsAdminPassword = "options_admin_password";
+                const std::string CompassCameraOffset = "compass_camera_offset";
+                const std::string Offset = "offset";
+                const std::string OffsetTopDown = "offset_top_down";
+                const std::string CompassCameraDampingEnabled = "compass_camera_damping_enabled";
                 const std::string SurveyTimeRequirementSec = "survey_time_requirement_sec";
                 const std::string TimerSurveyUrl = "timer_survey_url";
                 const std::string HockeyAppId = "hockey_app_id";
@@ -112,7 +113,7 @@ namespace ExampleApp
                     return defaultValue;
                 }
                 
-                double ParseDoubleOrDefault(rapidjson::Document& document, const std::string& key, double defaultValue)
+                double ParseDoubleOrDefault(const rapidjson::Value& document, const std::string& key, double defaultValue)
                 {
                     if (document.HasMember(key.c_str()))
                     {
@@ -283,10 +284,7 @@ namespace ExampleApp
                 const std::string& embeddedThemeTexturePath = ParseStringOrDefault(document, EmbeddedThemeTexturePath, m_defaultConfig.EmbeddedThemeTexturePath());
                 const std::string& googleAnalyticsReferrerToken = ParseStringOrDefault(document, GoogleAnalyticsReferrerToken, m_defaultConfig.GoogleAnalyticsReferrerToken());
                 const std::string& flurryAppKey = ParseStringOrDefault(document, FlurryAppKey, m_defaultConfig.FlurryAppKey());
-                const std::string& yelpConsumerKey = ParseStringOrDefault(document, YelpConsumerKey, m_defaultConfig.YelpConsumerKey());
-                const std::string& yelpConsumerSecret = ParseStringOrDefault(document, YelpConsumerSecret, m_defaultConfig.YelpConsumerSecret());
-                const std::string& yelpOAuthToken = ParseStringOrDefault(document, YelpOAuthToken, m_defaultConfig.YelpOAuthToken());
-                const std::string& yelpOAuthTokenSecret = ParseStringOrDefault(document, YelpOAuthTokenSecret, m_defaultConfig.YelpOAuthTokenSecret());
+                const std::string& yelpApiKey = ParseStringOrDefault(document, YelpApiKey, m_defaultConfig.YelpApiKey());
                 const std::string& geoNamesUserName = ParseStringOrDefault(document, GeoNamesUserName, m_defaultConfig.GeoNamesUserName());
                 const std::string& eegeoSearchServiceUrl = ParseStringOrDefault(document, EegeoSearchServiceUrl, m_defaultConfig.EegeoSearchServiceUrl());
                 const std::string& myPinsWebServiceUrl = ParseStringOrDefault(document, MyPinsWebServiceUrl, m_defaultConfig.MyPinsWebServiceUrl());
@@ -323,7 +321,18 @@ namespace ExampleApp
                 const float attractModePlaybackSpeed = ParseDoubleOrDefault(document, AttractModePlaybackSpeed, m_defaultConfig.AttractModePlaybackSpeed());
 
                 const std::string optionsAdminPassword(ParseStringOrDefault(document, OptionsAdminPassword, m_defaultConfig.OptionsAdminPassword()));
-                
+
+                float compassCameraOffset = 0.0f;
+                float compassCameraOffsetTopDown = 0.0f;
+                if (document.HasMember(CompassCameraOffset.c_str()))
+                {
+                    const rapidjson::Value& offsetJSON = document[CompassCameraOffset.c_str()];
+                    compassCameraOffset = ParseDoubleOrDefault(offsetJSON, Offset, m_defaultConfig.CompassCameraOffset());
+                    compassCameraOffset = ParseDoubleOrDefault(offsetJSON, OffsetTopDown, m_defaultConfig.CompassCameraOffset());
+                }
+
+                bool compassCameraDampingEnabled = ParseBoolOrDefault(document, CompassCameraDampingEnabled, m_defaultConfig.CompassCameraDampingEnabled());
+
                 const long long surveyTimeRequirementSec = ParseIntOrDefault(document, SurveyTimeRequirementSec, static_cast<int>(m_defaultConfig.SurveyRequirementTimeSec()));
                 
                 const std::string timerSurveyUrl = ParseStringOrDefault(document, TimerSurveyUrl, m_defaultConfig.TimerSurveyUrl());
@@ -361,10 +370,7 @@ namespace ExampleApp
                     startUpSearchTag,
                     googleAnalyticsReferrerToken,
                     flurryAppKey,
-                    yelpConsumerKey,
-                    yelpConsumerSecret,
-                    yelpOAuthToken,
-                    yelpOAuthTokenSecret,
+                    yelpApiKey,
                     geoNamesUserName,
                     eegeoSearchServiceUrl,
                     myPinsWebServiceUrl,
@@ -381,6 +387,9 @@ namespace ExampleApp
                     attractModeTimeoutMillis,
                     attractModePlaybackSpeed,
                     optionsAdminPassword,
+                    compassCameraOffset,
+                    compassCameraOffsetTopDown,
+                    compassCameraDampingEnabled,
                     surveyTimeRequirementSec,
                     timerSurveyUrl,
                     hockeyAppId,

@@ -318,6 +318,9 @@ namespace ExampleApp
 
         Eegeo::Camera::GlobeCamera::GpsGlobeCameraComponentConfiguration gpsGlobeCameraConfig = Eegeo::Camera::GlobeCamera::GpsGlobeCameraComponentConfiguration::CreateDefault();
         gpsGlobeCameraConfig.panToUnlockThreshold = PanToUnlockThreshold;
+        gpsGlobeCameraConfig.compassCameraOffset = m_applicationConfiguration.CompassCameraOffset();
+        gpsGlobeCameraConfig.compassCameraOffsetTopDown = m_applicationConfiguration.CompassCameraOffsetTopDown();
+        gpsGlobeCameraConfig.compassCameraDampingEnabled = m_applicationConfiguration.CompassCameraDampingEnabled();
 
         if(m_applicationConfiguration.IsInKioskMode() && m_applicationConfiguration.IsFixedIndoorLocationEnabled())
         {
@@ -562,10 +565,7 @@ namespace ExampleApp
                                                                                                                                       m_networkCapabilities,
                                                                                                                                       m_platformAbstractions.GetUrlEncoder(),
                                                                                                                                       searchTags,
-                                                                                                                                      m_applicationConfiguration.YelpConsumerKey(),
-                                                                                                                                      m_applicationConfiguration.YelpConsumerSecret(),
-                                                                                                                                      m_applicationConfiguration.YelpOAuthToken(),
-                                                                                                                                      m_applicationConfiguration.YelpOAuthTokenSecret(),
+                                                                                                                                      m_applicationConfiguration.YelpApiKey(),
                                                                                                                                       m_platformAbstractions.GetFileIO(),
                                                                                                                                       m_yelpCategoryMapperUpdater
                                                                                                                                       );
@@ -723,6 +723,9 @@ namespace ExampleApp
         Eegeo::Camera::GlobeCamera::GpsGlobeCameraComponentConfiguration gpsGlobeCameraComponentConfig = Eegeo::Resources::Interiors::InteriorsGpsCameraControllerFactory::DefaultGpsGlobeCameraComponentConfiguration();
         gpsGlobeCameraComponentConfig.defaultGpsDistanceToInterest = ExampleApp::InteriorsExplorer::DefaultInteriorSearchResultTransitionInterestDistance;
         gpsGlobeCameraComponentConfig.panToUnlockThreshold = PanToUnlockThreshold;
+        gpsGlobeCameraComponentConfig.compassCameraOffset = m_applicationConfiguration.CompassCameraOffset();
+        gpsGlobeCameraComponentConfig.compassCameraOffsetTopDown = m_applicationConfiguration.CompassCameraOffsetTopDown();
+        gpsGlobeCameraComponentConfig.compassCameraDampingEnabled = m_applicationConfiguration.CompassCameraDampingEnabled();
 
         if(m_applicationConfiguration.IsInKioskMode() && m_applicationConfiguration.IsFixedIndoorLocationEnabled())
         {
@@ -840,7 +843,8 @@ namespace ExampleApp
                                                                                             interiorsModelModule.GetInteriorsModelRepository(),
                                                                                             mapModule.GetMarkersModule().GetMarkerService(),
                                                                                             m_pWorldPinsModule->GetWorldPinsService(),
-                                                                                            m_pGpsMarkerModule->GetGpsMarkerModel());
+                                                                                            m_pGpsMarkerModule->GetGpsMarkerModel(),
+                                                                                            m_pWorldPinsModule->GetWorldPinsVisibilityController());
         
         m_pInteriorCameraWrapper = Eegeo_NEW(AppCamera::SdkModel::AppInteriorCameraWrapper)(m_pInteriorsExplorerModule->GetInteriorsGpsCameraController(),
                                                                                             m_pInteriorsExplorerModule->GetInteriorsCameraController());

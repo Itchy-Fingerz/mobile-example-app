@@ -160,4 +160,5 @@ dependencies {
     implementation project(':wrld-navigation-release')
     implementation project(':wrld-navigation-widget-release')
     implementation 'com.android.volley:volley:1.1.0'
+    implementation project(':wrld-navigation-search-release')
 }

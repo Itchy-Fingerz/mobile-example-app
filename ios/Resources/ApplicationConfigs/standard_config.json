@@ -15,10 +15,7 @@
     "theme_manifest_url": "",
     "google_analytics_referrer_token": "mea_ios",
     "flurry_app_key": "",
-    "yelp_consumer_key": "",
-    "yelp_consumer_secret": "",
-    "yelp_oauth_token": "",
-    "yelp_oauth_token_secret": "",
+    "yelp_api_key": "",
     "geonames_username": "",
     "eegeo_search_service_url": "",
     "mypins_web_service_url": "",
@@ -28,6 +25,11 @@
     "use_chinese_font": true,
     "timer_survey_url":"",
     "enable_navigation": false,
+    "compass_camera_offset": {
+      "offset": 0.0,
+      "offset_top_down": 0.0
+    },
+    "compass_camera_damping_enabled": true,
     "outdoor_search_menu_items": [{
                                   "name": "Around Me",
                                   "search_tag": "",

@@ -47,7 +47,10 @@
 #include "NavRoutingSelectedDirectionChangedMessage.h"
 #include "NavRoutingStartEndRoutingButtonClickedMessage.h"
 #include "NavRoutingViewClosedMessage.h"
+#include "NavRoutingViewOpenedMessage.h"
 #include "NavRoutingRerouteDialogClosedMessage.h"
+#include "NavRoutingStartLocationSetFromSearchMessage.h"
+#include "NavRoutingEndLocationSetFromSearchMessage.h"
 #include "SignOutMessage.h"
 
 namespace ExampleApp
@@ -98,7 +101,10 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingSelectedDirectionChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingStartEndRoutingButtonClickedMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingViewClosedMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingViewOpenedMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingRerouteDialogClosedMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingStartLocationSetFromSearchMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingEndLocationSetFromSearchMessage>
             , public Eegeo::Messaging::CatalogBinding<Options::SignOutMessage>
             , private Eegeo::NonCopyable
         {

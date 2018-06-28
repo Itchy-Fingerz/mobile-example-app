@@ -332,11 +332,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 {
     ExampleApp::MobileExampleApp& app = *m_pApp;
     
-    const ExampleApp::NavRouting::View::NavUIModule& navUIModule = app.NavUIModule();
-    m_pNavUIViewModule = Eegeo_NEW(ExampleApp::NavRouting::View::NavWidgetViewModule)(navUIModule.GetObservableOpenableControl(),
-                                                                                      navUIModule.GetNavWidgetViewModel(),
-                                                                                      m_messageBus);
-    
     m_pWatermarkViewModule = Eegeo_NEW(ExampleApp::Watermark::View::WatermarkViewModule)(app.WatermarkModule().GetWatermarkViewModel(),
                                                                                          app.WatermarkModule().GetWatermarkDataRepository(),
                                                                                          screenProperties,
@@ -344,18 +339,25 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                          m_iOSFlurryMetricsService);
 
     m_pModalBackgroundViewModule = Eegeo_NEW(ExampleApp::ModalBackground::View::ModalBackgroundViewModule)(app.ModalityModule().GetModalityModel(), screenProperties);
+    
+    
+    bool showDirectionsInSearchResults = m_pApp->GetApplicationConfiguration().NavigationEnabled();
+    m_pSearchWidgetViewModule = Eegeo_NEW(ExampleApp::SearchMenu::View::SearchWidgetViewModule)(m_pModalBackgroundViewModule->GetModalBackgroundViewInterop(),
+                                                                                                app.SearchMenuModule().GetSearchMenuViewModel(),
+                                                                                                showDirectionsInSearchResults,
+                                                                                                m_messageBus);
+    
+    const ExampleApp::NavRouting::View::NavUIModule& navUIModule = app.NavUIModule();
+    m_pNavUIViewModule = Eegeo_NEW(ExampleApp::NavRouting::View::NavWidgetViewModule)(navUIModule.GetObservableOpenableControl(),
+                                                                                      navUIModule.GetNavWidgetViewModel(),
+                                                                                      m_pSearchWidgetViewModule->GetSuggestionsRepository(),
+                                                                                      m_messageBus);
 
     m_pTagSearchViewModule = ExampleApp::TagSearch::View::TagSearchViewModule::Create(
             app.TagSearchModule().GetTagSearchMenuOptionsModel(),
             app.SearchMenuModule().GetSearchMenuViewModel(),
             m_messageBus,
             *m_pMenuReactionModel);
-
-    bool showDirectionsInSearchResults = m_pApp->GetApplicationConfiguration().NavigationEnabled();
-    m_pSearchWidgetViewModule = Eegeo_NEW(ExampleApp::SearchMenu::View::SearchWidgetViewModule)(m_pModalBackgroundViewModule->GetModalBackgroundViewInterop(),
-         app.SearchMenuModule().GetSearchMenuViewModel(),
-         showDirectionsInSearchResults,
-         m_messageBus);
 
     bool showDirectionsButton = m_pApp->GetApplicationConfiguration().NavigationEnabled();
     m_pSearchResultPoiViewModule = Eegeo_NEW(ExampleApp::SearchResultPoi::View::SearchResultPoiViewModule)(app.SearchResultPoiModule().GetSearchResultPoiViewModel(),
@@ -366,7 +368,8 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     m_pCompassViewModule = Eegeo_NEW(ExampleApp::Compass::View::CompassViewModule)(app.CompassModule().GetCompassViewModel(),
                            screenProperties,
                            m_pNavUIViewModule->getBottomPanelVisibleHeightChangedCallbacks(),
-                           m_messageBus);
+                           m_messageBus,
+                           &m_viewController);
 
     m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService, m_messageBus);
 
@@ -388,7 +391,11 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                 app.MyPinDetailsModule().GetMyPinDetailsViewModel(),
                                 screenProperties);
     
-    m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(m_messageBus, app.CameraTransitionController(), screenProperties);
+    m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(
+                                m_messageBus,
+                                navUIModule.GetNavWidgetViewModel(),
+                                app.CameraTransitionController(),
+                                screenProperties);
     
     
     m_pInteriorsExplorerViewModule = Eegeo_NEW(ExampleApp::InteriorsExplorer::View::InteriorsExplorerViewModule)(app.InteriorsExplorerModule().GetInteriorsExplorerModel(),
@@ -502,18 +509,18 @@ void AppHost::DestroyApplicationViewModules()
     Eegeo_DELETE m_pCompassViewModule;
 
     Eegeo_DELETE m_pSearchResultPoiViewModule;
+    
+    Eegeo_DELETE m_pNavUIViewModule;
+    
+    Eegeo_DELETE m_pSearchWidgetViewModule;
 
     Eegeo_DELETE m_pModalBackgroundViewModule;
 
     Eegeo_DELETE m_pTagSearchViewModule;
 
-    Eegeo_DELETE m_pSearchWidgetViewModule;
-
     Eegeo_DELETE m_pInitialExperienceIntroViewModule;
     
     Eegeo_DELETE m_pWatermarkViewModule;
-    
-    Eegeo_DELETE m_pNavUIViewModule;
 }
 
 void AppHost::SetTouchExclusivity()

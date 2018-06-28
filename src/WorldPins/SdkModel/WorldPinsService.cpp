@@ -24,7 +24,6 @@ namespace ExampleApp
                                                IWorldPinsRepository& worldPinsRepository,
                                                Eegeo::Resources::Interiors::Markers::IInteriorMarkerPickingService& interiorMarkerPickingService,
                                                Eegeo::Markers::IMarkerService& markerService,
-                                               ExampleAppMessaging::TSdkModelDomainEventBus& sdkModelDomainEventBus,
                                                ExampleAppMessaging::TMessageBus& messageBus,
                                                Eegeo::Location::NavigationService& navigationService,
                                                Search::SdkModel::MyPins::ISearchResultMyPinsService& searchResultOnMapMyPinsService,
@@ -32,8 +31,6 @@ namespace ExampleApp
             : m_worldPinsRepository(worldPinsRepository)
             , m_interiorMarkerPickingService(interiorMarkerPickingService)
             , m_markerService(markerService)
-            , m_sdkModelDomainEventBus(sdkModelDomainEventBus)
-            , m_worldPinHiddenStateChangedMessageBinding(this, &WorldPinsService::OnWorldPinHiddenStateChanged)
             , m_onSearchResultSelected(this, &WorldPinsService::OnMenuItemSelected)
             , m_messageBus(messageBus)
             , m_navigationService(navigationService)
@@ -42,14 +39,12 @@ namespace ExampleApp
             , m_searchResultOnMapMyPinsService(searchResultOnMapMyPinsService)
             , m_cameraTransitionController(cameraTransitionController)
             {
-                m_sdkModelDomainEventBus.Subscribe(m_worldPinHiddenStateChangedMessageBinding);
                 m_messageBus.SubscribeNative(m_onSearchResultSelected);
             }
             
             WorldPinsService::~WorldPinsService()
             {
                 m_messageBus.UnsubscribeNative(m_onSearchResultSelected);
-                m_sdkModelDomainEventBus.Unsubscribe(m_worldPinHiddenStateChangedMessageBinding);
             }
             
             Eegeo::Markers::IMarker::IdType WorldPinsService::GetMarkerIdForWorldPinItemModelId(SdkModel::WorldPinItemModel::WorldPinItemModelId worldPinId) const
@@ -62,17 +57,6 @@ namespace ExampleApp
             {
                 const WorldPinItemModel::WorldPinItemModelId worldPinItemModelId = markerId;
                 return worldPinItemModelId;
-            }
-            
-            
-            void WorldPinsService::OnWorldPinHiddenStateChanged(const WorldPinHiddenStateChangedMessage& message)
-            {
-                const SdkModel::WorldPinItemModel& worldPin = message.GetWorldPin();
-
-                Eegeo::Markers::IMarker& marker = m_markerService.Get(GetMarkerIdForWorldPinItemModelId(worldPin.Id()));
-                
-                const bool isHidden = worldPin.IsHidden();
-                marker.SetHidden(isHidden);
             }
             
             WorldPinItemModel* WorldPinsService::AddPin(IWorldPinSelectionHandler* pSelectionHandler,
@@ -109,14 +93,13 @@ namespace ExampleApp
                 Eegeo_ASSERT(m_pinsToVisbilityChangedHandlers.find(pinId) == m_pinsToVisbilityChangedHandlers.end(), "Attempting to add same pin ID %d twice.\n", pinId);
                 m_pinsToVisbilityChangedHandlers[pinId] = pVisibilityStateChangedHandler;
 
-                WorldPinItemModel* model = Eegeo_NEW(WorldPinItemModel)(pinId,
+                WorldPinItemModel* model = Eegeo_NEW(WorldPinItemModel)(&m_markerService.Get(markerId),
                                                                         pSelectionHandler,
                                                                         pVisibilityStateChangedHandler,
                                                                         worldPinFocusData,
                                                                         interior,
                                                                         worldPinInteriorData,
                                                                         visibilityMask,
-                                                                        m_sdkModelDomainEventBus,
                                                                         identifier);
             
                 m_worldPinsRepository.AddItem(model);
@@ -130,7 +113,6 @@ namespace ExampleApp
                 
                 const Eegeo::Markers::IMarker::IdType markerId = GetWorldPinItemModelIdForMarkerId(pinId);
                 
-                m_markerService.Destroy(markerId);
                 
                 IWorldPinSelectionHandler* pSelectionHandler = m_pinsToSelectionHandlers.at(pinId);
                 m_pinsToSelectionHandlers.erase(pinId);
@@ -151,6 +133,8 @@ namespace ExampleApp
                 
                 m_worldPinsRepository.RemoveItem(pPinItemModel);
                 Eegeo_DELETE pPinItemModel;
+                
+                m_markerService.Destroy(markerId);
             }
 
             void WorldPinsService::HighlightPin(WorldPinItemModel* pinItemModel, std::string labelStyleName)
@@ -240,16 +224,17 @@ namespace ExampleApp
 
             void WorldPinsService::UpdateLabelStyle(WorldPinItemModel* pinItemModel, const std::string& labelStyleName)
             {
-                const auto& oldMarkerId = GetMarkerIdForWorldPinItemModelId(pinItemModel->Id());
+                const auto oldMarkerId = GetMarkerIdForWorldPinItemModelId(pinItemModel->Id());
                 Eegeo::Markers::IMarker& oldMarker = m_markerService.Get(oldMarkerId);
                 const Eegeo::Space::LatLong& location = oldMarker.GetAnchorLocation().GetLatLong();
                 double elevation = oldMarker.GetElevation();
+                bool isHidden = oldMarker.IsHidden();
                 m_markerService.Destroy(oldMarkerId);
 
                 const IWorldPinsInFocusModel& inFocusModel = pinItemModel->GetInFocusModel();
                 const WorldPinInteriorData interiorData = pinItemModel->GetInteriorData();
 
-                WorldPinItemModel::WorldPinItemModelId pinId = pinItemModel->Id();
+                WorldPinItemModel::WorldPinItemModelId pinId = oldMarkerId;
 
                 IWorldPinSelectionHandler* pSelectionHandler = m_pinsToSelectionHandlers.at(pinId);
                 m_pinsToSelectionHandlers.erase(pinId);
@@ -277,8 +262,10 @@ namespace ExampleApp
                 m_pinsToSelectionHandlers[pinId] = pSelectionHandler;
                 m_pinsToVisbilityChangedHandlers[pinId] = pVisibilityStateChangedHandler;
                 m_pinsToIconKeys[pinId] = iconKey;
-
-                pinItemModel->SetId(pinId);
+                
+                Eegeo::Markers::IMarker* pNewMarker = &(m_markerService.Get(markerId));
+                pNewMarker->SetHidden(isHidden);
+                pinItemModel->SetMarker(pNewMarker);
             }
             
             bool WorldPinsService::HandleTouchTap(const Eegeo::v2& screenTapPoint)

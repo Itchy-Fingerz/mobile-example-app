@@ -26,10 +26,7 @@ namespace ExampleApp
             const std::string& startUpSearchTag,
             const std::string& googleAnalyticsReferrerToken,
             const std::string& flurryAppKey,
-            const std::string& yelpConsumerKey,
-            const std::string& yelpConsumerSecret,
-            const std::string& yelpOAuthToken,
-            const std::string& yelpOAuthTokenSecret,
+            const std::string& yelpApiKey,
             const std::string& geoNamesUserName,
             const std::string& eegeoSearchServiceUrl,
             const std::string& myPinsWebServiceUrl,
@@ -46,6 +43,9 @@ namespace ExampleApp
             const long long attractModeTimeoutMs,
             const float attractModePlaybackSpeed,
             const std::string& optionsAdminPassword,
+            const float compassCameraOffset,
+            const float compassCameraOffsetTopDown,
+            const bool compassCameraDampingEnabled,
             const long long& surveyRequirementTimeSec,
             const std::string& timerSurveyUrl,
             const std::string& hockeyAppId,
@@ -75,10 +75,7 @@ namespace ExampleApp
         , m_startUpSearchTag(startUpSearchTag)
         , m_googleAnalyticsReferrerToken(googleAnalyticsReferrerToken)
         , m_flurryAppKey(flurryAppKey)
-        , m_yelpConsumerKey(yelpConsumerKey)
-        , m_yelpConsumerSecret(yelpConsumerSecret)
-        , m_yelpOAuthToken(yelpOAuthToken)
-        , m_yelpOAuthTokenSecret(yelpOAuthTokenSecret)
+        , m_yelpApiKey(yelpApiKey)
         , m_geoNamesUserName(geoNamesUserName)
         , m_eegeoSearchServiceUrl(eegeoSearchServiceUrl)
         , m_myPinsWebServiceUrl(myPinsWebServiceUrl)
@@ -95,6 +92,9 @@ namespace ExampleApp
         , m_attractModeTimeoutMs(attractModeTimeoutMs)
         , m_attractModePlaybackSpeed(attractModePlaybackSpeed)
         , m_optionsAdminPassword(optionsAdminPassword)
+        , m_compassCameraOffset(compassCameraOffset)
+        , m_compassCameraOffsetTopDown(compassCameraOffsetTopDown)
+        , m_compassCameraDampingEnabled(compassCameraDampingEnabled)
         , m_surveyRequirementTimeSec(surveyRequirementTimeSec)
         , m_timerSurveyUrl(timerSurveyUrl)
         , m_hockeyAppId(hockeyAppId)
@@ -197,24 +197,9 @@ namespace ExampleApp
             return m_flurryAppKey;
         }
 
-        std::string ApplicationConfiguration::YelpConsumerKey() const
+        std::string ApplicationConfiguration::YelpApiKey() const
         {
-            return m_yelpConsumerKey;
-        }
-
-        std::string ApplicationConfiguration::YelpConsumerSecret() const
-        {
-            return m_yelpConsumerSecret;
-        }
-
-        std::string ApplicationConfiguration::YelpOAuthToken() const
-        {
-            return m_yelpOAuthToken;
-        }
-
-        std::string ApplicationConfiguration::YelpOAuthTokenSecret() const
-        {
-            return m_yelpOAuthTokenSecret;
+            return m_yelpApiKey;
         }
 
         std::string ApplicationConfiguration::GeoNamesUserName() const
@@ -312,6 +297,21 @@ namespace ExampleApp
         std::string ApplicationConfiguration::OptionsAdminPassword() const
         {
             return m_optionsAdminPassword;
+        }
+
+        const float ApplicationConfiguration::CompassCameraOffset() const
+        {
+            return m_compassCameraOffset;
+        }
+
+        const float ApplicationConfiguration::CompassCameraOffsetTopDown() const
+        {
+            return m_compassCameraOffsetTopDown;
+        }
+
+        const bool ApplicationConfiguration::CompassCameraDampingEnabled() const
+        {
+            return m_compassCameraDampingEnabled;
         }
         
         const long long ApplicationConfiguration::SurveyRequirementTimeSec() const

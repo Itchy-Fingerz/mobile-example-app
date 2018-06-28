@@ -26,10 +26,7 @@ namespace ExampleApp
                     const std::string& combinedVersionString = productVersion + "." + buildNumber;
                     const std::string emptyGoogleAnalyticsReferrerToken;
                     const std::string emptyFlurryApiKey;
-                    const std::string emptyYelpConsumerKey;
-                    const std::string emptyYelpConsumerSecret;
-                    const std::string emptyYelpOAuthToken;
-                    const std::string emptyYelpOAuthTokenSecret;
+                    const std::string emptyYelpApiKey;
                     const std::string emptyGeoNamesUserName;
                     const std::string eegeoSearchServiceUrl = "https://poi.eegeo.com/v1.1";
                     const std::string emptyMyPinsWebServiceUrl;
@@ -56,6 +53,10 @@ namespace ExampleApp
                     const float attractModePlaybackSpeed = 0.007f;
 
                     const std::string emptyOptionsAdminPassword;
+
+                    const float compassCameraOffset = 0.0f;
+                    const float compassCameraOffsetTopDown = 0.0f;
+                    const bool compassCameraDampingEnabled = false;
                     
                     const long long surveyTimeRequirementSec = 90;
                     
@@ -90,10 +91,7 @@ namespace ExampleApp
                         startUpSearchTag,
                         emptyGoogleAnalyticsReferrerToken,
                         emptyFlurryApiKey,
-                        emptyYelpConsumerKey,
-                        emptyYelpConsumerSecret,
-                        emptyYelpOAuthToken,
-                        emptyYelpOAuthTokenSecret,
+                        emptyYelpApiKey,
                         emptyGeoNamesUserName,
                         eegeoSearchServiceUrl,
                         emptyMyPinsWebServiceUrl,
@@ -110,6 +108,9 @@ namespace ExampleApp
                         attractModeTimeoutDisabled,
                         attractModePlaybackSpeed,
                         emptyOptionsAdminPassword,
+                        compassCameraOffset,
+                        compassCameraOffsetTopDown,
+                        compassCameraDampingEnabled,
                         surveyTimeRequirementSec,
                         timerSurveyUrl,
                         hockeyAppId,

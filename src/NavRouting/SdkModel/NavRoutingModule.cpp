@@ -15,6 +15,7 @@
 #include "MenuModel.h"
 #include "MenuOptionsModel.h"
 #include "NavWidgetMenuOption.h"
+#include "NavTurnByTurnCompletionHandler.h"
 
 namespace ExampleApp
 {
@@ -33,7 +34,8 @@ namespace ExampleApp
                                                 Eegeo::Resources::Interiors::InteriorsModelRepository& interiorsModelRepository,
                                                 Eegeo::Markers::IMarkerService& markerService,
                                                 WorldPins::SdkModel::IWorldPinsService& worldPinsService,
-                                                GpsMarker::SdkModel::GpsMarkerModel& gpsMarkerModel)
+                                               GpsMarker::SdkModel::GpsMarkerModel& gpsMarkerModel,
+                                               WorldPins::SdkModel::IWorldPinsVisibilityController& worldPinsVisibilityController)
             {
                 const std::string navUIOptionText = "Open Navigation";
                 m_pNavRoutingModel = Eegeo_NEW(NavRoutingModel)();
@@ -66,6 +68,12 @@ namespace ExampleApp
                                                                                          navigationService,
                                                                                          gpsMarkerModel);
                 
+                m_pTurnByTurnCompletionHandler = Eegeo_NEW(TurnByTurn::NavTurnByTurnCompletionHandler)(*m_pTurnByTurnModel,
+                                                                                                       *m_pNavRoutingModel,
+                                                                                                       locationService,
+                                                                                                       turnByTurnConfig.accuracyMultiplierToCompleteNavigation,
+                                                                                                       turnByTurnConfig.minDistanceToCompleteNavigation);
+                
                 m_pRouteDrawingHandler = Eegeo_NEW(NavWidgetRouteDrawingHandler)(*m_pNavRoutingModel,
                                                                                  *m_pTurnByTurnModel,
                                                                                  *m_pNavRouteDrawingController);
@@ -85,6 +93,10 @@ namespace ExampleApp
                                                                                    cameraTransitionController,
                                                                                    navigationService,
                                                                                    compassModel);
+                
+                m_pRoutingWorldPinsVisibilityHandler = Eegeo_NEW(NavRoutingWorldPinsVisibilityHandler)(messageBus,
+                                                                                                       worldPinsVisibilityController);
+                
                 m_pMenuModel = Eegeo_NEW(Menu::View::MenuModel)();
                 m_pMenuOptionsModel = Eegeo_NEW(Menu::View::MenuOptionsModel)(*m_pMenuModel);
                 m_pMenuOptionsModel->AddItem(navUIOptionText,
@@ -97,9 +109,11 @@ namespace ExampleApp
 
             NavRoutingModule::~NavRoutingModule()
             {
+                Eegeo_DELETE m_pRoutingWorldPinsVisibilityHandler;
                 Eegeo_DELETE m_pRoutingCameraController;
                 Eegeo_DELETE m_pRoutingController;
                 Eegeo_DELETE m_pRouteDrawingHandler;
+                Eegeo_DELETE m_pTurnByTurnCompletionHandler;
                 Eegeo_DELETE m_pTurnByTurnController;
                 Eegeo_DELETE m_pNavRoutingLocationFinder;
                 Eegeo_DELETE m_pTurnByTurnModel;
