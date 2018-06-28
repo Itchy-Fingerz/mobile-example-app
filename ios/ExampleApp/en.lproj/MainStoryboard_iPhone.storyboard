@@ -41,21 +41,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="Geq-xk-Kzx">
-                                <rect key="frame" x="97" y="164" width="180" height="151"/>
+                                <rect key="frame" x="97" y="84" width="180" height="151"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="xnX-oq-YPb">
                                 <rect key="frame" x="169" y="345" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LP9-Us-shu">
-                                <rect key="frame" x="49.5" y="412" width="276.5" height="38.5"/>
-                                <string key="text">Enter your phone number to receive a 
-validation code</string>
+                                <rect key="frame" x="84.5" y="431.5" width="207.5" height="38.5"/>
+                                <string key="text">Enter your phone number to 
+receive a validation code</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" red="0.50980392156862742" green="0.50588235294117645" blue="0.50588235294117645" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKa-C2-f3y">
-                                <rect key="frame" x="37" y="481" width="300" height="50"/>
+                                <rect key="frame" x="37" y="490" width="300" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="textField_bg_plain.png" translatesAutoresizingMaskIntoConstraints="NO" id="3rm-cR-zgw">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
@@ -64,18 +64,18 @@ validation code</string>
                                         <rect key="frame" x="20" y="15" width="36" height="21"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+86" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayL-S9-37N">
-                                        <rect key="frame" x="66" y="0.5" width="26.5" height="50"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <rect key="frame" x="66" y="0.5" width="28.5" height="50"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" red="0.37647058823529411" green="0.37647058823529411" blue="0.37647058823529411" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8lo-Wh-ySu">
-                                        <rect key="frame" x="99.5" y="0.0" width="200.5" height="50"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="8lo-Wh-ySu">
+                                        <rect key="frame" x="101.5" y="0.0" width="198.5" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="Jli-GA-iXV"/>
                                         </constraints>
-                                        <color key="textColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                         <connections>
                                             <outlet property="delegate" destination="nux-Nh-qEd" id="g1c-ov-bJS"/>
@@ -105,13 +105,13 @@ validation code</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entered invalid phone number" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KeR-cN-9BK">
-                                <rect key="frame" x="36" y="546" width="303" height="17"/>
+                                <rect key="frame" x="36" y="555" width="303" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ilo-Dw-wWx">
-                                <rect key="frame" x="112" y="578" width="150" height="50"/>
+                                <rect key="frame" x="112" y="587" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Verify" backgroundImage="verify_btn.png"/>
                                 <connections>
@@ -122,7 +122,7 @@ validation code</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xnX-oq-YPb" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="1Gv-zv-T0D"/>
-                            <constraint firstItem="Geq-xk-Kzx" firstAttribute="top" secondItem="JSn-XS-I3P" secondAttribute="bottom" constant="100" id="8vh-Ww-LYb"/>
+                            <constraint firstItem="Geq-xk-Kzx" firstAttribute="top" secondItem="JSn-XS-I3P" secondAttribute="bottom" constant="20" id="8vh-Ww-LYb"/>
                             <constraint firstItem="KeR-cN-9BK" firstAttribute="leading" secondItem="a1l-4x-DZs" secondAttribute="leadingMargin" constant="20" id="GVh-8E-6mY"/>
                             <constraint firstItem="Geq-xk-Kzx" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="IBy-ct-0aX"/>
                             <constraint firstItem="KeR-cN-9BK" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="IJz-La-dUw"/>
@@ -132,9 +132,9 @@ validation code</string>
                             <constraint firstItem="LP9-Us-shu" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="jfD-qW-MKd"/>
                             <constraint firstItem="Ilo-Dw-wWx" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="qci-30-Lki"/>
                             <constraint firstItem="Ilo-Dw-wWx" firstAttribute="top" secondItem="KeR-cN-9BK" secondAttribute="bottom" constant="15" id="qhE-Ll-myX"/>
-                            <constraint firstItem="M1k-NY-l9I" firstAttribute="top" secondItem="Ilo-Dw-wWx" secondAttribute="bottom" constant="39" id="rlz-7c-LtF"/>
+                            <constraint firstItem="M1k-NY-l9I" firstAttribute="top" secondItem="Ilo-Dw-wWx" secondAttribute="bottom" constant="30" id="rlz-7c-LtF"/>
                             <constraint firstAttribute="trailingMargin" secondItem="KeR-cN-9BK" secondAttribute="trailing" constant="20" id="wnY-J8-Raz"/>
-                            <constraint firstItem="IKa-C2-f3y" firstAttribute="top" secondItem="LP9-Us-shu" secondAttribute="bottom" constant="30.5" id="xDl-dS-0Qz"/>
+                            <constraint firstItem="IKa-C2-f3y" firstAttribute="top" secondItem="LP9-Us-shu" secondAttribute="bottom" constant="20" id="xDl-dS-0Qz"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Phone Number Verification" id="EKp-0C-hti">
@@ -189,19 +189,19 @@ validation code</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="E52-hh-mgL">
-                                <rect key="frame" x="97.5" y="164" width="180" height="151"/>
+                                <rect key="frame" x="97.5" y="84" width="180" height="151"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="kZA-dB-0az">
                                 <rect key="frame" x="169" y="345" width="37" height="37"/>
                             </activityIndicatorView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter the validation code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KA5-Co-9oj">
-                                <rect key="frame" x="102.5" y="375" width="170" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" red="0.50980392159999999" green="0.50588235290000005" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your PIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KA5-Co-9oj">
+                                <rect key="frame" x="136" y="415.5" width="104.5" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0W-JC-NWk">
-                                <rect key="frame" x="77" y="413" width="220" height="45"/>
+                                <rect key="frame" x="77" y="440" width="220" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="krO-dt-qpU">
                                         <rect key="frame" x="15" y="3" width="40" height="40"/>
@@ -307,21 +307,21 @@ validation code</string>
                                     <constraint firstItem="vWg-jU-8jv" firstAttribute="width" secondItem="x5Y-Nd-Bga" secondAttribute="width" id="ztq-pT-XtE"/>
                                 </constraints>
                             </view>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect validation code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuE-MV-aM8">
-                                <rect key="frame" x="86" y="471" width="203" height="17"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect PIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuE-MV-aM8">
+                                <rect key="frame" x="86" y="498" width="203" height="16"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The validation code will expire in xxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="073-6n-EoC">
-                                <rect key="frame" x="74" y="498" width="227" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your PIN will expire in xxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="073-6n-EoC">
+                                <rect key="frame" x="107" y="524" width="161" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                <color key="textColor" red="0.50980392159999999" green="0.50588235290000005" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ivd-8i-yYT">
-                                <rect key="frame" x="163" y="599" width="49" height="29"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="160" y="615" width="55" height="32"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Resend">
                                     <color key="titleColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -333,7 +333,7 @@ validation code</string>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JtH-92-t1f">
-                                <rect key="frame" x="113" y="529" width="150" height="50"/>
+                                <rect key="frame" x="113" y="555" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Validate" backgroundImage="verify_btn.png"/>
                                 <connections>
@@ -353,21 +353,21 @@ validation code</string>
                             <constraint firstItem="s1G-Hf-3QK" firstAttribute="centerY" secondItem="JQO-Eq-Gjy" secondAttribute="centerY" id="2Vp-sW-cya"/>
                             <constraint firstItem="s1G-Hf-3QK" firstAttribute="leading" secondItem="JQO-Eq-Gjy" secondAttribute="leadingMargin" id="4ez-3n-fHy"/>
                             <constraint firstItem="JtH-92-t1f" firstAttribute="top" secondItem="073-6n-EoC" secondAttribute="bottom" constant="15" id="5jV-fT-6pf"/>
-                            <constraint firstItem="E52-hh-mgL" firstAttribute="top" secondItem="cME-8p-3OV" secondAttribute="bottom" constant="100" id="DEc-gD-ISU"/>
+                            <constraint firstItem="E52-hh-mgL" firstAttribute="top" secondItem="cME-8p-3OV" secondAttribute="bottom" constant="20" id="DEc-gD-ISU"/>
                             <constraint firstItem="wuE-MV-aM8" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="FRg-42-hSg"/>
                             <constraint firstItem="KA5-Co-9oj" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="Gxr-0U-aF6"/>
                             <constraint firstItem="073-6n-EoC" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="HUa-sL-HI3"/>
-                            <constraint firstAttribute="bottom" secondItem="Ivd-8i-yYT" secondAttribute="bottom" constant="39" id="Lbw-LA-a7t"/>
+                            <constraint firstAttribute="bottom" secondItem="Ivd-8i-yYT" secondAttribute="bottom" constant="20" id="Lbw-LA-a7t"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wuE-MV-aM8" secondAttribute="trailing" constant="70" id="OTc-Js-Ch4"/>
                             <constraint firstItem="E52-hh-mgL" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="RGS-dC-avq"/>
                             <constraint firstItem="wuE-MV-aM8" firstAttribute="top" secondItem="t0W-JC-NWk" secondAttribute="bottom" constant="13" id="Rae-L6-CPm"/>
                             <constraint firstItem="kZA-dB-0az" firstAttribute="centerY" secondItem="JQO-Eq-Gjy" secondAttribute="centerY" constant="30" id="TSV-g2-5YW"/>
                             <constraint firstItem="t0W-JC-NWk" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="TUL-8a-Fz6"/>
                             <constraint firstItem="kZA-dB-0az" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="ctH-UD-ler"/>
-                            <constraint firstItem="Ivd-8i-yYT" firstAttribute="top" secondItem="JtH-92-t1f" secondAttribute="bottom" constant="20" id="mrZ-wI-uDl"/>
+                            <constraint firstItem="Ivd-8i-yYT" firstAttribute="top" secondItem="JtH-92-t1f" secondAttribute="bottom" constant="10" id="mrZ-wI-uDl"/>
                             <constraint firstItem="Ivd-8i-yYT" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="ref-Fn-t1h"/>
                             <constraint firstItem="wuE-MV-aM8" firstAttribute="leading" secondItem="JQO-Eq-Gjy" secondAttribute="leadingMargin" constant="70" id="sb5-gt-F4E"/>
-                            <constraint firstItem="t0W-JC-NWk" firstAttribute="top" secondItem="KA5-Co-9oj" secondAttribute="bottom" constant="20" id="t9q-v4-CPj"/>
+                            <constraint firstItem="t0W-JC-NWk" firstAttribute="top" secondItem="KA5-Co-9oj" secondAttribute="bottom" constant="5" id="t9q-v4-CPj"/>
                             <constraint firstItem="073-6n-EoC" firstAttribute="top" secondItem="wuE-MV-aM8" secondAttribute="bottom" constant="10" id="xKl-6e-T5V"/>
                         </constraints>
                     </view>
@@ -412,11 +412,11 @@ validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="XiD-O7-aW1">
-                                        <rect key="frame" x="97.5" y="164" width="180" height="151"/>
+                                        <rect key="frame" x="97.5" y="84" width="180" height="151"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Validation Successful!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xnR-nq-Tr5">
-                                        <rect key="frame" x="111.5" y="541" width="153" height="17"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIN Accepted!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xnR-nq-Tr5">
+                                        <rect key="frame" x="133" y="538.5" width="110.5" height="19.5"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" red="0.43529411764705883" green="0.76078431372549016" blue="0.23137254901960785" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -434,7 +434,7 @@ validation code</string>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="XiD-O7-aW1" firstAttribute="top" secondItem="aBj-zE-UDW" secondAttribute="top" constant="164" id="2EP-K8-ZF7"/>
+                                    <constraint firstItem="XiD-O7-aW1" firstAttribute="top" secondItem="aBj-zE-UDW" secondAttribute="top" constant="84" id="2EP-K8-ZF7"/>
                                     <constraint firstItem="wSu-jg-l0E" firstAttribute="centerX" secondItem="aBj-zE-UDW" secondAttribute="centerX" id="2N3-YF-M9e"/>
                                     <constraint firstItem="njJ-Jz-WfI" firstAttribute="top" secondItem="wSu-jg-l0E" secondAttribute="bottom" constant="15" id="93M-aN-cZr"/>
                                     <constraint firstItem="wSu-jg-l0E" firstAttribute="top" secondItem="xnR-nq-Tr5" secondAttribute="bottom" constant="20" id="JaA-TJ-6K5"/>
@@ -481,13 +481,13 @@ validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="jal-Ar-Yc4">
-                                        <rect key="frame" x="97.5" y="164" width="180" height="151"/>
+                                        <rect key="frame" x="97.5" y="84" width="180" height="151"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXf-Xq-J0a">
-                                        <rect key="frame" x="50" y="514.5" width="275" height="33.5"/>
+                                        <rect key="frame" x="50" y="509.5" width="275" height="38.5"/>
                                         <string key="text">Number of attempts exceeded!
 Retry in few minutes</string>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -504,7 +504,7 @@ Retry in few minutes</string>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="qXf-Xq-J0a" secondAttribute="trailing" constant="50" id="692-zE-Ssa"/>
                                     <constraint firstItem="jal-Ar-Yc4" firstAttribute="centerX" secondItem="xCh-3I-Hdn" secondAttribute="centerX" id="8K3-VK-NcO"/>
-                                    <constraint firstItem="jal-Ar-Yc4" firstAttribute="top" secondItem="xCh-3I-Hdn" secondAttribute="top" constant="164" id="R0i-Qe-mLi"/>
+                                    <constraint firstItem="jal-Ar-Yc4" firstAttribute="top" secondItem="xCh-3I-Hdn" secondAttribute="top" constant="84" id="R0i-Qe-mLi"/>
                                     <constraint firstAttribute="bottom" secondItem="FE7-hy-BP5" secondAttribute="bottom" constant="39" id="cum-9X-Sep"/>
                                     <constraint firstItem="qXf-Xq-J0a" firstAttribute="centerX" secondItem="xCh-3I-Hdn" secondAttribute="centerX" id="jTC-p2-FiQ"/>
                                     <constraint firstItem="qXf-Xq-J0a" firstAttribute="leading" secondItem="xCh-3I-Hdn" secondAttribute="leading" constant="50" id="p5b-fD-LtJ"/>

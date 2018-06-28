@@ -64,8 +64,8 @@
 #pragma mark Helpers
 - (void) onTokenExpried
 {
-    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Code expired"
-                                                                   message:@"Validation code has been expired"
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"PIN expired"
+                                                                   message:@"PIN has been expired"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
@@ -80,7 +80,7 @@
 {
 
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Success"
-                                                                   message:@"Validation code has been resent"
+                                                                   message:@"PIN has been resent"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
@@ -142,10 +142,10 @@
 {
     timerLabelCounter = [[MZTimerLabel alloc] initWithLabel:self.timerLabel andTimerType:MZTimerLabelTypeTimer];
     [timerLabelCounter setCountDownTime:600];
-    NSString* text = @"The validation code will expire in here";
+    NSString* text = @"Your PIN will expire in here";
     NSRange r = [text rangeOfString:@"here"];
     
-    UIColor* fgColor = [UIColor colorWithRed:130.0/255 green:129.0/255 blue:129.0/255 alpha:1.0];
+    UIColor* fgColor = [UIColor colorWithRed:75.0/255 green:74.0/255 blue:72.0/255 alpha:1.0];
     NSDictionary* attributesForRange = @{
                                          NSForegroundColorAttributeName: fgColor,
                                          };
@@ -257,7 +257,7 @@
 
     if ([passcodeTextField.text  length] != 4)
     {
-        [self showAlertView:@"Error" withMessage:@"Please Enter  Validation Code"];
+        [self showAlertView:@"Error" withMessage:@"Please Enter PIN"];
     }
     else
     {
@@ -287,7 +287,7 @@
 {
     if (textField == passcodeTextField)
     {
-        CGFloat moveY = -230.0f;
+        CGFloat moveY = -275.0f;
         if ([super isPhone])
         {
             moveY = -110.0f;

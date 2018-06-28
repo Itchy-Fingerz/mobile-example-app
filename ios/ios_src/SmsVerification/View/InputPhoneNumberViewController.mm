@@ -104,10 +104,10 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    CGFloat moveY = -370.0f;
+    CGFloat moveY = -310.0f;
     if ([super isPhone])
     {
-        moveY = -110.0f;
+        moveY = -150.0f;
     }
     [self animateViewUpDown:moveY];
     return true;
