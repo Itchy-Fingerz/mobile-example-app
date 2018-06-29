@@ -10,6 +10,7 @@
 #import "InputValidationCodeViewController.h"
 #import "ShowErrorMessageViewController.h"
 #import "SVProgressHUD.h"
+#import "ValidationSucessViewController.h"
 
 
 @interface InputPhoneNumberViewController ()
@@ -59,6 +60,11 @@
         NSDictionary *mainResponseDictionary = (NSDictionary *) sender;
         destinationVC.errorMessage = [mainResponseDictionary objectForKey:@"message"];
 
+    }
+    else if ([segue.identifier isEqualToString:@"showValidationSuccessVc"])
+    {
+        ValidationSucessViewController * destinationVC = (ValidationSucessViewController *) [segue destinationViewController];
+        destinationVC.sucessMessage = @"Your number is already verified!";
     }
 }
 

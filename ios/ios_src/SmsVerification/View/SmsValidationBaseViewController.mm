@@ -122,13 +122,22 @@
 
 -(void)showAlertView:(NSString*)title withMessage:(NSString*)message
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
+    
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:title
+                                 message:message
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* okButton = [UIAlertAction
+                               actionWithTitle:@"OK"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                               }];
+    
+    [alert addAction:okButton];
+    [self presentViewController:alert animated:true completion:^{
+        
+    }];
 }
 
 @end

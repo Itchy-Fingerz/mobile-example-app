@@ -10,6 +10,7 @@
 #import "SVProgressHUD.h"
 
 @interface ValidationSucessViewController ()
+@property (retain, nonatomic) IBOutlet UILabel *messageLabel;
 @property (retain, nonatomic) IBOutlet UIButton *doneButton;
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
 
@@ -22,6 +23,7 @@
     // Do any additional setup after loading the view.
     self.navigationItem.hidesBackButton = YES;
     self.doneButton.semanticContentAttribute = UISemanticContentAttributeForceRightToLeft;
+    self.messageLabel.text = self.sucessMessage;
 
 }
 
@@ -63,6 +65,7 @@
 */
 
 - (void)dealloc {
+    [_messageLabel release];
     [_doneButton release];
     [_spiner release];
     [super dealloc];

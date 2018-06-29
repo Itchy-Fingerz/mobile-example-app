@@ -41,7 +41,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="Geq-xk-Kzx">
-                                <rect key="frame" x="97" y="84" width="180" height="151"/>
+                                <rect key="frame" x="97" y="164" width="180" height="151"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="xnX-oq-YPb">
                                 <rect key="frame" x="169" y="345" width="37" height="37"/>
@@ -110,10 +110,12 @@ receive a validation code</string>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ilo-Dw-wWx">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ilo-Dw-wWx">
                                 <rect key="frame" x="112" y="587" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Verify" backgroundImage="verify_btn.png"/>
+                                <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
+                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                 <connections>
                                     <action selector="verfiyButtonPressed:" destination="nux-Nh-qEd" eventType="touchUpInside" id="4KL-TU-zEc"/>
                                 </connections>
@@ -122,7 +124,7 @@ receive a validation code</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xnX-oq-YPb" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="1Gv-zv-T0D"/>
-                            <constraint firstItem="Geq-xk-Kzx" firstAttribute="top" secondItem="JSn-XS-I3P" secondAttribute="bottom" constant="20" id="8vh-Ww-LYb"/>
+                            <constraint firstItem="Geq-xk-Kzx" firstAttribute="top" secondItem="JSn-XS-I3P" secondAttribute="bottom" constant="100" id="8vh-Ww-LYb"/>
                             <constraint firstItem="KeR-cN-9BK" firstAttribute="leading" secondItem="a1l-4x-DZs" secondAttribute="leadingMargin" constant="20" id="GVh-8E-6mY"/>
                             <constraint firstItem="Geq-xk-Kzx" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="IBy-ct-0aX"/>
                             <constraint firstItem="KeR-cN-9BK" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="IJz-La-dUw"/>
@@ -189,7 +191,7 @@ receive a validation code</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="E52-hh-mgL">
-                                <rect key="frame" x="97.5" y="84" width="180" height="151"/>
+                                <rect key="frame" x="97.5" y="164" width="180" height="151"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="kZA-dB-0az">
                                 <rect key="frame" x="169" y="345" width="37" height="37"/>
@@ -307,7 +309,7 @@ receive a validation code</string>
                                     <constraint firstItem="vWg-jU-8jv" firstAttribute="width" secondItem="x5Y-Nd-Bga" secondAttribute="width" id="ztq-pT-XtE"/>
                                 </constraints>
                             </view>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect PIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuE-MV-aM8">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect PIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wuE-MV-aM8">
                                 <rect key="frame" x="86" y="498" width="203" height="16"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -336,6 +338,8 @@ receive a validation code</string>
                                 <rect key="frame" x="113" y="555" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Validate" backgroundImage="verify_btn.png"/>
+                                <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
+                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                 <connections>
                                     <action selector="validationButtonPressed:" destination="Lr1-T7-fpN" eventType="touchUpInside" id="cDk-aF-G6j"/>
                                 </connections>
@@ -353,7 +357,7 @@ receive a validation code</string>
                             <constraint firstItem="s1G-Hf-3QK" firstAttribute="centerY" secondItem="JQO-Eq-Gjy" secondAttribute="centerY" id="2Vp-sW-cya"/>
                             <constraint firstItem="s1G-Hf-3QK" firstAttribute="leading" secondItem="JQO-Eq-Gjy" secondAttribute="leadingMargin" id="4ez-3n-fHy"/>
                             <constraint firstItem="JtH-92-t1f" firstAttribute="top" secondItem="073-6n-EoC" secondAttribute="bottom" constant="15" id="5jV-fT-6pf"/>
-                            <constraint firstItem="E52-hh-mgL" firstAttribute="top" secondItem="cME-8p-3OV" secondAttribute="bottom" constant="20" id="DEc-gD-ISU"/>
+                            <constraint firstItem="E52-hh-mgL" firstAttribute="top" secondItem="cME-8p-3OV" secondAttribute="bottom" constant="100" id="DEc-gD-ISU"/>
                             <constraint firstItem="wuE-MV-aM8" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="FRg-42-hSg"/>
                             <constraint firstItem="KA5-Co-9oj" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="Gxr-0U-aF6"/>
                             <constraint firstItem="073-6n-EoC" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="HUa-sL-HI3"/>
@@ -412,7 +416,7 @@ receive a validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="XiD-O7-aW1">
-                                        <rect key="frame" x="97.5" y="84" width="180" height="151"/>
+                                        <rect key="frame" x="97.5" y="164" width="180" height="151"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIN Accepted!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xnR-nq-Tr5">
                                         <rect key="frame" x="133" y="538.5" width="110.5" height="19.5"/>
@@ -427,6 +431,7 @@ receive a validation code</string>
                                         <rect key="frame" x="113" y="578" width="150" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Done" backgroundImage="verify_btn.png"/>
+                                        <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                         <connections>
                                             <action selector="doneButtonPressedL:" destination="LUO-5r-4IO" eventType="touchUpInside" id="LMn-7b-kVO"/>
                                         </connections>
@@ -434,7 +439,7 @@ receive a validation code</string>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstItem="XiD-O7-aW1" firstAttribute="top" secondItem="aBj-zE-UDW" secondAttribute="top" constant="84" id="2EP-K8-ZF7"/>
+                                    <constraint firstItem="XiD-O7-aW1" firstAttribute="top" secondItem="aBj-zE-UDW" secondAttribute="top" constant="164" id="2EP-K8-ZF7"/>
                                     <constraint firstItem="wSu-jg-l0E" firstAttribute="centerX" secondItem="aBj-zE-UDW" secondAttribute="centerX" id="2N3-YF-M9e"/>
                                     <constraint firstItem="njJ-Jz-WfI" firstAttribute="top" secondItem="wSu-jg-l0E" secondAttribute="bottom" constant="15" id="93M-aN-cZr"/>
                                     <constraint firstItem="wSu-jg-l0E" firstAttribute="top" secondItem="xnR-nq-Tr5" secondAttribute="bottom" constant="20" id="JaA-TJ-6K5"/>
@@ -458,6 +463,7 @@ receive a validation code</string>
                     </navigationItem>
                     <connections>
                         <outlet property="doneButton" destination="wSu-jg-l0E" id="9Uj-gX-Qtb"/>
+                        <outlet property="messageLabel" destination="xnR-nq-Tr5" id="wYo-XF-l6z"/>
                         <outlet property="spiner" destination="njJ-Jz-WfI" id="f7h-NE-f3u"/>
                     </connections>
                 </viewController>
@@ -481,7 +487,7 @@ receive a validation code</string>
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hbmsu_logo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="jal-Ar-Yc4">
-                                        <rect key="frame" x="97.5" y="84" width="180" height="151"/>
+                                        <rect key="frame" x="97.5" y="164" width="180" height="151"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXf-Xq-J0a">
                                         <rect key="frame" x="50" y="509.5" width="275" height="38.5"/>
@@ -495,6 +501,7 @@ Retry in few minutes</string>
                                         <rect key="frame" x="113" y="578" width="150" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Go Back" backgroundImage="verify_btn.png"/>
+                                        <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                         <connections>
                                             <action selector="goBackButtonPressed:" destination="5wM-mZ-M8x" eventType="touchUpInside" id="kNw-yV-GEt"/>
                                         </connections>
@@ -504,7 +511,7 @@ Retry in few minutes</string>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="qXf-Xq-J0a" secondAttribute="trailing" constant="50" id="692-zE-Ssa"/>
                                     <constraint firstItem="jal-Ar-Yc4" firstAttribute="centerX" secondItem="xCh-3I-Hdn" secondAttribute="centerX" id="8K3-VK-NcO"/>
-                                    <constraint firstItem="jal-Ar-Yc4" firstAttribute="top" secondItem="xCh-3I-Hdn" secondAttribute="top" constant="84" id="R0i-Qe-mLi"/>
+                                    <constraint firstItem="jal-Ar-Yc4" firstAttribute="top" secondItem="xCh-3I-Hdn" secondAttribute="top" constant="164" id="R0i-Qe-mLi"/>
                                     <constraint firstAttribute="bottom" secondItem="FE7-hy-BP5" secondAttribute="bottom" constant="39" id="cum-9X-Sep"/>
                                     <constraint firstItem="qXf-Xq-J0a" firstAttribute="centerX" secondItem="xCh-3I-Hdn" secondAttribute="centerX" id="jTC-p2-FiQ"/>
                                     <constraint firstItem="qXf-Xq-J0a" firstAttribute="leading" secondItem="xCh-3I-Hdn" secondAttribute="leading" constant="50" id="p5b-fD-LtJ"/>
@@ -536,9 +543,11 @@ Retry in few minutes</string>
         <image name="textField_bg_plain.png" width="300" height="50"/>
         <image name="uae_flg.png" width="36" height="21"/>
         <image name="verify_btn.png" width="150" height="50"/>
+        <image name="verify_btn_disabled.png" width="150" height="50"/>
+        <image name="verify_btn_hover.png" width="150" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="XBj-rB-tAj"/>
-        <segue reference="Bx5-3q-BBX"/>
+        <segue reference="vax-fn-FOY"/>
+        <segue reference="0Us-5D-V2N"/>
     </inferredMetricsTieBreakers>
 </document>
