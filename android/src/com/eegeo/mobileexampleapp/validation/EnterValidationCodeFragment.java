@@ -325,7 +325,7 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
     {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
         alertDialogBuilder.setTitle("Code expired")
-                .setMessage("Validation code has been expired")
+                .setMessage("Your PIN has been expired")
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 
@@ -346,7 +346,7 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
     {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), R.style.AlertDialogCustom));
         alertDialogBuilder.setTitle("Success")
-                .setMessage("Validation code has been resent")
+                .setMessage("Your PIN has been resent")
                 .setCancelable(false)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 

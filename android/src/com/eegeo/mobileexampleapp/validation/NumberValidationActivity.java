@@ -262,7 +262,7 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
                 else if(status.equals(STATUS_VERIFIED.value()))
                 {
                     m_persistentState.setBoolean(KEY_IS_VALIDATED, true);
-                    addResponseStatusFragment(true, getString(R.string.validation_success_text));
+                    addResponseStatusFragment(true, getString(R.string.validation_already_verified));
                 }
                 else if(status.equals(STATUS_BLOCKED.value()))
                 {
@@ -359,12 +359,12 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
                 else if(status.equals(STATUS_WRONG_CODE.value()))
                 {
                     String error = response.optString("message");
-                    onErrorResponse.onError(error.length() > 0 ? error : "Incorrect Validation Code!");
+                    onErrorResponse.onError(error.length() > 0 ? error : "Incorrect PIN!");
                 }
                 else if(status.equals(STATUS_EXPIRED.value()))
                 {
                     String error = response.optString("message");
-                    onErrorResponse.onError(error.length() > 0 ? error : "Validation Code Expired!");
+                    onErrorResponse.onError(error.length() > 0 ? error : "Your PIN has been Expired!");
                 }
                 else if(status.equals(STATUS_ATTEMPTS_EXCEEDED.value()))
                 {
