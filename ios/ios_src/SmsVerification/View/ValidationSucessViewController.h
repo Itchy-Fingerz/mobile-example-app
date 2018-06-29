@@ -8,4 +8,5 @@
 #import <UIKit/UIKit.h>
 
 @interface ValidationSucessViewController : UIViewController
+@property (nonatomic,retain) NSString *sucessMessage;
 @end

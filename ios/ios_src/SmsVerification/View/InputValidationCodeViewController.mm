@@ -9,6 +9,7 @@
 #import "MZTimerLabel.h"
 #import "ShowErrorMessageViewController.h"
 #import "SVProgressHUD.h"
+#import "ValidationSucessViewController.h"
 
 
 @interface InputValidationCodeViewController ()<UITextFieldDelegate>
@@ -419,6 +420,11 @@
         ShowErrorMessageViewController *destinationVC = (ShowErrorMessageViewController *) [segue destinationViewController];
         NSDictionary *mainResponseDictionary = (NSDictionary *) sender;
         destinationVC.errorMessage = [mainResponseDictionary objectForKey:@"message"];
+    }
+    else if ([segue.identifier isEqualToString:@"showValidationSuccessVc"])
+    {
+        ValidationSucessViewController * destinationVC = (ValidationSucessViewController *) [segue destinationViewController];
+        destinationVC.sucessMessage = @"PIN Accepted!";
     }
 }
 

@@ -144,10 +144,12 @@ validation code</string>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kh3-AF-mpF">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kh3-AF-mpF">
                                 <rect key="frame" x="437" y="688" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Verify" backgroundImage="verify_btn.png"/>
+                                <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
+                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                 <connections>
                                     <action selector="verfiyButtonPressed:" destination="bPC-EW-0Jf" eventType="touchUpInside" id="CS7-wB-QOW"/>
                                 </connections>
@@ -352,6 +354,8 @@ validation code</string>
                                 <rect key="frame" x="437" y="656" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Validate" backgroundImage="verify_btn.png"/>
+                                <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
+                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                 <connections>
                                     <action selector="validationButtonPressed:" destination="oJf-Ic-LOd" eventType="touchUpInside" id="CdH-b0-Ekk"/>
                                 </connections>
@@ -434,6 +438,7 @@ validation code</string>
                                         <state key="normal" title="Done" backgroundImage="verify_btn.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                         <connections>
                                             <action selector="doneButtonPressedL:" destination="MbW-UQ-4sb" eventType="touchUpInside" id="zRo-Ho-4BW"/>
                                         </connections>
@@ -468,6 +473,7 @@ validation code</string>
                     </navigationItem>
                     <connections>
                         <outlet property="doneButton" destination="veQ-dv-ere" id="7vu-Lu-54J"/>
+                        <outlet property="messageLabel" destination="YTQ-E5-1DQ" id="lsG-L6-S3N"/>
                         <outlet property="spiner" destination="84f-EC-j3v" id="sbk-li-3Dh"/>
                     </connections>
                 </viewController>
@@ -507,6 +513,7 @@ Retry in few minutes</string>
                                         <state key="normal" title="Go Back" backgroundImage="verify_btn.png">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                         <connections>
                                             <action selector="goBackButtonPressed:" destination="V3m-Zr-JTg" eventType="touchUpInside" id="ecB-Ye-rAC"/>
                                         </connections>
@@ -550,9 +557,11 @@ Retry in few minutes</string>
         <image name="textField_bg_plain.png" width="300" height="50"/>
         <image name="uae_flg.png" width="36" height="21"/>
         <image name="verify_btn.png" width="150" height="50"/>
+        <image name="verify_btn_disabled.png" width="150" height="50"/>
+        <image name="verify_btn_hover.png" width="150" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dVa-6g-ZU9"/>
-        <segue reference="JUp-RW-TVL"/>
+        <segue reference="FhP-kQ-fdu"/>
+        <segue reference="P3J-PZ-VY9"/>
     </inferredMetricsTieBreakers>
 </document>
