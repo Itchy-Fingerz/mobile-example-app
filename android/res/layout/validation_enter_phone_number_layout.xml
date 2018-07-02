@@ -13,7 +13,7 @@
         android:text="@string/validation_title"
         android:textAppearance="?android:attr/textAppearanceListItemSmall"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="18sp"
         android:textStyle="bold"/>
 
     <LinearLayout
@@ -48,8 +48,8 @@
                 android:gravity="center"
                 android:text="@string/validation_enter_phone_text"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
-                android:textColor="@color/grey"
-                android:textSize="14dp"/>
+                android:textColor="@color/evendarkergrey"
+                android:textSize="16dp"/>
 
             <LinearLayout
                 android:id="@+id/number_container"
@@ -59,8 +59,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/validation_typearea"
-                android:gravity="center_vertical"
-                android:weightSum="6">
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/number_country_code_text"
@@ -71,8 +70,8 @@
                     android:drawablePadding="8dp"
                     android:gravity="center"
                     android:text="+971"
-                    android:textColor="@color/grey"
-                    android:textSize="15sp"/>
+                    android:textColor="@color/evendarkergrey"
+                    android:textSize="16sp"/>
 
                 <EditText
                     android:id="@+id/number_input_field"
@@ -85,8 +84,8 @@
                     android:inputType="number"
                     android:maxLength="9"
                     android:text=""
-                    android:textColorHint="@color/lightgrey"
-                    android:textSize="15sp"/>
+                    android:textColorHint="@color/evendarkergrey"
+                    android:textSize="16sp"/>
 
             </LinearLayout>
 

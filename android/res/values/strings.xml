@@ -12,20 +12,20 @@
 
     <!-- Validation Strings -->
     <string name="validation_title_text">Phone Number Verification</string>
-    <string name="validation_description_text">Enter your phone number to receive a validation code</string>
     <string name="validation_verify_button_text">Verify</string>
     <string name="validation_validate_button_text">Validate</string>
     <string name="validation_resend_text">Validate</string>
 
     <string name="validation_title">Phone Number Verification</string>
-    <string name="validation_enter_phone_text">Enter your phone number to receive a validation code</string>
-    <string name="validation_enter_code_text">Enter the validation code</string>
+    <string name="validation_enter_phone_text">Enter your phone number\nto receive your PIN</string>
+    <string name="validation_enter_code_text">Enter your PIN</string>
     <string name="validation_phone_hint_text">Phone Number</string>
     <string name="validation_done_text">Done</string>
-    <string name="validation_success_text">Validation Successful!</string>
+    <string name="validation_success_text">PIN Accepted!</string>
+    <string name="validation_already_verified">Your number is already verified!</string>
     <string name="validation_resend_code_text">Resend</string>
-    <string name="validation_code_expire_text">The validation code will expire in </string>
-    <string name="validation_code_error_text">Incorrect validation code!</string>
+    <string name="validation_code_expire_text">Your PIN will expire in </string>
+    <string name="validation_code_error_text">Incorrect PIN entered!</string>
     <string name="validation_code_attempts_exceed_error_text">Number of attempts exceeded!\nRetry in few minutes</string>
     <string name="validation_go_back_text">Go Back</string>
     <string name="validation_change_number_text"><u>CHANGE NUMBER</u></string>

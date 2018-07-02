@@ -34,7 +34,6 @@
             android:name="com.eegeo.mobileexampleapp.validation.NumberValidationActivity"
             android:label="JC Group"
             android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
-            android:windowSoftInputMode="adjustPan"
             android:hardwareAccelerated="true"
             android:resizeableActivity="false"
             android:supportsPictureInPicture="false">

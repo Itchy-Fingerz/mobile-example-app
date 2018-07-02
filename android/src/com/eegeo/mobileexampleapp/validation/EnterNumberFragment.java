@@ -1,6 +1,7 @@
 package com.eegeo.mobileexampleapp.validation;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -46,7 +47,7 @@ public class EnterNumberFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState)
+    public void onViewCreated(final View view, Bundle savedInstanceState)
     {
         super.onViewCreated(view, savedInstanceState);
 
@@ -61,6 +62,21 @@ public class EnterNumberFragment extends Fragment implements View.OnClickListene
         m_errorText = (TextView)view.findViewById(R.id.error_text);
         m_errorText.setVisibility(View.INVISIBLE);
 
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener()
+        {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom)
+            {
+                view.removeOnLayoutChangeListener(this);
+
+                //For keyboard overlapping edit text
+                int editHeight = m_numberInputField.getHeight();
+                Paint.FontMetrics fontMetrics = m_numberInputField.getPaint().getFontMetrics();
+                float textHeight = fontMetrics.bottom - fontMetrics.top + fontMetrics.leading;
+                int remainingHeight = (int) (editHeight - textHeight);
+                m_numberInputField.setPadding(0, remainingHeight / 2, 0, remainingHeight / 2);
+            }
+        });
     }
 
     @Override
