@@ -10,6 +10,8 @@
 #include "ApplicationConfigurationModule.h"
 #include "IApplicationConfigurationService.h"
 #include "iOSFlurryMetricsService.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 #define DEFAULT_MAP_SCENE @"wrld://mapscene/3ff0966"
 
@@ -59,6 +61,8 @@ namespace
         NSURL *url = launchOptions[@"UIApplicationLaunchOptionsURLKey"];
         _launchUrl = url;
     }
+    [Fabric with:@[[Crashlytics class]]];
+
 	return YES;
 }
 

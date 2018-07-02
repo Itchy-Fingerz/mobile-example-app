@@ -81,9 +81,9 @@
                                 <rect key="frame" x="493.5" y="483" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zGF-r0-yCJ">
-                                <rect key="frame" x="374" y="530" width="276.5" height="38.5"/>
-                                <string key="text">Enter your phone number to receive a 
-validation code</string>
+                                <rect key="frame" x="420" y="530" width="184.5" height="38.5"/>
+                                <string key="text">Enter your phone number
+to receive your PIN</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.37647058823529411" green="0.37647058823529411" blue="0.37647058823529411" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
