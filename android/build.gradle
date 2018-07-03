@@ -1,13 +1,21 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 buildscript {
     repositories {
         jcenter()
         google()
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.1'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
@@ -161,4 +169,7 @@ dependencies {
     implementation project(':wrld-navigation-widget-release')
     implementation 'com.android.volley:volley:1.1.0'
     implementation project(':wrld-navigation-search-release')
+    compile('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
+        transitive = true;
+    }
 }

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.crashlytics.android.Crashlytics;
 import com.eegeo.entrypointinfrastructure.EegeoSurfaceView;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.entrypointinfrastructure.NativeJniCalls;
@@ -41,6 +42,8 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.Constants;
 import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.NativeCrashManager;
+
+import io.fabric.sdk.android.Fabric;
 
 
 public class BackgroundThreadActivity extends MainActivity
@@ -82,6 +85,7 @@ public class BackgroundThreadActivity extends MainActivity
 
         m_hockeyAppId = readHockeyAppId();
         Constants.loadFromContext(this);
+        Fabric.with(this, new Crashlytics());
         NativeJniCalls.setUpBreakpad(Constants.FILES_PATH);
         NativeCrashManager.handleDumpFiles(this, m_hockeyAppId);
 

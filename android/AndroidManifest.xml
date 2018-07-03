@@ -87,6 +87,9 @@
 			android:label="IALocationService"
 			android:exported="false"/>
        	
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="95c247dda6cb70851dcff7283dba659d778bbc55" />
     </application>
 
 </manifest> 
