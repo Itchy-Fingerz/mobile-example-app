@@ -46,7 +46,12 @@ namespace ExampleApp
 			JNIEnv* env = attached.envForThread;
 
 			m_onSearchCompleted = 0;
-			env->DeleteGlobalRef(m_javaInstance);
+			/*
+            Already de-allocating it in JAVA Code :
+            Class Name:SuggestionQueryModel.java
+            Method Name: removeSuggestionProvider(SuggestionProvider provider)
+            */
+//			env->DeleteGlobalRef(m_javaInstance);
 			env->DeleteGlobalRef(m_javaClass);
 		}
 

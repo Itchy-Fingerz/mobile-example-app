@@ -565,7 +565,7 @@ namespace ExampleApp
 
             void NavWidgetView::RemoveOnNavigationStartPointSetFromSuggestion(Eegeo::Helpers::ICallback1<const int>& callback)
             {
-                m_navigationStartPointFromSuggestionCallbacks.AddCallback(callback);
+                m_navigationStartPointFromSuggestionCallbacks.RemoveCallback(callback);
             }
 
             void NavWidgetView::InsertOnNavigationEndPointSetFromSuggestion(Eegeo::Helpers::ICallback1<const int>& callback)
