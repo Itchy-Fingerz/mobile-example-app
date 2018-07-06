@@ -90,6 +90,7 @@ typedef FailureHandler<SenionLabLocationManager> FailureHandlerType;
 
 -(void) didUpdateLocation:(SLCoordinate3D *)location withUncertainty:(double)radius
 {
+    NSLog(@"Update location called ..");
 }
 
 -(void) didUpdateLocation:(SLCoordinate3D *)location withUncertainty:(double)radius locationSource:(SLLocationSource *)locationSource

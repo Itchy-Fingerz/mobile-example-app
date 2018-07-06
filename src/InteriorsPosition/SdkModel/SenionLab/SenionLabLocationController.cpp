@@ -54,26 +54,27 @@ namespace ExampleApp
 
                     if (m_appModeModel.GetAppMode() == AppModes::SdkModel::InteriorMode)
                     {
-                        const TrackingInfoMap::const_iterator trackingInfoEntry = trackingInfoMap.find(interiorId.Value());
+//                        const TrackingInfoMap::const_iterator trackingInfoEntry = trackingInfoMap.find(interiorId.Value());
 
-                        if (trackingInfoEntry != trackingInfoMap.end())
-                        {
-                            const ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo& trackingInfo = trackingInfoEntry->second;
+//                        if (trackingInfoEntry != trackingInfoMap.end())
+//                        {
+//                            const ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo& trackingInfo = trackingInfoEntry->second;
 
-                            if (trackingInfo.GetType() == "Senion")
-                            {
-                                const std::string& apiKey = trackingInfo.GetConfig().GetApiKey();
-                                const std::string& apiSecret = trackingInfo.GetConfig().GetApiSecret();
-                                const std::map<int, std::string>& floorMap = trackingInfo.GetFloorIndexMap();
+//                            if (trackingInfo.GetType() == "Senion")
+//                            {
+                                //const std::string& apiKey = "17774327-e08b-44ca-899a-e5183e1b8a7c"; // map id
+                                const std::string& apiKey = "17774327-e08b-44ca-899a-e5183e1b8a7c"; // map id
+                                const std::string& apiSecret = "da2ed8ab-5a81-403c-a7f6-e8f16b46551a";  // customer id
+                                const std::map<int, std::string> floorMap;// = trackingInfo.GetFloorIndexMap(); // empty for now
 
                                 m_locationManager.StartUpdatingLocation(apiKey, apiSecret, floorMap);
                                 m_messageBus.Publish(AboutPage::AboutPageIndoorPositionSettingsMessage(
                                         apiKey,
                                         apiSecret,
                                         floorMap,
-                                        trackingInfo.GetInteriorId().Value()));
-                            }
-                        }
+                                        ""));
+//                            }
+//                        }
                     }
                 }
             }

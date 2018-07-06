@@ -47,6 +47,36 @@ namespace ExampleApp
             void InteriorsLocationServiceProvider::OnInteriorExplorerEntered()
             {
                 Eegeo::Resources::Interiors::InteriorId interiorId = m_interiorSelectionModel.GetSelectedInteriorId();
+                
+                
+                if(interiorId.IsValid() && interiorId.Value() == "jcgroup_china_suzhou")
+                {
+                    
+                    std::stringstream indoorPositionTypeMessage;
+                    indoorPositionTypeMessage << IndoorPositionTypeMessageHeader;
+                    
+                    
+                    std::map<std::string, Eegeo::Location::ILocationService&>::const_iterator interiorLocationService = m_interiorLocationServices.find("Senion");
+                    if (interiorLocationService != m_interiorLocationServices.end())
+                    {
+                        std::stringstream interiorLocationServiceUseMessage;
+                        interiorLocationServiceUseMessage << "using " << "Senion" << "location service";
+                        Eegeo_TTY(interiorLocationServiceUseMessage.str().c_str());
+                        
+                        indoorPositionTypeMessage << "Senion";
+                        m_currentLocationService.SetLocationService(interiorLocationService->second);
+                        m_messageBus.Publish(AboutPage::AboutPageIndoorPositionTypeMessage(indoorPositionTypeMessage.str()));
+                    }
+                    else
+                    {
+                        indoorPositionTypeMessage << DefaultIndoorPositioning;
+                        m_messageBus.Publish(AboutPage::AboutPageIndoorPositionTypeMessage(indoorPositionTypeMessage.str()));
+                    }
+                }
+                else
+                {
+                
+                
                 std::map<std::string, ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo> interiorTrackingInfoList;
                 
                 if(interiorId.IsValid())
@@ -83,6 +113,7 @@ namespace ExampleApp
                 {
                     indoorPositionTypeMessage << DefaultIndoorPositioning;
                     m_messageBus.Publish(AboutPage::AboutPageIndoorPositionTypeMessage(indoorPositionTypeMessage.str()));
+                }
                 }
             }
             
