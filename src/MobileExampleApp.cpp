@@ -155,7 +155,7 @@ namespace ExampleApp
             loadingScreenConfig.screenWidth = screenProperties.GetScreenWidth();
             loadingScreenConfig.screenHeight = screenProperties.GetScreenHeight();
             loadingScreenConfig.screenOversampleScaling = screenProperties.GetOversampleScale();
-            loadingScreenConfig.loadingBarOffset = Eegeo::v2(0.5f, 0.1f);
+            loadingScreenConfig.loadingBarOffset = Eegeo::v2(0.5f, 0.13f);
             Eegeo::Rendering::LoadingScreen* loadingScreen = Eegeo::Rendering::LoadingScreen::Create(
                                                                                                      Helpers::ImageHelpers::GetImageNameForDevice("SplashScreen", ".png"),
                                                                                                      loadingScreenConfig,

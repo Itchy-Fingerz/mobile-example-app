@@ -22,16 +22,17 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashScreen.png" translatesAutoresizingMaskIntoConstraints="NO" id="DYn-gn-dMv">
-                                <rect key="frame" x="0.0" y="42" width="375" height="583"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="375" id="IEk-v4-gKK"/>
-                                    <constraint firstAttribute="height" constant="583" id="RZZ-1s-sa8"/>
-                                </constraints>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="zru-RK-2xh">
+                                <rect key="frame" x="47" y="616" width="281" height="21"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="DYn-gn-dMv" firstAttribute="centerY" secondItem="O6X-04-sCb" secondAttribute="centerY" id="DmK-Uo-PIc"/>
+                            <constraint firstItem="i8o-Lz-xWV" firstAttribute="top" secondItem="zru-RK-2xh" secondAttribute="bottom" constant="30" id="Nhh-lD-Pux"/>
+                            <constraint firstItem="zru-RK-2xh" firstAttribute="centerX" secondItem="O6X-04-sCb" secondAttribute="centerX" id="dnH-81-Sor"/>
                             <constraint firstItem="DYn-gn-dMv" firstAttribute="centerX" secondItem="O6X-04-sCb" secondAttribute="centerX" id="vKv-d0-27S"/>
                         </constraints>
                     </view>
@@ -42,6 +43,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="SplashScreen.png" width="375" height="583"/>
+        <image name="SplashScreen.png" width="375" height="667"/>
+        <image name="logo-bottom.png" width="281" height="21"/>
     </resources>
 </document>

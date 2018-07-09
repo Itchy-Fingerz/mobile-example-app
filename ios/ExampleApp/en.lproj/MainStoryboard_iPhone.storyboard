@@ -47,7 +47,7 @@
                                 <rect key="frame" x="169" y="345" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LP9-Us-shu">
-                                <rect key="frame" x="96" y="431.5" width="184.5" height="38.5"/>
+                                <rect key="frame" x="96" y="390.5" width="184.5" height="38.5"/>
                                 <string key="text">Enter your phone number
 to receive your PIN</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -55,7 +55,7 @@ to receive your PIN</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IKa-C2-f3y">
-                                <rect key="frame" x="37" y="490" width="300" height="50"/>
+                                <rect key="frame" x="37" y="449" width="300" height="50"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="textField_bg_plain.png" translatesAutoresizingMaskIntoConstraints="NO" id="3rm-cR-zgw">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="50"/>
@@ -105,13 +105,13 @@ to receive your PIN</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entered invalid phone number" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="KeR-cN-9BK">
-                                <rect key="frame" x="36" y="555" width="303" height="17"/>
+                                <rect key="frame" x="36" y="514" width="303" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ilo-Dw-wWx">
-                                <rect key="frame" x="112" y="587" width="150" height="50"/>
+                                <rect key="frame" x="112" y="546" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Verify" backgroundImage="verify_btn.png"/>
                                 <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
@@ -120,10 +120,14 @@ to receive your PIN</string>
                                     <action selector="verfiyButtonPressed:" destination="nux-Nh-qEd" eventType="touchUpInside" id="4KL-TU-zEc"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dxe-Dg-sd6">
+                                <rect key="frame" x="47" y="616" width="281" height="21"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="xnX-oq-YPb" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="1Gv-zv-T0D"/>
+                            <constraint firstItem="Dxe-Dg-sd6" firstAttribute="top" secondItem="Ilo-Dw-wWx" secondAttribute="bottom" constant="20" id="6Hj-6u-hHq"/>
                             <constraint firstItem="Geq-xk-Kzx" firstAttribute="top" secondItem="JSn-XS-I3P" secondAttribute="bottom" constant="100" id="8vh-Ww-LYb"/>
                             <constraint firstItem="KeR-cN-9BK" firstAttribute="leading" secondItem="a1l-4x-DZs" secondAttribute="leadingMargin" constant="20" id="GVh-8E-6mY"/>
                             <constraint firstItem="Geq-xk-Kzx" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="IBy-ct-0aX"/>
@@ -132,9 +136,10 @@ to receive your PIN</string>
                             <constraint firstItem="KeR-cN-9BK" firstAttribute="top" secondItem="IKa-C2-f3y" secondAttribute="bottom" constant="15" id="PYv-R7-iaD"/>
                             <constraint firstItem="xnX-oq-YPb" firstAttribute="centerY" secondItem="a1l-4x-DZs" secondAttribute="centerY" constant="30" id="TRk-7t-4kb"/>
                             <constraint firstItem="LP9-Us-shu" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="jfD-qW-MKd"/>
+                            <constraint firstItem="Dxe-Dg-sd6" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="oeo-nD-fAJ"/>
                             <constraint firstItem="Ilo-Dw-wWx" firstAttribute="centerX" secondItem="a1l-4x-DZs" secondAttribute="centerX" id="qci-30-Lki"/>
                             <constraint firstItem="Ilo-Dw-wWx" firstAttribute="top" secondItem="KeR-cN-9BK" secondAttribute="bottom" constant="15" id="qhE-Ll-myX"/>
-                            <constraint firstItem="M1k-NY-l9I" firstAttribute="top" secondItem="Ilo-Dw-wWx" secondAttribute="bottom" constant="30" id="rlz-7c-LtF"/>
+                            <constraint firstItem="M1k-NY-l9I" firstAttribute="top" secondItem="Dxe-Dg-sd6" secondAttribute="bottom" constant="30" id="tnd-XG-Lnh"/>
                             <constraint firstAttribute="trailingMargin" secondItem="KeR-cN-9BK" secondAttribute="trailing" constant="20" id="wnY-J8-Raz"/>
                             <constraint firstItem="IKa-C2-f3y" firstAttribute="top" secondItem="LP9-Us-shu" secondAttribute="bottom" constant="20" id="xDl-dS-0Qz"/>
                         </constraints>
@@ -197,13 +202,13 @@ to receive your PIN</string>
                                 <rect key="frame" x="169" y="345" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your PIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KA5-Co-9oj">
-                                <rect key="frame" x="136" y="415.5" width="104.5" height="19.5"/>
+                                <rect key="frame" x="136" y="364.5" width="104.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0W-JC-NWk">
-                                <rect key="frame" x="77" y="440" width="220" height="45"/>
+                                <rect key="frame" x="77" y="389" width="220" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="krO-dt-qpU">
                                         <rect key="frame" x="15" y="3" width="40" height="40"/>
@@ -310,19 +315,29 @@ to receive your PIN</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect PIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="wuE-MV-aM8">
-                                <rect key="frame" x="86" y="498" width="203" height="16"/>
+                                <rect key="frame" x="86" y="447" width="203" height="16"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your PIN will expire in xxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="073-6n-EoC">
-                                <rect key="frame" x="107" y="524" width="161" height="16"/>
+                                <rect key="frame" x="107" y="473" width="161" height="16"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JtH-92-t1f">
+                                <rect key="frame" x="113" y="504" width="150" height="50"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Validate" backgroundImage="verify_btn.png"/>
+                                <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
+                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
+                                <connections>
+                                    <action selector="validationButtonPressed:" destination="Lr1-T7-fpN" eventType="touchUpInside" id="cDk-aF-G6j"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ivd-8i-yYT">
-                                <rect key="frame" x="160" y="615" width="55" height="32"/>
+                                <rect key="frame" x="160" y="564" width="55" height="32"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Resend">
                                     <color key="titleColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -334,16 +349,9 @@ to receive your PIN</string>
                                     <action selector="resendButtonPressed:" destination="Lr1-T7-fpN" eventType="touchUpInside" id="blQ-qz-Hed"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JtH-92-t1f">
-                                <rect key="frame" x="113" y="555" width="150" height="50"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Validate" backgroundImage="verify_btn.png"/>
-                                <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
-                                <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
-                                <connections>
-                                    <action selector="validationButtonPressed:" destination="Lr1-T7-fpN" eventType="touchUpInside" id="cDk-aF-G6j"/>
-                                </connections>
-                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="yGV-KM-aEH">
+                                <rect key="frame" x="47" y="616" width="281" height="21"/>
+                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1G-Hf-3QK">
                                 <rect key="frame" x="16" y="325" width="26.5" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
@@ -359,14 +367,16 @@ to receive your PIN</string>
                             <constraint firstItem="JtH-92-t1f" firstAttribute="top" secondItem="073-6n-EoC" secondAttribute="bottom" constant="15" id="5jV-fT-6pf"/>
                             <constraint firstItem="E52-hh-mgL" firstAttribute="top" secondItem="cME-8p-3OV" secondAttribute="bottom" constant="100" id="DEc-gD-ISU"/>
                             <constraint firstItem="wuE-MV-aM8" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="FRg-42-hSg"/>
+                            <constraint firstItem="yGV-KM-aEH" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="FXh-r7-eFa"/>
                             <constraint firstItem="KA5-Co-9oj" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="Gxr-0U-aF6"/>
                             <constraint firstItem="073-6n-EoC" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="HUa-sL-HI3"/>
-                            <constraint firstAttribute="bottom" secondItem="Ivd-8i-yYT" secondAttribute="bottom" constant="20" id="Lbw-LA-a7t"/>
                             <constraint firstAttribute="trailingMargin" secondItem="wuE-MV-aM8" secondAttribute="trailing" constant="70" id="OTc-Js-Ch4"/>
+                            <constraint firstItem="ABI-Uh-37P" firstAttribute="top" secondItem="yGV-KM-aEH" secondAttribute="bottom" constant="30" id="Pt2-Xu-eKC"/>
                             <constraint firstItem="E52-hh-mgL" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="RGS-dC-avq"/>
                             <constraint firstItem="wuE-MV-aM8" firstAttribute="top" secondItem="t0W-JC-NWk" secondAttribute="bottom" constant="13" id="Rae-L6-CPm"/>
                             <constraint firstItem="kZA-dB-0az" firstAttribute="centerY" secondItem="JQO-Eq-Gjy" secondAttribute="centerY" constant="30" id="TSV-g2-5YW"/>
                             <constraint firstItem="t0W-JC-NWk" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="TUL-8a-Fz6"/>
+                            <constraint firstItem="yGV-KM-aEH" firstAttribute="top" secondItem="Ivd-8i-yYT" secondAttribute="bottom" constant="20" id="Trm-fI-6bI"/>
                             <constraint firstItem="kZA-dB-0az" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="ctH-UD-ler"/>
                             <constraint firstItem="Ivd-8i-yYT" firstAttribute="top" secondItem="JtH-92-t1f" secondAttribute="bottom" constant="10" id="mrZ-wI-uDl"/>
                             <constraint firstItem="Ivd-8i-yYT" firstAttribute="centerX" secondItem="JQO-Eq-Gjy" secondAttribute="centerX" id="ref-Fn-t1h"/>
@@ -419,16 +429,13 @@ to receive your PIN</string>
                                         <rect key="frame" x="97.5" y="164" width="180" height="151"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PIN Accepted!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xnR-nq-Tr5">
-                                        <rect key="frame" x="133" y="538.5" width="110.5" height="19.5"/>
+                                        <rect key="frame" x="133" y="506.5" width="110.5" height="19.5"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                         <color key="textColor" red="0.43529411764705883" green="0.76078431372549016" blue="0.23137254901960785" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="njJ-Jz-WfI">
-                                        <rect key="frame" x="169" y="643" width="37" height="37"/>
-                                    </activityIndicatorView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wSu-jg-l0E">
-                                        <rect key="frame" x="113" y="578" width="150" height="50"/>
+                                        <rect key="frame" x="113" y="546" width="150" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Done" backgroundImage="verify_btn.png"/>
                                         <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
@@ -436,14 +443,22 @@ to receive your PIN</string>
                                             <action selector="doneButtonPressedL:" destination="LUO-5r-4IO" eventType="touchUpInside" id="LMn-7b-kVO"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="a87-DF-qGL">
+                                        <rect key="frame" x="47" y="616" width="281" height="21"/>
+                                    </imageView>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="njJ-Jz-WfI">
+                                        <rect key="frame" x="169" y="449.5" width="37" height="37"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="xnR-nq-Tr5" firstAttribute="top" secondItem="njJ-Jz-WfI" secondAttribute="bottom" constant="20" id="0lY-MB-fM3"/>
                                     <constraint firstItem="XiD-O7-aW1" firstAttribute="top" secondItem="aBj-zE-UDW" secondAttribute="top" constant="164" id="2EP-K8-ZF7"/>
+                                    <constraint firstItem="a87-DF-qGL" firstAttribute="centerX" secondItem="aBj-zE-UDW" secondAttribute="centerX" id="2Mx-Y7-XWk"/>
                                     <constraint firstItem="wSu-jg-l0E" firstAttribute="centerX" secondItem="aBj-zE-UDW" secondAttribute="centerX" id="2N3-YF-M9e"/>
-                                    <constraint firstItem="njJ-Jz-WfI" firstAttribute="top" secondItem="wSu-jg-l0E" secondAttribute="bottom" constant="15" id="93M-aN-cZr"/>
                                     <constraint firstItem="wSu-jg-l0E" firstAttribute="top" secondItem="xnR-nq-Tr5" secondAttribute="bottom" constant="20" id="JaA-TJ-6K5"/>
-                                    <constraint firstAttribute="bottom" secondItem="wSu-jg-l0E" secondAttribute="bottom" constant="39" id="rB0-6k-RyN"/>
+                                    <constraint firstItem="a87-DF-qGL" firstAttribute="top" secondItem="wSu-jg-l0E" secondAttribute="bottom" constant="20" id="Ped-cg-gmA"/>
+                                    <constraint firstAttribute="bottom" secondItem="a87-DF-qGL" secondAttribute="bottom" constant="30" id="UOB-lz-PHZ"/>
                                     <constraint firstItem="xnR-nq-Tr5" firstAttribute="centerX" secondItem="aBj-zE-UDW" secondAttribute="centerX" id="yOO-8N-zSc"/>
                                     <constraint firstItem="XiD-O7-aW1" firstAttribute="centerX" secondItem="aBj-zE-UDW" secondAttribute="centerX" id="yvS-VY-Tkj"/>
                                 </constraints>
@@ -490,7 +505,7 @@ to receive your PIN</string>
                                         <rect key="frame" x="97.5" y="164" width="180" height="151"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qXf-Xq-J0a">
-                                        <rect key="frame" x="50" y="509.5" width="275" height="38.5"/>
+                                        <rect key="frame" x="50" y="477.5" width="275" height="38.5"/>
                                         <string key="text">Number of attempts exceeded!
 Retry in few minutes</string>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
@@ -498,7 +513,7 @@ Retry in few minutes</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FE7-hy-BP5">
-                                        <rect key="frame" x="113" y="578" width="150" height="50"/>
+                                        <rect key="frame" x="113" y="546" width="150" height="50"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                         <state key="normal" title="Go Back" backgroundImage="verify_btn.png"/>
                                         <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
@@ -506,22 +521,27 @@ Retry in few minutes</string>
                                             <action selector="goBackButtonPressed:" destination="5wM-mZ-M8x" eventType="touchUpInside" id="kNw-yV-GEt"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="Xuq-v0-xHR">
+                                        <rect key="frame" x="47" y="616" width="281" height="21"/>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="qXf-Xq-J0a" secondAttribute="trailing" constant="50" id="692-zE-Ssa"/>
                                     <constraint firstItem="jal-Ar-Yc4" firstAttribute="centerX" secondItem="xCh-3I-Hdn" secondAttribute="centerX" id="8K3-VK-NcO"/>
+                                    <constraint firstAttribute="bottom" secondItem="Xuq-v0-xHR" secondAttribute="bottom" constant="30" id="Peh-Id-lfz"/>
                                     <constraint firstItem="jal-Ar-Yc4" firstAttribute="top" secondItem="xCh-3I-Hdn" secondAttribute="top" constant="164" id="R0i-Qe-mLi"/>
-                                    <constraint firstAttribute="bottom" secondItem="FE7-hy-BP5" secondAttribute="bottom" constant="39" id="cum-9X-Sep"/>
                                     <constraint firstItem="qXf-Xq-J0a" firstAttribute="centerX" secondItem="xCh-3I-Hdn" secondAttribute="centerX" id="jTC-p2-FiQ"/>
                                     <constraint firstItem="qXf-Xq-J0a" firstAttribute="leading" secondItem="xCh-3I-Hdn" secondAttribute="leading" constant="50" id="p5b-fD-LtJ"/>
                                     <constraint firstItem="FE7-hy-BP5" firstAttribute="top" secondItem="qXf-Xq-J0a" secondAttribute="bottom" constant="30" id="rkK-yc-YqR"/>
                                     <constraint firstItem="FE7-hy-BP5" firstAttribute="centerX" secondItem="xCh-3I-Hdn" secondAttribute="centerX" id="wDb-0v-8IY"/>
+                                    <constraint firstItem="Xuq-v0-xHR" firstAttribute="top" secondItem="FE7-hy-BP5" secondAttribute="bottom" constant="20" id="wEY-CD-hgQ"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Xuq-v0-xHR" firstAttribute="centerX" secondItem="zf4-wn-bw3" secondAttribute="centerX" id="59d-ec-Wyh"/>
                             <constraint firstAttribute="trailing" secondItem="xCh-3I-Hdn" secondAttribute="trailing" id="bIj-0V-ucd"/>
                             <constraint firstItem="xCh-3I-Hdn" firstAttribute="leading" secondItem="zf4-wn-bw3" secondAttribute="leading" id="cQu-7C-awG"/>
                             <constraint firstItem="xCh-3I-Hdn" firstAttribute="top" secondItem="zf4-wn-bw3" secondAttribute="top" id="nUu-U0-Qt3"/>
@@ -540,6 +560,7 @@ Retry in few minutes</string>
     </scenes>
     <resources>
         <image name="hbmsu_logo_text.png" width="180" height="151"/>
+        <image name="logo-bottom.png" width="281" height="21"/>
         <image name="textField_bg_plain.png" width="300" height="50"/>
         <image name="uae_flg.png" width="36" height="21"/>
         <image name="verify_btn.png" width="150" height="50"/>
@@ -547,7 +568,7 @@ Retry in few minutes</string>
         <image name="verify_btn_hover.png" width="150" height="50"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="vax-fn-FOY"/>
-        <segue reference="0Us-5D-V2N"/>
+        <segue reference="XBj-rB-tAj"/>
+        <segue reference="Bx5-3q-BBX"/>
     </inferredMetricsTieBreakers>
 </document>
