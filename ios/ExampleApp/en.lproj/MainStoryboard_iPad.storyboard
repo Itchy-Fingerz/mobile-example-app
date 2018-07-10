@@ -215,16 +215,16 @@ to receive your PIN</string>
                                 <rect key="frame" x="422" y="114" width="180" height="151"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="B1Z-s9-w3y">
-                                <rect key="frame" x="493.5" y="412" width="37" height="37"/>
+                                <rect key="frame" x="493.5" y="454" width="37" height="37"/>
                             </activityIndicatorView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your PIN" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1P-ZL-qBe">
-                                <rect key="frame" x="460" y="459" width="104.5" height="19.5"/>
+                                <rect key="frame" x="460" y="501" width="104.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1q-T5-LRa">
-                                <rect key="frame" x="402" y="483.5" width="220" height="45"/>
+                                <rect key="frame" x="402" y="525.5" width="220" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="N7v-Ug-0EX">
                                         <rect key="frame" x="15" y="3" width="40" height="40"/>
@@ -331,38 +331,130 @@ to receive your PIN</string>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect validation code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrq-Fu-ZP0">
-                                <rect key="frame" x="416" y="543.5" width="192.5" height="19.5"/>
+                                <rect key="frame" x="416" y="585.5" width="192.5" height="19.5"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your PIN will expire in xxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Thw-fi-DVq">
-                                <rect key="frame" x="426.5" y="573" width="171" height="17"/>
+                                <rect key="frame" x="401.5" y="615" width="171" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OZy-si-8Z4">
+                                <rect key="frame" x="580.5" y="610" width="60" height="28"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Resend ">
+                                            <attributes>
+                                                <color key="NSColor" red="0.074510000000000007" green="0.29804000000000003" blue="0.65881999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                    <tabStops>
+                                                        <textTab alignment="left" location="36">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="72">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="108">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="144">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="180">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="216">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="252">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="288">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="324">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="360">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="396">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="432">
+                                                            <options/>
+                                                        </textTab>
+                                                    </tabStops>
+                                                </paragraphStyle>
+                                                <integer key="NSUnderline" value="1"/>
+                                                <color key="NSUnderlineColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </attributes>
+                                        </fragment>
+                                        <fragment content="?">
+                                            <attributes>
+                                                <color key="NSColor" red="0.074510000000000007" green="0.29804000000000003" blue="0.65881999999999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <font key="NSFont" size="14" name="Helvetica"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                    <tabStops>
+                                                        <textTab alignment="left" location="36">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="72">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="108">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="144">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="180">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="216">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="252">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="288">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="324">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="360">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="396">
+                                                            <options/>
+                                                        </textTab>
+                                                        <textTab alignment="left" location="432">
+                                                            <options/>
+                                                        </textTab>
+                                                    </tabStops>
+                                                </paragraphStyle>
+                                                <color key="NSUnderlineColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="resendButtonPressed:" destination="oJf-Ic-LOd" eventType="touchUpInside" id="EOu-cH-Wep"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tyW-pd-izu">
-                                <rect key="frame" x="437" y="605" width="150" height="50"/>
+                                <rect key="frame" x="437" y="647" width="150" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <state key="normal" title="Validate" backgroundImage="verify_btn.png"/>
                                 <state key="disabled" backgroundImage="verify_btn_disabled.png"/>
                                 <state key="highlighted" backgroundImage="verify_btn_hover.png"/>
                                 <connections>
                                     <action selector="validationButtonPressed:" destination="oJf-Ic-LOd" eventType="touchUpInside" id="CdH-b0-Ekk"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OZy-si-8Z4">
-                                <rect key="frame" x="484" y="665" width="55" height="32"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <state key="normal" title="Resend">
-                                    <color key="titleColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <state key="highlighted" title="Resend">
-                                    <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="resendButtonPressed:" destination="oJf-Ic-LOd" eventType="touchUpInside" id="EOu-cH-Wep"/>
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="CHY-Eq-OcT">
@@ -372,10 +464,11 @@ to receive your PIN</string>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="K1P-ZL-qBe" firstAttribute="top" secondItem="B1Z-s9-w3y" secondAttribute="bottom" constant="10" id="0aR-uC-v5a"/>
-                            <constraint firstItem="OZy-si-8Z4" firstAttribute="top" secondItem="tyW-pd-izu" secondAttribute="bottom" constant="10" id="2b7-4k-kec"/>
-                            <constraint firstItem="OZy-si-8Z4" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="9Yn-3d-X2G"/>
+                            <constraint firstItem="CHY-Eq-OcT" firstAttribute="top" secondItem="tyW-pd-izu" secondAttribute="bottom" constant="20" id="4Pv-Rm-2j6"/>
+                            <constraint firstItem="OZy-si-8Z4" firstAttribute="centerY" secondItem="Thw-fi-DVq" secondAttribute="centerY" id="9os-iC-g9i"/>
                             <constraint firstItem="Thw-fi-DVq" firstAttribute="top" secondItem="vrq-Fu-ZP0" secondAttribute="bottom" constant="10" id="DL4-Yb-TL6"/>
                             <constraint firstItem="CHY-Eq-OcT" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="DOP-9r-geq"/>
+                            <constraint firstItem="OZy-si-8Z4" firstAttribute="leading" secondItem="Thw-fi-DVq" secondAttribute="trailing" constant="8" id="JSS-0w-vwp"/>
                             <constraint firstItem="K1P-ZL-qBe" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="NWX-zX-4kd"/>
                             <constraint firstItem="m1q-T5-LRa" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="Swk-dK-hUG"/>
                             <constraint firstItem="vrq-Fu-ZP0" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="Whw-Ah-AOi"/>
@@ -387,8 +480,7 @@ to receive your PIN</string>
                             <constraint firstItem="B1Z-s9-w3y" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="gZP-XM-Z7l"/>
                             <constraint firstItem="US2-yV-rKB" firstAttribute="top" secondItem="Ms9-M3-zqK" secondAttribute="bottom" constant="50" id="kYd-Vo-816"/>
                             <constraint firstItem="kbZ-Xm-xh5" firstAttribute="top" secondItem="CHY-Eq-OcT" secondAttribute="bottom" constant="30" id="kur-o5-ULi"/>
-                            <constraint firstItem="CHY-Eq-OcT" firstAttribute="top" secondItem="OZy-si-8Z4" secondAttribute="bottom" constant="20" id="m5x-5c-e6f"/>
-                            <constraint firstItem="Thw-fi-DVq" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="mH5-dY-Vli"/>
+                            <constraint firstItem="Thw-fi-DVq" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" constant="-25" id="mH5-dY-Vli"/>
                             <constraint firstItem="tyW-pd-izu" firstAttribute="centerX" secondItem="NdF-L2-prb" secondAttribute="centerX" id="sxF-y7-wL4"/>
                             <constraint firstItem="m1q-T5-LRa" firstAttribute="top" secondItem="K1P-ZL-qBe" secondAttribute="bottom" constant="5" id="uN1-1e-jah"/>
                         </constraints>

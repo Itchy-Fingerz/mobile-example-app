@@ -91,7 +91,7 @@
         [self.view setUserInteractionEnabled:false];
        // NSString *mockNumber = @"+971545764132";
         //NSString *testStr = self.phoneNumberTextField.text;
-        [super sendSmsVerificationRequest:[NSString stringWithFormat:@"+971%@",self.phoneNumberTextField.text] withCompletionHandler:^(UNIHTTPJsonResponse * response) {
+        [super sendSmsVerificationRequest:@"+86" phoneNumber:[NSString stringWithFormat:@"%@",self.phoneNumberTextField.text] withCompletionHandler:^(UNIHTTPJsonResponse * response) {
             [self onResponseReceived:response];
         }];
         
@@ -141,7 +141,7 @@
     {
         return false;
     }
-    if (self.phoneNumberTextField.text.length >= 9 && ![replacementStr isEqualToString:@""])
+    if (self.phoneNumberTextField.text.length >= 11 && ![replacementStr isEqualToString:@""])
     {
         return false;
     }
@@ -152,7 +152,7 @@
 #pragma mark UI Mehtods
 -(bool) isNumberValid
 {
-    return (self.phoneNumberTextField.text.length == 9);//(self.phoneNumberTextField.text.length < 3 || self.phoneNumberTextField.text.length > 10);
+    return (self.phoneNumberTextField.text.length == 11);//(self.phoneNumberTextField.text.length < 3 || self.phoneNumberTextField.text.length > 10);
 }
 -(void) setUpUi{
     self.phoneNumberTextField.leftViewMode = UITextFieldViewModeAlways;

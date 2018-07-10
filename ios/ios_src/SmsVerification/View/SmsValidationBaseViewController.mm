@@ -11,11 +11,11 @@
 
 
 
-#define BASE_URL_SMS_VERIFICATION @"https://mobilemc.hbmsu.ac.ae/api/ips/"
-#define END_POINT_SEND_SMS @"send-sms"
+#define BASE_URL_SMS_VERIFICATION @"https://precapijcy.jcease.com/jcy-api/"
+#define END_POINT_SEND_SMS @"app/system/sendCode"
 #define END_POINT_VERIFY_CODE @"verify"
-#define REQUEST_HEADER_NAME @"accept"
-#define REQUEST_HEADER_VALUE @"application/json"
+#define REQUEST_HEADER_NAME @"Content-Type"
+#define REQUEST_HEADER_VALUE @"application/json;charset=UTF-8"
 
 @interface SmsValidationBaseViewController ()
 
@@ -50,11 +50,10 @@
 }
 */
 #pragma mark API CALLS
--(void)sendSmsVerificationRequest:(NSString *)phoneNumber withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock
+-(void)sendSmsVerificationRequest:(NSString *)preNumber phoneNumber:(NSString *)phoneNumber withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock
 {
-    NSString *uuID = [self getDeviceUUID];
     NSDictionary *headers = @{REQUEST_HEADER_NAME: REQUEST_HEADER_VALUE};
-    NSDictionary *parameters = @{@"number": phoneNumber,@"device_id":uuID,@"platform":@"ios"};
+    NSDictionary *parameters = @{@"preNo": @"+86",@"mobileNo" : @"15051505874"};
     NSString * url = [NSString stringWithFormat:@"%@%@",BASE_URL_SMS_VERIFICATION,END_POINT_SEND_SMS];
     [[UNIRest post:^(UNISimpleRequest *request) {
         [request setUrl:url];
