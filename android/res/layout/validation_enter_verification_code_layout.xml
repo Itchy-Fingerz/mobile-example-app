@@ -160,6 +160,18 @@
                     android:textAppearance="?android:attr/textAppearanceListItemSmall"
                     android:textColor="@color/evendarkergrey"
                     android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/change_number_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoLink="all"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/validation_resend_code_text"
+                    android:textColor="@color/gold"
+                    android:textSize="16sp"/>
             </LinearLayout>
 
 
@@ -210,18 +222,19 @@
 
             </RelativeLayout>
 
-            <TextView
-                android:id="@+id/change_number_button"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
                 android:layout_weight="2"
-                android:gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="@string/validation_resend_code_text"
-                android:textColor="@color/evendarkergrey"
-                android:textSize="16sp"/>
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
