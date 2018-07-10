@@ -48,8 +48,8 @@
                 android:text="@string/validation_enter_phone_text"
                 android:textAppearance="?android:attr/textAppearanceListItemSmall"
                 android:textColor="@color/grey"
-                android:textStyle="bold"
-                android:textSize="14dp"/>
+                android:textSize="14dp"
+                android:textStyle="bold"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -86,11 +86,19 @@
 
             </RelativeLayout>
 
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
-            </View>
+                android:layout_weight="2"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/logo"
+                    />
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -23,7 +23,7 @@
     <string name="validation_done_text">Done</string>
     <string name="validation_success_text">PIN Accepted!</string>
     <string name="validation_already_verified">Your number is already verified!</string>
-    <string name="validation_resend_code_text">Resend</string>
+    <string name="validation_resend_code_text"><u>Resend ?</u></string>
     <string name="validation_code_expire_text">Your PIN will expire in </string>
     <string name="validation_code_error_text">Incorrect PIN entered!</string>
     <string name="validation_code_attempts_exceed_error_text">Number of attempts exceeded!\nRetry in few minutes</string>
