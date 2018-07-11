@@ -15,7 +15,7 @@
 #define END_POINT_SEND_SMS @"app/system/sendCode"
 #define END_POINT_VERIFY_CODE @"verify"
 #define REQUEST_HEADER_NAME @"Content-Type"
-#define REQUEST_HEADER_VALUE @"application/json;charset=UTF-8"
+#define REQUEST_HEADER_VALUE @"application/json"
 
 @interface SmsValidationBaseViewController ()
 

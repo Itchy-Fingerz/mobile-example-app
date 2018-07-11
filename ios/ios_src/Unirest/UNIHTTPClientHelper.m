@@ -139,7 +139,7 @@
                 NSString* querystring = [UNIHTTPClientHelper dictionaryToQuerystring:parameters];
                 body = [NSMutableData dataWithData:[querystring dataUsingEncoding:NSUTF8StringEncoding]];
                 
-                [headers setValue:@"application/x-www-form-urlencoded" forKey:@"content-type"];
+//                [headers setValue:@"application/x-www-form-urlencoded" forKey:@"content-type"];
             }
         } else {
             // Has a body
