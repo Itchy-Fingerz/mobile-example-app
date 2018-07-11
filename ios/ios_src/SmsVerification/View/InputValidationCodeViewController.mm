@@ -248,7 +248,7 @@
     [timerLabelCounter pause];
     [SVProgressHUD show];
     [self.view setUserInteractionEnabled:false];
-    [super sendSmsVerificationRequest:self.phoneNumber withCompletionHandler:^(UNIHTTPJsonResponse * response) {
+    [super sendSmsVerificationRequest:@"+86" phoneNumber:self.phoneNumber withCompletionHandler:^(UNIHTTPJsonResponse * response) {
         [self onSendSmsVerificationResponseReceived:response];
     }];
 

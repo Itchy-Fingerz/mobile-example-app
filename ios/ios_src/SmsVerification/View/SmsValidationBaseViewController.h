@@ -13,7 +13,7 @@
     
 }
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
--(void)sendSmsVerificationRequest:(NSString *)phoneNumber withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock;
+-(void)sendSmsVerificationRequest:(NSString *)preNumber phoneNumber:(NSString *)phoneNumber withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock;
 -(void)sendVerifyCodeRequest:(NSString *)code token:(NSString*)token withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock;
 -(void) animateViewUpDown:(CGFloat) yPosition;
 -(void)showAlertView:(NSString*)title withMessage:(NSString*)message;

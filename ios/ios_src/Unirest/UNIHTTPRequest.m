@@ -33,8 +33,8 @@
     if (self) {
         [self setHttpMethod:httpMethod];
         [self setUrl:url];
-        [self setUsername:username];
-        [self setPassword:password];
+//        [self setUsername:username];
+//        [self setPassword:password];
         NSMutableDictionary* lowerCaseHeaders = [[NSMutableDictionary alloc] init];
         if (headers != nil) {
             for(id key in headers) {
