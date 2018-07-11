@@ -77,6 +77,22 @@
     return result;
 }
 
+
++(NSString*) bv_jsonStringWithPrettyPrint:(BOOL) prettyPrint ndInputDict:(NSDictionary *)dict {
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict
+                                                       options:(NSJSONWritingOptions)    (prettyPrint ? NSJSONWritingPrettyPrinted : 0)
+                                                         error:&error];
+    
+    if (! jsonData) {
+        NSLog(@"%s: error: %@", __func__, error.localizedDescription);
+        return @"{}";
+    } else {
+        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+}
+
+
 + (NSMutableURLRequest*) prepareRequest:(UNIHTTPRequest*) request {
     UNIHTTPMethod httpMethod = [request httpMethod];
     NSMutableDictionary* headers = [[request headers] mutableCopy];
@@ -136,8 +152,12 @@
                 // Close
                 [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
             } else {
-                NSString* querystring = [UNIHTTPClientHelper dictionaryToQuerystring:parameters];
+//                NSString* querystring = [UNIHTTPClientHelper dictionaryToQuerystring:parameters];
+                NSString *querystring = [UNIHTTPClientHelper bv_jsonStringWithPrettyPrint:true ndInputDict:parameters];
                 body = [NSMutableData dataWithData:[querystring dataUsingEncoding:NSUTF8StringEncoding]];
+                
+//                NSData *sendData = [NSMutableData dataWithData:[NSKeyedArchiver archivedDataWithRootObject:parameters]];
+//                body = [NSMutableData dataWithData:sendData];
                 
 //                [headers setValue:@"application/x-www-form-urlencoded" forKey:@"content-type"];
             }
