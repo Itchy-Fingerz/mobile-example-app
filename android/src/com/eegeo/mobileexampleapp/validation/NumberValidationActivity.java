@@ -26,10 +26,12 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Window;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
 import com.eegeo.mobileexampleapp.BackgroundThreadActivity;
 import com.netsoltech.jcgroup.mobileexampleapp.R;
@@ -42,13 +44,6 @@ import java.util.Map;
 
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.KEY_IS_VALIDATED;
 import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_BASE_URL;
-import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_ATTEMPTS_EXCEEDED;
-import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_BLOCKED;
-import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_ERROR;
-import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_EXPIRED;
-import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_IN_PROGRESS;
-import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_VERIFIED;
-import static com.eegeo.mobileexampleapp.validation.ValidationConstants.VALIDATION_STATUS.STATUS_WRONG_CODE;
 
 /**
  * Created by najhi on 23/05/2018.
@@ -64,10 +59,6 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
     private boolean m_isLoading;
     private String m_deviceId;
 
-    private String m_mockNumberResponse = "{\"code\":200,\"message\":\"Successful request\",\"data\":{\"token\":\"8dfd9453b2e04a75c8540917c8d07387e87d53dee18a13a3ad4c4190aee141c1\",\"status\":\"STATUS_IN_PROGRESS\",\"code\":1}}";
-    private String m_mockVerifyResponse = "{\"code\":400,\"message\":\"Your verification code is expired.\",\"data\":{\"status\":\"STATUS_ATTEMPTS_EXCEEDED\",\"code\":-1}}";
-
-    private boolean m_isMockResponse = false;
     public boolean m_isTestFlight = true;
 
     @Override
@@ -84,6 +75,7 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
         else
         {
             initUi();
+            initVolley();
             loadDeviceId();
         }
     }
@@ -92,6 +84,12 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
     {
         setContentView(R.layout.validation_layout);
         addEnterPhoneFragment();
+    }
+
+    private void initVolley()
+    {
+        VolleyLog.setTag("Volley");
+        VolleyLog.DEBUG = true;
     }
 
     @SuppressLint("MissingPermission")
@@ -116,10 +114,10 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
         replaceFragment(enterNumberFragment, "EnterNumberFragment", false, false);
     }
 
-    private void addValidationCodeFragment(String token, String phoneNumber)
+    private void addValidationCodeFragment(String preNumber, String mobileNumber)
     {
         EnterValidationCodeFragment enterValidationCodeFragment = new EnterValidationCodeFragment();
-        enterValidationCodeFragment.init(token, phoneNumber, this);
+        enterValidationCodeFragment.init(preNumber, mobileNumber, this);
         replaceFragment(enterValidationCodeFragment, "EnterValidationCodeFragment", true, true);
     }
 
@@ -164,54 +162,47 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
     }
 
     @Override
-    public void onNumberEntered(String phoneNumber, IOnErrorResponse onErrorResponse)
+    public void onNumberEntered(String preNumber, String mobileNumber, IOnErrorResponse onErrorResponse)
     {
-        requestVerificationCode(phoneNumber, onErrorResponse);
+        requestVerificationCode(preNumber, mobileNumber, onErrorResponse);
     }
 
-    private void requestVerificationCode(String phoneNumber, IOnErrorResponse onErrorResponse)
+    private void requestVerificationCode(String preNumber, String mobileNumber, IOnErrorResponse onErrorResponse)
     {
-        requestVerificationCode(phoneNumber, onErrorResponse, false, null);
+        requestVerificationCode(preNumber, mobileNumber, onErrorResponse, false, null);
     }
 
-    private void requestVerificationCode(String phoneNumber, boolean isResend, IOnResendResponseReceivedCallback onResendResponseReceived)
+    private void requestVerificationCode(String preNumber, String mobileNumber, boolean isResend, IOnResendResponseReceivedCallback onResendResponseReceived)
     {
-        requestVerificationCode(phoneNumber, null, isResend, onResendResponseReceived);
+        requestVerificationCode(preNumber, mobileNumber, null, isResend, onResendResponseReceived);
     }
 
-    private void requestVerificationCode(final String phoneNumber, final IOnErrorResponse onErrorResponse, final boolean isResend, final IOnResendResponseReceivedCallback onResendResponseReceived)
+    private void requestVerificationCode(final String preNumber, final String mobileNumber, final IOnErrorResponse onErrorResponse, final boolean isResend, final IOnResendResponseReceivedCallback onResendResponseReceived)
     {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
-        String url = VALIDATION_BASE_URL + "send-sms";
+        String url = VALIDATION_BASE_URL + "app/system/sendCode";
+
+        Map<String, String>  headers = new HashMap<String, String>();
+        headers.put("content-type", "application/json");
+
         Map<String, String>  params = new HashMap<String, String>();
-        params.put("device_id", m_deviceId);
-        params.put("platform", "android");
-        params.put("number", phoneNumber);
+        params.put("preNo", preNumber);
+        params.put("mobileNo", mobileNumber);
 
         onLoadingStarted();
 
         CustomRequest request = new CustomRequest(
                 Request.Method.POST,
-                url, params,
+                url,
+                headers,
+                params,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response)
                     {
-                        Log.e("response", response.toString());
-                        if(m_isMockResponse)
-                        {
-                            try
-                            {
-                                response = new JSONObject(m_mockNumberResponse);
-                            }
-                            catch (JSONException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        handleNumberResponse(response, phoneNumber, onErrorResponse, isResend, onResendResponseReceived);
+                        Log.i("Volley", "Response:" + response.toString());
+                        handleNumberResponse(response, preNumber, mobileNumber, onErrorResponse, isResend, onResendResponseReceived);
                         onLoadingFinished();
                     }
                 },
@@ -222,106 +213,83 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
                     {
                         if(error != null)
                         {
-                            Log.e("response error", error.getMessage());
+                            Log.i("Volley", "Response error:" + error.getMessage());
                         }
                         showNetworkErrorDialog();
                         onLoadingFinished();
                     }
                 });
 
+        try {
+            Log.i("Volley", "Request body: " + new String(request.getBody()));
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
         requestQueue.add(request);
     }
 
-    private void handleNumberResponse(JSONObject response, String phoneNumber, IOnErrorResponse onErrorResponse, boolean isResend, IOnResendResponseReceivedCallback onResendResponseReceivedCallback)
+    private void handleNumberResponse(JSONObject response, String preNumber, String mobileNumber, IOnErrorResponse onErrorResponse, boolean isResend, IOnResendResponseReceivedCallback onResendResponseReceivedCallback)
     {
-        try
+        if(response.has("code"))
         {
-            if(response.has("data"))
+            int code = response.optInt("code");
+            if(code == 0)
             {
-                JSONObject data = response.getJSONObject("data");
-                String status = data.optString("status");
-                if(status.equals(STATUS_IN_PROGRESS.value()))
+                if(isResend)
                 {
-                    String token = data.optString("token");
-
-                    if(isResend)
-                    {
-                        onResendResponseReceivedCallback.onResendResponseReceived(token);
-                    }
-                    else
-                    {
-                        addValidationCodeFragment(token, phoneNumber);
-                    }
-
-                    if(m_isTestFlight)
-                    {
-                        String pin = data.optString("pin");
-                        showDebugPinDialog(pin);
-                    }
+                    onResendResponseReceivedCallback.onResendResponseReceived();
                 }
-                else if(status.equals(STATUS_VERIFIED.value()))
+                else
                 {
-                    m_persistentState.setBoolean(KEY_IS_VALIDATED, true);
-                    addResponseStatusFragment(true, getString(R.string.validation_already_verified));
-                }
-                else if(status.equals(STATUS_BLOCKED.value()))
-                {
-                    String error = response.optString("message");
-                    addResponseStatusFragment(false, error);
-                }
-                else if(status.equals(STATUS_ERROR.value()))
-                {
-                    String error = response.optString("message");
-                    onErrorResponse.onError(error);
+                    addValidationCodeFragment(preNumber, mobileNumber);
                 }
             }
             else
             {
                 if(!isResend)
                 {
-                    String error = response.optString("message");
+                    String error = response.optString("errmsg");
                     onErrorResponse.onError(error);
                 }
             }
         }
-        catch (JSONException e)
+        else
         {
-            e.printStackTrace();
+            if(!isResend)
+            {
+                String error = "Internal Server Error";
+                onErrorResponse.onError(error);
+            }
         }
     }
 
     @Override
-    public void onValidationCodeEntered(int validationCode, String token, final IOnErrorResponse onErrorResponse)
+    public void onValidationCodeEntered(String m_preNumber, String m_mobileNumber, int validationCode, final IOnErrorResponse onErrorResponse)
     {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        String url = VALIDATION_BASE_URL + "verify";
-        Map<String, String>  params = new HashMap<String, String>();
+        Map<String, String>  headers = new HashMap<>();
+        headers.put("content-type", "application/json");
+
+        String url = VALIDATION_BASE_URL + "oa/codeEmployeeLogin";
+        Map<String, String>  params = new HashMap<>();
         params.put("code", validationCode + "");
-        params.put("token", token);
+        params.put("pre", m_preNumber);
+        params.put("mobi", m_mobileNumber);
 
         onLoadingStarted();
 
         CustomRequest request = new CustomRequest(
                 Request.Method.POST,
-                url, params,
+                url,
+                headers,
+                params,
                 new Response.Listener<JSONObject>()
                 {
                     @Override
                     public void onResponse(JSONObject response)
                     {
-                        Log.e("response", response.toString());
-                        if(m_isMockResponse)
-                        {
-                            try
-                            {
-                                response = new JSONObject(m_mockVerifyResponse);
-                            }
-                            catch (JSONException e)
-                            {
-                                e.printStackTrace();
-                            }
-                        }
+                        Log.e("Volley", "Response:" + response.toString());
                         handleVerifyResponse(response, onErrorResponse);
                         onLoadingFinished();
                     }
@@ -333,56 +301,49 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
                     {
                         if(error != null)
                         {
-                            Log.e("response error", error.getMessage());
+                            Log.e("Volley", "Response error:" + error.getMessage());
                         }
                         showNetworkErrorDialog();
                         onLoadingFinished();
                     }
                 });
 
+        try {
+            Log.i("Volley", "Request body: " + new String(request.getBody()));
+        } catch (AuthFailureError authFailureError) {
+            authFailureError.printStackTrace();
+        }
         requestQueue.add(request);
     }
 
     private void handleVerifyResponse(JSONObject response, IOnErrorResponse onErrorResponse)
     {
-        try
+
+        if(response.has("code"))
         {
-            if(response.has("data"))
+            int code = response.optInt("code");
+            if(code == 0)
             {
-                JSONObject data = response.getJSONObject("data");
-                String status = data.optString("status");
-                if(status.equals(STATUS_VERIFIED.value()))
-                {
-                    m_persistentState.setBoolean(KEY_IS_VALIDATED, true);
-                    addResponseStatusFragment(true, getString(R.string.validation_success_text));
-                }
-                else if(status.equals(STATUS_WRONG_CODE.value()))
-                {
-                    String error = response.optString("message");
-                    onErrorResponse.onError(error.length() > 0 ? error : "Incorrect PIN!");
-                }
-                else if(status.equals(STATUS_EXPIRED.value()))
-                {
-                    String error = response.optString("message");
-                    onErrorResponse.onError(error.length() > 0 ? error : "Your PIN has been Expired!");
-                }
-                else if(status.equals(STATUS_ATTEMPTS_EXCEEDED.value()))
-                {
-                    String error = response.optString("message");
-                    addResponseStatusFragment(false, error);
-                }
+                m_persistentState.setBoolean(KEY_IS_VALIDATED, true);
+                addResponseStatusFragment(true, getString(R.string.validation_success_text));
+            }
+            else
+            {
+                String error = response.optString("errmsg");
+                onErrorResponse.onError(error);
             }
         }
-        catch (JSONException e)
+        else
         {
-            e.printStackTrace();
+            String error = "Internal Server Error";
+            onErrorResponse.onError(error);
         }
     }
 
     @Override
-    public void onResendCodeRequest(String phoneNumber, IOnResendResponseReceivedCallback onResendResponseReceived)
+    public void onResendCodeRequest(String preNumber, String mobileNumber, IOnResendResponseReceivedCallback onResendResponseReceived)
     {
-        requestVerificationCode(phoneNumber, true, onResendResponseReceived);
+        requestVerificationCode(preNumber, mobileNumber, true, onResendResponseReceived);
     }
 
     @Override

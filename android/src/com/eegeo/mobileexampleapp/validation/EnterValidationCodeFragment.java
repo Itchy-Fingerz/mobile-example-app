@@ -37,18 +37,18 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
     private TextView m_changeNumberButton;
     private TextView m_errorText;
     private TextView m_expiryText;
-    private String m_token;
-    private String m_phoneNumber;
+    private String m_preNumber;
+    private String m_mobileNumber;
     private IValidationCodeScreenCallback m_callback;
     private Timer m_timer;
     private TimerTask m_timerTask;
     private Handler mTimerHandler = new Handler();
     private long m_expiryScheduledTime;
 
-    public void init(String token, String phoneNumber, IValidationCodeScreenCallback callback)
+    public void init(String preNumber, String mobileNumber, IValidationCodeScreenCallback callback)
     {
-        m_token = token;
-        m_phoneNumber = phoneNumber;
+        m_preNumber = preNumber;
+        m_mobileNumber = mobileNumber;
         m_callback = callback;
     }
 
@@ -74,6 +74,8 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
         m_pinTextViews.add((TextView) view.findViewById(R.id.code_2));
         m_pinTextViews.add((TextView) view.findViewById(R.id.code_3));
         m_pinTextViews.add((TextView) view.findViewById(R.id.code_4));
+        m_pinTextViews.add((TextView) view.findViewById(R.id.code_5));
+        m_pinTextViews.add((TextView) view.findViewById(R.id.code_6));
 
         m_errorText = (TextView)view.findViewById(R.id.error_text);
         m_errorText.setVisibility(View.INVISIBLE);
@@ -174,7 +176,7 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
     {
         resetAllTextViewsAccordingToPinEntered();
 
-        if(m_hiddenEditText.getText().length() == 4)
+        if(m_hiddenEditText.getText().length() == m_pinTextViews.size())
         {
             m_confirmButton.setEnabled(true);
             dismissKeyboard();
@@ -276,7 +278,7 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
     {
         if(m_callback != null)
         {
-            m_callback.onValidationCodeEntered(Integer.parseInt(m_hiddenEditText.getText().toString()), m_token, this);
+            m_callback.onValidationCodeEntered(m_preNumber, m_mobileNumber, Integer.parseInt(m_hiddenEditText.getText().toString()), this);
         }
         dismissKeyboard();
     }
@@ -285,7 +287,7 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
     {
         if(m_callback != null)
         {
-            m_callback.onResendCodeRequest(m_phoneNumber, this);
+            m_callback.onResendCodeRequest(m_preNumber, m_mobileNumber, this);
         }
     }
 
@@ -306,15 +308,14 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
     }
 
     @Override
-    public void onResendResponseReceived(String token)
+    public void onResendResponseReceived()
     {
-        resetTokenAndValidationCode(token);
+        resetTokenAndValidationCode();
         notifyCodeResent();
     }
 
-    private void resetTokenAndValidationCode(String token)
+    private void resetTokenAndValidationCode()
     {
-        m_token = token;
         requestFocusOnCodeInput();
         m_expiryScheduledTime = System.currentTimeMillis() + MAX_EXPIRY_TIME_MILLIS * 1000;
         startTimer();

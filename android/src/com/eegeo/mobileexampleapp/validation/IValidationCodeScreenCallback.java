@@ -6,7 +6,7 @@ package com.eegeo.mobileexampleapp.validation;
 
 public interface IValidationCodeScreenCallback
 {
-    void onValidationCodeEntered(int validationCode, String token, IOnErrorResponse verificationCodeFailed);
-    void onResendCodeRequest(String phoneNumber, IOnResendResponseReceivedCallback onResendResponseReceived);
+    void onValidationCodeEntered(String m_preNumber, String m_mobileNumber, int validationCode, IOnErrorResponse verificationCodeFailed);
+    void onResendCodeRequest(String preNumber, String mobileNumber, IOnResendResponseReceivedCallback onResendResponseReceived);
     void onValidationCodeExpired();
 }

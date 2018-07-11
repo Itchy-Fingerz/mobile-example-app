@@ -86,7 +86,7 @@ public class EnterNumberFragment extends Fragment implements View.OnClickListene
         {
             if(m_callback != null)
             {
-                m_callback.onNumberEntered(m_numberCountryCodeText.getText().toString() + m_numberInputField.getText().toString().trim(), this);
+                m_callback.onNumberEntered(m_numberCountryCodeText.getText().toString().trim(), m_numberInputField.getText().toString().trim(), this);
             }
             onError("");
         }
@@ -100,8 +100,8 @@ public class EnterNumberFragment extends Fragment implements View.OnClickListene
 
     private boolean validatePhoneNumber()
     {
-        String phoneNumber = m_numberCountryCodeText.getText().toString() + m_numberInputField.getText().toString().trim();
-        if (phoneNumber.length() != 13)
+        String phoneNumber = m_numberInputField.getText().toString().trim();
+        if (phoneNumber.length() != 11)
         {
             return false;
         }

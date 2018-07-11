@@ -6,5 +6,5 @@ package com.eegeo.mobileexampleapp.validation;
 
 public interface IOnResendResponseReceivedCallback
 {
-    void onResendResponseReceived(String token);
+    void onResendResponseReceived();
 }

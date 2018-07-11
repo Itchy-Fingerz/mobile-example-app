@@ -69,7 +69,7 @@
                     android:drawableLeft="@drawable/validation_uae_flag"
                     android:drawablePadding="8dp"
                     android:gravity="center"
-                    android:text="+971"
+                    android:text="+86"
                     android:textColor="@color/evendarkergrey"
                     android:textSize="16sp"/>
 
@@ -82,7 +82,7 @@
                     android:background="@color/transparent"
                     android:gravity="center_vertical"
                     android:inputType="number"
-                    android:maxLength="9"
+                    android:maxLength="11"
                     android:text=""
                     android:textColorHint="@color/evendarkergrey"
                     android:textSize="16sp"/>
