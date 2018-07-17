@@ -9,6 +9,14 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
+            namespace
+            {
+                bool IsEqual(const Eegeo::Space::LatLong& first, const Eegeo::Space::LatLong& second)
+                {
+                    return first.ToECEF().SquareDistanceTo(second.ToECEF()) <= 0.00000000001;
+                }
+            }
+            
             NavRoutingPolylineFactory::NavRoutingPolylineFactory(PolyLineArgs::IShapeService& shapeService,
                                                                  const NavRoutingPolylineConfig& polylineConfig)
             : m_shapeService(shapeService)
@@ -26,12 +34,19 @@ namespace ExampleApp
             {
                 RouteLines routeLines;
                 const auto& coordinates = directionModel.GetPath();
-                
-                routeLines.push_back(CreatePolyline(coordinates,
-                                                    color,
-                                                    directionModel.GetIsIndoors(),
-                                                    directionModel.GetIndoorMapId().Value(),
-                                                    directionModel.GetIndoorMapFloorId()));
+
+                std::vector<Eegeo::Space::LatLong> uniqueCoordinates;
+                uniqueCoordinates.reserve(coordinates.size());
+                std::unique_copy (coordinates.begin(), coordinates.end(), std::back_inserter(uniqueCoordinates), IsEqual);
+
+                if(uniqueCoordinates.size()>1)
+                {
+                    routeLines.push_back(CreatePolyline(uniqueCoordinates,
+                                                        color,
+                                                        directionModel.GetIsIndoors(),
+                                                        directionModel.GetIndoorMapId().Value(),
+                                                        directionModel.GetIndoorMapFloorId()));
+                }
                 
                 return routeLines;
             }
@@ -68,6 +83,11 @@ namespace ExampleApp
                     
                     for (int i = 0; i < coordinatesSize; i++)
                     {
+                        if (IsEqual(closestPointOnRoute, coordinates[i]))
+                        {
+                            continue;
+                        }
+                        
                         if(i<=splitIndex)
                         {
                             backwardPath.emplace_back(coordinates[i]);
@@ -81,17 +101,23 @@ namespace ExampleApp
                     //Backward path ends with the split point
                     backwardPath.emplace_back(closestPointOnRoute);
                     
-                    routeLines.emplace_back(CreatePolyline(backwardPath,
-                                                           backwardColor,
-                                                           directionModel.GetIsIndoors(),
-                                                           directionModel.GetIndoorMapId().Value(),
-                                                           directionModel.GetIndoorMapFloorId()));
+                    if(backwardPath.size()>1)
+                    {
+                        routeLines.emplace_back(CreatePolyline(backwardPath,
+                                                               backwardColor,
+                                                               directionModel.GetIsIndoors(),
+                                                               directionModel.GetIndoorMapId().Value(),
+                                                               directionModel.GetIndoorMapFloorId()));
+                    }
                     
-                    routeLines.emplace_back(CreatePolyline(forwardPath,
-                                                           forwardColor,
-                                                           directionModel.GetIsIndoors(),
-                                                           directionModel.GetIndoorMapId().Value(),
-                                                           directionModel.GetIndoorMapFloorId()));
+                    if(forwardPath.size()>1)
+                    {
+                        routeLines.emplace_back(CreatePolyline(forwardPath,
+                                                               forwardColor,
+                                                               directionModel.GetIsIndoors(),
+                                                               directionModel.GetIndoorMapId().Value(),
+                                                               directionModel.GetIndoorMapFloorId()));
+                    }
                     
                     return routeLines;
                 }

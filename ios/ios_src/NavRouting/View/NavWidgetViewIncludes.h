@@ -1,5 +1,7 @@
 #pragma once
 
+@class NavWidgetSearchController;
+
 namespace ExampleApp
 {
     namespace NavRouting
@@ -7,7 +9,9 @@ namespace ExampleApp
         namespace View
         {
             class NavWidgetView;
+            class NavWidgetSearchView;
             class INavWidgetViewModule;
+            class NavWidgetLocationSetHandler;
         }
     }
 }

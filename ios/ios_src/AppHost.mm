@@ -62,6 +62,7 @@
 #include "IInteriorsExplorerModule.h"
 #include "InteriorsPresentationModule.h"
 #include "InteriorsExplorerView.h"
+#include "InteriorStreamingDialogView.h"
 #include "ImageStore.h"
 #include "SearchVendorNames.h"
 #include "UserInteractionEnabledChangedMessage.h"
@@ -350,6 +351,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     const ExampleApp::NavRouting::View::NavUIModule& navUIModule = app.NavUIModule();
     m_pNavUIViewModule = Eegeo_NEW(ExampleApp::NavRouting::View::NavWidgetViewModule)(navUIModule.GetObservableOpenableControl(),
                                                                                       navUIModule.GetNavWidgetViewModel(),
+                                                                                      m_pSearchWidgetViewModule->GetSuggestionProvider(),
                                                                                       m_pSearchWidgetViewModule->GetSuggestionsRepository(),
                                                                                       m_messageBus);
 
@@ -443,9 +445,11 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     [m_pView addSubview: &m_pMyPinCreationDetailsViewModule->GetMyPinCreationDetailsView()];
     [m_pView addSubview: &m_pMyPinDetailsViewModule->GetMyPinDetailsView()];
     [m_pView addSubview: &m_pNavUIViewModule->GetNavWidgetView()];
+    [m_pView addSubview: &m_pNavUIViewModule->GetNavWidgetSearchView()];
     
     // Interior tutorial layer
     [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetTutorialView()];
+    [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetStreamingDialogView()];
     
     // Initial experience layer
     [m_pView addSubview: &m_pInitialExperienceIntroViewModule->GetIntroView()];
@@ -479,15 +483,19 @@ void AppHost::DestroyApplicationViewModules()
     [&m_pSearchWidgetViewModule->GetSearchWidgetView() removeFromSuperview];
 
     // Pop-up layer.
+    
     [&m_pMyPinDetailsViewModule->GetMyPinDetailsView() removeFromSuperview];
     [&m_pMyPinCreationDetailsViewModule->GetMyPinCreationDetailsView() removeFromSuperview];
     [&m_pSearchResultPoiViewModule->GetView() removeFromSuperview];
     [&m_pAboutPageViewModule->GetAboutPageView() removeFromSuperview];
     [&m_pOptionsViewModule->GetOptionsView() removeFromSuperview];
     [&m_pNavUIViewModule->GetNavWidgetView() removeFromSuperview];
+    [&m_pNavUIViewModule->GetNavWidgetSearchView() removeFromSuperview];
     
     
     // Initial experience layer
+    [&m_pInteriorsExplorerViewModule->GetStreamingDialogView() removeFromSuperview];
+    
     [&m_pInitialExperienceIntroViewModule->GetIntroView() removeFromSuperview];
     
     Eegeo_DELETE m_pSurveyViewModule;

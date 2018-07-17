@@ -35,6 +35,7 @@ namespace ExampleApp
                 , m_interiorsModelRepository(interiorsModelRepository)
                 , m_closestPointOnRoute(0,0)
                 , m_enabled(false)
+                , m_shouldDisable(false)
                 , m_remainingDuration(0.0)
                 , m_currentStepIndex(0)
                 , m_paramAlongStep(0.0)
@@ -57,6 +58,17 @@ namespace ExampleApp
                         return;
                     }
 
+                    if (m_shouldDisable)
+                    {
+                        DisableTurnByTurn();
+                        return;
+                    }
+                    
+                    if(HasLostLocationService())
+                    {
+                        return;
+                    }
+
                     m_updateTime += dt;
                     m_secondsElapsedSinceOffRoute += dt;
 
@@ -64,6 +76,13 @@ namespace ExampleApp
                         m_updateTime = 0;
                         UpdateTurnByTurn();
                     }
+                }
+
+                void NavTurnByTurnModel::DisableTurnByTurn()
+                {
+                    m_enabled = false;
+                    m_shouldDisable = false;
+                    m_stoppedCallbacks.ExecuteCallbacks();
                 }
 
                 void NavTurnByTurnModel::UpdateTurnByTurn() {
@@ -173,6 +192,7 @@ namespace ExampleApp
                     m_indexOfPathSegmentStartVertex = 0;
                     m_secondsElapsedSinceOffRoute = 0.f;
                     m_enabled = true;
+                    m_shouldDisable = false;
 
                     m_startedCallbacks.ExecuteCallbacks();
                 }
@@ -181,9 +201,7 @@ namespace ExampleApp
                 {
                     if(TurnByTurnEnabled())
                     {
-                        m_enabled = false;
-
-                        m_stoppedCallbacks.ExecuteCallbacks();
+                        m_shouldDisable = true;
                     }
                 }
 
@@ -226,6 +244,16 @@ namespace ExampleApp
                 {
                     m_shouldRerouteCallbacks.RemoveCallback(callback);
                 }
+                
+                void NavTurnByTurnModel::InsertInteriorLocationLostCallback(Eegeo::Helpers::ICallback0& callback)
+                {
+                    m_interiorLocationLostCallbacks.AddCallback(callback);
+                }
+                
+                void NavTurnByTurnModel::RemoveInteriorLocationLostCallback(Eegeo::Helpers::ICallback0& callback)
+                {
+                    m_interiorLocationLostCallbacks.RemoveCallback(callback);
+                }
 
                 bool NavTurnByTurnModel::IsTooFarFromPath(double distanceToRouteAtCurrentPoint)
                 {
@@ -238,6 +266,19 @@ namespace ExampleApp
                     else{
                         return distanceToRouteAtCurrentPoint > m_config.distanceToPathToTriggerReroute;
                     }
+                }
+                
+                bool NavTurnByTurnModel::HasLostLocationService()
+                {
+                    if(!m_locationService.GetIsAuthorized())
+                    {
+                        Stop();
+                        m_interiorLocationLostCallbacks.ExecuteCallbacks();
+                        return true;
+                    }
+                    
+                    return false;
+                    
                 }
             }
         }

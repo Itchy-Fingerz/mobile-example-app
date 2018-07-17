@@ -28,7 +28,7 @@ namespace ExampleApp {
                     , m_serviceUrl(serviceUrl)
                     , m_apiTokenModel(apiTokenModel)
                     , m_current_query()
-            ,m_urlEncoder(urlEncoder)
+                    , m_urlEncoder(urlEncoder)
             {
 
             }
@@ -70,17 +70,29 @@ namespace ExampleApp {
                 m_pWebLoadRequest->Load();
             }
 
+            void AutocompleteSuggestionQueryPerformer::Cancel()
+            {
+                Eegeo_ASSERT(m_pWebLoadRequest != NULL, "Cannot cancel autocomplete request - no request exists");
+                m_pWebLoadRequest->Cancel();
+            }
+
             void AutocompleteSuggestionQueryPerformer::OnWebResponseReceived(Eegeo::Web::IWebResponse& webResponse)
             {
-                if(webResponse.IsSucceeded())
+                std::vector<Search::SdkModel::SearchResultModel> queryResults;
+                
+                if(!webResponse.IsSucceeded())
+                {
+                    m_messageBus.Publish(AutocompleteSuggestionsReceivedMessage(webResponse.IsSucceeded(), m_current_query, queryResults));
+                    return;
+                }
+                else if(!webResponse.IsCancelled())
                 {
                     size_t resultSize = webResponse.GetBodyData().size();
                     std::string response = std::string(reinterpret_cast<char const*>(&(webResponse.GetBodyData().front())), resultSize);
 
-                    std::vector<Search::SdkModel::SearchResultModel> queryResults;
                     m_eeGeoParser.ParseEegeoQueryResults(response, queryResults);
 
-                    m_messageBus.Publish(AutocompleteSuggestionsReceivedMessage(m_current_query, queryResults));
+                    m_messageBus.Publish(AutocompleteSuggestionsReceivedMessage(webResponse.IsSucceeded(), m_current_query, queryResults));
                 }
             }
 

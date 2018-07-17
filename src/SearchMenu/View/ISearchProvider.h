@@ -32,8 +32,11 @@ namespace ExampleApp
 				virtual void InsertSearchCancelledCallback(Eegeo::Helpers::ICallback0& callback) = 0;
 				virtual void RemoveSearchCancelledCallback(Eegeo::Helpers::ICallback0& callback) = 0;
 
-				virtual void OnSearchResponseReceived(const TSearchResults& searchResults) = 0;
-				virtual void OnAutocompleteSuggestionsResponseReceived(const TSearchResults& searchResults) = 0;
+				virtual void InsertSuggestionsCancelledCallback(Eegeo::Helpers::ICallback0& callback) = 0;
+				virtual void RemoveSuggestionsCancelledCallback(Eegeo::Helpers::ICallback0& callback) = 0;
+
+				virtual void OnSearchResponseReceived(bool success, const TSearchResults& searchResults) = 0;
+				virtual void OnAutocompleteSuggestionsResponseReceived(bool success, const TSearchResults& searchResults) = 0;
 			};
 		}
 	}

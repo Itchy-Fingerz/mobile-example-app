@@ -30,12 +30,12 @@ namespace ExampleApp
 			m_onSearchCompleted = env->GetMethodID(
 					m_javaClass,
 					"onSearchCompleted",
-					"([Lcom/eegeo/searchproviders/MyTestSearchProvider$SearchResultInfo;)V");
+					"([Lcom/eegeo/searchproviders/MyTestSearchProvider$SearchResultInfo;Z)V");
 
 			m_onAutocompleteSuggestionsCompleted = env->GetMethodID(
 					m_javaClass,
 					"onSuggestionCompleted",
-					"([Lcom/eegeo/searchproviders/MyTestSearchProvider$SearchResultInfo;)V");
+					"([Lcom/eegeo/searchproviders/MyTestSearchProvider$SearchResultInfo;Z)V");
 		}
 
 		MyTestSearchProvider::~MyTestSearchProvider()
@@ -84,18 +84,25 @@ namespace ExampleApp
 			m_searchCancelledCallbacks.ExecuteCallbacks();
 		}
 
-		void MyTestSearchProvider::OnAutocompleteSuggestionsResponseReceived(const TSearchResults& searchResults)
+		void MyTestSearchProvider::CancelSuggestions()
 		{
-			ResponceRecieved(searchResults,m_onAutocompleteSuggestionsCompleted);
+			ASSERT_UI_THREAD
+
+			m_suggestionsCancelledCallbacks.ExecuteCallbacks();
 		}
 
-		void MyTestSearchProvider::OnSearchResponseReceived(const TSearchResults& searchResults)
+		void MyTestSearchProvider::OnAutocompleteSuggestionsResponseReceived(const bool success, const TSearchResults& searchResults)
 		{
-			ResponceRecieved(searchResults,m_onSearchCompleted);
+            ResponseReceived(success, searchResults, m_onAutocompleteSuggestionsCompleted);
+		}
+
+		void MyTestSearchProvider::OnSearchResponseReceived(const bool success, const TSearchResults& searchResults)
+		{
+            ResponseReceived(success, searchResults, m_onSearchCompleted);
 		}
 
 
-		void MyTestSearchProvider::ResponceRecieved(const TSearchResults& searchResults,jmethodID methodId)
+		void MyTestSearchProvider::ResponseReceived(const bool success, const TSearchResults& searchResults, jmethodID methodId)
 		{
 			ASSERT_UI_THREAD
 
@@ -137,7 +144,8 @@ namespace ExampleApp
 			env->CallVoidMethod(
 					m_javaInstance,
 					methodId,
-					javaArray);
+					javaArray,
+                    success);
 
 			env->DeleteLocalRef(javaArray);
 			env->DeleteLocalRef(javaClass);
@@ -200,6 +208,20 @@ namespace ExampleApp
 			ASSERT_UI_THREAD
 
 			m_searchCancelledCallbacks.RemoveCallback(callback);
+		}
+
+		void MyTestSearchProvider::InsertSuggestionsCancelledCallback(Eegeo::Helpers::ICallback0& callback)
+		{
+			ASSERT_UI_THREAD
+
+			m_suggestionsCancelledCallbacks.AddCallback(callback);
+		}
+
+		void MyTestSearchProvider::RemoveSuggestionsCancelledCallback(Eegeo::Helpers::ICallback0& callback)
+		{
+			ASSERT_UI_THREAD
+
+			m_suggestionsCancelledCallbacks.RemoveCallback(callback);
 		}
 	}
 }

@@ -19,7 +19,6 @@ namespace ExampleApp
             
             namespace Highlights
             {
-                class InteriorsHighlightVisibilityController;
                 class InteriorsHighlightPickingController;
                 class IHighlightColorMapper;
                 class InteriorEntityHighlightController;
@@ -31,6 +30,7 @@ namespace ExampleApp
             class InteriorsExplorerViewModel;
             class IInteriorsExplorerView;
             class IMultiStateScreenControlViewModel;
+            class IInteriorStreamingDialogView;
             class InteriorsExplorerController;
         }
         

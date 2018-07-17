@@ -36,7 +36,7 @@ namespace ExampleApp
                 if(!m_locationService.GetIsAuthorized())
                 {
                     m_alertBoxFactory.CreateSingleOptionAlertBox("Location service is not authorized",
-                                                                 "We didn't recieve autorization for location service",
+                                                                 "We didn't receive authorization for location service",
                                                                  m_failAlertHandler);
                     return false;
                 }
@@ -66,10 +66,12 @@ namespace ExampleApp
                                                                                                               indoorMapFloorId);
                     if (!interiorDetailsAvailable)
                     {
-                        m_alertBoxFactory.CreateSingleOptionAlertBox("Interior not loaded",
-                                                                     "Interior information is not available",
-                                                                     m_failAlertHandler);
-                        return false;
+                        outLocation = NavRoutingLocationModel("Current Location",
+                                                              currentLocation,
+                                                              false,
+                                                              Eegeo::Resources::Interiors::InteriorId::NullId(),
+                                                              0);
+                        return true;
                     }
                 }
 
@@ -81,19 +83,19 @@ namespace ExampleApp
                 return true;
             }
 
-            bool NavRoutingLocationFinder::TryGetLocationFromNavigationMessage(
-                    const NavigateToMessage& navigateToMessage,
+            bool NavRoutingLocationFinder::TryGetLocationFromSearchNavigationData(
+                    const SearchNavigationData &searchNavigationData,
                     NavRoutingLocationModel &outLocation)
             {
                 outLocation = NavRoutingLocationModel();
                 NavRoutingLocationModel locationModel;
-                if(navigateToMessage.IsInterior())
+                if(searchNavigationData.IsInterior())
                 {
                     int indoorMapFloorId = 0;
-                    const auto& indoorMapId = navigateToMessage.GetBuildingId().Value();
+                    const auto& indoorMapId = searchNavigationData.GetBuildingId().Value();
                     const bool interiorDetailsAvailable = NavRouteInteriorModelHelper::TryGetIndoorMapFloorId(m_interiorsModelRepository,
                                                                                                               indoorMapId,
-                                                                                                              navigateToMessage.GetFloor(),
+                                                                                                              searchNavigationData.GetFloorIndex(),
                                                                                                               indoorMapFloorId);
                     if (!interiorDetailsAvailable)
                     {
@@ -103,25 +105,32 @@ namespace ExampleApp
                         return false;
                     }
 
-                    outLocation = NavRoutingLocationModel(navigateToMessage.GetTitle(),
-                                                          navigateToMessage.GetLocation(),
-                                                          navigateToMessage.IsInterior(),
-                                                          navigateToMessage.GetBuildingId(),
+                    outLocation = NavRoutingLocationModel(searchNavigationData.GetTitle(),
+                                                          searchNavigationData.GetLocation(),
+                                                          searchNavigationData.IsInterior(),
+                                                          searchNavigationData.GetBuildingId(),
                                                           indoorMapFloorId);
                 }
                 else
                 {
-                    outLocation = NavRoutingLocationModel(navigateToMessage.GetTitle(),
-                                                          navigateToMessage.GetLocation(),
-                                                          navigateToMessage.IsInterior(),
-                                                          navigateToMessage.GetBuildingId(),
-                                                          navigateToMessage.GetFloor());
+                    outLocation = NavRoutingLocationModel(searchNavigationData.GetTitle(),
+                                                          searchNavigationData.GetLocation(),
+                                                          searchNavigationData.IsInterior(),
+                                                          searchNavigationData.GetBuildingId(),
+                                                          searchNavigationData.GetFloorIndex());
                 }
                 return true;
             }
 
             void NavRoutingLocationFinder::OnFailAlertBoxDismissed()
             {
+            }
+            
+            void NavRoutingLocationFinder::FailedToFindLocationMessage()
+            {
+                m_alertBoxFactory.CreateSingleOptionAlertBox("Failed to acquire location",
+                                                             "We couldn't find your current location",
+                                                             m_failAlertHandler);
             }
         }
     }

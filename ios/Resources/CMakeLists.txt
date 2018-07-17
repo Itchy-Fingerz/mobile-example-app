@@ -1,6 +1,10 @@
 set(resources ${resources}
+        Resources/NavRoutingCalculatingRoute.xib
         Resources/NavRoutingRerouteDialog.xib
         Resources/WidgetSearchResultTableViewCell.xib
+        resources/RecalculateSpinner.png
+        resources/RecalculateSpinner@2x.png
+        resources/RecalculateSpinner@3x.png
         Resources/ReportPinIcon.png
         Resources/ReportPinIcon@2x.png
         Resources/ReportPinIcon@3x.png
@@ -203,6 +207,8 @@ set(resources ${resources}
         Resources/SplashScreen/Icon-60@3x.png
         Resources/SplashScreen/Icon-76.png
         Resources/SplashScreen/Icon-76@2x.png
+        Resources/SplashScreen/Icon-83.5@2x.png
+        Resources/SplashScreen/Icon-1024.png
         Resources/SplashScreen/Icon-Small-40.png
         Resources/SplashScreen/Icon-Small-40@2x.png
         Resources/SplashScreen/Icon-Small-40@3x.png
@@ -1230,6 +1236,12 @@ set(resources ${resources}
         Resources/micello_logo.png
         Resources/micello_logo@2x.png
         Resources/micello_logo@3x.png
+        Resources/nav_search_back_button.png
+        Resources/nav_search_back_button@2x.png
+        Resources/nav_search_back_button@3x.png
+        Resources/nav_search_back_button_down.png
+        Resources/nav_search_back_button_down@2x.png
+        Resources/nav_search_back_button_down@3x.png
         Resources/opensans_semibold_sdf.fnt
         Resources/opensans_semibold_sdf_0.png
         Resources/notosans_sdf_china_region.fnt
@@ -1282,6 +1294,9 @@ set(resources ${resources}
         Resources/results_anchor_arrow.png
         Resources/results_anchor_arrow@2x.png
         Resources/results_anchor_arrow@3x.png
+        Resources/searchbox_Destination.png
+        Resources/searchbox_Destination@2x.png
+        Resources/searchbox_Destination@3x.png
         Resources/search_mag_glass_off.png
         Resources/search_mag_glass_off@2x.png
         Resources/search_mag_glass_off@3x.png
@@ -1315,6 +1330,12 @@ set(resources ${resources}
         Resources/search_results_spinner.png
         Resources/search_results_spinner@2x.png
         Resources/search_results_spinner@3x.png
+        Resources/streaming_dialog_spinner.png
+        Resources/streaming_dialog_spinner@2x.png
+        Resources/streaming_dialog_spinner@3x.png
+        Resources/streaming_dialog_loaded.png
+        Resources/streaming_dialog_loaded@2x.png
+        Resources/streaming_dialog_loaded@3x.png
         Resources/search_tags.json
         Resources/sub_menu_arrow_off.png
         Resources/sub_menu_arrow_off@2x.png

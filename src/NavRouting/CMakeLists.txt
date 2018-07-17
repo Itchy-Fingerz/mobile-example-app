@@ -2,6 +2,8 @@ set(headers ${headers} ../src/NavRouting
 )
 set(currsources
   ../src/NavRouting/CMakeLists.txt
+  ../src/NavRouting/NavigateToMessage.cpp
+  ../src/NavRouting/NavigateToMessage.h
   ../src/NavRouting/NavRouting.h
   ../src/NavRouting/NavRoutingCurrentDirectionSetMessage.cpp
   ../src/NavRouting/NavRoutingCurrentDirectionSetMessage.h
@@ -28,6 +30,8 @@ set(currsources
   ../src/NavRouting/NavRoutingSelectedDirectionChangedMessage.h
   ../src/NavRouting/NavRoutingSelectEndLocationClickedMessage.h
   ../src/NavRouting/NavRoutingSelectStartLocationClickedMessage.h
+  ../src/NavRouting/NavRoutingSetCalculatingRouteMessage.cpp
+  ../src/NavRouting/NavRoutingSetCalculatingRouteMessage.h
   ../src/NavRouting/NavRoutingShowRerouteDialogMessage.cpp
   ../src/NavRouting/NavRoutingShowRerouteDialogMessage.h
   ../src/NavRouting/NavRoutingStartEndRoutingButtonClickedMessage.h
@@ -42,8 +46,12 @@ set(currsources
   ../src/NavRouting/NavRoutingViewOpenMessage.cpp
   ../src/NavRouting/NavRoutingViewOpenMessage.h
   ../src/NavRouting/NavRoutingViewStartEndLocationSwappedMessage.h
+  ../src/NavRouting/NavRoutingSearchForLocationMessage.h
+  ../src/NavRouting/NavRoutingSearchForLocationMessage.cpp
   ../src/NavRouting/NavigateToMessage.cpp
   ../src/NavRouting/NavigateToMessage.h
+  ../src/NavRouting/SearchNavigationData.cpp
+  ../src/NavRouting/SearchNavigationData.h
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\NavRouting FILES ${currsources})

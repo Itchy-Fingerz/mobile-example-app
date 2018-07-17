@@ -291,8 +291,8 @@ namespace ExampleApp
 
                 jstring messageStr = env->NewStringUTF(message.c_str());
 
-                jmethodID setLocationMethod = env->GetMethodID(m_uiViewClass, "showRerouteDialog", "(Ljava/lang/String;)V");
-                env->CallVoidMethod(m_uiView, setLocationMethod, messageStr);
+                jmethodID showRerouteDialogMethod = env->GetMethodID(m_uiViewClass, "showRerouteDialog", "(Ljava/lang/String;)V");
+                env->CallVoidMethod(m_uiView, showRerouteDialogMethod, messageStr);
 
                 env->DeleteLocalRef(messageStr);
             }
@@ -321,6 +321,16 @@ namespace ExampleApp
 
                 env->DeleteLocalRef(nameStr);
                 env->DeleteLocalRef(indoorMapIdStr);
+            }
+
+            void NavWidgetView::ShowCalculatingRouteSpinner()
+            {
+                CallVoidMethod("showCalculatingRouteSpinner");
+            }
+
+            void NavWidgetView::HideCalculatingRouteSpinner()
+            {
+                CallVoidMethod("hideCalculatingRouteSpinner");
             }
 
             void NavWidgetView::CallVoidMethod(const std::string& methodName)
@@ -556,6 +566,21 @@ namespace ExampleApp
             void NavWidgetView::SetEndPointFromSuggestionIndex(int index)
             {
                 m_navigationEndPointFromSuggestionCallbacks.ExecuteCallbacks(index);
+            }
+
+            void NavWidgetView::SetSearchingForLocation(bool isSearching, bool isStartLocation)
+            {
+                m_searchingForLocationCallbacks.ExecuteCallbacks(isSearching, isStartLocation);
+            }
+
+            void NavWidgetView::InsertOnSearchForLocationChanged(Eegeo::Helpers::ICallback2<const bool, const bool> &callback)
+            {
+                m_searchingForLocationCallbacks.AddCallback(callback);
+            }
+
+            void NavWidgetView::RemoveOnSearchForLocationChanged(Eegeo::Helpers::ICallback2<const bool, const bool> &callback)
+            {
+                m_searchingForLocationCallbacks.RemoveCallback(callback);
             }
 
             void NavWidgetView::InsertOnNavigationStartPointSetFromSuggestion(Eegeo::Helpers::ICallback1<const int>& callback)

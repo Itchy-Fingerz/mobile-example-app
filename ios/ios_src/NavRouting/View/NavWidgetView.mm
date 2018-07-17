@@ -2,9 +2,21 @@
 
 #include "NavWidgetViewIncludes.h"
 #include "NavWidgetView.h"
-#include "NavWidgetView.h"
 #include "ICompassView.h"
 #include <MapKit/MapKit.h>
+
+//Wrld Example App fudges the propagation of touch events so to prevent our touch events getting
+//passed down to the Map we need to extend our common widget with a consumesTouch selector.
+@interface WRLDNavWidgetBase(ExampleApp)
+- (BOOL)consumesTouch:(UITouch *)touch;
+@end
+
+@implementation WRLDNavWidgetBase(ExampleApp)
+- (BOOL)consumesTouch:(UITouch *)touch
+{
+    return [self pointInside:[touch locationInView:self] withEvent:nil];
+}
+@end
 
 namespace ExampleApp
 {
@@ -19,6 +31,7 @@ namespace ExampleApp
             : m_topPanelVisibleHeightChangedCallbacks(topPanelVisibleHeightChangedCallbacks)
             , m_bottomPanelVisibleHeightChangedCallbacks(bottomPanelVisibleHeightChangedCallbacks)
             , m_rerouteDialogOptionSelectedCallback(this, &NavWidgetView::OnRerouteDialogOptionSelected)
+            , m_isVisible(false)
             {
                 m_pNavModel = navModel;
                 
@@ -41,12 +54,17 @@ namespace ExampleApp
                 
                 m_pRerouteDialog = [[NavRoutingRerouteDialog alloc] initWithFrame:[UIScreen mainScreen].bounds];
                 [m_pRerouteDialog InsertRerouteDialogClosedCallback:&m_rerouteDialogOptionSelectedCallback];
+                
+                m_pCalculatingRoute = [[NavRoutingCalculatingRoute alloc] initWithFrame:[UIScreen mainScreen].bounds];
+                
             }
             
             NavWidgetView::~NavWidgetView()
             {
                 [m_pRerouteDialog RemoveRerouteDialogClosedCallback:&m_rerouteDialogOptionSelectedCallback];
                 [m_pRerouteDialog release];
+                
+                [m_pCalculatingRoute release];
             }
             
             UIView* NavWidgetView::GetUIView()
@@ -56,23 +74,29 @@ namespace ExampleApp
             
             void NavWidgetView::Show()
             {
+                m_isVisible = true;
                 [m_pNavModel sendNavEvent:WRLDNavEventWidgetAnimateIn];
+                [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
             }
             
             void NavWidgetView::Hide()
             {
+                m_isVisible = false;
                 [m_pNavModel sendNavEvent:WRLDNavEventWidgetAnimateOut];
                 m_topPanelVisibleHeightChangedCallbacks.ExecuteCallbacks(0);
                 m_bottomPanelVisibleHeightChangedCallbacks.ExecuteCallbacks(0);
+                [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
             }
             
             void NavWidgetView::SetStartLocation(const SdkModel::NavRoutingLocationModel& locationModel)
             {
                 NavWidgetView::SetLocation(locationModel, true);
+                m_locationSetCallbacks.ExecuteCallbacks(true);
             }
             void NavWidgetView::SetEndLocation(const SdkModel::NavRoutingLocationModel& locationModel)
             {
                 NavWidgetView::SetLocation(locationModel, false);
+                m_locationSetCallbacks.ExecuteCallbacks(false);
             }
             
             void NavWidgetView::changeReceived(const std::string& keyPath)
@@ -153,6 +177,18 @@ namespace ExampleApp
                 }
                 
                 [m_pNavModel setNavMode:navMode];
+                
+                if(m_isVisible)
+                {
+                    if (navMode == WRLDNavModeActive)
+                    {
+                        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
+                    }
+                    else
+                    {
+                        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+                    }
+                }
             }
             
             void NavWidgetView::ShowRerouteDialog(const std::string message)
@@ -180,6 +216,18 @@ namespace ExampleApp
             void NavWidgetView::SetSelectedDirection(int directionIndex)
             {
                 [m_pNavModel setSelectedDirectionIndex:(NSInteger)directionIndex];
+            }
+            
+            void NavWidgetView::ShowCalculatingRouteSpinner()
+            {
+                [m_pView.superview addSubview:m_pCalculatingRoute];
+                [m_pCalculatingRoute setSpinnerState:true];
+            }
+            
+            void NavWidgetView::HideCalculatingRouteSpinner()
+            {
+                [m_pCalculatingRoute setSpinnerState:false];
+                [m_pCalculatingRoute removeFromSuperview];
             }
             
             void NavWidgetView::InsertClosedCallback(Eegeo::Helpers::ICallback0& callback)
@@ -378,6 +426,11 @@ namespace ExampleApp
                 m_navigationEndPointFromSuggestionCallbacks.ExecuteCallbacks(index);
             }
             
+            void NavWidgetView::SetSearchingForLocation(bool isSearching, bool forStartLocation)
+            {
+                m_navigationSearchForLocationChangedCallbacks.ExecuteCallbacks(isSearching, forStartLocation);
+            }
+            
             void NavWidgetView::InsertOnNavigationStartPointSetFromSuggestion(Eegeo::Helpers::ICallback1<const int>& callback)
             {
                 m_navigationStartPointFromSuggestionCallbacks.AddCallback(callback);
@@ -398,6 +451,25 @@ namespace ExampleApp
                 m_navigationEndPointFromSuggestionCallbacks.RemoveCallback(callback);
             }
             
+            void NavWidgetView::InsertOnSearchForLocationChanged(Eegeo::Helpers::ICallback2<const bool, const bool>& callback)
+            {
+                m_navigationSearchForLocationChangedCallbacks.AddCallback(callback);
+            }
+            
+            void NavWidgetView::RemoveOnSearchForLocationChanged(Eegeo::Helpers::ICallback2<const bool, const bool>& callback)
+            {
+                m_navigationSearchForLocationChangedCallbacks.RemoveCallback(callback);
+            }
+            
+            void NavWidgetView::InsertLocationSetCallback(Eegeo::Helpers::ICallback1<const bool>& callback)
+            {
+                m_locationSetCallbacks.AddCallback(callback);
+            }
+            
+            void NavWidgetView::RemoveLocationSetCallback(Eegeo::Helpers::ICallback1<const bool>& callback)
+            {
+                m_locationSetCallbacks.RemoveCallback(callback);
+            }
         }
     }
 }

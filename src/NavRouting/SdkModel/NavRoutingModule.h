@@ -18,6 +18,8 @@
 #include "NavRoutingLocationFinder.h"
 #include "WorldPins.h"
 #include "NavRoutingWorldPinsVisibilityHandler.h"
+#include "AppCamera.h"
+#include "MapCamera.h"
 
 namespace ExampleApp
 {
@@ -35,13 +37,15 @@ namespace ExampleApp
                                  Eegeo::Location::NavigationService& navigationService,
                                  Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
                                  CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
+                                 Eegeo::Camera::MapCamera::MapCameraDistanceFromBoundsCalculator& cameraDistanceFromBoundsCalculator,
                                  Compass::SdkModel::ICompassModel& compassModel,
                                  ExampleAppMessaging::TMessageBus& messageBus,
                                  Eegeo::Resources::Interiors::InteriorsModelRepository& interiorsModelRepository,
                                  Eegeo::Markers::IMarkerService& markerService,
                                  WorldPins::SdkModel::IWorldPinsService& worldPinsService,
                                  GpsMarker::SdkModel::GpsMarkerModel& gpsMarkerModel,
-                                 WorldPins::SdkModel::IWorldPinsVisibilityController& worldPinsVisibilityController);
+                                 WorldPins::SdkModel::IWorldPinsVisibilityController& worldPinsVisibilityController,
+                                 AppCamera::SdkModel::IAppCameraLocationPicker& locationPicker);
 
                 ~NavRoutingModule();
 
@@ -49,6 +53,7 @@ namespace ExampleApp
 
                 INavRouteDrawingController& GetRouteDrawingController();
                 INavRoutingServiceController& GetRoutingServiceController();
+                INavRoutingCustomLocationPicker& GetCustomLocationPicker();
 
                 Menu::View::IMenuModel& GetNavMenuModel() const;
                 
@@ -61,6 +66,7 @@ namespace ExampleApp
                 NavWidgetRouteUpdateHandler* m_pRouteUpdateHandler;
                 NavWidgetRouteDrawingHandler* m_pRouteDrawingHandler;
                 NavRoutingLocationFinder* m_pNavRoutingLocationFinder;
+                INavRoutingCustomLocationPicker* m_pNavRoutingCustomLocationPicker;
                 NavRoutingController* m_pRoutingController;
                 NavRoutingCameraController* m_pRoutingCameraController;
                 NavRoutingWorldPinsVisibilityHandler* m_pRoutingWorldPinsVisibilityHandler;

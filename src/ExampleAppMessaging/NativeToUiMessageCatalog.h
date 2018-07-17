@@ -31,6 +31,7 @@
 #include "CompletedCacheClearMessage.h"
 #include "SearchResultPoiViewImageDownloadCompletedMessage.h"
 #include "InteriorsExplorerFloorSelectedMessage.h"
+#include "InteriorsExplorerInteriorStreamingMessage.h"
 #include "InteriorsExplorerStateChangedMessage.h"
 #include "WatermarkModelChangedMessage.h"
 #include "WatermarkAlignmentStateChangedMessage.h"
@@ -69,6 +70,7 @@
 #include "NavRoutingRemainingRouteDurationSetMessage.h"
 #include "NavRoutingModeSetMessage.h"
 #include "NavRoutingShowRerouteDialogMessage.h"
+#include "NavRoutingSetCalculatingRouteMessage.h"
 
 namespace ExampleApp
 {
@@ -107,6 +109,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<Watermark::WatermarkAlignmentStateChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<Watermark::WatermarkInteriorStylingStateChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerFloorSelectedMessage>
+            , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerInteriorStreamingMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerStateChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<AppModes::AppModeChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<UserInteraction::UserInteractionEnabledChangedMessage>
@@ -139,6 +142,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingRemainingRouteDurationSetMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingModeSetMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingShowRerouteDialogMessage>
+            , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingSetCalculatingRouteMessage>
             , private Eegeo::NonCopyable
         {
 

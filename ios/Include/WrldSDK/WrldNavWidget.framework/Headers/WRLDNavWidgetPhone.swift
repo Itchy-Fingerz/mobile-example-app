@@ -26,6 +26,9 @@ public class WRLDNavWidgetPhone: WRLDNavWidgetBase
     @IBOutlet weak var timeToDestinationView: WRLDNavTimeToDestinationView!
     @IBOutlet weak var directionsView: WRLDNavDirectionsView!
     
+    @IBOutlet weak var setupJourneySafeArea: NSLayoutConstraint!
+    @IBOutlet weak var instructionsPanelSafeArea: NSLayoutConstraint!
+    
     var _hideViews: Bool = false
     var _dontCollapseTop: Bool = false
     
@@ -61,6 +64,14 @@ public class WRLDNavWidgetPhone: WRLDNavWidgetBase
         
         bottomPanel.translatesAutoresizingMaskIntoConstraints = true
         view.addSubview(bottomPanel)
+        
+        if #available(iOS 11.0, *) {
+            setupJourneySafeArea.constant = 0
+            instructionsPanelSafeArea.constant = 0
+        } else {
+            setupJourneySafeArea.constant = UIApplication.shared.statusBarFrame.height
+            instructionsPanelSafeArea.constant = UIApplication.shared.statusBarFrame.height
+        }
     }
     
     public override func point(inside point: CGPoint, with event: UIEvent?) -> Bool
@@ -96,7 +107,7 @@ public class WRLDNavWidgetPhone: WRLDNavWidgetBase
         let frameWidth: Int = Int(view.frame.size.width)
         let frameHeight: Int = 135
         let openFrame   = CGRect(x: 0, y:                 0, width: frameWidth, height: frameHeight)
-        let closedFrame = CGRect(x: 0, y: -(frameHeight+11), width: frameWidth, height: frameHeight)
+        let closedFrame = CGRect(x: 0, y: -(frameHeight+20), width: frameWidth, height: frameHeight)
         
         let block = {
             self.topSetupJourneyPanel.frame  = (visible) ? (openFrame) : (closedFrame)
@@ -171,7 +182,7 @@ public class WRLDNavWidgetPhone: WRLDNavWidgetBase
             case .notReady:
                 setTopSetupJourneyVisibility(visible:  true, animate: animate)
                 setTopInstructionVisibility (visible: false, animate: animate)
-                setBottomVisibility         (visible:  true, animate: animate)
+                setBottomVisibility         (visible:  false, animate: animate)
                 break;
             case .ready:
                 setTopSetupJourneyVisibility(visible:  true, animate: animate)
@@ -212,7 +223,7 @@ public class WRLDNavWidgetPhone: WRLDNavWidgetBase
                 height += topStackView.bounds.size.height
                 break
             case .active:
-                height = topSetupJourneyPanel.bounds.size.height
+                height = topInstructionPanel.bounds.size.height
                 break
             }
         }
@@ -236,7 +247,7 @@ public class WRLDNavWidgetPhone: WRLDNavWidgetBase
     {
         UIView.animate(withDuration: 0.3, animations:
             {
-                self.setupJourneyView.isHidden = !(self.topToggleButton.toggleState)
+                self.setupJourneyView.setHidden(isHidden: !(self.topToggleButton.toggleState))
                 self.view.setNeedsLayout()
                 self.view.layoutIfNeeded()
                 self.topPanelVisibleHeight = self.calculateTopPanelVisibleHeight()

@@ -16,6 +16,7 @@
 #include "MenuOptionsModel.h"
 #include "NavWidgetMenuOption.h"
 #include "NavTurnByTurnCompletionHandler.h"
+#include "NavRoutingCustomLocationPicker.h"
 
 namespace ExampleApp
 {
@@ -29,16 +30,23 @@ namespace ExampleApp
                                                 Eegeo::Location::NavigationService& navigationService,
                                                 Eegeo::UI::NativeAlerts::IAlertBoxFactory& alertBoxFactory,
                                                 CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
+                                               Eegeo::Camera::MapCamera::MapCameraDistanceFromBoundsCalculator& cameraDistanceFromBoundsCalculator,
                                                 Compass::SdkModel::ICompassModel& compassModel,
                                                 ExampleAppMessaging::TMessageBus& messageBus,
                                                 Eegeo::Resources::Interiors::InteriorsModelRepository& interiorsModelRepository,
                                                 Eegeo::Markers::IMarkerService& markerService,
                                                 WorldPins::SdkModel::IWorldPinsService& worldPinsService,
-                                               GpsMarker::SdkModel::GpsMarkerModel& gpsMarkerModel,
-                                               WorldPins::SdkModel::IWorldPinsVisibilityController& worldPinsVisibilityController)
+                                                GpsMarker::SdkModel::GpsMarkerModel& gpsMarkerModel,
+                                                WorldPins::SdkModel::IWorldPinsVisibilityController& worldPinsVisibilityController,
+                                                AppCamera::SdkModel::IAppCameraLocationPicker& locationPicker)
             {
                 const std::string navUIOptionText = "Open Navigation";
-                m_pNavRoutingModel = Eegeo_NEW(NavRoutingModel)();
+
+                m_pNavRoutingLocationFinder = Eegeo_NEW(NavRoutingLocationFinder)(locationService,
+                                                                                  interiorsModelRepository,
+                                                                                  alertBoxFactory);
+
+                m_pNavRoutingModel = Eegeo_NEW(NavRoutingModel)(*m_pNavRoutingLocationFinder);
                 
                 NavRoutingPolylineConfig polylineConfig = NavRoutingPolylineConfig();
                 m_pNavRoutingPolylineFactory = Eegeo_NEW(NavRoutingPolylineFactory)(shapeService,
@@ -49,7 +57,8 @@ namespace ExampleApp
                                                                                     shapeService,
                                                                                     markerService);
                 
-                m_pNavRoutingServiceController = Eegeo_NEW(NavRoutingServiceController)(routingWebservice);
+                m_pNavRoutingServiceController = Eegeo_NEW(NavRoutingServiceController)(routingWebservice,
+                                                                                        messageBus);
 
                 m_pRouteUpdateHandler = Eegeo_NEW(NavWidgetRouteUpdateHandler)(*m_pNavRoutingModel,
                                                                                *m_pNavRoutingServiceController,
@@ -78,19 +87,21 @@ namespace ExampleApp
                                                                                  *m_pTurnByTurnModel,
                                                                                  *m_pNavRouteDrawingController);
 
-                m_pNavRoutingLocationFinder = Eegeo_NEW(NavRoutingLocationFinder)(locationService,
-                                                                                  interiorsModelRepository,
-                                                                                  alertBoxFactory);
+                m_pNavRoutingCustomLocationPicker = Eegeo_NEW(NavRoutingCustomLocationPicker)(
+                        *m_pNavRoutingModel,
+                        locationPicker);
 
                 m_pRoutingController = Eegeo_NEW(NavRoutingController)(*m_pNavRoutingModel,
                                                                        *m_pTurnByTurnModel,
                                                                        *m_pNavRoutingLocationFinder,
                                                                        messageBus,
-                                                                       worldPinsService);
+                                                                       worldPinsService,
+                                                                       *m_pNavRoutingCustomLocationPicker);
 
                 
                 m_pRoutingCameraController = Eegeo_NEW(NavRoutingCameraController)(*m_pNavRoutingModel,
                                                                                    cameraTransitionController,
+                                                                                   cameraDistanceFromBoundsCalculator,
                                                                                    navigationService,
                                                                                    compassModel);
                 
@@ -102,33 +113,34 @@ namespace ExampleApp
                 m_pMenuOptionsModel->AddItem(navUIOptionText,
                                              navUIOptionText, "", "",
                                            Eegeo_NEW(View::NavWidgetMenuOption)(
-                                                   *m_pNavRoutingLocationFinder,
                                                    *m_pNavRoutingModel,
                                                    *m_pRoutingController));
             }
 
             NavRoutingModule::~NavRoutingModule()
             {
+                Eegeo_DELETE m_pMenuOptionsModel;
+                Eegeo_DELETE m_pMenuModel;
                 Eegeo_DELETE m_pRoutingWorldPinsVisibilityHandler;
                 Eegeo_DELETE m_pRoutingCameraController;
                 Eegeo_DELETE m_pRoutingController;
+                Eegeo_DELETE m_pNavRoutingCustomLocationPicker;
                 Eegeo_DELETE m_pRouteDrawingHandler;
                 Eegeo_DELETE m_pTurnByTurnCompletionHandler;
                 Eegeo_DELETE m_pTurnByTurnController;
-                Eegeo_DELETE m_pNavRoutingLocationFinder;
                 Eegeo_DELETE m_pTurnByTurnModel;
                 Eegeo_DELETE m_pRouteUpdateHandler;
                 Eegeo_DELETE m_pNavRoutingServiceController;
                 Eegeo_DELETE m_pNavRouteDrawingController;
                 Eegeo_DELETE m_pNavRoutingPolylineFactory;
                 Eegeo_DELETE m_pNavRoutingModel;
-                Eegeo_DELETE m_pMenuOptionsModel;
-                Eegeo_DELETE m_pMenuModel;
+                Eegeo_DELETE m_pNavRoutingLocationFinder;
             }
 
             void NavRoutingModule::Update(float dt)
             {
                 m_pTurnByTurnController->Update(dt);
+                m_pRoutingController->Update();
             }
 
             INavRouteDrawingController& NavRoutingModule::GetRouteDrawingController()
@@ -139,6 +151,11 @@ namespace ExampleApp
             INavRoutingServiceController& NavRoutingModule::GetRoutingServiceController()
             {
                 return *m_pNavRoutingServiceController;
+            }
+
+            INavRoutingCustomLocationPicker& NavRoutingModule::GetCustomLocationPicker()
+            {
+                return *m_pNavRoutingCustomLocationPicker;
             }
 
             Menu::View::IMenuModel& NavRoutingModule::GetNavMenuModel() const

@@ -2,7 +2,6 @@
 
 #include "InteriorsExplorerView.h"
 #include "UIColors.h"
-#include "UIHelpers.h"
 #include "ImageHelpers.h"
 #include "InteriorsExplorerViewInterop.h"
 #include "UIHelpers.h"
@@ -25,6 +24,8 @@ namespace
 {
     CGFloat* m_floorPanelTopBound;
     CGFloat* m_floorPanelBottomBound;
+
+    CGFloat m_minSpaceForViewInPoints;
     
     CGFloat m_defaultViewStateFloorPanelTopBound;
     CGFloat m_defaultViewStateFloorPanelBottomBound;
@@ -62,6 +63,8 @@ namespace
         m_pixelScale = 1.f;
         m_screenWidth = width/pixelScale;
         m_screenHeight = height/pixelScale;
+
+        m_minSpaceForViewInPoints = 250;
         
         m_onScreenIfSpaceAvailable = NO;
         m_hasEnoughScreenSpaceToAppear = YES;
@@ -314,17 +317,17 @@ namespace
     
 
     int floorCount = static_cast<int>(m_tableViewFloorNames.size());
-    float maxHeight = *m_floorPanelBottomBound - *m_floorPanelTopBound;
+    float availableHeight = *m_floorPanelBottomBound - *m_floorPanelTopBound;
     float verticalPadding = ((float)self.pFloorChangeButton.frame.size.height - m_floorDivisionHeight);
     float totalHeight = m_floorDivisionHeight * floorCount + verticalPadding;
-    if(totalHeight > maxHeight)
+    if(totalHeight > availableHeight)
     {
-        totalHeight = maxHeight;
+        totalHeight = availableHeight;
     }
     
     BOOL wasOnScreen = [self canBeOnScreen];
     
-    if(maxHeight < m_screenHeight * 0.5f) {
+    if(availableHeight < m_minSpaceForViewInPoints) {
         m_hasEnoughScreenSpaceToAppear = NO;
     }
     else {

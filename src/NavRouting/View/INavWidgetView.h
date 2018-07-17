@@ -50,6 +50,9 @@ namespace ExampleApp
                 virtual void SetNavMode(SdkModel::NavRoutingMode mode) = 0;
 
                 virtual void ShowRerouteDialog(const std::string message) = 0;
+                
+                virtual void ShowCalculatingRouteSpinner() = 0;
+                virtual void HideCalculatingRouteSpinner() = 0;
 
                 virtual void InsertClosedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
                 virtual void RemoveClosedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
@@ -90,6 +93,9 @@ namespace ExampleApp
 
                 virtual void InsertOnNavigationEndPointSetFromSuggestion(Eegeo::Helpers::ICallback1<const int>& callback) = 0;
                 virtual void RemoveOnNavigationEndPointSetFromSuggestion(Eegeo::Helpers::ICallback1<const int>& callback) = 0;
+
+                virtual void InsertOnSearchForLocationChanged(Eegeo::Helpers::ICallback2<const bool, const bool>& callback) = 0;
+                virtual void RemoveOnSearchForLocationChanged(Eegeo::Helpers::ICallback2<const bool, const bool>& callback) = 0;
             };
         }
     }
