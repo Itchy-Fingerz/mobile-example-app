@@ -118,6 +118,36 @@
                     android:textSize="22sp"
                     android:textStyle="bold"/>
 
+                <TextView
+                    android:id="@+id/code_5"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/validation_num_dash"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:minEms="2"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/evendarkergrey"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/code_6"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/validation_num_dash"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:minEms="2"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/evendarkergrey"
+                    android:textSize="22sp"
+                    android:textStyle="bold"/>
+
             </LinearLayout>
 
             <TextView
@@ -183,7 +213,7 @@
                 android:background="@color/transparent"
                 android:focusable="true"
                 android:inputType="number"
-                android:maxLength="4"
+                android:maxLength="6"
                 android:textColor="@color/transparent"/>
 
             <RelativeLayout

@@ -6,5 +6,5 @@ package com.eegeo.mobileexampleapp.validation;
 
 public interface INumberEnteredCallback
 {
-    void onNumberEntered(String phoneNumber, IOnErrorResponse onErrorResponse);
+    void onNumberEntered(String preNumber, String mobileNumber, IOnErrorResponse onErrorResponse);
 }
