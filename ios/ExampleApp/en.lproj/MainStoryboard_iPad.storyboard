@@ -205,7 +205,7 @@ to receive your PIN</string>
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhK-JO-XVj">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pin:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhK-JO-XVj">
                                 <rect key="frame" x="20" y="375.5" width="27" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -224,7 +224,7 @@ to receive your PIN</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m1q-T5-LRa">
-                                <rect key="frame" x="402" y="525.5" width="220" height="45"/>
+                                <rect key="frame" x="352" y="525.5" width="320" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="N7v-Ug-0EX">
                                         <rect key="frame" x="15" y="3" width="40" height="40"/>
@@ -298,19 +298,58 @@ to receive your PIN</string>
                                             <constraint firstAttribute="height" constant="3" id="Nra-Xy-vJT"/>
                                         </constraints>
                                     </view>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TQE-0t-ULd" userLabel="No Border Style Text Field5">
+                                        <rect key="frame" x="215" y="2.5" width="40" height="40"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="oJf-Ic-LOd" id="woK-kT-DK6"/>
+                                        </connections>
+                                    </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mcs-bw-z1s">
+                                        <rect key="frame" x="215.5" y="42.5" width="39.5" height="3"/>
+                                        <color key="backgroundColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="3" id="PAe-Qh-McJ"/>
+                                        </constraints>
+                                    </view>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oGf-eF-jon">
+                                        <rect key="frame" x="265" y="2.5" width="40" height="40"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="oJf-Ic-LOd" id="SSO-3P-IAi"/>
+                                        </connections>
+                                    </textField>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bIC-zI-D2Q">
+                                        <rect key="frame" x="265.5" y="42.5" width="39.5" height="3"/>
+                                        <color key="backgroundColor" red="0.29411764709999999" green="0.2901960784" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="3" id="S8g-RI-K6w"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="H1c-CH-eEe" firstAttribute="leading" secondItem="tEI-dh-qmD" secondAttribute="trailing" constant="10" id="1Ct-z5-MPX"/>
                                     <constraint firstItem="mSz-cO-0BR" firstAttribute="height" secondItem="N7v-Ug-0EX" secondAttribute="height" id="2tY-wq-xUT"/>
+                                    <constraint firstItem="Mcs-bw-z1s" firstAttribute="centerX" secondItem="TQE-0t-ULd" secondAttribute="centerX" id="58h-JR-v6s"/>
                                     <constraint firstItem="tEI-dh-qmD" firstAttribute="height" secondItem="mSz-cO-0BR" secondAttribute="height" id="5In-EQ-c8R"/>
                                     <constraint firstItem="xqc-Ny-vfg" firstAttribute="centerX" secondItem="tEI-dh-qmD" secondAttribute="centerX" id="5MV-Bu-Mls"/>
                                     <constraint firstItem="vgN-dc-oVD" firstAttribute="centerX" secondItem="N7v-Ug-0EX" secondAttribute="centerX" id="5W8-ts-YR4"/>
                                     <constraint firstItem="vgN-dc-oVD" firstAttribute="width" secondItem="N7v-Ug-0EX" secondAttribute="width" id="8U9-2J-EDr"/>
                                     <constraint firstItem="LW5-aX-xfM" firstAttribute="top" secondItem="H1c-CH-eEe" secondAttribute="bottom" id="8bR-2y-wsF"/>
                                     <constraint firstAttribute="height" constant="45" id="94S-3e-MeX"/>
+                                    <constraint firstItem="oGf-eF-jon" firstAttribute="width" secondItem="N7v-Ug-0EX" secondAttribute="width" id="BH6-jZ-dqV"/>
+                                    <constraint firstItem="Mcs-bw-z1s" firstAttribute="width" secondItem="TQE-0t-ULd" secondAttribute="width" id="BZ4-z8-F6p"/>
+                                    <constraint firstItem="TQE-0t-ULd" firstAttribute="centerY" secondItem="N7v-Ug-0EX" secondAttribute="centerY" id="FY9-pJ-tvi"/>
                                     <constraint firstItem="xqc-Ny-vfg" firstAttribute="width" secondItem="tEI-dh-qmD" secondAttribute="width" id="HPb-yv-Uqh"/>
                                     <constraint firstItem="mSz-cO-0BR" firstAttribute="centerY" secondItem="N7v-Ug-0EX" secondAttribute="centerY" id="IGL-Gf-khc"/>
                                     <constraint firstItem="H1c-CH-eEe" firstAttribute="height" secondItem="tEI-dh-qmD" secondAttribute="height" id="Is1-XW-YCg"/>
+                                    <constraint firstItem="TQE-0t-ULd" firstAttribute="width" secondItem="N7v-Ug-0EX" secondAttribute="width" id="J7U-eF-TAr"/>
                                     <constraint firstItem="N7v-Ug-0EX" firstAttribute="leading" secondItem="m1q-T5-LRa" secondAttribute="leading" constant="15" id="Lua-PX-lkK"/>
                                     <constraint firstItem="mSz-cO-0BR" firstAttribute="leading" secondItem="N7v-Ug-0EX" secondAttribute="trailing" constant="10" id="Ocq-ej-Bq5"/>
                                     <constraint firstItem="Coe-hs-38P" firstAttribute="top" secondItem="mSz-cO-0BR" secondAttribute="bottom" id="Qpn-V7-etb"/>
@@ -318,16 +357,25 @@ to receive your PIN</string>
                                     <constraint firstItem="Coe-hs-38P" firstAttribute="width" secondItem="mSz-cO-0BR" secondAttribute="width" id="Rlv-az-3wW"/>
                                     <constraint firstItem="xqc-Ny-vfg" firstAttribute="top" secondItem="tEI-dh-qmD" secondAttribute="bottom" id="TM0-8x-s5L"/>
                                     <constraint firstItem="tEI-dh-qmD" firstAttribute="leading" secondItem="mSz-cO-0BR" secondAttribute="trailing" constant="10" id="VUS-a2-8Y7"/>
+                                    <constraint firstItem="TQE-0t-ULd" firstAttribute="leading" secondItem="H1c-CH-eEe" secondAttribute="trailing" constant="10" id="cNy-Yf-4Nh"/>
                                     <constraint firstItem="mSz-cO-0BR" firstAttribute="width" secondItem="N7v-Ug-0EX" secondAttribute="width" id="edQ-I7-1bj"/>
                                     <constraint firstItem="H1c-CH-eEe" firstAttribute="width" secondItem="tEI-dh-qmD" secondAttribute="width" id="elu-mf-0UM"/>
                                     <constraint firstItem="vgN-dc-oVD" firstAttribute="top" secondItem="N7v-Ug-0EX" secondAttribute="bottom" id="h4c-2c-q52"/>
+                                    <constraint firstItem="bIC-zI-D2Q" firstAttribute="centerX" secondItem="oGf-eF-jon" secondAttribute="centerX" id="jl2-B7-iA8"/>
                                     <constraint firstItem="LW5-aX-xfM" firstAttribute="width" secondItem="H1c-CH-eEe" secondAttribute="width" id="nT1-ne-eYq"/>
+                                    <constraint firstItem="oGf-eF-jon" firstAttribute="height" secondItem="N7v-Ug-0EX" secondAttribute="height" id="o98-NK-iHt"/>
                                     <constraint firstItem="N7v-Ug-0EX" firstAttribute="centerY" secondItem="m1q-T5-LRa" secondAttribute="centerY" id="o9h-q5-8aP"/>
+                                    <constraint firstItem="oGf-eF-jon" firstAttribute="centerY" secondItem="N7v-Ug-0EX" secondAttribute="centerY" id="p9R-PY-5N3"/>
                                     <constraint firstItem="H1c-CH-eEe" firstAttribute="centerY" secondItem="tEI-dh-qmD" secondAttribute="centerY" id="p9X-6K-UIU"/>
-                                    <constraint firstAttribute="width" constant="220" id="u3m-I0-e1Y"/>
+                                    <constraint firstItem="oGf-eF-jon" firstAttribute="leading" secondItem="TQE-0t-ULd" secondAttribute="trailing" constant="10" id="pFh-KN-dcu"/>
+                                    <constraint firstItem="bIC-zI-D2Q" firstAttribute="top" secondItem="oGf-eF-jon" secondAttribute="bottom" id="pyw-Ld-NyS"/>
+                                    <constraint firstItem="TQE-0t-ULd" firstAttribute="height" secondItem="N7v-Ug-0EX" secondAttribute="height" id="qYv-VM-OGx"/>
+                                    <constraint firstAttribute="width" constant="320" id="u3m-I0-e1Y"/>
                                     <constraint firstItem="LW5-aX-xfM" firstAttribute="centerX" secondItem="H1c-CH-eEe" secondAttribute="centerX" id="xDc-hm-72f"/>
                                     <constraint firstItem="tEI-dh-qmD" firstAttribute="centerY" secondItem="mSz-cO-0BR" secondAttribute="centerY" id="xd8-DA-Ff5"/>
                                     <constraint firstItem="tEI-dh-qmD" firstAttribute="width" secondItem="mSz-cO-0BR" secondAttribute="width" id="xwz-nC-ttS"/>
+                                    <constraint firstItem="Mcs-bw-z1s" firstAttribute="top" secondItem="TQE-0t-ULd" secondAttribute="bottom" id="yDe-qt-e7l"/>
+                                    <constraint firstItem="bIC-zI-D2Q" firstAttribute="width" secondItem="oGf-eF-jon" secondAttribute="width" id="yKU-gZ-XBJ"/>
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Incorrect validation code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vrq-Fu-ZP0">
@@ -498,10 +546,14 @@ to receive your PIN</string>
                         <outlet property="verifyCodeTextfield2" destination="mSz-cO-0BR" id="uIh-ba-mux"/>
                         <outlet property="verifyCodeTextfield3" destination="tEI-dh-qmD" id="Z5d-Gp-rxk"/>
                         <outlet property="verifyCodeTextfield4" destination="H1c-CH-eEe" id="v6A-NX-VtC"/>
+                        <outlet property="verifyCodeTextfield5" destination="TQE-0t-ULd" id="EJz-tB-9ur"/>
+                        <outlet property="verifyCodeTextfield6" destination="oGf-eF-jon" id="xe3-ex-1z7"/>
                         <outlet property="view1" destination="vgN-dc-oVD" id="xHa-fA-Buo"/>
                         <outlet property="view2" destination="Coe-hs-38P" id="Ykr-9A-6hk"/>
                         <outlet property="view3" destination="xqc-Ny-vfg" id="683-Ac-Ec3"/>
                         <outlet property="view4" destination="LW5-aX-xfM" id="eS2-ur-iJc"/>
+                        <outlet property="view5" destination="Mcs-bw-z1s" id="H44-Bi-wKM"/>
+                        <outlet property="view6" destination="bIC-zI-D2Q" id="m4y-U4-xJ5"/>
                         <segue destination="MbW-UQ-4sb" kind="push" identifier="showValidationSuccessVc" id="JUp-RW-TVL"/>
                         <segue destination="V3m-Zr-JTg" kind="push" identifier="ShowExceedVC" id="dVa-6g-ZU9"/>
                     </connections>

@@ -23,10 +23,14 @@
 @property (retain, nonatomic) IBOutlet UITextField *verifyCodeTextfield2;
 @property (retain, nonatomic) IBOutlet UITextField *verifyCodeTextfield3;
 @property (retain, nonatomic) IBOutlet UITextField *verifyCodeTextfield4;
+@property (retain, nonatomic) IBOutlet UITextField *verifyCodeTextfield5;
+@property (retain, nonatomic) IBOutlet UITextField *verifyCodeTextfield6;
 @property (retain, nonatomic) IBOutlet UIView *view1;
 @property (retain, nonatomic) IBOutlet UIView *view2;
 @property (retain, nonatomic) IBOutlet UIView *view3;
 @property (retain, nonatomic) IBOutlet UIView *view4;
+@property (retain, nonatomic) IBOutlet UIView *view5;
+@property (retain, nonatomic) IBOutlet UIView *view6;
 
 @property (retain, nonatomic) IBOutlet UILabel *validationMessageLabel;
 @property (retain, nonatomic) IBOutlet UIButton *validateButton;
@@ -77,7 +81,7 @@
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
-- (void) onResendCodeReceivedAlert:(NSDictionary *) dataDictionary
+- (void) onResendCodeReceivedAlert
 {
 
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Success"
@@ -87,10 +91,6 @@
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
                                                               [passcodeTextField becomeFirstResponder];
-                                                              self.token = [dataDictionary objectForKey:@"token"];
-                                                              self.status = [dataDictionary objectForKey:@"status"];
-                                                              self.pin = [dataDictionary objectForKey:@"pin"];
-                                                              self.pinLebel.text = [NSString stringWithFormat:@"Pin: %@",self.pin];
                                                               [timerLabelCounter setCountDownTime:600];
                                                               [timerLabelCounter start];
                                                           }];
@@ -104,10 +104,9 @@
     [self.verifyCodeTextfield2 setText:@""];
     [self.verifyCodeTextfield3 setText:@""];
     [self.verifyCodeTextfield4 setText:@""];
-    //self.view1.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    //self.view2.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    //self.view3.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    //self.view4.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    [self.verifyCodeTextfield5 setText:@""];
+    [self.verifyCodeTextfield6 setText:@""];
+
     [self.validateButton setEnabled:false];
     
     [passcodeTextField setText:@""];
@@ -120,10 +119,10 @@
     [self.verifyCodeTextfield2 setText:@""];
     [self.verifyCodeTextfield3 setText:@""];
     [self.verifyCodeTextfield4 setText:@""];
-    //self.view1.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    //self.view2.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    //self.view3.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-    //self.view4.backgroundColor = [UIColor whiteColor];//[UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
+    [self.verifyCodeTextfield5 setText:@""];
+    [self.verifyCodeTextfield6 setText:@""];
+
+
     [self.validateButton setEnabled:false];
     
     [passcodeTextField setText:@""];
@@ -176,25 +175,16 @@
     }
     UNIJsonNode *body = response.body;
     NSDictionary * responseDic = [body object];
-    NSDictionary *dataDictionary = [responseDic objectForKey:@"data"];
-
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        NSString * status = [dataDictionary objectForKey:@"status"];
-        if ([status isEqualToString:@"STATUS_VERIFIED"])
+        if ([[responseDic objectForKey:@"code"] intValue] == 0)
         {
             [timerLabelCounter pause];
             [self performSegueWithIdentifier:@"showValidationSuccessVc" sender:nil];
         }
-        else if ([status isEqualToString:@"STATUS_WRONG_CODE"])
+        else if (![[responseDic objectForKey:@"errmsg"] isEqual:[NSNull null]])
         {
-            
-            [self resetPassCodeOnWrongValidationCode:[responseDic objectForKey:@"message"]];
-        }
-        else //if ([status isEqualToString:@"STATUS_ATTEMPTS_EXCEEDED"])
-        {
-            [timerLabelCounter pause];
-            [self performSegueWithIdentifier:@"ShowExceedVC" sender:responseDic];
+            [self resetPassCodeOnWrongValidationCode:[responseDic objectForKey:@"errmsg"]];
         }
         [self.view setUserInteractionEnabled:true];
         [SVProgressHUD dismiss];
@@ -220,21 +210,15 @@
     NSDictionary * mainResponseDictionary = [body object];
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        NSDictionary *dataDictionary = [mainResponseDictionary objectForKey:@"data"];
-        NSString *status = [dataDictionary objectForKey:@"status"];
-        if ([status isEqualToString:@"STATUS_IN_PROGRESS"])
+        if ([[mainResponseDictionary objectForKey:@"code"] intValue] == 0)
         {
-            [self onResendCodeReceivedAlert:dataDictionary];
+            [self onResendCodeReceivedAlert];
+
         }
-        else if ([status isEqualToString:@"STATUS_VERIFIED"])
+        else if (![[mainResponseDictionary objectForKey:@"errmsg"] isEqual:[NSNull null]])
         {
-            [self performSegueWithIdentifier:@"showValidationSuccessVc" sender:nil]; // for testing perpose
+            [self showAlertView:@"Error" withMessage:[mainResponseDictionary objectForKey:@"errmsg"]];
         }
-        else
-        {
-            [self performSegueWithIdentifier:@"ShowExceedVC" sender:[mainResponseDictionary objectForKey:@"message"]];
-        }
-        
         [self.view setUserInteractionEnabled:true];
         [SVProgressHUD dismiss];
     });
@@ -256,7 +240,7 @@
 }
 - (IBAction)validationButtonPressed:(id)sender {
 
-    if ([passcodeTextField.text  length] != 4)
+    if ([passcodeTextField.text  length] != 6)
     {
         [self showAlertView:@"Error" withMessage:@"Please Enter PIN"];
     }
@@ -268,7 +252,7 @@
         {
             self.token = @"";
         }
-        [super sendVerifyCodeRequest:passcodeTextField.text token:self.token withCompletionHandler:^(UNIHTTPJsonResponse *response) {
+        [super sendVerifyCodeRequest:@"+86" phoneNumber:self.phoneNumber code:passcodeTextField.text withCompletionHandler:^(UNIHTTPJsonResponse *response) {
             [self onVerifyCodeResponseReceived:response];
         }];
         
@@ -304,6 +288,8 @@
             [self.verifyCodeTextfield2 setText:@""];
             [self.verifyCodeTextfield3 setText:@""];
             [self.verifyCodeTextfield4 setText:@""];
+            [self.verifyCodeTextfield5 setText:@""];
+            [self.verifyCodeTextfield6 setText:@""];
             [passcodeTextField setText:@""];
             [self.validateButton setEnabled:false];
         }
@@ -337,60 +323,70 @@
             return false;
         }
         NSInteger newLength = currentCharacterCount + replacementStr.length - range.length;
-        if (newLength <= 4)
+        if (newLength <= 6)
         {
             if (range.location == 0 && ![replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield1.text = [replacementStr substringFromIndex:[replacementStr length] - 1];
-                //self.view1.backgroundColor = [UIColor colorWithRed:122.0/255.0 green:201/255.0 blue:67/255.0 alpha:1];
             }
             else if (range.location == 1 && ![replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield2.text = [replacementStr substringFromIndex:[replacementStr length] - 1];
-                //self.view2.backgroundColor = [UIColor colorWithRed:122.0/255.0 green:201/255.0 blue:67/255.0 alpha:1];
             }
             else if (range.location == 2 && ![replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield3.text = [replacementStr substringFromIndex:[replacementStr length] - 1];
-                //self.view3.backgroundColor = [UIColor colorWithRed:122.0/255.0 green:201/255.0 blue:67/255.0 alpha:1];
                 
             }
             else if (range.location == 3 && ![replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield4.text = [replacementStr substringFromIndex:[replacementStr length] - 1];
-                //self.view4.backgroundColor = [UIColor colorWithRed:122.0/255.0 green:201/255.0 blue:67/255.0 alpha:1];
+                
+            }
+            else if (range.location == 4 && ![replacementStr isEqualToString:@""])
+            {
+                self.verifyCodeTextfield5.text = [replacementStr substringFromIndex:[replacementStr length] - 1];
+                
+            }
+            else if (range.location == 5 && ![replacementStr isEqualToString:@""])
+            {
+                self.verifyCodeTextfield6.text = [replacementStr substringFromIndex:[replacementStr length] - 1];
                 
             }
             else if (range.location == 0 && [replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield1.text = @"";
-                //self.view1.backgroundColor = [UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
                 
             }
             else if (range.location == 1 && [replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield2.text = @"";
-                //self.view2.backgroundColor = [UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
                 
             }
             else if (range.location == 2 && [replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield3.text = @"";
-                //self.view3.backgroundColor = [UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
                 
             }
             else if (range.location == 3 && [replacementStr isEqualToString:@""])
             {
                 self.verifyCodeTextfield4.text = @"";
-                //self.view4.backgroundColor = [UIColor colorWithRed:171.0/255.0 green:172.0/255.0 blue:173.0/255.0 alpha:1];
-                
             }
+            else if (range.location == 4 && [replacementStr isEqualToString:@""])
+            {
+                self.verifyCodeTextfield5.text = @"";
+            }
+            else if (range.location == 5 && [replacementStr isEqualToString:@""])
+            {
+                self.verifyCodeTextfield6.text = @"";
+            }
+            
             if ([replacementStr isEqualToString:@""])
             {
                 [self.validateButton setEnabled:false];
                 
             }
-            if (newLength == 4)
+            if (newLength == 6)
             {
                 passcodeTextField.text = [passcodeTextField.text stringByAppendingString: replacementStr];
                 [passcodeTextField resignFirstResponder];
@@ -441,6 +437,8 @@
     [_verifyCodeTextfield2 release];
     [_verifyCodeTextfield3 release];
     [_verifyCodeTextfield4 release];
+    [_verifyCodeTextfield5 release];
+    [_verifyCodeTextfield6 release];
     [_status release];
     [_token release];
     [_validationMessageLabel release];
@@ -451,6 +449,8 @@
     [_view2 release];
     [_view3 release];
     [_view4 release];
+    [_view5 release];
+    [_view6 release];
     [_pinLebel release];
     [super dealloc];
 }

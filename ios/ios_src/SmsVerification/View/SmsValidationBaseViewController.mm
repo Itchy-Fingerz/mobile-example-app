@@ -13,7 +13,7 @@
 
 #define BASE_URL_SMS_VERIFICATION @"https://precapijcy.jcease.com/jcy-api/"
 #define END_POINT_SEND_SMS @"app/system/sendCode"
-#define END_POINT_VERIFY_CODE @"verify"
+#define END_POINT_VERIFY_CODE @"oa/codeEmployeeLogin"
 #define REQUEST_HEADER_NAME @"Content-Type"
 #define REQUEST_HEADER_VALUE @"application/json"
 
@@ -53,7 +53,7 @@
 -(void)sendSmsVerificationRequest:(NSString *)preNumber phoneNumber:(NSString *)phoneNumber withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock
 {
     NSDictionary *headers = @{REQUEST_HEADER_NAME: REQUEST_HEADER_VALUE};
-    NSDictionary *parameters = @{@"preNo": @"+86",@"mobileNo" : @"15051505874"};
+    NSDictionary *parameters = @{@"preNo": preNumber,@"mobileNo" : phoneNumber};
     NSString * url = [NSString stringWithFormat:@"%@%@",BASE_URL_SMS_VERIFICATION,END_POINT_SEND_SMS];
     [[UNIRest post:^(UNISimpleRequest *request) {
         [request setUrl:url];
@@ -65,11 +65,10 @@
     }];
 }
 
--(void)sendVerifyCodeRequest:(NSString *)code token:(NSString*)token withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock
+-(void)sendVerifyCodeRequest:(NSString *)preNumber phoneNumber:(NSString *)phoneNumber code:(NSString *)code withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock
 {
-    NSString *uuID = [self getDeviceUUID];
     NSDictionary *headers = @{REQUEST_HEADER_NAME: REQUEST_HEADER_VALUE};
-    NSDictionary *parameters = @{@"code": code, @"token" : token,@"device_id":uuID,@"platform":@"ios"};
+    NSDictionary *parameters = @{@"code": code, @"pre" : preNumber,@"mobi":phoneNumber};
     NSString * url = [NSString stringWithFormat:@"%@%@",BASE_URL_SMS_VERIFICATION,END_POINT_VERIFY_CODE];
     [[UNIRest post:^(UNISimpleRequest *request) {
         [request setUrl:url];

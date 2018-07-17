@@ -48,10 +48,10 @@
     if ([segue.identifier isEqualToString:@"ShowInputValidationCodeVC"])
     {
         InputValidationCodeViewController *destinationVC = (InputValidationCodeViewController *) [segue destinationViewController];
-        NSDictionary *dataDictionry = (NSDictionary *) sender;
-        destinationVC.token = [dataDictionry objectForKey:@"token"];
-        destinationVC.status = [dataDictionry objectForKey:@"status"];
-        destinationVC.pin = [dataDictionry objectForKey:@"pin"];
+        //NSDictionary *dataDictionry = (NSDictionary *) sender;
+        destinationVC.token = @"";//[dataDictionry objectForKey:@"token"];
+        destinationVC.status = @"";//[dataDictionry objectForKey:@"status"];
+        destinationVC.pin = @"111111";//[dataDictionry objectForKey:@"pin"];
         destinationVC.phoneNumber = self.phoneNumberTextField.text;
     }
     else if ([segue.identifier isEqualToString:@"ShowExceedVC"])
@@ -205,24 +205,14 @@
     NSDictionary * mainResponseDictionary = [body object];
     dispatch_async(dispatch_get_main_queue(), ^{
 
-        NSDictionary *dataDictioary = [mainResponseDictionary objectForKey:@"data"];
-        NSString *status = [dataDictioary objectForKey:@"status"];
-        if ([status isEqualToString:@"STATUS_IN_PROGRESS"])
+        if ([[mainResponseDictionary objectForKey:@"code"] intValue] == 0)
         {
-            [self performSegueWithIdentifier:@"ShowInputValidationCodeVC" sender:dataDictioary];
+            [self performSegueWithIdentifier:@"ShowInputValidationCodeVC" sender:nil];
         }
-        else if ([status isEqualToString:@"STATUS_VERIFIED"])
+        else if (![[mainResponseDictionary objectForKey:@"errmsg"] isEqual:[NSNull null]])
         {
-            [self performSegueWithIdentifier:@"showValidationSuccessVc" sender:nil];
-        }
-        else if ([status isEqualToString:@"STATUS_BLOCKED"])
-        {
-            [self performSegueWithIdentifier:@"ShowExceedVC" sender:mainResponseDictionary];
-        }
-        else
-        {
-            //[self performSegueWithIdentifier:@"ShowExceedVC" sender:mainResponseDictionary];
-            self.errorLabel.text = [mainResponseDictionary objectForKey:@"message"];
+            //[self showAlertView:@"Error" withMessage:[mainResponseDictionary objectForKey:@"errmsg"]];
+            self.errorLabel.text = [mainResponseDictionary objectForKey:@"errmsg"];
             self.errorLabel.hidden = false;
         }
         [self.view setUserInteractionEnabled:true];
