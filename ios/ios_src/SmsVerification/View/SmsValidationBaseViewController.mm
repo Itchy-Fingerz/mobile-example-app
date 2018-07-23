@@ -23,9 +23,20 @@
 
 @implementation SmsValidationBaseViewController
 
+-(void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    if (self.view.frame.size.height <= 568)
+    {
+        self.topConstraintLogo.constant = 30;
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+
     [self.spiner stopAnimating];
     [SVProgressHUD setBackgroundColor:[UIColor clearColor]];
     [SVProgressHUD setForegroundColor:[UIColor colorWithRed:75/255.0 green:74/255.0 blue:72/255.0 alpha:1.0]];
@@ -37,6 +48,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)dealloc {
+    [_topConstraintLogo release];
     [_spiner release];
     [super dealloc];
 }

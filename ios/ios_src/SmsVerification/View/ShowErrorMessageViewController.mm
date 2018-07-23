@@ -9,11 +9,21 @@
 
 @interface ShowErrorMessageViewController ()
 @property (retain, nonatomic) IBOutlet UILabel *attemptsExceedLabel;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *topConstraintLogo;
 
 @end
 
 @implementation ShowErrorMessageViewController
 
+-(void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    if (self.view.frame.size.height <= 568)
+    {
+        self.topConstraintLogo.constant = 30;
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
