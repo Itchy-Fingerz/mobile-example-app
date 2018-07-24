@@ -13,11 +13,21 @@
 @property (retain, nonatomic) IBOutlet UILabel *messageLabel;
 @property (retain, nonatomic) IBOutlet UIButton *doneButton;
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *topConstraintLogo;
 
 @end
 
 @implementation ValidationSucessViewController
 
+-(void) viewWillLayoutSubviews
+{
+    [super viewWillLayoutSubviews];
+    
+    if (self.view.frame.size.height <= 568)
+    {
+        self.topConstraintLogo.constant = 30;
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

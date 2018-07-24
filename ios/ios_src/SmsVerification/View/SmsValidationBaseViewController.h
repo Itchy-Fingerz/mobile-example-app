@@ -12,6 +12,7 @@
 {
     
 }
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *topConstraintLogo;
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *spiner;
 -(void)sendSmsVerificationRequest:(NSString *)preNumber phoneNumber:(NSString *)phoneNumber withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock;
 -(void)sendVerifyCodeRequest:(NSString *)preNumber phoneNumber:(NSString *)phoneNumber code:(NSString *)code withCompletionHandler:(void(^)(UNIHTTPJsonResponse *))handlerBlock;
