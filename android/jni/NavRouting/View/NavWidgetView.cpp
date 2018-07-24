@@ -596,7 +596,7 @@ namespace ExampleApp
 
             void NavWidgetView::RemoveOnNavigationStartPointSetFromResult(Eegeo::Helpers::ICallback1<const int>& callback)
             {
-                m_navigationStartPointFromResultCallbacks.AddCallback(callback);
+                m_navigationStartPointFromResultCallbacks.RemoveCallback(callback);
             }
 
             void NavWidgetView::InsertOnNavigationEndPointSetFromResult(Eegeo::Helpers::ICallback1<const int>& callback)
