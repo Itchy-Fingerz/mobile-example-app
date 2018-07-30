@@ -391,17 +391,17 @@ to receive your PIN</string>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rme-nI-zPs">
                                 <rect key="frame" x="45" y="388" width="230" height="28"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your PIN will expire in xxxx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="073-6n-EoC">
-                                        <rect key="frame" x="0.0" y="6" width="161" height="16"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your PIN will expire in xx:xx." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="073-6n-EoC">
+                                        <rect key="frame" x="0.0" y="6" width="168.5" height="16"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                         <color key="textColor" red="0.37647058820000001" green="0.37647058820000001" blue="0.37647058820000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ivd-8i-yYT">
-                                        <rect key="frame" x="169" y="0.5" width="56" height="27"/>
+                                        <rect key="frame" x="176.5" y="0.5" width="53" height="27"/>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
-                                                <fragment content="Resend ">
+                                                <fragment content="Resend">
                                                     <attributes>
                                                         <color key="NSColor" red="0.074509803920000006" green="0.29803921570000003" blue="0.6588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <font key="NSFont" size="13" name="Helvetica"/>

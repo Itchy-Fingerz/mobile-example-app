@@ -118,7 +118,7 @@
     [self.pMessageContent sizeToFit];
     CGFloat messageLableHeight = self.pMessageContent.frame.size.height;
     self.pMessageContent.frame = CGRectMake(innerMargin.left,
-                                            self.pWarningLabel.frame.origin.y + self.pWarningLabel.frame.size.height + outerMargin.top,
+                                            self.pWarningLabel.frame.origin.y + self.pWarningLabel.frame.size.height + outerMargin.top + 10,
                                             innerMarginWidth,
                                             messageLableHeight);
     
@@ -128,7 +128,7 @@
     CGFloat buttonWidth = 0.5*(innerMarginWidth - innerMargin.left - innerMargin.right - outerMargin.left - outerMargin.right) ;
     CGFloat buttonHeight = 60;
     
-    CGFloat buttonY = self.pMessageContent.frame.origin.y + messageLableHeight + innerMargin.top;
+    CGFloat buttonY = self.pMessageContent.frame.origin.y + messageLableHeight + innerMargin.top + 20;
     
     self.pCancelButton.frame = CGRectMake(mainWindowWidth - innerMargin.right - outerMargin.right - buttonWidth,
                                           buttonY,
@@ -170,7 +170,7 @@
     [view addSubview:self];
     
     self.pWarningLabel.text = @"Warning!";
-    self.pMessageContent.text = @"Are you sure you want to Sign out?";
+    self.pMessageContent.text = @"Are you sure you want to sign out from this device?";
 }
 
 - (void) conclude

@@ -142,7 +142,7 @@
 {
     timerLabelCounter = [[MZTimerLabel alloc] initWithLabel:self.timerLabel andTimerType:MZTimerLabelTypeTimer];
     [timerLabelCounter setCountDownTime:600];
-    NSString* text = @"Your PIN will expire in here";
+    NSString* text = @"Your PIN will expire in here.";
     NSRange r = [text rangeOfString:@"here"];
     
     UIColor* fgColor = [UIColor colorWithRed:75.0/255 green:74.0/255 blue:72.0/255 alpha:1.0];
