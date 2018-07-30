@@ -211,6 +211,10 @@ public class NavWidgetView implements IBackButtonListener, WrldNavModelObserverL
         m_searchWidget.removeSuggestionProvider(locationSuggestionProvider);
     }
 
+    public void removeLocationSearchProvider(SearchProvider locationSearchProvider) {
+        m_searchWidget.removeSearchProvider(locationSearchProvider);
+    }
+
     public void setLocationSearchProvider(MyTestSearchProvider locationSearchProvider) {
         if(m_locationSearchProvider != null)
         {

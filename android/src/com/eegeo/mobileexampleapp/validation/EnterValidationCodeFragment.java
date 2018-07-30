@@ -257,7 +257,7 @@ public class EnterValidationCodeFragment extends Fragment implements View.OnClic
 
     private void setExpiryText(int timeSec)
     {
-        m_expiryText.setText(formatTime(timeSec));
+        m_expiryText.setText(formatTime(timeSec) + ".");
     }
 
     private String formatTime(int timeSec)

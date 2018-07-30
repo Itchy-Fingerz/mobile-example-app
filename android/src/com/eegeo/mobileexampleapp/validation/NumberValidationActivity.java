@@ -58,8 +58,8 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
     private Dialog m_progressDialog;
     private boolean m_isLoading;
     private String m_deviceId;
-
     public boolean m_isTestFlight = true;
+    private Uri m_deepLinkUrlData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,10 +67,16 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
         super.onCreate(savedInstanceState);
         m_persistentState = new ValidationPersistentState(this, 0);
 
+        Intent intent = getIntent();
+        if (intent != null && intent.getData() != null)
+        {
+            m_deepLinkUrlData = intent.getData();
+        }
+
         if(m_persistentState.containsKey(KEY_IS_VALIDATED) && m_persistentState.getBoolean(KEY_IS_VALIDATED))
         {
             finish();
-            startActivity(new Intent(this, BackgroundThreadActivity.class));
+            startMainActivity();
         }
         else
         {
@@ -78,6 +84,12 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
             initVolley();
             loadDeviceId();
         }
+    }
+
+    @Override
+    public void onNewIntent(Intent intent)
+    {
+        m_deepLinkUrlData = intent.getData();
     }
 
     private void initUi()
@@ -546,5 +558,15 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
                 .setNegativeButton(context.getResources().getString(R.string.cancel_text), dialogClickListener)
                 .setCancelable(false)
                 .show();
+    }
+
+    private void startMainActivity()
+    {
+        Intent intent = new Intent(this, BackgroundThreadActivity.class);
+        if(m_deepLinkUrlData != null)
+        {
+            intent.setData(m_deepLinkUrlData);
+        }
+        startActivity(intent);
     }
 }

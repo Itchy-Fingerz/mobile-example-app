@@ -41,6 +41,22 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="wrld" android:host="location" />
+                <data android:scheme="wrld" android:host="mapscene" />
+                <data android:scheme="wrld" android:host="search" />
+
+                <data android:scheme="eegeo" android:host="location" />
+                <data android:scheme="eegeo" android:host="mapscene" />
+                <data android:scheme="eegeo" android:host="search" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
         </activity>
         <activity android:name="com.eegeo.mobileexampleapp.BackgroundThreadActivity"
                   android:label="JC Group"
@@ -50,22 +66,6 @@
               	  android:hardwareAccelerated="true"
               	  android:resizeableActivity="false"
               	  android:supportsPictureInPicture="false">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-        		<category android:name="android.intent.category.BROWSABLE" />
-
-		        <data android:scheme="wrld" android:host="location" />
-		        <data android:scheme="wrld" android:host="mapscene" />
-                <data android:scheme="wrld" android:host="search" />
-
-		        <data android:scheme="eegeo" android:host="location" />
-		        <data android:scheme="eegeo" android:host="mapscene" />
-                <data android:scheme="eegeo" android:host="search" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
