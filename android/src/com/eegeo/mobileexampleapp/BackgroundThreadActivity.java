@@ -210,12 +210,11 @@ public class BackgroundThreadActivity extends MainActivity
 
         NativeJniCalls.destroyApplicationUi();
 
-        m_threadedRunner.stop();
-
         runOnNativeThread(new Runnable()
         {
             public void run()
             {
+                m_threadedRunner.stop();
                 NativeJniCalls.destroyNativeCode();
                 m_threadedRunner.destroyed();
             }
@@ -489,7 +488,10 @@ public class BackgroundThreadActivity extends MainActivity
                             {
                                 public void run()
                                 {
-                                    NativeJniCalls.updateUiViewCode(deltaSeconds);
+                                    if(m_running)
+                                    {
+                                        NativeJniCalls.updateUiViewCode(deltaSeconds);
+                                    }
                                 }
                             });
                         }
