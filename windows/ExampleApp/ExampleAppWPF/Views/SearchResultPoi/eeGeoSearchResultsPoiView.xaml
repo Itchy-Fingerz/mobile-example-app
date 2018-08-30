@@ -312,7 +312,7 @@
                                                         </Canvas>
                                                     </Viewbox>
                                                 </Grid>
-                                                <TextBlock Name="Tags" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:eeGeoSearchResultsPoiView}}, Path=HumanReadableTagsText}" FontSize="{DynamicResource EegeoPOIViewDetailsTagsFontSize}" Margin="{DynamicResource EegeoPOIViewDetailsTagsTextMargin}" Foreground="{StaticResource DarkGrey}" FontFamily="{DynamicResource PrimaryUIFont}"/>
+                                                <TextBlock Name="GetTags" Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:eeGeoSearchResultsPoiView}}, Path=HumanReadableTagsText}" FontSize="{DynamicResource EegeoPOIViewDetailsTagsFontSize}" Margin="{DynamicResource EegeoPOIViewDetailsTagsTextMargin}" Foreground="{StaticResource DarkGrey}" FontFamily="{DynamicResource PrimaryUIFont}"/>
                                             </Grid>
 
                                             <!-- Reviews Divider -->

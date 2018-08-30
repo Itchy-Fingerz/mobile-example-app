@@ -138,6 +138,7 @@
 #include "MapCameraDistanceFromBoundsCalculator.h"
 #include "ReactionHideOtherScreenControls.h"
 #include "ReactionPushScreenControl.h"
+#include "DataSetModule.h"
 
 namespace ExampleApp
 {
@@ -281,6 +282,7 @@ namespace ExampleApp
     , m_pAutomatedScreenshotController(NULL)
     , m_screenshotService(screenshotService)
 	, m_onUiCreatedCallback(this, &MobileExampleApp::OnUiCreated)
+	, m_pDataSetModule(NULL)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
@@ -908,6 +910,13 @@ namespace ExampleApp
 
         m_pSelectFirstResultSearchService = Eegeo_NEW(Search::SelectFirstResult::SdkModel::SelectFirstResultSearchService)(m_pSearchModule->GetSearchQueryPerformer());
 
+        m_pDataSetModule = Eegeo_NEW(ExampleApp::DataSet::SdkModel::DataSetModule)(m_platformAbstractions.GetWebLoadRequestFactory(),
+                                                                                   m_applicationConfiguration.EegeoApiKey(),
+                                                                                   m_networkCapabilities,
+                                                                                   m_persistentSettings,
+                                                                                   m_pWorld->GetLocationService(),
+                                                                                   mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository());
+
 #ifdef AUTOMATED_SCREENSHOTS
         const bool instantiateAutomatedScreenshotController = true;
 #else
@@ -1070,6 +1079,8 @@ namespace ExampleApp
         Eegeo_DELETE m_pOptionsModule;
 
         Eegeo_DELETE m_pAboutPageModule;
+
+        Eegeo_DELETE m_pDataSetModule;
     }
 
     std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> MobileExampleApp::GetOpenableControls() const
@@ -1250,11 +1261,15 @@ namespace ExampleApp
             {
                 m_pAutomatedScreenshotController->Update(dt);
             }
+
+            m_pDataSetModule->GetController().Update(dt);
         }
 
         UpdateLoadingScreen(dt);
         
         m_pSurveyTimer->Update();
+
+
     }
 
     void MobileExampleApp::Draw (float dt)

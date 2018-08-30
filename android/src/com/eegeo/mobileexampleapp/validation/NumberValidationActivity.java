@@ -73,17 +73,17 @@ public class NumberValidationActivity extends FragmentActivity  implements INumb
             m_deepLinkUrlData = intent.getData();
         }
 
-        if(m_persistentState.containsKey(KEY_IS_VALIDATED) && m_persistentState.getBoolean(KEY_IS_VALIDATED))
-        {
+//        if(m_persistentState.containsKey(KEY_IS_VALIDATED) && m_persistentState.getBoolean(KEY_IS_VALIDATED))
+//        {
             finish();
             startMainActivity();
-        }
-        else
-        {
-            initUi();
-            initVolley();
-            loadDeviceId();
-        }
+//        }
+//        else
+//        {
+//            initUi();
+//            initVolley();
+//            loadDeviceId();
+//        }
     }
 
     @Override

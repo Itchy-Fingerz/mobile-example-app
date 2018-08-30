@@ -97,6 +97,7 @@
 #include "ICallback.h"
 #include "UiCreatedMessage.h"
 #include "MapCamera.h"
+#include "DataSet.h"
 
 namespace ExampleApp
 {
@@ -197,6 +198,8 @@ namespace ExampleApp
         Automation::AutomatedScreenshotController* m_pAutomatedScreenshotController;
 
         ExampleApp::Automation::IScreenshotService& m_screenshotService;
+
+        ExampleApp::DataSet::SdkModel::DataSetModule* m_pDataSetModule;
 
 		Eegeo::Helpers::TCallback1<MobileExampleApp, const UiCreatedMessage&> m_onUiCreatedCallback;
 
