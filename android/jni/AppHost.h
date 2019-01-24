@@ -69,6 +69,7 @@
 #include "INavWidgetView.h"
 #include "ILocationService.h"
 #include "InteriorsLocationServiceController.h"
+#include "QRScanViewIncludes.h"
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -153,6 +154,7 @@ private:
     ExampleApp::NavRouting::View::INavWidgetViewModule* m_pNavWidgetViewModule;
     ExampleApp::Net::SdkModel::INetworkCapabilities* m_pNetworkCapabilities;
     ExampleApp::Metrics::AndroidFlurryMetricsService* m_pAndroidFlurryMetricsService;
+    ExampleApp::QRScan::View::IQRScanViewModule* m_pQRScanViewModule;
 
     ExampleApp::Menu::View::IMenuReactionModel* m_pMenuReactionModel;
 

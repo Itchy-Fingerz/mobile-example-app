@@ -140,6 +140,9 @@
 #include "ReactionPushScreenControl.h"
 #include "LocationProvider.h"
 #include "WhitelistUrlHelpersNative.h"
+#include "QRScanModule.h"
+#include "QRScanMenuModule.h"
+#include "QRScanMenuOption.h"
 
 namespace ExampleApp
 {
@@ -286,6 +289,8 @@ namespace ExampleApp
     , m_platformLocationService(platformLocationService)
     , m_pCurrentLocationService(NULL)
     , m_pLocationProvider(NULL)
+    , m_pQRScanMenuModule(NULL)
+    , m_pQRScanModule(NULL)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
@@ -895,7 +900,12 @@ namespace ExampleApp
         m_pInteriorCameraWrapper = Eegeo_NEW(AppCamera::SdkModel::AppInteriorCameraWrapper)(m_pInteriorsExplorerModule->GetInteriorsGpsCameraController(),
                                                                                             m_pInteriorsExplorerModule->GetInteriorsCameraController());
 
+        m_pQRScanModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanModule)(m_identityProvider,
+                                                                            m_applicationConfiguration.ProductVersion(),
+                                                                            m_applicationConfiguration.Name());
 
+        m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
+                                                                            m_pQRScanModule->GetQRScanViewModel());
 
         std::vector<Reaction::View::IReaction*> reactions(GetReactions());
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> openables(GetOpenableControls());
@@ -923,10 +933,12 @@ namespace ExampleApp
             m_pSearchMenuModule->AddMenuSection("Directions", m_pNavRoutingModule->GetNavMenuModel(), false);
         }
 
+        m_pSearchMenuModule->AddMenuSection("Scan Your Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("Options", m_pOptionsMenuModule->GetOptionsMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("About",  m_pAboutPageMenuModule->GetAboutPageMenuModel(), false);
 
         m_pSelectFirstResultSearchService = Eegeo_NEW(Search::SelectFirstResult::SdkModel::SelectFirstResultSearchService)(m_pSearchModule->GetSearchQueryPerformer());
+
 
 #ifdef AUTOMATED_SCREENSHOTS
         const bool instantiateAutomatedScreenshotController = true;
@@ -1090,6 +1102,10 @@ namespace ExampleApp
         Eegeo_DELETE m_pOptionsModule;
 
         Eegeo_DELETE m_pAboutPageModule;
+
+        Eegeo_DELETE m_pQRScanMenuModule;
+
+        Eegeo_DELETE m_pQRScanModule;
     }
 
     std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> MobileExampleApp::GetOpenableControls() const
@@ -1098,6 +1114,7 @@ namespace ExampleApp
         openables.push_back(&SearchMenuModule().GetSearchMenuViewModel());
         openables.push_back(&SearchResultPoiModule().GetObservableOpenableControl());
         openables.push_back(&AboutPageModule().GetObservableOpenableControl());
+        openables.push_back(&QRScanModule().GetObservableOpenableControl());
         openables.push_back(&MyPinCreationDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinCreationModule().GetObservableOpenableControl());
@@ -1125,6 +1142,7 @@ namespace ExampleApp
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(SearchMenuModule().GetSearchMenuViewModel(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(SearchResultPoiModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(AboutPageModule().GetObservableOpenableControl(), allReactors));
+        reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(QRScanModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinCreationDetailsModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinDetailsModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinCreationModule().GetObservableOpenableControl(), allReactors));

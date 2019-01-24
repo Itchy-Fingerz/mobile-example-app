@@ -71,6 +71,8 @@
 #include "UiCreatedMessage.h"
 #include "INavWidgetView.h"
 #include "ILocationProvider.h"
+#include "QRScanViewModule.h"
+#include "IQRScanModule.h"
 
 using namespace Eegeo::Android;
 using namespace Eegeo::Android::Input;
@@ -604,6 +606,12 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
                                     m_messageBus
                                 );
 
+    m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)(
+                                    m_nativeState,
+                                    app.QRScanModule().GetQRScanViewModel(),
+                                    *m_pAndroidFlurryMetricsService,
+                                    m_messageBus);
+
     // Initial UX layer
     m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(
 									m_nativeState,
@@ -694,6 +702,8 @@ void AppHost::DestroyApplicationViewModulesFromUiThread()
         Eegeo_DELETE m_pWatermarkViewModule;
 
         Eegeo_DELETE m_pNavWidgetViewModule;
+
+        Eegeo_DELETE m_pQRScanViewModule;
     }
     m_createdUIModules = false;
 }

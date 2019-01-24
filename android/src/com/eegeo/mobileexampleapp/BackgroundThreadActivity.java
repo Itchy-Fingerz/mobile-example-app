@@ -44,6 +44,9 @@ import net.hockeyapp.android.NativeCrashManager;
 
 public class BackgroundThreadActivity extends MainActivity
 {
+
+    private static final String DEFAULT_MAP_SCENE = "wrld://mapscene/0cbee11";
+
     final public Object screenshotsCompletedLock = new Object();
 
     private long m_nativeAppWindowPtr;
@@ -100,11 +103,14 @@ public class BackgroundThreadActivity extends MainActivity
 
 
         Intent intent = getIntent();
-        if(intent !=null)
+        if(intent !=null && intent.getData() != null)
         {
             m_deepLinkUrlData = intent.getData();
         }
-
+        else
+        {
+            m_deepLinkUrlData = Uri.parse(DEFAULT_MAP_SCENE);
+        }
 
         m_surfaceView = (EegeoSurfaceView)findViewById(R.id.surface);
         m_surfaceView.getHolder().addCallback(this);
@@ -265,6 +271,11 @@ public class BackgroundThreadActivity extends MainActivity
 
                     if(m_deepLinkUrlData != null)
                     {
+                        if(m_deepLinkUrlData.getScheme().equals("https"))
+                        {
+                            m_deepLinkUrlData = Uri.parse(DEFAULT_MAP_SCENE);
+                        }
+
                         NativeJniCalls.handleUrlOpenEvent(m_deepLinkUrlData.getHost(), m_deepLinkUrlData.getPath(), m_deepLinkUrlData.getEncodedQuery());
                         m_deepLinkUrlData = null;
                     }
