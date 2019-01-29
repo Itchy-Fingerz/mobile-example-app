@@ -82,6 +82,8 @@
 #include "ILocationProvider.h"
 
 #import "UIView+TouchExclusivity.h"
+#include "QRScanViewModule.h"
+#include "QRScanView.h"
 
 using namespace Eegeo::iOS;
 
@@ -373,6 +375,9 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                            &m_viewController);
 
     m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService, m_messageBus);
+    
+    m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)(app.QRScanModule().GetQRScanViewModel(), m_iOSFlurryMetricsService, m_messageBus);
+
 
     m_pMyPinCreationConfirmationViewModule = Eegeo_NEW(ExampleApp::MyPinCreation::View::MyPinCreationConfirmationViewModule)(m_messageBus,
             app.MyPinCreationModule().GetMyPinCreationConfirmationViewModel(),
@@ -440,6 +445,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     // Pop-up layer.
     [m_pView addSubview: &m_pSearchResultPoiViewModule->GetView()];
     [m_pView addSubview: &m_pAboutPageViewModule->GetAboutPageView()];
+    [m_pView addSubview: &m_pQRScanViewModule->GetQRScanView()];
     [m_pView addSubview: &m_pOptionsViewModule->GetOptionsView()];
     [m_pView addSubview: &m_pMyPinCreationDetailsViewModule->GetMyPinCreationDetailsView()];
     [m_pView addSubview: &m_pMyPinDetailsViewModule->GetMyPinDetailsView()];
@@ -487,6 +493,7 @@ void AppHost::DestroyApplicationViewModules()
     [&m_pMyPinCreationDetailsViewModule->GetMyPinCreationDetailsView() removeFromSuperview];
     [&m_pSearchResultPoiViewModule->GetView() removeFromSuperview];
     [&m_pAboutPageViewModule->GetAboutPageView() removeFromSuperview];
+    [&m_pQRScanViewModule->GetQRScanView() removeFromSuperview];
     [&m_pOptionsViewModule->GetOptionsView() removeFromSuperview];
     [&m_pNavUIViewModule->GetNavWidgetView() removeFromSuperview];
     [&m_pNavUIViewModule->GetNavWidgetSearchView() removeFromSuperview];
@@ -512,6 +519,8 @@ void AppHost::DestroyApplicationViewModules()
     Eegeo_DELETE m_pMyPinCreationConfirmationViewModule;
     
     Eegeo_DELETE m_pAboutPageViewModule;
+    
+    Eegeo_DELETE m_pQRScanViewModule;
     
     Eegeo_DELETE m_pCompassViewModule;
 
