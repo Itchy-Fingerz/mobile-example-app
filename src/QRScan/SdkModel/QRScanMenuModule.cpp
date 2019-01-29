@@ -19,7 +19,7 @@ namespace ExampleApp
 
                 m_pQRScanMenuModel = Eegeo_NEW(Menu::View::MenuModel)();
                 m_pQRScanMenuOptionsModel = Eegeo_NEW(Menu::View::MenuOptionsModel)(*m_pQRScanMenuModel);
-                m_pQRScanMenuOptionsModel->AddItem("Scan Your Location", "Scan Your Location", "", "", Eegeo_NEW(View::QRScanMenuOption)(menuViewModel, qrScanViewModel));
+                m_pQRScanMenuOptionsModel->AddItem("Scan My Location", "Scan My Location", "", "", Eegeo_NEW(View::QRScanMenuOption)(menuViewModel, qrScanViewModel));
             }
 
             QRScanMenuModule::~QRScanMenuModule()

@@ -13,4 +13,8 @@ extern "C"
     JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_LogoLongPress(
             JNIEnv* jenv, jobject obj,
             jlong nativeObjectPtr);
+
+    JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_OnQRScan(
+            JNIEnv* jenv, jobject obj,
+            jlong nativeObjectPtr, jstring host, jdouble latitude, jdouble longitude, jstring buildingId, jdouble orientation);
 }

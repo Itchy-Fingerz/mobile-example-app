@@ -1,6 +1,7 @@
 // Copyright eeGeo Ltd (2012-2015), All Rights Reserved
 
 #include "QRScanController.h"
+#include "LatLongAltitude.h"
 
 namespace ExampleApp
 {
@@ -34,6 +35,15 @@ namespace ExampleApp
             {
                 m_view.SetContent(m_viewModel.GetContent(true));
             }
+
+            void QRScanController::OnQRScanCompleted(const std::string& hostName, const std::string& buildingId, const std::map<std::string, double>& location)
+            {
+                double latitude = location.find("latitude")->second;
+                double longitude = location.find("longitude")->second;
+                double orientation = location.find("orientation")->second;
+
+                m_locationProvider.EnableFixedLocation(Eegeo::Space::LatLong::FromDegrees(latitude, longitude),buildingId,0,orientation);
+            }
             
             void QRScanController::OnQRScanIndoorPositionTypeMessage(const QRScan::QRScanIndoorPositionTypeMessage& message)
             {
@@ -64,15 +74,18 @@ namespace ExampleApp
             }
 
             QRScanController::QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
-                                                     Metrics::IMetricsService& metricsService,
-                                                     ExampleAppMessaging::TMessageBus& messageBus)
+                                               LocationProvider::ILocationProvider& locationProvider,
+                                               Metrics::IMetricsService& metricsService,
+                                               ExampleAppMessaging::TMessageBus& messageBus)
                 : m_view(view)
                 , m_viewModel(viewModel)
+                , m_locationProvider(locationProvider)
                 , m_metricsService(metricsService)
                 , m_viewClosed(this, &QRScanController::OnClose)
                 , m_viewOpened(this, &QRScanController::OnOpen)
                 , m_viewCloseTapped(this, &QRScanController::OnCloseTapped)
                 , m_logoLongPress(this, &QRScanController::OnLogoLongPress)
+                , m_qrScanCompleted(this, &QRScanController::OnQRScanCompleted)
                 , m_messageBus(messageBus)
                 , m_qrScanIndoorPositionTypeMessageHandler(this, &QRScanController::OnQRScanIndoorPositionTypeMessage)
                 , m_qrScanIndoorPositionSettingsMessageHandler(this, &QRScanController::OnQRScanIndoorPositionSettingsMessage)
@@ -84,6 +97,7 @@ namespace ExampleApp
                 m_viewModel.InsertClosedCallback(m_viewClosed);
                 m_viewModel.InsertOpenedCallback(m_viewOpened);
                 m_view.InsertLogoLongPressCallback(m_logoLongPress);
+                m_view.InsertOnQRScanCompletedCallback(m_qrScanCompleted);
                 m_messageBus.SubscribeUi(m_qrScanIndoorPositionTypeMessageHandler);
                 m_messageBus.SubscribeUi(m_qrScanIndoorPositionSettingsMessageHandler);
                 m_messageBus.SubscribeUi(m_qrScanSenionDataMessageHandler);
@@ -98,6 +112,7 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeUi(m_qrScanSenionDataMessageHandler);
                 m_messageBus.UnsubscribeUi(m_qrScanIndoorPositionSettingsMessageHandler);
                 m_messageBus.UnsubscribeUi(m_qrScanIndoorPositionTypeMessageHandler);
+                m_view.RemoveOnQRScanCompletedCallback(m_qrScanCompleted);
                 m_view.RemoveLogoLongPressCallback(m_logoLongPress);
                 m_viewModel.RemoveOpenedCallback(m_viewOpened);
                 m_viewModel.RemoveClosedCallback(m_viewClosed);

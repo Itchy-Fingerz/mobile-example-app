@@ -45,7 +45,7 @@ import net.hockeyapp.android.NativeCrashManager;
 public class BackgroundThreadActivity extends MainActivity
 {
 
-    private static final String DEFAULT_MAP_SCENE = "wrld://mapscene/0cbee11";
+    private static final String DEFAULT_MAP_SCENE = "wrld://mapscene/47e1e4e";
 
     final public Object screenshotsCompletedLock = new Object();
 

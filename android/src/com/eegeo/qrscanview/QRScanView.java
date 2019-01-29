@@ -2,19 +2,17 @@
 
 package com.eegeo.qrscanview;
 
-import android.text.method.LinkMovementMethod;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.URLSpan;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.net.Uri;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.mobileexampleapp.R;
+
+import java.util.List;
 
 public class QRScanView implements View.OnClickListener
 {
@@ -23,12 +21,6 @@ public class QRScanView implements View.OnClickListener
     private View m_view = null;
     private RelativeLayout m_uiRoot = null;
     private View m_closeButton = null;
-    private TextView m_aboutTextView = null;
-    private TextView m_eulaLink = null;
-    private TextView m_privacyLink = null;
-    private TextView m_legalLink = null;
-    private TextView m_teamLink = null;
-    private ImageView m_logoImage = null;
 
     public QRScanView(MainActivity activity, long nativeCallerPointer)
     {
@@ -37,14 +29,8 @@ public class QRScanView implements View.OnClickListener
 
         m_uiRoot = (RelativeLayout)m_activity.findViewById(R.id.ui_container);
 
-        m_view = m_activity.getLayoutInflater().inflate(R.layout.about_page_layout, m_uiRoot, false);
-        m_closeButton = m_view.findViewById(R.id.about_page_view_close_button);
-        m_aboutTextView = (TextView)m_view.findViewById(R.id.about_page_view_about_text);
-        m_eulaLink = (TextView)m_view.findViewById(R.id.about_page_view_about_text_eula_link);
-        m_privacyLink = (TextView)m_view.findViewById(R.id.about_page_view_privacy_link);
-        m_legalLink = (TextView)m_view.findViewById(R.id.about_page_view_legal_link);
-        m_teamLink = (TextView)m_view.findViewById(R.id.about_page_view_team_link);
-        m_logoImage = (ImageView)m_view.findViewById(R.id.about_page_wrld_logo);
+        m_view = m_activity.getLayoutInflater().inflate(R.layout.qr_scan_layout, m_uiRoot, false);
+        m_closeButton = m_view.findViewById(R.id.qr_scan_view_close_button);
 
         RelativeLayout.LayoutParams layoutParams = (LayoutParams) m_view.getLayoutParams();
         if (m_activity.getResources().getBoolean(R.bool.isPhone)) 
@@ -57,62 +43,68 @@ public class QRScanView implements View.OnClickListener
             layoutParams.leftMargin = layoutParams.rightMargin = (int) (m_uiRoot.getWidth() * 0.3f);
         }
 
-        m_logoImage.setOnLongClickListener(new View.OnLongClickListener()
+        m_closeButton.setOnClickListener(this);
+        View clickMeButton = m_view.findViewById(R.id.qr_scan_click_me);
+        clickMeButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public boolean onLongClick(View v)
+            public void onClick(View view)
             {
-                showHiddenText();
-                return true;
+                onQRScanCompleted("wrld://fixedlocation/indoor/31.496739/74.421984/EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1/0");
             }
         });
 
-        m_closeButton.setOnClickListener(this);
         m_view.setVisibility(View.GONE);
         m_uiRoot.addView(m_view);
-        
-        m_eulaLink.setMovementMethod(LinkMovementMethod.getInstance());
-        m_privacyLink.setMovementMethod(LinkMovementMethod.getInstance());
-        m_legalLink.setMovementMethod(LinkMovementMethod.getInstance());
-        m_teamLink.setMovementMethod(LinkMovementMethod.getInstance());
 
-        RemoveUnderlineFromLink(m_eulaLink);
-        RemoveUnderlineFromLink(m_privacyLink);
-        RemoveUnderlineFromLink(m_legalLink);
-        RemoveUnderlineFromLink(m_teamLink);
     }
 
-    private class URLSpanWithoutUnderline extends URLSpan
+    private void onQRScanCompleted(String scanData)
     {
-        public URLSpanWithoutUnderline(String url)
+        Uri url = Uri.parse(scanData);
+        String host = url.getHost();
+        List<String> pathSegments = url.getPathSegments();
+
+        if (host.equals("fixedlocation"))
         {
-            super(url);
+            if (pathSegments.size() == 5)
+            {
+                QRScanViewJniMethods.OnQRScan(m_nativeCallerPointer, host + pathSegments.get(0), Double.parseDouble(pathSegments.get(1)), Double.parseDouble(pathSegments.get(2)), pathSegments.get(3), Double.parseDouble(pathSegments.get(4)));
+                QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+            }
+            else if (pathSegments.size() == 4)
+            {
+                QRScanViewJniMethods.OnQRScan(m_nativeCallerPointer, host, Double.parseDouble(pathSegments.get(0)), Double.parseDouble(pathSegments.get(1)), pathSegments.get(2), Double.parseDouble(pathSegments.get(3)));
+                QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+            }
+            else
+            {
+                showQRErrorDialog();
+            }
         }
-
-        public void updateDrawState(TextPaint drawState)
+        else
         {
-            super.updateDrawState(drawState);
-
-            drawState.setUnderlineText(false);
+            showQRErrorDialog();
         }
     }
 
-    private void RemoveUnderlineFromLink(TextView text)
+    private void showQRErrorDialog()
     {
-        Spannable spannable = new SpannableString(text.getText());
-        URLSpan[] spans     = spannable.getSpans(0, text.length(), URLSpan.class);
-
-        for (URLSpan span : spans)
-        {
-            int start = spannable.getSpanStart(span);
-            int end   = spannable.getSpanEnd  (span);
-
-            spannable.removeSpan(span);
-
-            spannable.setSpan(new URLSpanWithoutUnderline(span.getURL()), start, end, 0);
-        }
-
-        text.setText(spannable);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
+        alertDialogBuilder.setTitle("QR Scan Error")
+                .setMessage("It is not a valid QR Code.")
+                .setCancelable(false)
+                .setPositiveButton("Ok", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.dismiss();
+                        QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 
     public void destroy()
@@ -122,7 +114,7 @@ public class QRScanView implements View.OnClickListener
 
     public void displayContent(final String content)
     {
-        m_aboutTextView.setText(content.trim());
+
     }
 
     public void showHiddenText()

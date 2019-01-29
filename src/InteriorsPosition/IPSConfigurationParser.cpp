@@ -20,36 +20,41 @@ namespace ExampleApp
         void ParseIndoorTrackingInfo(std::map<std::string, ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfoList,
                                                                     const rapidjson::Value& indoorTrackedBuildingsArray)
         {
-            const rapidjson::Value& building = indoorTrackedBuildingsArray;
-            
-            Eegeo_ASSERT(building.HasMember(InteriorId.c_str()), "Interior Id not found");
-            const std::string& id = building[InteriorId.c_str()].GetString();
-            const Eegeo::Resources::Interiors::InteriorId& interiorId(id);
-            
-            Eegeo_ASSERT(building.HasMember(Type.c_str()), "Type not found");
-            const std::string& type = building[Type.c_str()].GetString();
-            
-            
-            Eegeo_ASSERT(building.HasMember(Config.c_str()), "Config not found");
-            const std::string& apiKey = building[Config.c_str()][0][ApiKey.c_str()].GetString();
-            const std::string& apiSecret = building[Config.c_str()][0][ApiSecret.c_str()].GetString();
-            ApplicationConfig::SdkModel::ApplicationInteriorTrackingConfig interiorTrackingConfig(apiKey, apiSecret);
-            
-            Eegeo_ASSERT(building.HasMember(FloorMapping.c_str()), "FloorMapping not found");
-            const rapidjson::Value& floorMappingArray = building[FloorMapping.c_str()];
-            
-            std::map<int, std::string> floorMapping;
-            for(rapidjson::SizeType j = 0; j < floorMappingArray.Size(); ++j)
+            Eegeo_ASSERT(indoorTrackedBuildingsArray.IsArray(),"Indoor tracked buildings should be an array");
+
+            for(rapidjson::SizeType i = 0; i < indoorTrackedBuildingsArray.Size(); ++i)
             {
-                floorMapping[floorMappingArray[j][BuildingFloorIndex.c_str()].GetInt()] = floorMappingArray[j][TrackedFloorIndex.c_str()].GetString();
+                const rapidjson::Value& building = indoorTrackedBuildingsArray[i];
+
+                Eegeo_ASSERT(building.HasMember(InteriorId.c_str()), "Interior Id not found");
+                const std::string& id = building[InteriorId.c_str()].GetString();
+                const Eegeo::Resources::Interiors::InteriorId& interiorId(id);
+
+                Eegeo_ASSERT(building.HasMember(Type.c_str()), "Type not found");
+                const std::string& type = building[Type.c_str()].GetString();
+
+
+                Eegeo_ASSERT(building.HasMember(Config.c_str()), "Config not found");
+                const std::string& apiKey = building[Config.c_str()][0][ApiKey.c_str()].GetString();
+                const std::string& apiSecret = building[Config.c_str()][0][ApiSecret.c_str()].GetString();
+                ApplicationConfig::SdkModel::ApplicationInteriorTrackingConfig interiorTrackingConfig(apiKey, apiSecret);
+
+                Eegeo_ASSERT(building.HasMember(FloorMapping.c_str()), "FloorMapping not found");
+                const rapidjson::Value& floorMappingArray = building[FloorMapping.c_str()];
+
+                std::map<int, std::string> floorMapping;
+                for(rapidjson::SizeType j = 0; j < floorMappingArray.Size(); ++j)
+                {
+                    floorMapping[floorMappingArray[j][BuildingFloorIndex.c_str()].GetInt()] = floorMappingArray[j][TrackedFloorIndex.c_str()].GetString();
+                }
+
+                ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo interiorTrackingInfo(interiorId,
+                                                                                                  type,
+                                                                                                  interiorTrackingConfig,
+                                                                                                  floorMapping);
+
+                interiorTrackingInfoList.insert(std::pair<std::string, ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo>(interiorId.Value(),interiorTrackingInfo));
             }
-            
-            ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo interiorTrackingInfo(interiorId,
-                                                                                              type,
-                                                                                              interiorTrackingConfig,
-                                                                                              floorMapping);
-            
-            interiorTrackingInfoList.insert(std::pair<std::string, ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo>(interiorId.Value(),interiorTrackingInfo));
         }
         
         void TryAndGetInteriorTrackingInfo(std::map<std::string, ApplicationConfig::SdkModel::ApplicationInteriorTrackingInfo>& interiorTrackingInfoList, Eegeo::Resources::Interiors::InteriorId& interiorId, Eegeo::Resources::Interiors::MetaData::InteriorMetaDataRepository& interiorMetaDataRepository)

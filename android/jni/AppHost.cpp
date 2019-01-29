@@ -74,6 +74,10 @@
 #include "QRScanViewModule.h"
 #include "IQRScanModule.h"
 
+#include "InteriorId.h"
+#include "ApplicationInteriorTrackingConfig.h"
+#include "InteriorMetaDataDto.h"
+
 using namespace Eegeo::Android;
 using namespace Eegeo::Android::Input;
 
@@ -217,6 +221,16 @@ AppHost::AppHost(
     }
 
     Eegeo::Modules::Map::MapModule& mapModule = m_pApp->World().GetMapModule();
+
+    //TODO: Has to move to the config file by WRLD team
+    Eegeo::Resources::Interiors::MetaData::InteriorMetaDataRepository& interiorMetaDataRepository = mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository();
+    const Eegeo::Resources::Interiors::InteriorId qrInteriorId("EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1");
+    const std::string qrTrackingInfoUserData = "{\"ips_config\":[{\"interior_id\":\"EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1\",\"type\":\"IndoorAtlas\",\"config\":[{\"api_key\":\"\",\"api_secret\":\"\"}],\"floor_mapping\":[]}]}";
+    Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto::AccessPermissions permission = Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto::AccessPermissions::Allowed;
+    const Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto *const &qrInteriorMetaDataDto = Eegeo_NEW(Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto)(qrInteriorId, permission , qrTrackingInfoUserData);
+    interiorMetaDataRepository.Add(qrInteriorId, qrInteriorMetaDataDto);
+    //End Todo
+
     Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
     m_pSenionLabLocationModule = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::SenionLab::SenionLabLocationModule)(m_pApp->GetAppModeModel(),
                                                                                                                         interiorsPresentationModule.GetInteriorInteractionModel(),
@@ -609,6 +623,7 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)(
                                     m_nativeState,
                                     app.QRScanModule().GetQRScanViewModel(),
+                                    m_pApp->GetLocationProvider(),
                                     *m_pAndroidFlurryMetricsService,
                                     m_messageBus);
 

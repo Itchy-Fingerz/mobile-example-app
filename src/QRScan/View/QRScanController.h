@@ -12,6 +12,7 @@
 #include "QRScanSenionDataMessage.h"
 #include "QRScanIndoorPositionSettingsMessage.h"
 #include "BidirectionalBus.h"
+#include "ILocationProvider.h"
 
 namespace ExampleApp
 {
@@ -24,11 +25,13 @@ namespace ExampleApp
             private:
                 IQRScanView& m_view;
                 IQRScanViewModel& m_viewModel;
+                LocationProvider::ILocationProvider& m_locationProvider;
 
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewOpened;
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewClosed;
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewCloseTapped;
                 Eegeo::Helpers::TCallback0<QRScanController> m_logoLongPress;
+                Eegeo::Helpers::TCallback3<QRScanController, const std::string&, const std::string&, const std::map<std::string, double>&> m_qrScanCompleted;
                 
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 Metrics::IMetricsService& m_metricsService;
@@ -43,6 +46,7 @@ namespace ExampleApp
                 void OnClose();
                 void OnCloseTapped();
                 void OnLogoLongPress();
+                void OnQRScanCompleted(const std::string& hostName, const std::string& buildingId, const std::map<std::string, double>& location);
                 
                 void OnQRScanIndoorPositionTypeMessage(const QRScan::QRScanIndoorPositionTypeMessage& message);
                 void OnQRScanIndoorPositionSettingsMessage(const QRScan::QRScanIndoorPositionSettingsMessage& message);
@@ -51,7 +55,7 @@ namespace ExampleApp
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
 
             public:
-                QRScanController(IQRScanView& view, IQRScanViewModel& viewModel, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
+                QRScanController(IQRScanView& view, IQRScanViewModel& viewModel, LocationProvider::ILocationProvider& locationProvider, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~QRScanController();
             };

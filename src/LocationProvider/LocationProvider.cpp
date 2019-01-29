@@ -32,13 +32,21 @@ namespace ExampleApp
             m_pUnfixedLocationService->SetLocationService(m_platformLocationService);
         }
 
+        void LocationProvider::EnableFixedLocation(const Eegeo::Space::LatLong& location, const Eegeo::Resources::Interiors::InteriorId & interiorId, const int floorIndex, const double headingDegrees)
+        {
+            m_pFixedIndoorLocationService->SetFixedLocation(location,
+                                                            interiorId,
+                                                            floorIndex,
+                                                            headingDegrees);
+            m_pCurrentLocationService->SetLocationService(*m_pFixedIndoorLocationService);
+        }
+
         void LocationProvider::EnableFixedLocation(const ExampleApp::ApplicationConfig::SdkModel::ApplicationFixedIndoorLocation& fixedIndoorLocation)
         {
-            m_pFixedIndoorLocationService->SetFixedLocation(fixedIndoorLocation.GetLocation(),
-                                                            fixedIndoorLocation.GetInteriorId(),
-                                                            fixedIndoorLocation.GetBuildingFloorIndex(),
-                                                            fixedIndoorLocation.GetOrientationDegrees());
-            m_pCurrentLocationService->SetLocationService(*m_pFixedIndoorLocationService);
+            EnableFixedLocation(fixedIndoorLocation.GetLocation(),
+                                fixedIndoorLocation.GetInteriorId(),
+                                fixedIndoorLocation.GetBuildingFloorIndex(),
+                                fixedIndoorLocation.GetOrientationDegrees());
         }
 
         void LocationProvider::DisableFixedLocation()

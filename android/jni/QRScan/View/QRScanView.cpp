@@ -89,6 +89,18 @@ namespace ExampleApp
                 env->DeleteLocalRef(contentStr);
             }
 
+            void QRScanView::OnQRScanCompleted(const std::string& host, double lat, double lng, const std::string& buildingId, double orientation)
+            {
+                ASSERT_UI_THREAD
+
+                std::map<std::string, double> positionMap;
+                positionMap["latitude"] = lat;
+                positionMap["longitude"] = lng;
+                positionMap["orientation"] = orientation;
+
+                m_qrScanCompletedCallbacks.ExecuteCallbacks(host, buildingId, positionMap);
+            }
+
             void QRScanView::ShowHiddenText()
             {
                 ASSERT_UI_THREAD
@@ -117,6 +129,18 @@ namespace ExampleApp
             {
                 ASSERT_UI_THREAD
                 m_hiddenTextCallbacks.RemoveCallback(callback);
+            }
+
+            void QRScanView::InsertOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback)
+            {
+                ASSERT_UI_THREAD
+                m_qrScanCompletedCallbacks.AddCallback(callback);
+            }
+
+            void QRScanView::RemoveOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback)
+            {
+                ASSERT_UI_THREAD
+                m_qrScanCompletedCallbacks.RemoveCallback(callback);
             }
         }
     }

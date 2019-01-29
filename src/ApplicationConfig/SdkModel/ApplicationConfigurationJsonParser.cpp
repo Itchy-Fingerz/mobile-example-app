@@ -279,6 +279,8 @@ namespace ExampleApp
                 rapidjson::Document document;
                 
                 const bool hasParseError(document.Parse<0>(serialized.c_str()).HasParseError());
+
+                Eegeo_TTY(serialized.c_str());
                 Eegeo_ASSERT(!hasParseError, "unable to parse app configuration");
 
                 const double startLocationLatitude = ParseDoubleOrDefault(document, StartLocationLatitude, m_defaultConfig.InterestLocation().GetLatitudeInDegrees());

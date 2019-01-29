@@ -15,13 +15,14 @@ namespace ExampleApp
             QRScanViewModule::QRScanViewModule(
                 AndroidNativeState& nativeState,
                 IQRScanViewModel& qrScanViewModel,
+                LocationProvider::ILocationProvider& locationProvider,
                 Metrics::IMetricsService& metricsService,
 				ExampleAppMessaging::TMessageBus& messageBus
             )
             {
                 ASSERT_UI_THREAD
                 m_pView = Eegeo_NEW(QRScanView)(nativeState);
-                m_pController = Eegeo_NEW(QRScanController)(*m_pView, qrScanViewModel, metricsService, messageBus);
+                m_pController = Eegeo_NEW(QRScanController)(*m_pView, qrScanViewModel, locationProvider, metricsService, messageBus);
             }
 
             QRScanViewModule::~QRScanViewModule()

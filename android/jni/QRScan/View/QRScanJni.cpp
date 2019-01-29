@@ -23,3 +23,16 @@ JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_LogoLongPr
     ExampleApp::QRScan::View::QRScanView* pView = reinterpret_cast<ExampleApp::QRScan::View::QRScanView*>(nativeObjectPtr);
     pView->ShowHiddenText();
 }
+
+JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_OnQRScan(
+        JNIEnv* jenv, jobject obj,
+        jlong nativeObjectPtr, jstring host, jdouble latitude, jdouble longitude, jstring buildingId, jdouble orientation)
+{
+    ASSERT_UI_THREAD
+
+    const char *hName = jenv->GetStringUTFChars(host, 0);
+    const char *bId = jenv->GetStringUTFChars(buildingId, 0);
+
+    ExampleApp::QRScan::View::QRScanView* pView = reinterpret_cast<ExampleApp::QRScan::View::QRScanView*>(nativeObjectPtr);
+    pView->OnQRScanCompleted(hName, latitude, longitude, bId, orientation);
+}

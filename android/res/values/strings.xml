@@ -9,6 +9,8 @@
     <string name="about_page_title">About</string>
     <string name="about_page_developer">Developed by</string>
     <string name="searchbox_query_hint">Search the WRLD</string>
+
+    <string name="qr_scan_title">Scan My Location</string>
     
     <string name="options_title">Options</string>
     <string name="options_view_stream_wifi_only_togglebutton_text">Stream over Wi-fi only</string>
