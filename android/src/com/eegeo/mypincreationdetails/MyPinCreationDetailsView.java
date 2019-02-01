@@ -218,7 +218,7 @@ public class MyPinCreationDetailsView implements View.OnClickListener, IActivity
             {
                 return;
             }
-            if(m_activity.getRuntimePermissionDispatcher().hasCameraAndStoragePermissions(this))
+            if(m_activity.getRuntimePermissionDispatcher().hasCameraAndStoragePermissions())
             {
                 if (m_activity.getPhotoIntentDispatcher().takePhoto())
                 {
@@ -519,7 +519,7 @@ public class MyPinCreationDetailsView implements View.OnClickListener, IActivity
                                     Manifest.permission.WRITE_EXTERNAL_STORAGE))
                     {
                         // Checking Permissions again
-                        m_activity.getRuntimePermissionDispatcher().hasCameraAndStoragePermissions(MyPinCreationDetailsView.this);
+                        m_activity.getRuntimePermissionDispatcher().hasCameraAndStoragePermissions();
                     }
                     else
                     {
@@ -532,7 +532,7 @@ public class MyPinCreationDetailsView implements View.OnClickListener, IActivity
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setMessage(context.getResources().getString(R.string.required_camera_permission_text))
+        builder.setMessage(context.getResources().getString(R.string.required_camera_and_storage_permission_text))
                 .setPositiveButton(context.getResources().getString(R.string.ok_text), dialogClickListener)
                 .setNegativeButton(context.getResources().getString(R.string.cancel_text), dialogClickListener).show();
     }
