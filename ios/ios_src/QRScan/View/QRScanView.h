@@ -7,14 +7,17 @@
 #include "AppRunner.h"
 #import "HeaderView.h"
 #include "ViewController.h"
+#import <AVFoundation/AVFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
 
 @class QRScanView;
 @class QRScanViewController;
 
-@interface QRScanView : UIView <UIGestureRecognizerDelegate>
+@interface QRScanView : UIView <UIGestureRecognizerDelegate,AVCaptureMetadataOutputObjectsDelegate>
 {
     ExampleApp::QRScan::View::QRScanViewInterop* m_pInterop;
     float m_stateChangeAnimationTimeSeconds;
+    
 }
 
 - (id) initView;
@@ -35,16 +38,23 @@
 
 @property (nonatomic, retain) HeaderView* pHeaderView;
 
-@property (nonatomic, retain) UILabel* pTextContent;
-@property (nonatomic, retain) UIView* pContentSeperator;
-@property (nonatomic, retain) UILabel* pDevelopedByLabel;
-@property (nonatomic, retain) UIImageView* pWrldLogoImage;
-@property (nonatomic, retain) UIScrollView* pContentScrollView;
 @property (nonatomic, retain) UIView* pContentView;
+@property (nonatomic, retain) UIView *viewforCamera;
+@property (nonatomic)  Boolean isReading;
+@property (nonatomic, retain) CAShapeLayer *overlay;
 
-@property (nonatomic, retain) UIButton* pLegalLink;
-@property (nonatomic, retain) UIButton* pPrivacyLink;
-@property (nonatomic, retain) UIButton* pEulaLink;
-@property (nonatomic, retain) UIButton* pTeamLink;
+
+
+-(BOOL)startReading;
+
+-(void)stopReading;
+
+-(void)playBeepSound;
+
+@property (nonatomic, strong) AVCaptureSession *captureSession;
+
+@property (nonatomic, strong) AVCaptureVideoPreviewLayer *videoPreviewLayer;
+
+
 
 @end

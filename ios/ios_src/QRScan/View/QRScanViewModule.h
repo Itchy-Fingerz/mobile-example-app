@@ -7,6 +7,7 @@
 #include "IQRScanViewModule.h"
 #include "IMetricsService.h"
 #include "BidirectionalBus.h"
+#include "ILocationProvider.h"
 
 namespace ExampleApp
 {
@@ -21,7 +22,9 @@ namespace ExampleApp
                 QRScanController* m_pController;
 
             public:
-                QRScanViewModule(IQRScanViewModel& qrScanViewModel, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
+                QRScanViewModule(IQRScanViewModel& qrScanViewModel,
+                                 LocationProvider::ILocationProvider& locationProvider,
+                                 Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~QRScanViewModule();
 

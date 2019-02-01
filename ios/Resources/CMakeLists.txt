@@ -7,6 +7,7 @@ set(resources ${resources}
         Resources/Alert_Tutorial_icon_phone@3x.png
         Resources/ApplicationConfigs
         Resources/ApplicationConfigs/standard_config.json
+        Resources/scan_outline.png
         Resources/Arrow.png
         Resources/Arrow@2x.png
         Resources/Arrow@3x.png

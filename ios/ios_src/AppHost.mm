@@ -84,6 +84,9 @@
 #import "UIView+TouchExclusivity.h"
 #include "QRScanViewModule.h"
 #include "QRScanView.h"
+#include "InteriorId.h"
+#include "ApplicationInteriorTrackingConfig.h"
+#include "InteriorMetaDataDto.h"
 
 using namespace Eegeo::iOS;
 
@@ -171,6 +174,16 @@ AppHost::AppHost(
              m_screenshotService);
     
     Eegeo::Modules::Map::MapModule& mapModule = m_pApp->World().GetMapModule();
+    
+    //TODO: Has to move to the config file by WRLD team
+        Eegeo::Resources::Interiors::MetaData::InteriorMetaDataRepository& interiorMetaDataRepository = mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository();
+        const Eegeo::Resources::Interiors::InteriorId qrInteriorId("EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1");
+        const std::string qrTrackingInfoUserData = "{\"ips_config\":[{\"interior_id\":\"EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1\",\"type\":\"IndoorAtlas\",\"config\":[{\"api_key\":\"\",\"api_secret\":\"\"}],\"floor_mapping\":[]}]}";
+        Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto::AccessPermissions permission = Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto::AccessPermissions::Allowed;
+        const Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto *const &qrInteriorMetaDataDto = Eegeo_NEW(Eegeo::Resources::Interiors::MetaData::InteriorMetaDataDto)(qrInteriorId, permission , qrTrackingInfoUserData);
+        interiorMetaDataRepository.Add(qrInteriorId, qrInteriorMetaDataDto);
+        //End Todo
+    
     ExampleApp::LocationProvider::ILocationProvider& locationProvider = m_pApp->GetLocationProvider();
     
     Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
@@ -376,7 +389,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 
     m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService, m_messageBus);
     
-    m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)(app.QRScanModule().GetQRScanViewModel(), m_iOSFlurryMetricsService, m_messageBus);
+    m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)(app.QRScanModule().GetQRScanViewModel(), m_pApp->GetLocationProvider(), m_iOSFlurryMetricsService, m_messageBus);
 
 
     m_pMyPinCreationConfirmationViewModule = Eegeo_NEW(ExampleApp::MyPinCreation::View::MyPinCreationConfirmationViewModule)(m_messageBus,

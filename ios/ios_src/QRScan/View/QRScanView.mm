@@ -24,73 +24,18 @@
 
         self.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
         
-        self.pHeaderView = [[[HeaderView alloc] initWithWidth:200 title:@"Scan Your QR Code"] autorelease];
+        self.pHeaderView = [[[HeaderView alloc] initWithWidth:200 title:@"Scan My Location"] autorelease];
         [self addSubview:self.pHeaderView];
         
         [self.pHeaderView addTarget:self action:@selector(onCloseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
         
-        self.pContentScrollView = [[[UIScrollView alloc] init] autorelease];
-        self.pContentScrollView.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
-        [self addSubview:self.pContentScrollView];
-        
         self.pContentView = [[[UIView alloc] init] autorelease];
         self.pContentView.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
-        [self.pContentScrollView addSubview:self.pContentView];
+        [self addSubview:self.pContentView];
         
-        self.pTextContent = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        self.pTextContent.textColor = ExampleApp::Helpers::ColorPalette::UiTextCopyColor;
-        [self.pContentView addSubview: self.pTextContent];
-        
-        self.pContentSeperator = [[[UIView alloc] init] autorelease];
-        self.pContentSeperator.backgroundColor = ExampleApp::Helpers::ColorPalette::UISeparatorColor;
-        [self.pContentView addSubview:self.pContentSeperator];
-        
-        self.pDevelopedByLabel  = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        self.pDevelopedByLabel.font = [UIFont systemFontOfSize:16.f];
-        self.pDevelopedByLabel.textColor = ExampleApp::Helpers::ColorPalette::UiTextCopyColor;
-        self.pDevelopedByLabel.text = @"Developed by ";
-        [self.pContentView addSubview:self.pDevelopedByLabel];
-        
-        
-        self.pWrldLogoImage = [[[UIImageView alloc] initWithImage:ExampleApp::Helpers::ImageHelpers::LoadImage(@"eegeo_logo_about")] autorelease];
-        self.pWrldLogoImage.userInteractionEnabled = true;
-        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showHiddenText:)];
-        [self.pWrldLogoImage addGestureRecognizer:longPress];
-        [longPress autorelease];
-        [self.pContentView addSubview:self.pWrldLogoImage];
-        
-        self.pLegalLink = [[[UIButton alloc] init] autorelease];
-        [self.pLegalLink addTarget:self action:@selector(legalClickHandler:) forControlEvents:UIControlEventTouchUpInside];
-        [self.pLegalLink setTitle:@"Legal" forState:UIControlStateNormal];
-        [self.pLegalLink setTitleColor:ExampleApp::Helpers::ColorPalette::UiTextTitleColor forState:UIControlStateNormal];
-        self.pLegalLink.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-        self.pLegalLink.titleLabel.textAlignment = NSTextAlignmentLeft;
-        
-        self.pPrivacyLink = [[[UIButton alloc] init] autorelease];
-        [self.pPrivacyLink addTarget:self action:@selector(privacyClickHandler:) forControlEvents:UIControlEventTouchUpInside];
-        [self.pPrivacyLink setTitle:@"Privacy Policy" forState:UIControlStateNormal];
-        [self.pPrivacyLink setTitleColor:ExampleApp::Helpers::ColorPalette::UiTextTitleColor forState:UIControlStateNormal];
-        self.pPrivacyLink.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-        self.pPrivacyLink.titleLabel.textAlignment = NSTextAlignmentLeft;
-        
-        self.pEulaLink = [[[UIButton alloc] init] autorelease];
-        [self.pEulaLink addTarget:self action:@selector(eulaClickHandler:) forControlEvents:UIControlEventTouchUpInside];
-        [self.pEulaLink setTitle:@"EULA" forState:UIControlStateNormal];
-        [self.pEulaLink setTitleColor:ExampleApp::Helpers::ColorPalette::UiTextTitleColor forState:UIControlStateNormal];
-        self.pEulaLink.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-        self.pEulaLink.titleLabel.textAlignment = NSTextAlignmentLeft;
-        
-        self.pTeamLink = [[[UIButton alloc] init] autorelease];
-        [self.pTeamLink addTarget:self action:@selector(teamClickHandler:) forControlEvents:UIControlEventTouchUpInside];
-        [self.pTeamLink setTitle:@"Team" forState:UIControlStateNormal];
-        [self.pTeamLink setTitleColor:ExampleApp::Helpers::ColorPalette::UiTextTitleColor forState:UIControlStateNormal];
-        self.pTeamLink.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
-        self.pTeamLink.titleLabel.textAlignment = NSTextAlignmentLeft;
-        
-        [self.pContentView addSubview:self.pLegalLink];
-        [self.pContentView addSubview:self.pPrivacyLink];
-        [self.pContentView addSubview:self.pEulaLink];
-        [self.pContentView addSubview:self.pTeamLink];
+        self.viewforCamera = [[[UIView alloc] init] autorelease];
+        self.viewforCamera.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
+        [self.pContentView addSubview:self.viewforCamera];
         
     }
 
@@ -102,36 +47,13 @@
     [self.pHeaderView removeFromSuperview];
     [self.pHeaderView release];
     
-    
-    [self.pTextContent removeFromSuperview];
-    [self.pTextContent release];
-    
-    [self.pContentSeperator removeFromSuperview];
-    [self.pContentSeperator release];
-    
-    [self.pDevelopedByLabel removeFromSuperview];
-    [self.pDevelopedByLabel release];
-    
-    [self.pWrldLogoImage removeFromSuperview];
-    [self.pWrldLogoImage release];
-    
-    [self.pLegalLink removeFromSuperview];
-    [self.pLegalLink release];
-    
+    [self.viewforCamera removeFromSuperview];
+    [self.viewforCamera release];
+
+    [self.overlay release];
+
     [self.pContentView removeFromSuperview];
     [self.pContentView release];
-    
-    [self.pContentScrollView removeFromSuperview];
-    [self.pContentScrollView release];
-    
-    [self.pPrivacyLink removeFromSuperview];
-    [self.pPrivacyLink release];
-    
-    [self.pEulaLink removeFromSuperview];
-    [self.pEulaLink release];
-    
-    [self.pTeamLink removeFromSuperview];
-    [self.pTeamLink release];
     
     [self removeFromSuperview];
     [super dealloc];
@@ -142,75 +64,43 @@
 
 - (void)layoutSubviews
 {
-    UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
-    self.frame = [viewController largePopoverFrame];
+//    UIViewController *viewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+//    self.frame = [viewController largePopoverFrame];
+//
+    CGFloat rowHeight = 250;
+    const float boundsWidth = static_cast<float>(self.superview.bounds.size.width);
+    const float boundsHeight = static_cast<float>(self.superview.bounds.size.height);
+    const bool useFullScreenSize = ExampleApp::Helpers::UIHelpers::UsePhoneLayout();
+    const float boundsOccupyWidthMultiplier = useFullScreenSize ? 0.9f : ((2.f/3.f) * 0.6f);
+    const float mainWindowWidth = boundsWidth * boundsOccupyWidthMultiplier;
+    
+    UIEdgeInsets innerMargin = UIEdgeInsetsMake(self.pHeaderView.margin,self.pHeaderView.margin,self.pHeaderView.margin,self.pHeaderView.margin);
+    
+    CGFloat contentY = self.pHeaderView.frame.origin.y +  self.pHeaderView.frame.size.height + 10;
+
+    const CGFloat contentHeight = rowHeight + innerMargin.top + innerMargin.bottom ;
+    const float mainWindowHeight = self.pHeaderView.frame.size.height + contentHeight;
+    
+    const float mainWindowX = (boundsWidth * 0.5f) - (mainWindowWidth * 0.5f);
+    const float mainWindowY = (boundsHeight * 0.5f) - (mainWindowHeight * 0.5f);
+    
+    self.frame = CGRectMake(mainWindowX,
+                            mainWindowY,
+                            mainWindowWidth,
+                            mainWindowHeight);
     
     self.pHeaderView.width = self.frame.size.width;
     [self.pHeaderView layoutIfNeeded];
-    CGFloat seperatorMargin = self.pHeaderView.pHeaderSeparator.frame.origin.x;
-    UIEdgeInsets outerMargin = UIEdgeInsetsMake(seperatorMargin, seperatorMargin, seperatorMargin, seperatorMargin);
-    UIEdgeInsets innerMargin = UIEdgeInsetsMake(self.pHeaderView.margin,self.pHeaderView.margin,self.pHeaderView.margin,self.pHeaderView.margin);
-    CGFloat innerMarginWidth = self.frame.size.width - innerMargin.left - innerMargin.right;
-    CGFloat outerMarginWidth = self.frame.size.width - outerMargin.left - outerMargin.right;
-    CGFloat contentY = self.pHeaderView.frame.origin.y +  self.pHeaderView.frame.size.height;
     
-    self.pContentScrollView.frame = CGRectMake(0.0,
+    
+    self.pContentView.frame = CGRectMake(0.0,
                                                contentY,
                                                self.frame.size.width,
                                                self.frame.size.height - contentY);
     
-    const CGFloat textMarginY  = 14.f;
-    const CGFloat textContentY = textMarginY;
+    CGFloat marginCameraView = 5.0;
+    self.viewforCamera.frame = CGRectMake(marginCameraView, marginCameraView,self.frame.size.width-(2*marginCameraView),(self.frame.size.height - contentY)-(2*marginCameraView));
     
-    self.pTextContent.frame = CGRectMake(innerMargin.left, textContentY, innerMarginWidth, 0.0);
-    self.pTextContent.numberOfLines = 0;
-    self.pTextContent.adjustsFontSizeToFitWidth = NO;
-    self.pTextContent.font = [UIFont systemFontOfSize:14.5f];
-    self.pTextContent.lineBreakMode = NSLineBreakByWordWrapping;
-    
-    [self.pTextContent sizeToFit];
-    
-    CGFloat contentSeperatorY = self.pTextContent.frame.origin.y + self.pTextContent.frame.size.height + textMarginY + 1.f;
-    self.pContentSeperator.frame = CGRectMake(outerMargin.left, contentSeperatorY, outerMarginWidth,1.0);
-    
-    const CGFloat developedByY = self.pContentSeperator.frame.origin.y + self.pContentSeperator.frame.size.height + innerMargin.top;
-    const CGFloat developedByHeight = 16.f;
-    
-    self.pDevelopedByLabel.frame = CGRectMake(innerMargin.left, developedByY, innerMarginWidth, developedByHeight);
-    [self.pDevelopedByLabel sizeToFit];
-    
-    const float wrldLogoWidth = self.pWrldLogoImage.image.size.width;
-    const float wrldLogoHeight = self.pWrldLogoImage.image.size.height;
-    const float wrldLogoX = innerMargin.left;
-    const float wrldLogoY = developedByY + wrldLogoHeight;
-    
-    self.pWrldLogoImage.frame = CGRectMake(wrldLogoX, wrldLogoY, wrldLogoWidth, wrldLogoHeight);
-    
-    contentY = wrldLogoY + wrldLogoHeight + innerMargin.bottom;
-    
-    UIEdgeInsets linkMargin = innerMargin;
-    linkMargin.bottom = 0;
-    
-    contentY = [self layoutLinks:self.pEulaLink atY:contentY margin:linkMargin width:innerMarginWidth];
-    contentY = [self layoutLinks:self.pPrivacyLink atY:contentY margin:linkMargin width:innerMarginWidth];
-    contentY = [self layoutLinks:self.pLegalLink atY:contentY margin:linkMargin width:innerMarginWidth];
-    contentY = [self layoutLinks:self.pTeamLink atY:contentY margin:linkMargin width:innerMarginWidth];
-    
-    self.pContentView.frame = CGRectMake(0.0, 0.0,self.frame.size.width,contentY);
-    
-    self.pContentScrollView.contentSize = self.pContentView.frame.size;
-    
-}
-
--(CGFloat ) layoutLinks:(UIButton *)link atY:(CGFloat) linkY margin:(UIEdgeInsets)margin width:(CGFloat)width
-{
-    link.frame = CGRectMake(margin.left, linkY, width, 16);
-    link.titleLabel.textAlignment = NSTextAlignmentLeft;
-    
-    [link.titleLabel sizeToFit];
-    [link sizeToFit];
-    
-    return link.frame.origin.y + link.frame.size.height + margin.bottom;
 }
 
 - (ExampleApp::QRScan::View::QRScanViewInterop*)getInterop
@@ -220,10 +110,7 @@
 
 - (void) setContent:(const std::string*)content
 {
-    self.pTextContent.text = [[NSString stringWithUTF8String:content->c_str()]
-                              stringByTrimmingCharactersInSet:
-                              [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    [self setNeedsLayout];
+//    [self setNeedsLayout];
 }
 
 - (void) setFullyActive
@@ -234,6 +121,10 @@
     }
 
     [self animateToAlpha:1.f];
+
+    // Start QR Code scanning when active
+    [self startScan];
+
 }
 
 - (void) setFullyInactive
@@ -264,15 +155,17 @@
         self.alpha = alpha;
     }
      completion:^(BOOL finished) {
-         // Stop scrolling
-         CGPoint offset = self.pContentScrollView.contentOffset;
-         [self.pContentScrollView setContentOffset:offset animated:NO];
+         
      }];
 }
 
 - (void)onCloseButtonTapped
 {
+    //wrld://fixedlocation/indoor/31.496739/74.421984/EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1/0
+    [self stopReading];
+    _isReading = NO;
     m_pInterop->CloseTapped();
+//    m_pInterop->OnQRScanCompleted("fixedlocation/indoor",31.496739,74.421984,"EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1",0);
 }
 
 - (void)showHiddenText:(UILongPressGestureRecognizer*)gesture
@@ -283,24 +176,159 @@
     }
 }
 
-- (void) privacyClickHandler:(id) sender
+#pragma mark - Private Methods And QR Scanning
+
+- (void)addOverlay
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/privacy/"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.viewforCamera.frame.size.width, self.viewforCamera.frame.size.height)];
+    [imageView setImage:[UIImage imageNamed:@"scan_outline.png"]];
+    [self.viewforCamera.layer insertSublayer:imageView.layer above:_videoPreviewLayer];
 }
 
-- (void) eulaClickHandler:(id) sender
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/tos/"]];
+- (void)startScan {
+    
+    if (!_isReading)
+    {
+        if ([self startReading])
+        {
+            NSLog(@"Scanning for QR Code...");
+        }else{
+            NSLog(@"FailedScanning for QR Code...");
+        }
+    }
+    else
+    {
+        [self stopReading];
+    }
+    _isReading = !_isReading;
 }
 
-- (void) legalClickHandler:(id) sender
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/legal/"]];
+-(BOOL)startReading{
+    NSError *error;
+    
+    AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    
+    if (captureDevice.position == AVCaptureDevicePositionBack) {
+        NSLog(@"back camera");
+    }else if (captureDevice.position == AVCaptureDevicePositionFront){
+        NSLog(@"Front Camera");
+    }else{
+        NSLog(@"Unspecified");
+    }
+    
+    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
+    
+    if (!input)
+        
+    {
+        NSLog(@"%@", [error localizedDescription]);
+        return NO;
+    }
+    
+    _captureSession = [[AVCaptureSession alloc] init];
+    
+    [_captureSession addInput:input];
+    
+    AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
+    
+    [_captureSession addOutput:captureMetadataOutput];
+    
+    dispatch_queue_t dispatchQueue;
+    
+    dispatchQueue = dispatch_queue_create("myQueue", NULL);
+    
+    [captureMetadataOutput setMetadataObjectsDelegate:self queue:dispatchQueue];
+    
+    [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
+    
+    
+    _videoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_captureSession];
+    
+    [_videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+    
+    [_videoPreviewLayer setFrame:_viewforCamera.layer.bounds];
+    
+    [_viewforCamera.layer addSublayer:_videoPreviewLayer];
+    
+    [_captureSession startRunning];
+    
+    [self addOverlay];
+    
+    
+    return YES;
+    
 }
 
-- (void) teamClickHandler:(id) sender
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://www.wrld3d.com/team/"]];
+
+-(void)stopReading{
+    [_captureSession stopRunning];
+    _captureSession = nil;
+    [_videoPreviewLayer removeFromSuperlayer];
 }
+
+-(void)playBeepSound
+{
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);//http://iphonedevwiki.net/index.php/AudioServices
+}
+
+-(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
+{
+    if (metadataObjects != nil && [metadataObjects count] > 0) {
+        
+        AVMetadataMachineReadableCodeObject *metadataObj = [metadataObjects objectAtIndex:0];
+        
+        if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode]) {
+            
+            [self playBeepSound];
+            NSString * qrString = [metadataObj stringValue];
+            
+            if ([qrString containsString:@"fixedlocation"]) {
+                NSLog(@"QR Scanned %@",qrString);
+                [self performSelectorOnMainThread:@selector(onQRScanCompleted:) withObject:qrString waitUntilDone:NO];
+            }
+            else
+                
+            {
+                //you can show your custom alert like - there is no HTTP link present in the QR Code. //
+                NSLog(@"Not Valid QR Scanned %@",qrString);
+                [self performSelectorOnMainThread:@selector(onQRScanCompleted:) withObject:nil waitUntilDone:NO];
+            }
+            
+//            [self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
+            
+        }
+        
+    }
+}
+
+-(void)onQRScanCompleted:(NSString *)resultScanned
+{
+    if (resultScanned != nil && _isReading)
+    {
+        [self stopReading];
+        _isReading = NO;
+        NSLog(@"QR Scanned %@",resultScanned);
+        NSURL *url  = [[NSURL alloc] initWithString:resultScanned];
+        NSString *host = [url host];
+        NSArray *params = [url pathComponents];
+        NSLog(@"QR Scanned*********params: %@,%@",host,params);
+        m_pInterop->OnQRScanCompleted("fixedlocation/indoor",31.496739,74.421984,"EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1",0);
+
+        m_pInterop->CloseTapped();
+    }else{
+        NSLog(@"QR Scanned*********Invalid:");
+        [self notifyInvalidQRCode];
+    }
+}
+- (void) notifyInvalidQRCode
+{
+    UIAlertController *alertController = ExampleApp::Helpers::UIHelpers::CreateSimpleAlert(@"Invalid QR Code",
+                                                                                           @"Please scan a valid QR code.",
+                                                                                           @"OK");
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    UIViewController *viewController = window.rootViewController;
+    [viewController presentViewController:alertController animated:YES completion:nil];
+}
+
 
 @end

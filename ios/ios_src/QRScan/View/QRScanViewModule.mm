@@ -12,10 +12,10 @@ namespace ExampleApp
     {
         namespace View
         {
-            QRScanViewModule::QRScanViewModule(IQRScanViewModel& qrScanViewModel, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus)
+            QRScanViewModule::QRScanViewModule(IQRScanViewModel& qrScanViewModel,         LocationProvider::ILocationProvider& locationProvider, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus)
             {
                 m_pView = [[QRScanView alloc] initView];
-                m_pController = Eegeo_NEW(QRScanController)(*[m_pView getInterop], qrScanViewModel, metricsService, messageBus);
+                m_pController = Eegeo_NEW(QRScanController)(*[m_pView getInterop], qrScanViewModel,locationProvider, metricsService, messageBus);
             }
 
             QRScanViewModule::~QRScanViewModule()
