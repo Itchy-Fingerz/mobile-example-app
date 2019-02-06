@@ -27,11 +27,6 @@ namespace ExampleApp
             {
                 [m_pView setFullyInactive];
             }
-
-            void QRScanViewInterop::SetContent(const std::string& content)
-            {
-                [m_pView setContent:&content];
-            }
             
             void QRScanViewInterop::OnQRScanCompleted(const std::string& host, double lat, double lng, const std::string& buildingId, double orientation)
             {
@@ -42,11 +37,6 @@ namespace ExampleApp
                 
                 m_qrScanCompletedCallbacks.ExecuteCallbacks(host, buildingId, positionMap);
             }
-            
-            void QRScanViewInterop::ShowHiddenText()
-            {
-                m_hiddenTextCallbacks.ExecuteCallbacks();
-            }
 
             void QRScanViewInterop::InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)
             {
@@ -56,16 +46,6 @@ namespace ExampleApp
             void QRScanViewInterop::RemoveCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)
             {
                 m_callbacks.RemoveCallback(callback);
-            }
-            
-            void QRScanViewInterop::InsertLogoLongPressCallback(Eegeo::Helpers::ICallback0& callback)
-            {
-                m_hiddenTextCallbacks.AddCallback(callback);
-            }
-            
-            void QRScanViewInterop::RemoveLogoLongPressCallback(Eegeo::Helpers::ICallback0& callback)
-            {
-                m_hiddenTextCallbacks.RemoveCallback(callback);
             }
             
             void QRScanViewInterop::InsertOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback)

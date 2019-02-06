@@ -108,11 +108,6 @@
     return m_pInterop;
 }
 
-- (void) setContent:(const std::string*)content
-{
-//    [self setNeedsLayout];
-}
-
 - (void) setFullyActive
 {
     if(self.alpha == 1.f)
@@ -166,14 +161,6 @@
     _isReading = NO;
     m_pInterop->CloseTapped();
 //    m_pInterop->OnQRScanCompleted("fixedlocation/indoor",31.496739,74.421984,"EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1",0);
-}
-
-- (void)showHiddenText:(UILongPressGestureRecognizer*)gesture
-{
-    if ( gesture.state == UIGestureRecognizerStateEnded )
-    {
-        m_pInterop->ShowHiddenText();
-    }
 }
 
 #pragma mark - Private Methods And QR Scanning

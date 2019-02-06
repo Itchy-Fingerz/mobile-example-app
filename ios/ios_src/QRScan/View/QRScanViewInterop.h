@@ -19,7 +19,6 @@ namespace ExampleApp
             private:
                 QRScanView* m_pView;
                 Eegeo::Helpers::CallbackCollection0 m_callbacks;
-                Eegeo::Helpers::CallbackCollection0 m_hiddenTextCallbacks;
                 Eegeo::Helpers::CallbackCollection3<const std::string&, const std::string&,
                             const std::map<std::string, double>&> m_qrScanCompletedCallbacks;
 
@@ -32,19 +31,11 @@ namespace ExampleApp
 
                 void Close();
 
-                void SetContent(const std::string& content);
-                
-                void ShowHiddenText();
-                
                 void OnQRScanCompleted(const std::string& host, double lat, double lng, const std::string& buildingId, double orientation);
 
                 void InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback);
 
                 void RemoveCloseTappedCallback(Eegeo::Helpers::ICallback0& callback);
-                
-                void InsertLogoLongPressCallback(Eegeo::Helpers::ICallback0& callback);
-                
-                void RemoveLogoLongPressCallback(Eegeo::Helpers::ICallback0& callback);
                 
                 void InsertOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback);
                 

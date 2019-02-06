@@ -24,15 +24,11 @@
 
 - (BOOL) consumesTouch:(UITouch *)touch;
 
-- (void) setContent:(const std::string*)content;
-
 - (void) setFullyActive;
 
 - (void) setFullyInactive;
 
 - (void) setActiveStateToIntermediateValue:(float)activeState;
-
-- (void) showHiddenText:(UILongPressGestureRecognizer*)gesture;
 
 - (ExampleApp::QRScan::View::QRScanViewInterop*) getInterop;
 
