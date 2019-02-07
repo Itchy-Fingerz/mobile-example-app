@@ -120,6 +120,7 @@ set(ios_frameworks
   Security
   CoreMotion
   CoreBluetooth
+  AudioToolbox
   IndoorAtlas
   SLIndoorLocation
   HockeySDK

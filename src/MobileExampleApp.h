@@ -98,6 +98,8 @@
 #include "UiCreatedMessage.h"
 #include "MapCamera.h"
 #include "ILocationProvider.h"
+#include "QRScanModule.h"
+#include "IQRScanMenuModule.h"
 
 namespace ExampleApp
 {
@@ -176,7 +178,9 @@ namespace ExampleApp
         InteriorsExplorer::SdkModel::Highlights::InteriorEntityHighlightController* m_pInteriorsHighlightVisibilityController;
         InteriorsExplorer::SdkModel::Highlights::IHighlightColorMapper* m_pHighlightColorMapper;
         ExampleApp::InitialLocation::SdkModel::IInitialLocationModel* m_pInitialLocationModel;
-        
+        QRScan::SdkModel::IQRScanMenuModule* m_pQRScanMenuModule;
+        ExampleApp::QRScan::View::IQRScanModule* m_pQRScanModule;
+
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
@@ -412,6 +416,11 @@ namespace ExampleApp
         const Mapscene::SdkModel::MapsceneModule& GetMapsceneModule() const
         {
             return *m_pMapsceneModule;
+        }
+
+        const ExampleApp::QRScan::View::IQRScanModule& QRScanModule() const
+        {
+            return *m_pQRScanModule;
         }
         
         // Exposed to allow view model creation in iOS code.

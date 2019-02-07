@@ -60,6 +60,8 @@
 #include "NavWidgetViewIncludes.h"
 #include "NavWidgetViewModule.h"
 #include "ILocationService.h"
+#include "QRScanViewIncludes.h"
+
 
 @class ViewController;
 class AppInputDelegate;
@@ -129,6 +131,7 @@ private:
     ExampleApp::PersistentSettings::iOSPersistentSettingsModel m_iOSPersistentSettingsModel;
     ExampleApp::InitialExperience::SdkModel::IInitialExperienceModule* m_pInitialExperienceModule;
     ExampleApp::AboutPage::View::IAboutPageViewModule* m_pAboutPageViewModule;
+    ExampleApp::QRScan::View::IQRScanViewModule* m_pQRScanViewModule;
     ExampleApp::MyPinCreation::View::IMyPinCreationConfirmationViewModule* m_pMyPinCreationConfirmationViewModule;
     ExampleApp::MyPinCreationDetails::View::IMyPinCreationDetailsViewModule* m_pMyPinCreationDetailsViewModule;
     ExampleApp::MyPinDetails::View::IMyPinDetailsViewModule* m_pMyPinDetailsViewModule;
