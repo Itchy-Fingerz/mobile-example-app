@@ -137,15 +137,5 @@
         }
         ]
     }
-    ],
-    "fixed_indoor_location": {
-        "interior_id": "EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1",
-        "building_floor_index": 0,
-        "orientation_degrees": 180,
-        "location_distance": 500,
-        "location_degrees": {
-            "latitude": 37.7858,
-            "longitude": -122.401
-        }
-    }
+    ]
 }
