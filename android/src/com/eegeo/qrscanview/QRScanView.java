@@ -122,16 +122,6 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
         m_uiRoot.removeView(m_view);
     }
 
-    public void displayContent(final String content)
-    {
-
-    }
-
-    public void showHiddenText()
-    {
-        QRScanViewJniMethods.LogoLongPress(m_nativeCallerPointer);
-    }
-
     public void openQRScan()
     {
         m_closeButton.setEnabled(true);

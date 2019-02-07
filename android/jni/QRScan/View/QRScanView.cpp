@@ -74,21 +74,6 @@ namespace ExampleApp
                 env->CallVoidMethod(m_uiView, dismissPoiInfo);
             }
 
-            void QRScanView::SetContent(const std::string& content)
-            {
-                ASSERT_UI_THREAD
-
-                AndroidSafeNativeThreadAttachment attached(m_nativeState);
-                JNIEnv* env = attached.envForThread;
-
-                jstring contentStr = env->NewStringUTF(content.c_str());
-
-                jmethodID displayContentInfo = env->GetMethodID(m_uiViewClass, "displayContent", "(Ljava/lang/String;)V");
-                env->CallVoidMethod(m_uiView, displayContentInfo, contentStr);
-
-                env->DeleteLocalRef(contentStr);
-            }
-
             void QRScanView::OnQRScanCompleted(const std::string& host, double lat, double lng, const std::string& buildingId, double orientation)
             {
                 ASSERT_UI_THREAD
@@ -101,12 +86,6 @@ namespace ExampleApp
                 m_qrScanCompletedCallbacks.ExecuteCallbacks(host, buildingId, positionMap);
             }
 
-            void QRScanView::ShowHiddenText()
-            {
-                ASSERT_UI_THREAD
-                m_hiddenTextCallbacks.ExecuteCallbacks();
-            }
-
             void QRScanView::InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)
             {
                 ASSERT_UI_THREAD
@@ -117,18 +96,6 @@ namespace ExampleApp
             {
                 ASSERT_UI_THREAD
                 m_callbacks.RemoveCallback(callback);
-            }
-
-            void QRScanView::InsertLogoLongPressCallback(Eegeo::Helpers::ICallback0 &callback)
-            {
-                ASSERT_UI_THREAD
-                m_hiddenTextCallbacks.AddCallback(callback);
-            }
-
-            void QRScanView::RemoveLogoLongPressCallback(Eegeo::Helpers::ICallback0 &callback)
-            {
-                ASSERT_UI_THREAD
-                m_hiddenTextCallbacks.RemoveCallback(callback);
             }
 
             void QRScanView::InsertOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback)

@@ -14,16 +14,6 @@ JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_CloseButto
     pView->CloseTapped();
 }
 
-JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_LogoLongPress(
-        JNIEnv* jenv, jobject obj,
-        jlong nativeObjectPtr)
-{
-    ASSERT_UI_THREAD
-
-    ExampleApp::QRScan::View::QRScanView* pView = reinterpret_cast<ExampleApp::QRScan::View::QRScanView*>(nativeObjectPtr);
-    pView->ShowHiddenText();
-}
-
 JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_OnQRScan(
         JNIEnv* jenv, jobject obj,
         jlong nativeObjectPtr, jstring host, jdouble latitude, jdouble longitude, jstring buildingId, jdouble orientation)
