@@ -99,6 +99,7 @@
 #include "MapCamera.h"
 #include "ILocationProvider.h"
 #include "IPoiDbModule.h"
+#include "EegeoPoiSetSearchServiceModule.h"
 
 namespace ExampleApp
 {
@@ -180,6 +181,7 @@ namespace ExampleApp
         
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         ExampleApp::PoiDb::SdkModel::IPoiDbModule* m_pPoiDbModule;
+        Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchServiceModule* m_peegeoSetServiceModule;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
         Net::SdkModel::ConnectivityChangedObserver* m_pConnectivityChangedObserver;

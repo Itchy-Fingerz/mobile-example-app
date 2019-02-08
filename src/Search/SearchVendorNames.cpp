@@ -9,6 +9,7 @@ namespace ExampleApp
         const std::string YelpVendorName = "Yelp";
         const std::string GeoNamesVendorName = "GeoNames";
         const std::string EegeoVendorName = "eeGeo";
+        const std::string EegeoOfflineVendorName = "eeGeoOffline";
         
         const std::string InteriorVendorName = "Interior";
         const std::string MyPinVendorName = "MyPin";

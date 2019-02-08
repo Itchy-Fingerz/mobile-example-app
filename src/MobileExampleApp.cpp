@@ -141,6 +141,8 @@
 #include "LocationProvider.h"
 #include "WhitelistUrlHelpersNative.h"
 #include "PoiDbModule.h"
+#include "EegeoPoiSetSearchServiceModule.h"
+#include "EegeoPoisLocalDBModule.h"
 
 namespace ExampleApp
 {
@@ -523,6 +525,10 @@ namespace ExampleApp
         Eegeo_DELETE m_pWorld;
 
         Eegeo_DELETE m_pCurrentLocationService;
+        
+        Eegeo_DELETE m_peegeoSetServiceModule;
+        
+        Eegeo_DELETE m_pPoiDbModule;
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
@@ -577,6 +583,14 @@ namespace ExampleApp
         {
             m_searchServiceModules[Search::EegeoVendorName] = eegeoSearchServiceModule;
         }
+        
+        //TODO: will move service url in config and performLocation serach for db insertion as per requirement
+        m_peegeoSetServiceModule = Eegeo_NEW(Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),m_networkCapabilities,searchTags,m_applicationConfiguration.EegeoSearchServiceUrl());
+        
+        m_peegeoSetServiceModule->GetSearchService().PerformLocationSearchForDBInsertion();
+        
+
+
 
         const bool useYelpSearch = true;
         if (useYelpSearch)
@@ -593,10 +607,19 @@ namespace ExampleApp
                                                                                                                                       );
         }
 
-        m_pSearchServiceModule = Eegeo_NEW(Search::Combined::SdkModel::CombinedSearchServiceModule)(m_searchServiceModules, mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel());
-
         
 
+        m_pPoiDbModule = Eegeo_NEW(ExampleApp::PoiDb::SdkModel::PoiDbModule)(m_platformAbstractions.GetFileIO(), m_peegeoSetServiceModule->GetSearchService());
+        
+        Search::EegeoPoisLocalDB::SdkModel::EegeoPoisLocalDBModule* eegeoePoisLocalDBModule = Eegeo_NEW(Search::EegeoPoisLocalDB::SdkModel::EegeoPoisLocalDBModule)(m_networkCapabilities,searchTags,m_pPoiDbModule->GetPoiDbServiceProvider());
+        const bool useEegeoPoisSetService = true;
+        if(useEegeoPoisSetService)
+        {
+            m_searchServiceModules[Search::EegeoOfflineVendorName] = eegeoePoisLocalDBModule;
+        }
+
+        m_pSearchServiceModule = Eegeo_NEW(Search::Combined::SdkModel::CombinedSearchServiceModule)(m_searchServiceModules, mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel());
+        
         Eegeo::Modules::Map::CityThemesModule& cityThemesModule = world.GetCityThemesModule();
 
 

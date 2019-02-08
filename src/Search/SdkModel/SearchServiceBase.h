@@ -18,6 +18,7 @@ namespace ExampleApp
             {
                 Eegeo::Helpers::CallbackCollection1<const SearchQuery&> m_queryPerformedCallbacks;
                 Eegeo::Helpers::CallbackCollection3<const bool&, const SearchQuery&, const std::vector<SearchResultModel>& > m_queryResponseReceivedCallbacks;
+                Eegeo::Helpers::CallbackCollection3<const bool&, const SearchQuery&, const std::vector<SearchResultModel>& > m_queryResponseReceivedForLocalDBCallbacks;
 
             protected:
                 SearchServiceBase(const std::vector<std::string>& handledTags, bool canHandleCustomTags = false);
@@ -27,6 +28,9 @@ namespace ExampleApp
                 void ExecuteQueryPerformedCallbacks(const SearchQuery& query);
 
                 void ExecutQueryResponseReceivedCallbacks(const bool& didSucceed, const SearchQuery& query, const std::vector<SearchResultModel>& results);
+                
+                void ExecutQueryResponseReceivedForLocalDBCallbacks(const bool& didSucceed, const SearchQuery& query, const std::vector<SearchResultModel>& results);
+
                 
                 std::vector<std::string> m_handledTags;
                 bool m_canHandleCustomTags;
@@ -44,6 +48,7 @@ namespace ExampleApp
                 void InsertOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback3<const bool&, const SearchQuery&, const std::vector<SearchResultModel>& >& callback);
 
                 void RemoveOnReceivedQueryResultsCallback(Eegeo::Helpers::ICallback3<const bool&, const SearchQuery&, const std::vector<SearchResultModel>& >& callback);
+
             };
         }
     }
