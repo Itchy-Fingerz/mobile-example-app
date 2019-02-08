@@ -2,6 +2,7 @@
 
 #include "QRScanController.h"
 #include "LatLongAltitude.h"
+#include "InteriorsExplorer.h"
 
 namespace ExampleApp
 {
@@ -36,7 +37,12 @@ namespace ExampleApp
                 double longitude = location.find("longitude")->second;
                 double orientation = location.find("orientation")->second;
 
-                m_locationProvider.EnableFixedLocation(Eegeo::Space::LatLong::FromDegrees(latitude, longitude),buildingId,0,orientation);
+                Eegeo::Space::LatLong loc = Eegeo::Space::LatLong::FromDegrees(latitude, longitude);
+                m_locationProvider.EnableFixedLocation(loc,buildingId,0,orientation);
+                m_cameraTransitionController.StartTransitionTo(loc.ToECEF(),
+                        InteriorsExplorer::DefaultInteriorSearchResultTransitionInterestDistance,
+                        buildingId,
+                        0);
             }
             
             void QRScanController::OnAppModeChanged(const AppModes::AppModeChangedMessage &message)
@@ -49,11 +55,13 @@ namespace ExampleApp
 
             QRScanController::QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
                                                LocationProvider::ILocationProvider& locationProvider,
+                                               CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
                                                Metrics::IMetricsService& metricsService,
                                                ExampleAppMessaging::TMessageBus& messageBus)
                 : m_view(view)
                 , m_viewModel(viewModel)
                 , m_locationProvider(locationProvider)
+                , m_cameraTransitionController(cameraTransitionController)
                 , m_metricsService(metricsService)
                 , m_viewClosed(this, &QRScanController::OnClose)
                 , m_viewOpened(this, &QRScanController::OnOpen)

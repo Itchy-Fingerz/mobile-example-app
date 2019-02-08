@@ -624,6 +624,7 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
                                     m_nativeState,
                                     app.QRScanModule().GetQRScanViewModel(),
                                     m_pApp->GetLocationProvider(),
+                                    m_pApp->CameraTransitionController(),
                                     *m_pAndroidFlurryMetricsService,
                                     m_messageBus);
 
