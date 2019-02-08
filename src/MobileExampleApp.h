@@ -98,6 +98,7 @@
 #include "UiCreatedMessage.h"
 #include "MapCamera.h"
 #include "ILocationProvider.h"
+#include "IPoiDbModule.h"
 
 namespace ExampleApp
 {
@@ -178,6 +179,7 @@ namespace ExampleApp
         ExampleApp::InitialLocation::SdkModel::IInitialLocationModel* m_pInitialLocationModel;
         
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
+        ExampleApp::PoiDb::SdkModel::IPoiDbModule* m_pPoiDbModule;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
         Net::SdkModel::ConnectivityChangedObserver* m_pConnectivityChangedObserver;

@@ -140,6 +140,7 @@
 #include "ReactionPushScreenControl.h"
 #include "LocationProvider.h"
 #include "WhitelistUrlHelpersNative.h"
+#include "PoiDbModule.h"
 
 namespace ExampleApp
 {
@@ -286,6 +287,7 @@ namespace ExampleApp
     , m_platformLocationService(platformLocationService)
     , m_pCurrentLocationService(NULL)
     , m_pLocationProvider(NULL)
+    , m_pPoiDbModule(NULL)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
