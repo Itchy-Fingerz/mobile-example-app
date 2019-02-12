@@ -314,7 +314,7 @@
         }
         m_pInterop->CloseTapped();
     }
-    else
+    else if (resultScanned == nil)
     {
         NSLog(@"QR Scanned*********Invalid:");
         [self notifyInvalidQRCode];

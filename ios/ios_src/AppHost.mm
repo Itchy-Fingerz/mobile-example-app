@@ -380,7 +380,11 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 
     m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService, m_messageBus);
     
-    m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)(app.QRScanModule().GetQRScanViewModel(), m_pApp->GetLocationProvider(), m_iOSFlurryMetricsService, m_messageBus);
+    m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)
+                                    (app.QRScanModule().GetQRScanViewModel(),
+                                    m_pApp->GetLocationProvider(),
+                                    m_pApp->CameraTransitionController(),
+                                    m_iOSFlurryMetricsService, m_messageBus);
 
 
     m_pMyPinCreationConfirmationViewModule = Eegeo_NEW(ExampleApp::MyPinCreation::View::MyPinCreationConfirmationViewModule)(m_messageBus,

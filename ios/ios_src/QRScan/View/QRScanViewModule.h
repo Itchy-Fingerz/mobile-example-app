@@ -8,6 +8,7 @@
 #include "IMetricsService.h"
 #include "BidirectionalBus.h"
 #include "ILocationProvider.h"
+#include "ICameraTransitionController.h"
 
 namespace ExampleApp
 {
@@ -24,6 +25,7 @@ namespace ExampleApp
             public:
                 QRScanViewModule(IQRScanViewModel& qrScanViewModel,
                                  LocationProvider::ILocationProvider& locationProvider,
+                                 CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
                                  Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~QRScanViewModule();
