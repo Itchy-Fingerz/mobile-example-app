@@ -26,7 +26,7 @@ namespace ExampleApp
             
             void PoiDbService::fetchAllRecords(const Search::SdkModel::SearchQuery& query, std::vector<Search::SdkModel::SearchResultModel>& outPutResults)
             {
-                Sqlite::SqliteTableQuery fetchRecordsQuery = m_sqliteQueryBuilder.BuildQuery_FetchRecords(m_sqliteDbTable, query.Query(), true);
+                Sqlite::SqliteTableQuery fetchRecordsQuery = m_sqliteQueryBuilder.BuildQuery_FetchRecords(m_sqliteDbTable, query.Query(), query.IsTag());
                 
                 fetchRecordsQuery.Execute(outPutResults);                
                 return;

@@ -93,10 +93,31 @@ namespace ExampleApp
             
             SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag)
             {
-                PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), "SELECT * FROM POIS");
+                std::stringstream query;
+                query << "SELECT * FROM ";
+                query << table.GetTableName();
+                
+                if (queryString != "")
+                {
+                    if(isTag)
+                    {
+                        query << " WHERE tags LIKE '%";
+                        query << queryString;
+                        query << "%'";
+                    }
+                    else
+                    {
+                        query << " WHERE title LIKE '%";
+                        query << queryString;
+                        query << "%' ";
+                        query << " OR subtitle LIKE '%";
+                        query << queryString;
+                        query << "%' ";
+                    }
+                }
+                PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), query.str());
                 return tableQuery;
             }
-            
         }
     }
 }
