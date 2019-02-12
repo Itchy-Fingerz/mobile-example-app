@@ -10,6 +10,7 @@
 #include "IMetricsService.h"
 #include "BidirectionalBus.h"
 #include "ILocationProvider.h"
+#include "ICameraTransitionController.h"
 
 namespace ExampleApp
 {
@@ -23,6 +24,7 @@ namespace ExampleApp
                 IQRScanView& m_view;
                 IQRScanViewModel& m_viewModel;
                 LocationProvider::ILocationProvider& m_locationProvider;
+                CameraTransitions::SdkModel::ICameraTransitionController& m_cameraTransitionController;
 
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewOpened;
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewClosed;
@@ -42,7 +44,7 @@ namespace ExampleApp
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
 
             public:
-                QRScanController(IQRScanView& view, IQRScanViewModel& viewModel, LocationProvider::ILocationProvider& locationProvider, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
+                QRScanController(IQRScanView& view, IQRScanViewModel& viewModel, LocationProvider::ILocationProvider& locationProvider, CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~QRScanController();
             };
