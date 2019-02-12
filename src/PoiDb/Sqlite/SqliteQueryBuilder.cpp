@@ -24,7 +24,8 @@ namespace ExampleApp
                 
             }
             
-            SqliteTableQuery SqliteQueryBuilder::BuildQuery_CreateTable(SqliteTable& table) {
+            SqliteTableQuery SqliteQueryBuilder::BuildQuery_CreateTable(SqliteTable& table)
+            {
                 
                 std::stringstream query;
                 query << "CREATE TABLE IF NOT EXISTS '";
@@ -49,7 +50,8 @@ namespace ExampleApp
                 return tableQuery;
             }
             
-            SqliteTableQuery SqliteQueryBuilder::BuildQuery_CreateInsertRecord(SqliteTable& table, std::string poi_id, std::string title, std::string sub_title, double lat, double lng, bool isInterior, const std::string interiorId, const int floor, const double height_terrain ,const std::string tagIconKey, std::string tags, std::string readeableTags,std::string userData) {
+            SqliteTableQuery SqliteQueryBuilder::BuildQuery_CreateInsertRecord(SqliteTable& table, std::string poi_id, std::string title, std::string sub_title, double lat, double lng, bool isInterior, const std::string interiorId, const int floor, const double height_terrain ,const std::string tagIconKey, std::string tags, std::string readeableTags,std::string userData)
+            {
                 
                 std::stringstream query;
                 query << "INSERT OR REPLACE INTO '";
@@ -87,6 +89,12 @@ namespace ExampleApp
                 PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), query.str());
                 return tableQuery;
                 
+            }
+            
+            SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag)
+            {
+                PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), "SELECT * FROM POIS");
+                return tableQuery;
             }
             
         }

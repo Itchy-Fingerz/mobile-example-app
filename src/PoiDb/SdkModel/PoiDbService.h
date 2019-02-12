@@ -18,7 +18,9 @@ namespace ExampleApp
             class PoiDbService: public IPoiDbService, private Eegeo::NonCopyable
             {
             private:
-                Sqlite::SqliteDbConnection& m_pSqliteDbConnection;
+//                Sqlite::SqliteDbConnection& m_sqliteDbConnection;
+                Sqlite::SqliteTable& m_sqliteDbTable;
+                Sqlite::SqliteQueryBuilder& m_sqliteQueryBuilder;
                 
             public:
                 PoiDbService(Sqlite::SqliteDbConnection* pSqliteDbConnection, Sqlite::SqliteTable* pSqliteDbTable, Sqlite::SqliteQueryBuilder* pSqliteQueryBuilder);

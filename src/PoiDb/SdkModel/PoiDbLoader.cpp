@@ -18,10 +18,10 @@ namespace ExampleApp
             std::string GetStringForTags(const std::vector<std::string>& tags)
             {
                 std::string returnString = "";
-                for(size_t i = 0; i < tags.size()-1; ++i)
+                for(size_t i = 0; i < tags.size(); i++)
                 {
                     returnString += tags[i];
-                    if(i != tags.size()-2)
+                    if(i < (tags.size()-1))
                     {
                          returnString += ",";
                     }

@@ -45,7 +45,7 @@ namespace ExampleApp
                         std::vector<Search::SdkModel::SearchResultModel> outPutResults;
                         if(m_dbServiceProvider.IsPoiDbServiceStarted()) {
                             ExampleApp::PoiDb::SdkModel::IPoiDbService* service = NULL;
-                            m_dbServiceProvider.TryGetService(service);//
+                            m_dbServiceProvider.TryGetService(service);
                             if(service != NULL)
                             {
                                 service->fetchAllRecords(query,outPutResults);

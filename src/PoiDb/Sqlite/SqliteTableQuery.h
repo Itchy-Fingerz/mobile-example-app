@@ -4,8 +4,7 @@
 
 #include "Sqlite.h"
 #include <string>
-#include "Types.h"
-
+#include "Search.h"
 
 namespace ExampleApp
 {
@@ -25,6 +24,7 @@ namespace ExampleApp
                 ~SqliteTableQuery();
                 
                 bool Execute();
+                bool Execute(std::vector<ExampleApp::Search::SdkModel::SearchResultModel>& outPutResults);
             };
         }
     }
