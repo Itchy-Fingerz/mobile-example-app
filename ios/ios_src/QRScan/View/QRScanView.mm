@@ -271,14 +271,11 @@
             NSString * qrString = [metadataObj stringValue];
             
             if ([qrString containsString:@"fixedlocation"]) {
-                NSLog(@"QR Scanned %@",qrString);
                 [self performSelectorOnMainThread:@selector(onQRScanCompleted:) withObject:qrString waitUntilDone:NO];
             }
-            else
-                
+            else                
             {
                 //you can show your custom alert like - there is no HTTP link present in the QR Code. //
-                NSLog(@"Not Valid QR Scanned %@",qrString);
                 [self performSelectorOnMainThread:@selector(onQRScanCompleted:) withObject:nil waitUntilDone:NO];
             }
             
@@ -293,30 +290,44 @@
     {
         [self stopReading];
         _pIsReading = NO;
-        NSLog(@"QR Scanned %@",resultScanned);
+        
         NSURL *url  = [[NSURL alloc] initWithString:resultScanned];
-        NSArray *params = [url pathComponents];
-        NSLog(@"QR Scanned*********params: %@",params);
-        //TODO Need to parse actual scheme deep link data once it is confirmed
-        if (params.count == 6) // Currently assuming we will have 6 total path components
+        NSArray *pathComponents = [url pathComponents];
+
+        if (pathComponents != nil && pathComponents.count >=6) // Currently assuming we will have 6 total path components
         {
-            NSString *locationMode = params[1];
-            double lat = [params[2] doubleValue];
-            double lon = [params[3] doubleValue];
-            NSString *indoorId = params[4];
-            NSInteger orientation = [params[5] integerValue];
-            m_pInterop->OnQRScanCompleted([locationMode UTF8String],lat,lon,[indoorId UTF8String],orientation);
-        }
-        else
+            NSString *locationMode = pathComponents[1];
+            if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 8) //7
+            {
+                double lat = [pathComponents[2] doubleValue];
+                double lon = [pathComponents[3] doubleValue];
+                NSString *indoorId = pathComponents[4];
+                int floorIndex = [pathComponents[5] intValue];
+                double orientation = [pathComponents[6] doubleValue];
+                double zoomLevel = [pathComponents[7] doubleValue];
+                
+                m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
+                m_pInterop->CloseTapped();
+            }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6) //5
+            {
+                double lat = [pathComponents[2] doubleValue];
+                double lon = [pathComponents[3] doubleValue];
+                double orientation = [pathComponents[4] doubleValue];
+                double zoomLevel = [pathComponents[5] doubleValue];
+
+                m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel);
+                m_pInterop->CloseTapped();
+            }else
+            {
+                 [self notifyInvalidQRCode];
+            }
+        }else
         {
-            //Temporary else condition for testing purpose
-            m_pInterop->OnQRScanCompleted("indoor",31.496739,74.421984,"EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1",0);
+            [self notifyInvalidQRCode];
         }
-        m_pInterop->CloseTapped();
     }
     else if (resultScanned == nil)
     {
-        NSLog(@"QR Scanned*********Invalid:");
         [self notifyInvalidQRCode];
     }
 }
