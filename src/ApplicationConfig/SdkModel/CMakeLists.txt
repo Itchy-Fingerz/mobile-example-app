@@ -22,6 +22,7 @@ set(currsources
   ../src/ApplicationConfig/SdkModel/ApplicationFixedIndoorLocation.cpp
   ../src/ApplicationConfig/SdkModel/ApplicationFixedIndoorLocation.h
   ../src/ApplicationConfig/SdkModel/ApplicationMenuItemTagSearchConfig.h
+  ../src/ApplicationConfig/SdkModel/ApplicationDataSetConfig.h
 )
 set(sources ${sources} ${currsources})
 source_group(\\src\\ApplicationConfig\\SdkModel FILES ${currsources})
