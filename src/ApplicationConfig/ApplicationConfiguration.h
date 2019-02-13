@@ -9,6 +9,7 @@
 #include "ApplicationInteriorTrackingInfo.h"
 #include "ApplicationFixedIndoorLocation.h"
 #include "ApplicationMenuItemTagSearchConfig.h"
+#include "ApplicationDataSetConfig.h"
 #include "document.h"
 
 namespace ExampleApp
@@ -78,6 +79,8 @@ namespace ExampleApp
             bool m_overrideIndoorSearchMenuItems;
 
 			bool m_navigationEnabled;
+            
+            std::vector<SdkModel::ApplicationDataSetConfig> m_eegeoPoiDataSets;
 
         public:
             
@@ -130,7 +133,8 @@ namespace ExampleApp
 				const std::vector<std::vector<std::string>>& customKeyboardLayout,
                 const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig>& outdoorSearchMenuItems,
                 bool overrideIndoorSearchMenuItems,
-				bool navigationEnabled
+				bool navigationEnabled,
+                std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets
             );
             
             std::string Name() const;
@@ -223,6 +227,8 @@ namespace ExampleApp
             bool OverrideIndoorSearchMenuItems() const;
 
 			bool NavigationEnabled() const;
+            
+            const std::vector<SdkModel::ApplicationDataSetConfig> EegeoPoiDataSets() const;
         };
     }
 }
