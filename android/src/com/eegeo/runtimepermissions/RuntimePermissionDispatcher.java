@@ -53,7 +53,23 @@ public class RuntimePermissionDispatcher
         return ContextCompat.checkSelfPermission(m_activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
 
-    public boolean hasCameraAndStoragePermissions(MyPinCreationDetailsView myPinCreationDetailView)
+    public boolean hasCameraPermissionsWithCode(int requestCode)
+    {
+        if(ContextCompat.checkSelfPermission(m_activity,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+        {
+            return true;
+        }
+        else
+        {
+            ActivityCompat.requestPermissions(m_activity,
+                    new String[] { Manifest.permission.CAMERA },
+                    requestCode);
+        }
+        return false;
+    }
+
+    public boolean hasCameraAndStoragePermissionsWithCode(int requestCode)
     {
         if(ContextCompat.checkSelfPermission(m_activity,
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
@@ -66,9 +82,14 @@ public class RuntimePermissionDispatcher
         {
             ActivityCompat.requestPermissions(m_activity,
                     new String[] { Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                    CAMERA_PERMISSION_REQUEST_CODE);
+                    requestCode);
         }
         return false;
+    }
+
+    public boolean hasCameraAndStoragePermissions()
+    {
+        return hasCameraAndStoragePermissionsWithCode(CAMERA_PERMISSION_REQUEST_CODE);
     }
 
     public boolean hasLocationPermissionsWithCode(int requestCode)

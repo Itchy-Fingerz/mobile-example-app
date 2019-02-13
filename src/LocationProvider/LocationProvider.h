@@ -17,6 +17,7 @@ namespace ExampleApp
             ~LocationProvider();
 
             void UseNativeLocationService();
+            void EnableFixedLocation(const Eegeo::Space::LatLong& location, const Eegeo::Resources::Interiors::InteriorId & interiorId, const int floorIndex, const double headingDegrees);
             void EnableFixedLocation(const ExampleApp::ApplicationConfig::SdkModel::ApplicationFixedIndoorLocation& fixedIndoorLocation);
             void DisableFixedLocation();
             void UseIPSLocationService(Eegeo::Location::ILocationService& indoorsLocationService);
