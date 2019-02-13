@@ -29,7 +29,8 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewOpened;
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewClosed;
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewCloseTapped;
-                Eegeo::Helpers::TCallback3<QRScanController, const std::string&, const std::string&, const std::map<std::string, double>&> m_qrScanCompleted;
+                Eegeo::Helpers::TCallback3<QRScanController, const std::string&, const int&, const std::map<std::string, double>&> m_indoorQrScanCompleted;
+                Eegeo::Helpers::TCallback1<QRScanController, const std::map<std::string, double>&> m_outdoorQrScanCompleted;
                 
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 Metrics::IMetricsService& m_metricsService;
@@ -39,7 +40,8 @@ namespace ExampleApp
                 void OnOpen();
                 void OnClose();
                 void OnCloseTapped();
-                void OnQRScanCompleted(const std::string& hostName, const std::string& buildingId, const std::map<std::string, double>& location);
+                void OnIndoorQRScanCompleted(const std::string& buildingId, const int& floorIndex, const std::map<std::string, double>& locationData);
+                void OnOutdoorQRScanCompleted(const std::map<std::string, double>& locationData);
                 
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
 

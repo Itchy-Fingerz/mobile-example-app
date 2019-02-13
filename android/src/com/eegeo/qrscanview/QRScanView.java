@@ -76,15 +76,42 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
 
         if (host!=null && host.equals("fixedlocation"))
         {
-            if (pathSegments!=null && pathSegments.size() == 5)
+            if(pathSegments!=null)
             {
-                QRScanViewJniMethods.OnQRScan(m_nativeCallerPointer, host + pathSegments.get(0), Double.parseDouble(pathSegments.get(1)), Double.parseDouble(pathSegments.get(2)), pathSegments.get(3), Double.parseDouble(pathSegments.get(4)));
-                QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
-            }
-            else if (pathSegments!=null && pathSegments.size() == 4)
-            {
-                QRScanViewJniMethods.OnQRScan(m_nativeCallerPointer, host, Double.parseDouble(pathSegments.get(0)), Double.parseDouble(pathSegments.get(1)), pathSegments.get(2), Double.parseDouble(pathSegments.get(3)));
-                QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                if(pathSegments.get(0).equals("indoor"))
+                {
+                    if(pathSegments.size() == 7)
+                    {
+                        double lat = Double.parseDouble(pathSegments.get(1));
+                        double lng = Double.parseDouble(pathSegments.get(2));
+                        String buildingId = pathSegments.get(3);
+                        int floorNumber = Integer.parseInt(pathSegments.get(4));
+                        double orientation = Double.parseDouble(pathSegments.get(5));
+                        double zoomLevel = Double.parseDouble(pathSegments.get(6));
+                        QRScanViewJniMethods.OnIndoorQRScan(m_nativeCallerPointer,lat,lng,buildingId,floorNumber,orientation,zoomLevel);
+                        QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                    }
+                    else
+                    {
+                        showQRErrorDialog();
+                    }
+                }
+                else if(pathSegments.get(0).equals("outdoor"))
+                {
+                    if(pathSegments.size() == 5)
+                    {
+                        double lat = Double.parseDouble(pathSegments.get(1));
+                        double lng = Double.parseDouble(pathSegments.get(2));
+                        double orientation = Double.parseDouble(pathSegments.get(3));
+                        double zoomLevel = Double.parseDouble(pathSegments.get(4));
+                        QRScanViewJniMethods.OnOutdoorQRScan(m_nativeCallerPointer,lat,lng,orientation,zoomLevel);
+                        QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                    }
+                    else
+                    {
+                        showQRErrorDialog();
+                    }
+                }
             }
             else
             {
@@ -109,7 +136,6 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
                     public void onClick(DialogInterface dialog, int which)
                     {
                         dialog.dismiss();
-                        QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
                     }
                 });
         AlertDialog alert = alertDialogBuilder.create();

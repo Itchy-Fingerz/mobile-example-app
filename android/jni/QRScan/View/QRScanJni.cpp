@@ -14,15 +14,23 @@ JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_CloseButto
     pView->CloseTapped();
 }
 
-JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_OnQRScan(
+JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_OnIndoorQRScan(
         JNIEnv* jenv, jobject obj,
-        jlong nativeObjectPtr, jstring host, jdouble latitude, jdouble longitude, jstring buildingId, jdouble orientation)
+        jlong nativeObjectPtr, jdouble latitude, jdouble longitude, jstring buildingId, jint floorIndex, jdouble orientation, jdouble zoomLevel)
 {
     ASSERT_UI_THREAD
 
-    const char *hName = jenv->GetStringUTFChars(host, 0);
     const char *bId = jenv->GetStringUTFChars(buildingId, 0);
+    ExampleApp::QRScan::View::QRScanView* pView = reinterpret_cast<ExampleApp::QRScan::View::QRScanView*>(nativeObjectPtr);
+    pView->OnIndoorQRScanCompleted(latitude, longitude, bId, floorIndex, orientation, zoomLevel);
+}
+
+JNIEXPORT void JNICALL Java_com_eegeo_qrscanview_QRScanViewJniMethods_OnOutdoorQRScan(
+        JNIEnv* jenv, jobject obj,
+        jlong nativeObjectPtr, jdouble latitude, jdouble longitude, jdouble orientation, jdouble zoomLevel)
+{
+    ASSERT_UI_THREAD
 
     ExampleApp::QRScan::View::QRScanView* pView = reinterpret_cast<ExampleApp::QRScan::View::QRScanView*>(nativeObjectPtr);
-    pView->OnQRScanCompleted(hName, latitude, longitude, bId, orientation);
+    pView->OnOutdoorQRScanCompleted(latitude, longitude, orientation, zoomLevel);
 }
