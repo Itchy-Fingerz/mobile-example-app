@@ -110,5 +110,9 @@
                                                    "building_floor_index": 2,
                                                    "tracked_floor_index": "0e23e1ed-8e95-4c81-834e-5b32cc59b9ae"
                                                    }]
+                                 }],
+                                 "eegeo_pois_data_sets":[{
+                                     "developer_token":"",
+                                     "set_id":""
                                  }]
 }
