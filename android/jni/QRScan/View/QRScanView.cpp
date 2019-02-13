@@ -74,7 +74,7 @@ namespace ExampleApp
                 env->CallVoidMethod(m_uiView, dismissPoiInfo);
             }
 
-            void QRScanView::OnQRScanCompleted(const std::string& host, double lat, double lng, const std::string& buildingId, double orientation)
+            void QRScanView::OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel)
             {
                 ASSERT_UI_THREAD
 
@@ -82,8 +82,22 @@ namespace ExampleApp
                 positionMap["latitude"] = lat;
                 positionMap["longitude"] = lng;
                 positionMap["orientation"] = orientation;
+                positionMap["zoom_level"] = zoomLevel;
 
-                m_qrScanCompletedCallbacks.ExecuteCallbacks(host, buildingId, positionMap);
+                m_indoorQrScanCompletedCallbacks.ExecuteCallbacks(buildingId, floorIndex, positionMap);
+            }
+
+            void QRScanView::OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel)
+            {
+                ASSERT_UI_THREAD
+
+                std::map<std::string, double> positionMap;
+                positionMap["latitude"] = lat;
+                positionMap["longitude"] = lng;
+                positionMap["orientation"] = orientation;
+                positionMap["zoom_level"] = zoomLevel;
+
+                m_outdoorQrScanCompletedCallbacks.ExecuteCallbacks(positionMap);
             }
 
             void QRScanView::InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)
@@ -98,16 +112,28 @@ namespace ExampleApp
                 m_callbacks.RemoveCallback(callback);
             }
 
-            void QRScanView::InsertOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback)
+            void QRScanView::InsertOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback)
             {
                 ASSERT_UI_THREAD
-                m_qrScanCompletedCallbacks.AddCallback(callback);
+                m_indoorQrScanCompletedCallbacks.AddCallback(callback);
             }
 
-            void QRScanView::RemoveOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback)
+            void QRScanView::RemoveOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback)
             {
                 ASSERT_UI_THREAD
-                m_qrScanCompletedCallbacks.RemoveCallback(callback);
+                m_indoorQrScanCompletedCallbacks.RemoveCallback(callback);
+            }
+
+            void QRScanView::InsertOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback)
+            {
+                ASSERT_UI_THREAD
+                m_outdoorQrScanCompletedCallbacks.AddCallback(callback);
+            }
+
+            void QRScanView::RemoveOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback)
+            {
+                ASSERT_UI_THREAD
+                m_outdoorQrScanCompletedCallbacks.RemoveCallback(callback);
             }
         }
     }

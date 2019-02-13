@@ -22,8 +22,8 @@ namespace ExampleApp
                 jobject m_uiView;
 
                 Eegeo::Helpers::CallbackCollection0 m_callbacks;
-                Eegeo::Helpers::CallbackCollection0 m_hiddenTextCallbacks;
-                Eegeo::Helpers::CallbackCollection3<const std::string&, const std::string&, const std::map<std::string, double>&> m_qrScanCompletedCallbacks;
+                Eegeo::Helpers::CallbackCollection3<const std::string&, const int&, const std::map<std::string, double>&> m_indoorQrScanCompletedCallbacks;
+                Eegeo::Helpers::CallbackCollection1<const std::map<std::string, double>&> m_outdoorQrScanCompletedCallbacks;
 
             public:
                 QRScanView(AndroidNativeState& nativeState);
@@ -36,15 +36,21 @@ namespace ExampleApp
 
                 void Close();
 
-                void OnQRScanCompleted(const std::string& host, double lat, double lng, const std::string& buildingId, double orientation);
+                void OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel);
+
+                void OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel);
 
                 void InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback);
 
                 void RemoveCloseTappedCallback(Eegeo::Helpers::ICallback0& callback);
 
-                void InsertOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback);
+                void InsertOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback);
 
-                void RemoveOnQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const std::string&, const std::map<std::string, double>&>& callback);
+                void RemoveOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback);
+
+                void InsertOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback);
+
+                void RemoveOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback);
             };
         }
     }

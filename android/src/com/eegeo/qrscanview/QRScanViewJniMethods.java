@@ -5,5 +5,6 @@ package com.eegeo.qrscanview;
 public class QRScanViewJniMethods
 {
     public static native void CloseButtonClicked(long nativeCallerPointer);
-    public static native void OnQRScan(long nativeCallerPointer, String host, double latitude, double longitude, String buildingId, double orientation);
+    public static native void OnIndoorQRScan(long nativeCallerPointer, double latitude, double longitude, String buildingId, int floorIndex, double orientation, double zoomLevel);
+    public static native void OnOutdoorQRScan(long nativeCallerPointer, double latitude, double longitude, double orientation, double zoomLevel);
 }
