@@ -81,7 +81,6 @@ namespace ExampleApp
                     if(m_pCurrentRequest != NULL && m_pCurrentRequest->IsSucceeded())  // Needs NULL check because callback can happen before factory returns query
                     {
                         const std::string& response(m_pCurrentRequest->ResponseString());
-                        NSLog(@"%@", [NSString stringWithUTF8String:response.c_str()]);
                         m_eeGeoParser.ParseEegeoOfflineQueryResults(response, queryResults);
                     }
                     
