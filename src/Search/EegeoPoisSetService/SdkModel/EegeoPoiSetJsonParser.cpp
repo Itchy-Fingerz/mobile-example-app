@@ -105,12 +105,12 @@ namespace ExampleApp
                             floorId = json[floorIdName.c_str()].GetInt();
                         }
                         
-                        if(json.HasMember(latName.c_str()) && json[subtitleName.c_str()].IsString())
+                        if(json.HasMember(latName.c_str()) && json[latName.c_str()].IsString())
                         {
                             lat = ::atof(json[latName.c_str()].GetString());
                         }
                         
-                        if(json.HasMember(lonName.c_str()) && json[subtitleName.c_str()].IsString())
+                        if(json.HasMember(lonName.c_str()) && json[lonName.c_str()].IsString())
                         {
                             lon = ::atof(json[lonName.c_str()].GetString());
                         }
