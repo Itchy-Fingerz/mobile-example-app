@@ -589,8 +589,7 @@ namespace ExampleApp
             m_searchServiceModules[Search::EegeoVendorName] = eegeoSearchServiceModule;
         }
         
-        //TODO: will move service url in config and performLocation serach for db insertion as per requirement
-        m_peegeoSetServiceModule = Eegeo_NEW(Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),m_networkCapabilities,searchTags,m_applicationConfiguration.EegeoSearchServiceUrl());
+        m_peegeoSetServiceModule = Eegeo_NEW(Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),m_networkCapabilities,searchTags,m_applicationConfiguration.WrldPOISetServiceUrl(),m_applicationConfiguration.EegeoPoiDataSets());
         
         m_peegeoSetServiceModule->GetSearchService().PerformLocationSearchForDBInsertion();
         

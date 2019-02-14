@@ -73,6 +73,7 @@ namespace ExampleApp
                     const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig> outdoorSearchMenuItems;
                     bool overrideIndoorSearchMenuItems = false;
                     bool showPoiDirectionsButton = false;
+                    const std::string wrldPOISetSearchServiceUrl = "https://poi.wrld3d.com/v1.1/poisets/";
                     const std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets;
 
                     return ApplicationConfiguration("Eegeo Example App",
@@ -124,6 +125,7 @@ namespace ExampleApp
                         outdoorSearchMenuItems,
                         overrideIndoorSearchMenuItems,
                         showPoiDirectionsButton,
+                        wrldPOISetSearchServiceUrl,
                         eegeoPoiDataSets);
                 }
 

@@ -10,6 +10,7 @@
 #include "ITagIconMapper.h"
 #include "SearchTags.h"
 #include <string>
+#include "ApplicationDataSetConfig.h"
 
 namespace ExampleApp
 {
@@ -32,7 +33,8 @@ namespace ExampleApp
                     EegeoPoiSetSearchServiceModule(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
                                                    Net::SdkModel::INetworkCapabilities& networkCapabilities,
                                                    const Search::SdkModel::SearchTags& searchTags,
-                                                   const std::string& serviceUrl);
+                                                   const std::string& serviceUrl,
+                                                   const std::vector<ApplicationConfig::SdkModel::ApplicationDataSetConfig> appConfigSet);
                     
                     ~EegeoPoiSetSearchServiceModule();
 

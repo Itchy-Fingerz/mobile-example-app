@@ -1,4 +1,4 @@
-// Copyright eeGeo Ltd 2016, All Rights Reserved
+ // Copyright eeGeo Ltd 2016, All Rights Reserved
 
 #include "EegeoPoiSetSearchService.h"
 
@@ -19,7 +19,8 @@ namespace ExampleApp
                 EegeoPoiSetSearchService::EegeoPoiSetSearchService(IEegeoPoiSetSearchQueryFactory& EegeoSearchQueryFactory,
                                                                IEegeoPoiSetParser& EegeoParser,
                                                                Net::SdkModel::INetworkCapabilities& networkCapabilities,
-                                                               const std::vector<std::string>& handledTags)
+                                                               const std::vector<std::string>& handledTags,
+                                                               const std::vector<ApplicationConfig::SdkModel::ApplicationDataSetConfig> appConfigSet)
                 : m_eeGeoSearchQueryFactory(EegeoSearchQueryFactory)
                 , m_eeGeoParser(EegeoParser)
                 , m_networkCapabilities(networkCapabilities)
@@ -27,6 +28,10 @@ namespace ExampleApp
                 , m_pCurrentRequest(NULL)
                 , m_hasActiveQuery(false)
                 , m_networkCapabilitiesChangedHandler(this, &EegeoPoiSetSearchService::HandleNetworkCapabilitiesChanged)
+                , m_appConfigDataSet(appConfigSet)
+                , m_currentDataSetID("")
+                , m_currentDevToken("")
+                , m_requestCompletedCount(0)
                 {
                     m_networkCapabilities.RegisterChangedCallback(m_networkCapabilitiesChangedHandler);
                 }
@@ -54,13 +59,18 @@ namespace ExampleApp
                 
                 void EegeoPoiSetSearchService::PerformLocationSearchForDBInsertion()
                 {
-                    CancelInFlightQueries();
                     if(!m_networkCapabilities.NetworkAvailable())
                     {
                         return;
                     }
-                    m_hasActiveQuery = true;
-                    m_pCurrentRequest = m_eeGeoSearchQueryFactory.CreateEegeoOfflineSearchForQuery(m_searchCallback);
+                    if (m_requestCompletedCount < m_appConfigDataSet.size() && !m_hasActiveQuery)
+                    {
+                        CancelInFlightQueries();
+                        m_hasActiveQuery = true;
+                        ApplicationConfig::SdkModel::ApplicationDataSetConfig currentConfigDataSet = m_appConfigDataSet[m_requestCompletedCount];
+                        m_pCurrentRequest = m_eeGeoSearchQueryFactory.CreateEegeoOfflineSearchForQuery(m_searchCallback,currentConfigDataSet.devToken,currentConfigDataSet.dataSetId);
+                    }
+
                     
                 }
                                 
@@ -81,16 +91,20 @@ namespace ExampleApp
                     if(m_pCurrentRequest != NULL && m_pCurrentRequest->IsSucceeded())  // Needs NULL check because callback can happen before factory returns query
                     {
                         const std::string& response(m_pCurrentRequest->ResponseString());
-                        NSLog(@"%@", [NSString stringWithUTF8String:response.c_str()]);
                         m_eeGeoParser.ParseEegeoOfflineQueryResults(response, queryResults);
                     }
                     
                     m_hasActiveQuery = false;
+                    m_requestCompletedCount++;
                     if (m_pCurrentRequest != NULL)
                     {
                         // Insert In DB
                         m_queryResponseReceivedCallbacks.ExecuteCallbacks(m_pCurrentRequest->IsSucceeded(), queryResults);
-
+                        
+                        if (m_requestCompletedCount < m_appConfigDataSet.size())
+                        {
+                            PerformLocationSearchForDBInsertion();
+                        }
                     }
                 }
                 

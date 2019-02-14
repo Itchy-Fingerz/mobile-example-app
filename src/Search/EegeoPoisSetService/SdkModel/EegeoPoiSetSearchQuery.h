@@ -32,6 +32,8 @@ namespace ExampleApp
                 public:
                     EegeoPoiSetSearchQuery(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
                                            const std::string& serviceUrl,
+                                           const std::string& devToken,
+                                           const std::string& dataSetID,
                                            Eegeo::Helpers::ICallback0& completionCallback);
                     
                     ~EegeoPoiSetSearchQuery();

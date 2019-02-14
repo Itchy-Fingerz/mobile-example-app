@@ -9,6 +9,7 @@
 
 #include <vector>
 #include <string>
+#include "ApplicationDataSetConfig.h"
 
 namespace ExampleApp
 {
@@ -29,13 +30,18 @@ namespace ExampleApp
                     bool m_hasActiveQuery;
                     Eegeo::Helpers::TCallback0<EegeoPoiSetSearchService> m_networkCapabilitiesChangedHandler;
                     Eegeo::Helpers::CallbackCollection2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& > m_queryResponseReceivedCallbacks;
+                    const std::vector<ApplicationConfig::SdkModel::ApplicationDataSetConfig> m_appConfigDataSet;
+                    std::string m_currentDataSetID;
+                    std::string m_currentDevToken;
+                    int m_requestCompletedCount;
 
                     
                 public:
                     EegeoPoiSetSearchService(IEegeoPoiSetSearchQueryFactory& EegeoSearchQueryFactory,
                                            IEegeoPoiSetParser& EegeoParser,
                                            Net::SdkModel::INetworkCapabilities& networkCapabilities,
-                                           const std::vector<std::string>& handledTags);
+                                           const std::vector<std::string>& handledTags,
+                                             const std::vector<ApplicationConfig::SdkModel::ApplicationDataSetConfig> appConfigSet);
                     
                     ~EegeoPoiSetSearchService();
                     

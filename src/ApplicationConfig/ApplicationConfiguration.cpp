@@ -56,6 +56,7 @@ namespace ExampleApp
             const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig>& outdoorSearchMenuItems,
             bool overrideIndoorSearchMenuItems,
             bool navigationEnabled,
+            const std::string& wrldPOISetSearchServiceUrl,
             const std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets
             )
         : m_name(name)
@@ -107,6 +108,7 @@ namespace ExampleApp
         , m_outdoorSearchMenuItems(outdoorSearchMenuItems)
         , m_overrideIndoorSearchMenuItems(overrideIndoorSearchMenuItems)
         , m_navigationEnabled(navigationEnabled)
+        , m_wrldPOISetServiceUrl(wrldPOISetSearchServiceUrl)
         , m_eegeoPoiDataSets(eegeoPoiDataSets)
         {
         }
@@ -367,6 +369,11 @@ namespace ExampleApp
             return m_navigationEnabled;
         }
 
+        std::string ApplicationConfiguration::WrldPOISetServiceUrl() const
+        {
+            return m_wrldPOISetServiceUrl;
+        }
+        
         const std::vector<SdkModel::ApplicationDataSetConfig> ApplicationConfiguration::EegeoPoiDataSets() const
         {
             return m_eegeoPoiDataSets;

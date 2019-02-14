@@ -18,8 +18,10 @@ namespace ExampleApp
             namespace SdkModel
             {
                 EegeoPoiSetSearchQuery::EegeoPoiSetSearchQuery(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
-                                                   const std::string& serviceUrl,
-                                                   Eegeo::Helpers::ICallback0& completionCallback)
+                                                               const std::string& serviceUrl,
+                                                               const std::string& devToken,
+                                                               const std::string& dataSetID,
+                                                               Eegeo::Helpers::ICallback0& completionCallback)
                 : m_completionCallback(completionCallback)
                 , m_responseString("")
                 , m_isSuccess(false)
@@ -27,9 +29,10 @@ namespace ExampleApp
                 {
                     std::stringstream urlstream;
                     urlstream.setf(std::ios_base::fixed);
-                    // TODO: This URL needs to be moved to standard_config.json
-                    urlstream << "https://poi.wrld3d.com/v1.1";
-                    urlstream << "/poisets/6355/pois/?token=5294e58996cefc079bb410e3ab2582eeb96d95e414383f439aee799404dcd97201ffaed84109dfc7";
+                    urlstream << serviceUrl;
+                    urlstream << dataSetID;
+                    urlstream << "/pois/?token=";
+                    urlstream << devToken;
 
                     std::string url = urlstream.str();
                     m_pWebLoadRequest = webRequestFactory

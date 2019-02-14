@@ -18,7 +18,8 @@ namespace ExampleApp
                 EegeoPoiSetSearchServiceModule::EegeoPoiSetSearchServiceModule(Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
                                                                    Net::SdkModel::INetworkCapabilities& networkCapabilities,
                                                                    const Search::SdkModel::SearchTags& searchTags,
-                                                                   const std::string& serviceUrl)
+                                                                   const std::string& serviceUrl,
+                                                                   const std::vector<ApplicationConfig::SdkModel::ApplicationDataSetConfig> appConfigSet)
                 : m_pEegeoSearchQueryFactory(NULL)
                 , m_pEegeoParser(NULL)
                 , m_pSearchService(NULL)
@@ -43,7 +44,8 @@ namespace ExampleApp
                     m_pSearchService = Eegeo_NEW(EegeoPoiSetSearchService)(*m_pEegeoSearchQueryFactory,
                                                                      *m_pEegeoParser,
                                                                      networkCapabilities,
-                                                                     handledTags);
+                                                                     handledTags,
+                                                                           appConfigSet);
                     
                 }
                 
