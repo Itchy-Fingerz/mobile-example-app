@@ -32,7 +32,7 @@ namespace ExampleApp
                     
                     ~EegeoPoiSetSearchQueryFactory();
                     
-                    IEegeoPoiSetSearchQuery* CreateEegeoOfflineSearchForQuery(Eegeo::Helpers::ICallback0& completionCallback);
+                    IEegeoPoiSetSearchQuery* CreateEegeoOfflineSearchForQuery(Eegeo::Helpers::ICallback0& completionCallback, const std::string& devToken, const std::string& dataSetID);
                     
 
                 };

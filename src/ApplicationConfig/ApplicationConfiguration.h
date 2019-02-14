@@ -80,6 +80,7 @@ namespace ExampleApp
 
 			bool m_navigationEnabled;
             
+            std::string m_wrldPOISetServiceUrl;
             std::vector<SdkModel::ApplicationDataSetConfig> m_eegeoPoiDataSets;
 
         public:
@@ -134,6 +135,7 @@ namespace ExampleApp
                 const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig>& outdoorSearchMenuItems,
                 bool overrideIndoorSearchMenuItems,
 				bool navigationEnabled,
+                const std::string& wrldPOISetSearchServiceUrl,
                 std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets
             );
             
@@ -228,6 +230,7 @@ namespace ExampleApp
 
 			bool NavigationEnabled() const;
             
+            std::string WrldPOISetServiceUrl() const;
             const std::vector<SdkModel::ApplicationDataSetConfig> EegeoPoiDataSets() const;
         };
     }

@@ -76,6 +76,7 @@ namespace ExampleApp
                 const std::string OutdoorSearchMenuItems = "outdoor_search_menu_items";
                 const std::string OverrideIndoorSearchMenuItems = "override_indoor_search_menu_items";
                 const std::string EnableNavigation = "enable_navigation";
+                const std::string WrldPOISetServiceUrl = "wrld_poi_set_service_url";
                 const std::string EEgeoPOIDataSets = "eegeo_pois_data_sets";
                 
                 std::string ParseStringOrDefault(rapidjson::Document& document, const std::string& key, const std::string& defaultValue)
@@ -416,7 +417,8 @@ namespace ExampleApp
                                                            m_defaultConfig.NavigationEnabled());
 
                 
-                
+                const std::string& wrldPOISetServiceUrl = ParseStringOrDefault(document, WrldPOISetServiceUrl, m_defaultConfig.WrldPOISetServiceUrl());
+
                 const std::vector<ApplicationDataSetConfig> eegeoPoiDataSets = ParseEegeoPoiDataSets(document, EEgeoPOIDataSets.c_str());
                 
                 return ApplicationConfiguration(
@@ -469,6 +471,7 @@ namespace ExampleApp
                     outdoorSearchMenuItems,
                     overrideIndoorSearchMenuItems,
                     navigationEnabled,
+                    wrldPOISetServiceUrl,
                     eegeoPoiDataSets
                 );
             }
