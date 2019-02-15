@@ -39,7 +39,7 @@ def getVersionNameFromProjectProperty = { ->
 }
 
 def getApplicationIdFromProjectProperty = { ->
-    def applicationId = project.hasProperty('applicationId') ? applicationId : "com.eegeo.mobileexampleapp"
+    def applicationId = project.hasProperty('applicationId') ? applicationId : "com.netsoltech.eagleApp"
     logger.lifecycle("applicationId is set to $applicationId")
     return applicationId
 }
