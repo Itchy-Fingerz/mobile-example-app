@@ -9,8 +9,9 @@ namespace ExampleApp
     {
         namespace View
         {
-            QRScanView::QRScanView(AndroidNativeState& nativeState)
+            QRScanView::QRScanView(AndroidNativeState& nativeState, ExampleAppMessaging::TMessageBus& messageBus)
                 : m_nativeState(nativeState)
+                , m_messageBus(messageBus)
             {
                 ASSERT_UI_THREAD
 
@@ -78,26 +79,24 @@ namespace ExampleApp
             {
                 ASSERT_UI_THREAD
 
-                std::map<std::string, double> positionMap;
-                positionMap["latitude"] = lat;
-                positionMap["longitude"] = lng;
-                positionMap["orientation"] = orientation;
-                positionMap["zoom_level"] = zoomLevel;
-
-                m_indoorQrScanCompletedCallbacks.ExecuteCallbacks(buildingId, floorIndex, positionMap);
+                m_messageBus.Publish(QRScan::OnIndoorQRScanCompleteMessage(
+                        lat,
+                        lng,
+                        buildingId,
+                        floorIndex,
+                        orientation,
+                        zoomLevel));
             }
 
             void QRScanView::OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel)
             {
                 ASSERT_UI_THREAD
 
-                std::map<std::string, double> positionMap;
-                positionMap["latitude"] = lat;
-                positionMap["longitude"] = lng;
-                positionMap["orientation"] = orientation;
-                positionMap["zoom_level"] = zoomLevel;
-
-                m_outdoorQrScanCompletedCallbacks.ExecuteCallbacks(positionMap);
+                m_messageBus.Publish(QRScan::OnOutdoorQRScanCompleteMessage(
+                        lat,
+                        lng,
+                        orientation,
+                        zoomLevel));
             }
 
             void QRScanView::InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)
@@ -110,30 +109,6 @@ namespace ExampleApp
             {
                 ASSERT_UI_THREAD
                 m_callbacks.RemoveCallback(callback);
-            }
-
-            void QRScanView::InsertOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback)
-            {
-                ASSERT_UI_THREAD
-                m_indoorQrScanCompletedCallbacks.AddCallback(callback);
-            }
-
-            void QRScanView::RemoveOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback)
-            {
-                ASSERT_UI_THREAD
-                m_indoorQrScanCompletedCallbacks.RemoveCallback(callback);
-            }
-
-            void QRScanView::InsertOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback)
-            {
-                ASSERT_UI_THREAD
-                m_outdoorQrScanCompletedCallbacks.AddCallback(callback);
-            }
-
-            void QRScanView::RemoveOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback)
-            {
-                ASSERT_UI_THREAD
-                m_outdoorQrScanCompletedCallbacks.RemoveCallback(callback);
             }
         }
     }

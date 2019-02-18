@@ -71,11 +71,6 @@
 #include "NavRoutingModeSetMessage.h"
 #include "NavRoutingShowRerouteDialogMessage.h"
 #include "NavRoutingSetCalculatingRouteMessage.h"
-#include "QRScanIndoorPositionTypeMessage.h"
-#include "QRScanIndoorAtlasDataMessage.h"
-#include "QRScanSenionDataMessage.h"
-#include "QRScanIndoorPositionSettingsMessage.h"
-
 
 namespace ExampleApp
 {
@@ -148,10 +143,6 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingModeSetMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingShowRerouteDialogMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingSetCalculatingRouteMessage>
-            , public Eegeo::Messaging::CatalogBinding<QRScan::QRScanIndoorPositionTypeMessage>
-            , public Eegeo::Messaging::CatalogBinding<QRScan::QRScanSenionDataMessage>
-            , public Eegeo::Messaging::CatalogBinding<QRScan::QRScanIndoorAtlasDataMessage>
-            , public Eegeo::Messaging::CatalogBinding<QRScan::QRScanIndoorPositionSettingsMessage>
             , private Eegeo::NonCopyable
         {
 

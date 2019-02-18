@@ -22,7 +22,7 @@ namespace ExampleApp
             )
             {
                 ASSERT_UI_THREAD
-                m_pView = Eegeo_NEW(QRScanView)(nativeState);
+                m_pView = Eegeo_NEW(QRScanView)(nativeState, messageBus);
                 m_pController = Eegeo_NEW(QRScanController)(*m_pView, qrScanViewModel, locationProvider, cameraTransitionController, metricsService, messageBus);
             }
 

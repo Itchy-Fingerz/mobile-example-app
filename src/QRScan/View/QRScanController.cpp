@@ -31,27 +31,29 @@ namespace ExampleApp
                 }
             }
 
-            void QRScanController::OnIndoorQRScanCompleted(const std::string& buildingId, const int& floorIndex, const std::map<std::string, double>& location)
+            void QRScanController::OnIndoorQRScanCompleted(const QRScan::OnIndoorQRScanCompleteMessage& message)
             {
-                double latitude = location.find("latitude")->second;
-                double longitude = location.find("longitude")->second;
-                double orientation = location.find("orientation")->second;
-                double zoomLevel = location.find("zoom_level")->second;
+                double latitude = message.GetLatitude();
+                double longitude = message.GetLongitude();
+                std::string buildingId = message.GetBuildingId();
+                int floorIndex = message.GetFloorIndex();
+                double orientation = message.GetOrientation();
+                double zoomLevel = message.GetZoomLevel();
 
                 Eegeo::Space::LatLong loc = Eegeo::Space::LatLong::FromDegrees(latitude, longitude);
-                m_locationProvider.EnableFixedLocation(loc,buildingId,0,orientation);
+                m_locationProvider.EnableFixedLocation(loc,buildingId,floorIndex,orientation);
                 m_cameraTransitionController.StartTransitionTo(loc.ToECEF(),
                                                                zoomLevel,
                                                                buildingId,
                                                                floorIndex);
             }
 
-            void QRScanController::OnOutdoorQRScanCompleted(const std::map<std::string, double>& location)
+            void QRScanController::OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message)
             {
-                double latitude = location.find("latitude")->second;
-                double longitude = location.find("longitude")->second;
-                double orientation = location.find("orientation")->second;
-                double zoomLevel = location.find("zoom_level")->second;
+                double latitude = message.GetLatitude();
+                double longitude = message.GetLongitude();
+                double orientation = message.GetOrientation();
+                double zoomLevel = message.GetZoomLevel();
 
                 Eegeo::Space::LatLong loc = Eegeo::Space::LatLong::FromDegrees(latitude, longitude);
                 m_locationProvider.EnableFixedLocation(loc,Eegeo::Resources::Interiors::InteriorId(""),0,orientation);
@@ -95,16 +97,16 @@ namespace ExampleApp
                 m_view.InsertCloseTappedCallback(m_viewCloseTapped);
                 m_viewModel.InsertClosedCallback(m_viewClosed);
                 m_viewModel.InsertOpenedCallback(m_viewOpened);
-                m_view.InsertOnIndoorQRScanCompletedCallback(m_indoorQrScanCompleted);
-                m_view.InsertOnOutdoorQRScanCompletedCallback(m_outdoorQrScanCompleted);
+                m_messageBus.SubscribeNative(m_indoorQrScanCompleted);
+                m_messageBus.SubscribeNative(m_outdoorQrScanCompleted);
                 m_messageBus.SubscribeUi(m_appModeChangedMessageHandler);
             }
 
             QRScanController::~QRScanController()
             {
                 m_messageBus.UnsubscribeUi(m_appModeChangedMessageHandler);
-                m_view.RemoveOnIndoorQRScanCompletedCallback(m_indoorQrScanCompleted);
-                m_view.RemoveOnOutdoorQRScanCompletedCallback(m_outdoorQrScanCompleted);
+                m_messageBus.UnsubscribeNative(m_indoorQrScanCompleted);
+                m_messageBus.UnsubscribeNative(m_outdoorQrScanCompleted);
                 m_viewModel.RemoveOpenedCallback(m_viewOpened);
                 m_viewModel.RemoveClosedCallback(m_viewClosed);
                 m_view.RemoveCloseTappedCallback(m_viewCloseTapped);

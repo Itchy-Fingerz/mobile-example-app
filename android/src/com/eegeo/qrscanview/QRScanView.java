@@ -17,7 +17,7 @@ import android.widget.RelativeLayout.LayoutParams;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.IRuntimePermissionResultHandler;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 import com.google.zxing.Result;
 
 import java.util.List;

@@ -23,10 +23,6 @@ namespace ExampleApp
 
                 virtual void InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
                 virtual void RemoveCloseTappedCallback(Eegeo::Helpers::ICallback0& callback) = 0;
-                virtual void InsertOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback) = 0;
-                virtual void RemoveOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback) = 0;
-                virtual void InsertOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback) = 0;
-                virtual void RemoveOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback) = 0;
             };
         }
     }
