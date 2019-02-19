@@ -9,8 +9,11 @@ namespace ExampleApp
     {
         namespace View
         {
-            QRScanViewInterop::QRScanViewInterop(QRScanView* pView) : m_pView(pView)
+            QRScanViewInterop::QRScanViewInterop(ExampleAppMessaging::TMessageBus& messageBus, QRScanView* pView)
+            : m_pView(pView)
+            , m_messageBus(messageBus)
             {
+
             }
 
             void QRScanViewInterop::CloseTapped()
@@ -30,25 +33,22 @@ namespace ExampleApp
            
             void QRScanViewInterop::OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel)
             {
-            
-                std::map<std::string, double> positionMap;
-                positionMap["latitude"] = lat;
-                positionMap["longitude"] = lng;
-                positionMap["orientation"] = orientation;
-                positionMap["zoom_level"] = zoomLevel;
-                
-                m_indoorQrScanCompletedCallbacks.ExecuteCallbacks(buildingId, floorIndex, positionMap);
+                m_messageBus.Publish(QRScan::OnIndoorQRScanCompleteMessage(
+                                                                           lat,
+                                                                           lng,
+                                                                           buildingId,
+                                                                           floorIndex,
+                                                                           orientation,
+                                                                           zoomLevel));
             }
             
             void QRScanViewInterop::OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel)
             {
-                std::map<std::string, double> positionMap;
-                positionMap["latitude"] = lat;
-                positionMap["longitude"] = lng;
-                positionMap["orientation"] = orientation;
-                positionMap["zoom_level"] = zoomLevel;
-                
-                m_outdoorQrScanCompletedCallbacks.ExecuteCallbacks(positionMap);
+                m_messageBus.Publish(QRScan::OnOutdoorQRScanCompleteMessage(
+                                                                            lat,
+                                                                            lng,
+                                                                            orientation,
+                                                                            zoomLevel));
             }
 
             void QRScanViewInterop::InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)
@@ -61,26 +61,7 @@ namespace ExampleApp
                 m_callbacks.RemoveCallback(callback);
             }
             
-            void QRScanViewInterop::InsertOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback)
-            {
-                m_indoorQrScanCompletedCallbacks.AddCallback(callback);
-            }
-
-            void QRScanViewInterop::RemoveOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback)
-            {
-                m_indoorQrScanCompletedCallbacks.RemoveCallback(callback);
-            }
-            
-            void QRScanViewInterop::InsertOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback)
-            {
-                m_outdoorQrScanCompletedCallbacks.AddCallback(callback);
-            }
-            
-            void QRScanViewInterop::RemoveOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback)
-            {
-                m_outdoorQrScanCompletedCallbacks.RemoveCallback(callback);
-            }
-            
+   
         }
     }
 }

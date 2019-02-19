@@ -16,7 +16,7 @@ namespace ExampleApp
                CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
                                                Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus)
             {
-                m_pView = [[QRScanView alloc] initView];
+                m_pView = [[QRScanView alloc] initViewWithBus:messageBus];
                 m_pController = Eegeo_NEW(QRScanController)(*[m_pView getInterop], qrScanViewModel,
                                                             locationProvider,
                                                             cameraTransitionController,

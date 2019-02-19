@@ -7,6 +7,7 @@
 #include "IQRScanView.h"
 #include "ICallback.h"
 #include "CallbackCollection.h"
+#include "BidirectionalBus.h"
 
 namespace ExampleApp
 {
@@ -21,9 +22,10 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection0 m_callbacks;
                 Eegeo::Helpers::CallbackCollection3<const std::string&, const int&, const std::map<std::string, double>&> m_indoorQrScanCompletedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<const std::map<std::string, double>&> m_outdoorQrScanCompletedCallbacks;
-                
+                ExampleAppMessaging::TMessageBus& m_messageBus;
+
             public:
-                QRScanViewInterop(QRScanView* pView);
+                QRScanViewInterop(ExampleAppMessaging::TMessageBus& messageBus, QRScanView* pView);
 
                 void CloseTapped();
 
@@ -39,14 +41,6 @@ namespace ExampleApp
 
                 void RemoveCloseTappedCallback(Eegeo::Helpers::ICallback0& callback);
                 
-                virtual void InsertOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback);
-               
-                virtual void RemoveOnIndoorQRScanCompletedCallback(Eegeo::Helpers::ICallback3<const std::string&, const int&, const std::map<std::string, double>&>& callback);
-                
-                virtual void InsertOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback);
-                
-                virtual void RemoveOnOutdoorQRScanCompletedCallback(Eegeo::Helpers::ICallback1<const std::map<std::string, double>&>& callback);
-
             };
         }
     }

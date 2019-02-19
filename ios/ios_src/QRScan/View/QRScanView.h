@@ -9,6 +9,7 @@
 #include "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
+#include "BidirectionalBus.h"
 
 @class QRScanView;
 @class QRScanViewController;
@@ -20,7 +21,9 @@
     
 }
 
-- (id) initView;
+
+- (id) initViewWithBus:(ExampleApp::ExampleAppMessaging::TMessageBus&) messageBus;
+
 
 - (BOOL) consumesTouch:(UITouch *)touch;
 

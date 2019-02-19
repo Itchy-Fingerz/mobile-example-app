@@ -14,8 +14,7 @@ namespace ExampleApp
                                              const std::string& buildVersion,
                                              const std::string& appName)
             {
-                std::string platformRuntimeArchitecture = (sizeof(void*) == 4) ? "32-bit" : "64-bit";
-                m_pQRScanViewModel = Eegeo_NEW(QRScanViewModel)(identityProvider.GetNextIdentity(), buildVersion, EEGEO_PLATFORM_VERSION_NUMBER, EEGEO_PLATFORM_VERSION_HASH, platformRuntimeArchitecture, "", appName);
+                m_pQRScanViewModel = Eegeo_NEW(QRScanViewModel)(identityProvider.GetNextIdentity());
             }
 
             QRScanModule::~QRScanModule()

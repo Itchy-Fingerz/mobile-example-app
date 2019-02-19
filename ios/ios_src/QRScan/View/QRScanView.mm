@@ -12,13 +12,15 @@
 
 @implementation QRScanView
 
-- (id)initView
+//- (id)initView
+- (id)initViewWithBus:(ExampleApp::ExampleAppMessaging::TMessageBus&) messageBus
 {
     self = [super init];
 
     if(self)
     {
-        m_pInterop = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewInterop)(self);
+        m_pInterop = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewInterop)(messageBus,self);
+        
         self.alpha = 0.f;
         m_stateChangeAnimationTimeSeconds = 0.2f;
 
