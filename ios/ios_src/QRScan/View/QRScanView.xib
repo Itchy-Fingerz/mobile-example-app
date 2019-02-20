@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="QRScanView">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Hs-iD-x1s">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49n-Pr-DUd">
+                            <rect key="frame" x="329" y="7" width="36" height="36"/>
+                            <state key="normal" backgroundImage="button_close_off.png"/>
+                            <connections>
+                                <action selector="onCloseButtonTapped" destination="iN0-l3-epB" eventType="touchUpInside" id="wcq-KT-sKO"/>
+                            </connections>
+                        </button>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="QR_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="ZcQ-Xe-0Xv">
+                            <rect key="frame" x="10" y="9" width="32" height="32"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QR Code Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84g-aA-FG9">
+                            <rect key="frame" x="52" y="10.5" width="189" height="29"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                            <color key="textColor" red="0.11372549019607843" green="0.11372549019607843" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="ZcQ-Xe-0Xv" firstAttribute="leading" secondItem="8Hs-iD-x1s" secondAttribute="leading" constant="10" id="2Te-WK-KFq"/>
+                        <constraint firstAttribute="height" constant="50" id="3f8-cw-Hpj"/>
+                        <constraint firstAttribute="trailing" secondItem="49n-Pr-DUd" secondAttribute="trailing" constant="10" id="BBW-cU-fzK"/>
+                        <constraint firstItem="84g-aA-FG9" firstAttribute="leading" secondItem="ZcQ-Xe-0Xv" secondAttribute="trailing" constant="10" id="QP5-0u-END"/>
+                        <constraint firstItem="49n-Pr-DUd" firstAttribute="centerY" secondItem="8Hs-iD-x1s" secondAttribute="centerY" id="aIj-6Z-g8c"/>
+                        <constraint firstItem="84g-aA-FG9" firstAttribute="centerY" secondItem="49n-Pr-DUd" secondAttribute="centerY" id="bJk-PS-qEm"/>
+                        <constraint firstItem="ZcQ-Xe-0Xv" firstAttribute="centerY" secondItem="49n-Pr-DUd" secondAttribute="centerY" id="pyj-zV-kxw"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMq-Ny-dqp">
+                    <rect key="frame" x="10" y="60" width="355" height="400"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="arq-Vl-fAg">
+                            <rect key="frame" x="35.5" y="58.5" width="284" height="284"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="arq-Vl-fAg" secondAttribute="height" multiplier="1:1" id="EGz-69-jwR"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.1137254902" green="0.1137254902" blue="0.1137254902" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="arq-Vl-fAg" firstAttribute="centerY" secondItem="LMq-Ny-dqp" secondAttribute="centerY" id="1Et-Gr-g0Q"/>
+                        <constraint firstItem="arq-Vl-fAg" firstAttribute="centerX" secondItem="LMq-Ny-dqp" secondAttribute="centerX" id="CrZ-qt-LEQ"/>
+                        <constraint firstItem="arq-Vl-fAg" firstAttribute="width" secondItem="LMq-Ny-dqp" secondAttribute="width" multiplier="0.8" id="cpS-qn-shG"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How to capture the QR code:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DF9-uG-zob">
+                    <rect key="frame" x="10" y="470" width="250" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="QR_img.png" translatesAutoresizingMaskIntoConstraints="NO" id="JU7-cf-IhP">
+                    <rect key="frame" x="10" y="514" width="100" height="100"/>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMn-dB-hqz">
+                    <rect key="frame" x="120" y="514" width="245" height="27"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="90G-fq-ZYC">
+                            <rect key="frame" x="5" y="0.0" width="10" height="10"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Use the camera view to centre QR code in the square." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKy-PX-UvR">
+                            <rect key="frame" x="25" y="0.0" width="220" height="26.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="90G-fq-ZYC" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" constant="5" id="Dmc-rn-lht"/>
+                        <constraint firstAttribute="height" constant="27" id="Rie-eL-OwC"/>
+                        <constraint firstItem="NKy-PX-UvR" firstAttribute="leading" secondItem="90G-fq-ZYC" secondAttribute="trailing" constant="10" id="S6V-DN-oO3"/>
+                        <constraint firstItem="NKy-PX-UvR" firstAttribute="top" secondItem="90G-fq-ZYC" secondAttribute="top" id="nA1-Ed-lVt"/>
+                        <constraint firstItem="90G-fq-ZYC" firstAttribute="top" secondItem="lMn-dB-hqz" secondAttribute="top" id="rzV-Dz-NvN"/>
+                        <constraint firstAttribute="trailing" secondItem="NKy-PX-UvR" secondAttribute="trailing" id="sxW-i1-e7W"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzT-lo-wEJ">
+                    <rect key="frame" x="120" y="551" width="245" height="27"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="JVW-Nq-vJB">
+                            <rect key="frame" x="5" y="0.0" width="10" height="10"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="The QR Code will automatically be detected." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWl-hh-U4N">
+                            <rect key="frame" x="25" y="0.0" width="220" height="26.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="JVW-Nq-vJB" firstAttribute="top" secondItem="xzT-lo-wEJ" secondAttribute="top" id="0Do-X3-mox"/>
+                        <constraint firstItem="wWl-hh-U4N" firstAttribute="leading" secondItem="JVW-Nq-vJB" secondAttribute="trailing" constant="10" id="3wE-R7-Evc"/>
+                        <constraint firstItem="JVW-Nq-vJB" firstAttribute="leading" secondItem="xzT-lo-wEJ" secondAttribute="leading" constant="5" id="Tre-6P-9xx"/>
+                        <constraint firstItem="wWl-hh-U4N" firstAttribute="top" secondItem="JVW-Nq-vJB" secondAttribute="top" id="Xox-4U-1mF"/>
+                        <constraint firstAttribute="trailing" secondItem="wWl-hh-U4N" secondAttribute="trailing" id="bWJ-WN-Gz0"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ia2-X8-jA0">
+                    <rect key="frame" x="120" y="588" width="245" height="27"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wfh-o3-Psd">
+                            <rect key="frame" x="5" y="0.0" width="10" height="10"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="You will be transitioned to your current location." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUy-HG-FUh">
+                            <rect key="frame" x="25" y="0.0" width="220" height="26.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="zUy-HG-FUh" firstAttribute="top" secondItem="Wfh-o3-Psd" secondAttribute="top" id="5RL-82-3lY"/>
+                        <constraint firstItem="Wfh-o3-Psd" firstAttribute="top" secondItem="ia2-X8-jA0" secondAttribute="top" id="RSK-rf-HxC"/>
+                        <constraint firstItem="zUy-HG-FUh" firstAttribute="leading" secondItem="Wfh-o3-Psd" secondAttribute="trailing" constant="10" id="WIK-Eo-0w4"/>
+                        <constraint firstItem="Wfh-o3-Psd" firstAttribute="leading" secondItem="ia2-X8-jA0" secondAttribute="leading" constant="5" id="eVT-wY-VIX"/>
+                        <constraint firstAttribute="trailing" secondItem="zUy-HG-FUh" secondAttribute="trailing" id="iz7-AY-a54"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="ia2-X8-jA0" firstAttribute="height" secondItem="lMn-dB-hqz" secondAttribute="height" id="5we-MA-Dlw"/>
+                <constraint firstItem="LMq-Ny-dqp" firstAttribute="top" secondItem="8Hs-iD-x1s" secondAttribute="bottom" constant="10" id="6FO-9w-Zbz"/>
+                <constraint firstItem="lMn-dB-hqz" firstAttribute="top" secondItem="JU7-cf-IhP" secondAttribute="top" id="6GK-Qo-Dp3"/>
+                <constraint firstItem="ia2-X8-jA0" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" id="6Ro-72-RzD"/>
+                <constraint firstItem="xzT-lo-wEJ" firstAttribute="top" secondItem="lMn-dB-hqz" secondAttribute="bottom" constant="10" id="Atl-0u-rKw"/>
+                <constraint firstItem="DF9-uG-zob" firstAttribute="leading" secondItem="ZcQ-Xe-0Xv" secondAttribute="leading" id="DHe-YM-sQR"/>
+                <constraint firstItem="lMn-dB-hqz" firstAttribute="leading" secondItem="JU7-cf-IhP" secondAttribute="trailing" constant="10" id="E5C-aT-c99"/>
+                <constraint firstItem="LMq-Ny-dqp" firstAttribute="trailing" secondItem="49n-Pr-DUd" secondAttribute="trailing" id="FhU-yv-H0z"/>
+                <constraint firstItem="LMq-Ny-dqp" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.6" id="LUG-P2-IFD"/>
+                <constraint firstItem="8Hs-iD-x1s" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Me0-gM-rQG"/>
+                <constraint firstItem="JU7-cf-IhP" firstAttribute="top" secondItem="DF9-uG-zob" secondAttribute="bottom" constant="20" id="OWM-0c-LEs"/>
+                <constraint firstItem="DF9-uG-zob" firstAttribute="top" secondItem="LMq-Ny-dqp" secondAttribute="bottom" constant="10" id="Osh-5h-0dr"/>
+                <constraint firstItem="xzT-lo-wEJ" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" id="Uyz-2X-FYs"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="8Hs-iD-x1s" secondAttribute="trailing" id="YK9-p8-k70"/>
+                <constraint firstItem="lMn-dB-hqz" firstAttribute="trailing" secondItem="49n-Pr-DUd" secondAttribute="trailing" id="YLZ-na-RaI"/>
+                <constraint firstItem="xzT-lo-wEJ" firstAttribute="width" secondItem="lMn-dB-hqz" secondAttribute="width" id="ZYd-eG-w29"/>
+                <constraint firstItem="ia2-X8-jA0" firstAttribute="top" secondItem="xzT-lo-wEJ" secondAttribute="bottom" constant="10" id="cBu-bf-GVO"/>
+                <constraint firstItem="LMq-Ny-dqp" firstAttribute="leading" secondItem="ZcQ-Xe-0Xv" secondAttribute="leading" id="nse-ir-0cB"/>
+                <constraint firstItem="xzT-lo-wEJ" firstAttribute="height" secondItem="lMn-dB-hqz" secondAttribute="height" id="ph5-tG-kFm"/>
+                <constraint firstItem="ia2-X8-jA0" firstAttribute="width" secondItem="lMn-dB-hqz" secondAttribute="width" id="vH4-pd-OtW"/>
+                <constraint firstItem="JU7-cf-IhP" firstAttribute="leading" secondItem="ZcQ-Xe-0Xv" secondAttribute="leading" id="wfW-rd-ozq"/>
+                <constraint firstItem="8Hs-iD-x1s" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ysZ-ch-qnw"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="pCameraContentView" destination="LMq-Ny-dqp" id="CKE-u8-7gM"/>
+                <outlet property="pViewforCameraLayer" destination="arq-Vl-fAg" id="UaU-Sw-d51"/>
+            </connections>
+        </view>
+    </objects>
+    <resources>
+        <image name="QR_icon.png" width="32" height="32"/>
+        <image name="QR_img.png" width="100" height="100"/>
+        <image name="button_close_off.png" width="36" height="36"/>
+        <image name="qr_step_icon.png" width="10" height="10"/>
+    </resources>
+</document>

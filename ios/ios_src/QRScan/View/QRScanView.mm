@@ -12,99 +12,55 @@
 
 @implementation QRScanView
 
-//- (id)initView
-- (id)initViewWithBus:(ExampleApp::ExampleAppMessaging::TMessageBus&) messageBus
++(QRScanView*)loadQRScanViewWithBus:(ExampleApp::ExampleAppMessaging::TMessageBus&) messageBus
 {
-    self = [super init];
-
-    if(self)
-    {
-        m_pInterop = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewInterop)(messageBus,self);
-        
-        self.alpha = 0.f;
-        m_stateChangeAnimationTimeSeconds = 0.2f;
-
-        self.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
-        
-        self.pHeaderView = [[[HeaderView alloc] initWithWidth:200 title:@"Scan My Location"] autorelease];
-        [self addSubview:self.pHeaderView];
-        
-        [self.pHeaderView addTarget:self action:@selector(onCloseButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.pContentView = [[[UIView alloc] init] autorelease];
-        self.pContentView.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
-        [self addSubview:self.pContentView];
-        
-        self.pViewforCamera = [[[UIView alloc] init] autorelease];
-        self.pViewforCamera.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
-        [self.pContentView addSubview:self.pViewforCamera];
-        
-    }
-
-    return self;
+    NSArray* nibViews = [[NSBundle mainBundle] loadNibNamed:@"QRScanView"
+                                                      owner:self
+                                                    options:nil];
+    
+    QRScanView* scanView = [ nibViews objectAtIndex: 0];
+    scanView->m_pInterop = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewInterop)(messageBus,scanView);
+    scanView.alpha = 0.f;
+    scanView->m_stateChangeAnimationTimeSeconds = 0.2f;
+    scanView.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
+    scanView.pCameraContentView.layer.cornerRadius = 10.0f;
+    scanView.pViewforCameraLayer.layer.cornerRadius = 10.0f;
+    return scanView;
 }
+
 
 - (void)dealloc
 {
-    [self.pHeaderView removeFromSuperview];
-    [self.pHeaderView release];
-    
-    [self.pViewforCamera removeFromSuperview];
-    [self.pViewforCamera release];
 
-    [self.pOverlay release];
-
-    [self.pContentView removeFromSuperview];
-    [self.pContentView release];
-    
-    [self.pCaptureSession release];
-    [self.pVideoPreviewLayer release];
-    [self.pOverlay release];
-    
-    
+    [_pViewforCameraLayer release];
+    [_pCaptureSession release];
+    [_pVideoPreviewLayer release];
+    [_pCameraContentView release];
     [self removeFromSuperview];
+    Eegeo_DELETE m_pInterop;
     [super dealloc];
     
-    Eegeo_DELETE m_pInterop;
     
 }
 
 - (void)layoutSubviews
 {
-    CGFloat rowHeight = 250;
     const float boundsWidth = static_cast<float>(self.superview.bounds.size.width);
     const float boundsHeight = static_cast<float>(self.superview.bounds.size.height);
+    
     const bool useFullScreenSize = ExampleApp::Helpers::UIHelpers::UsePhoneLayout();
     const float boundsOccupyWidthMultiplier = useFullScreenSize ? 0.9f : ((2.f/3.f) * 0.6f);
+    
     const float mainWindowWidth = boundsWidth * boundsOccupyWidthMultiplier;
-    
-    UIEdgeInsets innerMargin = UIEdgeInsetsMake(self.pHeaderView.margin,self.pHeaderView.margin,self.pHeaderView.margin,self.pHeaderView.margin);
-    
-    CGFloat contentY = self.pHeaderView.frame.origin.y +  self.pHeaderView.frame.size.height + 10;
+    const float mainWindowHeight = boundsHeight * 0.9;
 
-    const CGFloat contentHeight = rowHeight + innerMargin.top + innerMargin.bottom ;
-    const float mainWindowHeight = self.pHeaderView.frame.size.height + contentHeight;
-    
     const float mainWindowX = (boundsWidth * 0.5f) - (mainWindowWidth * 0.5f);
     const float mainWindowY = (boundsHeight * 0.5f) - (mainWindowHeight * 0.5f);
-    
+
     self.frame = CGRectMake(mainWindowX,
                             mainWindowY,
                             mainWindowWidth,
                             mainWindowHeight);
-    
-    self.pHeaderView.width = self.frame.size.width;
-    [self.pHeaderView layoutIfNeeded];
-    
-    
-    self.pContentView.frame = CGRectMake(0.0,
-                                               contentY,
-                                               self.frame.size.width,
-                                               self.frame.size.height - contentY);
-    
-    CGFloat marginCameraView = 5.0;
-    self.pViewforCamera.frame = CGRectMake(marginCameraView, marginCameraView,self.frame.size.width-(2*marginCameraView),(self.frame.size.height - contentY)-(2*marginCameraView));
-    
 }
 
 - (ExampleApp::QRScan::View::QRScanViewInterop*)getInterop
@@ -158,7 +114,7 @@
      }];
 }
 
-- (void)onCloseButtonTapped
+- (IBAction)onCloseButtonTapped
 {
     [self stopReading];
     _pIsReading = NO;
@@ -169,9 +125,9 @@
 
 - (void)addOverlay
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.pViewforCamera.frame.size.width, self.pViewforCamera.frame.size.height)];
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.pViewforCameraLayer.frame];
     [imageView setImage:[UIImage imageNamed:@"scan_outline.png"]];
-    [self.pViewforCamera.layer insertSublayer:imageView.layer above:_pVideoPreviewLayer];
+    [self.pCameraContentView.layer insertSublayer:imageView.layer above:_pVideoPreviewLayer];
 }
 
 - (void)startScan {
@@ -234,11 +190,13 @@
     
     _pVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:_pCaptureSession];
     
+    _pVideoPreviewLayer.cornerRadius = 10.0;
+
     [_pVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     
-    [_pVideoPreviewLayer setFrame:_pViewforCamera.layer.bounds];
+    [_pVideoPreviewLayer setFrame:_pCameraContentView.layer.bounds];
     
-    [_pViewforCamera.layer addSublayer:_pVideoPreviewLayer];
+    [_pCameraContentView.layer addSublayer:_pVideoPreviewLayer];
     
     [_pCaptureSession startRunning];
     
@@ -250,9 +208,14 @@
 
 
 -(void)stopReading{
+    
     [_pCaptureSession stopRunning];
+    [_pCaptureSession release];
     _pCaptureSession = nil;
+    
     [_pVideoPreviewLayer removeFromSuperlayer];
+    [_pVideoPreviewLayer release];
+    _pVideoPreviewLayer = nil;
 }
 
 -(void)playBeepSound

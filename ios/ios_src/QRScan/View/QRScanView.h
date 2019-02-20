@@ -22,7 +22,7 @@
 }
 
 
-- (id) initViewWithBus:(ExampleApp::ExampleAppMessaging::TMessageBus&) messageBus;
++(QRScanView*)loadQRScanViewWithBus:(ExampleApp::ExampleAppMessaging::TMessageBus&) messageBus;
 
 
 - (BOOL) consumesTouch:(UITouch *)touch;
@@ -35,10 +35,9 @@
 
 - (ExampleApp::QRScan::View::QRScanViewInterop*) getInterop;
 
-@property (nonatomic, retain) HeaderView* pHeaderView;
 
-@property (nonatomic, retain) UIView* pContentView;
-@property (nonatomic, retain) UIView *pViewforCamera;
+@property (nonatomic, retain) IBOutlet UIView* pCameraContentView;
+@property (nonatomic, retain) IBOutlet UIView* pViewforCameraLayer;
 @property (nonatomic)  Boolean pIsReading;
 @property (nonatomic, retain) CAShapeLayer *pOverlay;
 
