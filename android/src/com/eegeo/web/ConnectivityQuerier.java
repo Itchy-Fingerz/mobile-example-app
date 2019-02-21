@@ -16,8 +16,9 @@ public class ConnectivityQuerier
     {
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-        if (activeNetwork != null)
+        if (isConnected)
         {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
             {
