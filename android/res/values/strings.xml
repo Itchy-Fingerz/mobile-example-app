@@ -10,7 +10,11 @@
     <string name="about_page_developer">Developed by</string>
     <string name="searchbox_query_hint">Search the WRLD</string>
 
-    <string name="qr_scan_title">Scan My Location</string>
+    <string name="qr_scan_title">QR Code Location</string>
+    <string name="qr_steps_title">How to capture the QR code:</string>
+    <string name="qr_step_1">Use the camera view to center QR code in the square.</string>
+    <string name="qr_step_2">The QR code will automatically be detected.</string>
+    <string name="qr_step_3">You will be transitioned to your current location.</string>
     
     <string name="options_title">Options</string>
     <string name="options_view_stream_wifi_only_togglebutton_text">Stream over Wi-fi only</string>

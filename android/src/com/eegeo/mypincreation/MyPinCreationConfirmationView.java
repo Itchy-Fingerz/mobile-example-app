@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 
 public class MyPinCreationConfirmationView implements View.OnClickListener
 {

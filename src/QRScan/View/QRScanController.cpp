@@ -42,10 +42,16 @@ namespace ExampleApp
 
                 Eegeo::Space::LatLong loc = Eegeo::Space::LatLong::FromDegrees(latitude, longitude);
                 m_locationProvider.EnableFixedLocation(loc,buildingId,floorIndex,orientation);
+                const float heading = Eegeo::Math::Deg2Rad(orientation);
                 m_cameraTransitionController.StartTransitionTo(loc.ToECEF(),
                                                                zoomLevel,
+                                                               heading,
                                                                buildingId,
-                                                               floorIndex);
+                                                               floorIndex,
+                                                               true,
+                                                               true,
+                                                               true,
+                                                               true);
             }
 
             void QRScanController::OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message)

@@ -8,7 +8,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
@@ -34,6 +37,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
     private View m_closeButton = null;
     private RelativeLayout m_qrScanContainerView;
     private ZXingScannerView m_scannerView;
+    private View m_qrScanSuccessIcon;
 
     public QRScanView(MainActivity activity, long nativeCallerPointer)
     {
@@ -44,6 +48,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
 
         m_view = m_activity.getLayoutInflater().inflate(R.layout.qr_scan_layout, m_uiRoot, false);
         m_closeButton = m_view.findViewById(R.id.qr_scan_view_close_button);
+        m_qrScanSuccessIcon = m_view.findViewById(R.id.qr_scan_success_icon);
 
         m_qrScanContainerView = m_view.findViewById(R.id.qr_scan_container_view);
 
@@ -72,7 +77,9 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
     {
         Uri url = Uri.parse(scanData);
         String host = url.getHost();
-        List<String> pathSegments = url.getPathSegments();
+        final List<String> pathSegments = url.getPathSegments();
+
+        m_scannerView.stopCamera();
 
         if (host!=null && host.equals("fixedlocation"))
         {
@@ -82,49 +89,67 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
                 {
                     if(pathSegments.size() == 7)
                     {
-                        double lat = Double.parseDouble(pathSegments.get(1));
-                        double lng = Double.parseDouble(pathSegments.get(2));
-                        String buildingId = pathSegments.get(3);
-                        int floorNumber = Integer.parseInt(pathSegments.get(4));
-                        double orientation = Double.parseDouble(pathSegments.get(5));
-                        double zoomLevel = Double.parseDouble(pathSegments.get(6));
-                        QRScanViewJniMethods.OnIndoorQRScan(m_nativeCallerPointer,lat,lng,buildingId,floorNumber,orientation,zoomLevel);
-                        QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                        m_qrScanSuccessIcon.setVisibility(View.VISIBLE);
+
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                double lat = Double.parseDouble(pathSegments.get(1));
+                                double lng = Double.parseDouble(pathSegments.get(2));
+                                String buildingId = pathSegments.get(3);
+                                int floorNumber = Integer.parseInt(pathSegments.get(4));
+                                double orientation = Double.parseDouble(pathSegments.get(5));
+                                double zoomLevel = Double.parseDouble(pathSegments.get(6));
+                                QRScanViewJniMethods.OnIndoorQRScan(m_nativeCallerPointer,lat,lng,buildingId,floorNumber,orientation,zoomLevel);
+                                QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                            }
+                        }, 1000);
+
                     }
                     else
                     {
-                        showQRErrorDialog();
+                        onQRError();
                     }
                 }
                 else if(pathSegments.get(0).equals("outdoor"))
                 {
                     if(pathSegments.size() == 5)
                     {
-                        double lat = Double.parseDouble(pathSegments.get(1));
-                        double lng = Double.parseDouble(pathSegments.get(2));
-                        double orientation = Double.parseDouble(pathSegments.get(3));
-                        double zoomLevel = Double.parseDouble(pathSegments.get(4));
-                        QRScanViewJniMethods.OnOutdoorQRScan(m_nativeCallerPointer,lat,lng,orientation,zoomLevel);
-                        QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                        m_qrScanSuccessIcon.setVisibility(View.VISIBLE);
+                        new Handler(Looper.getMainLooper()).postDelayed(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                double lat = Double.parseDouble(pathSegments.get(1));
+                                double lng = Double.parseDouble(pathSegments.get(2));
+                                double orientation = Double.parseDouble(pathSegments.get(3));
+                                double zoomLevel = Double.parseDouble(pathSegments.get(4));
+                                QRScanViewJniMethods.OnOutdoorQRScan(m_nativeCallerPointer,lat,lng,orientation,zoomLevel);
+                                QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                            }
+                        }, 1000);
                     }
                     else
                     {
-                        showQRErrorDialog();
+                        onQRError();
                     }
                 }
             }
             else
             {
-                showQRErrorDialog();
+                onQRError();
             }
         }
         else
         {
-            showQRErrorDialog();
+            onQRError();
         }
     }
 
-    private void showQRErrorDialog()
+    private void onQRError()
     {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);
         alertDialogBuilder.setTitle("QR Scan Error")
@@ -136,6 +161,8 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
                     public void onClick(DialogInterface dialog, int which)
                     {
                         dialog.dismiss();
+                        m_scannerView.setResultHandler(QRScanView.this);
+                        m_scannerView.startCamera();
                     }
                 });
         AlertDialog alert = alertDialogBuilder.create();
@@ -152,6 +179,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
     {
         m_closeButton.setEnabled(true);
         m_view.setVisibility(View.VISIBLE);
+        m_qrScanSuccessIcon.setVisibility(View.GONE);
         m_view.requestFocus();
 
         if(m_activity.getRuntimePermissionDispatcher().hasCameraPermissionsWithCode(CAMERA_PERMISSION_REQUEST_CODE))
@@ -169,6 +197,15 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
     private void startQRScanCamera()
     {
         m_scannerView = new ZXingScannerView(m_activity);
+        m_scannerView.setBorderColor(Color.WHITE);
+        m_scannerView.setBorderCornerRadius(m_activity.dipAsPx(5));
+        m_scannerView.setBorderLineLength(m_activity.dipAsPx(50));
+        m_scannerView.setIsBorderCornerRounded(true);
+        m_scannerView.setSquareViewFinder(true);
+        m_scannerView.setBorderStrokeWidth(m_activity.dipAsPx(5));
+        m_scannerView.setMaskColor(Color.TRANSPARENT);
+        m_scannerView.setLaserEnabled(false);
+
         m_qrScanContainerView.addView(m_scannerView);
         m_scannerView.setResultHandler(this);
         m_scannerView.startCamera();

@@ -3,7 +3,7 @@
 package com.eegeo.searchmenu;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 import com.eegeo.searchproviders.MyTestSearchProvider;
 import com.eegeo.searchproviders.QueryContext;
 

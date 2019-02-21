@@ -14,7 +14,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 
 public class AboutPageView implements View.OnClickListener
 {

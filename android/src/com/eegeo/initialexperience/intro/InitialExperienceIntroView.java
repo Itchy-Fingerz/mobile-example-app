@@ -3,7 +3,7 @@
 package com.eegeo.initialexperience.intro;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 
 import android.content.res.Resources;
 import android.graphics.Point;

@@ -2,7 +2,7 @@
 package com.eegeo.interiorsexplorer;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 
 import android.view.MotionEvent;
 import android.view.View;

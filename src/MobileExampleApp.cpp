@@ -957,7 +957,7 @@ namespace ExampleApp
             m_pSearchMenuModule->AddMenuSection("Directions", m_pNavRoutingModule->GetNavMenuModel(), false);
         }
 
-        m_pSearchMenuModule->AddMenuSection("Scan My Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
+        m_pSearchMenuModule->AddMenuSection("QR Code Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("Options", m_pOptionsMenuModule->GetOptionsMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("About",  m_pAboutPageMenuModule->GetAboutPageMenuModel(), false);
 
