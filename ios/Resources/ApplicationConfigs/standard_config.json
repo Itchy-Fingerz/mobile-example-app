@@ -8,7 +8,7 @@
     "start_location_orientation_degrees": 0.0,
     "start_location_indoor_id": "",
     "start_location_floor_index": 0,
-    "try_start_at_gps_location": true,
+    "try_start_at_gps_location": false,
     "perform_start_up_search": false,
     "start_up_search_tag": "",
     "coveragetree_manifest_url": "",
@@ -31,53 +31,45 @@
     },
     "compass_camera_damping_enabled": true,
     "outdoor_search_menu_items": [{
-                                  "name": "Around Me",
+                                  "name": "Ship Activities",
                                   "search_tag": "",
-                                  "icon_key": "aroundme"
-                                  }, {
-                                  "name": "Accommodation",
-                                  "search_tag": "accommodation",
-                                  "icon_key": "accommodation"
-                                  }, {
-                                  "name": "Art & Museum",
-                                  "search_tag": "art",
-                                  "icon_key": "art"
-                                  }, {
-                                  "name": "Business",
-                                  "search_tag": "business",
-                                  "icon_key": "business"
-                                  }, {
-                                  "name": "Entertainment",
-                                  "search_tag": "entertainment",
-                                  "icon_key": "entertainment"
-                                  }, {
-                                  "name": "Food & Drink",
+                                  "icon_key": "ferry"
+                                  },{
+                                  "name": "Food & Beverage",
                                   "search_tag": "food_drink",
                                   "icon_key": "food_drink"
-                                  }, {
-                                  "name": "General Amenities",
-                                  "search_tag": "general",
-                                  "icon_key": "general"
-                                  }, {
-                                  "name": "Health",
-                                  "search_tag": "health",
-                                  "icon_key": "health"
-                                  }, {
+                                  },{
+                                  "name": "Recreation",
+                                  "search_tag": "Lifeguard",
+                                  "icon_key": "sports"
+                                  },{
                                   "name": "Shopping",
                                   "search_tag": "shopping",
                                   "icon_key": "shopping"
-                                  }, {
-                                  "name": "Sport & Leisure",
-                                  "search_tag": "sports",
-                                  "icon_key": "sports"
-                                  }, {
-                                  "name": "Tourist info",
-                                  "search_tag": "tourist_info",
-                                  "icon_key": "tourist_info"
-                                  }, {
-                                  "name": "Transport",
-                                  "search_tag": "transport",
-                                  "icon_key": "bus"
+                                  },{
+                                  "name": "Spa & Fitness",
+                                  "search_tag": "spa",
+                                  "icon_key": "spa"
+                                  },{
+                                  "name": "Theatre & Stages",
+                                  "search_tag": "entertainment",
+                                  "icon_key": "entertainment"
+                                  },{
+                                  "name": "Kids Club",
+                                  "search_tag": "childcare",
+                                  "icon_key": "childcare"
+                                  },{
+                                  "name": "Guest Services",
+                                  "search_tag": "reception",
+                                  "icon_key": "reception"
+                                  },{
+                                  "name": "Pool",
+                                  "search_tag": "lifeguard",
+                                  "icon_key": "lifeguard"
+                                  },{
+                                  "name": "Staterooms",
+                                  "search_tag": "accommodation",
+                                  "icon_key": "accommodation"
                                   }],
     "indoor_tracked_buildings": [{
                                  "interior_id": "westport_house",
