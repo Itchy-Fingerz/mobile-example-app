@@ -4,7 +4,7 @@ script_name=${0##*/}
 base_dir=$(dirname "$0")
 
 
-readonly xcode_target="ExampleApp"
+readonly xcode_target="ProjectEagleApp"
 
 build_dir="XcodeBuild"
 clean_build=0
@@ -171,7 +171,7 @@ pushd $project_path > /dev/null
     fi
 
     xcodebuild_args=" \
--target $xcode_target \
+-project ${product_name}.xcodeproj \
 -configuration $target_configuration \
 PRODUCT_NAME=$product_name \
 PRODUCT_VERSION=$product_version \

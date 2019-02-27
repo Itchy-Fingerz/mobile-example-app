@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>77LF7Y24G3.*</string>
+	</array>
+	<key>get-task-allow</key>
+	<false/>
+	<key>application-identifier</key>
+	<string>77LF7Y24G3.com.eegeo.ProjectEagleApp</string>
+	<key>com.apple.developer.ubiquity-kvstore-identifier</key>
+	<string>77LF7Y24G3.com.eegeo.ProjectEagleApp</string>
+	<key>com.apple.developer.icloud-container-environment</key>
+	<array>
+		<string>Production</string>
+	</array>
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.com.eegeo.ProjectEagleApp</string>
+		<string>77LF7Y24G3.com.eegeo.ProjectEagleApp</string>
+	</array>
+	<key>com.apple.developer.ubiquity-container-identifiers</key>
+	<array>
+		<string>iCloud.com.eegeo.ProjectEagleApp</string>
+		<string>77LF7Y24G3.com.eegeo.ProjectEagleApp</string>
+	</array>
+	<key>com.apple.developer.team-identifier</key>
+	<string>77LF7Y24G3</string>
+	<key>aps-environment</key>
+	<string>production</string>
+	<key>beta-reports-active</key>
+	<true/>
+</dict>
+</plist>
