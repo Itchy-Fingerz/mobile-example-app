@@ -13,6 +13,24 @@ namespace ExampleApp
     {
         namespace Sqlite
         {
+            std::string replaceSingleQuote( std::string const& original )
+            {
+                std::string results(
+                                    original.size()
+                                    + std::count( original.begin(), original.end(), '\''),
+                                    '\'' );
+                std::string::iterator dest = results.begin();
+                for ( std::string::const_iterator current = original.begin();
+                     current != original.end();
+                     ++ current ) {
+                    if ( *current == '\'' ) {
+                        ++ dest;
+                    }
+                    *dest = *current;
+                    ++ dest;
+                }
+                return results;
+            }
             SqliteQueryBuilder::SqliteQueryBuilder(std::vector<std::pair<std::string, std::string>> columnNames) :
             m_columnNames(columnNames)
             {
@@ -70,8 +88,8 @@ namespace ExampleApp
                 
                 query << ") VALUES (";
                 query << "'" << poi_id << "',";
-                query << "'" << title << "',";
-                query << "'" << sub_title << "',";
+                query << "'" << replaceSingleQuote(title)  << "',";
+                query << "'" << replaceSingleQuote(sub_title) << "',";
                 query << "'" << lat << "',";
                 query << "'" << lng << "',";
                 query << "'" << isInterior << "',";
