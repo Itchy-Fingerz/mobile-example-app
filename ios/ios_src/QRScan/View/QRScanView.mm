@@ -173,6 +173,7 @@
     
     _pCaptureSession = [[AVCaptureSession alloc] init];
     
+    
     [_pCaptureSession addInput:input];
     
     AVCaptureMetadataOutput *captureMetadataOutput = [[AVCaptureMetadataOutput alloc] init];
@@ -198,6 +199,13 @@
     
     [_pCameraContentView.layer addSublayer:_pVideoPreviewLayer];
     
+    const bool isPhone = ExampleApp::Helpers::UIHelpers::UsePhoneLayout();
+
+    if (!isPhone)
+    {
+        _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+    }
+
     [_pCaptureSession startRunning];
     
     [self addOverlay];
