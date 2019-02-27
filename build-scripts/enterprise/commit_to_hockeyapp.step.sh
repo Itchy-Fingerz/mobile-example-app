@@ -81,7 +81,7 @@ if [ "$buildDSYM" = 1 ]; then
 resultcode=$(curl --write-out %{http_code} --output "$commitlog" \
   -F status="2" \
   -F notify="1" \
-  -F tags="engineering,qa,internal" \
+  -F tags="engineering,qa,internal,ldc" \
   -F notes="$notes" \
   -F notes_type="0" \
   -F ipa="@$filepath" \
@@ -95,7 +95,7 @@ else
 resultcode=$(curl --write-out %{http_code} --output "$commitlog" \
   -F status="2" \
   -F notify="1" \
-  -F tags="engineering,qa,internal" \
+  -F tags="engineering,qa,internal,ldc" \
   -F notes="$notes" \
   -F notes_type="0" \
   -F ipa="@$filepath" \
