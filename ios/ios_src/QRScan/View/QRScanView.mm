@@ -228,7 +228,12 @@
 
 -(void)playBeepSound
 {
-    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);//http://iphonedevwiki.net/index.php/AudioServices
+    if (!_pIsScanningDone)
+    {
+        _pIsScanningDone = true;
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);//http://iphonedevwiki.net/index.php/AudioServices
+    }
+    
 }
 
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
@@ -239,7 +244,6 @@
         
         if ([[metadataObj type] isEqualToString:AVMetadataObjectTypeQRCode])
         {
-            
             [self playBeepSound];
             NSString * qrString = [metadataObj stringValue];
             
@@ -279,8 +283,9 @@
                 double orientation = [pathComponents[6] doubleValue];
                 double zoomLevel = [pathComponents[7] doubleValue];
                 
-                m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
                 m_pInterop->CloseTapped();
+                m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
+                _pIsScanningDone = false;
             }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6) //5
             {
                 double lat = [pathComponents[2] doubleValue];
@@ -288,8 +293,9 @@
                 double orientation = [pathComponents[4] doubleValue];
                 double zoomLevel = [pathComponents[5] doubleValue];
 
-                m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel);
                 m_pInterop->CloseTapped();
+                m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel);
+                _pIsScanningDone = false;
             }else
             {
                  [self notifyInvalidQRCode];
@@ -306,12 +312,15 @@
 }
 - (void) notifyInvalidQRCode
 {
-    UIAlertController *alertController = ExampleApp::Helpers::UIHelpers::CreateSimpleAlert(@"Invalid QR Code",
-                                                                                           @"Please scan a valid QR code.",
-                                                                                           @"OK");
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid QR Code" message:@"Please scan a valid QR code." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        _pIsScanningDone = false;
+    }];
+    [alert addAction:ok];
+
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     UIViewController *viewController = window.rootViewController;
-    [viewController presentViewController:alertController animated:YES completion:nil];
+    [viewController presentViewController:alert animated:YES completion:nil];
 }
 
 

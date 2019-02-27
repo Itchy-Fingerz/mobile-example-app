@@ -39,6 +39,7 @@
 @property (nonatomic, retain) IBOutlet UIView* pCameraContentView;
 @property (nonatomic, retain) IBOutlet UIView* pViewforCameraLayer;
 @property (nonatomic)  Boolean pIsReading;
+@property (nonatomic)  Boolean pIsScanningDone;
 @property (nonatomic, retain) CAShapeLayer *pOverlay;
 
 
