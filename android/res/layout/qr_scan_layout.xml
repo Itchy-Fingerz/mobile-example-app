@@ -2,10 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/qr_scan_view"
     android:layout_width="320dp"
-    android:layout_height="wrap_content"
+    android:layout_height="600dp"
     android:layout_centerInParent="true">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/qr_scan_view_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +15,7 @@
 
         <!-- Title bar -->
         <RelativeLayout
+            android:id="@+id/qr_scan_title_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -44,8 +45,10 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:layout_below="@+id/qr_scan_title_container"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/qr_scan_bottom_container"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
@@ -64,9 +67,11 @@
         </RelativeLayout>
 
         <LinearLayout
+            android:id="@+id/qr_scan_bottom_container"
+            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="18dp"
+            android:padding="18dp"
             android:orientation="vertical">
 
             <TextView
@@ -186,6 +191,6 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

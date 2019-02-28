@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
@@ -79,6 +80,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
         String host = url.getHost();
         final List<String> pathSegments = url.getPathSegments();
 
+        m_scannerView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
         m_scannerView.stopCamera();
 
         if (host!=null && host.equals("fixedlocation"))
