@@ -102,6 +102,7 @@
 #include "EegeoPoiSetSearchServiceModule.h"
 #include "QRScanModule.h"
 #include "IQRScanMenuModule.h"
+#include "QRScanMessageHandler.h"
 
 namespace ExampleApp
 {
@@ -212,6 +213,7 @@ namespace ExampleApp
         Eegeo::Location::ILocationService& m_platformLocationService;
         Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
         LocationProvider::ILocationProvider * m_pLocationProvider;
+        QRScanMessageHandler::QRScanMessageHandler* m_pQRScanMessageHandler;
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
                                            const bool interiorsAffectedByFlattening,

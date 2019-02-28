@@ -146,6 +146,7 @@
 #include "QRScanModule.h"
 #include "QRScanMenuModule.h"
 #include "QRScanMenuOption.h"
+#include "QRScanMessageHandler.h"
 
 namespace ExampleApp
 {
@@ -930,6 +931,8 @@ namespace ExampleApp
 
         m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
                                                                             m_pQRScanModule->GetQRScanViewModel());
+        
+        m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(mapModule.GetMarkersModule().GetMarkerService(),m_messageBus);
 
         std::vector<Reaction::View::IReaction*> reactions(GetReactions());
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> openables(GetOpenableControls());
@@ -1130,6 +1133,8 @@ namespace ExampleApp
         Eegeo_DELETE m_pQRScanMenuModule;
 
         Eegeo_DELETE m_pQRScanModule;
+        
+        Eegeo_DELETE m_pQRScanMessageHandler;
     }
 
     std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> MobileExampleApp::GetOpenableControls() const
