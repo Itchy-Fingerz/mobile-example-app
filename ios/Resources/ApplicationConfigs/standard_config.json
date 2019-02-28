@@ -32,7 +32,7 @@
     "compass_camera_damping_enabled": true,
     "outdoor_search_menu_items": [{
                                   "name": "Ship Activities",
-                                  "search_tag": "",
+                                  "search_tag": "ship_activities",
                                   "icon_key": "ferry"
                                   },{
                                   "name": "Food & Beverage",

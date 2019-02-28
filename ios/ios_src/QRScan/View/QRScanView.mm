@@ -38,6 +38,7 @@
     [_pCameraContentView release];
     [self removeFromSuperview];
     Eegeo_DELETE m_pInterop;
+    [_pQrDetectedImageView release];
     [super dealloc];
     
     
@@ -131,7 +132,7 @@
 }
 
 - (void)startScan {
-    
+    [_pQrDetectedImageView setHidden:true];
     if (!_pIsReading)
     {
         if ([self startReading])
@@ -213,14 +214,14 @@
     return YES;
     
 }
-
+-(void)stopCaptureSession{
+    [_pCaptureSession stopRunning];
+}
 
 -(void)stopReading{
-    
     [_pCaptureSession stopRunning];
     [_pCaptureSession release];
     _pCaptureSession = nil;
-    
     [_pVideoPreviewLayer removeFromSuperlayer];
     [_pVideoPreviewLayer release];
     _pVideoPreviewLayer = nil;
@@ -252,7 +253,6 @@
             }
             else                
             {
-                //you can show your custom alert like - there is no HTTP link present in the QR Code. //
                 [self performSelectorOnMainThread:@selector(onQRScanCompleted:) withObject:nil waitUntilDone:NO];
             }
             
@@ -265,7 +265,6 @@
 {
     if (resultScanned != nil && _pIsReading)
     {
-        [self stopReading];
         _pIsReading = NO;
         
         NSURL *url  = [[NSURL alloc] initWithString:resultScanned];
@@ -276,26 +275,17 @@
             NSString *locationMode = pathComponents[1];
             if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 8) //7
             {
-                double lat = [pathComponents[2] doubleValue];
-                double lon = [pathComponents[3] doubleValue];
-                NSString *indoorId = pathComponents[4];
-                int floorIndex = [pathComponents[5] intValue];
-                double orientation = [pathComponents[6] doubleValue];
-                double zoomLevel = [pathComponents[7] doubleValue];
-                
-                m_pInterop->CloseTapped();
-                m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
+                [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
-            }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6) //5
+                [self stopCaptureSession];
+                [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:2.0];
+            }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6)
             {
-                double lat = [pathComponents[2] doubleValue];
-                double lon = [pathComponents[3] doubleValue];
-                double orientation = [pathComponents[4] doubleValue];
-                double zoomLevel = [pathComponents[5] doubleValue];
-
-                m_pInterop->CloseTapped();
-                m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel);
+                [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
+                [self stopCaptureSession];
+                [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:2.0];
+                
             }else
             {
                  [self notifyInvalidQRCode];
@@ -309,6 +299,35 @@
     {
         [self notifyInvalidQRCode];
     }
+}
+
+- (void) dismissViewWithDelay:(NSArray*)pathComponents
+{
+    NSString *locationMode = pathComponents[1];
+    if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 8)
+    {
+        double lat = [pathComponents[2] doubleValue];
+        double lon = [pathComponents[3] doubleValue];
+        NSString *indoorId = pathComponents[4];
+        int floorIndex = [pathComponents[5] intValue];
+        double orientation = [pathComponents[6] doubleValue];
+        double zoomLevel = [pathComponents[7] doubleValue];
+        
+        m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
+        
+    }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6)
+    {
+        double lat = [pathComponents[2] doubleValue];
+        double lon = [pathComponents[3] doubleValue];
+        double orientation = [pathComponents[4] doubleValue];
+        double zoomLevel = [pathComponents[5] doubleValue];
+        
+        m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel);
+        
+    }
+    [self stopReading];
+
+    m_pInterop->CloseTapped();
 }
 - (void) notifyInvalidQRCode
 {
