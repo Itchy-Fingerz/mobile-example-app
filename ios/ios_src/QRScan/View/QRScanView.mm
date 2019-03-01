@@ -278,13 +278,13 @@
                 [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
                 [self stopCaptureSession];
-                [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:2.0];
+                [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:1.0];
             }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6)
             {
                 [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
                 [self stopCaptureSession];
-                [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:2.0];
+                [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:1.0];
                 
             }else
             {
