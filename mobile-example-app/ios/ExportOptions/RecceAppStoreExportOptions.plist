@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>compileBitcode</key>
+	<false/>
+	<key>method</key>
+	<string>app-store</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.eegeo.Recce</key>
+		<string>WRLDAppDistribution</string>
+	</dict>
+	<!--
+	This is the SHA for the certificate "iPhone Distribution: eeGeo Limited (QBCVJ28BRW)" corresponding to WRLDAppDistribution
+	provisioning profile (exp Apr 16, 2019). We currently have multiple certs named "iPhone Distribution: eeGeo Limited (QBCVJ28BRW)", 
+	using the SHA disambiguates
+	-->
+	<key>signingCertificate</key>
+	<string>878B6E486A835C193882B8D7B62C7127323683A0</string>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>iTunesConnectAccountUsername</key>
+	<string>apple.developer@kimbleoperations.com</string>
+	<key>teamID</key>
+	<string>QBCVJ28BRW</string>
+	<key>iCloudContainerEnvironment</key>
+	<string>Production</string>
+</dict>
+</plist>

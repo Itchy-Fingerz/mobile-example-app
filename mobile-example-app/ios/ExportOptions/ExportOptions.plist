@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>compileBitcode</key>
+	<false/>
+	<key>method</key>
+	<string>enterprise</string>
+	<key>provisioningProfiles</key>
+	<dict>
+		<key>com.eegeo.ProjectEagleApp</key>
+		<string>EagleIH</string>
+		<key>com.eegeo.PrivateExampleApp</key>
+		<string>PrivateExampleAppIH</string>
+	</dict>
+	<key>signingCertificate</key>
+	<string>iPhone Distribution: eeGeo Limited</string>
+	<key>signingStyle</key>
+	<string>automatic</string>
+	<key>teamID</key>
+	<string>77LF7Y24G3</string>
+</dict>
+</plist>

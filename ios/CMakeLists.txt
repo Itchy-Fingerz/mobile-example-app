@@ -53,7 +53,7 @@ message (STATUS "Using FRAMEWORK_CODE_SIGN_IDENTITY: ${FRAMEWORK_CODE_SIGN_IDENT
 
 
 if(NOT TARGET_NAME)
-  set(TARGET_NAME "ExampleApp")
+  set(TARGET_NAME "ProjectEagleApp")
   message(STATUS "Using default target: ${TARGET_NAME}")
 endif(NOT TARGET_NAME)
 
