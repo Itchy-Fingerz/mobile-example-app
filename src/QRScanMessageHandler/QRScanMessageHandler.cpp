@@ -2,13 +2,14 @@
 
 #include "QRScanMessageHandler.h"
 #include "MarkerBuilder.h"
+#include "BillboardedSpriteExample.h"
 
 namespace ExampleApp
 {
     namespace QRScanMessageHandler
     {
-        QRScanMessageHandler::QRScanMessageHandler(Eegeo::Markers::IMarkerService& markerService,ExampleAppMessaging::TMessageBus& messageBus)
-        : m_markerService(markerService)
+        QRScanMessageHandler::QRScanMessageHandler(BillboardedSprite::BillboardedSpriteExample& billBoardSprite,ExampleAppMessaging::TMessageBus& messageBus)
+        : m_bilboardSprite(billBoardSprite)
         , m_messageBus(messageBus)
         , m_indoorQrScanCompleted(this, &QRScanMessageHandler::OnIndoorQRScanCompleted)
         , m_outdoorQrScanCompleted(this, &QRScanMessageHandler::OnOutdoorQRScanCompleted)
@@ -22,7 +23,6 @@ namespace ExampleApp
         
         QRScanMessageHandler::~QRScanMessageHandler()
         {
-            QRScanMessageHandler::ClearPins();
             m_messageBus.UnsubscribeNative(m_indoorQrScanCompleted);
             m_messageBus.UnsubscribeNative(m_outdoorQrScanCompleted);
             m_messageBus.UnsubscribeUi(m_appModeChangedMessageHandler);
@@ -32,58 +32,25 @@ namespace ExampleApp
         {
             double latitude = message.GetLatitude();
             double longitude = message.GetLongitude();
-            std::string buildingId = message.GetBuildingId();
-            int floorIndex = message.GetFloorIndex();
+            const Eegeo::Space::LatLongAltitude spritePosition = Eegeo::Space::LatLongAltitude::FromDegrees(latitude, longitude, 30.0);
             
-            QRScanMessageHandler::ClearPins();
-            const auto& markerCreateParams = Eegeo::Markers::MarkerBuilder()
-            .SetLocation(latitude, longitude)
-            .SetLabelIcon("you_are_here")
-            .SetElevation(5)
-            .SetInterior(buildingId,floorIndex+1)
-            .SetSubPriority(0)
-            .Build();
-            
-            const Eegeo::Markers::IMarker::IdType markerId = m_markerService.Create(markerCreateParams);
-            m_markerIDs.push_back(markerId);
-
+            m_bilboardSprite.Start(spritePosition.ToECEF());
         }
         
         void QRScanMessageHandler::OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message)
         {
             double latitude = message.GetLatitude();
             double longitude = message.GetLongitude();
-
-            QRScanMessageHandler::ClearPins();
-            const auto& markerCreateParams = Eegeo::Markers::MarkerBuilder()
-            .SetLocation(latitude, longitude)
-            .SetLabelIcon("you_are_here")
-            .SetElevation(5)
-            .SetSubPriority(0)
-            .Build();
+            const Eegeo::Space::LatLongAltitude spritePosition = Eegeo::Space::LatLongAltitude::FromDegrees(latitude, longitude, 30.0);
             
-            const Eegeo::Markers::IMarker::IdType markerId = m_markerService.Create(markerCreateParams);
-            m_markerIDs.push_back(markerId);
+            m_bilboardSprite.Start(spritePosition.ToECEF());
         }
         
         void QRScanMessageHandler::OnAppModeChanged(const AppModes::AppModeChangedMessage &message)
         {
-
-            
             if (message.GetAppMode() == AppModes::SdkModel::AppMode::WorldMode)
             {
-                QRScanMessageHandler::ClearPins();
             }
         }
-        
-        void QRScanMessageHandler::ClearPins()
-        {
-            while(!m_markerIDs.empty())
-            {
-                m_markerService.Destroy(m_markerIDs.back());
-                m_markerIDs.pop_back();
-            }
-        }
-
     }
 }

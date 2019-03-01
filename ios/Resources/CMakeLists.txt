@@ -1339,6 +1339,7 @@ set(resources ${resources}
         Resources/QR_img@2x.png
         Resources/QR_img@3x.png
         Resources/qr_step_icon.png        Resources/qr_step_icon@2x.png        Resources/qr_step_icon@3x.png
+	Resources/you_are_here_callout.png
         ios_src/QRScan/View/QRScanView.xib
         ExampleApp/Images.xcassets
 )
