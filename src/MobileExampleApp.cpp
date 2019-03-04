@@ -950,20 +950,13 @@ namespace ExampleApp
         m_pSearchMenuModule->AddMenuSection("Find", m_pTagSearchModule->GetTagSearchMenuModel(), true);
         m_pSearchMenuModule->AddMenuSection("Locations", m_pPlaceJumpsModule->GetPlaceJumpsMenuModel(), true);
         
-        if(!m_applicationConfiguration.IsInKioskMode())
-        {
-            m_pSearchMenuModule->AddMenuSection("Drop Pin", m_pMyPinCreationModule->GetMyPinCreationMenuModel(), false);
-            m_pSearchMenuModule->AddMenuSection("My Pins", m_pMyPinsModule->GetMyPinsMenuModel(), true);
-        }
-
-        m_pSearchMenuModule->AddMenuSection("Weather", m_pWeatherMenuModule->GetWeatherMenuModel(), true);
+        m_pSearchMenuModule->AddMenuSection("QR Code Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
 
         if(m_applicationConfiguration.NavigationEnabled())
         {
             m_pSearchMenuModule->AddMenuSection("Directions", m_pNavRoutingModule->GetNavMenuModel(), false);
         }
 
-        m_pSearchMenuModule->AddMenuSection("QR Code Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("Options", m_pOptionsMenuModule->GetOptionsMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("About",  m_pAboutPageMenuModule->GetAboutPageMenuModel(), false);
 
