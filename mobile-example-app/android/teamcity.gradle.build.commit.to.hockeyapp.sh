@@ -14,7 +14,7 @@ set -e
 
 if [[ "$#" -lt 3 || "$#" -gt 5 ]]; then
     echo -e "Invalid argument(s).\nUsage:\n${script_name} versionName buildUrl githubUrl [app_store_application_id] [external_signing]" >&2
-    echo "e.g. ${script_name} 0.0.123 http://teamcity/buildurl http://github.com/etc com.eegeo.recce ../eegeo-mobile/build-scripts/mobile-example-app/android/signing" >&2
+    echo "e.g. ${script_name} 0.0.123 http://teamcity/buildurl http://github.com/etc com.eegeo.wrldeagleapp ../eegeo-mobile/build-scripts/mobile-example-app/android/signing" >&2
     exit 1
 fi
 
@@ -38,10 +38,10 @@ echo "externalSigning is ${externalSigning}"
 # this is maintaining the behaviour from non-gradle teamcity.build.commit.to.hockeyapp.sh
 readonly versionCode=$(date +%s)
 readonly appDir=./android
-readonly hockeyAppIdentifier=efaf66c60bd97e9e33840f7abdf12095
+readonly hockeyAppIdentifier=2e6741e4e4ad4592aad9f0953b7a1527
 readonly pathToApkBase=$current_dir/$appDir/build/outputs/apk/normal/release
 readonly pathToApk=$pathToApkBase/android-normal-release.apk
-readonly nonAppStoreApplicationId=com.eegeo.mobileexampleapp
+readonly nonAppStoreApplicationId=com.eegeo.wrldeagleapp
 readonly pathToNonAppStoreApk=$pathToApkBase/$nonAppStoreApplicationId.apk
 
 echo "versionCode is $versionCode"
@@ -52,6 +52,7 @@ echo "nonAppStoreApplicationId is ${nonAppStoreApplicationId}"
 
 
 echo "Performing gradle build..."
+echo "External signing path: $externalSigning"
 
 pushd $appDir
     ./build.sh --release --version-code ${versionCode} --version-name ${versionName} --application-id ${nonAppStoreApplicationId} --external-signing ${externalSigning}
@@ -70,32 +71,32 @@ pushd $appDir
 popd
 
 
-if [ ! -z "$appStoreApplicationId" ]; then
-
-    echo "Performing gradle build for app store app $appStoreApplicationId ..."
-
-    pushd $appDir
-        ./build.sh --release --version-code ${versionCode} --version-name ${versionName} --application-id ${appStoreApplicationId} --external-signing ${externalSigning}
-
-        if [ $? -ne 0 ] ; then
-            exitCode=$?
-            echo "Error performing gradle build" >&2
-            exit $exitCode
-        fi
-
-        readonly pathToAppStoreApk=$current_dir/$appDir/build/outputs/apk/normal/release/${appStoreApplicationId}.apk
-        rm -f $pathToAppStoreApk
-        mv $pathToApk $pathToAppStoreApk
-
-        echo "app store apk is: ${pathToAppStoreApk}"
-    popd
-
-fi
+#if [ ! -z "$appStoreApplicationId" ]; then
+#
+#    echo "Performing gradle build for app store app $appStoreApplicationId ..."
+#
+#    pushd $appDir
+#        ./build.sh --release --version-code ${versionCode} --version-name ${versionName} --application-id ${appStoreApplicationId} --external-signing ${externalSigning}
+#
+#        if [ $? -ne 0 ] ; then
+#            exitCode=$?
+#            echo "Error performing gradle build" >&2
+#            exit $exitCode
+#        fi
+#
+#        readonly pathToAppStoreApk=$current_dir/$appDir/build/outputs/apk/normal/release/${appStoreApplicationId}.apk
+#        rm -f $pathToAppStoreApk
+#        mv $pathToApk $pathToAppStoreApk
+#
+#        echo "app store apk is: ${pathToAppStoreApk}"
+#    popd
+#
+#fi
 
 echo "Performing commit_to_hockeyapp..."
 
 pushd .
-    sh "$script_dir/../../android/commit_to_hockeyapp.step.sh" $pathToNonAppStoreApk $buildUrl $githubUrl $hockeyAppIdentifier
+    sh "$script_dir/../../build-scripts/android/commit_to_hockeyapp.step.sh" $pathToNonAppStoreApk $buildUrl $githubUrl $hockeyAppIdentifier
     if [ $? -ne 0 ] ; then
         exitCode=$?
         echo "Error performing commit_to_hockeyapp" >&2

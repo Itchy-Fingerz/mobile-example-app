@@ -8,7 +8,7 @@ clean_build=0
 release_build=0
 version_code=1
 version_name="1.0"
-application_id="com.wrld.exampleapp"
+application_id="com.eegeo.wrldeagleapp"
 
 
 usage()
