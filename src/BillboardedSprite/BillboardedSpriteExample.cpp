@@ -28,12 +28,10 @@ namespace ExampleApp
     
     namespace BillboardedSprite
     {
-        //                                                           Eegeo::Camera::GlobeCamera::GlobeCameraTouchController& cameraTouchController,
         BillboardedSpriteExample::BillboardedSpriteExample(Eegeo::Camera::GlobeCamera::GlobeCameraController& cameraController,
                                                            Eegeo::Modules::Core::RenderingModule& renderingModule,
                                                            Eegeo::Helpers::ITextureFileLoader& textureFileLoader)
         : m_globeCameraController(cameraController)
-        //, m_globeCameraTouchController(cameraTouchController)
         , m_renderingModule(renderingModule)
         , m_textureFileLoader(textureFileLoader)
         , m_pBatchedSpriteRenderable(NULL)
@@ -44,6 +42,7 @@ namespace ExampleApp
         , m_spriteDimensions(Eegeo::v2(30.0, 30.0))
         , m_spriteUvBounds(Eegeo::Geometry::Bounds2D(Eegeo::v2::Zero(), Eegeo::v2::One()))
         , m_spriteColor(Eegeo::v4::One())
+        , m_isSpriteAdded(false)
         {
             m_textureInfo.textureId = 0;
             m_textureInfo.height = 0;
@@ -97,13 +96,14 @@ namespace ExampleApp
                                                                               0.0,
                                                                               cameraInterestBasis);
             m_globeCameraController.SetView(cameraInterestBasis, 1000.f);
+            m_isSpriteAdded = true;
         }
         
         void BillboardedSpriteExample::Destroy()
         {
             
             
-            if (m_pBatchedSpriteRenderable != NULL)
+            if (m_isSpriteAdded)
             {
                 Eegeo::Rendering::RenderableFilters& renderableFilters = m_renderingModule.GetRenderableFilters();
                 renderableFilters.RemoveRenderableFilter(*this);
@@ -114,8 +114,14 @@ namespace ExampleApp
                 Eegeo_DELETE m_pBatchedSpriteShader;
                 Eegeo_GL(glDeleteTextures(1, &m_textureInfo.textureId));
                 Eegeo_GL(glDeleteTextures(1, &m_asyncTextureInfo.textureId));
+                m_isSpriteAdded = false;
             }
 
+        }
+        
+        void BillboardedSpriteExample::OnSingleTap(const AppInterface::TapData& data)
+        {
+            Destroy();
         }
 
         void BillboardedSpriteExample::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)

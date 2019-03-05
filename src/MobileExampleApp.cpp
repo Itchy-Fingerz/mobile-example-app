@@ -1533,7 +1533,9 @@ namespace ExampleApp
         {
             return;
         }
-
+        
+        m_pBillBoardSprite->OnSingleTap(data);
+        
         if (m_pWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point))
         {
             return;
