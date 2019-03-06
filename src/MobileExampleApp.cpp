@@ -947,8 +947,7 @@ namespace ExampleApp
 
         m_pSearchMenuModule->SetSearchSection("Search Results", m_pSearchResultSectionModule->GetSearchResultSectionModel());
         m_pSearchMenuModule->AddMenuSection("Find", m_pTagSearchModule->GetTagSearchMenuModel(), true);
-        m_pSearchMenuModule->AddMenuSection("Locations", m_pPlaceJumpsModule->GetPlaceJumpsMenuModel(), true);
-        
+
         m_pSearchMenuModule->AddMenuSection("QR Code Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
 
         if(m_applicationConfiguration.NavigationEnabled())
