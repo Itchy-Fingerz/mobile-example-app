@@ -89,7 +89,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
             {
                 if(pathSegments.get(0).equals("indoor"))
                 {
-                    if(pathSegments.size() == 7)
+                    if(pathSegments.size() == 8)
                     {
                         m_qrScanSuccessIcon.setVisibility(View.VISIBLE);
 
@@ -104,7 +104,8 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
                                 int floorNumber = Integer.parseInt(pathSegments.get(4));
                                 double orientation = Double.parseDouble(pathSegments.get(5));
                                 double zoomLevel = Double.parseDouble(pathSegments.get(6));
-                                QRScanViewJniMethods.OnIndoorQRScan(m_nativeCallerPointer,lat,lng,buildingId,floorNumber,orientation,zoomLevel);
+                                double tiltAngle = Double.parseDouble(pathSegments.get(7));
+                                QRScanViewJniMethods.OnIndoorQRScan(m_nativeCallerPointer,lat,lng,buildingId,floorNumber,orientation,zoomLevel,tiltAngle);
                                 QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
                             }
                         }, 1000);
@@ -117,7 +118,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
                 }
                 else if(pathSegments.get(0).equals("outdoor"))
                 {
-                    if(pathSegments.size() == 5)
+                    if(pathSegments.size() == 6)
                     {
                         m_qrScanSuccessIcon.setVisibility(View.VISIBLE);
                         new Handler(Looper.getMainLooper()).postDelayed(new Runnable()
@@ -129,7 +130,8 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
                                 double lng = Double.parseDouble(pathSegments.get(2));
                                 double orientation = Double.parseDouble(pathSegments.get(3));
                                 double zoomLevel = Double.parseDouble(pathSegments.get(4));
-                                QRScanViewJniMethods.OnOutdoorQRScan(m_nativeCallerPointer,lat,lng,orientation,zoomLevel);
+                                double tiltAngle = Double.parseDouble(pathSegments.get(5));
+                                QRScanViewJniMethods.OnOutdoorQRScan(m_nativeCallerPointer,lat,lng,orientation,zoomLevel,tiltAngle);
                                 QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
                             }
                         }, 1000);

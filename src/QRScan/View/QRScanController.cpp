@@ -43,7 +43,9 @@ namespace ExampleApp
                 Eegeo::Space::LatLong loc = Eegeo::Space::LatLong::FromDegrees(latitude, longitude);
                 m_locationProvider.EnableFixedLocation(loc,buildingId,floorIndex,orientation);
                 const float heading = Eegeo::Math::Deg2Rad(orientation);
-                m_cameraTransitionController.StartTransitionTo(loc.ToECEF(),
+                const Eegeo::dv3 interestPoint = loc.ToECEF();
+                Eegeo_TTY("najhi x:%d y:%d z:%d", interestPoint.x, interestPoint.y,interestPoint.z);
+                m_cameraTransitionController.StartTransitionTo(interestPoint,
                                                                zoomLevel,
                                                                heading,
                                                                buildingId,

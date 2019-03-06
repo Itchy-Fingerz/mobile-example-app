@@ -36,9 +36,9 @@ namespace ExampleApp
 
                 void Close();
 
-                void OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel);
+                void OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel, double tiltAngle);
 
-                void OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel);
+                void OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel, double tiltAngle);
 
                 void InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback);
 
