@@ -114,7 +114,8 @@
             android:paddingBottom="20dp"
             android:layout_marginTop="10dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/button_pressed_colour_change" >
+            android:background="@drawable/button_pressed_colour_change"
+			android:visibility="gone">
          	
             <TextView
 	                android:id="@+id/drop_pin_text"

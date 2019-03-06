@@ -204,7 +204,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
         m_scannerView.setBorderLineLength(m_activity.dipAsPx(50));
         m_scannerView.setIsBorderCornerRounded(true);
         m_scannerView.setSquareViewFinder(true);
-        m_scannerView.setBorderStrokeWidth(m_activity.dipAsPx(5));
+        m_scannerView.setBorderStrokeWidth(m_activity.dipAsPx(6));
         m_scannerView.setMaskColor(Color.TRANSPARENT);
         m_scannerView.setLaserEnabled(false);
 
