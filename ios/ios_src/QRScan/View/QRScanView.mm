@@ -299,16 +299,16 @@
         NSURL *url  = [[NSURL alloc] initWithString:resultScanned];
         NSArray *pathComponents = [url pathComponents];
 
-        if (pathComponents != nil && pathComponents.count >=6) // Currently assuming we will have 6 total path components
+        if (pathComponents != nil && pathComponents.count >=7) // Currently assuming we will have 6 total path components
         {
             NSString *locationMode = pathComponents[1];
-            if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 8) //7
+            if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 9) //7
             {
                 [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
                 [self stopCaptureSession];
                 [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:1.0];
-            }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6)
+            }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 7)
             {
                 [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
@@ -333,7 +333,7 @@
 - (void) dismissViewWithDelay:(NSArray*)pathComponents
 {
     NSString *locationMode = pathComponents[1];
-    if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 8)
+    if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 9)
     {
         double lat = [pathComponents[2] doubleValue];
         double lon = [pathComponents[3] doubleValue];
@@ -344,7 +344,7 @@
         
         m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
         
-    }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6)
+    }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 7)
     {
         double lat = [pathComponents[2] doubleValue];
         double lon = [pathComponents[3] doubleValue];
