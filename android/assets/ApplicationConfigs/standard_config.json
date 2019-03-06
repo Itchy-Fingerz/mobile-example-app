@@ -26,7 +26,7 @@
     "use_chinese_font": false,
     "hockey_app_id":"",
     "timer_survey_url":"",
-    "enable_navigation": false,
+    "enable_navigation": true,
     "compass_camera_offset": {
       "offset": 0.0,
       "offset_top_down": 0.0

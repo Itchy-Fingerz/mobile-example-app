@@ -25,6 +25,9 @@
     scanView.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
     scanView.pCameraContentView.layer.cornerRadius = 10.0f;
     scanView.pViewforCameraLayer.layer.cornerRadius = 10.0f;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:scanView selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+
     return scanView;
 }
 
@@ -32,6 +35,9 @@
 - (void)dealloc
 {
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification
+                                                  object:nil];
+    
     [_pViewforCameraLayer release];
     [_pCaptureSession release];
     [_pVideoPreviewLayer release];
@@ -204,7 +210,17 @@
 
     if (!isPhone)
     {
-        _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+        
+        if(orientation == UIDeviceOrientationLandscapeLeft)
+        {
+             _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+        }
+        else if(orientation == UIDeviceOrientationLandscapeRight)
+        {
+             _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        }
+       
     }
 
     [_pCaptureSession startRunning];
@@ -213,6 +229,19 @@
     
     return YES;
     
+}
+
+-(void)OrientationDidChange:(NSNotification*)notification
+{
+    UIDeviceOrientation orientation=[[UIDevice currentDevice]orientation];
+    if(_pVideoPreviewLayer && orientation == UIDeviceOrientationLandscapeLeft)
+    {
+        _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+    }
+    else if(_pVideoPreviewLayer && orientation == UIDeviceOrientationLandscapeRight)
+    {
+        _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+    }
 }
 -(void)stopCaptureSession{
     [_pCaptureSession stopRunning];
