@@ -3,7 +3,10 @@
 #pragma once
 
 #include "BidirectionalBus.h"
-#include "BillboardedSpriteExample.h"
+#include "QRCodePopUpSprite.h"
+#include "InteriorsExplorerExitMessage.h"
+#include "InteriorsExplorerFloorSelectionDraggedMessage.h"
+
 namespace ExampleApp
 {
     namespace QRScanMessageHandler
@@ -15,17 +18,21 @@ namespace ExampleApp
             ExampleAppMessaging::TMessageBus& m_messageBus;
             Eegeo::Helpers::TCallback1<QRScanMessageHandler, const QRScan::OnIndoorQRScanCompleteMessage&> m_indoorQrScanCompleted;
             Eegeo::Helpers::TCallback1<QRScanMessageHandler, const QRScan::OnOutdoorQRScanCompleteMessage&> m_outdoorQrScanCompleted;
-            Eegeo::Helpers::TCallback1<QRScanMessageHandler, const AppModes::AppModeChangedMessage&> m_appModeChangedMessageHandler;
+            Eegeo::Helpers::TCallback1<QRScanMessageHandler, const InteriorsExplorer::InteriorsExplorerExitMessage&> m_interiorsExplorerExitMessageHandler;
+            Eegeo::Helpers::TCallback1<QRScanMessageHandler, const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage&> m_InteriorsExplorerFloorSelectionDraggedMessageHandler;
+
+
             
-            BillboardedSprite::BillboardedSpriteExample& m_bilboardSprite;
+            QRCodePopUp::QRCodePopUpSprite& m_bilboardSprite;
 
             void OnIndoorQRScanCompleted(const QRScan::OnIndoorQRScanCompleteMessage& message);
             void OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message);
             
-            void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
+            void OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message);
+            void OnInteriorsExplorerFloorSelectionDraggedMessage(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message);
                         
         public:
-            QRScanMessageHandler(BillboardedSprite::BillboardedSpriteExample& billBoardSprite,ExampleAppMessaging::TMessageBus& messageBus);
+            QRScanMessageHandler(QRCodePopUp::QRCodePopUpSprite& billBoardSprite,ExampleAppMessaging::TMessageBus& messageBus);
             ~QRScanMessageHandler();
             
         };

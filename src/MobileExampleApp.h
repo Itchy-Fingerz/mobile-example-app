@@ -103,7 +103,7 @@
 #include "QRScanModule.h"
 #include "IQRScanMenuModule.h"
 #include "QRScanMessageHandler.h"
-#include "BillboardedSpriteExample.h"
+#include "QRCodePopUpSprite.h"
 
 
 namespace ExampleApp
@@ -216,7 +216,7 @@ namespace ExampleApp
         Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
         LocationProvider::ILocationProvider * m_pLocationProvider;
         QRScanMessageHandler::QRScanMessageHandler* m_pQRScanMessageHandler;
-        BillboardedSprite::BillboardedSpriteExample* m_pBillBoardSprite;
+        QRCodePopUp::QRCodePopUpSprite* m_pBillBoardSprite;
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
                                            const bool interiorsAffectedByFlattening,

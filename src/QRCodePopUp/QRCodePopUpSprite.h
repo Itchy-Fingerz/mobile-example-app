@@ -13,9 +13,9 @@
 
 namespace ExampleApp
 {
-    namespace BillboardedSprite
+    namespace QRCodePopUp
     {
-        class BillboardedSpriteExample : public Eegeo::Rendering::IRenderableFilter
+        class QRCodePopUpSprite : public Eegeo::Rendering::IRenderableFilter
         {
         private:
             Eegeo::Modules::Core::RenderingModule& m_renderingModule;
@@ -38,16 +38,16 @@ namespace ExampleApp
             bool m_isSpriteAdded;
 
         public:
-            BillboardedSpriteExample(Eegeo::Camera::GlobeCamera::GlobeCameraController& pCameraController,
+            QRCodePopUpSprite(Eegeo::Camera::GlobeCamera::GlobeCameraController& pCameraController,
                                  Eegeo::Modules::Core::RenderingModule& renderingModule,
                                  Eegeo::Helpers::ITextureFileLoader& textureFileLoader);
             
-            ~BillboardedSpriteExample();
+            ~QRCodePopUpSprite();
             
             void OnSingleTap(const AppInterface::TapData& data);
 
-            void Start(Eegeo::dv3 spritePosition);
-            void Destroy();
+            void Show(Eegeo::dv3 spritePosition);
+            void Remove();
             
             void EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue);
         };

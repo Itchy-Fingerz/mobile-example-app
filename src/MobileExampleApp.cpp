@@ -147,7 +147,7 @@
 #include "QRScanMenuModule.h"
 #include "QRScanMenuOption.h"
 #include "QRScanMessageHandler.h"
-#include "BillboardedSpriteExample.h"
+#include "QRCodePopUpSprite.h"
 
 namespace ExampleApp
 {
@@ -320,7 +320,6 @@ namespace ExampleApp
                                                 );
         
         m_pWorld->GetMapModule().GetLabelsModule().GetLabelOptionsModel().SetOcclusionMode(Eegeo::Labels::OcclusionResolverMode::Always);
-
         m_pLocationProvider = Eegeo_NEW(LocationProvider::LocationProvider)(m_platformLocationService, m_pWorld->GetMapModule());
         m_pCurrentLocationService->SetLocationService(*m_pLocationProvider);
 
@@ -933,7 +932,7 @@ namespace ExampleApp
         m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
                                                                             m_pQRScanModule->GetQRScanViewModel());
         
-        m_pBillBoardSprite = Eegeo_NEW(BillboardedSprite::BillboardedSpriteExample)(m_pGlobeCameraController->GetGlobeCameraController(),m_pWorld->GetRenderingModule(), m_platformAbstractions.GetTextureFileLoader());
+        m_pBillBoardSprite = Eegeo_NEW(QRCodePopUp::QRCodePopUpSprite)(m_pGlobeCameraController->GetGlobeCameraController(),m_pWorld->GetRenderingModule(), m_platformAbstractions.GetTextureFileLoader());
 
         m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(*m_pBillBoardSprite,m_messageBus);
         

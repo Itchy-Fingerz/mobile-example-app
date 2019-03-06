@@ -1,4 +1,4 @@
-#include "BillboardedSpriteExample.h"
+#include "QRCodePopUpSprite.h"
 
 #include "BatchedSpriteRenderable.h"
 #include "BatchedSpriteShader.h"
@@ -26,9 +26,9 @@ namespace ExampleApp
         const Eegeo::Space::LatLongAltitude SanFranBayLatLong = Eegeo::Space::LatLongAltitude::FromDegrees(26.155105, -78.792659, 0.0);
     }
     
-    namespace BillboardedSprite
+    namespace QRCodePopUp
     {
-        BillboardedSpriteExample::BillboardedSpriteExample(Eegeo::Camera::GlobeCamera::GlobeCameraController& cameraController,
+        QRCodePopUpSprite::QRCodePopUpSprite(Eegeo::Camera::GlobeCamera::GlobeCameraController& cameraController,
                                                            Eegeo::Modules::Core::RenderingModule& renderingModule,
                                                            Eegeo::Helpers::ITextureFileLoader& textureFileLoader)
         : m_globeCameraController(cameraController)
@@ -53,14 +53,14 @@ namespace ExampleApp
             m_asyncTextureInfo.width = 0;
         }
         
-        BillboardedSpriteExample::~BillboardedSpriteExample()
+        QRCodePopUpSprite::~QRCodePopUpSprite()
         {
-            Destroy();
+            Remove();
         }
         
-        void BillboardedSpriteExample::Start(Eegeo::dv3 spritePosition)
+        void QRCodePopUpSprite::Show(Eegeo::dv3 spritePosition)
         {
-            Destroy();
+            Remove();
             m_spriteEcefPosition = spritePosition;
             Eegeo::Rendering::Shaders::ShaderIdGenerator& shaderIdGenerator = m_renderingModule.GetShaderIdGenerator();
             m_pBatchedSpriteShader = Eegeo::Rendering::Shaders::BatchedSpriteShader::Create(shaderIdGenerator.GetNextId());
@@ -99,7 +99,7 @@ namespace ExampleApp
             m_isSpriteAdded = true;
         }
         
-        void BillboardedSpriteExample::Destroy()
+        void QRCodePopUpSprite::Remove()
         {
             
             
@@ -119,12 +119,12 @@ namespace ExampleApp
 
         }
         
-        void BillboardedSpriteExample::OnSingleTap(const AppInterface::TapData& data)
+        void QRCodePopUpSprite::OnSingleTap(const AppInterface::TapData& data)
         {
-            Destroy();
+            Remove();
         }
 
-        void BillboardedSpriteExample::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
+        void QRCodePopUpSprite::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
         {
             m_pBatchedSpriteRenderable->Reset();
             const Eegeo::Camera::RenderCamera& renderCamera = renderContext.GetRenderCamera();
