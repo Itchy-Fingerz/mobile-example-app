@@ -77,6 +77,7 @@
 #include "InteriorId.h"
 #include "ApplicationInteriorTrackingConfig.h"
 #include "InteriorMetaDataDto.h"
+#include "GpsGlobeCameraController.h"
 
 using namespace Eegeo::Android;
 using namespace Eegeo::Android::Input;
@@ -616,6 +617,8 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
                                     app.QRScanModule().GetQRScanViewModel(),
                                     m_pApp->GetLocationProvider(),
                                     m_pApp->CameraTransitionController(),
+                                    m_pApp->InteriorsExplorerModule().GetInteriorsCameraController(),
+                                    m_pApp->GetCameraController().GetGlobeCameraController(),
                                     *m_pAndroidFlurryMetricsService,
                                     m_messageBus);
 
