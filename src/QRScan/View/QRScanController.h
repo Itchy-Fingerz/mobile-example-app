@@ -11,6 +11,8 @@
 #include "BidirectionalBus.h"
 #include "ILocationProvider.h"
 #include "ICameraTransitionController.h"
+#include "InteriorsCameraController.h"
+#include "GlobeCameraController.h"
 
 namespace ExampleApp
 {
@@ -25,7 +27,9 @@ namespace ExampleApp
                 IQRScanViewModel& m_viewModel;
                 LocationProvider::ILocationProvider& m_locationProvider;
                 CameraTransitions::SdkModel::ICameraTransitionController& m_cameraTransitionController;
-
+                Eegeo::Resources::Interiors::InteriorsCameraController& m_interiorsCameraController;
+                Eegeo::Camera::GlobeCamera::GlobeCameraController& m_globeCameraController;
+                
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewOpened;
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewClosed;
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewCloseTapped;
@@ -46,7 +50,13 @@ namespace ExampleApp
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
 
             public:
-                QRScanController(IQRScanView& view, IQRScanViewModel& viewModel, LocationProvider::ILocationProvider& locationProvider, CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController, Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
+                QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
+                                 LocationProvider::ILocationProvider& locationProvider,
+                                 CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
+                                 Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
+                                 Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
+                                 Metrics::IMetricsService& metricsService,
+                                 ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~QRScanController();
             };

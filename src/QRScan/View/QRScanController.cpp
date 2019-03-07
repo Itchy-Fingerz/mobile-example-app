@@ -39,6 +39,7 @@ namespace ExampleApp
                 int floorIndex = message.GetFloorIndex();
                 double orientation = message.GetOrientation();
                 double zoomLevel = message.GetZoomLevel();
+                double tiltAngle = message.GetTiltAngle();
 
                 Eegeo::Space::LatLong loc = Eegeo::Space::LatLong::FromDegrees(latitude, longitude);
                 m_locationProvider.EnableFixedLocation(loc,buildingId,floorIndex,orientation);
@@ -54,6 +55,7 @@ namespace ExampleApp
                                                                true,
                                                                true,
                                                                true);
+                m_interiorsCameraController.SetTilt(tiltAngle);
             }
 
             void QRScanController::OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message)
@@ -62,6 +64,7 @@ namespace ExampleApp
                 double longitude = message.GetLongitude();
                 double orientation = message.GetOrientation();
                 double zoomLevel = message.GetZoomLevel();
+                double tiltAngle = message.GetTiltAngle();
 
                 Eegeo::Space::LatLong loc = Eegeo::Space::LatLong::FromDegrees(latitude, longitude);
                 m_locationProvider.EnableFixedLocation(loc,Eegeo::Resources::Interiors::InteriorId(""),0,orientation);
@@ -69,6 +72,7 @@ namespace ExampleApp
                 m_cameraTransitionController.StartTransitionTo(loc.ToECEF(),
                                                                zoomLevel,
                                                                heading);
+                m_globeCameraController.ApplyTilt(tiltAngle);
             }
             
             void QRScanController::OnAppModeChanged(const AppModes::AppModeChangedMessage &message)
@@ -87,12 +91,16 @@ namespace ExampleApp
             QRScanController::QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
                                                LocationProvider::ILocationProvider& locationProvider,
                                                CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
+                                               Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
+                                               Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
                                                Metrics::IMetricsService& metricsService,
                                                ExampleAppMessaging::TMessageBus& messageBus)
                 : m_view(view)
                 , m_viewModel(viewModel)
                 , m_locationProvider(locationProvider)
                 , m_cameraTransitionController(cameraTransitionController)
+                , m_interiorsCameraController(interiorsCameraController)
+                , m_globeCameraController(globeCameraController)
                 , m_metricsService(metricsService)
                 , m_viewClosed(this, &QRScanController::OnClose)
                 , m_viewOpened(this, &QRScanController::OnOpen)

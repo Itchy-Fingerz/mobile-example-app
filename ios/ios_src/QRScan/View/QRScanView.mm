@@ -341,8 +341,9 @@
         int floorIndex = [pathComponents[5] intValue];
         double orientation = [pathComponents[6] doubleValue];
         double zoomLevel = [pathComponents[7] doubleValue];
+        double tiltInDegree = [pathComponents[8] doubleValue];
         
-        m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
+        m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel,tiltInDegree);
         
     }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 7)
     {
@@ -350,8 +351,9 @@
         double lon = [pathComponents[3] doubleValue];
         double orientation = [pathComponents[4] doubleValue];
         double zoomLevel = [pathComponents[5] doubleValue];
+        double tiltInDegree = [pathComponents[6] doubleValue];
         
-        m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel);
+        m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel,tiltInDegree);
         
     }
     [self stopReading];

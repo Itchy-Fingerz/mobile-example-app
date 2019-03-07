@@ -87,6 +87,7 @@
 #include "InteriorId.h"
 #include "ApplicationInteriorTrackingConfig.h"
 #include "InteriorMetaDataDto.h"
+#include "GpsGlobeCameraController.h"
 
 using namespace Eegeo::iOS;
 
@@ -384,6 +385,8 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                     (app.QRScanModule().GetQRScanViewModel(),
                                     m_pApp->GetLocationProvider(),
                                     m_pApp->CameraTransitionController(),
+                                    m_pApp->InteriorsExplorerModule().GetInteriorsCameraController(),
+                                    m_pApp->GetCameraController().GetGlobeCameraController(),
                                     m_iOSFlurryMetricsService, m_messageBus);
 
 

@@ -31,7 +31,7 @@ namespace ExampleApp
                 [m_pView setFullyInactive];
             }
            
-            void QRScanViewInterop::OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel)
+            void QRScanViewInterop::OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel, double tiltInDegree)
             {
                 m_messageBus.Publish(QRScan::OnIndoorQRScanCompleteMessage(
                                                                            lat,
@@ -39,16 +39,18 @@ namespace ExampleApp
                                                                            buildingId,
                                                                            floorIndex,
                                                                            orientation,
-                                                                           zoomLevel));
+                                                                           zoomLevel,
+                                                                           tiltInDegree));
             }
             
-            void QRScanViewInterop::OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel)
+            void QRScanViewInterop::OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel, double tiltInDegree)
             {
                 m_messageBus.Publish(QRScan::OnOutdoorQRScanCompleteMessage(
                                                                             lat,
                                                                             lng,
                                                                             orientation,
-                                                                            zoomLevel));
+                                                                            zoomLevel,
+                                                                            tiltInDegree));
             }
 
             void QRScanViewInterop::InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)
