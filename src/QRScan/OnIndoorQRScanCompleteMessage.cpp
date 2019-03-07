@@ -6,13 +6,14 @@ namespace ExampleApp
 {
     namespace QRScan
     {
-        OnIndoorQRScanCompleteMessage::OnIndoorQRScanCompleteMessage(double latitude, double longitude, std::string buildingId, int floorIndex, double orientation, double zoomLevel)
+        OnIndoorQRScanCompleteMessage::OnIndoorQRScanCompleteMessage(double latitude, double longitude, std::string buildingId, int floorIndex, double orientation, double zoomLevel, double tiltAngle)
         : m_latitude(latitude)
         , m_longitude(longitude)
         , m_buildingId(buildingId)
         , m_floorIndex(floorIndex)
         , m_orientation(orientation)
         , m_zoomLevel(zoomLevel)
+        , m_tiltAngle(tiltAngle)
         {
         }
         
@@ -44,6 +45,11 @@ namespace ExampleApp
         double OnIndoorQRScanCompleteMessage::GetZoomLevel() const
         {
             return m_zoomLevel;
+        }
+
+        double OnIndoorQRScanCompleteMessage::GetTiltAngle() const
+        {
+            return m_tiltAngle;
         }
     }
 }

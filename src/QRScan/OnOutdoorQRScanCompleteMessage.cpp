@@ -6,11 +6,12 @@ namespace ExampleApp
 {
     namespace QRScan
     {
-        OnOutdoorQRScanCompleteMessage::OnOutdoorQRScanCompleteMessage(double latitude, double longitude, double orientation, double zoomLevel)
+        OnOutdoorQRScanCompleteMessage::OnOutdoorQRScanCompleteMessage(double latitude, double longitude, double orientation, double zoomLevel, double tiltAngle)
         : m_latitude(latitude)
         , m_longitude(longitude)
         , m_orientation(orientation)
         , m_zoomLevel(zoomLevel)
+        , m_tiltAngle(tiltAngle)
         {
         }
         
@@ -32,6 +33,11 @@ namespace ExampleApp
         double OnOutdoorQRScanCompleteMessage::GetZoomLevel() const
         {
             return m_zoomLevel;
+        }
+
+        double OnOutdoorQRScanCompleteMessage::GetTiltAngle() const
+        {
+            return m_tiltAngle;
         }
     }
 }

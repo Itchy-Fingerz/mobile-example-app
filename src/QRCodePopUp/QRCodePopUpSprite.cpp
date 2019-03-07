@@ -1,4 +1,4 @@
-#include "BillboardedSpriteExample.h"
+#include "QRCodePopUpSprite.h"
 
 #include "BatchedSpriteRenderable.h"
 #include "BatchedSpriteShader.h"
@@ -26,14 +26,12 @@ namespace ExampleApp
         const Eegeo::Space::LatLongAltitude SanFranBayLatLong = Eegeo::Space::LatLongAltitude::FromDegrees(26.155105, -78.792659, 0.0);
     }
     
-    namespace BillboardedSprite
+    namespace QRCodePopUp
     {
-        //                                                           Eegeo::Camera::GlobeCamera::GlobeCameraTouchController& cameraTouchController,
-        BillboardedSpriteExample::BillboardedSpriteExample(Eegeo::Camera::GlobeCamera::GlobeCameraController& cameraController,
+        QRCodePopUpSprite::QRCodePopUpSprite(Eegeo::Camera::GlobeCamera::GlobeCameraController& cameraController,
                                                            Eegeo::Modules::Core::RenderingModule& renderingModule,
                                                            Eegeo::Helpers::ITextureFileLoader& textureFileLoader)
         : m_globeCameraController(cameraController)
-        //, m_globeCameraTouchController(cameraTouchController)
         , m_renderingModule(renderingModule)
         , m_textureFileLoader(textureFileLoader)
         , m_pBatchedSpriteRenderable(NULL)
@@ -44,6 +42,7 @@ namespace ExampleApp
         , m_spriteDimensions(Eegeo::v2(30.0, 30.0))
         , m_spriteUvBounds(Eegeo::Geometry::Bounds2D(Eegeo::v2::Zero(), Eegeo::v2::One()))
         , m_spriteColor(Eegeo::v4::One())
+        , m_isSpriteAdded(false)
         {
             m_textureInfo.textureId = 0;
             m_textureInfo.height = 0;
@@ -54,14 +53,14 @@ namespace ExampleApp
             m_asyncTextureInfo.width = 0;
         }
         
-        BillboardedSpriteExample::~BillboardedSpriteExample()
+        QRCodePopUpSprite::~QRCodePopUpSprite()
         {
-            Destroy();
+            Remove();
         }
         
-        void BillboardedSpriteExample::Start(Eegeo::dv3 spritePosition)
+        void QRCodePopUpSprite::Show(Eegeo::dv3 spritePosition)
         {
-            Destroy();
+            Remove();
             m_spriteEcefPosition = spritePosition;
             Eegeo::Rendering::Shaders::ShaderIdGenerator& shaderIdGenerator = m_renderingModule.GetShaderIdGenerator();
             m_pBatchedSpriteShader = Eegeo::Rendering::Shaders::BatchedSpriteShader::Create(shaderIdGenerator.GetNextId());
@@ -97,13 +96,14 @@ namespace ExampleApp
                                                                               0.0,
                                                                               cameraInterestBasis);
             m_globeCameraController.SetView(cameraInterestBasis, 1000.f);
+            m_isSpriteAdded = true;
         }
         
-        void BillboardedSpriteExample::Destroy()
+        void QRCodePopUpSprite::Remove()
         {
             
             
-            if (m_pBatchedSpriteRenderable != NULL)
+            if (m_isSpriteAdded)
             {
                 Eegeo::Rendering::RenderableFilters& renderableFilters = m_renderingModule.GetRenderableFilters();
                 renderableFilters.RemoveRenderableFilter(*this);
@@ -114,11 +114,17 @@ namespace ExampleApp
                 Eegeo_DELETE m_pBatchedSpriteShader;
                 Eegeo_GL(glDeleteTextures(1, &m_textureInfo.textureId));
                 Eegeo_GL(glDeleteTextures(1, &m_asyncTextureInfo.textureId));
+                m_isSpriteAdded = false;
             }
 
         }
+        
+        void QRCodePopUpSprite::OnSingleTap()
+        {
+            Remove();
+        }
 
-        void BillboardedSpriteExample::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
+        void QRCodePopUpSprite::EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue)
         {
             m_pBatchedSpriteRenderable->Reset();
             const Eegeo::Camera::RenderCamera& renderCamera = renderContext.GetRenderCamera();

@@ -75,7 +75,7 @@ namespace ExampleApp
                 env->CallVoidMethod(m_uiView, dismissPoiInfo);
             }
 
-            void QRScanView::OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel)
+            void QRScanView::OnIndoorQRScanCompleted(double lat, double lng, const std::string& buildingId, int floorIndex, double orientation, double zoomLevel, double tiltAngle)
             {
                 ASSERT_UI_THREAD
 
@@ -85,10 +85,11 @@ namespace ExampleApp
                         buildingId,
                         floorIndex,
                         orientation,
-                        zoomLevel));
+                        zoomLevel,
+                        tiltAngle));
             }
 
-            void QRScanView::OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel)
+            void QRScanView::OnOutdoorQRScanCompleted(double lat, double lng, double orientation, double zoomLevel, double tiltAngle)
             {
                 ASSERT_UI_THREAD
 
@@ -96,7 +97,8 @@ namespace ExampleApp
                         lat,
                         lng,
                         orientation,
-                        zoomLevel));
+                        zoomLevel,
+                        tiltAngle));
             }
 
             void QRScanView::InsertCloseTappedCallback(Eegeo::Helpers::ICallback0& callback)

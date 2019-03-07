@@ -17,9 +17,10 @@ namespace ExampleApp
             int m_floorIndex;
             double m_orientation;
             double m_zoomLevel;
+            double m_tiltAngle;
             
         public:
-            OnIndoorQRScanCompleteMessage(double latitude, double longitude, std::string buildingId, int floorIndex, double orientation, double zoomLevel);
+            OnIndoorQRScanCompleteMessage(double latitude, double longitude, std::string buildingId, int floorIndex, double orientation, double zoomLevel, double tiltAngle);
             
             double GetLatitude() const;
             double GetLongitude() const;
@@ -27,6 +28,7 @@ namespace ExampleApp
             int GetFloorIndex() const;
             double GetOrientation() const;
             double GetZoomLevel() const;
+            double GetTiltAngle() const;
         };
     }
 }

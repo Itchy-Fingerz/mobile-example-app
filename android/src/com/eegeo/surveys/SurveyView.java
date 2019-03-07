@@ -13,6 +13,7 @@ public class SurveyView {
 	
 	private MainActivity m_activity = null;
 	private static AlertDialog m_options = null;
+    private boolean m_disableSurveyPopup = true;
 
 	public SurveyView(MainActivity activity) {
 		m_activity = activity;
@@ -20,6 +21,11 @@ public class SurveyView {
 	
 	protected void startUxCallback(String timerSurveyUrl)
 	{
+        if(m_disableSurveyPopup)
+        {
+            return;
+        }
+
         AlertDialog.Builder builder = new AlertDialog.Builder(m_activity);
 
         builder.setTitle("Want to help us improve our map?");

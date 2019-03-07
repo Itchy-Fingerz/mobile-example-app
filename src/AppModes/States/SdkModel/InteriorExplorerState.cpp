@@ -93,7 +93,7 @@ namespace ExampleApp
                 void InteriorExplorerState::Enter(int previousState)
                 {
                     m_interiorExplorerUserInteractionModel.SetEnabled(false);
-                    m_interiorsCameraController.SetTilt(0.0f);
+                    m_interiorsCameraController.GetDistanceToInterest();
                     m_pSubStateMachine->StartStateMachine(0);
                 }
                 

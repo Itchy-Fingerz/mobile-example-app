@@ -25,6 +25,9 @@
     scanView.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
     scanView.pCameraContentView.layer.cornerRadius = 10.0f;
     scanView.pViewforCameraLayer.layer.cornerRadius = 10.0f;
+    
+    [[NSNotificationCenter defaultCenter]addObserver:scanView selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+
     return scanView;
 }
 
@@ -32,6 +35,9 @@
 - (void)dealloc
 {
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceOrientationDidChangeNotification
+                                                  object:nil];
+    
     [_pViewforCameraLayer release];
     [_pCaptureSession release];
     [_pVideoPreviewLayer release];
@@ -204,7 +210,17 @@
 
     if (!isPhone)
     {
-        _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
+        
+        if(orientation == UIDeviceOrientationLandscapeLeft)
+        {
+             _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+        }
+        else if(orientation == UIDeviceOrientationLandscapeRight)
+        {
+             _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+        }
+       
     }
 
     [_pCaptureSession startRunning];
@@ -213,6 +229,19 @@
     
     return YES;
     
+}
+
+-(void)OrientationDidChange:(NSNotification*)notification
+{
+    UIDeviceOrientation orientation=[[UIDevice currentDevice]orientation];
+    if(_pVideoPreviewLayer && orientation == UIDeviceOrientationLandscapeLeft)
+    {
+        _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeRight;
+    }
+    else if(_pVideoPreviewLayer && orientation == UIDeviceOrientationLandscapeRight)
+    {
+        _pVideoPreviewLayer.connection.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+    }
 }
 -(void)stopCaptureSession{
     [_pCaptureSession stopRunning];
@@ -270,16 +299,16 @@
         NSURL *url  = [[NSURL alloc] initWithString:resultScanned];
         NSArray *pathComponents = [url pathComponents];
 
-        if (pathComponents != nil && pathComponents.count >=6) // Currently assuming we will have 6 total path components
+        if (pathComponents != nil && pathComponents.count >=7) // Currently assuming we will have 6 total path components
         {
             NSString *locationMode = pathComponents[1];
-            if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 8) //7
+            if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 9) //7
             {
                 [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
                 [self stopCaptureSession];
                 [self performSelector:@selector(dismissViewWithDelay:) withObject:pathComponents afterDelay:1.0];
-            }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6)
+            }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 7)
             {
                 [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
@@ -304,7 +333,7 @@
 - (void) dismissViewWithDelay:(NSArray*)pathComponents
 {
     NSString *locationMode = pathComponents[1];
-    if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 8)
+    if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 9)
     {
         double lat = [pathComponents[2] doubleValue];
         double lon = [pathComponents[3] doubleValue];
@@ -312,17 +341,19 @@
         int floorIndex = [pathComponents[5] intValue];
         double orientation = [pathComponents[6] doubleValue];
         double zoomLevel = [pathComponents[7] doubleValue];
+        double tiltInDegree = [pathComponents[8] doubleValue];
         
-        m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel);
+        m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel,tiltInDegree);
         
-    }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 6)
+    }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 7)
     {
         double lat = [pathComponents[2] doubleValue];
         double lon = [pathComponents[3] doubleValue];
         double orientation = [pathComponents[4] doubleValue];
         double zoomLevel = [pathComponents[5] doubleValue];
+        double tiltInDegree = [pathComponents[6] doubleValue];
         
-        m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel);
+        m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel,tiltInDegree);
         
     }
     [self stopReading];
@@ -331,7 +362,7 @@
 }
 - (void) notifyInvalidQRCode
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid QR Code" message:@"Please scan a valid QR code." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"QR Scan Error" message:@"It is not a valid QR Code." preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         _pIsScanningDone = false;
     }];

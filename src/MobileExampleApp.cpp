@@ -147,7 +147,7 @@
 #include "QRScanMenuModule.h"
 #include "QRScanMenuOption.h"
 #include "QRScanMessageHandler.h"
-#include "BillboardedSpriteExample.h"
+#include "QRCodePopUpSprite.h"
 
 namespace ExampleApp
 {
@@ -320,7 +320,6 @@ namespace ExampleApp
                                                 );
         
         m_pWorld->GetMapModule().GetLabelsModule().GetLabelOptionsModel().SetOcclusionMode(Eegeo::Labels::OcclusionResolverMode::Always);
-
         m_pLocationProvider = Eegeo_NEW(LocationProvider::LocationProvider)(m_platformLocationService, m_pWorld->GetMapModule());
         m_pCurrentLocationService->SetLocationService(*m_pLocationProvider);
 
@@ -933,7 +932,7 @@ namespace ExampleApp
         m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
                                                                             m_pQRScanModule->GetQRScanViewModel());
         
-        m_pBillBoardSprite = Eegeo_NEW(BillboardedSprite::BillboardedSpriteExample)(m_pGlobeCameraController->GetGlobeCameraController(),m_pWorld->GetRenderingModule(), m_platformAbstractions.GetTextureFileLoader());
+        m_pBillBoardSprite = Eegeo_NEW(QRCodePopUp::QRCodePopUpSprite)(m_pGlobeCameraController->GetGlobeCameraController(),m_pWorld->GetRenderingModule(), m_platformAbstractions.GetTextureFileLoader());
 
         m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(*m_pBillBoardSprite,m_messageBus);
         
@@ -948,22 +947,14 @@ namespace ExampleApp
 
         m_pSearchMenuModule->SetSearchSection("Search Results", m_pSearchResultSectionModule->GetSearchResultSectionModel());
         m_pSearchMenuModule->AddMenuSection("Find", m_pTagSearchModule->GetTagSearchMenuModel(), true);
-        m_pSearchMenuModule->AddMenuSection("Locations", m_pPlaceJumpsModule->GetPlaceJumpsMenuModel(), true);
-        
-        if(!m_applicationConfiguration.IsInKioskMode())
-        {
-            m_pSearchMenuModule->AddMenuSection("Drop Pin", m_pMyPinCreationModule->GetMyPinCreationMenuModel(), false);
-            m_pSearchMenuModule->AddMenuSection("My Pins", m_pMyPinsModule->GetMyPinsMenuModel(), true);
-        }
 
-        m_pSearchMenuModule->AddMenuSection("Weather", m_pWeatherMenuModule->GetWeatherMenuModel(), true);
+        m_pSearchMenuModule->AddMenuSection("QR Code Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
 
         if(m_applicationConfiguration.NavigationEnabled())
         {
             m_pSearchMenuModule->AddMenuSection("Directions", m_pNavRoutingModule->GetNavMenuModel(), false);
         }
 
-        m_pSearchMenuModule->AddMenuSection("QR Code Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("Options", m_pOptionsMenuModule->GetOptionsMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("About",  m_pAboutPageMenuModule->GetAboutPageMenuModel(), false);
 
@@ -1514,6 +1505,7 @@ namespace ExampleApp
 
     void MobileExampleApp::Event_TouchPan_Start(const AppInterface::PanData& data)
     {
+        m_pBillBoardSprite->OnSingleTap();
         MyPinCreation::PoiRing::SdkModel::IPoiRingTouchController& poiRingTouchController = m_pPoiRingModule->GetPoiRingTouchController();
         if(!CanAcceptTouch() || poiRingTouchController.IsDragging())
         {
@@ -1540,7 +1532,9 @@ namespace ExampleApp
         {
             return;
         }
-
+        
+        m_pBillBoardSprite->OnSingleTap();
+        
         if (m_pWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point))
         {
             return;

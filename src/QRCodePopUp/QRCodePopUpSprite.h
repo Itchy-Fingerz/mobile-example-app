@@ -2,7 +2,6 @@
 
 #pragma once
 
-//#include "GlobeCameraExampleBase.h"
 #include "Modules.h"
 #include "Rendering.h"
 #include "ITextureFileLoader.h"
@@ -10,12 +9,13 @@
 #include "IRenderableFilter.h"
 #include "Bounds.h"
 #include "GlobeCameraController.h"
+#include "AppInterface.h"
 
 namespace ExampleApp
 {
-    namespace BillboardedSprite
+    namespace QRCodePopUp
     {
-        class BillboardedSpriteExample : public Eegeo::Rendering::IRenderableFilter //public GlobeCameraExampleBase,
+        class QRCodePopUpSprite : public Eegeo::Rendering::IRenderableFilter
         {
         private:
             Eegeo::Modules::Core::RenderingModule& m_renderingModule;
@@ -35,25 +35,19 @@ namespace ExampleApp
             Eegeo::v4 m_spriteColor;
             
             Eegeo::Camera::GlobeCamera::GlobeCameraController& m_globeCameraController;
+            bool m_isSpriteAdded;
 
         public:
-            BillboardedSpriteExample(Eegeo::Camera::GlobeCamera::GlobeCameraController& pCameraController,
+            QRCodePopUpSprite(Eegeo::Camera::GlobeCamera::GlobeCameraController& pCameraController,
                                  Eegeo::Modules::Core::RenderingModule& renderingModule,
                                  Eegeo::Helpers::ITextureFileLoader& textureFileLoader);
             
-            ~BillboardedSpriteExample();
+            ~QRCodePopUpSprite();
+            
+            void OnSingleTap();
 
-            static std::string GetName()
-            {
-                return "BillboardedSpriteExample";
-            }
-            std::string Name() const
-            {
-                return GetName();
-            }
-
-            void Start(Eegeo::dv3 spritePosition);
-            void Destroy();
+            void Show(Eegeo::dv3 spritePosition);
+            void Remove();
             
             void EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue);
         };

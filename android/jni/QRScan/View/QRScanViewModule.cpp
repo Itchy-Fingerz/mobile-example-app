@@ -17,13 +17,15 @@ namespace ExampleApp
                 IQRScanViewModel& qrScanViewModel,
                 LocationProvider::ILocationProvider& locationProvider,
                 CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
+                Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
+                Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
                 Metrics::IMetricsService& metricsService,
 				ExampleAppMessaging::TMessageBus& messageBus
             )
             {
                 ASSERT_UI_THREAD
                 m_pView = Eegeo_NEW(QRScanView)(nativeState, messageBus);
-                m_pController = Eegeo_NEW(QRScanController)(*m_pView, qrScanViewModel, locationProvider, cameraTransitionController, metricsService, messageBus);
+                m_pController = Eegeo_NEW(QRScanController)(*m_pView, qrScanViewModel, locationProvider, cameraTransitionController, interiorsCameraController, globeCameraController, metricsService, messageBus);
             }
 
             QRScanViewModule::~QRScanViewModule()

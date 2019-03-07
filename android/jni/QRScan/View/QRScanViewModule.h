@@ -11,6 +11,8 @@
 #include "BidirectionalBus.h"
 #include "ILocationProvider.h"
 #include "ICameraTransitionController.h"
+#include "InteriorsCameraController.h"
+#include "GlobeCameraController.h"
 
 namespace ExampleApp
 {
@@ -30,6 +32,8 @@ namespace ExampleApp
                     IQRScanViewModel& qrScanViewModel,
                     LocationProvider::ILocationProvider& locationProvider,
                     CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
+                    Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
+                    Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
                     Metrics::IMetricsService& metricsService,
 					ExampleAppMessaging::TMessageBus& messageBus
                 );
