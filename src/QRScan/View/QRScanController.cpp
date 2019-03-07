@@ -81,11 +81,6 @@ namespace ExampleApp
                 {
                     m_viewModel.Close();
                 }
-
-                if (message.GetAppMode() == AppModes::SdkModel::AppMode::WorldMode)
-                {
-                    m_locationProvider.DisableFixedLocation();
-                }
             }
 
             QRScanController::QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
