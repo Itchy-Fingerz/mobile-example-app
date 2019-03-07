@@ -79,6 +79,7 @@ public class CompassView implements View.OnClickListener, IRuntimePermissionResu
 		m_view = m_activity.getLayoutInflater().inflate(R.layout.compass_layout, uiRoot, false);
 		m_view.setOnClickListener(this);
 		m_view.setEnabled(m_canUseGPS);
+		m_view.setAlpha(0.5f);
 
         m_screenHeight = uiRoot.getMeasuredHeight();
 
