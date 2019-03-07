@@ -362,7 +362,7 @@
 }
 - (void) notifyInvalidQRCode
 {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Invalid QR Code" message:@"Please scan a valid QR code." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"QR Scan Error" message:@"It is not a valid QR Code." preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         _pIsScanningDone = false;
     }];
