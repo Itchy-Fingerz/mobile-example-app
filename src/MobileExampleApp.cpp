@@ -1505,6 +1505,7 @@ namespace ExampleApp
 
     void MobileExampleApp::Event_TouchPan_Start(const AppInterface::PanData& data)
     {
+        m_pBillBoardSprite->OnSingleTap();
         MyPinCreation::PoiRing::SdkModel::IPoiRingTouchController& poiRingTouchController = m_pPoiRingModule->GetPoiRingTouchController();
         if(!CanAcceptTouch() || poiRingTouchController.IsDragging())
         {
@@ -1532,7 +1533,7 @@ namespace ExampleApp
             return;
         }
         
-        m_pBillBoardSprite->OnSingleTap(data);
+        m_pBillBoardSprite->OnSingleTap();
         
         if (m_pWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point))
         {

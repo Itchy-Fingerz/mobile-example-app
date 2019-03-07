@@ -119,7 +119,7 @@ namespace ExampleApp
 
         }
         
-        void QRCodePopUpSprite::OnSingleTap(const AppInterface::TapData& data)
+        void QRCodePopUpSprite::OnSingleTap()
         {
             Remove();
         }

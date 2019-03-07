@@ -44,7 +44,7 @@ namespace ExampleApp
             
             ~QRCodePopUpSprite();
             
-            void OnSingleTap(const AppInterface::TapData& data);
+            void OnSingleTap();
 
             void Show(Eegeo::dv3 spritePosition);
             void Remove();
