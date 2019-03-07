@@ -745,7 +745,7 @@
         currentLabelY += labelYSpacing + self.pDescriptionContent.frame.size.height + 20.f;
     }
     
-    [self.pLabelsContainer setContentSize:CGSizeMake(m_labelsSectionWidth, currentLabelY + 15.f)];
+    [self.pLabelsContainer setContentSize:CGSizeMake(m_labelsSectionWidth, currentLabelY + 25.f)];
     
     if (self.pLabelsContainer.contentSize.height < contentSectionHeight)
     {
@@ -864,7 +864,7 @@
             
             const CGFloat imageContentHeightDifference = (image.size.height - initialFrameHeight);
             const CGFloat newContentHeight = self.pLabelsContainer.contentSize.height + imageContentHeightDifference;
-            [self.pLabelsContainer setContentSize:CGSizeMake(self.pLabelsContainer.contentSize.width, newContentHeight)];
+            [self.pLabelsContainer setContentSize:CGSizeMake(self.pLabelsContainer.contentSize.width, newContentHeight+10.f)];
             
             [self performDynamicContentLayout];
         }
