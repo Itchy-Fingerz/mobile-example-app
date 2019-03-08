@@ -68,7 +68,7 @@
                                   "icon_key": "lifeguard"
                                   },{
                                   "name": "Staterooms",
-                                  "search_tag": "accommodation",
+                                  "search_tag": "general",
                                   "icon_key": "accommodation"
                                   }],
     "indoor_tracked_buildings": [{
