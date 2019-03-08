@@ -70,7 +70,7 @@
                                     "icon_key": "lifeguard"
                                   },{
                                     "name": "Staterooms",
-                                    "search_tag": "accommodation",
+                                    "search_tag": "general",
                                     "icon_key": "accommodation"
                                   }],
   "wrld_poi_set_service_url": "",
