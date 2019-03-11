@@ -159,11 +159,11 @@ namespace ExampleApp
                                                              const Eegeo::Modules::Core::RenderingModule& renderingModule,
                                                              const Eegeo::Modules::IPlatformAbstractionModule& platformAbstractionModule)
         {
-            const Eegeo::v4 bgColor = Eegeo::v4(240.0f/255.0f, 240.0f/255.f, 240.0f/255.f, 1.0f);
+            const Eegeo::v4 bgColor = Eegeo::v4(255.0f/255.0f, 255.0f/255.f, 255.0f/255.f, 1.0f);
             Eegeo::Rendering::LoadingScreenConfig loadingScreenConfig;
             loadingScreenConfig.layout = Eegeo::Rendering::LoadingScreenLayout::Centred;
             loadingScreenConfig.backgroundColor = bgColor;
-            loadingScreenConfig.loadingBarColor = Eegeo::v4(0.0f/255.0f, 113.0f/255.0f, 188.0f/255.0f, 1.0f);
+            loadingScreenConfig.loadingBarColor = Eegeo::v4(37.0f/255.0f, 59.0f/255.0f, 86.0f/255.0f, 1.0f);
             loadingScreenConfig.loadingBarBackgroundColor = bgColor;
             loadingScreenConfig.fadeOutDurationSeconds = 1.5f;
             loadingScreenConfig.screenWidth = screenProperties.GetScreenWidth();
