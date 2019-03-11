@@ -614,7 +614,7 @@ namespace ExampleApp
 
         
 
-        m_pPoiDbModule = Eegeo_NEW(ExampleApp::PoiDb::SdkModel::PoiDbModule)(m_platformAbstractions.GetFileIO(), m_peegeoSetServiceModule->GetSearchService());
+        m_pPoiDbModule = Eegeo_NEW(ExampleApp::PoiDb::SdkModel::PoiDbModule)(m_platformAbstractions.GetFileIO(), m_peegeoSetServiceModule->GetSearchService(), world.GetWorkPool());
         
         Search::EegeoPoisLocalDB::SdkModel::EegeoPoisLocalDBModule* eegeoePoisLocalDBModule = Eegeo_NEW(Search::EegeoPoisLocalDB::SdkModel::EegeoPoisLocalDBModule)(m_networkCapabilities,searchTags,m_pPoiDbModule->GetPoiDbServiceProvider());
         const bool useEegeoPoisSetService = true;

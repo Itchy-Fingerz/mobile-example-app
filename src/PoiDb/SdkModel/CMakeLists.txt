@@ -12,6 +12,8 @@ set(currsources
   ../src/PoiDb/SdkModel/PoiDbLoader.cpp
   ../src/PoiDb/SdkModel/PoiDbServiceProvider.cpp
   ../src/PoiDb/SdkModel/PoiDbServiceProvider.h
+  ../src/PoiDb/SdkModel/PoiDbInsertionTask.h
+  ../src/PoiDb/SdkModel/PoiDbInsertionTask.cpp
   ../src/PoiDb/SdkModel/CMakeLists.txt
 
 )

@@ -12,6 +12,7 @@
 #include "ICallback.h"
 #include "IEegeoPoiSetSearchService.h"
 #include "Sqlite.h"
+#include "IWorkPool.h"
 
 namespace ExampleApp
 {
@@ -28,6 +29,7 @@ namespace ExampleApp
                 Sqlite::SqliteQueryBuilder* m_pQueryBuilder;
                 Eegeo::Helpers::CallbackCollection1<IPoiDbService*> m_serviceStartedCallbacks;
                 ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService& m_searchService;
+                Eegeo::Concurrency::Tasks::IWorkPool& m_workPool;
                 
                 Eegeo::Helpers::TCallback2<PoiDbLoader,
                 const bool&,
@@ -36,7 +38,7 @@ namespace ExampleApp
                 
             public:
                 
-                PoiDbLoader(const std::string dbFilePath, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService);
+                PoiDbLoader(const std::string dbFilePath, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService,                            Eegeo::Concurrency::Tasks::IWorkPool& workPool);
                 
                 ~PoiDbLoader();
                 
