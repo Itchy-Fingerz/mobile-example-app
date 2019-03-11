@@ -21,7 +21,12 @@ namespace ExampleApp
             
             bool SqliteDbConnection::Open(const std::string filePathName) {
                 
-                if (sqlite3_open(filePathName.c_str(), &m_pDbConnection) == SQLITE_OK) {
+                sqlite3_config(SQLITE_CONFIG_SERIALIZED);
+                sqlite3_initialize();
+                
+                NSLog(@"isThreadSafe %d", sqlite3_threadsafe());
+
+                if (sqlite3_open_v2(filePathName.c_str(), &m_pDbConnection, SQLITE_OPEN_READWRITE|SQLITE_OPEN_FULLMUTEX|SQLITE_OPEN_CREATE, NULL) == SQLITE_OK) {
                     m_isDbOpened = true;
                     return true;
                 } else {
