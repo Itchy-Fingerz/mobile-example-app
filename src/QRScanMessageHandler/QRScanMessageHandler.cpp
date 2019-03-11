@@ -34,9 +34,9 @@ namespace ExampleApp
         {
             double latitude = message.GetLatitude();
             double longitude = message.GetLongitude();
-            const Eegeo::Space::LatLongAltitude spritePosition = Eegeo::Space::LatLongAltitude::FromDegrees(latitude, longitude, 30.0);
-            
-            m_bilboardSprite.Show(spritePosition.ToECEF());
+            const Eegeo::Space::LatLongAltitude spritePosition = Eegeo::Space::LatLongAltitude::FromDegrees(latitude, longitude, 10.0);
+            float spirteSize = message.GetZoomLevel()* 0.05;
+            m_bilboardSprite.Show(spritePosition.ToECEF(),Eegeo::v2(spirteSize, spirteSize));
         }
         
         void QRScanMessageHandler::OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message)
@@ -45,7 +45,8 @@ namespace ExampleApp
             double longitude = message.GetLongitude();
             const Eegeo::Space::LatLongAltitude spritePosition = Eegeo::Space::LatLongAltitude::FromDegrees(latitude, longitude, 30.0);
             
-            m_bilboardSprite.Show(spritePosition.ToECEF());
+            float spirteSize = message.GetZoomLevel()* 0.1;
+            m_bilboardSprite.Show(spritePosition.ToECEF(),Eegeo::v2(spirteSize, spirteSize));
         }
         
         void QRScanMessageHandler::OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message)
