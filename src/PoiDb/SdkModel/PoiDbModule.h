@@ -9,6 +9,7 @@
 #include "Types.h"
 #include "IFileIO.h"
 #include "IEegeoPoiSetSearchService.h"
+#include "IWorkPool.h"
 
 namespace ExampleApp
 {
@@ -23,7 +24,7 @@ namespace ExampleApp
                 ExampleApp::PoiDb::SdkModel::IPoiDbLoader *m_pPoiDBLoader;
 
             public:
-                PoiDbModule(Eegeo::Helpers::IFileIO& fileIO, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService);
+                PoiDbModule(Eegeo::Helpers::IFileIO& fileIO, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService, Eegeo::Concurrency::Tasks::IWorkPool& workPool);
 
                 ~PoiDbModule();
    

@@ -39,7 +39,7 @@ namespace ExampleApp
         , m_pBatchedSpriteMaterial(NULL)
         , m_pAsyncBatchedSpriteMaterial(NULL)
         , m_spriteEcefPosition(SanFranBayLatLong.ToECEF())
-        , m_spriteDimensions(Eegeo::v2(30.0, 30.0))
+        , m_spriteDimensions(Eegeo::v2(5.0, 5.0))
         , m_spriteUvBounds(Eegeo::Geometry::Bounds2D(Eegeo::v2::Zero(), Eegeo::v2::One()))
         , m_spriteColor(Eegeo::v4::One())
         , m_isSpriteAdded(false)
@@ -58,10 +58,11 @@ namespace ExampleApp
             Remove();
         }
         
-        void QRCodePopUpSprite::Show(Eegeo::dv3 spritePosition)
+        void QRCodePopUpSprite::Show(Eegeo::dv3 spritePosition,Eegeo::v2 spriteDemsion)
         {
             Remove();
             m_spriteEcefPosition = spritePosition;
+            m_spriteDimensions = spriteDemsion;
             Eegeo::Rendering::Shaders::ShaderIdGenerator& shaderIdGenerator = m_renderingModule.GetShaderIdGenerator();
             m_pBatchedSpriteShader = Eegeo::Rendering::Shaders::BatchedSpriteShader::Create(shaderIdGenerator.GetNextId());
             

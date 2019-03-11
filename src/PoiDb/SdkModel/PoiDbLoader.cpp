@@ -8,6 +8,7 @@
 #include "SqliteTableQuery.h"
 #include "EegeoPoiSetSearchService.h"
 #include "SearchResultModel.h"
+#include "PoiDbInsertionTask.h"
 
 namespace ExampleApp
 {
@@ -15,27 +16,17 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            std::string GetStringForTags(const std::vector<std::string>& tags)
-            {
-                std::string returnString = "";
-                for(size_t i = 0; i < tags.size(); i++)
-                {
-                    returnString += tags[i];
-                    if(i < (tags.size()-1))
-                    {
-                         returnString += ",";
-                    }
-                }
-                return returnString;
-            }
-            
-            PoiDbLoader::PoiDbLoader(const std::string dbFilePath, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService)
+
+            PoiDbLoader::PoiDbLoader(const std::string dbFilePath, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService,
+                                     Eegeo::Concurrency::Tasks::IWorkPool& workPool)
             :  m_dbFilePath(dbFilePath)
             , m_pSqliteConnection(NULL)
             , m_pTable(NULL)
             , m_pQueryBuilder(NULL)
             , m_searchService(searchService)
             , m_onResultsReceivedCallback(this, &PoiDbLoader::ResultsReceived)
+            , m_workPool(workPool)
+            
             {
                 m_searchService.InsertOnReceivedQueryResultsForLocalDBCallback(m_onResultsReceivedCallback);
             }
@@ -81,19 +72,9 @@ namespace ExampleApp
                 
                 if(didSucceed)
                 {
-                    for (std::vector<Search::SdkModel::SearchResultModel>::const_iterator it = results.begin();
-                         it != results.end();
-                         it++)
-                    {
-                        const Search::SdkModel::SearchResultModel &searchResult = *it;
-                        
-                        std::string tagsString = GetStringForTags(searchResult.GetTags());
-                        std::string readableTagsString = GetStringForTags(searchResult.GetHumanReadableTags());
-                        
-                        Sqlite::SqliteTableQuery createTableQuery = m_pQueryBuilder->BuildQuery_CreateInsertRecord(*m_pTable, searchResult.GetIdentifier(), searchResult.GetTitle(), searchResult.GetSubtitle(), searchResult.GetLocation().GetLatitudeInDegrees(), searchResult.GetLocation().GetLongitudeInDegrees(), searchResult.IsInterior(), searchResult.GetBuildingId().Value(), searchResult.GetFloor(), searchResult.GetHeightAboveTerrainMetres(), searchResult.GetIconKey(), tagsString, readableTagsString, searchResult.GetJsonData());
-                        
-                        createTableQuery.Execute();
-                    }
+                    // Inserting records in seperate thread
+                    PoiDbInsertionTask* pTask(Eegeo_NEW(PoiDbInsertionTask)(results, m_pQueryBuilder, m_pTable));
+                    m_workPool.QueueWork(pTask);
                 }
             }
             

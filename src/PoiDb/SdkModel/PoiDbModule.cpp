@@ -10,9 +10,9 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            PoiDbModule::PoiDbModule(Eegeo::Helpers::IFileIO& fileIO, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService)
+            PoiDbModule::PoiDbModule(Eegeo::Helpers::IFileIO& fileIO, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService, Eegeo::Concurrency::Tasks::IWorkPool& workPool)
             {
-                m_pPoiDBLoader = Eegeo_NEW(ExampleApp::PoiDb::SdkModel::PoiDbLoader)(fileIO.GetAppFilePathname("pois.db"), searchService);
+                m_pPoiDBLoader = Eegeo_NEW(ExampleApp::PoiDb::SdkModel::PoiDbLoader)(fileIO.GetAppFilePathname("pois.db"), searchService, workPool);
                 m_pPoiDbServiceProvider = Eegeo_NEW(ExampleApp::PoiDb::SdkModel::PoiDbServiceProvider)(*m_pPoiDBLoader);
                 m_pPoiDBLoader->CreateDbConnection();
             }

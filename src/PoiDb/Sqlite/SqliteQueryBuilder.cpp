@@ -111,6 +111,8 @@ namespace ExampleApp
             
             SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag)
             {
+                const int maximumNumberOfResults = 150;
+
                 std::stringstream query;
                 query << "SELECT * FROM ";
                 query << table.GetTableName();
@@ -122,6 +124,7 @@ namespace ExampleApp
                         query << " WHERE tags LIKE '%";
                         query << queryString;
                         query << "%'";
+                        query << " LIMIT 0 , " << maximumNumberOfResults;
                     }
                     else
                     {
@@ -130,7 +133,8 @@ namespace ExampleApp
                         query << "%' ";
                         query << " OR subtitle LIKE '%";
                         query << queryString;
-                        query << "%' ";
+                        query << "%'";
+                        query << " LIMIT 0 , "<< maximumNumberOfResults;
                     }
                 }
                 PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), query.str());
