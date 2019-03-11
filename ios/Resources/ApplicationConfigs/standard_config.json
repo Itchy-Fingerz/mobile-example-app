@@ -30,6 +30,16 @@
       "offset_top_down": 0.0
     },
     "compass_camera_damping_enabled": true,
+    "fixed_indoor_location":{
+        "building_floor_index":0,
+        "orientation_degrees":90.0,
+        "location_distance":1300.0,
+        "location_degrees":{
+            "latitude":26.155105,
+            "longitude":-78.792659
+        },
+        "interior_id":""
+    },
     "outdoor_search_menu_items": [{
                                   "name": "Ship Activities",
                                   "search_tag": "ship_activities",
