@@ -46,7 +46,7 @@ namespace ExampleApp
             
             void OnSingleTap();
 
-            void Show(Eegeo::dv3 spritePosition);
+            void Show(Eegeo::dv3 spritePosition,Eegeo::v2 spriteDemsion);
             void Remove();
             
             void EnqueueRenderables(const Eegeo::Rendering::RenderContext& renderContext, Eegeo::Rendering::RenderQueue& renderQueue);
