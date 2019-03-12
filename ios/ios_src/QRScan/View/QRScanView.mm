@@ -27,6 +27,8 @@
     scanView.pViewforCameraLayer.layer.cornerRadius = 10.0f;
     
     [[NSNotificationCenter defaultCenter]addObserver:scanView selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    [scanView.pCloseButton setDefaultStatesWithImageNames:@"button_close_off" :@"button_close_on"];
 
     return scanView;
 }
@@ -45,6 +47,7 @@
     [self removeFromSuperview];
     Eegeo_DELETE m_pInterop;
     [_pQrDetectedImageView release];
+    [_pCloseButton release];
     [super dealloc];
     
     
