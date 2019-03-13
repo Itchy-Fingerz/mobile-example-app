@@ -68,7 +68,7 @@ namespace ExampleApp
                 const float ESCALATOR_FEATURE_TYPE_DURATION_MULTIPLIER = 2;
                 const float STAIRS_FEATURE_TYPE_DURATION_MULTIPLIER = 3.5;
 
-                const double POINT_ON_GRAPH_SEARCH_RADIUS_METERS = 30;
+                const double POINT_ON_GRAPH_SEARCH_RADIUS_METERS = 50;
             }
 
             namespace Webservice
