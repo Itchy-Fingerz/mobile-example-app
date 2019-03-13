@@ -53,6 +53,8 @@
 #include "NavRoutingStartLocationSetFromSearchMessage.h"
 #include "NavRoutingEndLocationSetFromSearchMessage.h"
 #include "NavRoutingSearchForLocationMessage.h"
+#include "OnIndoorQRScanCompleteMessage.h"
+#include "OnOutdoorQRScanCompleteMessage.h"
 
 namespace ExampleApp
 {
@@ -108,6 +110,8 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingStartLocationSetFromSearchMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingEndLocationSetFromSearchMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingSearchForLocationMessage>
+            , public Eegeo::Messaging::CatalogBinding<QRScan::OnIndoorQRScanCompleteMessage>
+            , public Eegeo::Messaging::CatalogBinding<QRScan::OnOutdoorQRScanCompleteMessage>
             , private Eegeo::NonCopyable
         {
 

@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.IBackButtonListener;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 import com.eegeo.searchmenu.SearchWidgetResult;
 import com.eegeo.searchproviders.MyTestSearchProvider;
 import com.wrld.widgets.navigation.model.WrldNavEvent;

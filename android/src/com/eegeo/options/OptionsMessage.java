@@ -3,7 +3,7 @@ package com.eegeo.options;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.RelativeLayout;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 
 public class OptionsMessage

@@ -16,6 +16,7 @@ set(currsources
   jni/GlDisplayService.cpp
   jni/main.cpp
   jni/main.h
+
 )
 set(sources ${sources} ${currsources})
 source_group(\\jni FILES ${currsources})
@@ -45,4 +46,6 @@ include(jni/SearchResultSection/CMakeLists.txt)
 include(jni/Surveys/CMakeLists.txt)
 include(jni/TagSearch/CMakeLists.txt)
 include(jni/Watermark/CMakeLists.txt)
+include(jni/QRScan/CMakeLists.txt)
+include(jni/Sqlite/CMakeLists.txt)
 endif(${ANDROID})

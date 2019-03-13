@@ -99,6 +99,13 @@
 #include "UiCreatedMessage.h"
 #include "MapCamera.h"
 #include "ILocationProvider.h"
+#include "IPoiDbModule.h"
+#include "EegeoPoiSetSearchServiceModule.h"
+#include "QRScanModule.h"
+#include "IQRScanMenuModule.h"
+#include "QRScanMessageHandler.h"
+#include "QRCodePopUpSprite.h"
+
 
 namespace ExampleApp
 {
@@ -178,8 +185,12 @@ namespace ExampleApp
         InteriorsExplorer::SdkModel::Highlights::InteriorEntityHighlightController* m_pInteriorsHighlightVisibilityController;
         InteriorsExplorer::SdkModel::Highlights::IHighlightColorMapper* m_pHighlightColorMapper;
         ExampleApp::InitialLocation::SdkModel::IInitialLocationModel* m_pInitialLocationModel;
-        
+        QRScan::SdkModel::IQRScanMenuModule* m_pQRScanMenuModule;
+        ExampleApp::QRScan::View::IQRScanModule* m_pQRScanModule;
+
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
+        ExampleApp::PoiDb::SdkModel::IPoiDbModule* m_pPoiDbModule;
+        Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchServiceModule* m_peegeoSetServiceModule;
         
         AppModes::SdkModel::IAppModeModel* m_pAppModeModel;
         Net::SdkModel::ConnectivityChangedObserver* m_pConnectivityChangedObserver;
@@ -206,6 +217,8 @@ namespace ExampleApp
         Eegeo::Location::ILocationService& m_platformLocationService;
         Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
         LocationProvider::ILocationProvider * m_pLocationProvider;
+        QRScanMessageHandler::QRScanMessageHandler* m_pQRScanMessageHandler;
+        QRCodePopUp::QRCodePopUpSprite* m_pBillBoardSprite;
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
                                            const bool interiorsAffectedByFlattening,
@@ -414,6 +427,11 @@ namespace ExampleApp
         const Mapscene::SdkModel::MapsceneModule& GetMapsceneModule() const
         {
             return *m_pMapsceneModule;
+        }
+
+        const ExampleApp::QRScan::View::IQRScanModule& QRScanModule() const
+        {
+            return *m_pQRScanModule;
         }
         
         // Exposed to allow view model creation in iOS code.

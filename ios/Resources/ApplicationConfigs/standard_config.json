@@ -1,14 +1,14 @@
 {
     "name": "WRLD App",
     "eegeo_api_key": "",
-    "start_location_latitude": 37.7858,
-    "start_location_longitude": -122.401,
-    "start_location_altitude": 2.7,
-    "start_location_distance": 1781.0,
-    "start_location_orientation_degrees": 0.0,
+    "start_location_latitude": 26.155105,
+    "start_location_longitude": -78.792659,
+    "start_location_altitude": 0.0,
+    "start_location_distance": 1300.0,
+    "start_location_orientation_degrees": 90.2,
     "start_location_indoor_id": "",
     "start_location_floor_index": 0,
-    "try_start_at_gps_location": true,
+    "try_start_at_gps_location": false,
     "perform_start_up_search": false,
     "start_up_search_tag": "",
     "coveragetree_manifest_url": "",
@@ -27,60 +27,62 @@
     "use_japanese_font": false,
     "use_chinese_font": false,
     "timer_survey_url":"",
-    "enable_navigation": false,
+    "enable_navigation": true,
     "compass_camera_offset": {
       "offset": 0.0,
       "offset_top_down": 0.0
     },
     "compass_camera_damping_enabled": true,
+    "fixed_indoor_location":{
+        "building_floor_index":0,
+        "orientation_degrees":90.0,
+        "location_distance":1300.0,
+        "location_degrees":{
+            "latitude":26.155105,
+            "longitude":-78.792659
+        },
+        "interior_id":""
+    },
     "outdoor_search_menu_items": [{
-                                  "name": "Around Me",
-                                  "search_tag": "",
-                                  "icon_key": "aroundme"
-                                  }, {
-                                  "name": "Accommodation",
-                                  "search_tag": "accommodation",
-                                  "icon_key": "accommodation"
-                                  }, {
-                                  "name": "Art & Museum",
-                                  "search_tag": "art",
-                                  "icon_key": "art"
-                                  }, {
-                                  "name": "Business",
-                                  "search_tag": "business",
-                                  "icon_key": "business"
-                                  }, {
-                                  "name": "Entertainment",
-                                  "search_tag": "entertainment",
-                                  "icon_key": "entertainment"
-                                  }, {
-                                  "name": "Food & Drink",
+                                  "name": "Ship Activities",
+                                  "search_tag": "ship_activities",
+                                  "icon_key": "ferry"
+                                  },{
+                                  "name": "Food & Beverage",
                                   "search_tag": "food_drink",
                                   "icon_key": "food_drink"
-                                  }, {
-                                  "name": "General Amenities",
-                                  "search_tag": "general",
-                                  "icon_key": "general"
-                                  }, {
-                                  "name": "Health",
-                                  "search_tag": "health",
-                                  "icon_key": "health"
-                                  }, {
+                                  },{
+                                  "name": "Recreation",
+                                  "search_tag": "Lifeguard",
+                                  "icon_key": "sports"
+                                  },{
                                   "name": "Shopping",
                                   "search_tag": "shopping",
                                   "icon_key": "shopping"
-                                  }, {
-                                  "name": "Sport & Leisure",
-                                  "search_tag": "sports",
-                                  "icon_key": "sports"
-                                  }, {
-                                  "name": "Tourist info",
-                                  "search_tag": "tourist_info",
-                                  "icon_key": "tourist_info"
-                                  }, {
-                                  "name": "Transport",
-                                  "search_tag": "transport",
-                                  "icon_key": "bus"
+                                  },{
+                                  "name": "Spa & Fitness",
+                                  "search_tag": "spa",
+                                  "icon_key": "spa"
+                                  },{
+                                  "name": "Theatre & Stages",
+                                  "search_tag": "entertainment",
+                                  "icon_key": "entertainment"
+                                  },{
+                                  "name": "Kids Club",
+                                  "search_tag": "childcare",
+                                  "icon_key": "childcare"
+                                  },{
+                                  "name": "Guest Services",
+                                  "search_tag": "reception",
+                                  "icon_key": "reception"
+                                  },{
+                                  "name": "Pool",
+                                  "search_tag": "lifeguard",
+                                  "icon_key": "lifeguard"
+                                  },{
+                                  "name": "Staterooms",
+                                  "search_tag": "general",
+                                  "icon_key": "accommodation"
                                   }],
     "indoor_tracked_buildings": [{
                                  "interior_id": "westport_house",
@@ -113,5 +115,10 @@
                                                    "building_floor_index": 2,
                                                    "tracked_floor_index": "0e23e1ed-8e95-4c81-834e-5b32cc59b9ae"
                                                    }]
+                                 }],
+                                "wrld_poi_set_service_url": "",
+                                 "eegeo_pois_data_sets":[{
+                                     "developer_token":"",
+                                     "set_id":""
                                  }]
 }

@@ -9,6 +9,7 @@
 #include "ApplicationInteriorTrackingInfo.h"
 #include "ApplicationFixedIndoorLocation.h"
 #include "ApplicationMenuItemTagSearchConfig.h"
+#include "ApplicationDataSetConfig.h"
 #include "document.h"
 
 namespace ExampleApp
@@ -78,6 +79,9 @@ namespace ExampleApp
             bool m_overrideIndoorSearchMenuItems;
 
 			bool m_navigationEnabled;
+            
+            std::string m_wrldPOISetServiceUrl;
+            std::vector<SdkModel::ApplicationDataSetConfig> m_eegeoPoiDataSets;
 
             std::string m_indoorMapsServiceUrl;
             std::string m_indoorMapsServiceToken;
@@ -137,7 +141,9 @@ namespace ExampleApp
 				bool navigationEnabled,
                 const std::string& indoorMapsServiceUrl,
                 const std::string& indoorMapsServiceToken,
-                const std::string& indoorMapsServiceUuid
+                const std::string& indoorMapsServiceUuid,
+                const std::string& wrldPOISetSearchServiceUrl,
+                std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets
             );
             
             std::string Name() const;
@@ -234,6 +240,9 @@ namespace ExampleApp
             const std::string IndoorMapsServiceUrl() const;
             const std::string IndoorMapsServiceToken() const;
             const std::string IndoorMapsServiceUuid() const;
+            
+            std::string WrldPOISetServiceUrl() const;
+            const std::vector<SdkModel::ApplicationDataSetConfig> EegeoPoiDataSets() const;
         };
     }
 }

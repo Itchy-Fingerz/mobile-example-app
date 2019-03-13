@@ -23,7 +23,6 @@
     ExampleApp::Search::EegeoPois::SdkModel::EegeoSearchResultModel m_eegeoModel;
     ExampleApp::SearchResultPoi::View::SearchResultPoiViewInterop* m_pInterop;
     
-    bool m_isPinned;
     float m_labelsSectionWidth;
     bool m_poiImageLoadedSuccessfully;
     bool m_htmlLoaded;
@@ -55,8 +54,6 @@
 
 @property (nonatomic, retain) UIView* pCloseButtonContainer;
 @property (nonatomic, retain) UIButton* pCloseButton;
-@property (nonatomic, retain) UIButton* pPinButton;
-@property (nonatomic, retain) UIView* pDropPinContainer;
 @property (nonatomic, retain) UIButton* pDirectionsButton;
 @property (nonatomic, retain) UIView* pDirectionsContainer;
 @property (nonatomic, retain) UIView* pControlContainer;

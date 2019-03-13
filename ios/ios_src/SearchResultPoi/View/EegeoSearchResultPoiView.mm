@@ -115,19 +115,6 @@
         [self.pCloseButton addTarget:self action:@selector(handleClosedButtonSelected) forControlEvents:UIControlEventTouchUpInside];
         [self.pCloseButtonContainer addSubview: self.pCloseButton];
         
-        self.pDropPinContainer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        self.pDropPinContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
-        [self.pControlContainer addSubview:self.pDropPinContainer];
-        
-        self.pPinButton = [[[UIButton alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        [self.pPinButton setTitle:@"Drop Pin" forState:UIControlStateNormal];
-        [self.pPinButton setDefaultStatesWithNormalImageName:@"button_close_off"
-                                          highlightImageName:@"button_close_off"
-                                       normalBackgroundColor:ExampleApp::Helpers::ColorPalette::ButtonPressColor
-                                    highlightBackgroundColor:ExampleApp::Helpers::ColorPalette::ButtonPressColorAlt];
-        [self.pPinButton addTarget:self action:@selector(handlePinButtonSelected) forControlEvents:UIControlEventTouchUpInside];
-        [self.pDropPinContainer addSubview: self.pPinButton];
-        
         self.pDirectionsContainer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pDirectionsContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
         [self.pControlContainer addSubview:self.pDirectionsContainer];
@@ -244,12 +231,6 @@
     
     [self.pCloseButtonContainer removeFromSuperview];
     [self.pCloseButtonContainer release];
-    
-    [self.pPinButton removeFromSuperview];
-    [self.pPinButton release];
-    
-    [self.pDropPinContainer removeFromSuperview];
-    [self.pDropPinContainer release];
     
     [self.pDirectionsButton removeFromSuperview];
     [self.pDirectionsButton release];
@@ -377,8 +358,8 @@
     const float mainWindowY = (boundsHeight * 0.5f) - (mainWindowHeight * 0.5f);
     
     const float headlineHeight = 50.f;
-    const float bottomButtonSectionHeight = m_showDirectionsButton? 148.f : 64.f;
-    const float closeButtonSectionOffsetY = mainWindowHeight - (m_showDirectionsButton ? 94.f : 44.f);
+    const float bottomButtonSectionHeight = m_showDirectionsButton? 64.f : 0.f;
+    const float closeButtonSectionOffsetY = mainWindowHeight - (m_showDirectionsButton ? 44.f : 0.f);
     const float contentSectionHeight = mainWindowHeight - (bottomButtonSectionHeight + headlineHeight);
     
     const float topMargin = 15.f;
@@ -449,19 +430,8 @@
                                         cardContainerWidth,
                                         headerLineThickness);
     
-    self.pDropPinContainer.frame = CGRectMake(sideMargin,
-                                              closeButtonSectionOffsetY - bottomMargin,
-                                              cardContainerWidth,
-                                              42.f);
-    
-    
-    self.pPinButton.frame = CGRectMake(0.f,
-                                       0.f,
-                                       cardContainerWidth,
-                                       42.f);
-    
     self.pDirectionsContainer.frame = CGRectMake(sideMargin,
-                                              closeButtonSectionOffsetY - bottomMargin + 50.f,
+                                              closeButtonSectionOffsetY - bottomMargin,
                                               cardContainerWidth,
                                               42.f);
     
@@ -469,16 +439,13 @@
                                        0.f,
                                        cardContainerWidth,
                                        42.f);
+    self.pDirectionsButton.titleLabel.font = [UIFont systemFontOfSize:21.0f];
     
     self.pFadeContainer.frame = CGRectMake(sideMargin,
                                            closeButtonSectionOffsetY - 15.f - 60.f,
                                            cardContainerWidth,
                                            40.f);
 
-    [self.pPinButton setImageEdgeInsets:UIEdgeInsetsMake(2.f, -20.f, 2.f, 0.f)];
-    [self.pPinButton setTitleEdgeInsets:UIEdgeInsetsMake(2.f, -10.f, 2.f, 0.f)];
-    
-    self.pPinButton.titleLabel.font = [UIFont systemFontOfSize:21.0f];
     
     self.pTagIconContainer.frame = CGRectMake(0.f,
                                               0.f,
@@ -750,7 +717,7 @@
         self.pTagsCardHeaderLine.frame = CGRectMake(0.f,
                                                     currentLabelY,
                                                     cardContainerWidth,
-                                                    1.f);
+                                                    0.f);
         currentLabelY += headerMargin;
     }
     
@@ -778,7 +745,7 @@
         currentLabelY += labelYSpacing + self.pDescriptionContent.frame.size.height + 20.f;
     }
     
-    [self.pLabelsContainer setContentSize:CGSizeMake(m_labelsSectionWidth, currentLabelY + 15.f)];
+    [self.pLabelsContainer setContentSize:CGSizeMake(m_labelsSectionWidth, currentLabelY + 25.f)];
     
     if (self.pLabelsContainer.contentSize.height < contentSectionHeight)
     {
@@ -846,9 +813,6 @@
     m_model = *pModel;
     m_eegeoModel = ExampleApp::Search::EegeoPois::SdkModel::TransformToEegeoSearchResult(m_model);
     
-    m_isPinned = isPinned;
-    [self updatePinnedButtonState];
-    
     self.pTitleLabel.text = [NSString stringWithUTF8String:pModel->GetTitle().c_str()];
     self.pSubtitleLabel.text = [NSString stringWithUTF8String:pModel->GetSubtitle().c_str()];
     
@@ -900,7 +864,7 @@
             
             const CGFloat imageContentHeightDifference = (image.size.height - initialFrameHeight);
             const CGFloat newContentHeight = self.pLabelsContainer.contentSize.height + imageContentHeightDifference;
-            [self.pLabelsContainer setContentSize:CGSizeMake(self.pLabelsContainer.contentSize.width, newContentHeight)];
+            [self.pLabelsContainer setContentSize:CGSizeMake(self.pLabelsContainer.contentSize.width, newContentHeight+10.f)];
             
             [self performDynamicContentLayout];
         }
@@ -1077,17 +1041,6 @@
     m_pInterop->HandleCloseClicked();
 }
 
-- (void) handlePinButtonSelected
-{
-    if(m_isPinned)
-    {
-        [self performPinRemoveWarningCeremony];
-    }
-    else
-    {
-        [self togglePinState];
-    }
-}
 
 - (void) handleDirectionsButtonSelected
 {
@@ -1097,25 +1050,7 @@
 
 - (void) togglePinState
 {
-    m_isPinned = !m_isPinned;
     m_pInterop->HandlePinToggleClicked(m_model);
-    [self updatePinnedButtonState];
-}
-
-- (void) updatePinnedButtonState
-{
-    if(m_isPinned)
-    {
-        [self.pPinButton setImage:self->m_pRemovePinButtonBackgroundImage forState:UIControlStateNormal];
-        [self.pPinButton setImage:self->m_pRemovePinHighlightButtonBackgroundImage forState:UIControlStateHighlighted];
-        [self.pPinButton setTitle:@"Remove Pin" forState:UIControlStateNormal];
-    }
-    else
-    {
-        [self.pPinButton setImage:self->m_pAddPinButtonBackgroundImage forState:UIControlStateNormal];
-        [self.pPinButton setImage:self->m_pAddPinHighlightButtonBackgroundImage forState:UIControlStateHighlighted];
-        [self.pPinButton setTitle:@"Drop Pin" forState:UIControlStateNormal];
-    }
 }
 
 - (void) performPinRemoveWarningCeremony

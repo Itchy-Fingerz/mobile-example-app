@@ -382,7 +382,8 @@
 				android:layout_marginRight="10dp"
 				android:layout_marginTop="10dp"
 				android:gravity="center_vertical"
-				android:background="@drawable/button_pressed_colour_change" >
+				android:background="@drawable/button_pressed_colour_change"
+				android:visibility="gone">
 
 				<TextView
 					android:id="@+id/drop_pin_text"
@@ -432,6 +433,7 @@
 					android:layout_alignParentStart="true"
 					android:layout_alignTop="@+id/direction_text"
 					android:layout_marginStart="43dp"
+					android:scaleType="centerInside"
 					android:src="@drawable/start_nav_icon"/>
 			</RelativeLayout>
 		</LinearLayout>

@@ -9,6 +9,12 @@
     <string name="about_page_title">About</string>
     <string name="about_page_developer">Developed by</string>
     <string name="searchbox_query_hint">Search the WRLD</string>
+
+    <string name="qr_scan_title">QR Code Location</string>
+    <string name="qr_steps_title">How to capture the QR code:</string>
+    <string name="qr_step_1">Use the camera view to center QR code in the square.</string>
+    <string name="qr_step_2">The QR code will automatically be detected.</string>
+    <string name="qr_step_3">You will be transitioned to your current location.</string>
     
     <string name="options_title">Options</string>
     <string name="options_view_stream_wifi_only_togglebutton_text">Stream over Wi-fi only</string>
@@ -54,7 +60,8 @@
     
     <string name="placeholder">Lorem ipsum dolor sit amet.</string>
     <string name="settings_header">Settings</string>
-    <string name="required_camera_permission_text">Please provide access to both Camera and Storage permissions for this functionality to work.</string>
+    <string name="required_camera_permission_text">Please provide access to Camera for this functionality to work.</string>
+    <string name="required_camera_and_storage_permission_text">Please provide access to both Camera and Storage permissions for this functionality to work.</string>
     <string name="required_location_permission_text">Please provide access to Location permission for this functionality to work.</string>
     <string name="ok_text">Ok</string>
     <string name="cancel_text">Cancel</string>

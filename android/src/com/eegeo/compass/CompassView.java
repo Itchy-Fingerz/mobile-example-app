@@ -4,7 +4,7 @@ package com.eegeo.compass;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.IRuntimePermissionResultHandler;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 import com.eegeo.runtimepermissions.RuntimePermissionDispatcher;
 import com.wrld.widgets.navigation.widget.WrldNavWidget;
 
@@ -44,6 +44,7 @@ public class CompassView implements View.OnClickListener, IRuntimePermissionResu
 	private final float CompassOuterShapeActiveAlpha = 1.0f;
 
 	private int m_navWidgetModeOffset = 0;
+	private boolean m_canUseGPS;
 
 	private enum CompassState {
 	    Default(0), Navigation(1);
@@ -77,6 +78,8 @@ public class CompassView implements View.OnClickListener, IRuntimePermissionResu
 		final RelativeLayout uiRoot = (RelativeLayout) m_activity.findViewById(R.id.ui_container);
 		m_view = m_activity.getLayoutInflater().inflate(R.layout.compass_layout, uiRoot, false);
 		m_view.setOnClickListener(this);
+		m_view.setEnabled(m_canUseGPS);
+		m_view.setAlpha(0.5f);
 
         m_screenHeight = uiRoot.getMeasuredHeight();
 
@@ -132,6 +135,11 @@ public class CompassView implements View.OnClickListener, IRuntimePermissionResu
 
 	public void showGpsFollowView()
 	{
+		if(!m_canUseGPS)
+		{
+			return;
+		}
+
 		m_compassLocked.setRotation(m_compassPoint.getRotation());
 
 		m_compassInner.setVisibility(View.VISIBLE);
@@ -142,6 +150,11 @@ public class CompassView implements View.OnClickListener, IRuntimePermissionResu
 
 	public void showGpsCompassModeView()
 	{
+		if(!m_canUseGPS)
+		{
+			return;
+		}
+
 		final float NeedleLockeRotationDegrees = 0.0f;
 		m_compassUnlocked.setRotation(m_compassLocked.getRotation());
 
@@ -157,6 +170,11 @@ public class CompassView implements View.OnClickListener, IRuntimePermissionResu
 
 	public void notifyGpsUnauthorized()
 	{
+		if(!m_canUseGPS)
+		{
+			return;
+		}
+
 		if (m_unauthorizedGpsAlertShown == false) {
 			m_unauthorizedGpsAlertShown = true;
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(m_activity);

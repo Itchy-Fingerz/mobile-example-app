@@ -58,7 +58,9 @@ namespace ExampleApp
             bool navigationEnabled,
             const std::string& indoorMapsServiceUrl,
             const std::string& indoorMapsServiceToken,
-            const std::string& indoorMapsServiceUuid
+            const std::string& indoorMapsServiceUuid,
+            const std::string& wrldPOISetSearchServiceUrl,
+            const std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets
             )
         : m_name(name)
         , m_eegeoApiKey(eegeoApiKey)
@@ -112,6 +114,8 @@ namespace ExampleApp
         , m_indoorMapsServiceUrl(indoorMapsServiceUrl)
         , m_indoorMapsServiceToken(indoorMapsServiceToken)
         , m_indoorMapsServiceUuid(indoorMapsServiceUuid)
+        , m_wrldPOISetServiceUrl(wrldPOISetSearchServiceUrl)
+        , m_eegeoPoiDataSets(eegeoPoiDataSets)
         {
         }
         
@@ -369,6 +373,16 @@ namespace ExampleApp
 
         bool ApplicationConfiguration::NavigationEnabled() const {
             return m_navigationEnabled;
+        }
+
+        std::string ApplicationConfiguration::WrldPOISetServiceUrl() const
+        {
+            return m_wrldPOISetServiceUrl;
+        }
+        
+        const std::vector<SdkModel::ApplicationDataSetConfig> ApplicationConfiguration::EegeoPoiDataSets() const
+        {
+            return m_eegeoPoiDataSets;
         }
 
         const std::string ApplicationConfiguration::IndoorMapsServiceUrl() const

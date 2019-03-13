@@ -17,7 +17,7 @@ import com.eegeo.animation.updatelisteners.ViewYAnimatorUpdateListener;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.menu.MenuAnimationHandler;
 import com.eegeo.menu.MenuView;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 
 public class SearchMenuAnimationHandler extends MenuAnimationHandler
 {

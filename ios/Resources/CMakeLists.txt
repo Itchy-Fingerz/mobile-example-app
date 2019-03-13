@@ -7,6 +7,7 @@ set(resources ${resources}
         Resources/Alert_Tutorial_icon_phone@3x.png
         Resources/ApplicationConfigs
         Resources/ApplicationConfigs/standard_config.json
+        Resources/scan_outline.png
         Resources/Arrow.png
         Resources/Arrow@2x.png
         Resources/Arrow@3x.png
@@ -1328,5 +1329,17 @@ set(resources ${resources}
         Resources/yelp_review_btn_light.png
         Resources/yelp_review_btn_light@2x.png
         Resources/yelp_review_btn_light@3x.png
+        Resources/QR_detected.png
+        Resources/QR_detected@2x.png
+        Resources/QR_detected@3x.png
+        Resources/QR_icon.png
+        Resources/QR_icon@2x.png
+        Resources/QR_icon@3x.png
+        Resources/QR_img.png
+        Resources/QR_img@2x.png
+        Resources/QR_img@3x.png
+        Resources/qr_step_icon.png        Resources/qr_step_icon@2x.png        Resources/qr_step_icon@3x.png
+	Resources/you_are_here_callout.png
+        ios_src/QRScan/View/QRScanView.xib
         ExampleApp/Images.xcassets
 )

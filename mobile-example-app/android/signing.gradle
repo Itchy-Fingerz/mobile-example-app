@@ -1,0 +1,26 @@
+
+
+android {
+  signingConfigs {
+      release {
+        def keystorePropsPath=project.property("external.signing")+"."+project.property("applicationId")+".keystore.properties"
+        logger.lifecycle("using keystoreProperties from: " + keystorePropsPath);
+        def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropsPath))
+      
+        def keystorePath=new File(new File(keystorePropsPath).getParentFile(), keystoreProperties['storeFile']).getCanonicalPath()
+        logger.lifecycle("using keystore: " + keystorePath);
+        
+        storeFile file(keystorePath)
+        keyAlias keystoreProperties['keyAlias']
+        keyPassword keystoreProperties['keyPassword']
+        storePassword keystoreProperties['storePassword']
+    }
+  }
+    
+  buildTypes {
+    release {
+      signingConfig signingConfigs.release
+    }
+  }
+}

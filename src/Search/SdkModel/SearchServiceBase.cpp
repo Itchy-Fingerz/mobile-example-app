@@ -36,6 +36,11 @@ namespace ExampleApp
             {
                 m_queryResponseReceivedCallbacks.ExecuteCallbacks(didSucceed, query, results);
             }
+            
+            void SearchServiceBase::ExecutQueryResponseReceivedForLocalDBCallbacks(const bool& didSucceed, const SearchQuery& query, const std::vector<SearchResultModel>& results)
+            {
+                m_queryResponseReceivedForLocalDBCallbacks.ExecuteCallbacks(didSucceed, query, results);
+            }
 
             void SearchServiceBase::InsertOnPerformedQueryCallback(Eegeo::Helpers::ICallback1<const SearchQuery&>& callback)
             {
@@ -60,6 +65,7 @@ namespace ExampleApp
             {
                 m_queryResponseReceivedCallbacks.RemoveCallback(callback);
             }
+
         }
     }
 }

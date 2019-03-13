@@ -8,6 +8,7 @@
 #include "ICallback.h"
 #include "IdentitySearchCallbackData.h"
 #include "SearchResultModel.h"
+#include "PoiDbServiceProvider.h"
 
 namespace ExampleApp
 {

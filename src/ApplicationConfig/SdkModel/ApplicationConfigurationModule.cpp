@@ -77,6 +77,8 @@ namespace ExampleApp
                     const std::string emptyIndoorMapsServiceUrl;
                     const std::string emptyIndoorMapsServiceToken;
                     const std::string emptyIndoorMapsServiceUuid;
+                    const std::string wrldPOISetSearchServiceUrl = "https://poi.wrld3d.com/v1.1/poisets/";
+                    const std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets;
 
                     return ApplicationConfiguration("Eegeo Example App",
                         emptyEegeoApiKey,
@@ -129,7 +131,9 @@ namespace ExampleApp
                         showPoiDirectionsButton,
                         emptyIndoorMapsServiceUrl,
                         emptyIndoorMapsServiceToken,
-                        emptyIndoorMapsServiceUuid);
+                        emptyIndoorMapsServiceUuid,
+                        wrldPOISetSearchServiceUrl,
+                        eegeoPoiDataSets);
                 }
 
                 const std::string defaultFontFilename = "opensans_semibold_sdf.fnt";

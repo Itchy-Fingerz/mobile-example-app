@@ -39,7 +39,7 @@ def getVersionNameFromProjectProperty = { ->
 }
 
 def getApplicationIdFromProjectProperty = { ->
-    def applicationId = project.hasProperty('applicationId') ? applicationId : "com.eegeo.mobileexampleapp"
+    def applicationId = project.hasProperty('applicationId') ? applicationId : "com.eegeo.wrldeagleapp"
     logger.lifecycle("applicationId is set to $applicationId")
     return applicationId
 }
@@ -97,6 +97,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
         }
 
         debug {
@@ -170,6 +171,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
     implementation project(':wrld-android-search-widget-release')
     implementation project(':wrld-navigation-release')
     implementation project(':wrld-navigation-widget-release')

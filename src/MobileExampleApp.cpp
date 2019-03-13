@@ -142,6 +142,14 @@
 #include "WhitelistUrlHelpersNative.h"
 #include "OfflineRoutingModule.h"
 #include "IOfflineRoutingController.h"
+#include "PoiDbModule.h"
+#include "EegeoPoiSetSearchServiceModule.h"
+#include "EegeoPoisLocalDBModule.h"
+#include "QRScanModule.h"
+#include "QRScanMenuModule.h"
+#include "QRScanMenuOption.h"
+#include "QRScanMessageHandler.h"
+#include "QRCodePopUpSprite.h"
 
 namespace ExampleApp
 {
@@ -153,11 +161,11 @@ namespace ExampleApp
                                                              const Eegeo::Modules::Core::RenderingModule& renderingModule,
                                                              const Eegeo::Modules::IPlatformAbstractionModule& platformAbstractionModule)
         {
-            const Eegeo::v4 bgColor = Eegeo::v4(240.0f/255.0f, 240.0f/255.f, 240.0f/255.f, 1.0f);
+            const Eegeo::v4 bgColor = Eegeo::v4(255.0f/255.0f, 255.0f/255.f, 255.0f/255.f, 1.0f);
             Eegeo::Rendering::LoadingScreenConfig loadingScreenConfig;
             loadingScreenConfig.layout = Eegeo::Rendering::LoadingScreenLayout::Centred;
             loadingScreenConfig.backgroundColor = bgColor;
-            loadingScreenConfig.loadingBarColor = Eegeo::v4(0.0f/255.0f, 113.0f/255.0f, 188.0f/255.0f, 1.0f);
+            loadingScreenConfig.loadingBarColor = Eegeo::v4(37.0f/255.0f, 59.0f/255.0f, 86.0f/255.0f, 1.0f);
             loadingScreenConfig.loadingBarBackgroundColor = bgColor;
             loadingScreenConfig.fadeOutDurationSeconds = 1.5f;
             loadingScreenConfig.screenWidth = screenProperties.GetScreenWidth();
@@ -303,6 +311,9 @@ namespace ExampleApp
     , m_platformLocationService(platformLocationService)
     , m_pCurrentLocationService(NULL)
     , m_pLocationProvider(NULL)
+    , m_pPoiDbModule(NULL)
+    , m_pQRScanMenuModule(NULL)
+    , m_pQRScanModule(NULL)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
@@ -326,7 +337,6 @@ namespace ExampleApp
                                                 );
         
         m_pWorld->GetMapModule().GetLabelsModule().GetLabelOptionsModel().SetOcclusionMode(Eegeo::Labels::OcclusionResolverMode::Always);
-
         m_pLocationProvider = Eegeo_NEW(LocationProvider::LocationProvider)(m_platformLocationService, m_pWorld->GetMapModule());
         m_pCurrentLocationService->SetLocationService(*m_pLocationProvider);
 
@@ -538,6 +548,10 @@ namespace ExampleApp
         Eegeo_DELETE m_pWorld;
 
         Eegeo_DELETE m_pCurrentLocationService;
+        
+        Eegeo_DELETE m_peegeoSetServiceModule;
+        
+        Eegeo_DELETE m_pPoiDbModule;
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
@@ -592,6 +606,13 @@ namespace ExampleApp
         {
             m_searchServiceModules[Search::EegeoVendorName] = eegeoSearchServiceModule;
         }
+        
+        m_peegeoSetServiceModule = Eegeo_NEW(Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),m_networkCapabilities,searchTags,m_applicationConfiguration.WrldPOISetServiceUrl(),m_applicationConfiguration.EegeoPoiDataSets());
+        
+        m_peegeoSetServiceModule->GetSearchService().PerformLocationSearchForDBInsertion();
+        
+
+
 
         const bool useYelpSearch = true;
         if (useYelpSearch)
@@ -608,10 +629,19 @@ namespace ExampleApp
                                                                                                                                       );
         }
 
-        m_pSearchServiceModule = Eegeo_NEW(Search::Combined::SdkModel::CombinedSearchServiceModule)(m_searchServiceModules, mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel());
-
         
 
+        m_pPoiDbModule = Eegeo_NEW(ExampleApp::PoiDb::SdkModel::PoiDbModule)(m_platformAbstractions.GetFileIO(), m_peegeoSetServiceModule->GetSearchService(), world.GetWorkPool());
+        
+        Search::EegeoPoisLocalDB::SdkModel::EegeoPoisLocalDBModule* eegeoePoisLocalDBModule = Eegeo_NEW(Search::EegeoPoisLocalDB::SdkModel::EegeoPoisLocalDBModule)(m_networkCapabilities,searchTags,m_pPoiDbModule->GetPoiDbServiceProvider());
+        const bool useEegeoPoisSetService = true;
+        if(useEegeoPoisSetService)
+        {
+            m_searchServiceModules[Search::EegeoOfflineVendorName] = eegeoePoisLocalDBModule;
+        }
+
+        m_pSearchServiceModule = Eegeo_NEW(Search::Combined::SdkModel::CombinedSearchServiceModule)(m_searchServiceModules, mapModule.GetInteriorsPresentationModule().GetInteriorInteractionModel());
+        
         Eegeo::Modules::Map::CityThemesModule& cityThemesModule = world.GetCityThemesModule();
 
 
@@ -921,8 +951,17 @@ namespace ExampleApp
         m_pInteriorCameraWrapper = Eegeo_NEW(AppCamera::SdkModel::AppInteriorCameraWrapper)(m_pInteriorsExplorerModule->GetInteriorsGpsCameraController(),
                                                                                             m_pInteriorsExplorerModule->GetInteriorsCameraController());
 
+        m_pQRScanModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanModule)(m_identityProvider,
+                                                                            m_applicationConfiguration.ProductVersion(),
+                                                                            m_applicationConfiguration.Name());
 
+        m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
+                                                                            m_pQRScanModule->GetQRScanViewModel());
+        
+        m_pBillBoardSprite = Eegeo_NEW(QRCodePopUp::QRCodePopUpSprite)(m_pGlobeCameraController->GetGlobeCameraController(),m_pWorld->GetRenderingModule(), m_platformAbstractions.GetTextureFileLoader());
 
+        m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(*m_pBillBoardSprite,m_messageBus);
+        
         std::vector<Reaction::View::IReaction*> reactions(GetReactions());
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> openables(GetOpenableControls());
 
@@ -934,15 +973,8 @@ namespace ExampleApp
 
         m_pSearchMenuModule->SetSearchSection("Search Results", m_pSearchResultSectionModule->GetSearchResultSectionModel());
         m_pSearchMenuModule->AddMenuSection("Find", m_pTagSearchModule->GetTagSearchMenuModel(), true);
-        m_pSearchMenuModule->AddMenuSection("Locations", m_pPlaceJumpsModule->GetPlaceJumpsMenuModel(), true);
-        
-        if(!m_applicationConfiguration.IsInKioskMode())
-        {
-            m_pSearchMenuModule->AddMenuSection("Drop Pin", m_pMyPinCreationModule->GetMyPinCreationMenuModel(), false);
-            m_pSearchMenuModule->AddMenuSection("My Pins", m_pMyPinsModule->GetMyPinsMenuModel(), true);
-        }
 
-        m_pSearchMenuModule->AddMenuSection("Weather", m_pWeatherMenuModule->GetWeatherMenuModel(), true);
+        m_pSearchMenuModule->AddMenuSection("QR Code Location",  m_pQRScanMenuModule->GetQRScanMenuModel(), false);
 
         if(m_applicationConfiguration.NavigationEnabled())
         {
@@ -953,6 +985,7 @@ namespace ExampleApp
         m_pSearchMenuModule->AddMenuSection("About",  m_pAboutPageMenuModule->GetAboutPageMenuModel(), false);
 
         m_pSelectFirstResultSearchService = Eegeo_NEW(Search::SelectFirstResult::SdkModel::SelectFirstResultSearchService)(m_pSearchModule->GetSearchQueryPerformer());
+
 
 #ifdef AUTOMATED_SCREENSHOTS
         const bool instantiateAutomatedScreenshotController = true;
@@ -1118,6 +1151,14 @@ namespace ExampleApp
         Eegeo_DELETE m_pOptionsModule;
 
         Eegeo_DELETE m_pAboutPageModule;
+
+        Eegeo_DELETE m_pQRScanMenuModule;
+
+        Eegeo_DELETE m_pQRScanModule;
+        
+        Eegeo_DELETE m_pBillBoardSprite;
+        
+        Eegeo_DELETE m_pQRScanMessageHandler;
     }
 
     std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> MobileExampleApp::GetOpenableControls() const
@@ -1126,6 +1167,7 @@ namespace ExampleApp
         openables.push_back(&SearchMenuModule().GetSearchMenuViewModel());
         openables.push_back(&SearchResultPoiModule().GetObservableOpenableControl());
         openables.push_back(&AboutPageModule().GetObservableOpenableControl());
+        openables.push_back(&QRScanModule().GetObservableOpenableControl());
         openables.push_back(&MyPinCreationDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinDetailsModule().GetObservableOpenableControl());
         openables.push_back(&MyPinCreationModule().GetObservableOpenableControl());
@@ -1153,6 +1195,7 @@ namespace ExampleApp
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(SearchMenuModule().GetSearchMenuViewModel(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(SearchResultPoiModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(AboutPageModule().GetObservableOpenableControl(), allReactors));
+        reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(QRScanModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinCreationDetailsModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinDetailsModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinCreationModule().GetObservableOpenableControl(), allReactors));
@@ -1501,6 +1544,7 @@ namespace ExampleApp
 
     void MobileExampleApp::Event_TouchPan_Start(const AppInterface::PanData& data)
     {
+        m_pBillBoardSprite->OnSingleTap();
         MyPinCreation::PoiRing::SdkModel::IPoiRingTouchController& poiRingTouchController = m_pPoiRingModule->GetPoiRingTouchController();
         if(!CanAcceptTouch() || poiRingTouchController.IsDragging())
         {
@@ -1527,7 +1571,9 @@ namespace ExampleApp
         {
             return;
         }
-
+        
+        m_pBillBoardSprite->OnSingleTap();
+        
         if (m_pWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point))
         {
             return;

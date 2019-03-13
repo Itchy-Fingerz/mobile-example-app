@@ -100,7 +100,7 @@ public class SearchResultViewFactory implements ISearchResultViewFactory
         {
             super.initialise(view);
 
-            m_navButton = view.findViewById(com.eegeo.mobileexampleapp.R.id.search_result_navigation_button);
+            m_navButton = view.findViewById(com.netsoltech.eagleApp.R.id.search_result_navigation_button);
 
             m_navButton.setOnClickListener(new View.OnClickListener() {
                 @Override

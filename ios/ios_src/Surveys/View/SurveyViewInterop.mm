@@ -47,6 +47,7 @@ namespace ExampleApp
             
             void SurveyViewInterop::StartUxSurveyCallback(const StartUxSurveyMessage& message)
             {
+                return;
                 if(m_timerSurveyUrl == "")
                     return;
                 m_currentSurveyUrl = m_timerSurveyUrl;

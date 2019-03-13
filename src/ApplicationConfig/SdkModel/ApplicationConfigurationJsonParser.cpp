@@ -79,6 +79,8 @@ namespace ExampleApp
                 const std::string IndoorMapsServiceUrl = "indoor_maps_service_url";
                 const std::string IndoorMapsServiceToken = "indoor_maps_service_token";
                 const std::string IndoorMapsServiceUuid = "indoor_maps_service_uuid";
+                const std::string WrldPOISetServiceUrl = "wrld_poi_set_service_url";
+                const std::string EEgeoPOIDataSets = "eegeo_pois_data_sets";
                 
                 std::string ParseStringOrDefault(rapidjson::Document& document, const std::string& key, const std::string& defaultValue)
                 {
@@ -236,6 +238,47 @@ namespace ExampleApp
                     return std::vector<SdkModel::ApplicationMenuItemTagSearchConfig>();
                 }
 
+                std::vector<ApplicationDataSetConfig> ParseDataSetConfig(const rapidjson::Value& dataSetsArray)
+                {
+                    std::vector<SdkModel::ApplicationDataSetConfig> dataSets;
+                    if(dataSetsArray.IsArray())
+                    {
+                        for(rapidjson::SizeType i = 0; i < dataSetsArray.Size(); i++)
+                        {
+                            const auto& item = dataSetsArray[i];
+                            
+                            const char* tokenKey = "developer_token";
+                            if(!item.HasMember(tokenKey) || !item[tokenKey].IsString())
+                            {
+                                Eegeo_TTY("no member 'developer_token' or is not a string");
+                                continue;
+                            }
+                            const std::string& token = item[tokenKey].GetString();
+                            
+                            const char* setIdKey = "set_id";
+                            if(!item.HasMember(setIdKey) || !item[setIdKey].IsString())
+                            {
+                                Eegeo_TTY("no member 'set_id' or is not a string");
+                                continue;
+                            }
+                            const std::string& setId = item[setIdKey].GetString();
+                            
+                            
+                            dataSets.push_back(SdkModel::ApplicationDataSetConfig(token,setId));
+                        }
+                    }
+                    return dataSets;
+                }
+                
+                const std::vector<SdkModel::ApplicationDataSetConfig> ParseEegeoPoiDataSets(rapidjson::Document& document, const std::string& dataSets)
+                {
+                    if(document.HasMember(dataSets.c_str()) && document[dataSets.c_str()].IsArray())
+                    {
+                        return ParseDataSetConfig(document[dataSets.c_str()]);
+                    }
+                    return std::vector<SdkModel::ApplicationDataSetConfig>();
+                }
+
                 std::vector<std::vector<std::string>> ParseCustomKeyboardLayout(rapidjson::Document& document, const std::string& customKeyboard)
                 {
                     std::vector<std::vector<std::string>> customKeyboardLayout;
@@ -380,6 +423,11 @@ namespace ExampleApp
                 const std::string indoorMapsServiceToken = ParseStringOrDefault(document, IndoorMapsServiceToken, m_defaultConfig.IndoorMapsServiceToken());
                 const std::string indoorMapsServiceUuid = ParseStringOrDefault(document, IndoorMapsServiceUuid, m_defaultConfig.IndoorMapsServiceUuid());
 
+                
+                const std::string& wrldPOISetServiceUrl = ParseStringOrDefault(document, WrldPOISetServiceUrl, m_defaultConfig.WrldPOISetServiceUrl());
+
+                const std::vector<ApplicationDataSetConfig> eegeoPoiDataSets = ParseEegeoPoiDataSets(document, EEgeoPOIDataSets.c_str());
+                
                 return ApplicationConfiguration(
                     name,
                     eegeoApiKey,
@@ -432,7 +480,9 @@ namespace ExampleApp
                     navigationEnabled,
                     indoorMapsServiceUrl,
                     indoorMapsServiceToken,
-                    indoorMapsServiceUuid
+                    indoorMapsServiceUuid,
+                    wrldPOISetServiceUrl,
+                    eegeoPoiDataSets
                 );
             }
             

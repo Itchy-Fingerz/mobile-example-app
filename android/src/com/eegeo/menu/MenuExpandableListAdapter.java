@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.eegeo.tags.TagResources;
 import com.eegeo.entrypointinfrastructure.MainActivity;
-import com.eegeo.mobileexampleapp.R;
+import com.netsoltech.eagleApp.R;
 
 import android.view.LayoutInflater;
 import android.view.View;

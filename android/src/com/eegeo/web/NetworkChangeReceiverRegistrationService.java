@@ -43,6 +43,14 @@ public class NetworkChangeReceiverRegistrationService
                     intent.setAction(networkChangedIntent);
                     m_activity.sendBroadcast(intent);
                 }
+
+                @Override
+                public void onLost(Network network)
+                {
+                    Intent intent = new Intent();
+                    intent.setAction(networkChangedIntent);
+                    m_activity.sendBroadcast(intent);
+                }
             };
             ConnectivityManager connectivityManager = (ConnectivityManager) m_activity.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkRequest.Builder builder = new NetworkRequest.Builder();
