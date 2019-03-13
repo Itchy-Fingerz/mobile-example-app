@@ -61,6 +61,8 @@ namespace ExampleApp
                  */
                 const double MinimumDistanceInMeters = 0.00001;
 
+                const double MinimumDistanceInMetersForSnappingToGraph = 0.5;
+
                 const float WALKING_SPEED_IN_METER_PER_SECOND = 1.4;
                 const float DRIVING_SPEED_IN_METER_PER_SECOND = 10;
 
