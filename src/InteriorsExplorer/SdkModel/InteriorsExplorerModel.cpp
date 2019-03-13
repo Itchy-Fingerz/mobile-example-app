@@ -18,6 +18,7 @@
 
 #include "ICameraTransitionController.h"
 #include "IPersistentSettingsModel.h"
+#include "InteractionModelStateChangedMessage.h"
 
 namespace ExampleApp
 {
@@ -132,6 +133,13 @@ namespace ExampleApp
                     m_interiorExplorerEnabled = true;
                     PublishInteriorExplorerStateChange();
                     m_interiorExplorerEnteredCallbacks.ExecuteCallbacks();
+                    
+                    const Eegeo::Resources::Interiors::InteriorsFloorModel* pFloorModel = m_interiorInteractionModel.GetSelectedFloorModel();
+                    Eegeo_ASSERT(pFloorModel, "Could not fetch current floor model");
+                    m_messageBus.Publish(InteractionModelStateChangedMessage(m_interiorExplorerEnabled,
+                                                                             m_currentInteriorFloorIndex,
+                                                                             pFloorModel->GetReadableFloorName(),
+                                                                             m_interiorSelectionModel.GetSelectedInteriorId()));
                 }
             }
             
@@ -185,6 +193,14 @@ namespace ExampleApp
                 {
                 	m_currentInteriorFloorIndex = m_interiorInteractionModel.GetSelectedFloorIndex();
                     m_messageBus.Publish(InteriorsExplorerFloorSelectedMessage(m_interiorInteractionModel.GetSelectedFloorIndex(), pFloorModel->GetReadableFloorName()));
+                }
+                
+                if(m_interiorInteractionModel.IsCollapsed())
+                {
+                    m_messageBus.Publish(InteractionModelStateChangedMessage(m_interiorExplorerEnabled,
+                                                                              m_currentInteriorFloorIndex,
+                                                                              pFloorModel->GetReadableFloorName(),
+                                                                              m_interiorSelectionModel.GetSelectedInteriorId()));
                 }
 
             }

@@ -148,6 +148,7 @@
 #include "QRScanMenuOption.h"
 #include "QRScanMessageHandler.h"
 #include "QRCodePopUpSprite.h"
+#include "InteractionModelStateChangedObserver.h"
 
 namespace ExampleApp
 {
@@ -415,6 +416,9 @@ namespace ExampleApp
                                                                                                                        m_pInteriorsExplorerModule->GetInteriorsExplorerModel(),
                                                                                                                        interiorsModelModule.GetInteriorsModelRepository(),
                                                                                                                        m_messageBus);
+        
+        m_pInteractionModelStateChangedObserver = Eegeo_NEW(InteractionModelStateChangedObserver::InteractionModelStateChangedObserver)(m_messageBus,*m_pCameraTransitionController);
+
         m_pCameraTransitionService->SetTransitionController(*m_pCameraTransitionController);
 
         m_pDoubleTapIndoorInteractionController = Eegeo_NEW(ExampleApp::DoubleTapIndoorInteraction::SdkModel::DoubleTapIndoorInteractionController)(m_pInteriorsExplorerModule->GetInteriorsCameraController(),*m_pCameraTransitionController,interiorsPresentationModule.GetInteriorInteractionModel(),*m_pAppModeModel,interiorsPresentationModule.GetInteriorTransitionModel(),m_pWorld->GetTerrainModelModule(),m_pAppCameraModule->GetController());
@@ -535,6 +539,9 @@ namespace ExampleApp
         Eegeo_DELETE m_peegeoSetServiceModule;
         
         Eegeo_DELETE m_pPoiDbModule;
+        
+        Eegeo_DELETE m_pInteractionModelStateChangedObserver;
+
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
