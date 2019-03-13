@@ -19,9 +19,11 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Hs-iD-x1s">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49n-Pr-DUd">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="49n-Pr-DUd">
                             <rect key="frame" x="329" y="14.333333333333336" width="36" height="36"/>
-                            <state key="normal" backgroundImage="button_close_off.png"/>
+                            <state key="normal" image="button_close_off.png"/>
+                            <state key="selected" image="button_close_on.png"/>
+                            <state key="highlighted" image="button_close_on.png"/>
                             <connections>
                                 <action selector="onCloseButtonTapped" destination="iN0-l3-epB" eventType="touchUpInside" id="wcq-KT-sKO"/>
                             </connections>
@@ -191,6 +193,7 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="pCameraContentView" destination="LMq-Ny-dqp" id="CKE-u8-7gM"/>
+                <outlet property="pCloseButton" destination="49n-Pr-DUd" id="6aE-HU-d7g"/>
                 <outlet property="pQrDetectedImageView" destination="61j-8u-NuW" id="Z1P-W7-T1N"/>
                 <outlet property="pViewforCameraLayer" destination="arq-Vl-fAg" id="UaU-Sw-d51"/>
             </connections>
@@ -201,6 +204,7 @@
         <image name="QR_icon.png" width="32" height="32"/>
         <image name="QR_img.png" width="100" height="100"/>
         <image name="button_close_off.png" width="36" height="36"/>
+        <image name="button_close_on.png" width="36" height="36"/>
         <image name="qr_step_icon.png" width="10" height="10"/>
     </resources>
 </document>
