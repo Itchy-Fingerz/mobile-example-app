@@ -689,7 +689,8 @@ namespace ExampleApp
                                                                                                                       m_applicationConfiguration.EegeoSearchServiceUrl(),
                                                                                                                       m_pWorld->GetApiTokenModel(),
                                                                                                                       m_platformAbstractions.GetUrlEncoder(),
-                                                                                                                      m_messageBus);
+                                                                                                                      m_messageBus,
+                                                                                                                      m_networkCapabilities);
 
         m_pSearchMenuModule = Eegeo_NEW(ExampleApp::SearchMenu::SdkModel::SearchMenuModule)(m_identityProvider,
                                                                                             m_pSearchModule->GetSearchQueryPerformer(),

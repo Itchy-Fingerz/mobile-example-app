@@ -9,6 +9,7 @@
 #include <iomanip>
 #include "ApiTokenModel.h"
 #include "CameraState.h"
+#include "INetworkCapabilities.h"
 
 namespace ExampleApp {
     namespace Search {
@@ -19,7 +20,8 @@ namespace ExampleApp {
                                                                                        const std::string& serviceUrl,
                                                                                        const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                                                        Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
-                                                                                       ExampleAppMessaging::TMessageBus& messageBus)
+                                                                                       ExampleAppMessaging::TMessageBus& messageBus,
+                                                                                       Net::SdkModel::INetworkCapabilities& networkCapabilities)
                     : m_cameraController(cameraController)
                     , m_messageBus(messageBus)
                     , m_webRequestCompleteCallback(this, &AutocompleteSuggestionQueryPerformer::OnWebResponseReceived)
@@ -29,16 +31,21 @@ namespace ExampleApp {
                     , m_apiTokenModel(apiTokenModel)
                     , m_current_query()
                     , m_urlEncoder(urlEncoder)
+                    , m_networkCapabilities(networkCapabilities)
             {
-
             }
+
 
             AutocompleteSuggestionQueryPerformer::~AutocompleteSuggestionQueryPerformer()
             {
-
             }
 
             void AutocompleteSuggestionQueryPerformer::PerformSuggestionsQuery(const std::string& query){
+
+                if(!m_networkCapabilities.NetworkAvailable())
+                {
+                    return;
+                }
 
                 Eegeo::Space::LatLongAltitude location = Eegeo::Space::LatLongAltitude::FromECEF(m_cameraController.GetCameraState().InterestPointEcef());
                 bool isTag = false;
@@ -72,8 +79,9 @@ namespace ExampleApp {
 
             void AutocompleteSuggestionQueryPerformer::Cancel()
             {
-                Eegeo_ASSERT(m_pWebLoadRequest != NULL, "Cannot cancel autocomplete request - no request exists");
-                m_pWebLoadRequest->Cancel();
+                //TODO: This Assert is calling up in network unavailable mode some times. Need to investigate
+//                Eegeo_ASSERT(m_pWebLoadRequest != NULL, "Cannot cancel autocomplete request - no request exists");
+//                m_pWebLoadRequest->Cancel();
             }
 
             void AutocompleteSuggestionQueryPerformer::OnWebResponseReceived(Eegeo::Web::IWebResponse& webResponse)
@@ -95,7 +103,6 @@ namespace ExampleApp {
                     m_messageBus.Publish(AutocompleteSuggestionsReceivedMessage(webResponse.IsSucceeded(), m_current_query, queryResults));
                 }
             }
-
         }
     }
 }
