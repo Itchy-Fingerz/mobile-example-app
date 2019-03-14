@@ -105,6 +105,7 @@
 #include "IQRScanMenuModule.h"
 #include "QRScanMessageHandler.h"
 #include "QRCodePopUpSprite.h"
+#include "InteractionModelStateChangedObserver.h"
 
 
 namespace ExampleApp
@@ -219,6 +220,9 @@ namespace ExampleApp
         LocationProvider::ILocationProvider * m_pLocationProvider;
         QRScanMessageHandler::QRScanMessageHandler* m_pQRScanMessageHandler;
         QRCodePopUp::QRCodePopUpSprite* m_pBillBoardSprite;
+        
+        InteractionModelStateChangedObserver::InteractionModelStateChangedObserver* m_pInteractionModelStateChangedObserver;
+
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
                                            const bool interiorsAffectedByFlattening,

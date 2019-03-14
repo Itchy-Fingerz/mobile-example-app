@@ -8,6 +8,7 @@ set(currsources
   ../src/InteriorsExplorer/InteriorsExplorerInteriorStreamingMessage.h
   ../src/InteriorsExplorer/InteriorsExplorerSelectFloorMessage.h
   ../src/InteriorsExplorer/InteriorsExplorerStateChangedMessage.h
+  ../src/InteriorsExplorer/InteractionModelStateChangedMessage.h
   ../src/InteriorsExplorer/InteriorsExplorerUINotifyMessage.h
 )
 set(sources ${sources} ${currsources})

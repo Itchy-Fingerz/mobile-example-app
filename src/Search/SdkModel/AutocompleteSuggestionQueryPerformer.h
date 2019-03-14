@@ -10,7 +10,7 @@
 #include "Web.h"
 #include "WebLoadRequestCompletionCallback.h"
 #include "IEegeoParser.h"
-
+#include "NetIncludes.h"
 #include "UrlHelpers.h"
 
 namespace ExampleApp {
@@ -26,6 +26,8 @@ namespace ExampleApp {
                 Search::EegeoPois::SdkModel::IEegeoParser& m_eeGeoParser;
                 SearchQuery m_current_query;
                 Eegeo::Helpers::UrlHelpers::IUrlEncoder& m_urlEncoder;
+                Net::SdkModel::INetworkCapabilities& m_networkCapabilities;
+
             public:
                 AutocompleteSuggestionQueryPerformer(ExampleApp::AppCamera::SdkModel::IAppCameraController& cameraController,
                                                      Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
@@ -33,7 +35,8 @@ namespace ExampleApp {
                                                      const std::string& serviceUrl,
                                                      const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                      Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
-                        ExampleAppMessaging::TMessageBus& messageBus);
+                                                     ExampleAppMessaging::TMessageBus& messageBus,
+                                                     Net::SdkModel::INetworkCapabilities& networkCapabilities);
                ~AutocompleteSuggestionQueryPerformer();
                 void PerformSuggestionsQuery(const std::string& query);
                 void Cancel();
