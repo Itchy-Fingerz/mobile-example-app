@@ -31,7 +31,7 @@ namespace ExampleApp
         void InteractionModelStateChangedObserver::OnInteractionModelStateChangedMessage(const InteriorsExplorer::InteractionModelStateChangedMessage &message)
         {
             
-            if (message.GetInteriorID().Value() == "EIM-1daffd08-49d0-476d-866f-23a52f45713c")
+            if (message.GetInteriorID().Value() == "EIM-1daffd08-49d0-476d-866f-23a52f45713c" && !m_cameraTransitionController.IsTransitioning())
             {
                 int selectedFloorIndex = message.GetSelectedFloorIndex();
                 const Eegeo::dv3 interestPoint = m_floorsLocation.find(selectedFloorIndex)->second;
