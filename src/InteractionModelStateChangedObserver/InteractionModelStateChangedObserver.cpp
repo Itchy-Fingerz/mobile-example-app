@@ -113,6 +113,7 @@ namespace ExampleApp
             m_floorsZoomLevel.insert(std::pair<int, float>(10,250));
             m_floorsHeading.insert(std::pair<int, float>(10,heading));
 
+            heading = Eegeo::Math::Deg2Rad(78.4);
             const Eegeo::dv3 interestPoint12 = Eegeo::Space::LatLong::FromDegrees(26.155147247944303, -78.79300009889178).ToECEF();
             m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(11,interestPoint12));
             m_floorsZoomLevel.insert(std::pair<int, float>(11,220));
