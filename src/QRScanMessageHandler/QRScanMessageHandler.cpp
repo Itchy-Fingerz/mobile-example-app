@@ -27,8 +27,8 @@ namespace ExampleApp
         {
             m_messageBus.UnsubscribeNative(m_indoorQrScanCompleted);
             m_messageBus.UnsubscribeNative(m_outdoorQrScanCompleted);
-            m_messageBus.SubscribeNative(m_interiorsExplorerExitMessageHandler);
-            m_messageBus.SubscribeNative(m_InteriorsExplorerFloorSelectionDraggedMessageHandler);
+            m_messageBus.UnsubscribeNative(m_interiorsExplorerExitMessageHandler);
+            m_messageBus.UnsubscribeNative(m_InteriorsExplorerFloorSelectionDraggedMessageHandler);
         }
         
         void QRScanMessageHandler::OnIndoorQRScanCompleted(const QRScan::OnIndoorQRScanCompleteMessage& message)

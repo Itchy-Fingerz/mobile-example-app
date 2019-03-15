@@ -36,6 +36,7 @@
 - (ExampleApp::QRScan::View::QRScanViewInterop*) getInterop;
 
 @property (retain, nonatomic) IBOutlet UIImageView *pQrDetectedImageView;
+@property (retain, nonatomic) IBOutlet UIButton *pCloseButton;
 
 @property (nonatomic, retain) IBOutlet UIView* pCameraContentView;
 @property (nonatomic, retain) IBOutlet UIView* pViewforCameraLayer;

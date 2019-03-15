@@ -46,6 +46,7 @@ namespace ExampleApp
                 ExampleApp::PopUp::View::IPopUpViewModel& m_popUpViewModel;
                 Eegeo::Space::LatLong m_currentLocationSelectedFromQR;
                 bool m_isInterior;
+                bool m_isFromQrScan;
                 
                 void OnOpen();
                 void OnClose();

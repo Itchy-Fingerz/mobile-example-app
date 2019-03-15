@@ -71,6 +71,7 @@
 #include "NavRoutingModeSetMessage.h"
 #include "NavRoutingShowRerouteDialogMessage.h"
 #include "NavRoutingSetCalculatingRouteMessage.h"
+#include "InteractionModelStateChangedMessage.h"
 
 namespace ExampleApp
 {
@@ -111,6 +112,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerFloorSelectedMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerInteriorStreamingMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerStateChangedMessage>
+            , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteractionModelStateChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<AppModes::AppModeChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<UserInteraction::UserInteractionEnabledChangedMessage>
             , public Eegeo::Messaging::CatalogBinding<URLRequest::URLRequestedMessage>

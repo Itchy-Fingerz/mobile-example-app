@@ -149,6 +149,7 @@
 #include "QRScanMessageHandler.h"
 #include "QRCodePopUpSprite.h"
 #include "PopUpModule.h"
+#include "InteractionModelStateChangedObserver.h"
 
 namespace ExampleApp
 {
@@ -160,11 +161,11 @@ namespace ExampleApp
                                                              const Eegeo::Modules::Core::RenderingModule& renderingModule,
                                                              const Eegeo::Modules::IPlatformAbstractionModule& platformAbstractionModule)
         {
-            const Eegeo::v4 bgColor = Eegeo::v4(240.0f/255.0f, 240.0f/255.f, 240.0f/255.f, 1.0f);
+            const Eegeo::v4 bgColor = Eegeo::v4(255.0f/255.0f, 255.0f/255.f, 255.0f/255.f, 1.0f);
             Eegeo::Rendering::LoadingScreenConfig loadingScreenConfig;
             loadingScreenConfig.layout = Eegeo::Rendering::LoadingScreenLayout::Centred;
             loadingScreenConfig.backgroundColor = bgColor;
-            loadingScreenConfig.loadingBarColor = Eegeo::v4(0.0f/255.0f, 113.0f/255.0f, 188.0f/255.0f, 1.0f);
+            loadingScreenConfig.loadingBarColor = Eegeo::v4(37.0f/255.0f, 59.0f/255.0f, 86.0f/255.0f, 1.0f);
             loadingScreenConfig.loadingBarBackgroundColor = bgColor;
             loadingScreenConfig.fadeOutDurationSeconds = 1.5f;
             loadingScreenConfig.screenWidth = screenProperties.GetScreenWidth();
@@ -416,6 +417,9 @@ namespace ExampleApp
                                                                                                                        m_pInteriorsExplorerModule->GetInteriorsExplorerModel(),
                                                                                                                        interiorsModelModule.GetInteriorsModelRepository(),
                                                                                                                        m_messageBus);
+        
+        m_pInteractionModelStateChangedObserver = Eegeo_NEW(InteractionModelStateChangedObserver::InteractionModelStateChangedObserver)(m_messageBus,*m_pCameraTransitionController);
+
         m_pCameraTransitionService->SetTransitionController(*m_pCameraTransitionController);
 
         m_pDoubleTapIndoorInteractionController = Eegeo_NEW(ExampleApp::DoubleTapIndoorInteraction::SdkModel::DoubleTapIndoorInteractionController)(m_pInteriorsExplorerModule->GetInteriorsCameraController(),*m_pCameraTransitionController,interiorsPresentationModule.GetInteriorInteractionModel(),*m_pAppModeModel,interiorsPresentationModule.GetInteriorTransitionModel(),m_pWorld->GetTerrainModelModule(),m_pAppCameraModule->GetController());
@@ -536,6 +540,9 @@ namespace ExampleApp
         Eegeo_DELETE m_peegeoSetServiceModule;
         
         Eegeo_DELETE m_pPoiDbModule;
+        
+        Eegeo_DELETE m_pInteractionModelStateChangedObserver;
+
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
@@ -683,7 +690,8 @@ namespace ExampleApp
                                                                                                                       m_applicationConfiguration.EegeoSearchServiceUrl(),
                                                                                                                       m_pWorld->GetApiTokenModel(),
                                                                                                                       m_platformAbstractions.GetUrlEncoder(),
-                                                                                                                      m_messageBus);
+                                                                                                                      m_messageBus,
+                                                                                                                      m_networkCapabilities);
 
         m_pSearchMenuModule = Eegeo_NEW(ExampleApp::SearchMenu::SdkModel::SearchMenuModule)(m_identityProvider,
                                                                                             m_pSearchModule->GetSearchQueryPerformer(),

@@ -58,6 +58,7 @@ namespace ExampleApp
                 m_interiorsCameraController.SetTilt(tiltAngle);
                 m_currentLocationSelectedFromQR = loc;
                 m_isInterior = true;
+                m_isFromQrScan = true;
             }
 
             void QRScanController::OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message)
@@ -77,6 +78,7 @@ namespace ExampleApp
                 m_globeCameraController.ApplyTilt(tiltAngle);
                 m_currentLocationSelectedFromQR = loc;
                 m_isInterior = false;
+                m_isFromQrScan = true;
             }
             
             void QRScanController::OnAppModeChanged(const AppModes::AppModeChangedMessage &message)
@@ -89,17 +91,21 @@ namespace ExampleApp
 
             void QRScanController::HandleCameraTransitionComplete()
             {
-                if(m_currentLocationSelectedFromQR.GetLatitude() != 0)
+                if(m_isFromQrScan)
                 {
-                    if(m_isInterior)
+                    m_isFromQrScan = false;
+                    if(m_currentLocationSelectedFromQR.GetLatitude() != 0)
                     {
-                        Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_interiorsCameraController.GetRenderCamera());
-                        m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
-                    }
-                    else
-                    {
-                        Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_globeCameraController.GetRenderCamera());
-                        m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
+                        if(m_isInterior)
+                        {
+                            Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_interiorsCameraController.GetRenderCamera());
+                            m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
+                        }
+                        else
+                        {
+                            Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_globeCameraController.GetRenderCamera());
+                            m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
+                        }
                     }
                 }
             }
@@ -130,6 +136,7 @@ namespace ExampleApp
                 , m_popUpViewModel(popUpViewModel)
                 , m_currentLocationSelectedFromQR(Eegeo::Space::LatLong(0,0))
                 , m_isInterior(false)
+                , m_isFromQrScan(false)
             {
                 
 
