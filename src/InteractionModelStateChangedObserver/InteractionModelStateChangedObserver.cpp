@@ -61,11 +61,11 @@ namespace ExampleApp
             m_floorsZoomLevel.insert(std::pair<int, float>(0,250.2683410644531));
             m_floorsHeading.insert(std::pair<int, float>(0,heading));
             
-            Eegeo::Space::LatLong locFloor1 = Eegeo::Space::LatLong::FromDegrees(26.15516487293898, -78.79296869686519);
+            Eegeo::Space::LatLong locFloor1 = Eegeo::Space::LatLong::FromDegrees(26.155182498890433, -78.79272541218683);
             Eegeo::dv3 interest1 = locFloor1.ToECEF();
-            heading = Eegeo::Math::Deg2Rad(78.4);
+            heading = Eegeo::Math::Deg2Rad(78.0);
             m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(1,interest1));
-            m_floorsZoomLevel.insert(std::pair<int, float>(1,250.2683410644531));
+            m_floorsZoomLevel.insert(std::pair<int, float>(1,274.0));
             m_floorsHeading.insert(std::pair<int, float>(1,heading));
             
             
@@ -87,7 +87,7 @@ namespace ExampleApp
             m_floorsZoomLevel.insert(std::pair<int, float>(4,270));
             m_floorsHeading.insert(std::pair<int, float>(4,heading));
             
-            const Eegeo::dv3 interest5 = Eegeo::Space::LatLong::FromDegrees(26.15516376558429, -78.79266780055974).ToECEF();
+            const Eegeo::dv3 interest5 = Eegeo::Space::LatLong::FromDegrees(26.155174559849932, -78.79256372777634).ToECEF();
             m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(5,interest5));
             m_floorsZoomLevel.insert(std::pair<int, float>(5,230));
             m_floorsHeading.insert(std::pair<int, float>(5,heading));
@@ -96,21 +96,22 @@ namespace ExampleApp
             m_floorsZoomLevel.insert(std::pair<int, float>(6,230));
             m_floorsHeading.insert(std::pair<int, float>(6,heading));
             
-            m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(7,interest5));
+            const Eegeo::dv3 interest6 = Eegeo::Space::LatLong::FromDegrees(26.15518430381195, -78.79257448642157).ToECEF();
+            m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(7,interest6));
             m_floorsZoomLevel.insert(std::pair<int, float>(7,230));
             m_floorsHeading.insert(std::pair<int, float>(7,heading));
             
-            m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(8,interest5));
+            m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(8,interest6));
             m_floorsZoomLevel.insert(std::pair<int, float>(8,230));
             m_floorsHeading.insert(std::pair<int, float>(8,heading));
             
-            m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(9,interest5));
+            m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(9,interest6));
             m_floorsZoomLevel.insert(std::pair<int, float>(9,230));
             m_floorsHeading.insert(std::pair<int, float>(9,heading));
             
-            const Eegeo::dv3 interestPoint10 = Eegeo::Space::LatLong::FromDegrees(26.15514838609565, -78.79279665517699).ToECEF();
+            const Eegeo::dv3 interestPoint10 = Eegeo::Space::LatLong::FromDegrees(26.155175702389037, -78.79273714772093).ToECEF();
             m_floorsLocation.insert(std::pair<int, Eegeo::dv3>(10,interestPoint10));
-            m_floorsZoomLevel.insert(std::pair<int, float>(10,250));
+            m_floorsZoomLevel.insert(std::pair<int, float>(10,270));
             m_floorsHeading.insert(std::pair<int, float>(10,heading));
 
             heading = Eegeo::Math::Deg2Rad(78.4);
