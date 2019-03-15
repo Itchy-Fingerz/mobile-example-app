@@ -16,6 +16,7 @@ namespace ExampleApp
                CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
                                                Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                                Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
+                                               ExampleApp::PopUp::View::IPopUpViewModel& popUpViewModel,
                                                Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus)
             {
                 m_pView = [QRScanView loadQRScanViewWithBus:messageBus];
@@ -24,7 +25,9 @@ namespace ExampleApp
                                                             cameraTransitionController,
                                                             interiorsCameraController,
                                                             globeCameraController,
-                                                            metricsService, messageBus);
+                                                            metricsService,
+                                                            popUpViewModel,
+                                                            messageBus);
             }
 
             QRScanViewModule::~QRScanViewModule()

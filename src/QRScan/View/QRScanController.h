@@ -13,6 +13,7 @@
 #include "ICameraTransitionController.h"
 #include "InteriorsCameraController.h"
 #include "GlobeCameraController.h"
+#include "IPopUpViewModel.h"
 
 namespace ExampleApp
 {
@@ -40,7 +41,12 @@ namespace ExampleApp
                 Metrics::IMetricsService& m_metricsService;
                 
                 Eegeo::Helpers::TCallback1<QRScanController, const AppModes::AppModeChangedMessage&> m_appModeChangedMessageHandler;
-
+                Eegeo::Helpers::TCallback0<QRScanController> m_cameraTransitionCompleteCallback;
+                
+                ExampleApp::PopUp::View::IPopUpViewModel& m_popUpViewModel;
+                Eegeo::Space::LatLong m_currentLocationSelectedFromQR;
+                bool m_isInterior;
+                
                 void OnOpen();
                 void OnClose();
                 void OnCloseTapped();
@@ -48,6 +54,7 @@ namespace ExampleApp
                 void OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message);
                 
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
+                void HandleCameraTransitionComplete();
 
             public:
                 QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
@@ -56,6 +63,7 @@ namespace ExampleApp
                                  Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                  Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
                                  Metrics::IMetricsService& metricsService,
+                                 ExampleApp::PopUp::View::IPopUpViewModel& popUpViewModel,
                                  ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~QRScanController();

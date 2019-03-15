@@ -343,6 +343,8 @@
         double zoomLevel = [pathComponents[7] doubleValue];
         double tiltInDegree = [pathComponents[8] doubleValue];
         
+        m_pInterop->CloseTapped();
+
         m_pInterop->OnIndoorQRScanCompleted(lat,lon,[indoorId UTF8String],floorIndex,orientation,zoomLevel,tiltInDegree);
         
     }else if ([locationMode isEqualToString:@"outdoor"] && pathComponents.count == 7)
@@ -353,12 +355,13 @@
         double zoomLevel = [pathComponents[5] doubleValue];
         double tiltInDegree = [pathComponents[6] doubleValue];
         
+        m_pInterop->CloseTapped();
+
         m_pInterop->OnOutdoorQRScanCompleted(lat,lon,orientation,zoomLevel,tiltInDegree);
         
     }
     [self stopReading];
 
-    m_pInterop->CloseTapped();
 }
 - (void) notifyInvalidQRCode
 {

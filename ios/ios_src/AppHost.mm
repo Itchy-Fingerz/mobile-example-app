@@ -88,6 +88,9 @@
 #include "ApplicationInteriorTrackingConfig.h"
 #include "InteriorMetaDataDto.h"
 #include "GpsGlobeCameraController.h"
+#include "PopUpViewModule.h"
+#include "PopUpView.h"
+#include "IPopUpViewModel.h"
 
 using namespace Eegeo::iOS;
 
@@ -381,13 +384,17 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
 
     m_pAboutPageViewModule = Eegeo_NEW(ExampleApp::AboutPage::View::AboutPageViewModule)(app.AboutPageModule().GetAboutPageViewModel(), m_iOSFlurryMetricsService, m_messageBus);
     
+    m_pPopUpViewModule = Eegeo_NEW(ExampleApp::PopUp::View::PopUpViewModule)(app.PopUpModule().GetPopUpViewModel(), screenProperties);
+    
     m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)
                                     (app.QRScanModule().GetQRScanViewModel(),
                                     m_pApp->GetLocationProvider(),
                                     m_pApp->CameraTransitionController(),
                                     m_pApp->InteriorsExplorerModule().GetInteriorsCameraController(),
                                     m_pApp->GetCameraController().GetGlobeCameraController(),
-                                    m_iOSFlurryMetricsService, m_messageBus);
+                                    app.PopUpModule().GetPopUpViewModel(),
+                                    m_iOSFlurryMetricsService,
+                                    m_messageBus);
 
 
     m_pMyPinCreationConfirmationViewModule = Eegeo_NEW(ExampleApp::MyPinCreation::View::MyPinCreationConfirmationViewModule)(m_messageBus,
@@ -437,6 +444,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                  m_pApp->GetApplicationConfiguration().TimerSurveyUrl());
     
     // 3d map view layer.
+    [m_pView addSubview:&m_pPopUpViewModule->GetPopUpView()];
     
     // Initial Experience background
     [m_pView addSubview: &m_pInitialExperienceIntroViewModule->GetIntroBackgroundView()];
@@ -469,7 +477,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     
     // Initial experience layer
     [m_pView addSubview: &m_pInitialExperienceIntroViewModule->GetIntroView()];
-
+    
     m_pViewControllerUpdaterModule = Eegeo_NEW(ExampleApp::ViewControllerUpdater::View::ViewControllerUpdaterModule);
     ExampleApp::ViewControllerUpdater::View::IViewControllerUpdaterModel& viewControllerUpdaterModel = m_pViewControllerUpdaterModule->GetViewControllerUpdaterModel();
     
