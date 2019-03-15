@@ -11,6 +11,7 @@
 #include "ICameraTransitionController.h"
 #include "InteriorsCameraController.h"
 #include "GlobeCameraController.h"
+#include "IPopUpViewModel.h"
 
 namespace ExampleApp
 {
@@ -30,7 +31,9 @@ namespace ExampleApp
                                  CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
                                  Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                  Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
-                                 Metrics::IMetricsService& metricsService, ExampleAppMessaging::TMessageBus& messageBus);
+                                 ExampleApp::PopUp::View::IPopUpViewModel& popUpViewModel,
+                                 Metrics::IMetricsService& metricsService,
+                                 ExampleAppMessaging::TMessageBus& messageBus);
 
                 ~QRScanViewModule();
 

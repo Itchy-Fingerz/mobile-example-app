@@ -148,7 +148,7 @@
 #include "QRScanMenuOption.h"
 #include "QRScanMessageHandler.h"
 #include "QRCodePopUpSprite.h"
-#include "InteractionModelStateChangedObserver.h"
+#include "PopUpModule.h"
 
 namespace ExampleApp
 {
@@ -933,6 +933,8 @@ namespace ExampleApp
         m_pInteriorCameraWrapper = Eegeo_NEW(AppCamera::SdkModel::AppInteriorCameraWrapper)(m_pInteriorsExplorerModule->GetInteriorsGpsCameraController(),
                                                                                             m_pInteriorsExplorerModule->GetInteriorsCameraController());
 
+        m_pPopUpModule = Eegeo_NEW(ExampleApp::PopUp::View::PopUpModule)();
+        
         m_pQRScanModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanModule)(m_identityProvider,
                                                                             m_applicationConfiguration.ProductVersion(),
                                                                             m_applicationConfiguration.Name());
@@ -942,7 +944,7 @@ namespace ExampleApp
         
         m_pBillBoardSprite = Eegeo_NEW(QRCodePopUp::QRCodePopUpSprite)(m_pGlobeCameraController->GetGlobeCameraController(),m_pWorld->GetRenderingModule(), m_platformAbstractions.GetTextureFileLoader());
 
-        m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(*m_pBillBoardSprite,m_messageBus);
+        m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(*m_pBillBoardSprite, m_pPopUpModule->GetPopUpViewModel(), m_messageBus);
         
         std::vector<Reaction::View::IReaction*> reactions(GetReactions());
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> openables(GetOpenableControls());

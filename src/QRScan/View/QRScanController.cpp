@@ -3,6 +3,7 @@
 #include "QRScanController.h"
 #include "LatLongAltitude.h"
 #include "InteriorsExplorer.h"
+#include "CameraHelpers.h"
 
 namespace ExampleApp
 {
@@ -19,7 +20,6 @@ namespace ExampleApp
 
             void QRScanController::OnClose()
             {
-                m_metricsService.EndTimedEvent("TimedEvent: Viewing About Page");
                 m_view.Close();
             }
 
@@ -56,6 +56,9 @@ namespace ExampleApp
                                                                true,
                                                                true);
                 m_interiorsCameraController.SetTilt(tiltAngle);
+                m_currentLocationSelectedFromQR = loc;
+                m_isInterior = true;
+                m_isFromQrScan = true;
             }
 
             void QRScanController::OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message)
@@ -73,6 +76,9 @@ namespace ExampleApp
                                                                zoomLevel,
                                                                heading);
                 m_globeCameraController.ApplyTilt(tiltAngle);
+                m_currentLocationSelectedFromQR = loc;
+                m_isInterior = false;
+                m_isFromQrScan = true;
             }
             
             void QRScanController::OnAppModeChanged(const AppModes::AppModeChangedMessage &message)
@@ -83,12 +89,34 @@ namespace ExampleApp
                 }
             }
 
+            void QRScanController::HandleCameraTransitionComplete()
+            {
+                if(m_isFromQrScan)
+                {
+                    m_isFromQrScan = false;
+                    if(m_currentLocationSelectedFromQR.GetLatitude() != 0)
+                    {
+                        if(m_isInterior)
+                        {
+                            Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_interiorsCameraController.GetRenderCamera());
+                            m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
+                        }
+                        else
+                        {
+                            Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_globeCameraController.GetRenderCamera());
+                            m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
+                        }
+                    }
+                }
+            }
+            
             QRScanController::QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
                                                LocationProvider::ILocationProvider& locationProvider,
                                                CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController,
                                                Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                                Eegeo::Camera::GlobeCamera::GlobeCameraController& globeCameraController,
                                                Metrics::IMetricsService& metricsService,
+                                               ExampleApp::PopUp::View::IPopUpViewModel& popUpViewModel,
                                                ExampleAppMessaging::TMessageBus& messageBus)
                 : m_view(view)
                 , m_viewModel(viewModel)
@@ -102,15 +130,24 @@ namespace ExampleApp
                 , m_viewCloseTapped(this, &QRScanController::OnCloseTapped)
                 , m_indoorQrScanCompleted(this, &QRScanController::OnIndoorQRScanCompleted)
                 , m_outdoorQrScanCompleted(this, &QRScanController::OnOutdoorQRScanCompleted)
+                , m_cameraTransitionCompleteCallback(this, &QRScanController::HandleCameraTransitionComplete)
                 , m_messageBus(messageBus)
                 , m_appModeChangedMessageHandler(this, &QRScanController::OnAppModeChanged)
+                , m_popUpViewModel(popUpViewModel)
+                , m_currentLocationSelectedFromQR(Eegeo::Space::LatLong(0,0))
+                , m_isInterior(false)
+                , m_isFromQrScan(false)
             {
+                
+
                 m_view.InsertCloseTappedCallback(m_viewCloseTapped);
                 m_viewModel.InsertClosedCallback(m_viewClosed);
                 m_viewModel.InsertOpenedCallback(m_viewOpened);
                 m_messageBus.SubscribeNative(m_indoorQrScanCompleted);
                 m_messageBus.SubscribeNative(m_outdoorQrScanCompleted);
                 m_messageBus.SubscribeUi(m_appModeChangedMessageHandler);
+                m_cameraTransitionController.InsertTransitionCompletedCallback(m_cameraTransitionCompleteCallback);
+
             }
 
             QRScanController::~QRScanController()

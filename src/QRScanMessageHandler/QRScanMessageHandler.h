@@ -6,6 +6,7 @@
 #include "QRCodePopUpSprite.h"
 #include "InteriorsExplorerExitMessage.h"
 #include "InteriorsExplorerFloorSelectionDraggedMessage.h"
+#include "IPopUpViewModel.h"
 
 namespace ExampleApp
 {
@@ -24,7 +25,8 @@ namespace ExampleApp
 
             
             QRCodePopUp::QRCodePopUpSprite& m_bilboardSprite;
-
+            ExampleApp::PopUp::View::IPopUpViewModel& m_popUpViewModel;
+            
             void OnIndoorQRScanCompleted(const QRScan::OnIndoorQRScanCompleteMessage& message);
             void OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message);
             
@@ -32,7 +34,7 @@ namespace ExampleApp
             void OnInteriorsExplorerFloorSelectionDraggedMessage(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message);
                         
         public:
-            QRScanMessageHandler(QRCodePopUp::QRCodePopUpSprite& billBoardSprite,ExampleAppMessaging::TMessageBus& messageBus);
+            QRScanMessageHandler(QRCodePopUp::QRCodePopUpSprite& billBoardSprite, ExampleApp::PopUp::View::IPopUpViewModel& popUpViewModel, ExampleAppMessaging::TMessageBus& messageBus);
             ~QRScanMessageHandler();
             
         };

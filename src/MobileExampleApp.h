@@ -104,6 +104,7 @@
 #include "IQRScanMenuModule.h"
 #include "QRScanMessageHandler.h"
 #include "QRCodePopUpSprite.h"
+#include "IPopUpModule.h"
 #include "InteractionModelStateChangedObserver.h"
 
 
@@ -186,7 +187,8 @@ namespace ExampleApp
         ExampleApp::InitialLocation::SdkModel::IInitialLocationModel* m_pInitialLocationModel;
         QRScan::SdkModel::IQRScanMenuModule* m_pQRScanMenuModule;
         ExampleApp::QRScan::View::IQRScanModule* m_pQRScanModule;
-
+        ExampleApp::PopUp::View::IPopUpModule* m_pPopUpModule;
+        
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         ExampleApp::PoiDb::SdkModel::IPoiDbModule* m_pPoiDbModule;
         Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchServiceModule* m_peegeoSetServiceModule;
@@ -434,6 +436,11 @@ namespace ExampleApp
         const ExampleApp::QRScan::View::IQRScanModule& QRScanModule() const
         {
             return *m_pQRScanModule;
+        }
+        
+        const ExampleApp::PopUp::View::IPopUpModule& PopUpModule() const
+        {
+            return *m_pPopUpModule;
         }
         
         // Exposed to allow view model creation in iOS code.
