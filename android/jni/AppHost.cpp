@@ -78,6 +78,9 @@
 #include "ApplicationInteriorTrackingConfig.h"
 #include "InteriorMetaDataDto.h"
 #include "GpsGlobeCameraController.h"
+#include "PopUpViewModule.h"
+#include "PopUpView.h"
+#include "IPopUpViewModel.h"
 
 using namespace Eegeo::Android;
 using namespace Eegeo::Android::Input;
@@ -141,6 +144,7 @@ AppHost::AppHost(
     ,m_pAndroidAutomatedScreenshotController(NULL)
     ,m_surfaceScreenshotService(screenProperties)
     ,m_screenshotService(m_nativeState, m_surfaceScreenshotService)
+    ,m_pPopUpViewModule(NULL)
 {
     ASSERT_NATIVE_THREAD
 
@@ -612,6 +616,10 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
                                     m_messageBus
                                 );
 
+    m_pPopUpViewModule = Eegeo_NEW(ExampleApp::PopUp::View::PopUpViewModule)(
+                                    m_nativeState,
+                                    app.PopUpModule().GetPopUpViewModel());
+
     m_pQRScanViewModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanViewModule)(
                                     m_nativeState,
                                     app.QRScanModule().GetQRScanViewModel(),
@@ -619,6 +627,7 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
                                     m_pApp->CameraTransitionController(),
                                     m_pApp->InteriorsExplorerModule().GetInteriorsCameraController(),
                                     m_pApp->GetCameraController().GetGlobeCameraController(),
+                                    m_pApp->PopUpModule().GetPopUpViewModel(),
                                     *m_pAndroidFlurryMetricsService,
                                     m_messageBus);
 
@@ -714,6 +723,8 @@ void AppHost::DestroyApplicationViewModulesFromUiThread()
         Eegeo_DELETE m_pNavWidgetViewModule;
 
         Eegeo_DELETE m_pQRScanViewModule;
+
+        Eegeo_DELETE m_pPopUpViewModule;
     }
     m_createdUIModules = false;
 }

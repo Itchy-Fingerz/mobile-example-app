@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include <QRScan/OnQRScanCameraTransitionCompleteMessage.h>
 #include "Types.h"
 #include "QRScan.h"
 #include "ICallback.h"
@@ -14,6 +15,8 @@
 #include "InteriorsCameraController.h"
 #include "GlobeCameraController.h"
 #include "IPopUpViewModel.h"
+#include "InteriorsExplorerExitMessage.h"
+#include "InteriorsExplorerFloorSelectionDraggedMessage.h"
 
 namespace ExampleApp
 {
@@ -36,7 +39,10 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewCloseTapped;
                 Eegeo::Helpers::TCallback1<QRScanController, const QRScan::OnIndoorQRScanCompleteMessage&> m_indoorQrScanCompleted;
                 Eegeo::Helpers::TCallback1<QRScanController, const QRScan::OnOutdoorQRScanCompleteMessage&> m_outdoorQrScanCompleted;
-                
+                Eegeo::Helpers::TCallback1<QRScanController, const QRScan::OnQRScanCameraTransitionCompleteMessage&> m_qrScanCameraTransitionCompleted;
+                Eegeo::Helpers::TCallback1<QRScanController, const InteriorsExplorer::InteriorsExplorerExitMessage&> m_interiorsExplorerExitMessageHandler;
+                Eegeo::Helpers::TCallback1<QRScanController, const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage&> m_InteriorsExplorerFloorSelectionDraggedMessageHandler;
+
                 ExampleAppMessaging::TMessageBus& m_messageBus;
                 Metrics::IMetricsService& m_metricsService;
                 
@@ -55,7 +61,12 @@ namespace ExampleApp
                 void OnOutdoorQRScanCompleted(const QRScan::OnOutdoorQRScanCompleteMessage& message);
                 
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
+
                 void HandleCameraTransitionComplete();
+                void OnQRScanCameraTransitionCompleted(const QRScan::OnQRScanCameraTransitionCompleteMessage& message);
+
+                void OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message);
+                void OnInteriorsExplorerFloorSelectionDraggedMessage(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message);
 
             public:
                 QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,

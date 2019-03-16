@@ -45,7 +45,7 @@ namespace ExampleApp
                 m_locationProvider.EnableFixedLocation(loc,buildingId,floorIndex,orientation);
                 const float heading = Eegeo::Math::Deg2Rad(orientation);
                 const Eegeo::dv3 interestPoint = loc.ToECEF();
-                Eegeo_TTY("najhi x:%d y:%d z:%d", interestPoint.x, interestPoint.y,interestPoint.z);
+
                 m_cameraTransitionController.StartTransitionTo(interestPoint,
                                                                zoomLevel,
                                                                heading,
@@ -91,6 +91,11 @@ namespace ExampleApp
 
             void QRScanController::HandleCameraTransitionComplete()
             {
+                m_messageBus.Publish(OnQRScanCameraTransitionCompleteMessage());
+            }
+
+            void QRScanController::OnQRScanCameraTransitionCompleted(const ExampleApp::QRScan::OnQRScanCameraTransitionCompleteMessage &message)
+            {
                 if(m_isFromQrScan)
                 {
                     m_isFromQrScan = false;
@@ -108,6 +113,16 @@ namespace ExampleApp
                         }
                     }
                 }
+            }
+
+            void QRScanController::OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message)
+            {
+                m_popUpViewModel.Close();
+            }
+
+            void QRScanController::OnInteriorsExplorerFloorSelectionDraggedMessage(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message)
+            {
+                m_popUpViewModel.Close();
             }
             
             QRScanController::QRScanController(IQRScanView& view, IQRScanViewModel& viewModel,
@@ -131,12 +146,15 @@ namespace ExampleApp
                 , m_indoorQrScanCompleted(this, &QRScanController::OnIndoorQRScanCompleted)
                 , m_outdoorQrScanCompleted(this, &QRScanController::OnOutdoorQRScanCompleted)
                 , m_cameraTransitionCompleteCallback(this, &QRScanController::HandleCameraTransitionComplete)
+                , m_qrScanCameraTransitionCompleted(this, &QRScanController::OnQRScanCameraTransitionCompleted)
                 , m_messageBus(messageBus)
                 , m_appModeChangedMessageHandler(this, &QRScanController::OnAppModeChanged)
                 , m_popUpViewModel(popUpViewModel)
                 , m_currentLocationSelectedFromQR(Eegeo::Space::LatLong(0,0))
                 , m_isInterior(false)
                 , m_isFromQrScan(false)
+                , m_interiorsExplorerExitMessageHandler(this,&QRScanController::OnInteriorsExplorerExitMessage)
+                , m_InteriorsExplorerFloorSelectionDraggedMessageHandler(this,&QRScanController::OnInteriorsExplorerFloorSelectionDraggedMessage)
             {
                 
 
@@ -146,13 +164,20 @@ namespace ExampleApp
                 m_messageBus.SubscribeNative(m_indoorQrScanCompleted);
                 m_messageBus.SubscribeNative(m_outdoorQrScanCompleted);
                 m_messageBus.SubscribeUi(m_appModeChangedMessageHandler);
+                m_messageBus.SubscribeUi(m_qrScanCameraTransitionCompleted);
+                m_messageBus.SubscribeUi(m_interiorsExplorerExitMessageHandler);
+                m_messageBus.SubscribeUi(m_InteriorsExplorerFloorSelectionDraggedMessageHandler);
                 m_cameraTransitionController.InsertTransitionCompletedCallback(m_cameraTransitionCompleteCallback);
 
             }
 
             QRScanController::~QRScanController()
             {
+                m_cameraTransitionController.RemoveTransitionCompletedCallback(m_cameraTransitionCompleteCallback);
+                m_messageBus.UnsubscribeUi(m_qrScanCameraTransitionCompleted);
                 m_messageBus.UnsubscribeUi(m_appModeChangedMessageHandler);
+                m_messageBus.UnsubscribeUi(m_interiorsExplorerExitMessageHandler);
+                m_messageBus.UnsubscribeUi(m_InteriorsExplorerFloorSelectionDraggedMessageHandler);
                 m_messageBus.UnsubscribeNative(m_indoorQrScanCompleted);
                 m_messageBus.UnsubscribeNative(m_outdoorQrScanCompleted);
                 m_viewModel.RemoveOpenedCallback(m_viewOpened);

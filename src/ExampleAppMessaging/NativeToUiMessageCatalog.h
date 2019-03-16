@@ -72,6 +72,9 @@
 #include "NavRoutingShowRerouteDialogMessage.h"
 #include "NavRoutingSetCalculatingRouteMessage.h"
 #include "InteractionModelStateChangedMessage.h"
+#include "OnQRScanCameraTransitionCompleteMessage.h"
+#include "InteriorsExplorerFloorSelectionDraggedMessage.h"
+#include "InteriorsExplorerExitMessage.h"
 
 namespace ExampleApp
 {
@@ -145,6 +148,9 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingModeSetMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingShowRerouteDialogMessage>
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingSetCalculatingRouteMessage>
+            , public Eegeo::Messaging::CatalogBinding<QRScan::OnQRScanCameraTransitionCompleteMessage>
+            , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage>
+            , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerExitMessage>
             , private Eegeo::NonCopyable
         {
 

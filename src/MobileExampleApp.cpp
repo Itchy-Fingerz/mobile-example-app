@@ -148,8 +148,6 @@
 #include "QRScanModule.h"
 #include "QRScanMenuModule.h"
 #include "QRScanMenuOption.h"
-#include "QRScanMessageHandler.h"
-#include "QRCodePopUpSprite.h"
 #include "PopUpModule.h"
 
 namespace ExampleApp
@@ -968,10 +966,6 @@ namespace ExampleApp
         m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
                                                                             m_pQRScanModule->GetQRScanViewModel());
         
-        m_pBillBoardSprite = Eegeo_NEW(QRCodePopUp::QRCodePopUpSprite)(m_pGlobeCameraController->GetGlobeCameraController(),m_pWorld->GetRenderingModule(), m_platformAbstractions.GetTextureFileLoader());
-
-        m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(*m_pBillBoardSprite, m_pPopUpModule->GetPopUpViewModel(), m_messageBus);
-        
         std::vector<Reaction::View::IReaction*> reactions(GetReactions());
         std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> openables(GetOpenableControls());
 
@@ -1166,9 +1160,6 @@ namespace ExampleApp
 
         Eegeo_DELETE m_pQRScanModule;
         
-        Eegeo_DELETE m_pBillBoardSprite;
-        
-        Eegeo_DELETE m_pQRScanMessageHandler;
     }
 
     std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> MobileExampleApp::GetOpenableControls() const
@@ -1554,7 +1545,6 @@ namespace ExampleApp
 
     void MobileExampleApp::Event_TouchPan_Start(const AppInterface::PanData& data)
     {
-        m_pBillBoardSprite->OnSingleTap();
         MyPinCreation::PoiRing::SdkModel::IPoiRingTouchController& poiRingTouchController = m_pPoiRingModule->GetPoiRingTouchController();
         if(!CanAcceptTouch() || poiRingTouchController.IsDragging())
         {
@@ -1581,8 +1571,6 @@ namespace ExampleApp
         {
             return;
         }
-        
-        m_pBillBoardSprite->OnSingleTap();
         
         if (m_pWorldPinsModule->GetWorldPinsService().HandleTouchTap(data.point))
         {

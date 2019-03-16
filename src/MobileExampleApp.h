@@ -103,8 +103,6 @@
 #include "EegeoPoiSetSearchServiceModule.h"
 #include "QRScanModule.h"
 #include "IQRScanMenuModule.h"
-#include "QRScanMessageHandler.h"
-#include "QRCodePopUpSprite.h"
 #include "IPopUpModule.h"
 #include "InteractionModelStateChangedObserver.h"
 
@@ -220,9 +218,7 @@ namespace ExampleApp
         Eegeo::Location::ILocationService& m_platformLocationService;
         Eegeo::Helpers::CurrentLocationService::CurrentLocationService* m_pCurrentLocationService;
         LocationProvider::ILocationProvider * m_pLocationProvider;
-        QRScanMessageHandler::QRScanMessageHandler* m_pQRScanMessageHandler;
-        QRCodePopUp::QRCodePopUpSprite* m_pBillBoardSprite;
-        
+
         InteractionModelStateChangedObserver::InteractionModelStateChangedObserver* m_pInteractionModelStateChangedObserver;
 
 

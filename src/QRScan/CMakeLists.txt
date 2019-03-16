@@ -5,6 +5,8 @@ set(currsources
   ../src/QRScan/OnOutdoorQRScanCompleteMessage.cpp
   ../src/QRScan/OnIndoorQRScanCompleteMessage.h
   ../src/QRScan/OnIndoorQRScanCompleteMessage.cpp
+  ../src/QRScan/OnQRScanCameraTransitionCompleteMessage.h
+  ../src/QRScan/OnQRScanCameraTransitionCompleteMessage.cpp
   ../src/QRScan/CMakeLists.txt
 )
 set(sources ${sources} ${currsources})

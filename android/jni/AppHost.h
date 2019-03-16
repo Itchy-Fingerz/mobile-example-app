@@ -70,6 +70,7 @@
 #include "ILocationService.h"
 #include "InteriorsLocationServiceController.h"
 #include "QRScanViewIncludes.h"
+#include "IPopUpViewModule.h"
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -155,6 +156,7 @@ private:
     ExampleApp::Net::SdkModel::INetworkCapabilities* m_pNetworkCapabilities;
     ExampleApp::Metrics::AndroidFlurryMetricsService* m_pAndroidFlurryMetricsService;
     ExampleApp::QRScan::View::IQRScanViewModule* m_pQRScanViewModule;
+    ExampleApp::PopUp::View::IPopUpViewModule* m_pPopUpViewModule;
 
     ExampleApp::Menu::View::IMenuReactionModel* m_pMenuReactionModel;
 
