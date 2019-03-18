@@ -91,27 +91,10 @@ namespace ExampleApp
 
             void QRScanController::HandleCameraTransitionComplete()
             {
-                m_messageBus.Publish(OnQRScanCameraTransitionCompleteMessage());
-            }
-
-            void QRScanController::OnQRScanCameraTransitionCompleted(const ExampleApp::QRScan::OnQRScanCameraTransitionCompleteMessage &message)
-            {
                 if(m_isFromQrScan)
                 {
                     m_isFromQrScan = false;
-                    if(m_currentLocationSelectedFromQR.GetLatitude() != 0)
-                    {
-                        if(m_isInterior)
-                        {
-                            Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_interiorsCameraController.GetRenderCamera());
-                            m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
-                        }
-                        else
-                        {
-                            Eegeo::v3 screenPosition = Eegeo::Camera::CameraHelpers::GetScreenPositionFromLatLong(m_currentLocationSelectedFromQR, m_globeCameraController.GetRenderCamera());
-                            m_popUpViewModel.Open(screenPosition.GetX(), screenPosition.GetY());
-                        }
-                    }
+                    m_messageBus.Publish(OnQRScanCameraTransitionCompleteMessage(m_isInterior));
                 }
             }
 
@@ -146,7 +129,6 @@ namespace ExampleApp
                 , m_indoorQrScanCompleted(this, &QRScanController::OnIndoorQRScanCompleted)
                 , m_outdoorQrScanCompleted(this, &QRScanController::OnOutdoorQRScanCompleted)
                 , m_cameraTransitionCompleteCallback(this, &QRScanController::HandleCameraTransitionComplete)
-                , m_qrScanCameraTransitionCompleted(this, &QRScanController::OnQRScanCameraTransitionCompleted)
                 , m_messageBus(messageBus)
                 , m_appModeChangedMessageHandler(this, &QRScanController::OnAppModeChanged)
                 , m_popUpViewModel(popUpViewModel)
@@ -164,7 +146,6 @@ namespace ExampleApp
                 m_messageBus.SubscribeNative(m_indoorQrScanCompleted);
                 m_messageBus.SubscribeNative(m_outdoorQrScanCompleted);
                 m_messageBus.SubscribeUi(m_appModeChangedMessageHandler);
-                m_messageBus.SubscribeUi(m_qrScanCameraTransitionCompleted);
                 m_messageBus.SubscribeUi(m_interiorsExplorerExitMessageHandler);
                 m_messageBus.SubscribeUi(m_InteriorsExplorerFloorSelectionDraggedMessageHandler);
                 m_cameraTransitionController.InsertTransitionCompletedCallback(m_cameraTransitionCompleteCallback);
@@ -174,7 +155,6 @@ namespace ExampleApp
             QRScanController::~QRScanController()
             {
                 m_cameraTransitionController.RemoveTransitionCompletedCallback(m_cameraTransitionCompleteCallback);
-                m_messageBus.UnsubscribeUi(m_qrScanCameraTransitionCompleted);
                 m_messageBus.UnsubscribeUi(m_appModeChangedMessageHandler);
                 m_messageBus.UnsubscribeUi(m_interiorsExplorerExitMessageHandler);
                 m_messageBus.UnsubscribeUi(m_InteriorsExplorerFloorSelectionDraggedMessageHandler);

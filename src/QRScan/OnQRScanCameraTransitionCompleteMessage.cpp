@@ -6,8 +6,14 @@ namespace ExampleApp
 {
     namespace QRScan
     {
-        OnQRScanCameraTransitionCompleteMessage::OnQRScanCameraTransitionCompleteMessage()
+        OnQRScanCameraTransitionCompleteMessage::OnQRScanCameraTransitionCompleteMessage(bool isInterior)
+        : m_isInterior(isInterior)
         {
+        }
+        
+        bool OnQRScanCameraTransitionCompleteMessage::GetIsInterior() const
+        {
+            return m_isInterior;
         }
     }
 }

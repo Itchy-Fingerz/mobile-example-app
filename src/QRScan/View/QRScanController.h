@@ -39,7 +39,6 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback0<QRScanController> m_viewCloseTapped;
                 Eegeo::Helpers::TCallback1<QRScanController, const QRScan::OnIndoorQRScanCompleteMessage&> m_indoorQrScanCompleted;
                 Eegeo::Helpers::TCallback1<QRScanController, const QRScan::OnOutdoorQRScanCompleteMessage&> m_outdoorQrScanCompleted;
-                Eegeo::Helpers::TCallback1<QRScanController, const QRScan::OnQRScanCameraTransitionCompleteMessage&> m_qrScanCameraTransitionCompleted;
                 Eegeo::Helpers::TCallback1<QRScanController, const InteriorsExplorer::InteriorsExplorerExitMessage&> m_interiorsExplorerExitMessageHandler;
                 Eegeo::Helpers::TCallback1<QRScanController, const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage&> m_InteriorsExplorerFloorSelectionDraggedMessageHandler;
 
@@ -63,7 +62,6 @@ namespace ExampleApp
                 void OnAppModeChanged(const AppModes::AppModeChangedMessage &message);
 
                 void HandleCameraTransitionComplete();
-                void OnQRScanCameraTransitionCompleted(const QRScan::OnQRScanCameraTransitionCompleteMessage& message);
 
                 void OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message);
                 void OnInteriorsExplorerFloorSelectionDraggedMessage(const InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage &message);

@@ -51,7 +51,7 @@
     
     float imageHeight = self.pYouAreHereImage.image.size.height;
     float imgaeWidth = self.pYouAreHereImage.image.size.width;
-    float popUpOffsetWithMarker = 20;
+    float popUpOffsetWithMarker = 25;
     self.frame = CGRectMake((x/m_pixelScale) - (imgaeWidth/2), (y/m_pixelScale) - (imageHeight+popUpOffsetWithMarker), imgaeWidth, imageHeight);
 
 }

@@ -11,8 +11,11 @@ namespace ExampleApp
     {
         class OnQRScanCameraTransitionCompleteMessage
         {
+        private:
+            bool m_isInterior;
         public:
-            OnQRScanCameraTransitionCompleteMessage();
+            OnQRScanCameraTransitionCompleteMessage(bool isInterior);
+            bool GetIsInterior() const;
         };
     }
 }

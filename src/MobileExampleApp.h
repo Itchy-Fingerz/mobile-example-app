@@ -105,6 +105,7 @@
 #include "IQRScanMenuModule.h"
 #include "IPopUpModule.h"
 #include "InteractionModelStateChangedObserver.h"
+#include "QRScanMessageHandler.h"
 
 
 namespace ExampleApp
@@ -188,6 +189,7 @@ namespace ExampleApp
         QRScan::SdkModel::IQRScanMenuModule* m_pQRScanMenuModule;
         ExampleApp::QRScan::View::IQRScanModule* m_pQRScanModule;
         ExampleApp::PopUp::View::IPopUpModule* m_pPopUpModule;
+        QRScanMessageHandler::QRScanMessageHandler* m_pQRScanMessageHandler;
         
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         ExampleApp::PoiDb::SdkModel::IPoiDbModule* m_pPoiDbModule;
