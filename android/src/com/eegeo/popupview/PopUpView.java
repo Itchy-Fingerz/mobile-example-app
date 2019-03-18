@@ -1,5 +1,6 @@
 package com.eegeo.popupview;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -61,10 +62,11 @@ public class PopUpView implements View.OnTouchListener
     {
         m_awaitingInput = true;
         m_view.setVisibility(View.VISIBLE);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) m_popupImage.getLayoutParams();
-        params.leftMargin = (int) (x - m_imgWidth/2);
-        params.topMargin = (int) (y - m_activity.dipAsPx(100) - m_imgHeight/2);
-        m_popupImage.setLayoutParams(params);
+
+//        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) m_popupImage.getLayoutParams();
+//        params.leftMargin = (int) (x - m_imgWidth/2);
+//        params.topMargin = (int) (y - m_activity.dipAsPx(100) - m_imgHeight/2);
+//        m_popupImage.setLayoutParams(params);
 
         AlphaAnimation animation = new AlphaAnimation(0.0f, 1.0f);
         animation.setDuration(500);
