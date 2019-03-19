@@ -17,8 +17,9 @@ namespace ExampleApp
         namespace SdkModel
         {
 
-            PoiDbLoader::PoiDbLoader(const std::string dbFilePath, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService,
-                                     Eegeo::Concurrency::Tasks::IWorkPool& workPool)
+            PoiDbLoader::PoiDbLoader(const std::string dbFilePath,
+                                     ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService,
+                                     const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,                            Eegeo::Concurrency::Tasks::IWorkPool& workPool)
             :  m_dbFilePath(dbFilePath)
             , m_pSqliteConnection(NULL)
             , m_pTable(NULL)
@@ -26,7 +27,7 @@ namespace ExampleApp
             , m_searchService(searchService)
             , m_onResultsReceivedCallback(this, &PoiDbLoader::ResultsReceived)
             , m_workPool(workPool)
-            
+            , m_interiorInteractionModel(interiorInteractionModel)            
             {
                 m_searchService.InsertOnReceivedQueryResultsForLocalDBCallback(m_onResultsReceivedCallback);
             }
@@ -57,7 +58,7 @@ namespace ExampleApp
                     std::vector<std::pair<std::string, std::string>> columnNames = {{"id", "INTEGER PRIMARY KEY"}, {"title","TEXT"}, {"subtitle","TEXT"}, {"latitude_degrees","REAL"}, {"longitude_degrees","REAL"},
                         {"is_interior","INTEGER"}, {"interior_id","TEXT"}, {"floor","INTEGER"}, {"height_terrain","REAL"}, {"tag_icon_key","TEXT"}, {"tags","TEXT"}, {"human_readable_tags","TEXT"}, {"user_data","TEXT"}};
                     m_pQueryBuilder = Eegeo_NEW(PoiDb::Sqlite::SqliteQueryBuilder)(columnNames);
-                    pPoiDbService = Eegeo_NEW(PoiDbService)(m_pSqliteConnection, m_pTable, m_pQueryBuilder);
+                    pPoiDbService = Eegeo_NEW(PoiDbService)(m_pSqliteConnection, m_pTable, m_pQueryBuilder, m_interiorInteractionModel);
                     m_serviceStartedCallbacks.ExecuteCallbacks(pPoiDbService);                
                 }
             }

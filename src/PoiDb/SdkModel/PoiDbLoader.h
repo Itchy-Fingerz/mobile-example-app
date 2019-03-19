@@ -13,6 +13,7 @@
 #include "IEegeoPoiSetSearchService.h"
 #include "Sqlite.h"
 #include "IWorkPool.h"
+#include "InteriorInteractionModel.h"
 
 namespace ExampleApp
 {
@@ -34,11 +35,13 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback2<PoiDbLoader,
                 const bool&,
                 const std::vector<Search::SdkModel::SearchResultModel>&> m_onResultsReceivedCallback;
-                
+                const Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                 
             public:
                 
-                PoiDbLoader(const std::string dbFilePath, ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService,                            Eegeo::Concurrency::Tasks::IWorkPool& workPool);
+                PoiDbLoader(const std::string dbFilePath,
+                            ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService &searchService,
+                            const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,                            Eegeo::Concurrency::Tasks::IWorkPool& workPool);
                 
                 ~PoiDbLoader();
                 

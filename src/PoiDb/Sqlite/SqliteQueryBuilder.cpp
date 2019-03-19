@@ -109,10 +109,12 @@ namespace ExampleApp
                 
             }
             
-            SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag)
+            SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag, bool isInteriors, int floorIndex)
             {
                 const int maximumNumberOfResults = 150;
 
+//                SELECT * FROM pois WHERE tags LIKE 'general' ORDER BY CASE floor WHEN 7 THEN -1 ELSE 0 END, floor
+                
                 std::stringstream query;
                 query << "SELECT * FROM ";
                 query << table.GetTableName();
@@ -124,6 +126,11 @@ namespace ExampleApp
                         query << " WHERE tags LIKE '%";
                         query << queryString;
                         query << "%'";
+                        if (isInteriors)
+                        {
+                            query << " ORDER BY CASE floor WHEN " << floorIndex;
+                            query << " THEN -1 ELSE 0 END, floor";
+                        }
                         query << " LIMIT 0 , " << maximumNumberOfResults;
                     }
                     else
@@ -134,6 +141,11 @@ namespace ExampleApp
                         query << " OR subtitle LIKE '%";
                         query << queryString;
                         query << "%'";
+                        if (isInteriors)
+                        {
+                            query << " ORDER BY CASE floor WHEN " << floorIndex;
+                            query << " THEN -1 ELSE 0 END, floor";
+                        }
                         query << " LIMIT 0 , "<< maximumNumberOfResults;
                     }
                 }
