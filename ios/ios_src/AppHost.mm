@@ -181,6 +181,11 @@ AppHost::AppHost(
     
     ExampleApp::LocationProvider::ILocationProvider& locationProvider = m_pApp->GetLocationProvider();
     
+    if (applicationConfiguration.IsFixedIndoorLocationEnabled())
+    {
+        locationProvider.EnableFixedLocation(applicationConfiguration.FixedIndoorLocation());
+    }
+    
     Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
     m_pIndoorAtlasLocationModule = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::IndoorAtlas::IndoorAtlasLocationModule)(m_pApp->GetAppModeModel(),
                                                                                                                               interiorsPresentationModule.GetInteriorInteractionModel(),
