@@ -145,6 +145,7 @@ AppHost::AppHost(
     ,m_surfaceScreenshotService(screenProperties)
     ,m_screenshotService(m_nativeState, m_surfaceScreenshotService)
     ,m_pPopUpViewModule(NULL)
+    ,m_pAndroidUtils(NULL)
 {
     ASSERT_NATIVE_THREAD
 
@@ -200,6 +201,8 @@ AppHost::AppHost(
 
     m_pMenuReactionModel = Eegeo_NEW(ExampleApp::Menu::View::AndroidMenuReactionModel)();
 
+    m_pAndroidUtils = Eegeo_NEW(ExampleApp::Utils::AndroidUtils)(&m_nativeState);
+
     m_pApp = Eegeo_NEW(ExampleApp::MobileExampleApp)(
     			 applicationConfiguration,
                  *m_pAndroidPlatformAbstractionModule,
@@ -217,7 +220,8 @@ AppHost::AppHost(
                  *this,
                  *m_pMenuReactionModel,
                  m_userIdleService,
-                 m_screenshotService);
+                 m_screenshotService,
+                 *m_pAndroidUtils);
 
     ExampleApp::LocationProvider::ILocationProvider& locationProvider = m_pApp->GetLocationProvider();
     if (applicationConfiguration.IsFixedIndoorLocationEnabled())

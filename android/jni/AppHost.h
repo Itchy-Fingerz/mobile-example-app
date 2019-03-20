@@ -71,6 +71,7 @@
 #include "InteriorsLocationServiceController.h"
 #include "QRScanViewIncludes.h"
 #include "IPopUpViewModule.h"
+#include "AndroidUtils.h"
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -157,6 +158,7 @@ private:
     ExampleApp::Metrics::AndroidFlurryMetricsService* m_pAndroidFlurryMetricsService;
     ExampleApp::QRScan::View::IQRScanViewModule* m_pQRScanViewModule;
     ExampleApp::PopUp::View::IPopUpViewModule* m_pPopUpViewModule;
+    ExampleApp::Utils::AndroidUtils* m_pAndroidUtils;
 
     ExampleApp::Menu::View::IMenuReactionModel* m_pMenuReactionModel;
 
