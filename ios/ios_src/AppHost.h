@@ -62,6 +62,7 @@
 #include "ILocationService.h"
 #include "QRScanViewIncludes.h"
 #include "IPopUpViewModule.h"
+#include "IosUtils.h"
 
 @class ViewController;
 class AppInputDelegate;
@@ -147,6 +148,8 @@ private:
     ExampleApp::Menu::View::IMenuReactionModel* m_pMenuReactionModel;
     ExampleApp::NavRouting::View::NavWidgetViewModule* m_pNavUIViewModule;
     ExampleApp::PopUp::View::IPopUpViewModule* m_pPopUpViewModule;
+    ExampleApp::Utils::IosUtils* m_pIosUtils;
+
     
     ImageStore* m_pImageStore;
     

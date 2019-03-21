@@ -106,7 +106,8 @@
 #include "IPopUpModule.h"
 #include "InteractionModelStateChangedObserver.h"
 #include "QRScanMessageHandler.h"
-
+#include "IARModeMenuModule.h"
+#include "Utils.h"
 
 namespace ExampleApp
 {
@@ -133,6 +134,7 @@ namespace ExampleApp
 
         ExampleApp::PersistentSettings::IPersistentSettingsModel& m_persistentSettings;
         ExampleApp::Metrics::IMetricsService& m_metricsService;
+        ExampleApp::Utils::IUtils& m_utils;
         
         Eegeo::Helpers::IdentityProvider m_identityProvider;
         AboutPage::SdkModel::IAboutPageMenuModule* m_pAboutPageMenuModule;
@@ -190,6 +192,7 @@ namespace ExampleApp
         ExampleApp::QRScan::View::IQRScanModule* m_pQRScanModule;
         ExampleApp::PopUp::View::IPopUpModule* m_pPopUpModule;
         QRScanMessageHandler::QRScanMessageHandler* m_pQRScanMessageHandler;
+        ARMode::SdkModel::IARModeMenuModule* m_pARModeMenuModule;
         
         Search::Yelp::SdkModel::YelpCategoryMapperUpdater m_yelpCategoryMapperUpdater;
         ExampleApp::PoiDb::SdkModel::IPoiDbModule* m_pPoiDbModule;
@@ -269,7 +272,8 @@ namespace ExampleApp
                          Eegeo::IEegeoErrorHandler& errorHandler,
                          Menu::View::IMenuReactionModel& menuReaction,
                          Eegeo::Input::IUserIdleService& userIdleService,
-                         ExampleApp::Automation::IScreenshotService& screenshotService);
+                         ExampleApp::Automation::IScreenshotService& screenshotService,
+                         ExampleApp::Utils::IUtils& utils);
 
         ~MobileExampleApp();
 

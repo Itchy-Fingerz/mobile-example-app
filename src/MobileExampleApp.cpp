@@ -150,6 +150,8 @@
 #include "QRScanMenuOption.h"
 #include "PopUpModule.h"
 #include "QRScanMessageHandler.h"
+#include "ARModeMenuModule.h"
+#include "IUtils.h"
 
 namespace ExampleApp
 {
@@ -239,7 +241,8 @@ namespace ExampleApp
                                        Eegeo::IEegeoErrorHandler& errorHandler,
                                        Menu::View::IMenuReactionModel& menuReaction,
                                        Eegeo::Input::IUserIdleService& userIdleService,
-                                       ExampleApp::Automation::IScreenshotService& screenshotService)
+                                       ExampleApp::Automation::IScreenshotService& screenshotService,
+                                       ExampleApp::Utils::IUtils& utils)
     : m_pGlobeCameraController(NULL)
     , m_pCameraTouchController(NULL)
     , m_pCurrentTouchController(NULL)
@@ -314,6 +317,8 @@ namespace ExampleApp
     , m_pPoiDbModule(NULL)
     , m_pQRScanMenuModule(NULL)
     , m_pQRScanModule(NULL)
+    , m_pARModeMenuModule(NULL)
+    , m_utils(utils)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
@@ -966,7 +971,8 @@ namespace ExampleApp
 
         m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
                                                                             m_pQRScanModule->GetQRScanViewModel());
-        
+
+        m_pARModeMenuModule = Eegeo_NEW(ARMode::SdkModel::ARModeMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(), m_utils);
         
         m_pQRScanMessageHandler = Eegeo_NEW(QRScanMessageHandler::QRScanMessageHandler)(*m_pCurrentLocationService,m_pInteriorsExplorerModule->GetInteriorsCameraController(),m_pGlobeCameraController->GetGlobeCameraController() ,m_pPopUpModule->GetPopUpViewModel(), mapModule.GetBlueSphereModule().GetBlueSphereModel() ,m_messageBus);
         
@@ -988,6 +994,8 @@ namespace ExampleApp
         {
             m_pSearchMenuModule->AddMenuSection("Directions", m_pNavRoutingModule->GetNavMenuModel(), false);
         }
+
+        m_pSearchMenuModule->AddMenuSection("AR Mode", m_pARModeMenuModule->GetARModeMenuModel(), false);
 
         m_pSearchMenuModule->AddMenuSection("Options", m_pOptionsMenuModule->GetOptionsMenuModel(), false);
         m_pSearchMenuModule->AddMenuSection("About",  m_pAboutPageMenuModule->GetAboutPageMenuModel(), false);
@@ -1165,6 +1173,8 @@ namespace ExampleApp
         Eegeo_DELETE m_pQRScanModule;
         
         Eegeo_DELETE m_pQRScanMessageHandler;
+
+        Eegeo_DELETE m_pARModeMenuModule;
         
     }
 
