@@ -158,6 +158,8 @@ AppHost::AppHost(
     
     m_pMenuReactionModel = Eegeo_NEW(ExampleApp::Menu::View::IOSMenuReactionModel)();
     
+    m_pIosUtils = Eegeo_NEW(ExampleApp::Utils::IosUtils);
+    
     m_pApp = Eegeo_NEW(ExampleApp::MobileExampleApp)(
 			 applicationConfiguration,
              *m_piOSPlatformAbstractionModule,
@@ -175,7 +177,8 @@ AppHost::AppHost(
              *this,
              *m_pMenuReactionModel,
              m_userIdleService,
-             m_screenshotService);
+             m_screenshotService,
+             *m_pIosUtils);
     
     Eegeo::Modules::Map::MapModule& mapModule = m_pApp->World().GetMapModule();
     
@@ -400,7 +403,7 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                     app.PopUpModule().GetPopUpViewModel(),
                                     m_iOSFlurryMetricsService,
                                     m_messageBus);
-
+    
 
     m_pMyPinCreationConfirmationViewModule = Eegeo_NEW(ExampleApp::MyPinCreation::View::MyPinCreationConfirmationViewModule)(m_messageBus,
             app.MyPinCreationModule().GetMyPinCreationConfirmationViewModel(),
