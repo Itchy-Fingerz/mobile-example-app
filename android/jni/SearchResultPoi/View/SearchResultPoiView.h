@@ -69,6 +69,8 @@ namespace ExampleApp
 
                 void CreateAndShowEegeoPoiView(const Search::SdkModel::SearchResultModel& model, bool isPinned);
 
+                void CreateAndShowEegeoPoiWebView(const Search::SdkModel::SearchResultModel& model);
+
                 jclass CreateJavaClass(const std::string& viewClass);
 
                 jobject CreateJavaObject(jclass uiViewClass);
