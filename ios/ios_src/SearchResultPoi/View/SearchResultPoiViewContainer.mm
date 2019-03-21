@@ -17,6 +17,7 @@
 #include "YelpSearchResultPoiView.h"
 #include "GeoNamesSearchResultPoiView.h"
 #include "EegeoSearchResultPoiView.h"
+#include "EegeoSearchResultPoiWebView.h"
 
 @interface SearchResultPoiViewContainer()<UIGestureRecognizerDelegate>
 {
@@ -52,7 +53,7 @@
 {
     Eegeo_ASSERT(m_pCurrentActiveVendorView == NULL);
 
-    self->m_pCurrentActiveVendorView = [self createSearchResultPoiViewForVendor:pModel->GetVendor()];
+    self->m_pCurrentActiveVendorView = [self createSearchResultPoiViewForVendor:pModel];
     [[self superview] addSubview: self->m_pCurrentActiveVendorView];
     [self->m_pCurrentActiveVendorView layoutSubviews];
     [self->m_pCurrentActiveVendorView setContent:pModel :isPinned];
@@ -82,8 +83,10 @@
     return m_pInterop;
 }
 
-- (UIView<SearchResultPoiView>*) createSearchResultPoiViewForVendor:(const std::string&)vendor
+- (UIView<SearchResultPoiView>*) createSearchResultPoiViewForVendor:(const ExampleApp::Search::SdkModel::SearchResultModel*)pModel
 {
+    std::string vendor = pModel->GetVendor();
+    
     if(vendor == ExampleApp::Search::YelpVendorName)
     {
         return [[YelpSearchResultPoiView alloc] initWithInterop:m_pInterop];
@@ -94,7 +97,15 @@
     }
     else if(vendor == ExampleApp::Search::EegeoVendorName)
     {
-        return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop showDirectionsButton: m_showDirectionsButton];
+        rapidjson::Document json;
+        if (!json.Parse<0>(pModel->GetJsonData().c_str()).HasParseError() && json.HasMember("is_fullScreen") && json["is_fullScreen"].GetBool())
+        {
+            return [[EegeoSearchResultPoiWebView initWithInterop:m_pInterop] retain];
+        }
+        else
+        {
+            return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop showDirectionsButton: m_showDirectionsButton];
+        }
     }
     
     Eegeo_ASSERT(false, "Unknown POI vendor %s, cannot create view instance.\n", vendor.c_str());
