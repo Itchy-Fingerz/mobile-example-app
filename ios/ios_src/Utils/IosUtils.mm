@@ -23,7 +23,7 @@ namespace ExampleApp
             UIApplication *application = [UIApplication sharedApplication];
             NSURL *URL = [NSURL URLWithString:customURL];
             
-            if ([application respondsToSelector:@selector(openURL:options:completionHandler:)])
+            if ([application respondsToSelector:@selector(openURL:options:completionHandler:)] && [application canOpenURL:URL])
             {
                 [application openURL:URL options:@{}
                    completionHandler:^(BOOL success) {
