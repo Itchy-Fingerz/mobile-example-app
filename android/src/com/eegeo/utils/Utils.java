@@ -1,7 +1,9 @@
 package com.eegeo.utils;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -9,6 +11,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
+import com.eegeo.qrscanview.QRScanView;
 
 import java.util.List;
 
@@ -16,31 +19,28 @@ public class Utils
 {
     public static void openARApplication(MainActivity activity)
     {
-        String applicationPackage = "com.google.android.youtube";
-        Intent intent = new Intent(Intent.ACTION_VIEW ,
-                Uri.parse("https://www.youtube.com/channel/UCRmoG8dTnv0B7y9uoocikLw"));
-        intent.setPackage("com.google.android.youtube");
+        String applicationPackage = "com.netsoltech.arindoor";
 
-        PackageManager manager = activity.getPackageManager();
-        List<ResolveInfo> infos = manager.queryIntentActivities(intent, 0);
-        if (infos.size() > 0)
-        {
-            activity.startActivity(intent);
+        Intent launchIntent = activity.getPackageManager().getLaunchIntentForPackage(applicationPackage);
+        if (launchIntent != null) {
+            activity.startActivity(launchIntent);
         }
-        else
-        {
-            Log.e("Utils", "Application not found. Redirecting to play store");
-            Uri uri = Uri.parse("market://details?id=" + applicationPackage);
-            Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-            goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-            try {
-                activity.startActivity(goToMarket);
-            } catch (ActivityNotFoundException error) {
-                activity.startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=" + applicationPackage)));
-            }
+        else {
+
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+                alertDialogBuilder.setTitle("Error")
+                        .setMessage("AR Mode App not installed on your device.")
+                        .setCancelable(false)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog alert = alertDialogBuilder.create();
+                alert.show();
         }
 
     }
