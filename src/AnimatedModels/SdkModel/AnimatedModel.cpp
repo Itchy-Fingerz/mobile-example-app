@@ -91,6 +91,17 @@ namespace ExampleApp
                         Hide();
                     }
                 }
+                else
+                {
+                    if (m_positioningViewComponent.GetMapViewMode() == Eegeo::MapLayers::MapViewMode::Type::Outdoor)
+                    {
+                        Show();
+                    }
+                    else
+                    {
+                        Hide();
+                    }
+                }
             }
 
             void AnimatedModel::UpdatePosition()
