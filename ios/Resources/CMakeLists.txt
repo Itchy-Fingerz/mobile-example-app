@@ -1,4 +1,11 @@
 set(resources ${resources}
+        Resources/AnimatedModels/RobotArm
+        Resources/AnimatedModels/RobotArm/Test_ROBOT_ARM.pod
+        Resources/AnimatedModels/RobotArm/tex_arm.pvr
+        Resources/AnimatedModels/RobotArm/tex_base.pvr
+        Resources/AnimatedModels
+        Resources/AnimatedModels/Stormtrooper/trooper.pvr
+        Resources/AnimatedModels/Stormtrooper/trooper_03.pod
         Resources/Alert_Tutorial_icon.png
         Resources/Alert_Tutorial_icon@2x.png
         Resources/Alert_Tutorial_icon@3x.png
