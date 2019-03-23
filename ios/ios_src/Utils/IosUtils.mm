@@ -23,12 +23,9 @@ namespace ExampleApp
             UIApplication *application = [UIApplication sharedApplication];
             NSURL *URL = [NSURL URLWithString:customURL];
             
-            if ([application respondsToSelector:@selector(openURL:options:completionHandler:)])
-            {
-                [application openURL:URL options:@{}
-                   completionHandler:^(BOOL success) {
-                       NSLog(@"Open %@: %d",customURL,success);
-                   }];
+            if ([application canOpenURL:URL]) {
+                // Safe to launch the AR App app
+                [application openURL:URL];
             }
             else
             {
@@ -38,7 +35,7 @@ namespace ExampleApp
         
         void IosUtils::notifyAppNotInstalled()
         {
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"AR Mode App not installed on your device." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:@"Eagle AR app is not installed on your device." preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
             }];
