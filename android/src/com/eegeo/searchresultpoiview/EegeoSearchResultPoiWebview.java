@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -89,7 +90,7 @@ public class EegeoSearchResultPoiWebview implements View.OnClickListener, IBackB
         m_activity.removeBackButtonPressedListener(this);
     }
 
-    public void displayPoiInfo(final String customViewUrl)
+    public void displayPoiInfo(String customViewUrl)
     {
     	m_closeButton.setEnabled(true);
 
@@ -97,14 +98,20 @@ public class EegeoSearchResultPoiWebview implements View.OnClickListener, IBackB
         m_view.requestFocus();
 
         m_handlingClick = false;
-        
+
         if(!customViewUrl.equals("")) {
             m_webView.getSettings().setUseWideViewPort(true);
             m_webView.getSettings().setLoadWithOverviewMode(true);
-            m_webView.loadUrl(customViewUrl);
 
             boolean canUseJavascript = SearchResultPoiViewJniMethods.isJavascriptWhitelisted(m_nativeCallerPointer, customViewUrl);
             m_webView.getSettings().setJavaScriptEnabled(canUseJavascript);
+
+            if(customViewUrl.startsWith("http://360.focalrack.com"))
+            {
+                customViewUrl = customViewUrl.replaceFirst("http://360.focalrack.com","https://360.focalrack.com");
+            }
+
+            m_webView.loadUrl(customViewUrl);
 
             m_webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
