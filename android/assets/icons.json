@@ -649,6 +649,50 @@
             "file": "icon1_my_location.png"
         }, 
         {
+            "name": "nav_container", 
+            "file": "icon1_nav_container.png"
+        }, 
+        {
+            "name": "nav_crosslights", 
+            "file": "icon1_nav_crosslights.png"
+        }, 
+        {
+            "name": "nav_enter", 
+            "file": "icon1_nav_enter.png"
+        }, 
+        {
+            "name": "nav_escalator_down", 
+            "file": "icon1_nav_escalator_down.png"
+        }, 
+        {
+            "name": "nav_escalator_up", 
+            "file": "icon1_nav_escalator_up.png"
+        }, 
+        {
+            "name": "nav_exit", 
+            "file": "icon1_nav_exit.png"
+        }, 
+        {
+            "name": "nav_finish", 
+            "file": "icon1_nav_finish.png"
+        }, 
+        {
+            "name": "nav_lift", 
+            "file": "icon1_nav_lift.png"
+        }, 
+        {
+            "name": "nav_stairs_down", 
+            "file": "icon1_nav_stairs_down.png"
+        }, 
+        {
+            "name": "nav_stairs_up", 
+            "file": "icon1_nav_stairs_up.png"
+        }, 
+        {
+            "name": "nav_start", 
+            "file": "icon1_nav_start.png"
+        }, 
+        {
             "name": "night", 
             "file": "icon1_night.png"
         }, 

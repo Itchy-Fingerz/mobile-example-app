@@ -1896,15 +1896,6 @@
             "y": 0, 
             "x": 0, 
             "id": "nav_container"
-        },
-        {
-            "index": 210,
-            "h": 29,
-            "page": 0,
-            "w": 67,
-            "y": 371,
-            "x": 64,
-            "id": "you_are_here"
         }
     ]
 }
