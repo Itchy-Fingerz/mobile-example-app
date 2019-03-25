@@ -46,7 +46,16 @@ namespace ExampleApp
                 }
                 else if (vendor == Search::EegeoVendorName)
                 {
-                	CreateAndShowEegeoPoiView(model, isPinned);
+                	rapidjson::Document json;
+					if (!json.Parse<0>(model.GetJsonData().c_str()).HasParseError() && json.HasMember("is_fullScreen") && json["is_fullScreen"].GetBool())
+					{
+						CreateAndShowEegeoPoiWebView(model);
+					}
+					else
+					{
+						CreateAndShowEegeoPoiView(model, isPinned);
+					}
+
                 }
                 else
                 {
@@ -327,6 +336,32 @@ namespace ExampleApp
             	env->DeleteLocalRef(emailStr);
             	env->DeleteLocalRef(customViewStr);
             }
+
+			void SearchResultPoiView::CreateAndShowEegeoPoiWebView(const Search::SdkModel::SearchResultModel& model)
+			{
+				const std::string viewClass = "com/eegeo/searchresultpoiview/EegeoSearchResultPoiWebview";
+				m_uiViewClass = CreateJavaClass(viewClass);
+				Eegeo_ASSERT(m_uiViewClass != NULL, "failed to create viewClass EegeoSearchResultPoiWebview");
+				m_uiView = CreateJavaObject(m_uiViewClass);
+				Eegeo_ASSERT(m_uiView != NULL, "failed to create view EegeoSearchResultPoiWebview");
+
+				const Search::EegeoPois::SdkModel::EegeoSearchResultModel& eegeoSearchResultModel = Search::EegeoPois::SdkModel::TransformToEegeoSearchResult(model);
+
+				AndroidSafeNativeThreadAttachment attached(m_nativeState);
+				JNIEnv* env = attached.envForThread;
+
+				jstring customViewStr = env->NewStringUTF(eegeoSearchResultModel.GetCustomViewUrl().c_str());
+				jmethodID displayPoiInfoMethod = env->GetMethodID(m_uiViewClass, "displayPoiInfo", "(Ljava/lang/String;)V");
+
+				env->CallVoidMethod(
+						m_uiView,
+						displayPoiInfoMethod,
+						customViewStr
+				);
+
+				env->DeleteLocalRef(customViewStr);
+
+			}
 
             jclass SearchResultPoiView::CreateJavaClass(const std::string& viewClass)
             {

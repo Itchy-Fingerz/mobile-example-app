@@ -90,8 +90,8 @@ namespace ExampleApp
                 query << "'" << poi_id << "',";
                 query << "'" << replaceSingleQuote(title)  << "',";
                 query << "'" << replaceSingleQuote(sub_title) << "',";
-                query << "'" << lat << "',";
-                query << "'" << lng << "',";
+                query << "'" << std::to_string(lat) << "',";
+                query << "'" << std::to_string(lng) << "',";
                 query << "'" << isInterior << "',";
                 query << "'" << interiorId << "',";
                 query << "'" << floor << "',";
