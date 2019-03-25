@@ -210,6 +210,8 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
         m_scannerView.setMaskColor(Color.TRANSPARENT);
         m_scannerView.setLaserEnabled(false);
 
+        m_scannerView.setShouldScaleToFill(m_activity.getResources().getBoolean(R.bool.isPhone));
+
         m_qrScanContainerView.addView(m_scannerView);
         m_scannerView.setResultHandler(this);
         m_scannerView.startCamera();

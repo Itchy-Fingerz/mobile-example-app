@@ -29,7 +29,7 @@ public class Utils
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
                 alertDialogBuilder.setTitle("Error")
-                        .setMessage("AR Mode App not installed on your device.")
+                        .setMessage("Eagle AR app is not installed on your device")
                         .setCancelable(false)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener()
                         {

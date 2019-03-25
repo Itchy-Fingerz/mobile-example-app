@@ -81,6 +81,8 @@ public class EegeoSearchResultPoiView implements View.OnClickListener, IBackButt
     private static String m_pinTextDefault = "Drop Pin";
     private static String m_pinTextPressed = "Remove Pin";
 
+    private boolean m_enableTags = false;
+
     @SuppressLint("NewApi")
 	public EegeoSearchResultPoiView(MainActivity activity, long nativeCallerPointer)
     {
@@ -301,7 +303,7 @@ public class EegeoSearchResultPoiView implements View.OnClickListener, IBackButt
         	m_email.setVisibility(View.GONE);
         }
         
-        if(humanReadableTags.length > 0)
+        if(m_enableTags && humanReadableTags.length > 0)
         {
         	m_humanReadableTagsHeader.setVisibility(View.GONE);
         	m_humanReadableTagsView.setVisibility(View.VISIBLE);
