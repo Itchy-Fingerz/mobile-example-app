@@ -38,7 +38,6 @@ enum CompassViewState
     CGFloat m_navWidgetBottomHeight;
     
     CompassPositionState m_positionState;
-    bool m_disabledPermanent;
 }
 
 @end
@@ -58,7 +57,6 @@ enum CompassViewState
         
         m_compassViewState = Disabled;
         m_positionState = CompassPositionStateDefault;
-        m_disabledPermanent = true;
         
         UIWindow *window = [[UIApplication sharedApplication] keyWindow];
         ViewController *viewController = (ViewController *)window.rootViewController;
@@ -89,7 +87,6 @@ enum CompassViewState
         //outer shape
         self.pOuterShape = [[[UIImageView alloc] initWithFrame:CGRectMake(0.f, 0.f, m_innerWidth, m_innerHeight)] autorelease];
         self.pOuterShape.image = m_pCompassDefaultImage;
-        self.pOuterShape.alpha = 0.5f;
         [self addSubview: self.pOuterShape];
 
         //inner shape
@@ -149,19 +146,11 @@ enum CompassViewState
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (m_disabledPermanent)
-    {
-        return;
-    }
     [self setHighlighted:YES];
 }
 
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    if (m_disabledPermanent)
-    {
-        return;
-    }
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint touchLocation = [touch locationInView:self];
     if(CGRectContainsPoint(self.bounds, touchLocation))
@@ -176,10 +165,6 @@ enum CompassViewState
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
-    if (m_disabledPermanent)
-    {
-        return;
-    }
     UITouch *touch = [[event allTouches] anyObject];
     CGPoint touchLocation = [touch locationInView:self];
     

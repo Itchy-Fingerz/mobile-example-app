@@ -59,7 +59,6 @@
 @property (nonatomic, retain) UIView* pControlContainer;
 @property (nonatomic, retain) UIView* pTitleCardContainer;
 @property (nonatomic, retain) UIView* pDetailsCardContainer;
-@property (nonatomic, retain) UIView* pTagsCardContainer;
 @property (nonatomic, retain) UIView* pPreviewImageContainer;
 @property (nonatomic, retain) UIView* pDescriptionCardContainer;
 @property (nonatomic, retain) UIScrollView* pLabelsContainer;
@@ -68,7 +67,6 @@
 @property (nonatomic, retain) UILabel* pSubtitleLabel;
 @property (nonatomic, retain) UILabel* pAddressContent;
 @property (nonatomic, retain) UILabel* pPhoneContent;
-@property (nonatomic, retain) UILabel* pTagsContent;
 @property (nonatomic, retain) UILabel* pWebContent;
 @property (nonatomic, retain) UILabel* pDescriptionContent;
 @property (nonatomic, retain) UIImageView* pPreviewImage;
@@ -78,7 +76,6 @@
 @property (nonatomic, retain) UIImageView* pAddressIconContainer;
 @property (nonatomic, retain) UIImageView* pPhoneIconContainer;
 @property (nonatomic, retain) UIImageView* pWebIconContainer;
-@property (nonatomic, retain) UIImageView* pTagsIconContainer;
 @property (nonatomic, retain) UIImageView* pDescriptionIconContainer;
 @property (nonatomic, retain) UIImageView* pFacebookIconContainer;
 @property (nonatomic, retain) UIImageView* pTwitterIconContainer;
@@ -88,7 +85,6 @@
 @property (nonatomic, retain) UIView* pTitleCardHeaderLine;
 @property (nonatomic, retain) UIView* pPreviewCardHeaderLine;
 @property (nonatomic, retain) UIView* pDetailsCardHeaderLine;
-@property (nonatomic, retain) UIView* pTagsCardHeaderLine;
 @property (nonatomic, retain) UIView* pFooterLine;
 
 @property (nonatomic, retain) UIWebView* pWebView;

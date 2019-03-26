@@ -61,10 +61,6 @@
         self.pDetailsCardContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
         [self.pLabelsContainer addSubview: self.pDetailsCardContainer];
         
-        self.pTagsCardContainer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        self.pTagsCardContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
-        [self.pLabelsContainer addSubview: self.pTagsCardContainer];
-        
         self.pDescriptionCardContainer = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pDescriptionCardContainer.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBackgroundColor;
         [self.pLabelsContainer addSubview: self.pDescriptionCardContainer];
@@ -95,10 +91,6 @@
         self.pDetailsCardHeaderLine = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pDetailsCardHeaderLine.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
         [self.pDetailsCardContainer addSubview:self.pDetailsCardHeaderLine];
-        
-        self.pTagsCardHeaderLine = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        self.pTagsCardHeaderLine.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
-        [self.pTagsCardContainer addSubview:self.pTagsCardHeaderLine];
         
         self.pFooterLine = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pFooterLine.backgroundColor = ExampleApp::Helpers::ColorPalette::UiBorderColor;
@@ -144,9 +136,6 @@
         self.pDescriptionContent = [self createLabel :ExampleApp::Helpers::ColorPalette::UiTextCopyColor];
         [self.pDescriptionCardContainer addSubview: self.pDescriptionContent];
         
-        self.pTagsContent = [self createLabel :ExampleApp::Helpers::ColorPalette::UiTextCopyColor];
-        [self.pTagsCardContainer addSubview: self.pTagsContent];
-        
         self.pPhoneContent = [self createLabel :ExampleApp::Helpers::ColorPalette::UiTextLinkColor];
         UITapGestureRecognizer* phoneTappedGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(userTappedOnPhone:)];
         [self.pPhoneContent setUserInteractionEnabled:YES];
@@ -191,10 +180,6 @@
         self.pWebIconContainer = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pWebIconContainer.image = [UIImage imageNamed:@"detail_icon_web_link_active"];
         [self.pDetailsCardContainer addSubview: self.pWebIconContainer];
-        
-        self.pTagsIconContainer = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
-        self.pTagsIconContainer.image = [UIImage imageNamed:@"poi_tag"];
-        [self.pTagsCardContainer addSubview: self.pTagsIconContainer];
         
         self.pDescriptionIconContainer = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pDescriptionIconContainer.image =  [UIImage imageNamed:@"detail_icon_description"];
@@ -247,9 +232,6 @@
     [self.pDetailsCardContainer removeFromSuperview];
     [self.pDetailsCardContainer release];
     
-    [self.pTagsCardContainer removeFromSuperview];
-    [self.pTagsCardContainer release];
-    
     [self.pLabelsContainer removeFromSuperview];
     [self.pLabelsContainer release];
     
@@ -270,9 +252,6 @@
     
     [self.pPhoneContent removeFromSuperview];
     [self.pPhoneContent release];
-    
-    [self.pTagsContent removeFromSuperview];
-    [self.pTagsContent release];
     
     [self.pPreviewImage removeFromSuperview];
     [self.pPreviewImage release];
@@ -295,9 +274,6 @@
     [self.pWebIconContainer removeFromSuperview];
     [self.pWebIconContainer release];
     
-    [self.pTagsIconContainer removeFromSuperview];
-    [self.pTagsIconContainer release];
-    
     [self.pDescriptionIconContainer removeFromSuperview];
     [self.pDescriptionIconContainer release];
     
@@ -318,9 +294,6 @@
     
     [self.pDetailsCardHeaderLine removeFromSuperview];
     [self.pDetailsCardHeaderLine release];
-    
-    [self.pTagsCardHeaderLine removeFromSuperview];
-    [self.pTagsCardHeaderLine release];
     
     [self.pFooterLine removeFromSuperview];
     [self.pFooterLine release];
@@ -684,43 +657,6 @@
         currentLabelY += headerMargin;
     }
     
-    if(!m_model.GetHumanReadableTags().empty())
-    {
-        self.pTagsContent.frame = CGRectMake(headerTextPadding + detailsImageSize + detailsImageToTextMargin,
-                                             currentLabelY,
-                                             cardTextHorizontalSpace - headerMargin * 2,
-                                             85.f);
-        self.pTagsContent.text = @"";
-        self.pTagsContent.numberOfLines = 0;
-        self.pTagsContent.adjustsFontSizeToFitWidth = NO;
-        self.pTagsContent.lineBreakMode = NSLineBreakByTruncatingTail;
-        
-        std::string tagsText;
-        const std::vector<std::string>& tagsList(m_model.GetHumanReadableTags());
-        for(size_t i = 0; i < tagsList.size()-1; ++i)
-        {
-            tagsText += tagsList[i] + ", ";
-        }
-        tagsText += tagsList.back();
-        
-        self.pTagsContent.text = [NSString stringWithUTF8String:tagsText.c_str()];
-        self.pTagsContent.hidden = false;
-        [self.pTagsContent sizeToFit];
-        
-        self.pTagsIconContainer.frame = CGRectMake(headerTextPadding,
-                                                   currentLabelY,
-                                                   detailsImageSize,
-                                                   detailsImageSize);
-        
-        currentLabelY += labelYSpacing + self.pTagsContent.frame.size.height;
-        
-        self.pTagsCardHeaderLine.frame = CGRectMake(0.f,
-                                                    currentLabelY,
-                                                    cardContainerWidth,
-                                                    0.f);
-        currentLabelY += headerMargin;
-    }
-    
     if(!m_eegeoModel.GetDescription().empty())
     {
         self.pDescriptionContent.frame = CGRectMake(headerTextPadding + detailsImageSize + detailsImageToTextMargin,
@@ -823,7 +759,6 @@
     self.pAddressContent.hidden = true;
     self.pWebContent.hidden = true;
     self.pPreviewImage.hidden = true;
-    self.pTagsContent.hidden = true;
     self.pDescriptionContent.hidden = true;
     
     [self performDynamicContentLayout];
