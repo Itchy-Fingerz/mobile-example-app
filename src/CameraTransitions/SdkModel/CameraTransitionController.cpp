@@ -136,7 +136,7 @@ namespace ExampleApp
                 {
                     const double exitInteriorDistanceSquared = 100*100;
                     double interestDifferenceSquared = (m_interiorsCameraController.GetInterestLocation() - options.GetInterestPoint()).LengthSq();
-                    if(m_interiorSelectionModel.GetSelectedInteriorId() == interiorId)
+                    if(m_interiorSelectionModel.GetSelectedInteriorId() == interiorId && interiorId != Eegeo::Resources::Interiors::InteriorId::NullId())
                     {
                         Eegeo_ASSERT(interiorId != Eegeo::Resources::Interiors::InteriorId::NullId(), "Invalid state. Have selected null Interior while in Interior mode");
                         EnqueueTransitionToInteriorStage(options);
