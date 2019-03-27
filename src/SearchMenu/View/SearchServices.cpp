@@ -72,14 +72,7 @@ namespace ExampleApp
 
             void SearchServices::OnSearch(const std::string& searchQuery)
             {
-                if(m_rerunLastTagSearch)
-                {
-                    OnSearchWithContext(searchQuery, m_lastSearchContext);
-                }
-                else
-                {
-                    m_messageBus.Publish(SearchMenuPerformedSearchMessage(searchQuery, false, false));
-                }
+                m_messageBus.Publish(SearchMenuPerformedSearchMessage(searchQuery, false, false));
             }
 
 			void SearchServices::OnSearchWithContext(const std::string& searchQuery, const QueryContext& context)
