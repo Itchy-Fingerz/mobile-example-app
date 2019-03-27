@@ -963,6 +963,7 @@ namespace ExampleApp
                                                                                                         sceneModulesModule.GetSceneModelRenderableFilter(),
                                                                                                         positioningModule.GetPointOnMapFactory(),
                                                                                                         positioningModule.GetPositioningViewComponent(),
+                                                                                                        interiorsModelModule.GetInteriorInteractionModel(),
                                                                                                         m_applicationConfiguration.AnimatedModelsConfig());
         
         m_pInteriorCameraWrapper = Eegeo_NEW(AppCamera::SdkModel::AppInteriorCameraWrapper)(m_pInteriorsExplorerModule->GetInteriorsGpsCameraController(),

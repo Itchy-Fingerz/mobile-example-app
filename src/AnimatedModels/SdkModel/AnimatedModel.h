@@ -9,6 +9,8 @@
 #include "IAnimatedModel.h"
 #include "LatLongAltitude.h"
 
+#include <vector>
+
 namespace ExampleApp
 {
     namespace AnimatedModels
@@ -23,16 +25,20 @@ namespace ExampleApp
                               const Eegeo::Positioning::IPositioningViewComponent& positioningViewComponent,
                               Eegeo::Rendering::Filters::SceneModelRenderableFilter& renderableFilter,
                               float absoluteHeadingDegrees,
-                              float scale);
+                              float scale,
+                              const std::vector<int>& visibleFloorIds);
 
                 ~AnimatedModel();
 
                 void Update(float dt) override;
+                void Show() override;
+                void Hide() override;
+                bool IsIndoor() const override;
+                Eegeo::Resources::Interiors::InteriorId GetIndoorMapId() const override;
+                int GetIndoorMapFloorId() const override;
+                const std::vector<int>& GetVisibleFloorIds() const override;
 
             private:
-                void Show();
-                void Hide();
-                void UpdateVisibility();
                 void UpdatePosition();
 
                 Eegeo::Rendering::SceneModels::SceneModel* m_pModel;
@@ -43,6 +49,7 @@ namespace ExampleApp
                 Eegeo::Rendering::SceneModels::SceneModelAnimator* m_pModelAnimator;
                 float m_absoluteHeadingDegrees;
                 float m_scale;
+                const std::vector<int> m_visibleFloorIds;
 
                 bool m_isShowing;
             };

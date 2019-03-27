@@ -19,13 +19,15 @@ namespace ExampleApp
                                          const Eegeo::Positioning::IPositioningViewComponent& positioningViewComponent,
                                          Eegeo::Rendering::Filters::SceneModelRenderableFilter& renderableFilter,
                                          float absoluteHeadingDegrees,
-                                         float scale)
+                                         float scale,
+                                         const std::vector<int>& visibleFloorIds)
             : m_pModel(pModel)
             , m_pPointOnMap(pPointOnMap)
             , m_positioningViewComponent(positioningViewComponent)
             , m_renderableFilter(renderableFilter)
             , m_absoluteHeadingDegrees(absoluteHeadingDegrees)
             , m_scale(scale)
+            , m_visibleFloorIds(visibleFloorIds)
             , m_isShowing(false)
             {
                 UpdatePosition();
@@ -68,7 +70,6 @@ namespace ExampleApp
 
             void AnimatedModel::Update(float dt)
             {
-                UpdateVisibility();
                 if (!m_isShowing)
                 {
                     return;
@@ -78,30 +79,24 @@ namespace ExampleApp
                 m_pModelAnimator->Update(dt);
             }
 
-            void AnimatedModel::UpdateVisibility()
+            bool AnimatedModel::IsIndoor() const
             {
-                if (m_pPointOnMap->IsIndoor())
-                {
-                    if (m_positioningViewComponent.IsSelectedIndoorMapFloor(m_pPointOnMap->GetIndoorMapId(), m_pPointOnMap->GetDerivedIndoorMapFloorIndex()))
-                    {
-                        Show();
-                    }
-                    else
-                    {
-                        Hide();
-                    }
-                }
-                else
-                {
-                    if (m_positioningViewComponent.GetMapViewMode() == Eegeo::MapLayers::MapViewMode::Type::Outdoor)
-                    {
-                        Show();
-                    }
-                    else
-                    {
-                        Hide();
-                    }
-                }
+                return m_pPointOnMap->IsIndoor();
+            }
+
+            Eegeo::Resources::Interiors::InteriorId AnimatedModel::GetIndoorMapId() const
+            {
+                return m_pPointOnMap->GetIndoorMapId();
+            }
+
+            int AnimatedModel::GetIndoorMapFloorId() const
+            {
+                return m_pPointOnMap->GetIndoorMapFloorId();
+            }
+
+            const std::vector<int>& AnimatedModel::GetVisibleFloorIds() const
+            {
+                return m_visibleFloorIds;
             }
 
             void AnimatedModel::UpdatePosition()

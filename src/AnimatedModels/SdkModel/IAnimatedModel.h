@@ -4,6 +4,9 @@
 
 #include "Types.h"
 #include "Rendering.h"
+#include "Interiors.h"
+
+#include <vector>
 
 namespace ExampleApp
 {
@@ -17,6 +20,18 @@ namespace ExampleApp
                 virtual ~IAnimatedModel(){}
 
                 virtual void Update(float dt) = 0;
+
+                virtual void Show() = 0;
+
+                virtual void Hide() = 0;
+
+                virtual bool IsIndoor() const = 0;
+
+                virtual Eegeo::Resources::Interiors::InteriorId GetIndoorMapId() const = 0;
+
+                virtual int GetIndoorMapFloorId() const = 0;
+
+                virtual const std::vector<int>& GetVisibleFloorIds() const = 0;
             };
         }
     }

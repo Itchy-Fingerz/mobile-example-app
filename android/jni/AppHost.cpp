@@ -164,6 +164,8 @@ AppHost::AppHost(
     customApplicationAssetDirectories.insert("AnimatedModels/Axis");
     customApplicationAssetDirectories.insert("AnimatedModels/RobotArm");
     customApplicationAssetDirectories.insert("AnimatedModels/Stormtrooper");
+    customApplicationAssetDirectories.insert("AnimatedModels/Duck");
+    customApplicationAssetDirectories.insert("AnimatedModels/Xwing");
 
     const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration = LoadApplicationConfiguration(nativeState, customApplicationAssetDirectories);
 	

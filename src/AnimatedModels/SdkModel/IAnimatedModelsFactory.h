@@ -8,6 +8,7 @@
 #include "LatLongAltitude.h"
 
 #include <string>
+#include <vector>
 
 namespace ExampleApp
 {
@@ -24,6 +25,7 @@ namespace ExampleApp
                                                             const Eegeo::Space::LatLongAltitude& latLongAltitude,
                                                             const std::string& indoorMapId,
                                                             int indoorMapFloorId,
+                                                            const std::vector<int>& visibleFloorIds,
                                                             float absoluteHeadingDegrees,
                                                             float scale) = 0;
             };

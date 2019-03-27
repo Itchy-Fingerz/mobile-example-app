@@ -6,6 +6,8 @@
 #include "Rendering.h"
 #include "AnimatedModels.h"
 #include "LatLongAltitude.h"
+#include "Positioning.h"
+#include "Interiors.h"
 #include "IAnimatedModelsController.h"
 
 #include <string>
@@ -20,7 +22,9 @@ namespace ExampleApp
             class AnimatedModelsController : public IAnimatedModelsController, private Eegeo::NonCopyable
             {
             public:
-                AnimatedModelsController(IAnimatedModelsFactory& animatedModelsFactory);
+                AnimatedModelsController(IAnimatedModelsFactory& animatedModelsFactory,
+                                         const Eegeo::Positioning::IPositioningViewComponent& positioningViewComponent,
+                                         const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel);
 
                 ~AnimatedModelsController();
 
@@ -30,11 +34,16 @@ namespace ExampleApp
                                const Eegeo::Space::LatLongAltitude& latLongAltitude,
                                const std::string& indoorMapId,
                                int indoorMapFloorId,
+                               const std::vector<int>& visibleFloorIds,
                                float absoluteHeadingDegrees,
                                float scale) override;
 
             private:
+                void UpdateVisibility(IAnimatedModel& model);
+
                 IAnimatedModelsFactory& m_animatedModelsFactory;
+                const Eegeo::Positioning::IPositioningViewComponent& m_positioningViewComponent;
+                const Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                 std::vector<IAnimatedModel*> m_models;
             };
         }

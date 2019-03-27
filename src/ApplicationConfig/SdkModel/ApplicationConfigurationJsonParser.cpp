@@ -89,6 +89,7 @@ namespace ExampleApp
                 const std::string ModelConfigFilename = "filename";
                 const std::string ModelConfigIndoorId = "indoor_id";
                 const std::string ModelConfigIndoorFloorId = "indoor_floor_id";
+                const std::string ModelConfigVisibleIndoorFloorId = "visible_floor_ids";
                 const std::string ModelConfigAbsoluteHeadingDegrees = "absolute_heading_degrees";
                 const std::string ModelConfigScale = "scale";
                 
@@ -314,16 +315,36 @@ namespace ExampleApp
                                 double alt = modelConfigJson[ModelConfigAltitude.c_str()].GetDouble();
                                 std::string  filename = modelConfigJson[ModelConfigFilename.c_str()].GetString();
                                 std::string indoorId = modelConfigJson[ModelConfigIndoorId.c_str()].GetString();
-                                int floor = modelConfigJson[ModelConfigIndoorFloorId.c_str()].GetInt();
+                                int floorId = modelConfigJson[ModelConfigIndoorFloorId.c_str()].GetInt();
                                 double heading = modelConfigJson[ModelConfigAbsoluteHeadingDegrees.c_str()].GetDouble();
                                 double scale = modelConfigJson[ModelConfigScale.c_str()].GetDouble();
+
+
+                                std::vector<int> visibleFloorIds;
+
+                                if (modelConfigJson.HasMember(ModelConfigVisibleIndoorFloorId.c_str()) && modelConfigJson[ModelConfigVisibleIndoorFloorId.c_str()].IsArray())
+                                {
+                                    const auto& visibleFloors = modelConfigJson[ModelConfigVisibleIndoorFloorId.c_str()];
+                                    for (rapidjson::SizeType j = 0; j < visibleFloors.Size(); ++j)
+                                    {
+                                        if (visibleFloors[j].IsNumber())
+                                        {
+                                            visibleFloorIds.push_back(visibleFloors[j].GetInt());
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    visibleFloorIds.push_back(floorId);
+                                }
 
                                 SdkModel::AnimatedModelsConfig modelConfig = {lat,
                                                                               lon,
                                                                               alt,
                                                                               filename,
                                                                               indoorId,
-                                                                              floor,
+                                                                              floorId,
+                                                                              visibleFloorIds,
                                                                               static_cast<float>(heading),
                                                                               static_cast<float>(scale)};
                                 modelConfigs.push_back(modelConfig);

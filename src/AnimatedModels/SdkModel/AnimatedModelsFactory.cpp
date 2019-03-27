@@ -30,6 +30,7 @@ namespace ExampleApp
                                                                        const Eegeo::Space::LatLongAltitude& latLongAltitude,
                                                                        const std::string& indoorMapId,
                                                                        int indoorMapFloorId,
+                                                                       const std::vector<int>& visibleFloorIds,
                                                                        float absoluteHeadingDegrees,
                                                                        float scale)
             {
@@ -44,7 +45,7 @@ namespace ExampleApp
 
                 if (pPointOnMap->IsIndoor())
                 {
-                    pModel->SetLayer(Eegeo::Rendering::LayerIds::InteriorEntities);
+                    pModel->SetLayer(Eegeo::Rendering::LayerIds::Interiors);
                 }
                 else
                 {
@@ -56,7 +57,8 @@ namespace ExampleApp
                                                 m_positioningViewComponent,
                                                 m_renderableFilter,
                                                 absoluteHeadingDegrees,
-                                                scale);
+                                                scale,
+                                                visibleFloorIds);
             }
         }
     }

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Types.h"
+#include "Interiors.h"
 #include "Rendering.h"
 #include "Positioning.h"
 #include "AnimatedModels.h"
@@ -21,6 +22,7 @@ namespace ExampleApp
                                      Eegeo::Rendering::Filters::SceneModelRenderableFilter& renderableFilter,
                                      Eegeo::Positioning::IPointOnMapFactory& pointOnMapFactory,
                                      const Eegeo::Positioning::IPositioningViewComponent& positioningViewComponent,
+                                     const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                      const std::vector<ExampleApp::ApplicationConfig::SdkModel::AnimatedModelsConfig>& animatedModelsConfig);
 
                 ~AnimatedModelsModule();

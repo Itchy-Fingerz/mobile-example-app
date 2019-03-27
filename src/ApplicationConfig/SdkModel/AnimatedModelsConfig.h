@@ -4,6 +4,8 @@
 
 #include <string>
 
+#include <vector>
+
 namespace ExampleApp
 {
     namespace ApplicationConfig
@@ -19,6 +21,7 @@ namespace ExampleApp
                 const std::string filename;
                 const std::string indoorMapId;
                 const int indoorMapFloorId;
+                const std::vector<int> visibleIndoorMapFloorIds;
                 const float absoluteHeadingDegrees;
                 const float scale;
 
@@ -32,19 +35,21 @@ namespace ExampleApp
                 {}
 
                 AnimatedModelsConfig(const double lat,
-                            const double lon,
-                            const double alt,
-                            const std::string& file,
-                            const std::string& indoorId,
-                            const int floorId,
-                            const float heading,
-                            const float modelScale)
+                                     const double lon,
+                                     const double alt,
+                                     const std::string& file,
+                                     const std::string& indoorId,
+                                     const int floorId,
+                                     const std::vector<int>& visibleFloorIds,
+                                     const float heading,
+                                     const float modelScale)
                 : latitudeInDegrees(lat)
                 , longitudeInDegrees(lon)
                 , altitudeInMetres(alt)
                 , filename(file)
                 , indoorMapId(indoorId)
                 , indoorMapFloorId(floorId)
+                , visibleIndoorMapFloorIds(visibleFloorIds)
                 , absoluteHeadingDegrees(heading)
                 , scale(modelScale)
                 {}

@@ -15,10 +15,11 @@ namespace ExampleApp
                                                        Eegeo::Rendering::Filters::SceneModelRenderableFilter& renderableFilter,
                                                        Eegeo::Positioning::IPointOnMapFactory& pointOnMapFactory,
                                                        const Eegeo::Positioning::IPositioningViewComponent& positioningViewComponent,
+                                                       const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                                        const std::vector<ExampleApp::ApplicationConfig::SdkModel::AnimatedModelsConfig>& animatedModelsConfig)
             {
                 m_pAnimatedModelsFactory = Eegeo_NEW(AnimatedModelsFactory)(sceneModelLoader, renderableFilter, pointOnMapFactory, positioningViewComponent);
-                m_pAnimatedModelsController = Eegeo_NEW(AnimatedModelsController)(*m_pAnimatedModelsFactory);
+                m_pAnimatedModelsController = Eegeo_NEW(AnimatedModelsController)(*m_pAnimatedModelsFactory, positioningViewComponent, interiorInteractionModel);
 
                 for (const auto& modelInfo : animatedModelsConfig)
                 {
@@ -26,6 +27,7 @@ namespace ExampleApp
                                                            Eegeo::Space::LatLongAltitude::FromDegrees(modelInfo.latitudeInDegrees, modelInfo.longitudeInDegrees, modelInfo.altitudeInMetres),
                                                            modelInfo.indoorMapId,
                                                            modelInfo.indoorMapFloorId,
+                                                           modelInfo.visibleIndoorMapFloorIds,
                                                            modelInfo.absoluteHeadingDegrees,
                                                            modelInfo.scale);
                 }
