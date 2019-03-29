@@ -689,6 +689,26 @@
     }
 }
 
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    
+    if (navigationType == UIWebViewNavigationTypeLinkClicked){
+        
+        NSURL *url = request.URL;
+        NSRange isRange = [url.absoluteString rangeOfString:@"eagle://fullscreen" options:NSCaseInsensitiveSearch];
+        if(isRange.location == 0) {
+            rapidjson::Document json;
+            if (!json.Parse<0>(m_model.GetJsonData().c_str()).HasParseError() && json.HasMember("custom_view_fullscreen"))
+            {
+                std::string urlString = json["custom_view_fullscreen"].GetString();
+                m_pInterop->HandleCloseClicked();
+                m_pInterop->HandleShowThreeSixtyInteractionViewClicked(urlString);
+            }
+            return false;
+        }
+    }
+    return YES;
+}
+
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
     m_webPageLoaded = true;

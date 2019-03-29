@@ -34,6 +34,7 @@ namespace ExampleApp
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, Search::SdkModel::SearchResultModel> m_directionsButtonCallback;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, const SearchResultPoiViewImageDownloadCompletedMessage&> m_imageLoadedHandlerBinding;
                 Eegeo::Helpers::TCallback1<SearchResultPoiController, const Automation::ClosePoiMessage&> m_closePoiMessageHandler;
+                Eegeo::Helpers::TCallback1<SearchResultPoiController, std::string&> m_showThreeSixtyInteractionCallback;
 
                 void OnViewClosed();
 
@@ -46,6 +47,8 @@ namespace ExampleApp
                 void OnSearchResultImageLoaded(const SearchResultPoiViewImageDownloadCompletedMessage& message);
                 
                 void OnClosePoiMessageRecieved(const Automation::ClosePoiMessage& message);
+                
+                void OnShowThreeSixtyInteractionViewClicked(std::string& url);
 
             protected:
                 ISearchResultPoiView& GetView() { return m_view; }

@@ -20,10 +20,7 @@ set(currsources
   ios_src/SearchResultPoi/View/YelpSearchResultPoiView.mm
   ios_src/SearchResultPoi/View/SearchResultPoiSpinner.h
   ios_src/SearchResultPoi/View/SearchResultPoiSpinner.mm
-  ios_src/SearchResultPoi/View/EegeoSearchResultPoiWebView.h
-  ios_src/SearchResultPoi/View/EegeoSearchResultPoiWebView.mm
 )
-set_source_files_properties(${currsources} PROPERTIES COMPILE_FLAGS "-w")
 set(sources ${sources} ${currsources})
 source_group(\\ios_src\\SearchResultPoi\\View FILES ${currsources})
 endif(${IOS})

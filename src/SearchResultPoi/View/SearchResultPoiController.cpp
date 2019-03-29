@@ -5,6 +5,7 @@
 #include "NavigateToMessage.h"
 #include "SearchNavigationData.h"
 #include "SearchJsonParser.h"
+#include "ThreeSixtyInteractionMessage.h"
 
 namespace ExampleApp
 {
@@ -83,6 +84,11 @@ namespace ExampleApp
                     m_viewModel.Close();
                 }
             }
+            
+            void SearchResultPoiController::OnShowThreeSixtyInteractionViewClicked(std::string& url)
+            {
+                m_messageBus.Publish(ThreeSixtyInteraction::ThreeSixtyInteractionMessage(url));
+            }
 
             SearchResultPoiController::SearchResultPoiController(ISearchResultPoiView& view,
                                                                  ISearchResultPoiViewModel& viewModel,
@@ -99,7 +105,10 @@ namespace ExampleApp
                 , m_directionsButtonCallback(this, &SearchResultPoiController::OnDirectionsButtonClicked)
                 , m_imageLoadedHandlerBinding(this, &SearchResultPoiController::OnSearchResultImageLoaded)
                 , m_closePoiMessageHandler(this, &SearchResultPoiController::OnClosePoiMessageRecieved)
+                , m_showThreeSixtyInteractionCallback(this, &SearchResultPoiController::OnShowThreeSixtyInteractionViewClicked)
+
             {
+                m_view.InsertShowThreeSixtyInteractionViewCallback(m_showThreeSixtyInteractionCallback);
                 m_view.InsertClosedCallback(m_closeButtonCallback);
                 m_view.InsertTogglePinnedCallback(m_togglePinnedCallback);
                 m_view.InsertDirectionsCallback(m_directionsButtonCallback);
@@ -111,6 +120,7 @@ namespace ExampleApp
             
             SearchResultPoiController::~SearchResultPoiController()
             {
+                m_view.RemoveShowThreeSixtyInteractionViewCallback(m_showThreeSixtyInteractionCallback);
                 m_messageBus.UnsubscribeUi(m_closePoiMessageHandler);
                 m_messageBus.UnsubscribeUi(m_imageLoadedHandlerBinding);
                 m_viewModel.RemoveClosedCallback(m_viewClosedCallback);

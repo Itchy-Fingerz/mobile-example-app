@@ -17,7 +17,6 @@
 #include "YelpSearchResultPoiView.h"
 #include "GeoNamesSearchResultPoiView.h"
 #include "EegeoSearchResultPoiView.h"
-#include "EegeoSearchResultPoiWebView.h"
 
 @interface SearchResultPoiViewContainer()<UIGestureRecognizerDelegate>
 {
@@ -97,15 +96,7 @@
     }
     else if(vendor == ExampleApp::Search::EegeoVendorName)
     {
-        rapidjson::Document json;
-        if (!json.Parse<0>(pModel->GetJsonData().c_str()).HasParseError() && json.HasMember("is_fullScreen") && json["is_fullScreen"].GetBool())
-        {
-            return [[EegeoSearchResultPoiWebView initWithInterop:m_pInterop] retain];
-        }
-        else
-        {
-            return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop showDirectionsButton: m_showDirectionsButton];
-        }
+        return [[EegeoSearchResultPoiView alloc] initWithInterop:m_pInterop showDirectionsButton: m_showDirectionsButton];
     }
     
     Eegeo_ASSERT(false, "Unknown POI vendor %s, cannot create view instance.\n", vendor.c_str());

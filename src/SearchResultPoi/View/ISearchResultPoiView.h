@@ -35,6 +35,9 @@ namespace ExampleApp
 
                 virtual void InsertDirectionsCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback) = 0;
                 virtual void RemoveDirectionsCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback) = 0;
+                
+                virtual void InsertShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback) = 0;
+                virtual void RemoveShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback) = 0;
             };
         }
     }

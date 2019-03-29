@@ -1346,6 +1346,6 @@ set(resources ${resources}
         Resources/you_are_here@2x.png
         Resources/you_are_here@3x.png
         ios_src/QRScan/View/QRScanView.xib
-	    ios_src/SearchResultPoi/View/EegeoSearchResultPoiWebView.xib
+	    ios_src/ThreeSixtyInteraction/View/ThreeSixtyInteractionView.xib
         ExampleApp/Images.xcassets
 )

@@ -20,6 +20,7 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_togglePinClickedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_directionsClickedCallbacks;                
                 Eegeo::Helpers::CallbackCollection2<const Search::SdkModel::SearchResultModel&, const std::string&> m_availabilityChangedCallbacks;
+                Eegeo::Helpers::CallbackCollection1<std::string&> m_openThreeSixtyInteractionViewCallbacks;
 
             public:
                 SearchResultPoiViewInterop(SearchResultPoiViewContainer* pView);
@@ -56,6 +57,12 @@ namespace ExampleApp
                 void RemoveDirectionsCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback);
                 
                 void HandleDirectionsClicked(Search::SdkModel::SearchResultModel& searchResultModel);
+                
+                void InsertShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback);
+                
+                void RemoveShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback);
+                
+                void HandleShowThreeSixtyInteractionViewClicked(std::string url);
             };
         }
     }

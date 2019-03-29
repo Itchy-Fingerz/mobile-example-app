@@ -108,6 +108,7 @@
 #include "QRScanMessageHandler.h"
 #include "IARModeMenuModule.h"
 #include "Utils.h"
+#include "IThreeSixtyInteractionModule.h"
 
 namespace ExampleApp
 {
@@ -225,6 +226,8 @@ namespace ExampleApp
         LocationProvider::ILocationProvider * m_pLocationProvider;
 
         InteractionModelStateChangedObserver::InteractionModelStateChangedObserver* m_pInteractionModelStateChangedObserver;
+        
+        ExampleApp::ThreeSixtyInteraction::View::IThreeSixtyInteractionModule* m_pThreeSixtyInteractionModule;
 
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
@@ -467,6 +470,11 @@ namespace ExampleApp
         LocationProvider::ILocationProvider& GetLocationProvider() const
         {
             return *m_pLocationProvider;
+        }
+        
+        const ExampleApp::ThreeSixtyInteraction::View::IThreeSixtyInteractionModule& ThreeSixtyInteractionModule() const
+        {
+            return *m_pThreeSixtyInteractionModule;
         }
 
         void OnPause();

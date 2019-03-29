@@ -5,16 +5,18 @@
 //  Created by Sohail Khan on 1/14/19.
 //
 
-#import "EegeoSearchResultPoiWebView.h"
+#import "ThreeSixtyInteractionView.h"
 #include "EegeoJsonParser.h"
 #import "UIButton+DefaultStates.h"
+#include "ThreeSixtyInteractionViewInterop.h"
 
-@interface EegeoSearchResultPoiWebView()<UIGestureRecognizerDelegate, UIWebViewDelegate>
+
+@interface ThreeSixtyInteractionView()<UIGestureRecognizerDelegate, UIWebViewDelegate>
 {
 }
 @end
 
-@implementation EegeoSearchResultPoiWebView
+@implementation ThreeSixtyInteractionView
 
 #pragma mark Init
 
@@ -33,21 +35,19 @@
                             boundsHeight);
     
 }
-+ (id)initWithInterop:(ExampleApp::SearchResultPoi::View::SearchResultPoiViewInterop*)pInterop
++ (id)initView
 {
-    EegeoSearchResultPoiWebView *containerView = [[[NSBundle mainBundle] loadNibNamed:@"EegeoSearchResultPoiWebView" owner:self options:nil] lastObject];
+    ThreeSixtyInteractionView *containerView = [[[NSBundle mainBundle] loadNibNamed:@"ThreeSixtyInteractionView" owner:self options:nil] lastObject];
     if (containerView)
     {
         containerView.alpha = 0.f;
-        containerView->m_pInterop = pInterop;
+        containerView->m_pInterop = Eegeo_NEW(ExampleApp::ThreeSixtyInteraction::View::ThreeSixtyInteractionViewInterop)(containerView);
         containerView->m_stateChangeAnimationTimeSeconds = 0.2f;
         containerView->m_pController = [UIViewController alloc];
         [containerView->m_pController setView:containerView];
         [containerView.m_pSpinner startAnimating];
         containerView.m_pWebView.delegate = containerView;
         containerView.m_pWebView.backgroundColor = [UIColor clearColor];
-        containerView.backgroundColor = [UIColor clearColor];
-        [[UIApplication sharedApplication] setStatusBarHidden:YES];
     }
 
     return containerView;
@@ -57,59 +57,49 @@
 
 - (IBAction)closeButtonPressed:(id)sender
 {
-    m_pInterop->HandleCloseClicked();
+    m_pInterop->HandleCloseButtonTapped();
 }
 
 #pragma mark Dealloc
 
 - (void)dealloc
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
     [m_pController release];
     [_m_pCloseButton release];
     [_m_pWebView release];
     [_m_pSpinner release];
+    [m_pInterop release];
     [super dealloc];
 }
 
 #pragma mark Search Poi view delage
-
-- (void) setContent:(const ExampleApp::Search::SdkModel::SearchResultModel*)pModel :(bool)isPinned
+- (void) setContent:(std::string)url
 {
-    Eegeo_ASSERT(pModel != NULL);
-    
-    m_model = *pModel;
-    m_eegeoModel = ExampleApp::Search::EegeoPois::SdkModel::TransformToEegeoSearchResult(m_model);
-    
-    if(!m_eegeoModel.GetCustomViewUrl().empty())
-    {
-        NSString *url = [NSString stringWithCString:m_eegeoModel.GetCustomViewUrl().c_str()
-                                           encoding:[NSString defaultCStringEncoding]];
-        
-        [self.m_pWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-        [self performDynamicContentLayout];
-    }
-    
+
+    NSString *url1 = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
+    [self.m_pWebView setHidden:true];
+    [self.m_pSpinner startAnimating];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [self.m_pCloseButton setHidden:YES];
+    [self.m_pWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url1]]];
+    [self performDynamicContentLayout];
 }
 - (void) setFullyActive
 {
-    [m_pController setView:self];
     if(self.alpha == 1.f)
     {
         return;
     }
-    
     [self animateToAlpha:1.f];
 }
 
 - (void) setFullyInactive
 {
-    [m_pController setView:nil];
     if(self.alpha == 0.f)
     {
         return;
     }
-    
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
     [self animateToAlpha:0.f];
 }
 
@@ -119,8 +109,7 @@
 {
     self.alpha = openState;
 }
-
-- (ExampleApp::SearchResultPoi::View::SearchResultPoiViewInterop*)getInterop
+- (ExampleApp::ThreeSixtyInteraction::View::ThreeSixtyInteractionViewInterop*) getInterop
 {
     return m_pInterop;
 }
@@ -152,12 +141,16 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
+    [self.m_pWebView setHidden:false];
+    [self.m_pCloseButton setHidden:NO];
     webView.scrollView.scrollEnabled = true;
     [self.m_pSpinner stopAnimating];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [self.m_pCloseButton setHidden:NO];
+    [self.m_pWebView setHidden:false];
     NSString* path = [[NSBundle mainBundle] pathForResource:@"page_not_found" ofType:@"html"];
     NSString* html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
     [webView loadHTMLString:html baseURL:nil];

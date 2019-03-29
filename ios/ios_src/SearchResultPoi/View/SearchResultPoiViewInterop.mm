@@ -89,6 +89,21 @@ namespace ExampleApp
             {
                 m_directionsClickedCallbacks.ExecuteCallbacks(searchResultModel);
             }
+            
+            void SearchResultPoiViewInterop::InsertShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback)
+            {
+                m_openThreeSixtyInteractionViewCallbacks.AddCallback(callback);
+            }
+            
+            void SearchResultPoiViewInterop::RemoveShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback)
+            {
+                m_openThreeSixtyInteractionViewCallbacks.RemoveCallback(callback);
+            }
+            
+            void SearchResultPoiViewInterop::HandleShowThreeSixtyInteractionViewClicked(std::string url)
+            {
+                m_openThreeSixtyInteractionViewCallbacks.ExecuteCallbacks(url);
+            }
         }
     }
 }

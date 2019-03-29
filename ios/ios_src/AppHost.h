@@ -63,6 +63,7 @@
 #include "QRScanViewIncludes.h"
 #include "IPopUpViewModule.h"
 #include "IosUtils.h"
+#include "IThreeSixtyInteractionViewModule.h"
 
 @class ViewController;
 class AppInputDelegate;
@@ -149,6 +150,8 @@ private:
     ExampleApp::NavRouting::View::NavWidgetViewModule* m_pNavUIViewModule;
     ExampleApp::PopUp::View::IPopUpViewModule* m_pPopUpViewModule;
     ExampleApp::Utils::IosUtils* m_pIosUtils;
+    ExampleApp::ThreeSixtyInteraction::View::IThreeSixtyInteractionViewModule* m_pThreeSixtyViewModule;
+
 
     
     ImageStore* m_pImageStore;

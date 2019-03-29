@@ -91,6 +91,9 @@
 #include "PopUpViewModule.h"
 #include "PopUpView.h"
 #include "IPopUpViewModel.h"
+#include "ThreeSixtyInteractionViewModule.h"
+#import "ThreeSixtyInteractionView.h"
+#include "ThreeSixtyInteractionViewModel.h"
 
 using namespace Eegeo::iOS;
 
@@ -451,6 +454,8 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
                                                                                  *m_pURLRequestHandler,
                                                                                  m_pApp->GetApplicationConfiguration().TimerSurveyUrl());
     
+    m_pThreeSixtyViewModule = Eegeo_NEW(ExampleApp::ThreeSixtyInteraction::View::ThreeSixtyInteractionViewModule)(app.ThreeSixtyInteractionModule().GetThreeSixtyInteractionViewModel(),m_messageBus);
+
     // 3d map view layer.
     [m_pView addSubview:&m_pPopUpViewModule->GetPopUpView()];
     
@@ -485,6 +490,10 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     
     // Initial experience layer
     [m_pView addSubview: &m_pInitialExperienceIntroViewModule->GetIntroView()];
+    
+    // 360 interaction layer
+    [m_pView addSubview:&m_pThreeSixtyViewModule->GetThreeSixtyInteractionView()];
+
     
     m_pViewControllerUpdaterModule = Eegeo_NEW(ExampleApp::ViewControllerUpdater::View::ViewControllerUpdaterModule);
     ExampleApp::ViewControllerUpdater::View::IViewControllerUpdaterModel& viewControllerUpdaterModel = m_pViewControllerUpdaterModule->GetViewControllerUpdaterModel();
@@ -524,6 +533,8 @@ void AppHost::DestroyApplicationViewModules()
     [&m_pOptionsViewModule->GetOptionsView() removeFromSuperview];
     [&m_pNavUIViewModule->GetNavWidgetView() removeFromSuperview];
     [&m_pNavUIViewModule->GetNavWidgetSearchView() removeFromSuperview];
+    [&m_pThreeSixtyViewModule->GetThreeSixtyInteractionView() removeFromSuperview];
+
     
     
     // Initial experience layer
@@ -564,6 +575,8 @@ void AppHost::DestroyApplicationViewModules()
     Eegeo_DELETE m_pInitialExperienceIntroViewModule;
     
     Eegeo_DELETE m_pWatermarkViewModule;
+    
+    Eegeo_DELETE m_pThreeSixtyViewModule;
 }
 
 void AppHost::SetTouchExclusivity()

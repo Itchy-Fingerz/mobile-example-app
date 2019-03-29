@@ -152,6 +152,7 @@
 #include "QRScanMessageHandler.h"
 #include "ARModeMenuModule.h"
 #include "IUtils.h"
+#include "ThreeSixtyInteractionModule.h"
 
 namespace ExampleApp
 {
@@ -319,6 +320,7 @@ namespace ExampleApp
     , m_pQRScanModule(NULL)
     , m_pARModeMenuModule(NULL)
     , m_utils(utils)
+    , m_pThreeSixtyInteractionModule(NULL)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
@@ -968,6 +970,9 @@ namespace ExampleApp
         m_pQRScanModule = Eegeo_NEW(ExampleApp::QRScan::View::QRScanModule)(m_identityProvider,
                                                                             m_applicationConfiguration.ProductVersion(),
                                                                             m_applicationConfiguration.Name());
+        
+        m_pThreeSixtyInteractionModule = Eegeo_NEW(ExampleApp::ThreeSixtyInteraction::View::ThreeSixtyInteractionModule)(m_identityProvider);
+
 
         m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
                                                                             m_pQRScanModule->GetQRScanViewModel());
@@ -1001,7 +1006,7 @@ namespace ExampleApp
         m_pSearchMenuModule->AddMenuSection("About",  m_pAboutPageMenuModule->GetAboutPageMenuModel(), false);
 
         m_pSelectFirstResultSearchService = Eegeo_NEW(Search::SelectFirstResult::SdkModel::SelectFirstResultSearchService)(m_pSearchModule->GetSearchQueryPerformer());
-
+        
 
 #ifdef AUTOMATED_SCREENSHOTS
         const bool instantiateAutomatedScreenshotController = true;
@@ -1176,6 +1181,8 @@ namespace ExampleApp
 
         Eegeo_DELETE m_pARModeMenuModule;
         
+        Eegeo_DELETE m_pThreeSixtyInteractionModule;
+        
     }
 
     std::vector<ExampleApp::OpenableControl::View::IOpenableControlViewModel*> MobileExampleApp::GetOpenableControls() const
@@ -1190,6 +1197,8 @@ namespace ExampleApp
         openables.push_back(&MyPinCreationModule().GetObservableOpenableControl());
         openables.push_back(&OptionsModule().GetObservableOpenableControl());
         openables.push_back(&NavUIModule().GetObservableOpenableControl());
+        openables.push_back(&ThreeSixtyInteractionModule().GetObservableOpenableControl());
+
         return openables;
     }
 
@@ -1212,6 +1221,7 @@ namespace ExampleApp
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(SearchMenuModule().GetSearchMenuViewModel(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(SearchResultPoiModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(AboutPageModule().GetObservableOpenableControl(), allReactors));
+        reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(ThreeSixtyInteractionModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(QRScanModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinCreationDetailsModule().GetObservableOpenableControl(), allReactors));
         reactions.push_back(Eegeo_NEW(Reaction::View::ReactionHideOtherScreenControls)(MyPinDetailsModule().GetObservableOpenableControl(), allReactors));
@@ -1226,6 +1236,7 @@ namespace ExampleApp
                                     (NavUIModule().GetObservableOpenableControl(),
                                      InteriorsExplorerModule().GetScreenControlViewModel(),
                                      NavUIModule().GetNavWidgetViewModel().GetInteriorsStateProvider()));
+
         return reactions;
     }
 
