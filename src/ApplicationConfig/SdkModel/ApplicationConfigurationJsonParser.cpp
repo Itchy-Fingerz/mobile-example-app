@@ -5,6 +5,7 @@
 #include "MathFunc.h"
 #include "ConfigSections.h"
 #include "StringHelpers.h"
+#include "AnimatedModelsConfig.h"
 
 namespace ExampleApp
 {
@@ -81,6 +82,16 @@ namespace ExampleApp
                 const std::string IndoorMapsServiceUuid = "indoor_maps_service_uuid";
                 const std::string WrldPOISetServiceUrl = "wrld_poi_set_service_url";
                 const std::string EEgeoPOIDataSets = "eegeo_pois_data_sets";
+                const std::string AnimatedModels = "animated_models";
+                const std::string ModelConfigLatitude = "latitude";
+                const std::string ModelConfigLongitude = "longitude";
+                const std::string ModelConfigAltitude = "altitude";
+                const std::string ModelConfigFilename = "filename";
+                const std::string ModelConfigIndoorId = "indoor_id";
+                const std::string ModelConfigIndoorFloorId = "indoor_floor_id";
+                const std::string ModelConfigVisibleIndoorFloorId = "visible_floor_ids";
+                const std::string ModelConfigAbsoluteHeadingDegrees = "absolute_heading_degrees";
+                const std::string ModelConfigScale = "scale";
                 
                 std::string ParseStringOrDefault(rapidjson::Document& document, const std::string& key, const std::string& defaultValue)
                 {
@@ -279,6 +290,71 @@ namespace ExampleApp
                     return std::vector<SdkModel::ApplicationDataSetConfig>();
                 }
 
+                std::vector<SdkModel::AnimatedModelsConfig> ParseAnimatedModelsConfig(rapidjson::Document& document)
+                {
+                    std::vector<SdkModel::AnimatedModelsConfig> modelConfigs;
+
+                    if (document.HasMember(AnimatedModels.c_str()) && document[AnimatedModels.c_str()].IsArray())
+                    {
+                        const auto& animatedModelsJson = document[AnimatedModels.c_str()];
+                        for (rapidjson::SizeType i = 0; i < animatedModelsJson.Size(); ++i)
+                        {
+                            const auto& modelConfigJson = animatedModelsJson[i];
+                            if (modelConfigJson.IsObject() &&
+                                modelConfigJson.HasMember(ModelConfigLatitude.c_str()) && modelConfigJson[ModelConfigLatitude.c_str()].IsNumber() &&
+                                modelConfigJson.HasMember(ModelConfigLongitude.c_str()) && modelConfigJson[ModelConfigLongitude.c_str()].IsNumber() &&
+                                modelConfigJson.HasMember(ModelConfigAltitude.c_str()) && modelConfigJson[ModelConfigAltitude.c_str()].IsNumber() &&
+                                modelConfigJson.HasMember(ModelConfigFilename.c_str()) && modelConfigJson[ModelConfigFilename.c_str()].IsString() &&
+                                modelConfigJson.HasMember(ModelConfigIndoorId.c_str()) && modelConfigJson[ModelConfigIndoorId.c_str()].IsString() &&
+                                modelConfigJson.HasMember(ModelConfigIndoorFloorId.c_str()) && modelConfigJson[ModelConfigIndoorFloorId.c_str()].IsNumber() &&
+                                modelConfigJson.HasMember(ModelConfigAbsoluteHeadingDegrees.c_str()) && modelConfigJson[ModelConfigAbsoluteHeadingDegrees.c_str()].IsNumber() &&
+                                modelConfigJson.HasMember(ModelConfigScale.c_str()) && modelConfigJson[ModelConfigScale.c_str()].IsNumber())
+                            {
+                                double lat = modelConfigJson[ModelConfigLatitude.c_str()].GetDouble();
+                                double lon = modelConfigJson[ModelConfigLongitude.c_str()].GetDouble();
+                                double alt = modelConfigJson[ModelConfigAltitude.c_str()].GetDouble();
+                                std::string  filename = modelConfigJson[ModelConfigFilename.c_str()].GetString();
+                                std::string indoorId = modelConfigJson[ModelConfigIndoorId.c_str()].GetString();
+                                int floorId = modelConfigJson[ModelConfigIndoorFloorId.c_str()].GetInt();
+                                double heading = modelConfigJson[ModelConfigAbsoluteHeadingDegrees.c_str()].GetDouble();
+                                double scale = modelConfigJson[ModelConfigScale.c_str()].GetDouble();
+
+
+                                std::vector<int> visibleFloorIds;
+
+                                if (modelConfigJson.HasMember(ModelConfigVisibleIndoorFloorId.c_str()) && modelConfigJson[ModelConfigVisibleIndoorFloorId.c_str()].IsArray())
+                                {
+                                    const auto& visibleFloors = modelConfigJson[ModelConfigVisibleIndoorFloorId.c_str()];
+                                    for (rapidjson::SizeType j = 0; j < visibleFloors.Size(); ++j)
+                                    {
+                                        if (visibleFloors[j].IsNumber())
+                                        {
+                                            visibleFloorIds.push_back(visibleFloors[j].GetInt());
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    visibleFloorIds.push_back(floorId);
+                                }
+
+                                SdkModel::AnimatedModelsConfig modelConfig = {lat,
+                                                                              lon,
+                                                                              alt,
+                                                                              filename,
+                                                                              indoorId,
+                                                                              floorId,
+                                                                              visibleFloorIds,
+                                                                              static_cast<float>(heading),
+                                                                              static_cast<float>(scale)};
+                                modelConfigs.push_back(modelConfig);
+                            }
+                        }
+                    }
+
+                    return modelConfigs;
+                }
+
                 std::vector<std::vector<std::string>> ParseCustomKeyboardLayout(rapidjson::Document& document, const std::string& customKeyboard)
                 {
                     std::vector<std::vector<std::string>> customKeyboardLayout;
@@ -427,6 +503,8 @@ namespace ExampleApp
                 const std::string& wrldPOISetServiceUrl = ParseStringOrDefault(document, WrldPOISetServiceUrl, m_defaultConfig.WrldPOISetServiceUrl());
 
                 const std::vector<ApplicationDataSetConfig> eegeoPoiDataSets = ParseEegeoPoiDataSets(document, EEgeoPOIDataSets.c_str());
+
+                const std::vector<AnimatedModelsConfig> animatedModelsConfig = ParseAnimatedModelsConfig(document);
                 
                 return ApplicationConfiguration(
                     name,
@@ -482,7 +560,8 @@ namespace ExampleApp
                     indoorMapsServiceToken,
                     indoorMapsServiceUuid,
                     wrldPOISetServiceUrl,
-                    eegeoPoiDataSets
+                    eegeoPoiDataSets,
+                    animatedModelsConfig
                 );
             }
             

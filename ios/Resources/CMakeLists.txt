@@ -1,4 +1,15 @@
 set(resources ${resources}
+        Resources/AnimatedModels
+        Resources/AnimatedModels/Duck
+        Resources/AnimatedModels/Duck/duck.pod
+        Resources/AnimatedModels/Duck/duck.pvr
+        Resources/AnimatedModels/Stormtrooper
+        Resources/AnimatedModels/Stormtrooper/trooper_02.pvr
+        Resources/AnimatedModels/Stormtrooper/troopers_v3.pod
+        Resources/AnimatedModels/Xwing
+        Resources/AnimatedModels/Xwing/tiefighter.pvr
+        Resources/AnimatedModels/Xwing/xwing.pvr
+        Resources/AnimatedModels/Xwing/xwing_test_v2.pod
         Resources/Alert_Tutorial_icon.png
         Resources/Alert_Tutorial_icon@2x.png
         Resources/Alert_Tutorial_icon@3x.png

@@ -15,6 +15,7 @@ set(currsources
 set(sources ${sources} ${currsources})
 source_group(\\src FILES ${currsources})
 include(../src/AboutPage/CMakeLists.txt)
+include(../src/AnimatedModels/CMakeLists.txt)
 include(../src/AppCamera/CMakeLists.txt)
 include(../src/ApplicationConfig/CMakeLists.txt)
 include(../src/AppModes/CMakeLists.txt)

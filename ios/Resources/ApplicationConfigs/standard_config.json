@@ -120,5 +120,6 @@
                                  "eegeo_pois_data_sets":[{
                                      "developer_token":"",
                                      "set_id":""
-                                 }]
+                                 }],
+  "animated_models":[]
 }

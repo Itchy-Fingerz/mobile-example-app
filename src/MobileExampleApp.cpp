@@ -153,6 +153,8 @@
 #include "ARModeMenuModule.h"
 #include "IUtils.h"
 #include "ThreeSixtyInteractionModule.h"
+#include "AnimatedModelsModule.h"
+#include "PositioningModule.h"
 
 namespace ExampleApp
 {
@@ -961,6 +963,15 @@ namespace ExampleApp
                                                                                             m_pSearchModule->GetSearchQueryPerformer(),
                                                                                             *m_pHighlightColorMapper,
                                                                                             highlightService);
+
+        Eegeo::Modules::Core::SceneModelsModule& sceneModulesModule = m_pWorld->GetCoreModule().GetSceneModelsModule();
+        Eegeo::Positioning::PositioningModule& positioningModule = m_pWorld->GetMapModule().GetPositioningModule();
+        m_pAnimatedModelsModule = Eegeo_NEW(ExampleApp::AnimatedModels::SdkModel::AnimatedModelsModule)(sceneModulesModule.GetLocalModelLoader(),
+                                                                                                        sceneModulesModule.GetSceneModelRenderableFilter(),
+                                                                                                        positioningModule.GetPointOnMapFactory(),
+                                                                                                        positioningModule.GetPositioningViewComponent(),
+                                                                                                        interiorsModelModule.GetInteriorInteractionModel(),
+                                                                                                        m_applicationConfiguration.AnimatedModelsConfig());
         
         m_pInteriorCameraWrapper = Eegeo_NEW(AppCamera::SdkModel::AppInteriorCameraWrapper)(m_pInteriorsExplorerModule->GetInteriorsGpsCameraController(),
                                                                                             m_pInteriorsExplorerModule->GetInteriorsCameraController());
@@ -1102,6 +1113,8 @@ namespace ExampleApp
         Eegeo_DELETE m_pReactionModelModule;
 
         Eegeo_DELETE m_pModalityModule;
+
+        Eegeo_DELETE m_pAnimatedModelsModule;
         
         Eegeo_DELETE m_pNavRoutingModule;
 
@@ -1376,6 +1389,7 @@ namespace ExampleApp
         UpdateLoadingScreen(dt);
         
         m_pSurveyTimer->Update();
+        m_pAnimatedModelsModule->Update(dt);
         m_pOfflineRoutingModule->Update(dt);
     }
 

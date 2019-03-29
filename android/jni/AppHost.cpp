@@ -162,6 +162,9 @@ AppHost::AppHost(
     std::set<std::string> customApplicationAssetDirectories;
     customApplicationAssetDirectories.insert("SearchResultOnMap");
     customApplicationAssetDirectories.insert("ApplicationConfigs");
+    customApplicationAssetDirectories.insert("AnimatedModels/Stormtrooper");
+    customApplicationAssetDirectories.insert("AnimatedModels/Duck");
+    customApplicationAssetDirectories.insert("AnimatedModels/Xwing");
 
     const ExampleApp::ApplicationConfig::ApplicationConfiguration& applicationConfiguration = LoadApplicationConfiguration(nativeState, customApplicationAssetDirectories);
 	

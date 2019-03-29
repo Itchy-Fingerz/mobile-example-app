@@ -109,6 +109,7 @@
 #include "IARModeMenuModule.h"
 #include "Utils.h"
 #include "IThreeSixtyInteractionModule.h"
+#include "AnimatedModels.h"
 
 namespace ExampleApp
 {
@@ -139,6 +140,7 @@ namespace ExampleApp
         
         Eegeo::Helpers::IdentityProvider m_identityProvider;
         AboutPage::SdkModel::IAboutPageMenuModule* m_pAboutPageMenuModule;
+        ExampleApp::AnimatedModels::SdkModel::AnimatedModelsModule* m_pAnimatedModelsModule;
         Options::SdkModel:: IOptionsMenuModule* m_pOptionsMenuModule;
         ExampleApp::SearchMenu::SdkModel::ISearchMenuModule* m_pSearchMenuModule;
         ExampleApp::NavRouting::SdkModel::NavRoutingModule* m_pNavRoutingModule;

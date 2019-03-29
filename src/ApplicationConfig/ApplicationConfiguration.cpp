@@ -60,7 +60,8 @@ namespace ExampleApp
             const std::string& indoorMapsServiceToken,
             const std::string& indoorMapsServiceUuid,
             const std::string& wrldPOISetSearchServiceUrl,
-            const std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets
+            const std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets,
+            const std::vector<SdkModel::AnimatedModelsConfig>& animatedModelsConfig
             )
         : m_name(name)
         , m_eegeoApiKey(eegeoApiKey)
@@ -116,6 +117,7 @@ namespace ExampleApp
         , m_indoorMapsServiceUuid(indoorMapsServiceUuid)
         , m_wrldPOISetServiceUrl(wrldPOISetSearchServiceUrl)
         , m_eegeoPoiDataSets(eegeoPoiDataSets)
+        , m_animatedModelsConfig(animatedModelsConfig)
         {
         }
         
@@ -398,6 +400,11 @@ namespace ExampleApp
         const std::string ApplicationConfiguration::IndoorMapsServiceUuid() const
         {
             return m_indoorMapsServiceUuid;
+        }
+
+        const std::vector<SdkModel::AnimatedModelsConfig>& ApplicationConfiguration::AnimatedModelsConfig() const
+        {
+            return m_animatedModelsConfig;
         }
     }
 }

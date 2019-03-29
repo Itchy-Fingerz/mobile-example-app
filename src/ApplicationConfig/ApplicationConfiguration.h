@@ -10,6 +10,7 @@
 #include "ApplicationFixedIndoorLocation.h"
 #include "ApplicationMenuItemTagSearchConfig.h"
 #include "ApplicationDataSetConfig.h"
+#include "AnimatedModelsConfig.h"
 #include "document.h"
 
 namespace ExampleApp
@@ -87,6 +88,8 @@ namespace ExampleApp
             std::string m_indoorMapsServiceToken;
             std::string m_indoorMapsServiceUuid;
 
+            std::vector<SdkModel::AnimatedModelsConfig> m_animatedModelsConfig;
+
         public:
             
 			ApplicationConfiguration(
@@ -143,7 +146,8 @@ namespace ExampleApp
                 const std::string& indoorMapsServiceToken,
                 const std::string& indoorMapsServiceUuid,
                 const std::string& wrldPOISetSearchServiceUrl,
-                std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets
+                std::vector<SdkModel::ApplicationDataSetConfig> eegeoPoiDataSets,
+                const std::vector<SdkModel::AnimatedModelsConfig>& animatedModelsConfig
             );
             
             std::string Name() const;
@@ -243,6 +247,8 @@ namespace ExampleApp
             
             std::string WrldPOISetServiceUrl() const;
             const std::vector<SdkModel::ApplicationDataSetConfig> EegeoPoiDataSets() const;
+
+            const std::vector<SdkModel::AnimatedModelsConfig>& AnimatedModelsConfig() const;
         };
     }
 }
