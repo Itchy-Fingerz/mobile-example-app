@@ -161,8 +161,6 @@ AppHost::AppHost(
     std::set<std::string> customApplicationAssetDirectories;
     customApplicationAssetDirectories.insert("SearchResultOnMap");
     customApplicationAssetDirectories.insert("ApplicationConfigs");
-    customApplicationAssetDirectories.insert("AnimatedModels/Axis");
-    customApplicationAssetDirectories.insert("AnimatedModels/RobotArm");
     customApplicationAssetDirectories.insert("AnimatedModels/Stormtrooper");
     customApplicationAssetDirectories.insert("AnimatedModels/Duck");
     customApplicationAssetDirectories.insert("AnimatedModels/Xwing");
