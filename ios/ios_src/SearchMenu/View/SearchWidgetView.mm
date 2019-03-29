@@ -16,6 +16,8 @@ namespace ExampleApp
     {
         namespace View
         {
+            #define MaxnumberNumberOfReults 230.0f
+            
             SearchWidgetView::SearchWidgetView(WRLDSearchModel* searchModel,
                                                id<WRLDSearchProvider> searchProvider,
                                                id<WRLDSuggestionProvider> suggestionProvider,
@@ -36,7 +38,10 @@ namespace ExampleApp
 
                 [m_pSearchWidgetView displaySearchProvider: m_pSearchProviderHandle];
                 [m_pSearchWidgetView displaySuggestionProvider: m_pSuggestionProviderHandle];
-
+                                
+                [[m_pSearchWidgetView style] usesNumber:MaxnumberNumberOfReults forStyle:WRLDSearchWidgetMaxExpandedSearchResults];
+                [[m_pSearchWidgetView style] apply];
+                
                 UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
                 UIEdgeInsets safeInsets = [rootViewController safeInsets];
                 

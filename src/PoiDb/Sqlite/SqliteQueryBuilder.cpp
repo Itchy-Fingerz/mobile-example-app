@@ -111,7 +111,7 @@ namespace ExampleApp
             
             SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag, bool isInteriors, int floorIndex)
             {
-                const int maximumNumberOfResults = 150;
+                const int maximumNumberOfResults = 230;
 
 //                SELECT * FROM pois WHERE tags LIKE 'general' ORDER BY CASE floor WHEN 7 THEN -1 ELSE 0 END, floor
                 
