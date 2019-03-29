@@ -58,6 +58,10 @@ namespace ExampleApp
 
                 void RemoveDirectionsCallback(Eegeo::Helpers::ICallback1<Search::SdkModel::SearchResultModel>& callback);
 
+                void InsertShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback);
+
+                void RemoveShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback);
+
                 void HandleDirectionsClicked();
 
                 bool IsJavascriptWhitelisted(std::string url);

@@ -173,6 +173,16 @@ namespace ExampleApp
 				m_directionsCallbacks.RemoveCallback(callback);
 			}
 
+			void SearchResultPoiView::InsertShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback)
+			{
+				//Stub implementation for android
+			}
+
+			void SearchResultPoiView::RemoveShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback)
+			{
+				//Stub implementation for android
+			}
+
 			void SearchResultPoiView::HandleDirectionsClicked()
 			{
 				ASSERT_UI_THREAD
