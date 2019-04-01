@@ -23,6 +23,7 @@ namespace ExampleApp
             std::map<int, Eegeo::dv3> m_floorsLocation;
             std::map<int, float> m_floorsZoomLevel;
             std::map<int, float> m_floorsHeading;
+            bool m_firstTime;
             
             void OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message);
             void OnInteractionModelStateChangedMessage(const InteriorsExplorer::InteractionModelStateChangedMessage &message);
