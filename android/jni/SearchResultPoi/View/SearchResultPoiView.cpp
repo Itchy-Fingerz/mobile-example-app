@@ -46,16 +46,7 @@ namespace ExampleApp
                 }
                 else if (vendor == Search::EegeoVendorName)
                 {
-                	rapidjson::Document json;
-					if (!json.Parse<0>(model.GetJsonData().c_str()).HasParseError() && json.HasMember("is_fullScreen") && json["is_fullScreen"].GetBool())
-					{
-						CreateAndShowEegeoPoiWebView(model);
-					}
-					else
-					{
-						CreateAndShowEegeoPoiView(model, isPinned);
-					}
-
+                	CreateAndShowEegeoPoiView(model, isPinned);
                 }
                 else
                 {
@@ -173,6 +164,20 @@ namespace ExampleApp
 				m_directionsCallbacks.RemoveCallback(callback);
 			}
 
+			void SearchResultPoiView::InsertShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback)
+			{
+				ASSERT_UI_THREAD
+
+				m_openThreeSixtyInteractionViewCallbacks.AddCallback(callback);
+			}
+
+			void SearchResultPoiView::RemoveShowThreeSixtyInteractionViewCallback(Eegeo::Helpers::ICallback1<std::string&>& callback)
+			{
+				ASSERT_UI_THREAD
+
+				m_openThreeSixtyInteractionViewCallbacks.RemoveCallback(callback);
+			}
+
 			void SearchResultPoiView::HandleDirectionsClicked()
 			{
 				ASSERT_UI_THREAD
@@ -180,7 +185,15 @@ namespace ExampleApp
 				m_directionsCallbacks.ExecuteCallbacks(m_model);
 			}
 
-			bool SearchResultPoiView::IsJavascriptWhitelisted(std::string url){
+			void SearchResultPoiView::HandleShowThreeSixtyInteractionViewClicked(std::string url)
+			{
+				ASSERT_UI_THREAD
+
+				m_openThreeSixtyInteractionViewCallbacks.ExecuteCallbacks(url);
+			}
+
+			bool SearchResultPoiView::IsJavascriptWhitelisted(std::string url)
+			{
                 ASSERT_UI_THREAD
 
 				return m_javascriptWhitelistHelper.IsWhitelistedUrl(url);
@@ -298,7 +311,18 @@ namespace ExampleApp
             	jstring customViewStr = env->NewStringUTF(eegeoSearchResultModel.GetCustomViewUrl().c_str());
             	int customViewHeight = eegeoSearchResultModel.GetCustomViewHeight();
 
-            	jmethodID displayPoiInfoMethod = env->GetMethodID(m_uiViewClass, "displayPoiInfo", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZ)V");
+				rapidjson::Document json;
+				std::string urlString = "";
+				if (!json.Parse<0>(model.GetJsonData().c_str()).HasParseError() && json.HasMember("custom_view_fullscreen"))
+				{
+					urlString = json["custom_view_fullscreen"].GetString();
+				}
+
+				jstring customViewFullscreenStr;
+
+				customViewFullscreenStr = env->NewStringUTF(urlString.c_str());
+
+            	jmethodID displayPoiInfoMethod = env->GetMethodID(m_uiViewClass, "displayPoiInfo", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZLjava/lang/String;)V");
             	env->CallVoidMethod(
             			m_uiView,
 						displayPoiInfoMethod,
@@ -318,7 +342,8 @@ namespace ExampleApp
 						emailStr,
 						customViewStr,
 						customViewHeight,
-                        m_showDirectionsButton
+                        m_showDirectionsButton,
+						customViewFullscreenStr
             	);
 
             	env->DeleteLocalRef(vendorStr);
@@ -335,6 +360,7 @@ namespace ExampleApp
             	env->DeleteLocalRef(twitterStr);
             	env->DeleteLocalRef(emailStr);
             	env->DeleteLocalRef(customViewStr);
+				env->DeleteLocalRef(customViewFullscreenStr);
             }
 
 			void SearchResultPoiView::CreateAndShowEegeoPoiWebView(const Search::SdkModel::SearchResultModel& model)
