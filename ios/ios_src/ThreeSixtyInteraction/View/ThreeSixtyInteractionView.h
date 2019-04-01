@@ -15,10 +15,9 @@
     UIViewController* m_pController;
     float m_stateChangeAnimationTimeSeconds;
     ExampleApp::ThreeSixtyInteraction::View::ThreeSixtyInteractionViewInterop* m_pInterop;
-
+    UIWebView *m_pWebView;
 }
 @property (retain, nonatomic) IBOutlet UIButton *m_pCloseButton;
-@property (retain, nonatomic) IBOutlet UIWebView *m_pWebView;
 @property (retain, nonatomic) IBOutlet UIActivityIndicatorView *m_pSpinner;
 
 + (id)initView;

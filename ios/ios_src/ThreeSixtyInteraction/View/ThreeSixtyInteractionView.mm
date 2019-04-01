@@ -46,8 +46,6 @@
         containerView->m_pController = [UIViewController alloc];
         [containerView->m_pController setView:containerView];
         [containerView.m_pSpinner startAnimating];
-        containerView.m_pWebView.delegate = containerView;
-        containerView.m_pWebView.backgroundColor = [UIColor clearColor];
     }
 
     return containerView;
@@ -57,6 +55,12 @@
 
 - (IBAction)closeButtonPressed:(id)sender
 {
+    if(m_pWebView)
+    {
+        [m_pWebView stopLoading];
+        [m_pWebView removeFromSuperview];
+        [m_pWebView release];
+    }
     m_pInterop->HandleCloseButtonTapped();
 }
 
@@ -66,7 +70,6 @@
 {
     [m_pController release];
     [_m_pCloseButton release];
-    [_m_pWebView release];
     [_m_pSpinner release];
     [m_pInterop release];
     [super dealloc];
@@ -75,15 +78,27 @@
 #pragma mark Search Poi view delage
 - (void) setContent:(std::string)url
 {
-
-    NSString *url1 = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
-    [self.m_pWebView setHidden:true];
+    const float boundsWidth = static_cast<float>(self.superview.bounds.size.width);
+    const float boundsHeight = static_cast<float>(self.superview.bounds.size.height);
+    
+    m_pWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, boundsWidth, boundsHeight)];
+    [m_pWebView setBackgroundColor:[UIColor clearColor]];
+    m_pWebView.delegate = self;
+    
+    NSString *urlString = [NSString stringWithCString:url.c_str() encoding:[NSString defaultCStringEncoding]];
+    [m_pWebView setHidden:true];
     [self.m_pSpinner startAnimating];
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [self.m_pCloseButton setHidden:YES];
-    [self.m_pWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url1]]];
+    [m_pWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
     [self performDynamicContentLayout];
+
+    [self addSubview:m_pWebView];
+    [self bringSubviewToFront:self.m_pCloseButton];
+    [self bringSubviewToFront:self.m_pSpinner];
 }
+
+
 - (void) setFullyActive
 {
     if(self.alpha == 1.f)
@@ -141,7 +156,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.m_pWebView setHidden:false];
+    [webView setHidden:false];
     [self.m_pCloseButton setHidden:NO];
     webView.scrollView.scrollEnabled = true;
     [self.m_pSpinner stopAnimating];
@@ -150,7 +165,7 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [self.m_pCloseButton setHidden:NO];
-    [self.m_pWebView setHidden:false];
+    [m_pWebView setHidden:false];
     NSString* path = [[NSBundle mainBundle] pathForResource:@"page_not_found" ofType:@"html"];
     NSString* html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];
     [webView loadHTMLString:html baseURL:nil];
