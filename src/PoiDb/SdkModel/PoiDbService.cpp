@@ -14,8 +14,9 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            PoiDbService::PoiDbService(Sqlite::SqliteDbConnection* pSqliteDbConnection, Sqlite::SqliteTable* pSqliteDbTable, Sqlite::SqliteQueryBuilder* pSqliteQueryBuilder, const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel)
+            PoiDbService::PoiDbService(Sqlite::SqliteDbConnection* pSqliteDbConnection, Sqlite::SqliteTable* pSqliteDbTable, Sqlite::SqliteTable* pSqliteVenueDbTable, Sqlite::SqliteQueryBuilder* pSqliteQueryBuilder, const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel)
             : m_sqliteDbTable(*pSqliteDbTable)
+            , m_venueLabelTable(*pSqliteVenueDbTable)
             , m_sqliteQueryBuilder(*pSqliteQueryBuilder)
             , m_interiorInteractionModel(interiorInteractionModel)
             {
@@ -25,11 +26,19 @@ namespace ExampleApp
             {
             }
             
-            void PoiDbService::fetchAllRecords(const Search::SdkModel::SearchQuery& query, std::vector<Search::SdkModel::SearchResultModel>& outPutResults)
+            void PoiDbService::FetchPoisWithQuery(const Search::SdkModel::SearchQuery& query, std::vector<Search::SdkModel::SearchResultModel>& outPutResults)
             {
                 Sqlite::SqliteTableQuery fetchRecordsQuery = m_sqliteQueryBuilder.BuildQuery_FetchRecords(m_sqliteDbTable, query.Query(), query.IsTag(), m_interiorInteractionModel.HasInteriorModel(), m_interiorInteractionModel.GetSelectedFloorIndex());
                 
                 fetchRecordsQuery.Execute(outPutResults);                
+                return;
+            }
+            
+            void PoiDbService::FetchVenuesLabelsWithQuery(std::vector<Search::SdkModel::SearchResultModel>& outPutResults)
+            {
+                Sqlite::SqliteTableQuery fetchRecordsQuery = m_sqliteQueryBuilder.BuildQuery_FetchRecordsForLabels(m_venueLabelTable, m_interiorInteractionModel.GetSelectedFloorIndex());
+                
+                fetchRecordsQuery.Execute(outPutResults);
                 return;
             }
         }

@@ -110,6 +110,7 @@
 #include "Utils.h"
 #include "IThreeSixtyInteractionModule.h"
 #include "AnimatedModels.h"
+#include "IVenueLabelsModule.h"
 
 namespace ExampleApp
 {
@@ -230,7 +231,8 @@ namespace ExampleApp
         InteractionModelStateChangedObserver::InteractionModelStateChangedObserver* m_pInteractionModelStateChangedObserver;
         
         ExampleApp::ThreeSixtyInteraction::View::IThreeSixtyInteractionModule* m_pThreeSixtyInteractionModule;
-
+        
+        ExampleApp::VenueLabels::SdkModel::IVenueLabelsModule* m_pVenueLabelsModule;
 
         void CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
                                            const bool interiorsAffectedByFlattening,

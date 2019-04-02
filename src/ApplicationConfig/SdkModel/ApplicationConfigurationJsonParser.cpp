@@ -274,8 +274,13 @@ namespace ExampleApp
                             }
                             const std::string& setId = item[setIdKey].GetString();
                             
-                            
-                            dataSets.push_back(SdkModel::ApplicationDataSetConfig(token,setId));
+                            const char* isVenueLabelKey = "is_venue_label";
+                            if(!item.HasMember(isVenueLabelKey) || !item[isVenueLabelKey].IsBool())
+                            {
+                                Eegeo_TTY("no member 'is_venue_label' or is not a bool");
+                                continue;
+                            }
+                            dataSets.push_back(SdkModel::ApplicationDataSetConfig(token,setId,item[isVenueLabelKey].GetBool()));
                         }
                     }
                     return dataSets;

@@ -153,6 +153,7 @@
 #include "ARModeMenuModule.h"
 #include "IUtils.h"
 #include "ThreeSixtyInteractionModule.h"
+#include "VenueLabelsModule.h"
 #include "AnimatedModelsModule.h"
 #include "PositioningModule.h"
 
@@ -323,6 +324,7 @@ namespace ExampleApp
     , m_pARModeMenuModule(NULL)
     , m_utils(utils)
     , m_pThreeSixtyInteractionModule(NULL)
+    , m_pVenueLabelsModule(NULL)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
@@ -567,6 +569,7 @@ namespace ExampleApp
         
         Eegeo_DELETE m_pInteractionModelStateChangedObserver;
 
+        Eegeo_DELETE m_pVenueLabelsModule;
     }
 
     void MobileExampleApp::CreateApplicationModelModules(Eegeo::UI::NativeUIFactories& nativeUIFactories,
@@ -983,8 +986,7 @@ namespace ExampleApp
                                                                             m_applicationConfiguration.Name());
         
         m_pThreeSixtyInteractionModule = Eegeo_NEW(ExampleApp::ThreeSixtyInteraction::View::ThreeSixtyInteractionModule)(m_identityProvider);
-
-
+        
         m_pQRScanMenuModule = Eegeo_NEW(QRScan::SdkModel::QRScanMenuModule)(m_pSearchMenuModule->GetSearchMenuViewModel(),
                                                                             m_pQRScanModule->GetQRScanViewModel());
 
@@ -1018,6 +1020,7 @@ namespace ExampleApp
 
         m_pSelectFirstResultSearchService = Eegeo_NEW(Search::SelectFirstResult::SdkModel::SelectFirstResultSearchService)(m_pSearchModule->GetSearchQueryPerformer());
         
+        m_pVenueLabelsModule = Eegeo_NEW(VenueLabels::SdkModel::VenueLabelsModule)(m_pPoiDbModule->GetPoiDbServiceProvider(), mapModule.GetMarkersModule().GetMarkerService(),m_messageBus);
 
 #ifdef AUTOMATED_SCREENSHOTS
         const bool instantiateAutomatedScreenshotController = true;

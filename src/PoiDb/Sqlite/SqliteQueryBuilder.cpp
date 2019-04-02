@@ -11,6 +11,8 @@ namespace ExampleApp
 {
     namespace PoiDb
     {
+        #define MAXIMUM_RESULTS_LIMIT 230
+        
         namespace Sqlite
         {
             std::string replaceSingleQuote( std::string const& original )
@@ -111,7 +113,6 @@ namespace ExampleApp
             
             SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag, bool isInteriors, int floorIndex)
             {
-                const int maximumNumberOfResults = 230;
 
 //                SELECT * FROM pois WHERE tags LIKE 'general' ORDER BY CASE floor WHEN 7 THEN -1 ELSE 0 END, floor
                 
@@ -131,7 +132,7 @@ namespace ExampleApp
                             query << " ORDER BY CASE floor WHEN " << floorIndex;
                             query << " THEN -1 ELSE 0 END, floor";
                         }
-                        query << " LIMIT 0 , " << maximumNumberOfResults;
+                        query << " LIMIT 0 , " << MAXIMUM_RESULTS_LIMIT;
                     }
                     else
                     {
@@ -146,9 +147,21 @@ namespace ExampleApp
                             query << " ORDER BY CASE floor WHEN " << floorIndex;
                             query << " THEN -1 ELSE 0 END, floor";
                         }
-                        query << " LIMIT 0 , "<< maximumNumberOfResults;
+                        query << " LIMIT 0 , "<< MAXIMUM_RESULTS_LIMIT;
                     }
                 }
+                PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), query.str());
+                return tableQuery;
+            }
+            
+            SqliteTableQuery SqliteQueryBuilder::BuildQuery_FetchRecordsForLabels(SqliteTable& table, int floorIndex)
+            {
+                std::stringstream query;
+                query << "SELECT * FROM ";
+                query << table.GetTableName();
+                query << " WHERE floor == "<< floorIndex;
+                query << " LIMIT 0 , "<< MAXIMUM_RESULTS_LIMIT;
+                
                 PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), query.str());
                 return tableQuery;
             }

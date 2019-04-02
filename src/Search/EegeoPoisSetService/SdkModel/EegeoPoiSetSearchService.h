@@ -25,11 +25,11 @@ namespace ExampleApp
                     IEegeoPoiSetSearchQueryFactory& m_eeGeoSearchQueryFactory;
                     IEegeoPoiSetParser& m_eeGeoParser;
                     Net::SdkModel::INetworkCapabilities& m_networkCapabilities;
-                    Eegeo::Helpers::TCallback0<EegeoPoiSetSearchService> m_searchCallback;
+                    Eegeo::Helpers::TCallback1<EegeoPoiSetSearchService, bool> m_searchCallback;
                     IEegeoPoiSetSearchQuery* m_pCurrentRequest;
                     bool m_hasActiveQuery;
                     Eegeo::Helpers::TCallback0<EegeoPoiSetSearchService> m_networkCapabilitiesChangedHandler;
-                    Eegeo::Helpers::CallbackCollection2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& > m_queryResponseReceivedCallbacks;
+                    Eegeo::Helpers::CallbackCollection3<const bool&, const bool&, const std::vector<Search::SdkModel::SearchResultModel>& > m_queryResponseReceivedCallbacks;
                     const std::vector<ApplicationConfig::SdkModel::ApplicationDataSetConfig> m_appConfigDataSet;
                     std::string m_currentDataSetID;
                     std::string m_currentDevToken;
@@ -49,12 +49,12 @@ namespace ExampleApp
                     
                     void PerformLocationSearchForDBInsertion();
                     
-                    void InsertOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback);
+                    void InsertOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback3<const bool&, const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback);
                     
-                    void RemoveOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback);
+                    void RemoveOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback3<const bool&, const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback);
                                         
                 private:
-                    void HandleSearchResponse();
+                    void HandleSearchResponse(bool& isVenueLabel);
                     void HandleNetworkCapabilitiesChanged();
                 };
             }

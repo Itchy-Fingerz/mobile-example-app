@@ -21,10 +21,12 @@ namespace ExampleApp
                                                                const std::string& serviceUrl,
                                                                const std::string& devToken,
                                                                const std::string& dataSetID,
-                                                               Eegeo::Helpers::ICallback0& completionCallback)
+                                                               const bool& isVenueLabel,
+                                                               Eegeo::Helpers::ICallback1<bool>& completionCallback)
                 : m_completionCallback(completionCallback)
                 , m_responseString("")
                 , m_isSuccess(false)
+                , m_isVenueLabel(isVenueLabel)
                 , m_webRequestCompleteCallback(this, &EegeoPoiSetSearchQuery::OnWebResponseReceived)
                 {
                     std::stringstream urlstream;
@@ -70,8 +72,7 @@ namespace ExampleApp
                         m_responseString = std::string(reinterpret_cast<char const*>(&(webResponse.GetBodyData().front())), resultSize);
                         m_isSuccess = true;
                     }
-                    
-                    m_completionCallback();
+                    m_completionCallback(m_isVenueLabel);
                 }
             }
         }

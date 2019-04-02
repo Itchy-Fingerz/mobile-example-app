@@ -28,6 +28,8 @@ namespace ExampleApp
                 SqliteTableQuery BuildQuery_CreateInsertRecord(SqliteTable& table, std::string poi_id, std::string title, std::string sub_title, double lat, double lng, bool isInterior, const std::string interiorId, const int floor, const double height_terrain, const std::string tagIconKey, std::string tags, std::string readeableTags,std::string userData);
 
                 SqliteTableQuery BuildQuery_FetchRecords(SqliteTable& table, std::string queryString, bool isTag, bool isInteriors, int floorIndex);
+                
+                SqliteTableQuery BuildQuery_FetchRecordsForLabels(SqliteTable& table, int floorIndex);
             };
         }
     }

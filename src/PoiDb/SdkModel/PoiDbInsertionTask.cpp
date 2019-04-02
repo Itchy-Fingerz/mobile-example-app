@@ -41,8 +41,6 @@ namespace ExampleApp
             
             void PoiDbInsertionTask::DoWork()
             {
-//                const std::vector<Search::SdkModel::SearchResultModel> results = message.GetResults();
-                
                 for (std::vector<Search::SdkModel::SearchResultModel>::const_iterator it = m_results.begin();
                      it != m_results.end();
                      it++)
