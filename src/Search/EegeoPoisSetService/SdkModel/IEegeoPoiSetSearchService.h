@@ -19,9 +19,9 @@ namespace ExampleApp
 
                     virtual ~IEegeoPoiSetSearchService() { }
                     
-                    virtual void InsertOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback) = 0;
+                    virtual void InsertOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback3<const bool&, const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback) = 0;
                     
-                    virtual void RemoveOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback) = 0;
+                    virtual void RemoveOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback3<const bool&, const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback) = 0;
                     
                 };
             }

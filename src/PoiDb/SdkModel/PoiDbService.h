@@ -19,17 +19,20 @@ namespace ExampleApp
             class PoiDbService: public IPoiDbService, private Eegeo::NonCopyable
             {
             private:
-//                Sqlite::SqliteDbConnection& m_sqliteDbConnection;
+                
                 Sqlite::SqliteTable& m_sqliteDbTable;
+                Sqlite::SqliteTable& m_venueLabelTable;
+                
                 Sqlite::SqliteQueryBuilder& m_sqliteQueryBuilder;
                 const Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                 
             public:
-                PoiDbService(Sqlite::SqliteDbConnection* pSqliteDbConnection, Sqlite::SqliteTable* pSqliteDbTable, Sqlite::SqliteQueryBuilder* pSqliteQueryBuilder, const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel);
+                PoiDbService(Sqlite::SqliteDbConnection* pSqliteDbConnection, Sqlite::SqliteTable* pSqliteDbTable, Sqlite::SqliteTable* pSqliteVenueDbTable, Sqlite::SqliteQueryBuilder* pSqliteQueryBuilder, const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel);
 
                 ~PoiDbService();
                 
-                virtual void fetchAllRecords(const Search::SdkModel::SearchQuery& query,std::vector<Search::SdkModel::SearchResultModel>& outPutResults);
+                virtual void FetchPoisWithQuery(const Search::SdkModel::SearchQuery& query,std::vector<Search::SdkModel::SearchResultModel>& outPutResults);
+                virtual void FetchVenuesLabelsWithQuery(std::vector<Search::SdkModel::SearchResultModel>& outPutResults);
             };
         }
     }

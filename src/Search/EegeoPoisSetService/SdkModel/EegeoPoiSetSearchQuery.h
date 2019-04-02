@@ -24,9 +24,10 @@ namespace ExampleApp
             {
                 class EegeoPoiSetSearchQuery : public IEegeoPoiSetSearchQuery, private Eegeo::NonCopyable
                 {
-                    Eegeo::Helpers::ICallback0& m_completionCallback;
+                    Eegeo::Helpers::ICallback1<bool>& m_completionCallback;
                     std::string m_responseString;
                     bool m_isSuccess;
+                    bool m_isVenueLabel;
                     Eegeo::Web::TWebLoadRequestCompletionCallback<EegeoPoiSetSearchQuery> m_webRequestCompleteCallback;
                     Eegeo::Web::IWebLoadRequest* m_pWebLoadRequest;
                 public:
@@ -34,7 +35,8 @@ namespace ExampleApp
                                            const std::string& serviceUrl,
                                            const std::string& devToken,
                                            const std::string& dataSetID,
-                                           Eegeo::Helpers::ICallback0& completionCallback);
+                                           const bool& isVenueLabel,
+                                           Eegeo::Helpers::ICallback1<bool>& completionCallback);
                     
                     ~EegeoPoiSetSearchQuery();
                     

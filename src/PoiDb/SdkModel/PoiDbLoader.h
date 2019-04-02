@@ -27,12 +27,14 @@ namespace ExampleApp
                 const std::string m_dbFilePath;
                 Sqlite::SqliteDbConnection* m_pSqliteConnection;
                 Sqlite::SqliteTable* m_pTable;
+                Sqlite::SqliteTable* m_pVenueLabelTable;
                 Sqlite::SqliteQueryBuilder* m_pQueryBuilder;
                 Eegeo::Helpers::CallbackCollection1<IPoiDbService*> m_serviceStartedCallbacks;
                 ExampleApp::Search::EegeoPoisSetService::SdkModel::IEegeoPoiSetSearchService& m_searchService;
                 Eegeo::Concurrency::Tasks::IWorkPool& m_workPool;
                 
-                Eegeo::Helpers::TCallback2<PoiDbLoader,
+                Eegeo::Helpers::TCallback3<PoiDbLoader,
+                const bool&,
                 const bool&,
                 const std::vector<Search::SdkModel::SearchResultModel>&> m_onResultsReceivedCallback;
                 const Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
@@ -47,7 +49,7 @@ namespace ExampleApp
                 
                 virtual void CreateDbConnection();
                 
-                virtual void ResultsReceived(const bool& didSucceed, const std::vector<Search::SdkModel::SearchResultModel>& results);
+                virtual void ResultsReceived(const bool& didSucceed, const bool& isVenueLabel, const std::vector<Search::SdkModel::SearchResultModel>& results);
                 
                 virtual void InsertOnDbServiceStartedCallback(Eegeo::Helpers::ICallback1<IPoiDbService*>& callback);
                 

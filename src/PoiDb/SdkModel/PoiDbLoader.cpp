@@ -38,6 +38,7 @@ namespace ExampleApp
                 
                 Eegeo_DELETE(m_pSqliteConnection);
                 Eegeo_DELETE(m_pTable);
+                Eegeo_DELETE(m_pVenueLabelTable);
                 Eegeo_DELETE(m_pQueryBuilder);
             }
             
@@ -55,15 +56,18 @@ namespace ExampleApp
                     IPoiDbService* pPoiDbService = NULL;
 
                     m_pTable = Eegeo_NEW(Sqlite::SqliteTable)("pois", *m_pSqliteConnection);
+                    m_pVenueLabelTable = Eegeo_NEW(Sqlite::SqliteTable)("pois_venue_label", *m_pSqliteConnection);
+                    
                     std::vector<std::pair<std::string, std::string>> columnNames = {{"id", "INTEGER PRIMARY KEY"}, {"title","TEXT"}, {"subtitle","TEXT"}, {"latitude_degrees","REAL"}, {"longitude_degrees","REAL"},
                         {"is_interior","INTEGER"}, {"interior_id","TEXT"}, {"floor","INTEGER"}, {"height_terrain","REAL"}, {"tag_icon_key","TEXT"}, {"tags","TEXT"}, {"human_readable_tags","TEXT"}, {"user_data","TEXT"}};
                     m_pQueryBuilder = Eegeo_NEW(PoiDb::Sqlite::SqliteQueryBuilder)(columnNames);
-                    pPoiDbService = Eegeo_NEW(PoiDbService)(m_pSqliteConnection, m_pTable, m_pQueryBuilder, m_interiorInteractionModel);
+                    
+                    pPoiDbService = Eegeo_NEW(PoiDbService)(m_pSqliteConnection, m_pTable, m_pVenueLabelTable, m_pQueryBuilder, m_interiorInteractionModel);
                     m_serviceStartedCallbacks.ExecuteCallbacks(pPoiDbService);                
                 }
             }
             
-            void PoiDbLoader::ResultsReceived(const bool& didSucceed, const std::vector<Search::SdkModel::SearchResultModel>& results)
+            void PoiDbLoader::ResultsReceived(const bool& didSucceed, const bool& isVenueLabel, const std::vector<Search::SdkModel::SearchResultModel>& results)
             {
                 if(!m_pSqliteConnection->IsDbOpened())
                     return;
@@ -71,11 +75,23 @@ namespace ExampleApp
                 Sqlite::SqliteTableQuery createTableQuery = m_pQueryBuilder->BuildQuery_CreateTable(*m_pTable);
                 createTableQuery.Execute();
                 
+                Sqlite::SqliteTableQuery createTableQueryVenuelabel = m_pQueryBuilder->BuildQuery_CreateTable(*m_pVenueLabelTable);
+                createTableQueryVenuelabel.Execute();
+                
                 if(didSucceed)
                 {
-                    // Inserting records in seperate thread
-                    PoiDbInsertionTask* pTask(Eegeo_NEW(PoiDbInsertionTask)(results, m_pQueryBuilder, m_pTable));
-                    m_workPool.QueueWork(pTask);
+                    if(isVenueLabel)
+                    {
+                        // Inserting records in seperate thread
+                        PoiDbInsertionTask* pTask(Eegeo_NEW(PoiDbInsertionTask)(results, m_pQueryBuilder, m_pVenueLabelTable));
+                        m_workPool.QueueWork(pTask);
+                    }
+                    else
+                    {
+                        // Inserting records in seperate thread
+                        PoiDbInsertionTask* pTask(Eegeo_NEW(PoiDbInsertionTask)(results, m_pQueryBuilder, m_pTable));
+                        m_workPool.QueueWork(pTask);
+                    }
                 }
             }
             

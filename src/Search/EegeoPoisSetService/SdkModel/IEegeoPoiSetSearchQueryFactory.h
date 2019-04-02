@@ -20,7 +20,7 @@ namespace ExampleApp
                 public:
                     virtual ~IEegeoPoiSetSearchQueryFactory() { }
                     
-                    virtual IEegeoPoiSetSearchQuery* CreateEegeoOfflineSearchForQuery(Eegeo::Helpers::ICallback0& completionCallback, const std::string& devToken, const std::string& dataSetID) = 0;
+                    virtual IEegeoPoiSetSearchQuery* CreateEegeoOfflineSearchForQuery(Eegeo::Helpers::ICallback1<bool>& completionCallback, const std::string& devToken, const std::string& dataSetID, const bool& isVenueLabel) = 0;
                 };
             }
         }

@@ -14,11 +14,14 @@ namespace ExampleApp
             {
                 std::string devToken;
                 std::string dataSetId;
+                bool isVenueLabel;
                 ApplicationDataSetConfig(
                     const std::string& devToken,
-                    const std::string& dataSetId)
-                : devToken(devToken),
-                  dataSetId(dataSetId)
+                    const std::string& dataSetId,
+                    const bool isVenueLabel)
+                : devToken(devToken)
+                , dataSetId(dataSetId)
+                , isVenueLabel(isVenueLabel)
                 {
 
                 }

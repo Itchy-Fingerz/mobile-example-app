@@ -48,7 +48,7 @@ namespace ExampleApp
                             m_dbServiceProvider.TryGetService(service);
                             if(service != NULL)
                             {
-                                service->fetchAllRecords(query,outPutResults);
+                                service->FetchPoisWithQuery(query,outPutResults);
                                 ExecutQueryResponseReceivedCallbacks(true, query, outPutResults);
 
                             }

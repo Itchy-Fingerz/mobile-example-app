@@ -15,7 +15,8 @@ namespace ExampleApp
             {
             public:
                 virtual ~IPoiDbService() { }
-                virtual void fetchAllRecords(const Search::SdkModel::SearchQuery& query,std::vector<Search::SdkModel::SearchResultModel>& outPutResults) = 0;
+                virtual void FetchPoisWithQuery(const Search::SdkModel::SearchQuery& query,std::vector<Search::SdkModel::SearchResultModel>& outPutResults) = 0;
+                virtual void FetchVenuesLabelsWithQuery(std::vector<Search::SdkModel::SearchResultModel>& outPutResults) = 0;
             };
         }
     }

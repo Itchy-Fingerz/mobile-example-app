@@ -24,7 +24,7 @@ namespace ExampleApp
                 : m_eeGeoSearchQueryFactory(EegeoSearchQueryFactory)
                 , m_eeGeoParser(EegeoParser)
                 , m_networkCapabilities(networkCapabilities)
-                , m_searchCallback(this,&EegeoPoiSetSearchService::HandleSearchResponse)
+                , m_searchCallback(this, &EegeoPoiSetSearchService::HandleSearchResponse)
                 , m_pCurrentRequest(NULL)
                 , m_hasActiveQuery(false)
                 , m_networkCapabilitiesChangedHandler(this, &EegeoPoiSetSearchService::HandleNetworkCapabilitiesChanged)
@@ -68,24 +68,24 @@ namespace ExampleApp
                         CancelInFlightQueries();
                         m_hasActiveQuery = true;
                         ApplicationConfig::SdkModel::ApplicationDataSetConfig currentConfigDataSet = m_appConfigDataSet[m_requestCompletedCount];
-                        m_pCurrentRequest = m_eeGeoSearchQueryFactory.CreateEegeoOfflineSearchForQuery(m_searchCallback,currentConfigDataSet.devToken,currentConfigDataSet.dataSetId);
+                        m_pCurrentRequest = m_eeGeoSearchQueryFactory.CreateEegeoOfflineSearchForQuery(m_searchCallback,currentConfigDataSet.devToken,currentConfigDataSet.dataSetId, currentConfigDataSet.isVenueLabel);
                     }
 
                     
                 }
                                 
-                void EegeoPoiSetSearchService::InsertOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback)
+                void EegeoPoiSetSearchService::InsertOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback3<const bool&, const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback)
                 {
                     m_queryResponseReceivedCallbacks.AddCallback(callback);
 
                 }
                 
-                void EegeoPoiSetSearchService::RemoveOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback2<const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback)
+                void EegeoPoiSetSearchService::RemoveOnReceivedQueryResultsForLocalDBCallback(Eegeo::Helpers::ICallback3<const bool&, const bool&, const std::vector<Search::SdkModel::SearchResultModel>& >& callback)
                 {
                     m_queryResponseReceivedCallbacks.RemoveCallback(callback);
                 }
                 
-                void EegeoPoiSetSearchService::HandleSearchResponse()
+                void EegeoPoiSetSearchService::HandleSearchResponse(bool& isVenueLabel)
                 {
                     std::vector<Search::SdkModel::SearchResultModel> queryResults;
                     if(m_pCurrentRequest != NULL && m_pCurrentRequest->IsSucceeded())  // Needs NULL check because callback can happen before factory returns query
@@ -99,7 +99,7 @@ namespace ExampleApp
                     if (m_pCurrentRequest != NULL)
                     {
                         // Insert In DB
-                        m_queryResponseReceivedCallbacks.ExecuteCallbacks(m_pCurrentRequest->IsSucceeded(), queryResults);
+                        m_queryResponseReceivedCallbacks.ExecuteCallbacks(m_pCurrentRequest->IsSucceeded(), isVenueLabel, queryResults);
                         
                         if (m_requestCompletedCount < m_appConfigDataSet.size())
                         {
