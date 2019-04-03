@@ -81,6 +81,9 @@
 #include "PopUpViewModule.h"
 #include "PopUpView.h"
 #include "IPopUpViewModel.h"
+#include "ThreeSixtyInteractionViewModule.h"
+#include "ThreeSixtyInteractionView.h"
+#include "ThreeSixtyInteractionViewModel.h"
 
 using namespace Eegeo::Android;
 using namespace Eegeo::Android::Input;
@@ -146,6 +149,7 @@ AppHost::AppHost(
     ,m_screenshotService(m_nativeState, m_surfaceScreenshotService)
     ,m_pPopUpViewModule(NULL)
     ,m_pAndroidUtils(NULL)
+    ,m_pThreeSixtyViewModule(NULL)
 {
     ASSERT_NATIVE_THREAD
 
@@ -638,6 +642,11 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
                                     *m_pAndroidFlurryMetricsService,
                                     m_messageBus);
 
+    m_pThreeSixtyViewModule = Eegeo_NEW(ExampleApp::ThreeSixtyInteraction::View::ThreeSixtyInteractionViewModule)(
+                                    m_nativeState,
+                                    app.ThreeSixtyInteractionModule().GetThreeSixtyInteractionViewModel(),
+                                    m_messageBus);
+
     // Initial UX layer
     m_pInitialExperienceIntroViewModule = Eegeo_NEW(ExampleApp::InitialExperience::View::InitialExperienceIntroViewModule)(
 									m_nativeState,
@@ -728,6 +737,8 @@ void AppHost::DestroyApplicationViewModulesFromUiThread()
         Eegeo_DELETE m_pWatermarkViewModule;
 
         Eegeo_DELETE m_pNavWidgetViewModule;
+
+        Eegeo_DELETE m_pThreeSixtyViewModule;
 
         Eegeo_DELETE m_pQRScanViewModule;
 

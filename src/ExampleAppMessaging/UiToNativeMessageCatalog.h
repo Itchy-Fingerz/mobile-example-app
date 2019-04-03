@@ -55,7 +55,7 @@
 #include "NavRoutingSearchForLocationMessage.h"
 #include "OnIndoorQRScanCompleteMessage.h"
 #include "OnOutdoorQRScanCompleteMessage.h"
-#include "ThreeSixtyInteractionMessage.h"
+
 
 namespace ExampleApp
 {
@@ -113,7 +113,6 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<NavRouting::NavRoutingSearchForLocationMessage>
             , public Eegeo::Messaging::CatalogBinding<QRScan::OnIndoorQRScanCompleteMessage>
             , public Eegeo::Messaging::CatalogBinding<QRScan::OnOutdoorQRScanCompleteMessage>
-            , public Eegeo::Messaging::CatalogBinding<ThreeSixtyInteraction::ThreeSixtyInteractionMessage>
             , private Eegeo::NonCopyable
         {
 

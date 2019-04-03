@@ -72,6 +72,7 @@
 #include "QRScanViewIncludes.h"
 #include "IPopUpViewModule.h"
 #include "AndroidUtils.h"
+#include "IThreeSixtyInteractionViewModule.h"
 
 class AppHost : public Eegeo::IEegeoErrorHandler, protected Eegeo::NonCopyable
 {
@@ -159,6 +160,7 @@ private:
     ExampleApp::QRScan::View::IQRScanViewModule* m_pQRScanViewModule;
     ExampleApp::PopUp::View::IPopUpViewModule* m_pPopUpViewModule;
     ExampleApp::Utils::AndroidUtils* m_pAndroidUtils;
+    ExampleApp::ThreeSixtyInteraction::View::IThreeSixtyInteractionViewModule* m_pThreeSixtyViewModule;
 
     ExampleApp::Menu::View::IMenuReactionModel* m_pMenuReactionModel;
 

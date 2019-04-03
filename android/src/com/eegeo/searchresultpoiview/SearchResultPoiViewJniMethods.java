@@ -11,4 +11,6 @@ public class SearchResultPoiViewJniMethods
     public static native void DirectionsButtonClicked(long nativeCallerPointer);
 
     public static native boolean isJavascriptWhitelisted(long nativeCallerPointer, String url);
+
+    public static native void ShowThreeSixtyInteractionViewClicked(long nativeCallerPointer, String url);
 }

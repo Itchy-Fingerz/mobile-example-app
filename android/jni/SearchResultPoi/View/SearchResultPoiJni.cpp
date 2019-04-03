@@ -50,3 +50,19 @@ JNIEXPORT jboolean JNICALL Java_com_eegeo_searchresultpoiview_SearchResultPoiVie
 
     return pView->IsJavascriptWhitelisted(urlString);
 }
+
+JNIEXPORT void JNICALL Java_com_eegeo_searchresultpoiview_SearchResultPoiViewJniMethods_ShowThreeSixtyInteractionViewClicked(
+        JNIEnv* jenv, jobject obj,
+        jlong nativeObjectPtr,
+        jstring url)
+{
+    ASSERT_UI_THREAD
+
+    ExampleApp::SearchResultPoi::View::SearchResultPoiView* pView = reinterpret_cast<ExampleApp::SearchResultPoi::View::SearchResultPoiView*>(nativeObjectPtr);
+
+    const char* chars = jenv->GetStringUTFChars(url, 0);
+    std::string urlString = chars;
+    jenv->ReleaseStringUTFChars(url, chars);
+
+    pView->HandleShowThreeSixtyInteractionViewClicked(urlString);
+}

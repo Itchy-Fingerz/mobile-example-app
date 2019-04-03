@@ -75,6 +75,7 @@
 #include "OnQRScanCameraTransitionCompleteMessage.h"
 #include "InteriorsExplorerFloorSelectionDraggedMessage.h"
 #include "InteriorsExplorerExitMessage.h"
+#include "ThreeSixtyInteractionMessage.h"
 
 namespace ExampleApp
 {
@@ -151,6 +152,7 @@ namespace ExampleApp
             , public Eegeo::Messaging::CatalogBinding<QRScan::OnQRScanCameraTransitionCompleteMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerFloorSelectionDraggedMessage>
             , public Eegeo::Messaging::CatalogBinding<InteriorsExplorer::InteriorsExplorerExitMessage>
+            , public Eegeo::Messaging::CatalogBinding<ThreeSixtyInteraction::ThreeSixtyInteractionMessage>
             , private Eegeo::NonCopyable
         {
 

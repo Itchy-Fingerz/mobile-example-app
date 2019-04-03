@@ -24,5 +24,9 @@ extern "C"
         jlong nativeObjectPtr,
         jstring url);
 
+    JNIEXPORT void JNICALL Java_com_eegeo_searchresultpoiview_SearchResultPoiViewJniMethods_ShowThreeSixtyInteractionViewClicked(
+            JNIEnv* jenv, jobject obj,
+            jlong nativeObjectPtr,
+            jstring url);
 
 }

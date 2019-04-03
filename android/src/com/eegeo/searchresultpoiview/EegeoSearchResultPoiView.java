@@ -182,7 +182,8 @@ public class EegeoSearchResultPoiView implements View.OnClickListener, IBackButt
     		final String email,
     		final String customViewUrl,
     		final int customViewHeight,
-            final boolean showDirectionsButton)
+            final boolean showDirectionsButton,
+            final String customViewFullscreeUrl)
     {
     	int containerWidth = m_searchResultPoiViewContainer.getWidth();
     	int containerHeight = m_searchResultPoiViewContainer.getHeight();
@@ -380,11 +381,24 @@ public class EegeoSearchResultPoiView implements View.OnClickListener, IBackButt
                     }, 300);
 
                 }
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+
+                    if(url.equalsIgnoreCase("eagle://fullscreen"))
+                    {
+                        SearchResultPoiViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
+                        SearchResultPoiViewJniMethods.ShowThreeSixtyInteractionViewClicked(m_nativeCallerPointer, customViewFullscreeUrl);
+                        return true;
+                    }
+
+                    return false;
+                }
             });
 
         	m_poiImageViewContainer.setVisibility(View.GONE);
         	m_webViewContainer.setVisibility(View.VISIBLE);
-        	m_poiImageHeader.setVisibility(View.VISIBLE);
+        	m_poiImageHeader.setVisibility(View.GONE);
         }
 
         m_directionsButton.setVisibility(showDirectionsButton ? View.VISIBLE : View.GONE);
