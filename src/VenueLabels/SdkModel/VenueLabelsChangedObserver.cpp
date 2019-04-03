@@ -13,14 +13,24 @@ namespace ExampleApp
             , m_messageBus(messageBus)
             , m_interiorsExplorerExitMessageHandler(this,&VenueLabelsChangedObserver::OnInteriorsExplorerExitMessage)
             , m_InteractionModelStateChangedMessageHandler(this,&VenueLabelsChangedObserver::OnInteractionModelStateChangedMessage)
+            , m_SearchMenuSearchWithContextMessageHandler(this,&VenueLabelsChangedObserver::OnSearchMenuSearchWithContextMessage)
+            , m_SearchQueryResultsRemovedMessageHandler(this,&VenueLabelsChangedObserver::OnSearchQueryResultsRemovedMessage)
+            , m_SearchMenuPerformedSearchMessageHandler(this,&VenueLabelsChangedObserver::OnSearchMenuPerformedSearchMessage)
+            , m_isSearchMode(false)
             {
                 m_messageBus.SubscribeNative(m_interiorsExplorerExitMessageHandler);
+                m_messageBus.SubscribeNative(m_SearchMenuSearchWithContextMessageHandler);
+                m_messageBus.SubscribeNative(m_SearchMenuPerformedSearchMessageHandler);
+                m_messageBus.SubscribeUi(m_SearchQueryResultsRemovedMessageHandler);
                 m_messageBus.SubscribeUi(m_InteractionModelStateChangedMessageHandler);
             }
         
             VenueLabelsChangedObserver::~VenueLabelsChangedObserver()
             {
                 m_messageBus.UnsubscribeNative(m_interiorsExplorerExitMessageHandler);
+                m_messageBus.UnsubscribeNative(m_SearchMenuSearchWithContextMessageHandler);
+                m_messageBus.UnsubscribeNative(m_SearchMenuPerformedSearchMessageHandler);
+                m_messageBus.UnsubscribeUi(m_SearchQueryResultsRemovedMessageHandler);
                 m_messageBus.UnsubscribeUi(m_InteractionModelStateChangedMessageHandler);
             }
         
@@ -31,7 +41,28 @@ namespace ExampleApp
         
             void VenueLabelsChangedObserver::OnInteractionModelStateChangedMessage(const InteriorsExplorer::InteractionModelStateChangedMessage &message)
             {
-                m_venueLabelsController.ResetLabels(message.GetSelectedFloorIndex());
+                if (!m_isSearchMode)
+                {
+                    m_venueLabelsController.ResetLabels(message.GetSelectedFloorIndex());
+                }
+            }
+            
+            void VenueLabelsChangedObserver::OnSearchMenuSearchWithContextMessage(const SearchMenu::SearchMenuSearchWithContextMessage &message)
+            {
+                m_venueLabelsController.ClearLabels();
+                m_isSearchMode = true;
+            }
+            
+            void VenueLabelsChangedObserver::OnSearchQueryResultsRemovedMessage(const Search::SearchQueryResultsRemovedMessage &message)
+            {
+                m_isSearchMode = false;
+                m_venueLabelsController.ResetLabels(0);
+            }
+            
+            void VenueLabelsChangedObserver::OnSearchMenuPerformedSearchMessage(const SearchMenu::SearchMenuPerformedSearchMessage &message)
+            {
+                m_venueLabelsController.ClearLabels();
+                m_isSearchMode = true;
             }
         }
     }
