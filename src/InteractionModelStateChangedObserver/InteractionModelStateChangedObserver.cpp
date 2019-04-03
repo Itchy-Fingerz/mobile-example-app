@@ -12,6 +12,7 @@ namespace ExampleApp
         , m_cameraTransitionController(cameraTransitionController)
         , m_interiorsExplorerExitMessageHandler(this,&InteractionModelStateChangedObserver::OnInteriorsExplorerExitMessage)
         , m_InteractionModelStateChangedMessageHandler(this,&InteractionModelStateChangedObserver::OnInteractionModelStateChangedMessage)
+        , m_firstTime(true)
         {
             m_messageBus.SubscribeNative(m_interiorsExplorerExitMessageHandler);
             m_messageBus.SubscribeUi(m_InteractionModelStateChangedMessageHandler);
@@ -26,6 +27,7 @@ namespace ExampleApp
         
         void InteractionModelStateChangedObserver::OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message)
         {
+            m_firstTime = true;
         }
         
         void InteractionModelStateChangedObserver::OnInteractionModelStateChangedMessage(const InteriorsExplorer::InteractionModelStateChangedMessage &message)
@@ -38,17 +40,24 @@ namespace ExampleApp
                 const float distanceFromInterestPoint = m_floorsZoomLevel.find(selectedFloorIndex)->second;
                 const float heading = m_floorsHeading.find(message.GetSelectedFloorIndex())->second;
                 
-                m_cameraTransitionController.StartTransitionTo(interestPoint,
-                                                               distanceFromInterestPoint,
-                                                               heading,
-                                                               message.GetInteriorID(),
-                                                               message.GetSelectedFloorIndex(),
-                                                               true,
-                                                               true,
-                                                               true,
-                                                               true);
+                if (!m_firstTime)
+                {
+                    m_cameraTransitionController.StartTransitionTo(interestPoint,distanceFromInterestPoint,message.GetInteriorID(),message.GetSelectedFloorIndex(),true);
+                }
+                else
+                {
+                    m_cameraTransitionController.StartTransitionTo(interestPoint,
+                                                                   distanceFromInterestPoint,
+                                                                   heading,
+                                                                   message.GetInteriorID(),
+                                                                   message.GetSelectedFloorIndex(),
+                                                                   true,
+                                                                   true,
+                                                                   true,
+                                                                   true);
+                    m_firstTime = false;
+                }
             }
-
         }
         
         void InteractionModelStateChangedObserver::LoadFloorPositionInfo()
