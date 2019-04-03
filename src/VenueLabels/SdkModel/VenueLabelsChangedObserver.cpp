@@ -21,7 +21,7 @@ namespace ExampleApp
                 m_messageBus.SubscribeNative(m_interiorsExplorerExitMessageHandler);
                 m_messageBus.SubscribeNative(m_SearchMenuSearchWithContextMessageHandler);
                 m_messageBus.SubscribeNative(m_SearchMenuPerformedSearchMessageHandler);
-                m_messageBus.SubscribeUi(m_SearchQueryResultsRemovedMessageHandler);
+                m_messageBus.SubscribeNative(m_SearchQueryResultsRemovedMessageHandler);
                 m_messageBus.SubscribeUi(m_InteractionModelStateChangedMessageHandler);
             }
         
@@ -30,7 +30,7 @@ namespace ExampleApp
                 m_messageBus.UnsubscribeNative(m_interiorsExplorerExitMessageHandler);
                 m_messageBus.UnsubscribeNative(m_SearchMenuSearchWithContextMessageHandler);
                 m_messageBus.UnsubscribeNative(m_SearchMenuPerformedSearchMessageHandler);
-                m_messageBus.UnsubscribeUi(m_SearchQueryResultsRemovedMessageHandler);
+                m_messageBus.UnsubscribeNative(m_SearchQueryResultsRemovedMessageHandler);
                 m_messageBus.UnsubscribeUi(m_InteractionModelStateChangedMessageHandler);
             }
         
@@ -53,7 +53,7 @@ namespace ExampleApp
                 m_isSearchMode = true;
             }
             
-            void VenueLabelsChangedObserver::OnSearchQueryResultsRemovedMessage(const Search::SearchQueryResultsRemovedMessage &message)
+            void VenueLabelsChangedObserver::OnSearchQueryResultsRemovedMessage(const SearchResultSection::SearchResultViewClearedMessage &message)
             {
                 m_isSearchMode = false;
                 m_venueLabelsController.ResetLabels(0);
