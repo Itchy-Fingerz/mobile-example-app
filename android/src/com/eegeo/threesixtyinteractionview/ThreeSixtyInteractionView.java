@@ -22,42 +22,26 @@ public class ThreeSixtyInteractionView implements View.OnClickListener, IBackBut
     private RelativeLayout m_uiRoot = null;
 
     private View m_closeButton = null;
-    private WebView m_webView = null;
-
+    WebView m_webView = null;
     private boolean m_handlingClick = false;
 
+    private RelativeLayout m_parentRL = null;
     public ThreeSixtyInteractionView(MainActivity activity, long nativeCallerPointer)
     {
         m_activity = activity;
         m_nativeCallerPointer = nativeCallerPointer;
 
         m_uiRoot = (RelativeLayout)m_activity.findViewById(R.id.ui_container);
-        m_view = m_activity.getLayoutInflater().inflate(R.layout.search_result_poi_eegeo_webview_layout, m_uiRoot, false);
+        m_view = m_activity.getLayoutInflater().inflate(R.layout.threesixty_eegeo_webview_layout, m_uiRoot, false);
 
         m_closeButton = m_view.findViewById(R.id.search_result_poi_webview_close_button);
-        m_webView = (WebView)m_view.findViewById(R.id.webview);
+
+        m_parentRL = m_view.findViewById(R.id.search_result_poi_webview);
 
         m_activity.recursiveDisableSplitMotionEvents((ViewGroup)m_view);
 
         m_view.setVisibility(View.GONE);
         m_uiRoot.addView(m_view);
-
-        m_webView.setWebViewClient(new WebViewClient()
-        {
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl)
-            {
-                /*
-                 * A lot of the examples suggest something like this:
-                 * if(errorCode==404)
-                 * However this does not give the expected results, instead use the defined constants:
-                 * ERROR_HOST_LOOKUP
-                 * ERROR_FILE_NOT_FOUND
-                 */
-
-                view.loadUrl("file:///android_asset/page_not_found.html");
-            }
-        });
 
         m_closeButton.setOnClickListener(this);
 
@@ -74,6 +58,17 @@ public class ThreeSixtyInteractionView implements View.OnClickListener, IBackBut
     public void displayPoiInfo(String customViewUrl)
     {
         m_closeButton.setEnabled(true);
+        if(m_webView != null)
+        {
+            m_parentRL.removeView(m_webView);
+            m_webView = null;
+        }
+
+        m_webView = new WebView(m_activity);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        m_webView.setLayoutParams(params);
+        m_parentRL.addView(m_webView,0);
+
 
         m_view.setVisibility(View.VISIBLE);
         m_view.requestFocus();
@@ -92,8 +87,6 @@ public class ThreeSixtyInteractionView implements View.OnClickListener, IBackBut
                 customViewUrl = customViewUrl.replaceFirst("http://360.focalrack.com","https://360.focalrack.com");
             }
 
-            m_webView.loadUrl(customViewUrl);
-
             m_webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     boolean didZoom = m_webView.zoomOut();
@@ -108,6 +101,7 @@ public class ThreeSixtyInteractionView implements View.OnClickListener, IBackBut
 
                 }
             });
+            m_webView.loadUrl(customViewUrl);
         }
     }
 

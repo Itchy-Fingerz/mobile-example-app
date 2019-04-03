@@ -22,7 +22,7 @@ namespace ExampleApp
                 m_viewModel.InsertOpenedCallback(m_viewModelOpenedCallback);
                 m_viewModel.InsertClosedCallback(m_viewModelClosedCallback);
                 m_view.InsertCloseTappedCallback(m_viewClosedCallback);
-                m_messageBus.SubscribeNative(m_showThreeSixtyInteractionCallback);
+                m_messageBus.SubscribeUi(m_showThreeSixtyInteractionCallback);
             }
 
             ThreeSixtyInteractionController::~ThreeSixtyInteractionController()
@@ -30,7 +30,7 @@ namespace ExampleApp
                 m_viewModel.RemoveOpenedCallback(m_viewModelOpenedCallback);
                 m_viewModel.RemoveClosedCallback(m_viewModelClosedCallback);
                 m_view.RemoveCloseTappedCallback(m_viewClosedCallback);
-                m_messageBus.UnsubscribeNative(m_showThreeSixtyInteractionCallback);
+                m_messageBus.UnsubscribeUi(m_showThreeSixtyInteractionCallback);
 
             }
             void ThreeSixtyInteractionController::OnOpenViewModel(std::string& url)
