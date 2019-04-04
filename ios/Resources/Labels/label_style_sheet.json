@@ -612,9 +612,8 @@
     {
         "name": "place_name_venue",
         "label_text_style_name": "place_name_default",
-        "label_icon_style_name": "icon_default",
         "label_display": "screen_space",
-        "label_horizontal_alignment": "left",
+        "label_horizontal_alignment": "center",
         "label_vertical_alignment": "middle",
         "constraint_radius_scale": 0.6,
         "fade_duration": 0.5,
