@@ -95,7 +95,7 @@ namespace ExampleApp
                             subtitle = json[subtitleName.c_str()].GetString();
                         }
                         
-                        if(json.HasMember(heightOffsetName.c_str()) && json[subtitleName.c_str()].IsString())
+                        if(json.HasMember(heightOffsetName.c_str()))
                         {
                             heightOffset = ::atof(json[heightOffsetName.c_str()].GetString());
                         }
@@ -201,115 +201,6 @@ namespace ExampleApp
                         }
                     }
                 }
-                
-//                EegeoPoiSetSearchResultModel TransformToEegeoSearchResult(const Search::SdkModel::SearchResultModel& searchResultModel)
-//                {
-//                    rapidjson::Document json;
-//
-//                    std::string phone = "";
-//                    std::string webUrl = "";
-//                    std::string imageUrl = "";
-//                    std::string description = "";
-//                    std::string address = "";
-//                    std::string facebookUrl = "";
-//                    std::string twitterUrl = "";
-//                    std::string email = "";
-//                    std::string customViewUrl = "";
-//                    int customViewHeight = -1;
-//
-//                    const std::string phoneName = "phone";
-//                    const std::string webName = "web";
-//                    const std::string addressName = "address";
-//                    const std::string descriptionName = "description";
-//                    const std::string imageName = "image_url";
-//                    const std::string facebookName = "facebook";
-//                    const std::string twitterName = "twitter";
-//                    const std::string emailName = "email";
-//                    const std::string customViewUrlName = "custom_view";
-//                    const std::string customViewHeightName = "custom_view_height";
-//
-//                    if (!json.Parse<0>(searchResultModel.GetJsonData().c_str()).HasParseError())
-//                    {
-//                        if(json.HasMember(phoneName.c_str()) && json[phoneName.c_str()].IsString())
-//                        {
-//                            phone = json[phoneName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(webName.c_str()) && json[webName.c_str()].IsString())
-//                        {
-//                            webUrl = json[webName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(addressName.c_str()) && json[addressName.c_str()].IsString())
-//                        {
-//                            address = json[addressName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(descriptionName.c_str()) && json[descriptionName.c_str()].IsString())
-//                        {
-//                            description = json[descriptionName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(imageName.c_str()) && json[imageName.c_str()].IsString())
-//                        {
-//                            imageUrl = json[imageName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(facebookName.c_str()) && json[facebookName.c_str()].IsString())
-//                        {
-//                            facebookUrl = json[facebookName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(twitterName.c_str()) && json[twitterName.c_str()].IsString())
-//                        {
-//                            twitterUrl = json[twitterName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(emailName.c_str()) && json[emailName.c_str()].IsString())
-//                        {
-//                            email = json[emailName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(customViewUrlName.c_str()) && json[customViewUrlName.c_str()].IsString())
-//                        {
-//                            customViewUrl = json[customViewUrlName.c_str()].GetString();
-//                        }
-//
-//                        if(json.HasMember(customViewHeightName.c_str()) && json[customViewHeightName.c_str()].IsInt())
-//                        {
-//                            customViewHeight = json[customViewHeightName.c_str()].GetInt();
-//                        }
-//                    }
-//
-//                    return EegeoPoiSetSearchResultModel(phone,
-//                                                  webUrl,
-//                                                  address,
-//                                                  description,
-//                                                  imageUrl,
-//                                                  facebookUrl,
-//                                                  twitterUrl,
-//                                                  email,
-//                                                  customViewUrl,
-//                                                  customViewHeight);
-//                }
-                
-//                bool TryParseImageDetails(const Search::SdkModel::SearchResultModel& searchResultModel, std::string& out_imageUrl)
-//                {
-//                    if(searchResultModel.GetVendor() == ExampleApp::Search::EegeoVendorName)
-//                    {
-//                        Search::EegeoPoisSetService::SdkModel::EegeoPoiSetSearchResultModel eegeoResultModel = Search::EegeoPoisSetService::SdkModel::TransformToEegeoSearchResult(searchResultModel);
-//                        const size_t lastSlashIndex(eegeoResultModel.GetImageUrl().rfind("/"));
-//
-//                        if (lastSlashIndex != std::string::npos)
-//                        {
-//                            out_imageUrl = eegeoResultModel.GetImageUrl();
-//
-//                            return true;
-//                        }
-//                    }
-//
-//                    return false;
-//                }
             }
         }
     }
