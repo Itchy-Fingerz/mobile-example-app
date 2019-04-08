@@ -28,6 +28,9 @@ namespace ExampleApp
             
             void PoiDbService::FetchPoisWithQuery(const Search::SdkModel::SearchQuery& query, std::vector<Search::SdkModel::SearchResultModel>& outPutResults)
             {
+                if(query.Query() == "")
+                    return;
+
                 Sqlite::SqliteTableQuery fetchRecordsQuery = m_sqliteQueryBuilder.BuildQuery_FetchRecords(m_sqliteDbTable, query.Query(), query.IsTag(), m_interiorInteractionModel.HasInteriorModel(), m_interiorInteractionModel.GetSelectedFloorIndex());
                 
                 fetchRecordsQuery.Execute(outPutResults);                

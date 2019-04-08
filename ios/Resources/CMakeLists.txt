@@ -1279,6 +1279,9 @@ set(resources ${resources}
         Resources/SplashScreen/SplashScreen.png
         Resources/SplashScreen/SplashScreen@2x.png
         Resources/SplashScreen/SplashScreen@3x.png
+        Resources/SplashScreen/SplashScreen_New.png
+        Resources/SplashScreen/SplashScreen_New@2x.png
+        Resources/SplashScreen/SplashScreen_New@3x.png
         Resources/Stalk.POD
         Resources/streaming_dialog_loaded.png
         Resources/streaming_dialog_loaded@2x.png

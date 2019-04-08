@@ -36,14 +36,14 @@
     },
     "compass_camera_damping_enabled": true,
     "fixed_indoor_location":{
-        "building_floor_index":0,
-        "orientation_degrees":90.0,
-        "location_distance":1300.0,
+        "building_floor_index":10,
+        "orientation_degrees":49.402,
+        "location_distance":20.423724212646484,
         "location_degrees":{
-            "latitude":26.155105,
-            "longitude":-78.792659
+            "latitude":26.155162,
+            "longitude":-78.792931
         },
-        "interior_id":""
+        "interior_id":"EIM-1daffd08-49d0-476d-866f-23a52f45713c"
     },
     "outdoor_search_menu_items": [{
                                     "name": "Ship Activities",

@@ -22,6 +22,7 @@ namespace ExampleApp
                 Eegeo::Helpers::CallbackCollection0 m_closedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_togglePinClickedCallbacks;
                 Eegeo::Helpers::CallbackCollection1<Search::SdkModel::SearchResultModel> m_directionsCallbacks;
+                Eegeo::Helpers::CallbackCollection1<std::string&> m_openThreeSixtyInteractionViewCallbacks;
 
                 jclass m_uiViewClass;
                 jobject m_uiView;
@@ -65,6 +66,8 @@ namespace ExampleApp
                 void HandleDirectionsClicked();
 
                 bool IsJavascriptWhitelisted(std::string url);
+
+                void HandleShowThreeSixtyInteractionViewClicked(std::string url);
 
             private:
                 void CreateAndShowYelpPoiView(const Search::SdkModel::SearchResultModel& model, bool isPinned);

@@ -341,6 +341,10 @@ namespace ExampleApp
                 auto pathEdges = BuildEdges(m_offlineRoutingDataRepository, startPoint, endPoint, pathNodes);
 
                 std::vector<Eegeo::Routes::Webservice::RouteStep> routeSteps;
+                if (pathEdges.size() == 0)
+                {
+                    return routeSteps;
+                }
                 size_t pathEdgesIterator = 0;
                 DirectionType currentDirectionType = DirectionType::Depart;
 

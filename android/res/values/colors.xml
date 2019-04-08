@@ -43,4 +43,5 @@
 	<color name="scrollbars">#1256B0</color>
 	<color name="about_links">#1256B0</color>
     <color name="nav_dialog">#1256B0</color>
+    <color name="close_bg">#1B4180</color>
 </resources>
