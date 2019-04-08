@@ -6,6 +6,8 @@
 #include "SqliteDbConnection.h"
 #include "SqliteTable.h"
 #include <sstream>
+#include <iomanip>
+
 
 namespace ExampleApp
 {
@@ -92,8 +94,8 @@ namespace ExampleApp
                 query << "'" << poi_id << "',";
                 query << "'" << replaceSingleQuote(title)  << "',";
                 query << "'" << replaceSingleQuote(sub_title) << "',";
-                query << "'" << std::to_string(lat) << "',";
-                query << "'" << std::to_string(lng) << "',";
+                query << "'" << std::setprecision(17) << lat << "',";
+                query << "'" << std::setprecision(17) << lng << "',";
                 query << "'" << isInterior << "',";
                 query << "'" << interiorId << "',";
                 query << "'" << floor << "',";

@@ -183,6 +183,11 @@ namespace ExampleApp
                 {
                     std::string stlString = std::string([newText UTF8String]);
                     m_searchbarTextChangedCallbacks.ExecuteCallbacks(stlString);
+                    //TODO: adding these lines because widet is not calling on clear result when result count is zero will be changed widget notify that callback
+                    if (stlString == "" && !m_pSearchWidgetView.searchBarIsFirstResponder)
+                    {
+                        OnClearResults();
+                    }
                 };
                 
                 [m_pSearchWidgetView.observer addSearchbarTextChangedEvent:m_onSearchbarTextChanged];
