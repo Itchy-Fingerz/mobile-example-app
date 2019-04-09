@@ -87,7 +87,7 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
         {
             if(pathSegments!=null)
             {
-                if(pathSegments.get(0).equals("indoor"))
+                if(pathSegments.get(0).equals("indoor") && pathSegments.get(3).equals("EIM-1daffd08-49d0-476d-866f-23a52f45713c"))
                 {
                     if(pathSegments.size() == 8)
                     {
