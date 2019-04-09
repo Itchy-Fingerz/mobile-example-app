@@ -117,9 +117,13 @@ namespace ExampleApp
 
         void GlobalAppModeTransitionRules::OnInteriorSelectionModelChanged(const Eegeo::Resources::Interiors::InteriorId& interiorId)
         {
-            if(m_interiorSelectionModel.IsInteriorSelected())
+            if(m_interiorSelectionModel.IsInteriorSelected() && interiorId.Value() == "EIM-1daffd08-49d0-476d-866f-23a52f45713c")
             {
                 m_appModeModel.SetAppMode(SdkModel::InteriorMode);
+            }
+            else
+            {
+                m_interiorSelectionModel.ClearSelection();
             }
         }
 

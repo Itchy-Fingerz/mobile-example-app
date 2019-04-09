@@ -597,7 +597,7 @@ namespace ExampleApp
                                                                              interiorsPresentationModule.GetInteriorTransitionModel(),
                                                                              m_pWorld->GetFeatureInteractionModule().GetCollisionModule().GetFeatureRayCastingService());
 
-        const bool useGeoName = true;
+        const bool useGeoName = false;
         if(useGeoName)
         {
             m_searchServiceModules[Search::GeoNamesVendorName] = Eegeo_NEW(Search::GeoNames::SdkModel::GeoNamesSearchServiceModule)(m_platformAbstractions.GetWebLoadRequestFactory(),

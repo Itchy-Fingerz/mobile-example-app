@@ -305,7 +305,8 @@
         if (pathComponents != nil && pathComponents.count >=7) // Currently assuming we will have 6 total path components
         {
             NSString *locationMode = pathComponents[1];
-            if ([locationMode isEqualToString:@"indoor"] && pathComponents.count == 9) //7
+            NSString *buildingID = pathComponents[4];
+            if ([locationMode isEqualToString:@"indoor"] && [buildingID isEqualToString:@"EIM-1daffd08-49d0-476d-866f-23a52f45713c"] && pathComponents.count == 9)
             {
                 [_pQrDetectedImageView setHidden:false];
                 _pIsScanningDone = false;
