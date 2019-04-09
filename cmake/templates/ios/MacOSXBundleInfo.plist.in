@@ -58,7 +58,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>If you allow access to the Photo Library you can display photos for your custom POIs.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>If you allow access to the Camera you can take photos for your custom POIs.</string>
+	<string>This allows you to take photos of QR codes to help show your current location.</string>
 	<key>UIMainStoryboardFile</key>
 	<string>MainStoryboard_iPhone</string>
 	<key>UIMainStoryboardFile~ipad</key>
