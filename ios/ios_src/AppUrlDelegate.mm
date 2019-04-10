@@ -33,7 +33,10 @@ AppUrlDelegate* m_pAppUrlDelegate;
     data.host = [url.host UTF8String];
     data.path = [url.path UTF8String];
     data.query = [url.query UTF8String];
-    m_pAppUrlDelegate->Event_OpenUrl(data);
+    if (data.host != NULL)
+    {
+        m_pAppUrlDelegate->Event_OpenUrl(data);
+    }
 }
 
 @end

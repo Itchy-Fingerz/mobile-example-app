@@ -33,8 +33,7 @@
                         <string>com.wrld</string>
                         <key>CFBundleURLSchemes</key>
                         <array>
-                                <string>wrld</string>
-                                <string>eegeo</string>
+                                <string>eagleApp</string>
                         </array>
                 </dict>
 	</array>
