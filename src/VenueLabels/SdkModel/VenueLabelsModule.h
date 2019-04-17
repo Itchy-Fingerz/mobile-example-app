@@ -9,6 +9,7 @@
 #include "IMarkerService.h"
 #include "IVenueLabelsController.h"
 #include "VenueLabelsChangedObserver.h"
+#include "Interiors.h"
 
 namespace ExampleApp
 {
@@ -23,9 +24,11 @@ namespace ExampleApp
                 VenueLabelsChangedObserver* m_pVenueLabelsChangedObserver;
                 
             public:
-                VenueLabelsModule(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService, ExampleAppMessaging::TMessageBus& messageBus);
+                VenueLabelsModule(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService, ExampleAppMessaging::TMessageBus& messageBus,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel);
 
                 ~VenueLabelsModule();
+                
+                void Update(float dt);
             };
         }
     }

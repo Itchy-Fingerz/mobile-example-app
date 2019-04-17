@@ -1020,7 +1020,7 @@ namespace ExampleApp
 
         m_pSelectFirstResultSearchService = Eegeo_NEW(Search::SelectFirstResult::SdkModel::SelectFirstResultSearchService)(m_pSearchModule->GetSearchQueryPerformer());
         
-        m_pVenueLabelsModule = Eegeo_NEW(VenueLabels::SdkModel::VenueLabelsModule)(m_pPoiDbModule->GetPoiDbServiceProvider(), mapModule.GetMarkersModule().GetMarkerService(),m_messageBus);
+        m_pVenueLabelsModule = Eegeo_NEW(VenueLabels::SdkModel::VenueLabelsModule)(m_pPoiDbModule->GetPoiDbServiceProvider(), mapModule.GetMarkersModule().GetMarkerService(),m_messageBus,interiorsPresentationModule.GetInteriorInteractionModel(),interiorsPresentationModule.GetInteriorTransitionModel());
 
 #ifdef AUTOMATED_SCREENSHOTS
         const bool instantiateAutomatedScreenshotController = true;
@@ -1324,6 +1324,8 @@ namespace ExampleApp
 
         eegeoWorld.EarlyUpdate(dt);
 
+        m_pVenueLabelsModule->Update(dt);
+        
         m_pNavigationService->Update(dt);
 
         m_pCameraTransitionService->Update(dt);
