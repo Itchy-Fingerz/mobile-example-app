@@ -156,6 +156,7 @@
 #include "VenueLabelsModule.h"
 #include "AnimatedModelsModule.h"
 #include "PositioningModule.h"
+#include "ThreeSixtyInteractionViewModel.h"
 
 namespace ExampleApp
 {
@@ -325,6 +326,7 @@ namespace ExampleApp
     , m_utils(utils)
     , m_pThreeSixtyInteractionModule(NULL)
     , m_pVenueLabelsModule(NULL)
+    , m_isPaused(false)
     {
         if (m_applicationConfiguration.IsInKioskMode())
         {
@@ -1318,6 +1320,11 @@ namespace ExampleApp
 
     void MobileExampleApp::Update(float dt)
     {
+        if(m_isPaused)
+        {
+            dt = 0.0;
+        }
+        
         Eegeo::EegeoWorld& eegeoWorld(World());
 
         m_pCurrentTouchController = &m_pAppCameraModule->GetController().GetTouchController();
@@ -1332,6 +1339,7 @@ namespace ExampleApp
         if (!eegeoWorld.Initialising() && m_initialisedApplicationViewState)
         {
             m_pAppModeModel->Update(dt);
+            m_isPaused = m_pThreeSixtyInteractionModule->GetThreeSixtyInteractionViewModel().IsOpen() ? true : false;
         }
 
         m_pInteriorsExplorerModule->Update(dt);
@@ -1398,6 +1406,11 @@ namespace ExampleApp
 
     void MobileExampleApp::Draw (float dt)
     {
+        if(m_isPaused)
+        {
+            return;
+        }
+        
         Eegeo::EegeoWorld& eegeoWorld = World();
 
         Eegeo::Camera::RenderCamera renderCamera = m_pAppCameraModule->GetController().GetRenderCamera();

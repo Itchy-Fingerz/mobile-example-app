@@ -124,6 +124,8 @@ namespace ExampleApp
         Eegeo::ITouchController* m_pCameraTouchController;
         Eegeo::ITouchController* m_pCurrentTouchController;
         Eegeo::EegeoWorld* m_pWorld;
+        bool m_isPaused;
+        
         Eegeo::Location::NavigationService* m_pNavigationService;
         PlatformAbstractionsFacade m_platformAbstractions;
         Eegeo::Rendering::LoadingScreen* m_pLoadingScreen;
