@@ -12,6 +12,7 @@ namespace ExampleApp
             {
             public:
                 virtual ~IVenueLabelsModule() { }
+                virtual void Update(float dt) = 0;
             };
         }
     }

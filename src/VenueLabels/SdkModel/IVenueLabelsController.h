@@ -20,6 +20,7 @@ namespace ExampleApp
                 virtual ~IVenueLabelsController() {}
                 virtual void ResetLabels(int floorIndex) = 0;
                 virtual void ClearLabels() = 0;
+                virtual void Update(float dt) = 0;
                 
             };
         }
