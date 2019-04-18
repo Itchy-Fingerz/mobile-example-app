@@ -617,7 +617,8 @@
         "label_vertical_alignment": "middle",
         "constraint_radius_scale": 0.6,
         "fade_duration": 0.5,
-        "priority": 14
+        "priority": 14,
+        "pickable": true
     },
 	{
 		"name": "place_name_park_highz",

@@ -12,9 +12,9 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            VenueLabelsModule::VenueLabelsModule(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService, ExampleAppMessaging::TMessageBus& messageBus,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel)
+            VenueLabelsModule::VenueLabelsModule(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService, ExampleAppMessaging::TMessageBus& messageBus,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController)
             {
-                m_pVenueLabelsController = Eegeo_NEW(VenueLabelsController)(serviceProvider, markerService,interiorInteractionModel,interiorTransitionModel);
+                m_pVenueLabelsController = Eegeo_NEW(VenueLabelsController)(serviceProvider, markerService,interiorInteractionModel,interiorTransitionModel,cameraTransitionController);
                 m_pVenueLabelsChangedObserver = Eegeo_NEW(VenueLabelsChangedObserver)(*m_pVenueLabelsController, messageBus);
             }
 
@@ -27,6 +27,11 @@ namespace ExampleApp
             void VenueLabelsModule::Update(float dt)
             {
                 m_pVenueLabelsController->Update(dt);
+            }
+            
+            IVenueLabelsController& VenueLabelsModule::GetVenueLabelController()
+            {
+                return *m_pVenueLabelsController;
             }
         }
     }

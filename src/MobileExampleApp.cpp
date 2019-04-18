@@ -446,6 +446,8 @@ namespace ExampleApp
                                                                                                                        interiorsModelModule.GetInteriorsModelRepository(),
                                                                                                                        m_messageBus);
         
+        m_pVenueLabelsModule = Eegeo_NEW(VenueLabels::SdkModel::VenueLabelsModule)(m_pPoiDbModule->GetPoiDbServiceProvider(), mapModule.GetMarkersModule().GetMarkerService(),m_messageBus,interiorsPresentationModule.GetInteriorInteractionModel(),interiorsPresentationModule.GetInteriorTransitionModel(),*m_pCameraTransitionController);
+        
         m_pInteractionModelStateChangedObserver = Eegeo_NEW(InteractionModelStateChangedObserver::InteractionModelStateChangedObserver)(m_messageBus,*m_pCameraTransitionController);
 
         m_pCameraTransitionService->SetTransitionController(*m_pCameraTransitionController);
@@ -1022,8 +1024,6 @@ namespace ExampleApp
 
         m_pSelectFirstResultSearchService = Eegeo_NEW(Search::SelectFirstResult::SdkModel::SelectFirstResultSearchService)(m_pSearchModule->GetSearchQueryPerformer());
         
-        m_pVenueLabelsModule = Eegeo_NEW(VenueLabels::SdkModel::VenueLabelsModule)(m_pPoiDbModule->GetPoiDbServiceProvider(), mapModule.GetMarkersModule().GetMarkerService(),m_messageBus,interiorsPresentationModule.GetInteriorInteractionModel(),interiorsPresentationModule.GetInteriorTransitionModel());
-
 #ifdef AUTOMATED_SCREENSHOTS
         const bool instantiateAutomatedScreenshotController = true;
 #else
@@ -1627,6 +1627,11 @@ namespace ExampleApp
     void MobileExampleApp::Event_TouchTap(const AppInterface::TapData& data)
     {
         if (!CanAcceptTouch())
+        {
+            return;
+        }
+        
+        if (m_pVenueLabelsModule->GetVenueLabelController().HandleTouchTap(data.point))
         {
             return;
         }

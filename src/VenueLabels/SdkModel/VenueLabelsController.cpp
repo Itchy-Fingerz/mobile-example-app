@@ -7,6 +7,10 @@
 #include "MarkerBuilder.h"
 #include "InteriorInteractionModel.h"
 #include "InteriorTransitionModel.h"
+#include "ICameraTransitionController.h"
+#include "CameraTransitionController.h"
+#include "InteriorsExplorer.h"
+#include "InteriorsModel.h"
 
 namespace ExampleApp
 {
@@ -14,11 +18,12 @@ namespace ExampleApp
     {
         namespace SdkModel
         {
-            VenueLabelsController::VenueLabelsController(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel)
+            VenueLabelsController::VenueLabelsController(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController)
             : m_dbServiceProvider(serviceProvider)
             , m_markerService(markerService)
             , m_interiorInteractionModel(interiorInteractionModel)
             , m_interiorTransitionModel(interiorTransitionModel)
+            , m_cameraTransitionController(cameraTransitionController)
             {
             }
 
@@ -94,6 +99,35 @@ namespace ExampleApp
                     
                     marker.SetHidden(visible);
                 }
+            }
+            
+            bool VenueLabelsController::IsVenueLabel(Eegeo::Markers::IMarker::IdType pickedMarkerId)
+            {
+                for(std::vector<Eegeo::Markers::IMarker::IdType>::iterator it = m_markerIDs.begin(); it != m_markerIDs.end(); ++it)
+                {
+                    Eegeo::Markers::IMarker::IdType markerID = *it;
+                    if (markerID == pickedMarkerId)
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            
+            bool VenueLabelsController::HandleTouchTap(const Eegeo::v2& screenTapPoint)
+            {
+                auto pickedMarkerId = Eegeo::Markers::IMarker::InvalidId;
+                if (m_markerService.TryPick(screenTapPoint, pickedMarkerId) && IsVenueLabel(pickedMarkerId))
+                {
+                    const Eegeo::Space::LatLong& location = m_markerService.Get(pickedMarkerId).GetAnchorLocation().GetLatLong();
+                    const Eegeo::dv3& newInterestPoint = location.ToECEF();
+                    float distanceFromInterest = InteriorsExplorer::DefaultInteriorSearchResultTransitionInterestDistance;
+                m_cameraTransitionController.StartTransitionTo(newInterestPoint,distanceFromInterest,m_interiorInteractionModel.GetInteriorModel()->GetId(),m_interiorInteractionModel.GetFloorParam());
+                    
+                    return true;
+                }
+                
+                return false;
             }
         }
     }

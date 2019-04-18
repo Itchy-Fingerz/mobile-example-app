@@ -4,6 +4,7 @@
 
 #include "Types.h"
 
+#include "VectorMath.h"
 #include <vector>
 #include <unordered_map>
 
@@ -21,6 +22,7 @@ namespace ExampleApp
                 virtual void ResetLabels(int floorIndex) = 0;
                 virtual void ClearLabels() = 0;
                 virtual void Update(float dt) = 0;
+                virtual bool HandleTouchTap(const Eegeo::v2& screenTapPoint) = 0;
                 
             };
         }

@@ -7,6 +7,7 @@
 #include "IMarkerService.h"
 #include "IVenueLabelsController.h"
 #include "Interiors.h"
+#include "CameraTransitions.h"
 
 namespace ExampleApp
 {
@@ -24,11 +25,15 @@ namespace ExampleApp
                 
                 const Eegeo::Resources::Interiors::InteriorInteractionModel& m_interiorInteractionModel;
                 const Eegeo::Resources::Interiors::InteriorTransitionModel& m_interiorTransitionModel;
+                CameraTransitions::SdkModel::ICameraTransitionController& m_cameraTransitionController;
+
                 
                 void UpdateLabelVisibility(bool visible);
+                bool IsVenueLabel(Eegeo::Markers::IMarker::IdType pickedMarkerId);
+
                 
             public:
-                VenueLabelsController(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel);
+                VenueLabelsController(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController);
                 
                 ~VenueLabelsController();
                 
@@ -37,6 +42,8 @@ namespace ExampleApp
                 void ClearLabels();
                 
                 void Update(float dt);
+                
+                bool HandleTouchTap(const Eegeo::v2& screenTapPoint);
                 
             };
         }
