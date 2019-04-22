@@ -311,6 +311,7 @@ namespace ExampleApp
             void SearchWidgetView::ClearSearchResults()
             {
                 // add here when/if the widget API allows it, if needed
+                [m_pSearchWidgetView clearSearch];
             }
 
             void SearchWidgetView::AddMenuSectionToGroup(WRLDMenuGroup* group,
