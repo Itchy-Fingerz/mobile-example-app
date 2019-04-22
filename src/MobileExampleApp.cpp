@@ -1081,7 +1081,7 @@ namespace ExampleApp
                                                                               m_screenProperties,
                                                                               m_messageBus,
                                                                               *m_pNavigationService,
-                                                                              m_pSearchModule->GetSearchQueryPerformer());
+                                                                              m_pSearchModule->GetSearchQueryPerformer(),                                                                              mapModule.GetInteriorsModelModule().GetInteriorsCellResourceObserver());
 
         m_pAppModeModel->InitialiseStateMachine(appModeStatesFactory.CreateStateMachineStates(*m_pGlobalAppModeTransitionRules), AppModes::SdkModel::WorldMode, m_pGlobalAppModeTransitionRules);
 

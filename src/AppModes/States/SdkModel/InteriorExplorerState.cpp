@@ -39,7 +39,8 @@ namespace ExampleApp
                                                              InteriorsExplorer::SdkModel::InteriorExplorerUserInteractionModel& interiorExplorerUserInteractionModel,
                                                              AppModes::SdkModel::IAppModeModel& appModeModel,
                                                              Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
-                                                             Eegeo::UI::NativeUIFactories& nativeUIFactories)
+                                                             Eegeo::UI::NativeUIFactories& nativeUIFactories,
+                                                             Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver)
                 : m_interiorExplorerUserInteractionModel(interiorExplorerUserInteractionModel)
                 , m_appModeModel(appModeModel)
                 , m_interiorsCameraController(interiorsCameraController)
@@ -56,7 +57,8 @@ namespace ExampleApp
                                                                                                                       interiorInteractionModel,
                                                                                                                       cameraFrustumStreamingVolume,
                                                                                                                       interiorVisibilityUpdater,
-                                                                                                                      interiorsExplorerModel));
+                                                                                                                      interiorsExplorerModel,
+                                                                                                                      interiorsCellResourceObserver));
                     
                     m_subStates.push_back(Eegeo_NEW(InteriorsExplorer::SdkModel::States::InteriorExplorerViewingState)(*this,
                                                                                                                        interiorsExplorerModel,

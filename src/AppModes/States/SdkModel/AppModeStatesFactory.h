@@ -61,6 +61,7 @@ namespace ExampleApp
 
                     Eegeo::Location::NavigationService& m_navigationService;
                     Search::SdkModel::ISearchQueryPerformer& m_searchQueryPerformer;
+                    Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
                     
                 public:
                     
@@ -86,7 +87,8 @@ namespace ExampleApp
                                          const Eegeo::Rendering::ScreenProperties& screenProperties,
                                          ExampleAppMessaging::TMessageBus& messageBus,
                                          Eegeo::Location::NavigationService& navigationService,
-                                         Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer);
+                                         Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
+                                         Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver);
                     
                     ~AppModeStatesFactory()
                     {

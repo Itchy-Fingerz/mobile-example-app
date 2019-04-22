@@ -28,19 +28,26 @@ namespace ExampleApp
                         InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& m_interiorVisibilityUpdater;
                         InteriorsExplorerModel& m_interiorsExplorerModel;
                         
+                        Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
+                        Eegeo::Helpers::TCallback1<InteriorExplorerStreamState, const Eegeo::Resources::Interiors::InteriorsCellResource> m_interiorCellAddedHandler;
+                        
                         AppModes::States::SdkModel::InteriorExplorerState& m_parentState;
                         
                         const float m_maxTimeout;
                         float m_timeUntilTimeout;
                         bool m_hasFailed;
+                        bool m_hasInitialInteriorPartLoaded;
+                        bool m_hasInteriorsFullyLoaded;
                         
+                        void OnInteriorAddedToSceneGraph(const Eegeo::Resources::Interiors::InteriorsCellResource& callback);
                     public:
                         
                         InteriorExplorerStreamState(AppModes::States::SdkModel::InteriorExplorerState& parentState,
                                                     const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                                     Eegeo::Streaming::CameraFrustumStreamingVolume& cameraFrustumStreamingVolume,
                                                     InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& interiorVisibilityUpdater,
-                                                    InteriorsExplorerModel& interiorsExplorerModel);
+                                                    InteriorsExplorerModel& interiorsExplorerModel,
+                                                    Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver);
                         
                         ~InteriorExplorerStreamState();
                         

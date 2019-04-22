@@ -64,7 +64,8 @@ namespace ExampleApp
                                           InteriorsExplorer::SdkModel::InteriorExplorerUserInteractionModel& interiorExplorerUserInteractionModel,
                                           AppModes::SdkModel::IAppModeModel& appModeModel,
                                           Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
-                                          Eegeo::UI::NativeUIFactories& nativeUIFactories);
+                                          Eegeo::UI::NativeUIFactories& nativeUIFactories,
+                                          Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver);
                     
                     ~InteriorExplorerState();
                     

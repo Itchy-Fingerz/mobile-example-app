@@ -6,6 +6,7 @@
 #include "InteriorVisibilityUpdater.h"
 #include "InteriorInteractionModel.h"
 #include "InteriorsExplorerModel.h"
+#include "InteriorsCellResourceObserver.h"
 
 namespace ExampleApp
 {
@@ -24,19 +25,25 @@ namespace ExampleApp
                                                                          const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                                                          Eegeo::Streaming::CameraFrustumStreamingVolume& cameraFrustumStreamingVolume,
                                                                          InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& interiorVisibilityUpdater,
-                                                                         InteriorsExplorerModel& interiorsExplorerModel)
+                                                                         InteriorsExplorerModel& interiorsExplorerModel,                                                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver)
                 : m_parentState(parentState)
                 , m_interiorInteractionModel(interiorInteractionModel)
                 , m_cameraFrustumStreamingVolume(cameraFrustumStreamingVolume)
                 , m_interiorVisibilityUpdater(interiorVisibilityUpdater)
                 , m_interiorsExplorerModel(interiorsExplorerModel)
+                , m_interiorCellAddedHandler(this, &InteriorExplorerStreamState::OnInteriorAddedToSceneGraph)
                 , m_maxTimeout(60.0f)
                 , m_hasFailed(false)
+                , m_interiorsCellResourceObserver(interiorsCellResourceObserver)
+                , m_hasInitialInteriorPartLoaded(false)
+                , m_hasInteriorsFullyLoaded(false)
                 {
+                    m_interiorsCellResourceObserver.RegisterAddedToSceneGraphCallback(m_interiorCellAddedHandler);
                 }
                 
                 InteriorExplorerStreamState::~InteriorExplorerStreamState()
                 {
+                    m_interiorsCellResourceObserver.UnregisterAddedToSceneGraphCallback(m_interiorCellAddedHandler);
                 }
                 
                 void InteriorExplorerStreamState::Enter(int previousState)
@@ -45,6 +52,23 @@ namespace ExampleApp
                     m_cameraFrustumStreamingVolume.SetForceMaximumRefinement(true);
                     
                     m_timeUntilTimeout = m_maxTimeout;
+                }
+                
+                void InteriorExplorerStreamState::OnInteriorAddedToSceneGraph(const Eegeo::Resources::Interiors::InteriorsCellResource& resource)
+                {
+                    if (m_hasInitialInteriorPartLoaded) {
+                        if (m_interiorInteractionModel.HasInteriorModel())
+                        {
+                            m_hasInteriorsFullyLoaded = true;
+                        }
+                    }
+                    else
+                    {
+                        if (m_interiorInteractionModel.HasInteriorModel())
+                        {
+                            m_hasInitialInteriorPartLoaded = true;
+                        }
+                    }                    
                 }
                 
                 void InteriorExplorerStreamState::Update(float dt)
@@ -66,7 +90,7 @@ namespace ExampleApp
                         return;
                     }
                     
-                    if (m_interiorInteractionModel.HasInteriorModel())
+                    if (m_interiorInteractionModel.HasInteriorModel() && m_hasInteriorsFullyLoaded)
                     {
                         m_parentState.SetLastEntryAttemptSuccessful(true);
                         m_interiorVisibilityUpdater.SetInteriorShouldDisplay(true);
