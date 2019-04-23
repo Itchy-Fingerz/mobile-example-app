@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -85,31 +87,8 @@
                         <constraint firstAttribute="width" secondItem="JU7-cf-IhP" secondAttribute="height" multiplier="1:1" id="L2O-Oz-czp"/>
                     </constraints>
                 </imageView>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMn-dB-hqz">
-                    <rect key="frame" x="168" y="611.66666666666663" width="202" height="27"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="90G-fq-ZYC">
-                            <rect key="frame" x="5" y="3" width="10" height="10"/>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Use the camera view to centre QR code in the square." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKy-PX-UvR">
-                            <rect key="frame" x="25" y="-2" width="177" height="31.333333333333332"/>
-                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
-                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="90G-fq-ZYC" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" constant="5" id="Dmc-rn-lht"/>
-                        <constraint firstAttribute="height" constant="27" id="Rie-eL-OwC"/>
-                        <constraint firstItem="NKy-PX-UvR" firstAttribute="leading" secondItem="90G-fq-ZYC" secondAttribute="trailing" constant="10" id="S6V-DN-oO3"/>
-                        <constraint firstItem="NKy-PX-UvR" firstAttribute="top" secondItem="90G-fq-ZYC" secondAttribute="top" constant="-5" id="nA1-Ed-lVt"/>
-                        <constraint firstItem="90G-fq-ZYC" firstAttribute="top" secondItem="lMn-dB-hqz" secondAttribute="top" constant="3" id="rzV-Dz-NvN"/>
-                        <constraint firstAttribute="trailing" secondItem="NKy-PX-UvR" secondAttribute="trailing" id="sxW-i1-e7W"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzT-lo-wEJ">
-                    <rect key="frame" x="168" y="648.66666666666663" width="202" height="27"/>
+                    <rect key="frame" x="168" y="668.33333333333337" width="202" height="31.333333333333371"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="JVW-Nq-vJB">
                             <rect key="frame" x="5" y="3" width="10" height="10"/>
@@ -128,10 +107,11 @@
                         <constraint firstItem="JVW-Nq-vJB" firstAttribute="leading" secondItem="xzT-lo-wEJ" secondAttribute="leading" constant="5" id="Tre-6P-9xx"/>
                         <constraint firstItem="wWl-hh-U4N" firstAttribute="top" secondItem="JVW-Nq-vJB" secondAttribute="top" constant="-5" id="Xox-4U-1mF"/>
                         <constraint firstAttribute="trailing" secondItem="wWl-hh-U4N" secondAttribute="trailing" id="bWJ-WN-Gz0"/>
+                        <constraint firstItem="wWl-hh-U4N" firstAttribute="height" secondItem="xzT-lo-wEJ" secondAttribute="height" id="i0t-vz-syV"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ia2-X8-jA0">
-                    <rect key="frame" x="168" y="685.66666666666663" width="202" height="27"/>
+                    <rect key="frame" x="168" y="709.66666666666663" width="202" height="31.333333333333371"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wfh-o3-Psd">
                             <rect key="frame" x="5" y="3" width="10" height="10"/>
@@ -146,10 +126,34 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="zUy-HG-FUh" firstAttribute="top" secondItem="Wfh-o3-Psd" secondAttribute="top" constant="-5" id="5RL-82-3lY"/>
+                        <constraint firstItem="zUy-HG-FUh" firstAttribute="height" secondItem="ia2-X8-jA0" secondAttribute="height" id="PGa-wG-DPk"/>
                         <constraint firstItem="Wfh-o3-Psd" firstAttribute="top" secondItem="ia2-X8-jA0" secondAttribute="top" constant="3" id="RSK-rf-HxC"/>
                         <constraint firstItem="zUy-HG-FUh" firstAttribute="leading" secondItem="Wfh-o3-Psd" secondAttribute="trailing" constant="10" id="WIK-Eo-0w4"/>
                         <constraint firstItem="Wfh-o3-Psd" firstAttribute="leading" secondItem="ia2-X8-jA0" secondAttribute="leading" constant="5" id="eVT-wY-VIX"/>
                         <constraint firstAttribute="trailing" secondItem="zUy-HG-FUh" secondAttribute="trailing" id="iz7-AY-a54"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMn-dB-hqz">
+                    <rect key="frame" x="168" y="611" width="202" height="46.666666666666629"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="90G-fq-ZYC">
+                            <rect key="frame" x="5" y="3" width="10" height="10"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Use the camera view to centre QR code in the square." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKy-PX-UvR">
+                            <rect key="frame" x="25" y="-2" width="177" height="46.666666666666664"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="90G-fq-ZYC" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" constant="5" id="Dmc-rn-lht"/>
+                        <constraint firstItem="NKy-PX-UvR" firstAttribute="leading" secondItem="90G-fq-ZYC" secondAttribute="trailing" constant="10" id="S6V-DN-oO3"/>
+                        <constraint firstAttribute="height" secondItem="NKy-PX-UvR" secondAttribute="height" id="hSY-9N-kF5"/>
+                        <constraint firstItem="NKy-PX-UvR" firstAttribute="top" secondItem="90G-fq-ZYC" secondAttribute="top" constant="-5" id="nA1-Ed-lVt"/>
+                        <constraint firstItem="90G-fq-ZYC" firstAttribute="top" secondItem="lMn-dB-hqz" secondAttribute="top" constant="3" id="rzV-Dz-NvN"/>
+                        <constraint firstAttribute="trailing" secondItem="NKy-PX-UvR" secondAttribute="trailing" id="sxW-i1-e7W"/>
                     </constraints>
                 </view>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="QR_detected.png" translatesAutoresizingMaskIntoConstraints="NO" id="61j-8u-NuW">
@@ -159,7 +163,6 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="LkG-85-6zy" firstAttribute="leading" secondItem="DF9-uG-zob" secondAttribute="leading" id="07O-Tt-Fce"/>
-                <constraint firstItem="ia2-X8-jA0" firstAttribute="height" secondItem="lMn-dB-hqz" secondAttribute="height" id="5we-MA-Dlw"/>
                 <constraint firstItem="lMn-dB-hqz" firstAttribute="top" secondItem="JU7-cf-IhP" secondAttribute="top" id="6GK-Qo-Dp3"/>
                 <constraint firstItem="ia2-X8-jA0" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" id="6Ro-72-RzD"/>
                 <constraint firstItem="61j-8u-NuW" firstAttribute="centerY" secondItem="JU7-cf-IhP" secondAttribute="centerY" id="AUn-tC-w5C"/>
@@ -184,7 +187,6 @@
                 <constraint firstItem="JU7-cf-IhP" firstAttribute="top" secondItem="LkG-85-6zy" secondAttribute="bottom" id="nld-05-606"/>
                 <constraint firstItem="LMq-Ny-dqp" firstAttribute="leading" secondItem="ZcQ-Xe-0Xv" secondAttribute="leading" id="nse-ir-0cB"/>
                 <constraint firstItem="LMq-Ny-dqp" firstAttribute="top" secondItem="8Hs-iD-x1s" secondAttribute="bottom" constant="5.5" id="nvb-8L-qKH"/>
-                <constraint firstItem="xzT-lo-wEJ" firstAttribute="height" secondItem="lMn-dB-hqz" secondAttribute="height" id="ph5-tG-kFm"/>
                 <constraint firstItem="ia2-X8-jA0" firstAttribute="width" secondItem="lMn-dB-hqz" secondAttribute="width" id="vH4-pd-OtW"/>
                 <constraint firstItem="8Hs-iD-x1s" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ysZ-ch-qnw"/>
             </constraints>
@@ -195,6 +197,7 @@
                 <outlet property="pCameraContentView" destination="LMq-Ny-dqp" id="CKE-u8-7gM"/>
                 <outlet property="pCloseButton" destination="49n-Pr-DUd" id="6aE-HU-d7g"/>
                 <outlet property="pQrDetectedImageView" destination="61j-8u-NuW" id="Z1P-W7-T1N"/>
+                <outlet property="pUseCameraLabel" destination="NKy-PX-UvR" id="LZh-yr-8pf"/>
                 <outlet property="pViewforCameraLayer" destination="arq-Vl-fAg" id="UaU-Sw-d51"/>
             </connections>
         </view>

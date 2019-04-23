@@ -26,6 +26,15 @@
     scanView.pCameraContentView.layer.cornerRadius = 10.0f;
     scanView.pViewforCameraLayer.layer.cornerRadius = 10.0f;
     
+    if ([UIScreen mainScreen].bounds.size.height>750)
+    {
+        scanView.pUseCameraLabel.numberOfLines = 0;
+    }
+    else
+    {
+        scanView.pUseCameraLabel.numberOfLines = 2;
+    }
+    
     [[NSNotificationCenter defaultCenter]addObserver:scanView selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
     
     [scanView.pCloseButton setDefaultStatesWithImageNames:@"button_close_off" :@"button_close_on"];
@@ -48,6 +57,7 @@
     Eegeo_DELETE m_pInterop;
     [_pQrDetectedImageView release];
     [_pCloseButton release];
+    [_pUseCameraLabel release];
     [super dealloc];
     
     
