@@ -36,32 +36,33 @@ namespace ExampleApp
         
             void VenueLabelsChangedObserver::OnInteriorsExplorerExitMessage(const InteriorsExplorer::InteriorsExplorerExitMessage &message)
             {
-                m_venueLabelsController.ClearLabels();
+                m_venueLabelsController.ShowLabels(false);
             }
         
             void VenueLabelsChangedObserver::OnInteractionModelStateChangedMessage(const InteriorsExplorer::InteractionModelStateChangedMessage &message)
             {
-                if (!m_isSearchMode)
+                if (!m_isSearchMode && message.IsInteriorVisible())
                 {
-                    m_venueLabelsController.ResetLabels(message.GetSelectedFloorIndex());
+                    m_venueLabelsController.AddVenueLabels();
+                    m_venueLabelsController.ShowLabels(true);
                 }
             }
             
             void VenueLabelsChangedObserver::OnSearchMenuSearchWithContextMessage(const SearchMenu::SearchMenuSearchWithContextMessage &message)
             {
-                m_venueLabelsController.ClearLabels();
+                m_venueLabelsController.ShowLabels(false);
                 m_isSearchMode = true;
             }
             
             void VenueLabelsChangedObserver::OnSearchQueryResultsRemovedMessage(const SearchResultSection::SearchResultViewClearedMessage &message)
             {
                 m_isSearchMode = false;
-                m_venueLabelsController.ResetLabels(0);
+                m_venueLabelsController.ShowLabels(true);
             }
             
             void VenueLabelsChangedObserver::OnSearchMenuPerformedSearchMessage(const SearchMenu::SearchMenuPerformedSearchMessage &message)
             {
-                m_venueLabelsController.ClearLabels();
+                m_venueLabelsController.ShowLabels(false);
                 m_isSearchMode = true;
             }
         }

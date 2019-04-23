@@ -161,7 +161,7 @@ namespace ExampleApp
                 std::stringstream query;
                 query << "SELECT * FROM ";
                 query << table.GetTableName();
-                query << " WHERE floor == "<< floorIndex;
+//                query << " WHERE floor == "<< floorIndex;
                 query << " LIMIT 0 , "<< MAXIMUM_RESULTS_LIMIT;
                 
                 PoiDb::Sqlite::SqliteTableQuery tableQuery = PoiDb::Sqlite::SqliteTableQuery(table.GetDbConnection(), query.str());

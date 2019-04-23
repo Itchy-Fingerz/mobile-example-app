@@ -24,6 +24,8 @@ namespace ExampleApp
             , m_interiorInteractionModel(interiorInteractionModel)
             , m_interiorTransitionModel(interiorTransitionModel)
             , m_cameraTransitionController(cameraTransitionController)
+            , m_isLabelsVisible(true)
+            , m_isLabelsAdded(false)
             {
             }
 
@@ -31,9 +33,12 @@ namespace ExampleApp
             {
             }
             
-            void VenueLabelsController::ResetLabels(int floorIndex)
+            void VenueLabelsController::AddVenueLabels()
             {
-                ClearLabels();
+                if(m_isLabelsAdded)
+                {
+                    return;
+                }
                 
                 std::vector<Search::SdkModel::SearchResultModel> outPutResults;
                 if(m_dbServiceProvider.IsPoiDbServiceStarted()) {
@@ -48,7 +53,7 @@ namespace ExampleApp
                 for(std::vector<Search::SdkModel::SearchResultModel>::iterator it = outPutResults.begin(); it != outPutResults.end(); ++it)
                 {
                     Search::SdkModel::SearchResultModel searchResult = *it;
-                
+
                     const auto& markerCreateParams = Eegeo::Markers::MarkerBuilder()
                     .SetLocation(searchResult.GetLocation().GetLatitudeInDegrees(), searchResult.GetLocation().GetLongitudeInDegrees())
                     .SetLabelIcon(searchResult.GetIconKey())
@@ -63,15 +68,13 @@ namespace ExampleApp
                     m_markerIDs.push_back(markerId);
                 }
                 
+                m_isLabelsAdded = true;
+                
             }
 
-            void VenueLabelsController::ClearLabels()
+            void VenueLabelsController::ShowLabels(bool visible)
             {
-                while(!m_markerIDs.empty())
-                {
-                    m_markerService.Destroy(m_markerIDs.back());
-                    m_markerIDs.pop_back();
-                }
+                m_isLabelsVisible = visible;
             }
             
             void VenueLabelsController::Update(float dt)
@@ -79,7 +82,7 @@ namespace ExampleApp
                 const bool showingInterior = m_interiorTransitionModel.InteriorIsVisible();
                 const bool canShowInteriorPins = m_interiorInteractionModel.IsCollapsed();
                 
-                if (showingInterior && canShowInteriorPins)
+                if (showingInterior && canShowInteriorPins && m_isLabelsVisible)
                 {
                     UpdateLabelVisibility(false);
                 }
@@ -89,7 +92,7 @@ namespace ExampleApp
                 }
 
             }
-            void VenueLabelsController::UpdateLabelVisibility(bool visible)
+            void VenueLabelsController::UpdateLabelVisibility(bool isHidden)
             {
                 for(std::vector<Eegeo::Markers::IMarker::IdType>::iterator it = m_markerIDs.begin(); it != m_markerIDs.end(); ++it)
                 {
@@ -97,7 +100,7 @@ namespace ExampleApp
                     
                     Eegeo::Markers::IMarker &marker = m_markerService.Get(markerID);
                     
-                    marker.SetHidden(visible);
+                    marker.SetHidden(isHidden);
                 }
             }
             
@@ -122,7 +125,7 @@ namespace ExampleApp
                     const Eegeo::Space::LatLong& location = m_markerService.Get(pickedMarkerId).GetAnchorLocation().GetLatLong();
                     const Eegeo::dv3& newInterestPoint = location.ToECEF();
                     float distanceFromInterest = InteriorsExplorer::DefaultInteriorSearchResultTransitionInterestDistance;
-                m_cameraTransitionController.StartTransitionTo(newInterestPoint,distanceFromInterest,m_interiorInteractionModel.GetInteriorModel()->GetId(),m_interiorInteractionModel.GetFloorParam());
+                    m_cameraTransitionController.StartTransitionTo(newInterestPoint,distanceFromInterest,m_interiorInteractionModel.GetInteriorModel()->GetId(),m_interiorInteractionModel.GetFloorParam());
                     
                     return true;
                 }

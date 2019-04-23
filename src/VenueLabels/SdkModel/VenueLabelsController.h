@@ -28,18 +28,20 @@ namespace ExampleApp
                 CameraTransitions::SdkModel::ICameraTransitionController& m_cameraTransitionController;
 
                 
-                void UpdateLabelVisibility(bool visible);
+                void UpdateLabelVisibility(bool isHidden);
                 bool IsVenueLabel(Eegeo::Markers::IMarker::IdType pickedMarkerId);
-
+                
+                bool m_isLabelsVisible;
+                bool m_isLabelsAdded;
                 
             public:
                 VenueLabelsController(PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider, Eegeo::Markers::IMarkerService& markerService,const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,const Eegeo::Resources::Interiors::InteriorTransitionModel& interiorTransitionModel,CameraTransitions::SdkModel::ICameraTransitionController& cameraTransitionController);
                 
                 ~VenueLabelsController();
                 
-                void ResetLabels(int floorIndex);
+                void AddVenueLabels();
                 
-                void ClearLabels();
+                void ShowLabels(bool visible);
                 
                 void Update(float dt);
                 
