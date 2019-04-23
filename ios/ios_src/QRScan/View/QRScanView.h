@@ -43,6 +43,7 @@
 @property (nonatomic)  Boolean pIsReading;
 @property (nonatomic)  Boolean pIsScanningDone;
 @property (nonatomic, retain) CAShapeLayer *pOverlay;
+@property (retain, nonatomic) IBOutlet UILabel *pUseCameraLabel;
 
 
 
