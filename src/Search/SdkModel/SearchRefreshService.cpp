@@ -165,7 +165,13 @@ namespace ExampleApp
                 if (shouldRefresh && (!previousQuery.IsTag() || TagStillPresent(previousQuery)))
                 {
                     const Eegeo::Space::LatLongAltitude& currentLocation = Eegeo::Space::LatLongAltitude::FromECEF(interestPointEcef);
-                    m_searchQueryPerformer.AskForQueryRefresh(previousQuery, currentLocation);
+                    if (!previousQuery.IsTag() && previousQuery.Query() == "")
+                    {
+                    }
+                    else
+                    {
+                        m_searchQueryPerformer.AskForQueryRefresh(previousQuery, currentLocation);
+                    }
 
                     if (m_interiorInteractionModel.HasInteriorModel())
                     {
