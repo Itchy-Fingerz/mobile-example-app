@@ -41,11 +41,13 @@ namespace ExampleApp
         
             void VenueLabelsChangedObserver::OnInteractionModelStateChangedMessage(const InteriorsExplorer::InteractionModelStateChangedMessage &message)
             {
-                if (!m_isSearchMode && message.IsInteriorVisible())
+                if (message.IsInteriorVisible())
                 {
                     m_venueLabelsController.AddVenueLabels();
-                    m_venueLabelsController.ShowLabels(true);
                 }
+                
+                m_venueLabelsController.ShowLabels(!m_isSearchMode);
+                
             }
             
             void VenueLabelsChangedObserver::OnSearchMenuSearchWithContextMessage(const SearchMenu::SearchMenuSearchWithContextMessage &message)
