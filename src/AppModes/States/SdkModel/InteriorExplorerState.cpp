@@ -40,7 +40,8 @@ namespace ExampleApp
                                                              AppModes::SdkModel::IAppModeModel& appModeModel,
                                                              Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                                              Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                                             Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver)
+                                                             Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
+                                                             PersistentSettings::IPersistentSettingsModel& persistentSettingsModel)
                 : m_interiorExplorerUserInteractionModel(interiorExplorerUserInteractionModel)
                 , m_appModeModel(appModeModel)
                 , m_interiorsCameraController(interiorsCameraController)
@@ -58,7 +59,8 @@ namespace ExampleApp
                                                                                                                       cameraFrustumStreamingVolume,
                                                                                                                       interiorVisibilityUpdater,
                                                                                                                       interiorsExplorerModel,
-                                                                                                                      interiorsCellResourceObserver));
+                                                                                                                      interiorsCellResourceObserver,
+                                                                                                                      persistentSettingsModel));
                     
                     m_subStates.push_back(Eegeo_NEW(InteriorsExplorer::SdkModel::States::InteriorExplorerViewingState)(*this,
                                                                                                                        interiorsExplorerModel,

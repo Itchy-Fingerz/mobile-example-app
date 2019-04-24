@@ -47,7 +47,8 @@ namespace ExampleApp
                                                            ExampleAppMessaging::TMessageBus& messageBus,
                                                            Eegeo::Location::NavigationService& navigationService,
                                                            Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
-                                                           Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver)
+                                                           Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
+                                                           PersistentSettings::IPersistentSettingsModel& persistentSettingsModel)
                 : m_appCameraController(appCameraController)
                 , m_cameraSplinePlaybackController(cameraSplinePlaybackController)
                 , m_worldCameraController(worldCameraController)
@@ -72,6 +73,7 @@ namespace ExampleApp
                 , m_navigationService(navigationService)
                 , m_searchQueryPerformer(searchQueryPerformer)
                 , m_interiorsCellResourceObserver(interiorsCellResourceObserver)
+                , m_persistentSettingsModel(persistentSettingsModel)
                 {
                     
                 }
@@ -100,7 +102,8 @@ namespace ExampleApp
                                                                                         m_appModeModel,
                                                                                         m_interiorCameraController.GetInteriorCameraController(),
                                                                                         m_nativeUIFactories,
-                                                                                        m_interiorsCellResourceObserver));
+                                                                                        m_interiorsCellResourceObserver,
+                                                                                        m_persistentSettingsModel));
 
                     if (m_attractModeEnabled)
                     {

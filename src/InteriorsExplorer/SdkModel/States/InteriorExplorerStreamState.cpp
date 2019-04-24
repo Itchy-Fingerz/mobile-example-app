@@ -7,6 +7,7 @@
 #include "InteriorInteractionModel.h"
 #include "InteriorsExplorerModel.h"
 #include "InteriorsCellResourceObserver.h"
+#include "IPersistentSettingsModel.h"
 
 namespace ExampleApp
 {
@@ -25,7 +26,8 @@ namespace ExampleApp
                                                                          const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                                                          Eegeo::Streaming::CameraFrustumStreamingVolume& cameraFrustumStreamingVolume,
                                                                          InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& interiorVisibilityUpdater,
-                                                                         InteriorsExplorerModel& interiorsExplorerModel,                                                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver)
+                                                                         InteriorsExplorerModel& interiorsExplorerModel,                                                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
+                                                                         PersistentSettings::IPersistentSettingsModel& persistentSettingsModel)
                 : m_parentState(parentState)
                 , m_interiorInteractionModel(interiorInteractionModel)
                 , m_cameraFrustumStreamingVolume(cameraFrustumStreamingVolume)
@@ -37,6 +39,7 @@ namespace ExampleApp
                 , m_interiorsCellResourceObserver(interiorsCellResourceObserver)
                 , m_hasInitialInteriorPartLoaded(false)
                 , m_hasInteriorsFullyLoaded(false)
+                , m_persistentSettingsModel(persistentSettingsModel)
                 {
                     m_interiorsCellResourceObserver.RegisterAddedToSceneGraphCallback(m_interiorCellAddedHandler);
                 }
@@ -52,6 +55,10 @@ namespace ExampleApp
                     m_cameraFrustumStreamingVolume.SetForceMaximumRefinement(true);
                     
                     m_timeUntilTimeout = m_maxTimeout;
+                    if(!m_persistentSettingsModel.TryGetValue("IsInteriorCached", m_hasInteriorsFullyLoaded))
+                    {
+                        m_hasInteriorsFullyLoaded = false;
+                    }
                 }
                 
                 void InteriorExplorerStreamState::OnInteriorAddedToSceneGraph(const Eegeo::Resources::Interiors::InteriorsCellResource& resource)
@@ -60,6 +67,7 @@ namespace ExampleApp
                         if (m_interiorInteractionModel.HasInteriorModel())
                         {
                             m_hasInteriorsFullyLoaded = true;
+                            m_persistentSettingsModel.SetValue("IsInteriorCached",true);
                         }
                     }
                     else

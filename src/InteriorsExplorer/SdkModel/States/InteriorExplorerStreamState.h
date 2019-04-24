@@ -9,6 +9,7 @@
 #include "Streaming.h"
 #include "ICallback.h"
 #include "InteriorsExplorer.h"
+#include "PersistentSettings.h"
 
 namespace ExampleApp
 {
@@ -40,6 +41,8 @@ namespace ExampleApp
                         bool m_hasInteriorsFullyLoaded;
                         
                         void OnInteriorAddedToSceneGraph(const Eegeo::Resources::Interiors::InteriorsCellResource& callback);
+                        
+                        PersistentSettings::IPersistentSettingsModel& m_persistentSettingsModel;
                     public:
                         
                         InteriorExplorerStreamState(AppModes::States::SdkModel::InteriorExplorerState& parentState,
@@ -47,7 +50,8 @@ namespace ExampleApp
                                                     Eegeo::Streaming::CameraFrustumStreamingVolume& cameraFrustumStreamingVolume,
                                                     InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& interiorVisibilityUpdater,
                                                     InteriorsExplorerModel& interiorsExplorerModel,
-                                                    Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver);
+                                                    Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
+                                                    PersistentSettings::IPersistentSettingsModel& persistentSettingsModel);
                         
                         ~InteriorExplorerStreamState();
                         

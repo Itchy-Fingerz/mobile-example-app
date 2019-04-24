@@ -15,6 +15,7 @@
 #include "EegeoUI.h"
 #include "ISingleOptionAlertBoxDismissedHandler.h"
 #include "MyPinCreation.h"
+#include "PersistentSettings.h"
 
 namespace ExampleApp
 {
@@ -65,7 +66,8 @@ namespace ExampleApp
                                           AppModes::SdkModel::IAppModeModel& appModeModel,
                                           Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                           Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                          Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver);
+                                          Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
+                                          PersistentSettings::IPersistentSettingsModel& persistentSettingsModel);
                     
                     ~InteriorExplorerState();
                     

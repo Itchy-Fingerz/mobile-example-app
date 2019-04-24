@@ -24,6 +24,8 @@
 #include "VisualMap.h"
 #include <vector>
 
+#include "PersistentSettings.h"
+
 namespace ExampleApp
 {
     namespace AppModes
@@ -63,6 +65,8 @@ namespace ExampleApp
                     Search::SdkModel::ISearchQueryPerformer& m_searchQueryPerformer;
                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
                     
+                    PersistentSettings::IPersistentSettingsModel& m_persistentSettingsModel;
+                    
                 public:
                     
                     AppModeStatesFactory(AppCamera::SdkModel::IAppCameraController& appCameraController,
@@ -88,7 +92,8 @@ namespace ExampleApp
                                          ExampleAppMessaging::TMessageBus& messageBus,
                                          Eegeo::Location::NavigationService& navigationService,
                                          Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
-                                         Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver);
+                                         Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
+                                         PersistentSettings::IPersistentSettingsModel& persistentSettingsModel);
                     
                     ~AppModeStatesFactory()
                     {
