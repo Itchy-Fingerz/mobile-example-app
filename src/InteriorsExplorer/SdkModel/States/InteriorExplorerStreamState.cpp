@@ -88,6 +88,14 @@ namespace ExampleApp
                     {
                         m_interiorsExplorerModel.ShowInteriorStreamingDialog();
                     }
+
+                    if(m_timeUntilTimeout <= 0.0f && m_interiorInteractionModel.HasInteriorModel())
+                    {
+                         m_parentState.SetLastEntryAttemptSuccessful(true);
+                         m_interiorVisibilityUpdater.SetInteriorShouldDisplay(true);
+                         m_parentState.SetSubState(AppModes::States::SdkModel::InteriorExplorerSubStates::View);
+                         return;
+                    }
                     
                     if(m_timeUntilTimeout <= 0.0f && !m_hasFailed)
                     {
