@@ -44,6 +44,8 @@
 @property (nonatomic)  Boolean pIsScanningDone;
 @property (nonatomic, retain) CAShapeLayer *pOverlay;
 @property (retain, nonatomic) IBOutlet UILabel *pUseCameraLabel;
+@property (retain, nonatomic) IBOutlet UILabel *pQrdetactedLabel;
+@property (retain, nonatomic) IBOutlet UILabel *pTransitionLabel;
 
 
 

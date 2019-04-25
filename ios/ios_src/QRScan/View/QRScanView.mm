@@ -26,13 +26,21 @@
     scanView.pCameraContentView.layer.cornerRadius = 10.0f;
     scanView.pViewforCameraLayer.layer.cornerRadius = 10.0f;
     
-    if ([UIScreen mainScreen].bounds.size.height>750)
+    if ([UIScreen mainScreen].bounds.size.height>=667)
     {
         scanView.pUseCameraLabel.numberOfLines = 0;
     }
     else
     {
         scanView.pUseCameraLabel.numberOfLines = 2;
+    }
+    
+    if ([UIScreen mainScreen].bounds.size.width == 320)
+    {
+        
+        [scanView.pUseCameraLabel setFont: [scanView.pUseCameraLabel.font fontWithSize: 10.f]];
+        [scanView.pQrdetactedLabel setFont: [scanView.pQrdetactedLabel.font fontWithSize: 10.f]];
+        [scanView.pTransitionLabel setFont: [scanView.pTransitionLabel.font fontWithSize: 10.f]];
     }
     
     [[NSNotificationCenter defaultCenter]addObserver:scanView selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
@@ -58,6 +66,8 @@
     [_pQrDetectedImageView release];
     [_pCloseButton release];
     [_pUseCameraLabel release];
+    [_pQrdetactedLabel release];
+    [_pTransitionLabel release];
     [super dealloc];
     
     
