@@ -171,7 +171,7 @@ namespace ExampleApp
         
         BillBoards::View::BillBoardsModule *m_pBillBoardModule;
         Compass::SdkModel::FixedIndoorLocationCompassModeObserver *m_pFixedIndoorLocationCompassModeObserver;
-        Eegeo::BlueSphere::BlueSphereModule *m_pBlueSphereModule;
+//        Eegeo::BlueSphere::BlueSphereModule *m_pBlueSphereModule;
         
         
         ExampleApp::MyPinCreation::PoiRing::SdkModel::IPoiRingModule* m_pPoiRingModule;
