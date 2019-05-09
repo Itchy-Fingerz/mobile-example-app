@@ -69,21 +69,21 @@
 {
     [super layoutSubviews];
     
-    if(m_hasSubMenus)
-    {
-        float zOffset = 0.f;
-        const float zOffsetIncrement = 0.001f;
-        
-        NSArray *sortedIndexPaths = [[self indexPathsForVisibleRows] sortedArrayUsingSelector:@selector(compare:)];
-        for (NSIndexPath *path in sortedIndexPaths)
-        {
-            UITableViewCell *cell = [self cellForRowAtIndexPath:path];
-            [self sendSubviewToBack:cell];
-            [cell.layer setZPosition: zOffset];
-            
-            zOffset -= zOffsetIncrement;
-        }
-    }
+//    if(m_hasSubMenus)
+//    {
+//        float zOffset = 0.f;
+//        const float zOffsetIncrement = 0.001f;
+//        
+//        NSArray *sortedIndexPaths = [[self indexPathsForVisibleRows] sortedArrayUsingSelector:@selector(compare:)];
+//        for (NSIndexPath *path in sortedIndexPaths)
+//        {
+//            UITableViewCell *cell = [self cellForRowAtIndexPath:path];
+//            [self sendSubviewToBack:cell];
+//            [cell.layer setZPosition: zOffset];
+//            
+//            zOffset -= zOffsetIncrement;
+//        }
+//    }
     
     [self sendSubviewToBack:self.pBackgroundView];
 }
