@@ -94,6 +94,7 @@ namespace ExampleApp
                          m_parentState.SetLastEntryAttemptSuccessful(true);
                          m_interiorVisibilityUpdater.SetInteriorShouldDisplay(true);
                          m_parentState.SetSubState(AppModes::States::SdkModel::InteriorExplorerSubStates::View);
+                        m_persistentSettingsModel.SetValue("IsInteriorCached",true);
                          return;
                     }
                     
