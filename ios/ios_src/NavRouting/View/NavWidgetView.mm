@@ -91,12 +91,10 @@ namespace ExampleApp
             void NavWidgetView::SetStartLocation(const SdkModel::NavRoutingLocationModel& locationModel)
             {
                 NavWidgetView::SetLocation(locationModel, true);
-                m_locationSetCallbacks.ExecuteCallbacks(true);
             }
             void NavWidgetView::SetEndLocation(const SdkModel::NavRoutingLocationModel& locationModel)
             {
                 NavWidgetView::SetLocation(locationModel, false);
-                m_locationSetCallbacks.ExecuteCallbacks(false);
             }
             
             void NavWidgetView::changeReceived(const std::string& keyPath)
