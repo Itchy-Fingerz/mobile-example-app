@@ -814,7 +814,14 @@ static NSString *CellIdentifier = @"floorCell";
 {
     bool navWidgetOffScreen = topBound == 0;
     navWidgetOffScreen ? [self setViewState:InteriorExplorerViewState::InteriorExplorerViewStateDefault]:[self setViewState:InteriorExplorerViewState::InteriorExplorerViewStateNavigation];
-    m_navigationViewStateFloorPanelTopBound = topBound + m_halfButtonHeight + m_iPhoneXoffset;
+    if (navWidgetOffScreen)
+    {
+        m_navigationViewStateFloorPanelTopBound = m_defaultViewStateFloorPanelTopBound;
+    }
+    else
+    {
+        m_navigationViewStateFloorPanelTopBound = topBound + m_halfButtonHeight + m_iPhoneXoffset;
+    }
 }
 
 - (void) setNavigationModeFloorPanelBottomBound: (CGFloat) bottomBound
