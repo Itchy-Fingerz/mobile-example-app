@@ -466,7 +466,6 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     [m_pView addSubview: &m_pWatermarkViewModule->GetWatermarkView()];
     [m_pView addSubview: &m_pCompassViewModule->GetCompassView()];
     [m_pView addSubview: &m_pMyPinCreationConfirmationViewModule->GetMyPinCreationConfirmationView()];
-    [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetView()];
 
     // Modal background layer.
     [m_pView addSubview: &m_pModalBackgroundViewModule->GetModalBackgroundView()];
@@ -483,6 +482,8 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     [m_pView addSubview: &m_pMyPinDetailsViewModule->GetMyPinDetailsView()];
     [m_pView addSubview: &m_pNavUIViewModule->GetNavWidgetView()];
     [m_pView addSubview: &m_pNavUIViewModule->GetNavWidgetSearchView()];
+    [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetView()];
+
     
     // Interior tutorial layer
     [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetTutorialView()];
