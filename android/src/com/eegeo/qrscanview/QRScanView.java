@@ -5,19 +5,27 @@ package com.eegeo.qrscanview;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.IRuntimePermissionResultHandler;
@@ -28,8 +36,7 @@ import java.util.List;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class QRScanView implements View.OnClickListener, ZXingScannerView.ResultHandler, IRuntimePermissionResultHandler
-{
+public class QRScanView implements ZXingScannerView.ResultHandler, IRuntimePermissionResultHandler, View.OnClickListener {
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 1000;
     protected MainActivity m_activity = null;
     protected long m_nativeCallerPointer;
@@ -39,19 +46,21 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
     private RelativeLayout m_qrScanContainerView;
     private ZXingScannerView m_scannerView;
     private View m_qrScanSuccessIcon;
+    QRScanDailoge m_qrScanDailoge;
 
     public QRScanView(MainActivity activity, long nativeCallerPointer)
     {
         m_activity = activity;
         m_nativeCallerPointer = nativeCallerPointer;
 
-        m_uiRoot = (RelativeLayout)m_activity.findViewById(R.id.ui_container);
+        if(Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+            m_uiRoot = (RelativeLayout) m_activity.findViewById(R.id.ui_container);
 
-        m_view = m_activity.getLayoutInflater().inflate(R.layout.qr_scan_layout, m_uiRoot, false);
-        m_closeButton = m_view.findViewById(R.id.qr_scan_view_close_button);
-        m_qrScanSuccessIcon = m_view.findViewById(R.id.qr_scan_success_icon);
+            m_view = m_activity.getLayoutInflater().inflate(R.layout.qr_scan_layout, m_uiRoot, false);
+            m_closeButton = m_view.findViewById(R.id.qr_scan_view_close_button);
+            m_qrScanSuccessIcon = m_view.findViewById(R.id.qr_scan_success_icon);
 
-        m_qrScanContainerView = m_view.findViewById(R.id.qr_scan_container_view);
+             m_qrScanContainerView = m_view.findViewById(R.id.qr_scan_container_view);
 
         RelativeLayout.LayoutParams layoutParams = (LayoutParams) m_view.getLayoutParams();
         if (m_activity.getResources().getBoolean(R.bool.isPhone)) 
@@ -67,8 +76,9 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
         m_closeButton.setOnClickListener(this);
 //        onQRScanCompleted("wrld://fixedlocation/indoor/31.496739/74.421984/EIM-908710f5-3ed3-408d-a92b-c7749d9f1ae1/0");
 
-        m_view.setVisibility(View.GONE);
-        m_uiRoot.addView(m_view);
+            m_view.setVisibility(View.GONE);
+            m_uiRoot.addView(m_view);
+        }
 
         m_activity.getRuntimePermissionDispatcher().addRuntimePermissionResultHandler(this);
 
@@ -176,26 +186,40 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
     public void destroy()
     {
         m_activity.getRuntimePermissionDispatcher().removeIRuntimePermissionResultHandler(this);
-        m_uiRoot.removeView(m_view);
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+            m_uiRoot.removeView(m_view);
+        }
     }
 
     public void openQRScan()
     {
-        m_closeButton.setEnabled(true);
-        m_view.setVisibility(View.VISIBLE);
-        m_qrScanSuccessIcon.setVisibility(View.GONE);
-        m_view.requestFocus();
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+            m_closeButton.setEnabled(true);
+            m_view.setVisibility(View.VISIBLE);
+            m_qrScanSuccessIcon.setVisibility(View.GONE);
+            m_view.requestFocus();
 
         if(m_activity.getRuntimePermissionDispatcher().hasCameraPermissionsWithCode(CAMERA_PERMISSION_REQUEST_CODE))
         {
             startQRScanCamera();
         }
+
+        }else {
+            m_qrScanDailoge=new QRScanDailoge(m_activity);
+            m_qrScanDailoge.show(m_activity);
+        }
+
     }
 
     public void dismissQRScan()
     {
         stopQRScanCamera();
-        m_view.setVisibility(View.GONE);
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+            m_view.setVisibility(View.GONE);
+        }else {
+            m_qrScanDailoge.dismiss();
+        }
+
     }
 
     private void startQRScanCamera()
@@ -224,9 +248,12 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
             m_scannerView.stopCamera();
         }
         m_qrScanContainerView.removeAllViews();
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            m_qrScanDailoge.dismiss();
+        }
     }
 
-    public void onClick(View view)
+    public void btn_Click()
     {
         m_closeButton.setEnabled(false);
         QRScanViewJniMethods.CloseButtonClicked(m_nativeCallerPointer);
@@ -311,6 +338,94 @@ public class QRScanView implements View.OnClickListener, ZXingScannerView.Result
         builder.setMessage(context.getResources().getString(R.string.required_camera_permission_text))
                 .setPositiveButton(context.getResources().getString(R.string.ok_text), dialogClickListener)
                 .setNegativeButton(context.getResources().getString(R.string.cancel_text), dialogClickListener).show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        btn_Click();
+    }
+
+
+    public class QRScanDailoge extends Dialog implements  View.OnClickListener, DialogInterface.OnCancelListener {
+
+        QRScanDailoge dialog;
+
+        public QRScanDailoge show(final MainActivity context) {
+            return show(context , null);
+        }
+
+
+        public QRScanDailoge show(final MainActivity m_activity,
+                                                       final OnCancelListener cancelListener) {
+             dialog = m_qrScanDailoge;
+            dialog.setCancelable(true);
+            dialog.setOnCancelListener(cancelListener);
+            LayoutInflater inflator = (LayoutInflater) m_activity
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            m_view = inflator.inflate(R.layout.qr_scan_layout, null);
+            dialog.setContentView(m_view);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.setOnCancelListener(this);
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            m_activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int displayWidth = displayMetrics.widthPixels;
+            int displayHeight = displayMetrics.heightPixels;
+            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+            layoutParams.copyFrom(dialog.getWindow().getAttributes());
+
+            if (m_activity.getResources().getBoolean(R.bool.isPhone))
+            {
+                int dialogWindowWidth = (int) (displayWidth * 0.95f);
+                int dialogWindowHeight = (int) (displayHeight * 0.9f);
+
+                layoutParams.width = dialogWindowWidth;
+                layoutParams.height = dialogWindowHeight;
+
+            }else {
+                int dialogWindowWidth = (int) (displayWidth * 0.5f);
+                int dialogWindowHeight = (int) (displayHeight * 0.7f);
+
+                layoutParams.width = dialogWindowWidth;
+                layoutParams.height = dialogWindowHeight;
+            }
+
+            dialog.getWindow().setAttributes(layoutParams);
+            dialog.show();
+
+            m_qrScanContainerView = m_view.findViewById(R.id.qr_scan_container_view);
+            m_closeButton = m_view.findViewById(R.id.qr_scan_view_close_button);
+            m_qrScanSuccessIcon = m_view.findViewById(R.id.qr_scan_success_icon);
+
+            m_closeButton.setEnabled(true);
+            m_closeButton.setOnClickListener(this);
+            m_qrScanSuccessIcon.setVisibility(View.GONE);
+
+            if(m_activity.getRuntimePermissionDispatcher().hasCameraPermissionsWithCode(CAMERA_PERMISSION_REQUEST_CODE)){
+
+                startQRScanCamera();
+        }
+
+
+            return dialog;
+        }
+
+        public QRScanDailoge(final Context context) {
+            super(context);
+        }
+
+
+
+
+        @Override
+        public void onClick(View v) {
+            btn_Click();
+            dialog.dismiss();
+        }
+
+        @Override
+        public void onCancel(DialogInterface dialog) {
+            btn_Click();
+        }
     }
 
 }
