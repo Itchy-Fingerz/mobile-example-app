@@ -62,11 +62,6 @@ namespace
     [[BITHockeyManager sharedHockeyManager].authenticator
      authenticateInstallation];
     
-    if(launchOptions[@"UIApplicationLaunchOptionsURLKey"])
-    {
-        NSURL *url = launchOptions[@"UIApplicationLaunchOptionsURLKey"];
-        _launchUrl = url;
-    }
 	return YES;
 }
 
@@ -111,9 +106,6 @@ namespace
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"handleOpenUrl"
-                                                        object: url
-                                                      userInfo: nil];
     return YES;
 }
 

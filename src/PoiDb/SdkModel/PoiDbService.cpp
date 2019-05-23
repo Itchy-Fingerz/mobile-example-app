@@ -37,6 +37,17 @@ namespace ExampleApp
                 return;
             }
             
+            void PoiDbService::FetchSuggestionForAutoComplete(const std::string& query, std::vector<Search::SdkModel::SearchResultModel>& outPutResults)
+            {
+                if(query == "")
+                    return;
+                
+                Sqlite::SqliteTableQuery fetchRecordsQuery = m_sqliteQueryBuilder.BuildQuery_FetchRecords(m_sqliteDbTable, query, false, m_interiorInteractionModel.HasInteriorModel(), m_interiorInteractionModel.GetSelectedFloorIndex());
+                
+                fetchRecordsQuery.Execute(outPutResults);
+                return;
+            }
+            
             void PoiDbService::FetchVenuesLabelsWithQuery(std::vector<Search::SdkModel::SearchResultModel>& outPutResults)
             {
                 Sqlite::SqliteTableQuery fetchRecordsQuery = m_sqliteQueryBuilder.BuildQuery_FetchRecordsForLabels(m_venueLabelTable, m_interiorInteractionModel.GetSelectedFloorIndex());

@@ -33,6 +33,8 @@ namespace ExampleApp
                 
                 virtual void FetchPoisWithQuery(const Search::SdkModel::SearchQuery& query,std::vector<Search::SdkModel::SearchResultModel>& outPutResults);
                 virtual void FetchVenuesLabelsWithQuery(std::vector<Search::SdkModel::SearchResultModel>& outPutResults);
+                virtual void FetchSuggestionForAutoComplete(const std::string& query, std::vector<Search::SdkModel::SearchResultModel>& outPutResults);
+
             };
         }
     }

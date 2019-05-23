@@ -127,7 +127,7 @@ namespace ExampleApp
                     if(isTag)
                     {
                         query << " WHERE tags LIKE '%";
-                        query << queryString;
+                        query << replaceSingleQuote(queryString);
                         query << "%'";
                         if (isInteriors)
                         {
@@ -139,10 +139,10 @@ namespace ExampleApp
                     else
                     {
                         query << " WHERE title LIKE '%";
-                        query << queryString;
+                        query << replaceSingleQuote(queryString);
                         query << "%' ";
                         query << " OR subtitle LIKE '%";
-                        query << queryString;
+                        query << replaceSingleQuote(queryString);
                         query << "%'";
                         if (isInteriors)
                         {

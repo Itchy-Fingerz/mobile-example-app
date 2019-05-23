@@ -34,7 +34,7 @@
                             <rect key="frame" x="10" y="16.333333333333329" width="32" height="32"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QR Code Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="84g-aA-FG9">
-                            <rect key="frame" x="52" y="21" width="154" height="23"/>
+                            <rect key="frame" x="52" y="20.333333333333332" width="154" height="22.999999999999996"/>
                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                             <color key="textColor" red="0.11372549019607843" green="0.11372549019607843" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -51,10 +51,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LMq-Ny-dqp">
-                    <rect key="frame" x="10" y="70.333333333333343" width="355" height="487.33333333333326"/>
+                    <rect key="frame" x="10" y="70" width="355" height="487"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="arq-Vl-fAg">
-                            <rect key="frame" x="35.666666666666657" y="101.66666666666669" width="284" height="284"/>
+                            <rect key="frame" x="35.666666666666657" y="101" width="284" height="284.66666666666669"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="arq-Vl-fAg" secondAttribute="height" multiplier="1:1" id="EGz-69-jwR"/>
@@ -69,32 +69,55 @@
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How to capture the QR code:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DF9-uG-zob">
-                    <rect key="frame" x="15" y="567.66666666666663" width="214" height="19.666666666666629"/>
+                    <rect key="frame" x="15" y="567" width="214" height="19"/>
                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                     <color key="textColor" red="0.33333333333333331" green="0.33333333333333331" blue="0.33333333333333331" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LkG-85-6zy" userLabel="SpacingView">
-                    <rect key="frame" x="15" y="587.33333333333337" width="20" height="24.333333333333371"/>
+                    <rect key="frame" x="15" y="586" width="20" height="24.666666666666629"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="20" id="9mS-KP-Bka"/>
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="QR_img.png" translatesAutoresizingMaskIntoConstraints="NO" id="JU7-cf-IhP">
-                    <rect key="frame" x="15" y="611.66666666666663" width="143" height="143"/>
+                    <rect key="frame" x="15" y="610.66666666666663" width="144" height="142.66666666666663"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="JU7-cf-IhP" secondAttribute="height" multiplier="1:1" id="L2O-Oz-czp"/>
                     </constraints>
                 </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMn-dB-hqz">
+                    <rect key="frame" x="169" y="610.66666666666663" width="201" height="46.666666666666629"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="90G-fq-ZYC">
+                            <rect key="frame" x="5" y="3" width="10" height="10"/>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Use the camera view to centre QR code in the square." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NKy-PX-UvR">
+                            <rect key="frame" x="25" y="-2" width="176" height="46.666666666666664"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
+                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="90G-fq-ZYC" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" constant="5" id="Dmc-rn-lht"/>
+                        <constraint firstItem="NKy-PX-UvR" firstAttribute="leading" secondItem="90G-fq-ZYC" secondAttribute="trailing" constant="10" id="S6V-DN-oO3"/>
+                        <constraint firstAttribute="height" secondItem="NKy-PX-UvR" secondAttribute="height" id="hSY-9N-kF5"/>
+                        <constraint firstItem="NKy-PX-UvR" firstAttribute="top" secondItem="90G-fq-ZYC" secondAttribute="top" constant="-5" id="nA1-Ed-lVt"/>
+                        <constraint firstItem="90G-fq-ZYC" firstAttribute="top" secondItem="lMn-dB-hqz" secondAttribute="top" constant="3" id="rzV-Dz-NvN"/>
+                        <constraint firstAttribute="trailing" secondItem="NKy-PX-UvR" secondAttribute="trailing" id="sxW-i1-e7W"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xzT-lo-wEJ">
-                    <rect key="frame" x="168" y="668.33333333333337" width="202" height="31.333333333333371"/>
+                    <rect key="frame" x="169" y="667.33333333333337" width="201" height="31.333333333333371"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="JVW-Nq-vJB">
                             <rect key="frame" x="5" y="3" width="10" height="10"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="The QR Code will automatically be detected." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wWl-hh-U4N">
-                            <rect key="frame" x="25" y="-2" width="177" height="31.333333333333332"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="The QR Code will be automatically detected." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wWl-hh-U4N">
+                            <rect key="frame" x="25" y="-2" width="176" height="31.333333333333332"/>
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                             <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -111,13 +134,13 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ia2-X8-jA0">
-                    <rect key="frame" x="168" y="709.66666666666663" width="202" height="31.333333333333371"/>
+                    <rect key="frame" x="169" y="708.66666666666663" width="201" height="31.333333333333371"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="Wfh-o3-Psd">
                             <rect key="frame" x="5" y="3" width="10" height="10"/>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="You will be transitioned to your current location." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zUy-HG-FUh">
-                            <rect key="frame" x="25" y="-2" width="177" height="31.333333333333332"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="You will be transitioned to your current location." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zUy-HG-FUh">
+                            <rect key="frame" x="25" y="-2" width="176" height="31.333333333333332"/>
                             <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                             <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -133,31 +156,8 @@
                         <constraint firstAttribute="trailing" secondItem="zUy-HG-FUh" secondAttribute="trailing" id="iz7-AY-a54"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lMn-dB-hqz">
-                    <rect key="frame" x="168" y="611" width="202" height="46.666666666666629"/>
-                    <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" image="qr_step_icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="90G-fq-ZYC">
-                            <rect key="frame" x="5" y="3" width="10" height="10"/>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Use the camera view to centre QR code in the square." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NKy-PX-UvR">
-                            <rect key="frame" x="25" y="-2" width="177" height="46.666666666666664"/>
-                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
-                            <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <constraints>
-                        <constraint firstItem="90G-fq-ZYC" firstAttribute="leading" secondItem="lMn-dB-hqz" secondAttribute="leading" constant="5" id="Dmc-rn-lht"/>
-                        <constraint firstItem="NKy-PX-UvR" firstAttribute="leading" secondItem="90G-fq-ZYC" secondAttribute="trailing" constant="10" id="S6V-DN-oO3"/>
-                        <constraint firstAttribute="height" secondItem="NKy-PX-UvR" secondAttribute="height" id="hSY-9N-kF5"/>
-                        <constraint firstItem="NKy-PX-UvR" firstAttribute="top" secondItem="90G-fq-ZYC" secondAttribute="top" constant="-5" id="nA1-Ed-lVt"/>
-                        <constraint firstItem="90G-fq-ZYC" firstAttribute="top" secondItem="lMn-dB-hqz" secondAttribute="top" constant="3" id="rzV-Dz-NvN"/>
-                        <constraint firstAttribute="trailing" secondItem="NKy-PX-UvR" secondAttribute="trailing" id="sxW-i1-e7W"/>
-                    </constraints>
-                </view>
                 <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="QR_detected.png" translatesAutoresizingMaskIntoConstraints="NO" id="61j-8u-NuW">
-                    <rect key="frame" x="65.333333333333329" y="662" width="42" height="42"/>
+                    <rect key="frame" x="65.333333333333329" y="660.66666666666663" width="42" height="42"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -197,6 +197,8 @@
                 <outlet property="pCameraContentView" destination="LMq-Ny-dqp" id="CKE-u8-7gM"/>
                 <outlet property="pCloseButton" destination="49n-Pr-DUd" id="6aE-HU-d7g"/>
                 <outlet property="pQrDetectedImageView" destination="61j-8u-NuW" id="Z1P-W7-T1N"/>
+                <outlet property="pQrdetactedLabel" destination="wWl-hh-U4N" id="nHR-Ad-Fzx"/>
+                <outlet property="pTransitionLabel" destination="zUy-HG-FUh" id="G6X-Gb-jEo"/>
                 <outlet property="pUseCameraLabel" destination="NKy-PX-UvR" id="LZh-yr-8pf"/>
                 <outlet property="pViewforCameraLayer" destination="arq-Vl-fAg" id="UaU-Sw-d51"/>
             </connections>

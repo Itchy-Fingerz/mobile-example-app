@@ -12,6 +12,7 @@
 #include "IEegeoParser.h"
 #include "NetIncludes.h"
 #include "UrlHelpers.h"
+#include "PoiDb.h"
 
 namespace ExampleApp {
     namespace Search {
@@ -27,7 +28,8 @@ namespace ExampleApp {
                 SearchQuery m_current_query;
                 Eegeo::Helpers::UrlHelpers::IUrlEncoder& m_urlEncoder;
                 Net::SdkModel::INetworkCapabilities& m_networkCapabilities;
-
+                PoiDb::SdkModel::PoiDbServiceProvider& m_dbServiceProvider;
+                
             public:
                 AutocompleteSuggestionQueryPerformer(ExampleApp::AppCamera::SdkModel::IAppCameraController& cameraController,
                                                      Eegeo::Web::IWebLoadRequestFactory& webRequestFactory,
@@ -36,7 +38,8 @@ namespace ExampleApp {
                                                      const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                      Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                                      ExampleAppMessaging::TMessageBus& messageBus,
-                                                     Net::SdkModel::INetworkCapabilities& networkCapabilities);
+                                                     Net::SdkModel::INetworkCapabilities& networkCapabilities,
+                                                     PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider);
                ~AutocompleteSuggestionQueryPerformer();
                 void PerformSuggestionsQuery(const std::string& query);
                 void Cancel();
