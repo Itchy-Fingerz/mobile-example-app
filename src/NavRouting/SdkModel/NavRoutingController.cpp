@@ -326,6 +326,8 @@ namespace ExampleApp
             
             void NavRoutingController::OnNavigationMessage(const NavigateToMessage& message)
             {
+                m_searchQueryPerformer.RequestClear();
+                m_searchQueryPerformer.RemoveSearchQueryResults();
                 NavRoutingLocationModel endLocation;
 
                 if (!m_routingModel.SetStartLocationFromCurrentPosition())
