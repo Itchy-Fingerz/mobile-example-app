@@ -8,7 +8,7 @@
     <string name="basic_example_label">search</string>
     <string name="about_page_title">About</string>
     <string name="about_page_developer">Developed by</string>
-    <string name="searchbox_query_hint">Search the WRLD</string>
+    <string name="searchbox_query_hint">Search</string>
 
     <string name="qr_scan_title">QR Code Location</string>
     <string name="qr_steps_title">How to capture the QR code:</string>

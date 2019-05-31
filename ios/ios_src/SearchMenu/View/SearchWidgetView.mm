@@ -33,6 +33,7 @@ namespace ExampleApp
                 m_pSuggestionProviderHandle = [m_pSearchModel addSuggestionProvider: suggestionProvider];
 
                 m_pSearchWidgetView = [[[WRLDSearchWidgetView alloc] init] autorelease];
+                [m_pSearchWidgetView setSearchBarPlaceholder:@"Search"];
                 [m_pSearchWidgetView useSearchModel:m_pSearchModel];
                 [m_pSearchWidgetView useMenuModel:m_pMenuModel];
 
