@@ -18,6 +18,7 @@ namespace ExampleApp
             
             void OpenARApplication();
             void notifyAppNotInstalled();
+            void notifyAppNotTrusted();
         };
     }
 }
