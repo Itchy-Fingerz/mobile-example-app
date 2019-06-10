@@ -39,6 +39,7 @@ namespace ExampleApp
                                          highlightBackgroundColor:ExampleApp::Helpers::ColorPalette::ButtonPressColor];
                 
                 m_pSearchWidgetView = [[[WRLDSearchWidgetView alloc] init] autorelease];
+                [m_pSearchWidgetView setSearchBarPlaceholder:@"Search"];
                 [m_pSearchWidgetView useSearchModel:m_pSearchModel];
                 [m_pSearchWidgetView setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
                 
