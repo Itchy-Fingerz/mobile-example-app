@@ -10,6 +10,8 @@
 #include "ApiTokenModel.h"
 #include "CameraState.h"
 #include "INetworkCapabilities.h"
+#include "PoiDbServiceProvider.h"
+#include "PoiDbService.h"
 
 namespace ExampleApp {
     namespace Search {
@@ -21,7 +23,8 @@ namespace ExampleApp {
                                                                                        const Eegeo::Web::ApiTokenModel& apiTokenModel,
                                                                                        Eegeo::Helpers::UrlHelpers::IUrlEncoder& urlEncoder,
                                                                                        ExampleAppMessaging::TMessageBus& messageBus,
-                                                                                       Net::SdkModel::INetworkCapabilities& networkCapabilities)
+                                                                                       Net::SdkModel::INetworkCapabilities& networkCapabilities,
+                                                                                       PoiDb::SdkModel::PoiDbServiceProvider &serviceProvider)
                     : m_cameraController(cameraController)
                     , m_messageBus(messageBus)
                     , m_webRequestCompleteCallback(this, &AutocompleteSuggestionQueryPerformer::OnWebResponseReceived)
@@ -32,6 +35,7 @@ namespace ExampleApp {
                     , m_current_query()
                     , m_urlEncoder(urlEncoder)
                     , m_networkCapabilities(networkCapabilities)
+                    , m_dbServiceProvider(serviceProvider)
             {
             }
 
@@ -44,6 +48,16 @@ namespace ExampleApp {
 
                 if(!m_networkCapabilities.NetworkAvailable())
                 {
+                    std::vector<Search::SdkModel::SearchResultModel> outPutResults;
+                    if(m_dbServiceProvider.IsPoiDbServiceStarted()) {
+                        ExampleApp::PoiDb::SdkModel::IPoiDbService* service = NULL;
+                        m_dbServiceProvider.TryGetService(service);
+                        if(service != NULL)
+                        {
+                            service->FetchSuggestionForAutoComplete(query, outPutResults);                            
+                            m_messageBus.Publish(AutocompleteSuggestionsReceivedMessage(true, m_current_query, outPutResults));
+                        }
+                    }
                     return;
                 }
 
@@ -61,7 +75,7 @@ namespace ExampleApp {
                 std::string encodedQuery;
                 m_urlEncoder.UrlEncode(query, encodedQuery);
 
-                urlstream << m_serviceUrl << "autocomplete?s=" << encodedQuery;
+                urlstream << m_serviceUrl << "/autocomplete?s=" << encodedQuery;
                 urlstream << "&lat=" << std::setprecision(8) << location.GetLatitudeInDegrees();
                 urlstream << "&lon=" << std::setprecision(8) << location.GetLongitudeInDegrees();
 
