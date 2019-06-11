@@ -23,7 +23,8 @@ public:
     float GetDisplayHeight() const;
     float GetDisplayDpi() const;
     float GetPixelScale() const;
-
+    EAGLContext* GetContext();
+    
 private:
     float m_displayWidth;
     float m_displayHeight;
@@ -31,5 +32,6 @@ private:
     float m_pixelScale;
     bool m_displayBound;
     bool m_isPortraitAspect;
+    EAGLContext *m_pContextRef;
 };
 

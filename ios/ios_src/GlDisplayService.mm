@@ -69,7 +69,8 @@ bool GlDisplayService::TryBindDisplay(GLKView& view)
     GLKView* pView =  &view;//(GLKView*)((UIViewController*)self).view;
 
     // Create an OpenGLES2 context and store.
-    pView.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    m_pContextRef = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2] retain];
+    pView.context = m_pContextRef;
 
     if (pView.context == nil)
     {
@@ -82,13 +83,18 @@ bool GlDisplayService::TryBindDisplay(GLKView& view)
     pView.drawableStencilFormat = GLKViewDrawableStencilFormat8;
     pView.drawableMultisample = multiSample;
 
-    [EAGLContext setCurrentContext: pView.context];
+    [EAGLContext setCurrentContext: m_pContextRef];
 
     m_displayBound = true;
 
     UpdateDisplayDimensions();
 
     return m_displayBound;
+}
+
+EAGLContext* GlDisplayService::GetContext()
+{
+    return m_pContextRef;
 }
 
 void GlDisplayService::UpdateDisplayDimensions()

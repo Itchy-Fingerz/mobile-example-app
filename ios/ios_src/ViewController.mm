@@ -70,9 +70,20 @@ using namespace Eegeo::iOS;
 - (void)onResume
 {
     GLKView* glkView = (GLKView *)self.view;
-    glkView.context = [EAGLContext currentContext];
+    // TODO: made this change to retain old context
+    glkView.context = m_pAppRunner->GetContext();//[EAGLContext currentContext];
 
     m_pAppRunner->Resume();
+    
+    [self resumeFromPausedState];
+}
+
+-(void)resumeFromPausedState
+{
+    if (self.isPaused)
+    {
+        self.paused = false;
+    }
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle

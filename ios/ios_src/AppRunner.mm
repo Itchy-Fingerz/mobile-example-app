@@ -140,3 +140,9 @@ void AppRunner::RequestLocationPermission()
         m_pAppHost->RequestLocationPermission();
     }
 }
+
+EAGLContext* AppRunner::GetContext()
+{
+    return m_displayService.GetContext();
+}
+

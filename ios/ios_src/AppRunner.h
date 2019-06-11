@@ -34,6 +34,8 @@ public:
     
     void HandleUrlOpen(const AppInterface::UrlData& data);
     void RequestLocationPermission();
+    
+    EAGLContext* GetContext();
 
 private:
     ViewController& m_viewController;
