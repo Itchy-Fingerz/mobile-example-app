@@ -1343,7 +1343,7 @@ namespace ExampleApp
         if (!eegeoWorld.Initialising() && m_initialisedApplicationViewState)
         {
             m_pAppModeModel->Update(dt);
-            m_isPaused = m_pThreeSixtyInteractionModule->GetThreeSixtyInteractionViewModel().IsOpen() ? true : false;
+            m_isPaused = m_pThreeSixtyInteractionModule->GetThreeSixtyInteractionViewModel().IsOpen();
         }
 
         m_pInteriorsExplorerModule->Update(dt);
