@@ -53,7 +53,7 @@ public class QRScanView implements ZXingScannerView.ResultHandler, IRuntimePermi
         m_activity = activity;
         m_nativeCallerPointer = nativeCallerPointer;
 
-        if(Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+        if(Build.VERSION.SDK_INT != Build.VERSION_CODES.N && Build.VERSION.SDK_INT != Build.VERSION_CODES.N_MR1) {
             m_uiRoot = (RelativeLayout) m_activity.findViewById(R.id.ui_container);
 
             m_view = m_activity.getLayoutInflater().inflate(R.layout.qr_scan_layout, m_uiRoot, false);
@@ -186,14 +186,14 @@ public class QRScanView implements ZXingScannerView.ResultHandler, IRuntimePermi
     public void destroy()
     {
         m_activity.getRuntimePermissionDispatcher().removeIRuntimePermissionResultHandler(this);
-        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N && Build.VERSION.SDK_INT != Build.VERSION_CODES.N_MR1) {
             m_uiRoot.removeView(m_view);
         }
     }
 
     public void openQRScan()
     {
-        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N && Build.VERSION.SDK_INT != Build.VERSION_CODES.N_MR1) {
             m_closeButton.setEnabled(true);
             m_view.setVisibility(View.VISIBLE);
             m_qrScanSuccessIcon.setVisibility(View.GONE);
@@ -214,7 +214,7 @@ public class QRScanView implements ZXingScannerView.ResultHandler, IRuntimePermi
     public void dismissQRScan()
     {
         stopQRScanCamera();
-        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT != Build.VERSION_CODES.N && Build.VERSION.SDK_INT != Build.VERSION_CODES.N_MR1) {
             m_view.setVisibility(View.GONE);
         }else {
             m_qrScanDailoge.dismiss();
@@ -248,7 +248,7 @@ public class QRScanView implements ZXingScannerView.ResultHandler, IRuntimePermi
             m_scannerView.stopCamera();
         }
         m_qrScanContainerView.removeAllViews();
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.N && Build.VERSION.SDK_INT != Build.VERSION_CODES.N_MR1) {
             m_qrScanDailoge.dismiss();
         }
     }
