@@ -585,16 +585,6 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
     					*m_pMenuReactionModel,
     		            app.SearchResultPoiModule().GetSearchResultPoiViewModel());
 
-    // Widget layer
-    m_pNavWidgetViewModule = Eegeo_NEW(ExampleApp::NavRouting::View::NavWidgetViewModule)(
-                                    m_nativeState,
-                                    app.NavUIModule().GetNavWidgetViewModel(),
-                                    m_pSearchWidgetViewModule->GetSearchProvider(),
-                                    m_pSearchWidgetViewModule->GetSearchResultsRepository(),
-                                    m_navWidgetViewTopHeightChangedCallbacks,
-                                    m_navWidgetViewBottomHeightChangedCallbacks,
-                                    m_messageBus);
-
     // Pop-up layer.
     bool showDirectionsButton = m_pApp->GetApplicationConfiguration().NavigationEnabled();
     std::string javascriptWhitelistURL = m_pApp->GetApplicationConfiguration().JavascriptWhitelistUrl();
@@ -663,6 +653,17 @@ void AppHost::CreateApplicationViewModulesFromUiThread()
             app.GetNavigationService(),
             m_navWidgetViewTopHeightChangedCallbacks,
             m_navWidgetViewBottomHeightChangedCallbacks);
+    
+    // Widget layer
+    m_pNavWidgetViewModule = Eegeo_NEW(ExampleApp::NavRouting::View::NavWidgetViewModule)(
+                                                                                          m_nativeState,
+                                                                                          app.NavUIModule().GetNavWidgetViewModel(),
+                                                                                          m_pSearchWidgetViewModule->GetSearchProvider(),
+                                                                                          m_pSearchWidgetViewModule->GetSearchResultsRepository(),
+                                                                                          m_navWidgetViewTopHeightChangedCallbacks,
+                                                                                          m_navWidgetViewBottomHeightChangedCallbacks,
+                                                                                          m_messageBus);
+    
 
     m_pOptionsViewModule = Eegeo_NEW(ExampleApp::Options::View::OptionsViewModule)(
             m_nativeState,

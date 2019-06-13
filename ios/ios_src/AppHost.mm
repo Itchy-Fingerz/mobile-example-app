@@ -480,9 +480,9 @@ void AppHost::CreateApplicationViewModules(const Eegeo::Rendering::ScreenPropert
     [m_pView addSubview: &m_pOptionsViewModule->GetOptionsView()];
     [m_pView addSubview: &m_pMyPinCreationDetailsViewModule->GetMyPinCreationDetailsView()];
     [m_pView addSubview: &m_pMyPinDetailsViewModule->GetMyPinDetailsView()];
-    [m_pView addSubview: &m_pNavUIViewModule->GetNavWidgetView()];
     [m_pView addSubview: &m_pInteriorsExplorerViewModule->GetView()];
     [m_pView addSubview: &m_pNavUIViewModule->GetNavWidgetSearchView()];
+    [m_pView addSubview: &m_pNavUIViewModule->GetNavWidgetView()];
 
     
     // Interior tutorial layer
