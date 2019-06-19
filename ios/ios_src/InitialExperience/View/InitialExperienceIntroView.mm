@@ -80,7 +80,7 @@ namespace
         
         self.pWelcomeDescription = [[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
         self.pWelcomeDescription.textColor = ExampleApp::Helpers::ColorPalette::White;
-        self.pWelcomeDescription.text = @"Design your maps at wrld3d.com";
+        self.pWelcomeDescription.text = @"Explore Disney Cruise Liners";
         [self.pWelcomeDescription setFont:[UIFont fontWithName:@"Helvetica Neue" size:useSmallScreen ? 22.f/m_pixelScale : 30.0f/m_pixelScale]];
         self.pWelcomeDescription.adjustsFontSizeToFitWidth = true;
         self.pWelcomeDescription.textAlignment = NSTextAlignmentCenter;
