@@ -197,6 +197,7 @@ namespace ExampleApp
                 platformConfig.MapLayersConfig.DebugRenderingModuleConfig.DebugFontFilename = defaultFontFilename;
                 
                 platformConfig.MapLayersConfig.BlueSphereConfig.CreateViews = true;
+                platformConfig.StreamingConfig.ResourceWebRequstTimeoutInSeconds = 300;
                 return platformConfig;
             }
             
