@@ -104,7 +104,7 @@ namespace ExampleApp
                     if (!interiorDetailsAvailable)
                     {
                         m_alertBoxFactory.CreateSingleOptionAlertBox("Please enter below deck",
-                                                                     "Directions cannot be displayed until map of below deck has been loaded.",
+                                                                     "Directions cannot be displayed until map of below deck has been loaded",
                                                                      m_failAlertHandler);
                         return false;
                     }
