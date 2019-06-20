@@ -103,8 +103,8 @@ namespace ExampleApp
                                                                                                               indoorMapFloorId);
                     if (!interiorDetailsAvailable)
                     {
-                        m_alertBoxFactory.CreateSingleOptionAlertBox("Interior not loaded",
-                                                                     "Interior information is not available",
+                        m_alertBoxFactory.CreateSingleOptionAlertBox("Please enter below deck",
+                                                                     "Directions cannot be displayed until map of below deck has been loaded.",
                                                                      m_failAlertHandler);
                         return false;
                     }
