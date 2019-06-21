@@ -97,6 +97,9 @@
 
 using namespace Eegeo::iOS;
 
+#define ENABLE_SENION_LAB_LOCATION 0
+#define ENABLE_INDOOR_ATLAS_LOCATION 0
+
 AppHost::AppHost(
     ViewController& viewController,
     UIView* pView,
@@ -115,6 +118,9 @@ AppHost::AppHost(
     ,m_iOSAlertBoxFactory()
     ,m_iOSNativeUIFactories(m_iOSAlertBoxFactory, m_iOSInputBoxFactory, m_iOSKeyboardInputFactory)
     ,m_piOSPlatformAbstractionModule(NULL)
+    , m_pIndoorAtlasLocationModule(nullptr)
+    , m_pSenionLabLocationModule(nullptr)
+    , m_pInteriorsLocationServiceModule(nullptr)
     ,m_pApp(NULL)
     ,m_requestedApplicationInitialiseViewState(false)
     ,m_iOSFlurryMetricsService(metricsService)
@@ -193,6 +199,9 @@ AppHost::AppHost(
     }
     
     Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
+    
+    
+#if ENABLE_SENION_LAB_LOCATION
     m_pIndoorAtlasLocationModule = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::IndoorAtlas::IndoorAtlasLocationModule)(m_pApp->GetAppModeModel(),
                                                                                                                               interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                                                               interiorsPresentationModule.GetInteriorSelectionModel(),
@@ -201,7 +210,9 @@ AppHost::AppHost(
                                                                                                                               mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
                                                                                                                               m_iOSAlertBoxFactory,
                                                                                                                               m_messageBus);
-    
+#endif
+
+#if ENABLE_INDOOR_ATLAS_LOCATION
     m_pSenionLabLocationModule = Eegeo_NEW(ExampleApp::SenionLab::SenionLabLocationModule)(m_pApp->GetAppModeModel(),
                                                                                            interiorsPresentationModule.GetInteriorInteractionModel(),
                                                                                            interiorsPresentationModule.GetInteriorSelectionModel(),
@@ -210,8 +221,17 @@ AppHost::AppHost(
                                                                                            mapModule.GetInteriorMetaDataModule().GetInteriorMetaDataRepository(),
                                                                                            m_iOSAlertBoxFactory,
                                                                                            m_messageBus);
-    std::map<std::string, Eegeo::Location::ILocationService&> interiorLocationServices{{"Senion", m_pSenionLabLocationModule->GetLocationService()},
-                                                                                       {"IndoorAtlas", m_pIndoorAtlasLocationModule->GetLocationService()}};
+#endif
+    
+    std::map<std::string, Eegeo::Location::ILocationService&> interiorLocationServices{
+#if ENABLE_SENION_LAB_LOCATION
+        {"Senion", m_pSenionLabLocationModule->GetLocationService()},
+#endif
+#if ENABLE_INDOOR_ATLAS_LOCATION
+        {"IndoorAtlas", m_pIndoorAtlasLocationModule->GetLocationService()}
+#endif
+    };
+
     m_pInteriorsLocationServiceModule = Eegeo_NEW(ExampleApp::InteriorsPosition::SdkModel::InteriorsLocationServiceModule)(m_pApp->InteriorsExplorerModule().GetInteriorsExplorerModel(),
                                                                                                                            interiorsPresentationModule.GetInteriorSelectionModel(),
                                                                                                                            locationProvider,

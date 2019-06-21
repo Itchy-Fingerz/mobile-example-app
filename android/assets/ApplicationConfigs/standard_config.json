@@ -30,6 +30,7 @@
     "indoor_maps_service_uuid": "",
     "timer_survey_url":"",
     "enable_navigation": true,
+    "traffic_enabled": false,
     "compass_camera_offset": {
       "offset": 0.0,
       "offset_top_down": 0.0
