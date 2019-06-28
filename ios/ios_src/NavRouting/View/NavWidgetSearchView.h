@@ -5,6 +5,7 @@
 #include "WrldSearchWidget/WrldSearchWidget.h"
 #include "NavWidgetViewIncludes.h"
 #include "WidgetSearchProvider.h"
+#include "BidirectionalBus.h"
 
 namespace ExampleApp
 {
@@ -24,6 +25,8 @@ namespace ExampleApp
                 QueryEvent m_autocompleteCancelledEvent;
                 QueryEvent m_autocompleteCompletedEvent;
                 
+                SearchbarTextChangedEvent m_searchSearchBarTextChangeEvent;
+                
                 UIView* m_pContainer;
                 UIButton* m_pBackButton;
                 
@@ -34,13 +37,18 @@ namespace ExampleApp
                 
                 CGFloat m_animationTimeInSeconds = 0.2f;
                 
+                ExampleAppMessaging::TMessageBus& m_messageBus;
+                Eegeo::Helpers::TCallback1<NavWidgetSearchView, const Search::AutocompleteSuggestionsReceivedMessage&> m_autocompleteSuggestionsResponseReceivedHandler;
+                Eegeo::Helpers::TCallback1<NavWidgetSearchView, const Search::SearchQueryResponseReceivedMessage&> m_responseReceivedHandler;
+                BOOL m_hasShown;
+
                 void (^m_willPopulateResultCell) (WRLDSearchResultTableViewCell*);
                 
                 void ShowSearchHint();
                 void HideSearchHint();
                 
             public:
-                NavWidgetSearchView(WidgetSearchProvider* navLocationFinder);
+                NavWidgetSearchView(WidgetSearchProvider* navLocationFinder,ExampleAppMessaging::TMessageBus& messageBus_);
                 
                 ~NavWidgetSearchView();
                 
@@ -53,6 +61,9 @@ namespace ExampleApp
                 void RemoveCloseButtonTarget(id target, SEL selector);
                 void AddSelectedResultCallback(ResultSelectedEvent resultSelectedEvent);
                 void RemoveSelectedResultCallback(ResultSelectedEvent resultSelectedEvent);
+                
+                void OnAutocompleteSuggestionsResponseReceivedMessage(const Search::AutocompleteSuggestionsReceivedMessage& message);
+                void OnSearchQueryResponseReceivedMessage(const Search::SearchQueryResponseReceivedMessage& message);
             };
         }
     }

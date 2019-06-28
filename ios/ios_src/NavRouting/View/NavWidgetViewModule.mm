@@ -32,7 +32,7 @@ namespace ExampleApp
                 
                 m_pView = Eegeo_NEW(NavWidgetView)(m_pNavModel, getTopPanelVisibleHeightChangedCallbacks(), getBottomPanelVisibleHeightChangedCallbacks());
                 
-                m_pNavSearchView = Eegeo_NEW(NavWidgetSearchView)(navSuggestionProvider);
+                m_pNavSearchView = Eegeo_NEW(NavWidgetSearchView)(navSuggestionProvider,messageBus_);
                 
                 m_pNavWidgetController = Eegeo_NEW(NavWidgetController)(*m_pView,
                                                                         viewModel,

@@ -27,7 +27,7 @@
     CGFloat iphoneMargin = 20;
     CGFloat iPadMargin = 20;
     
-    CGFloat heightIphone = screenRect.size.height - 2*iphoneMargin - safeInsets.bottom;
+    CGFloat heightIphone = 100 + iphoneMargin;
     CGFloat heightIpad = screenRect.size.height - 2*iPadMargin - safeInsets.bottom;
     
     CGRect searchFrame = ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) ?
@@ -146,6 +146,37 @@
                                         attribute:attribute
                                        multiplier:1.0
                                          constant:constant];
+}
+
+-(void) setHeight:(float)height
+{
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        return;
+    }
+    UIViewController *rootViewController = [UIApplication sharedApplication].delegate.window.rootViewController;
+    CGRect screenRect = rootViewController.view.bounds;
+    
+    if (height > (0.8 * screenRect.size.height))
+    {
+        height = 0.75 * screenRect.size.height;
+    }
+    
+    CGFloat iphoneMargin = 20;
+    CGRect frame = self.frame;
+    frame.size.height =  70 + iphoneMargin + height;
+    self.frame = frame;
+    
+}
+-(void) setDefaultHeight
+{
+    if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        return;
+    }
+    
+    CGFloat iphoneMargin = 20;
+    CGRect frame = self.frame;
+    frame.size.height =  70 + iphoneMargin;
+    self.frame = frame;
 }
 
 @end

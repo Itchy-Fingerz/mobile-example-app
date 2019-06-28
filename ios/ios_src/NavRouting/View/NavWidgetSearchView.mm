@@ -9,6 +9,7 @@
 #import "UIColors.h"
 #import "ImageHelpers.h"
 #import "WidgetSearchResultTableViewCell.h"
+#include <vector>
 
 namespace ExampleApp
 {
@@ -16,14 +17,22 @@ namespace ExampleApp
     {
         namespace View
         {
-            NavWidgetSearchView::NavWidgetSearchView(WidgetSearchProvider* navLocationFinder)
+            NavWidgetSearchView::NavWidgetSearchView(WidgetSearchProvider* navLocationFinder,ExampleAppMessaging::TMessageBus& messageBus_)
+            : m_messageBus(messageBus_)
+            , m_autocompleteSuggestionsResponseReceivedHandler(this, &NavWidgetSearchView::OnAutocompleteSuggestionsResponseReceivedMessage)
+            , m_responseReceivedHandler(this, &NavWidgetSearchView::OnSearchQueryResponseReceivedMessage)
+            , m_hasShown(false)
             {
                 m_pSearchModel = [[WRLDSearchModel alloc] init];
+
+                m_messageBus.SubscribeUi(m_autocompleteSuggestionsResponseReceivedHandler);
+                m_messageBus.SubscribeUi(m_responseReceivedHandler);
+                
                 
                 m_autocompleteCancelledEvent = ^(WRLDSearchQuery* cancelledQuery){
                     [navLocationFinder cancelAutocompleteRequest];
                 };
-                                
+                
                 m_autocompleteCompletedEvent = ^(WRLDSearchQuery* startedQuery){
                     HideSearchHint();
                 };
@@ -64,6 +73,14 @@ namespace ExampleApp
                 };
                 [m_pSearchWidgetView.searchResultContentObserver addWillPopulateEvent:m_willPopulateResultCell];
                 
+                m_searchSearchBarTextChangeEvent = ^(NSString *newString) {
+                    if ([newString isEqualToString:@""])
+                    {
+                        [(NavSearchContainerView*)m_pContainer setDefaultHeight];
+                    }
+                };
+                [m_pSearchWidgetView.observer addSearchbarTextChangedEvent:m_searchSearchBarTextChangeEvent];
+                
                 m_pSearchHintContainer = [[[UIView alloc] init] autorelease];
                 m_pSearchHintContainer.backgroundColor = [UIColor whiteColor];
                 m_pSearchHintContainer.layer.cornerRadius = 4;
@@ -101,10 +118,15 @@ namespace ExampleApp
             
             NavWidgetSearchView::~NavWidgetSearchView()
             {
+                m_messageBus.UnsubscribeUi(m_autocompleteSuggestionsResponseReceivedHandler);
+                m_messageBus.UnsubscribeUi(m_responseReceivedHandler);
+
                 [m_pSearchWidgetView.searchResultContentObserver removeWillPopulateEvent:m_willPopulateResultCell];
                 
                 [m_pSearchModel.suggestionObserver removeQueryCancelledEvent: m_autocompleteCancelledEvent];
                 [m_pSearchModel.suggestionObserver removeQueryCompletedEvent: m_autocompleteCompletedEvent];
+                [m_pSearchWidgetView.observer removeSearchbarTextChangedEvent:m_searchSearchBarTextChangeEvent];
+
                 
                 [m_pSearchWidgetView stopDisplayingSuggestionProvider: m_pSuggestionProviderHandle];
                 [m_pSearchWidgetView stopDisplayingSearchProvider:
@@ -118,6 +140,7 @@ namespace ExampleApp
             
             void NavWidgetSearchView::Show()
             {
+                m_hasShown = true;
                 CGFloat onScreenPosition = 0;
                 if (@available(iOS 11.0, *))
                 {
@@ -146,6 +169,8 @@ namespace ExampleApp
             
             void NavWidgetSearchView::Hide()
             {
+                [(NavSearchContainerView*)m_pContainer setDefaultHeight];
+                m_hasShown = false;
                 [m_pSearchWidgetView hideResultsView];
                 CGRect newFrame = m_pContainer.frame;
                 newFrame.origin.y = -m_pBackButton.bounds.size.height;
@@ -210,6 +235,31 @@ namespace ExampleApp
             {
                 [m_pSearchWidgetView.searchSelectionObserver removeResultSelectedEvent: resultSelectedEvent];
             }
+            
+            void NavWidgetSearchView::OnAutocompleteSuggestionsResponseReceivedMessage(const Search::AutocompleteSuggestionsReceivedMessage& message)
+            {
+                if (m_hasShown)
+                {
+                    float height = 0;
+                    if (message.GetResults().size() > 0) {
+                        height = message.GetResults().size() * 18;
+                    }
+                    [(NavSearchContainerView*)m_pContainer setHeight:height];
+                }
+            }
+            
+            void NavWidgetSearchView::OnSearchQueryResponseReceivedMessage(const Search::SearchQueryResponseReceivedMessage& message)
+            {
+                if (m_hasShown)
+                {
+                    float height = 0;
+                    if (message.GetResults().size() > 0) {
+                        height = (message.GetResults().size() * 40) + 30;
+                    }
+                    [(NavSearchContainerView*)m_pContainer setHeight:height];
+                }
+            }
+
         }
     }
 }
