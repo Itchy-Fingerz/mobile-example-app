@@ -79,7 +79,8 @@ namespace ExampleApp
 			std::vector<SdkModel::ApplicationMenuItemTagSearchConfig> m_outdoorSearchMenuItems;
             bool m_overrideIndoorSearchMenuItems;
 
-			bool m_navigationEnabled;
+            bool m_navigationEnabled;
+            bool m_trafficEnabled;
             
             std::string m_wrldPOISetServiceUrl;
             std::vector<SdkModel::ApplicationDataSetConfig> m_eegeoPoiDataSets;
@@ -141,7 +142,8 @@ namespace ExampleApp
 				const std::vector<std::vector<std::string>>& customKeyboardLayout,
                 const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig>& outdoorSearchMenuItems,
                 bool overrideIndoorSearchMenuItems,
-				bool navigationEnabled,
+                bool navigationEnabled,
+                bool trafficEnabled,
                 const std::string& indoorMapsServiceUrl,
                 const std::string& indoorMapsServiceToken,
                 const std::string& indoorMapsServiceUuid,
@@ -238,8 +240,8 @@ namespace ExampleApp
 			const std::vector<std::vector<std::string>> CustomKeyboardLayout() const;
             const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig> OutdoorSearchMenuItems() const;
             bool OverrideIndoorSearchMenuItems() const;
-
-			bool NavigationEnabled() const;
+            bool NavigationEnabled() const;
+            bool IsTrafficEnabled() const;
 
             const std::string IndoorMapsServiceUrl() const;
             const std::string IndoorMapsServiceToken() const;

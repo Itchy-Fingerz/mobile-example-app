@@ -72,7 +72,8 @@ namespace ExampleApp
 
                     const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig> outdoorSearchMenuItems;
                     bool overrideIndoorSearchMenuItems = false;
-                    bool showPoiDirectionsButton = false;
+                    const bool navigationEnabled = false;
+                    const bool trafficEnabled = false;
 
                     const std::string emptyIndoorMapsServiceUrl;
                     const std::string emptyIndoorMapsServiceToken;
@@ -129,7 +130,8 @@ namespace ExampleApp
                         customKeyboardLayout,
                         outdoorSearchMenuItems,
                         overrideIndoorSearchMenuItems,
-                        showPoiDirectionsButton,
+                        navigationEnabled,
+                        trafficEnabled,
                         emptyIndoorMapsServiceUrl,
                         emptyIndoorMapsServiceToken,
                         emptyIndoorMapsServiceUuid,
@@ -198,6 +200,7 @@ namespace ExampleApp
                 
                 platformConfig.MapLayersConfig.BlueSphereConfig.CreateViews = true;
                 platformConfig.StreamingConfig.ResourceWebRequstTimeoutInSeconds = 300;
+                platformConfig.MapLayersConfig.TrafficConfig.Enabled = appConfig.IsTrafficEnabled();
                 return platformConfig;
             }
             

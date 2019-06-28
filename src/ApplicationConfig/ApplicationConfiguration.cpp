@@ -56,6 +56,7 @@ namespace ExampleApp
             const std::vector<SdkModel::ApplicationMenuItemTagSearchConfig>& outdoorSearchMenuItems,
             bool overrideIndoorSearchMenuItems,
             bool navigationEnabled,
+            bool trafficEnabled,
             const std::string& indoorMapsServiceUrl,
             const std::string& indoorMapsServiceToken,
             const std::string& indoorMapsServiceUuid,
@@ -112,6 +113,7 @@ namespace ExampleApp
         , m_outdoorSearchMenuItems(outdoorSearchMenuItems)
         , m_overrideIndoorSearchMenuItems(overrideIndoorSearchMenuItems)
         , m_navigationEnabled(navigationEnabled)
+        , m_trafficEnabled(trafficEnabled)
         , m_indoorMapsServiceUrl(indoorMapsServiceUrl)
         , m_indoorMapsServiceToken(indoorMapsServiceToken)
         , m_indoorMapsServiceUuid(indoorMapsServiceUuid)
@@ -375,6 +377,11 @@ namespace ExampleApp
 
         bool ApplicationConfiguration::NavigationEnabled() const {
             return m_navigationEnabled;
+        }
+
+        bool ApplicationConfiguration::IsTrafficEnabled() const
+        {
+            return m_trafficEnabled;
         }
 
         std::string ApplicationConfiguration::WrldPOISetServiceUrl() const

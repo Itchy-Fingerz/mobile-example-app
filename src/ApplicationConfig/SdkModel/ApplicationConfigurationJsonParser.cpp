@@ -77,6 +77,7 @@ namespace ExampleApp
                 const std::string OutdoorSearchMenuItems = "outdoor_search_menu_items";
                 const std::string OverrideIndoorSearchMenuItems = "override_indoor_search_menu_items";
                 const std::string EnableNavigation = "enable_navigation";
+                const std::string TrafficEnabled = "traffic_enabled";
                 const std::string IndoorMapsServiceUrl = "indoor_maps_service_url";
                 const std::string IndoorMapsServiceToken = "indoor_maps_service_token";
                 const std::string IndoorMapsServiceUuid = "indoor_maps_service_uuid";
@@ -500,6 +501,13 @@ namespace ExampleApp
                 bool navigationEnabled = ParseBoolOrDefault(document, EnableNavigation,
                                                            m_defaultConfig.NavigationEnabled());
 
+
+                const bool isTrafficEnabled = ParseBoolOrDefault(
+                    document,
+                    TrafficEnabled,
+                    m_defaultConfig.IsTrafficEnabled()
+                    );
+
                 const std::string indoorMapsServiceUrl = ParseStringOrDefault(document, IndoorMapsServiceUrl, m_defaultConfig.IndoorMapsServiceUrl());
                 const std::string indoorMapsServiceToken = ParseStringOrDefault(document, IndoorMapsServiceToken, m_defaultConfig.IndoorMapsServiceToken());
                 const std::string indoorMapsServiceUuid = ParseStringOrDefault(document, IndoorMapsServiceUuid, m_defaultConfig.IndoorMapsServiceUuid());
@@ -561,6 +569,7 @@ namespace ExampleApp
                     outdoorSearchMenuItems,
                     overrideIndoorSearchMenuItems,
                     navigationEnabled,
+                    isTrafficEnabled,
                     indoorMapsServiceUrl,
                     indoorMapsServiceToken,
                     indoorMapsServiceUuid,
