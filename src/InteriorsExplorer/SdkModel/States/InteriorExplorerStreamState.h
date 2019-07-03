@@ -10,7 +10,7 @@
 #include "ICallback.h"
 #include "InteriorsExplorer.h"
 #include "PersistentSettings.h"
-
+#include "IIndoorMapEntityInformationService.h"
 namespace ExampleApp
 {
     namespace InteriorsExplorer
@@ -28,21 +28,16 @@ namespace ExampleApp
                         Eegeo::Streaming::CameraFrustumStreamingVolume& m_cameraFrustumStreamingVolume;
                         InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& m_interiorVisibilityUpdater;
                         InteriorsExplorerModel& m_interiorsExplorerModel;
-                        
-                        Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
-                        Eegeo::Helpers::TCallback1<InteriorExplorerStreamState, const Eegeo::Resources::Interiors::InteriorsCellResource> m_interiorCellAddedHandler;
-                        
+                                                
                         AppModes::States::SdkModel::InteriorExplorerState& m_parentState;
                         
                         const float m_maxTimeout;
                         float m_timeUntilTimeout;
                         bool m_hasFailed;
-                        bool m_hasInitialInteriorPartLoaded;
-                        bool m_hasInteriorsFullyLoaded;
                         
-                        void OnInteriorAddedToSceneGraph(const Eegeo::Resources::Interiors::InteriorsCellResource& callback);
+                        Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& m_indoorMapEntityInformationService;
+                        Eegeo::IndoorMapEntityInformation::IndoorMapEntityInformationModelId m_indoorMapEntityInforamtionModelId;
                         
-                        PersistentSettings::IPersistentSettingsModel& m_persistentSettingsModel;
                     public:
                         
                         InteriorExplorerStreamState(AppModes::States::SdkModel::InteriorExplorerState& parentState,
@@ -50,8 +45,8 @@ namespace ExampleApp
                                                     Eegeo::Streaming::CameraFrustumStreamingVolume& cameraFrustumStreamingVolume,
                                                     InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& interiorVisibilityUpdater,
                                                     InteriorsExplorerModel& interiorsExplorerModel,
-                                                    Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
-                                                    PersistentSettings::IPersistentSettingsModel& persistentSettingsModel);
+                                                    Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& indoorMapEntityInformationService,
+                                                    const int streamingResourceWebTimeOutInSecond);
                         
                         ~InteriorExplorerStreamState();
                         
@@ -60,6 +55,9 @@ namespace ExampleApp
                         void Update(float dt);
                         
                         void Exit(int nextState);
+                        
+                        bool HasModelLoaded();
+
                     };
             }
         }

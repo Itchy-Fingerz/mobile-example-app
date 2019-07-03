@@ -20,6 +20,7 @@
 #include "CameraTransitions.h"
 #include "ILocationService.h"
 #include "Search.h"
+#include "IIndoorMapEntityInformationService.h"
 
 #include "VisualMap.h"
 #include <vector>
@@ -63,10 +64,9 @@ namespace ExampleApp
 
                     Eegeo::Location::NavigationService& m_navigationService;
                     Search::SdkModel::ISearchQueryPerformer& m_searchQueryPerformer;
-                    Eegeo::Resources::Interiors::InteriorsCellResourceObserver& m_interiorsCellResourceObserver;
-                    
-                    PersistentSettings::IPersistentSettingsModel& m_persistentSettingsModel;
-                    
+                    Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& m_indoorMapEntityInformationService;
+                    const int m_streamingResourceWebTimeOutInSecond;
+
                 public:
                     
                     AppModeStatesFactory(AppCamera::SdkModel::IAppCameraController& appCameraController,
@@ -91,9 +91,8 @@ namespace ExampleApp
                                          const Eegeo::Rendering::ScreenProperties& screenProperties,
                                          ExampleAppMessaging::TMessageBus& messageBus,
                                          Eegeo::Location::NavigationService& navigationService,
-                                         Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
-                                         Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
-                                         PersistentSettings::IPersistentSettingsModel& persistentSettingsModel);
+                                         Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& indoorMapEntityInformationService,
+                                         const int streamingResourceWebTimeOutInSecond);
                     
                     ~AppModeStatesFactory()
                     {

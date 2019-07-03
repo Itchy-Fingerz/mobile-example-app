@@ -258,7 +258,7 @@ namespace ExampleApp
                                    const bool interiorsAffectedByFlattening,
                                    const float screenOversampleScale);
         
-        void InitialiseAppState(Eegeo::UI::NativeUIFactories& nativeUIFactories);
+        void InitialiseAppState(Eegeo::UI::NativeUIFactories& nativeUIFactories, int streamingResourceWebTimeOutInSecond);
 
         bool CanAcceptTouch() const;
 

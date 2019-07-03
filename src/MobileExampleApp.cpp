@@ -157,6 +157,7 @@
 #include "AnimatedModelsModule.h"
 #include "PositioningModule.h"
 #include "ThreeSixtyInteractionViewModel.h"
+#include "IndoorMapEntityInformationModule.h"
 
 namespace ExampleApp
 {
@@ -475,7 +476,7 @@ namespace ExampleApp
                                                                                             m_applicationConfiguration.AttractModeTimeoutMs(),
                                                                                             m_pMyPinCreationModule->GetMyPinCreationModel(),
                                                                                             m_pMyPinsModule->GetMyPinsService());
-        InitialiseAppState(nativeUIFactories);
+        InitialiseAppState(nativeUIFactories,platformConfig.StreamingConfig.ResourceWebRequstTimeoutInSeconds);
 
         m_pUserInteractionModule = Eegeo_NEW(UserInteraction::SdkModel::UserInteractionModule)(m_pAppCameraModule->GetController(), *m_pCameraTransitionService, m_pInteriorsExplorerModule->GetInteriorsExplorerUserInteractionModel(), m_messageBus);
         
@@ -1055,7 +1056,7 @@ namespace ExampleApp
         }
     }
 
-    void MobileExampleApp::InitialiseAppState(Eegeo::UI::NativeUIFactories& nativeUIFactories)
+    void MobileExampleApp::InitialiseAppState(Eegeo::UI::NativeUIFactories& nativeUIFactories, int streamingResourceWebTimeOutInSecond)
     {
         Eegeo::Modules::Map::MapModule& mapModule = m_pWorld->GetMapModule();
         Eegeo::Modules::Map::Layers::InteriorsPresentationModule& interiorsPresentationModule = mapModule.GetInteriorsPresentationModule();
@@ -1082,8 +1083,9 @@ namespace ExampleApp
                                                                               m_screenProperties,
                                                                               m_messageBus,
                                                                               *m_pNavigationService,
-                                                                              m_pSearchModule->GetSearchQueryPerformer(),                                                                              mapModule.GetInteriorsModelModule().GetInteriorsCellResourceObserver(),
-                                                                              m_persistentSettings);
+                                                                              m_pSearchModule->GetSearchQueryPerformer(),                                                                              
+                                                                              mapModule.GetIndoorMapEntityInformationModule().GetIndoorMapEntityInformationService(),
+                                                                              streamingResourceWebTimeOutInSecond);
 
         m_pAppModeModel->InitialiseStateMachine(appModeStatesFactory.CreateStateMachineStates(*m_pGlobalAppModeTransitionRules), AppModes::SdkModel::WorldMode, m_pGlobalAppModeTransitionRules);
 

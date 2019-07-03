@@ -47,8 +47,8 @@ namespace ExampleApp
                                                            ExampleAppMessaging::TMessageBus& messageBus,
                                                            Eegeo::Location::NavigationService& navigationService,
                                                            Search::SdkModel::ISearchQueryPerformer& searchQueryPerformer,
-                                                           Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
-                                                           PersistentSettings::IPersistentSettingsModel& persistentSettingsModel)
+                                                           Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& indoorMapEntityInformationService,
+                                                           const int streamingResourceWebTimeOutInSecond)
                 : m_appCameraController(appCameraController)
                 , m_cameraSplinePlaybackController(cameraSplinePlaybackController)
                 , m_worldCameraController(worldCameraController)
@@ -72,8 +72,8 @@ namespace ExampleApp
                 , m_messageBus(messageBus)
                 , m_navigationService(navigationService)
                 , m_searchQueryPerformer(searchQueryPerformer)
-                , m_interiorsCellResourceObserver(interiorsCellResourceObserver)
-                , m_persistentSettingsModel(persistentSettingsModel)
+                , m_indoorMapEntityInformationService(indoorMapEntityInformationService)
+                , m_streamingResourceWebTimeOutInSecond(streamingResourceWebTimeOutInSecond)
                 {
                     
                 }
@@ -102,8 +102,8 @@ namespace ExampleApp
                                                                                         m_appModeModel,
                                                                                         m_interiorCameraController.GetInteriorCameraController(),
                                                                                         m_nativeUIFactories,
-                                                                                        m_interiorsCellResourceObserver,
-                                                                                        m_persistentSettingsModel));
+                                                                                        m_indoorMapEntityInformationService,
+                                                                                        m_streamingResourceWebTimeOutInSecond));
 
                     if (m_attractModeEnabled)
                     {

@@ -8,6 +8,9 @@
 #include "InteriorsExplorerModel.h"
 #include "InteriorsCellResourceObserver.h"
 #include "IPersistentSettingsModel.h"
+#include "InteriorsModel.h"
+#include "IndoorMapEntityInformationTypes.h"
+#include "IndoorMapEntityInformationModel.h"
 
 namespace ExampleApp
 {
@@ -26,27 +29,23 @@ namespace ExampleApp
                                                                          const Eegeo::Resources::Interiors::InteriorInteractionModel& interiorInteractionModel,
                                                                          Eegeo::Streaming::CameraFrustumStreamingVolume& cameraFrustumStreamingVolume,
                                                                          InteriorsExplorer::SdkModel::InteriorVisibilityUpdater& interiorVisibilityUpdater,
-                                                                         InteriorsExplorerModel& interiorsExplorerModel,                                                     Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
-                                                                         PersistentSettings::IPersistentSettingsModel& persistentSettingsModel)
+                                                                         InteriorsExplorerModel& interiorsExplorerModel,
+                                                                         Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& indoorMapEntityInformationService,
+                                                                         const int streamingResourceWebTimeOutInSecond)
                 : m_parentState(parentState)
                 , m_interiorInteractionModel(interiorInteractionModel)
                 , m_cameraFrustumStreamingVolume(cameraFrustumStreamingVolume)
                 , m_interiorVisibilityUpdater(interiorVisibilityUpdater)
                 , m_interiorsExplorerModel(interiorsExplorerModel)
-                , m_interiorCellAddedHandler(this, &InteriorExplorerStreamState::OnInteriorAddedToSceneGraph)
-                , m_maxTimeout(60.0f)
+                , m_maxTimeout(streamingResourceWebTimeOutInSecond)
                 , m_hasFailed(false)
-                , m_interiorsCellResourceObserver(interiorsCellResourceObserver)
-                , m_hasInitialInteriorPartLoaded(false)
-                , m_hasInteriorsFullyLoaded(false)
-                , m_persistentSettingsModel(persistentSettingsModel)
+                , m_indoorMapEntityInformationService(indoorMapEntityInformationService)
                 {
-                    m_interiorsCellResourceObserver.RegisterAddedToSceneGraphCallback(m_interiorCellAddedHandler);
+                    m_indoorMapEntityInforamtionModelId = m_indoorMapEntityInformationService.CreateInformationModel("EIM-1daffd08-49d0-476d-866f-23a52f45713c");
                 }
                 
                 InteriorExplorerStreamState::~InteriorExplorerStreamState()
                 {
-                    m_interiorsCellResourceObserver.UnregisterAddedToSceneGraphCallback(m_interiorCellAddedHandler);
                 }
                 
                 void InteriorExplorerStreamState::Enter(int previousState)
@@ -55,30 +54,9 @@ namespace ExampleApp
                     m_cameraFrustumStreamingVolume.SetForceMaximumRefinement(true);
                     
                     m_timeUntilTimeout = m_maxTimeout;
-                    if(!m_persistentSettingsModel.TryGetValue("IsInteriorCached", m_hasInteriorsFullyLoaded))
-                    {
-                        m_hasInteriorsFullyLoaded = false;
-                    }
+                    
                 }
-                
-                void InteriorExplorerStreamState::OnInteriorAddedToSceneGraph(const Eegeo::Resources::Interiors::InteriorsCellResource& resource)
-                {
-                    if (m_hasInitialInteriorPartLoaded) {
-                        if (m_interiorInteractionModel.HasInteriorModel())
-                        {
-                            m_hasInteriorsFullyLoaded = true;
-                            m_persistentSettingsModel.SetValue("IsInteriorCached",true);
-                        }
-                    }
-                    else
-                    {
-                        if (m_interiorInteractionModel.HasInteriorModel())
-                        {
-                            m_hasInitialInteriorPartLoaded = true;
-                        }
-                    }                    
-                }
-                
+
                 void InteriorExplorerStreamState::Update(float dt)
                 {
                     m_timeUntilTimeout -= dt;
@@ -89,14 +67,6 @@ namespace ExampleApp
                         m_interiorsExplorerModel.ShowInteriorStreamingDialog();
                     }
 
-                    if(m_timeUntilTimeout <= 0.0f && m_interiorInteractionModel.HasInteriorModel())
-                    {
-                         m_parentState.SetLastEntryAttemptSuccessful(true);
-                         m_interiorVisibilityUpdater.SetInteriorShouldDisplay(true);
-                         m_parentState.SetSubState(AppModes::States::SdkModel::InteriorExplorerSubStates::View);
-                        m_persistentSettingsModel.SetValue("IsInteriorCached",true);
-                         return;
-                    }
                     
                     if(m_timeUntilTimeout <= 0.0f && !m_hasFailed)
                     {
@@ -107,7 +77,7 @@ namespace ExampleApp
                         return;
                     }
                     
-                    if (m_interiorInteractionModel.HasInteriorModel() && m_hasInteriorsFullyLoaded)
+                    if (m_interiorInteractionModel.HasInteriorModel() && HasModelLoaded())
                     {
                         m_parentState.SetLastEntryAttemptSuccessful(true);
                         m_interiorVisibilityUpdater.SetInteriorShouldDisplay(true);
@@ -118,6 +88,18 @@ namespace ExampleApp
                 void InteriorExplorerStreamState::Exit(int nextState)
                 {
                     m_interiorsExplorerModel.HideInteriorStreamingDialog(m_parentState.GetLastEntryAttemptSuccessful());
+                }
+                
+                bool InteriorExplorerStreamState::HasModelLoaded()
+                {
+                    const Eegeo::IndoorMapEntityInformation::IndoorMapEntityInformationModel& cModel =  m_indoorMapEntityInformationService.GetInformationModel(m_indoorMapEntityInforamtionModelId);
+                    Eegeo::IndoorMapEntityInformation::IndoorMapEntityLoadState::Type type = cModel.GetLoadState();
+                    if (type == Eegeo::IndoorMapEntityInformation::IndoorMapEntityLoadState::Type::Complete)
+                    {
+                        return true;
+                    }
+                    
+                    return false;
                 }
             }
         }

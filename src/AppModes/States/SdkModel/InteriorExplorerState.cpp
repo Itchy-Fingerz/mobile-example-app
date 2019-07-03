@@ -40,8 +40,8 @@ namespace ExampleApp
                                                              AppModes::SdkModel::IAppModeModel& appModeModel,
                                                              Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                                              Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                                             Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
-                                                             PersistentSettings::IPersistentSettingsModel& persistentSettingsModel)
+                                                             Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& indoorMapEntityInformationService,
+                                                             const int streamingResourceWebTimeOutInSecond)
                 : m_interiorExplorerUserInteractionModel(interiorExplorerUserInteractionModel)
                 , m_appModeModel(appModeModel)
                 , m_interiorsCameraController(interiorsCameraController)
@@ -59,8 +59,8 @@ namespace ExampleApp
                                                                                                                       cameraFrustumStreamingVolume,
                                                                                                                       interiorVisibilityUpdater,
                                                                                                                       interiorsExplorerModel,
-                                                                                                                      interiorsCellResourceObserver,
-                                                                                                                      persistentSettingsModel));
+                                                                                                                      indoorMapEntityInformationService,
+                                                                                                                      streamingResourceWebTimeOutInSecond));
                     
                     m_subStates.push_back(Eegeo_NEW(InteriorsExplorer::SdkModel::States::InteriorExplorerViewingState)(*this,
                                                                                                                        interiorsExplorerModel,

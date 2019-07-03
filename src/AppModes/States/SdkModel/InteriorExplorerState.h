@@ -16,6 +16,7 @@
 #include "ISingleOptionAlertBoxDismissedHandler.h"
 #include "MyPinCreation.h"
 #include "PersistentSettings.h"
+#include "IIndoorMapEntityInformationService.h"
 
 namespace ExampleApp
 {
@@ -66,8 +67,8 @@ namespace ExampleApp
                                           AppModes::SdkModel::IAppModeModel& appModeModel,
                                           Eegeo::Resources::Interiors::InteriorsCameraController& interiorsCameraController,
                                           Eegeo::UI::NativeUIFactories& nativeUIFactories,
-                                          Eegeo::Resources::Interiors::InteriorsCellResourceObserver& interiorsCellResourceObserver,
-                                          PersistentSettings::IPersistentSettingsModel& persistentSettingsModel);
+                                          Eegeo::IndoorMapEntityInformation::IIndoorMapEntityInformationService& indoorMapEntityInformationService,
+                                          const int streamingResourceWebTimeOutInSecond);
                     
                     ~InteriorExplorerState();
                     
