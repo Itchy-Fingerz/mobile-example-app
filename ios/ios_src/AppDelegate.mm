@@ -10,6 +10,7 @@
 #include "ApplicationConfigurationModule.h"
 #include "IApplicationConfigurationService.h"
 #include "iOSFlurryMetricsService.h"
+#define DEFAULT_MAP_SCENE @"wrld://mapscene/880cecc"
 
 namespace
 {
@@ -61,7 +62,8 @@ namespace
     [[BITHockeyManager sharedHockeyManager] startManager];
     [[BITHockeyManager sharedHockeyManager].authenticator
      authenticateInstallation];
-    
+
+    _launchUrl = [[NSURL alloc] initWithString:DEFAULT_MAP_SCENE];
     if(launchOptions[@"UIApplicationLaunchOptionsURLKey"])
     {
         NSURL *url = launchOptions[@"UIApplicationLaunchOptionsURLKey"];

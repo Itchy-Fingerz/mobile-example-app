@@ -1329,4 +1329,34 @@ set(resources ${resources}
         Resources/yelp_review_btn_light@2x.png
         Resources/yelp_review_btn_light@3x.png
         ExampleApp/Images.xcassets
+        Resources/SmsVerification
+        Resources/SmsVerification/hbmsu_logo_text.png
+        Resources/SmsVerification/hbmsu_logo_text@2x.png
+        Resources/SmsVerification/hbmsu_logo_text@3x.png
+        Resources/SmsVerification/input_number_textfield.png
+        Resources/SmsVerification/input_number_textfield@2x.png
+        Resources/SmsVerification/input_number_textfield3x.png
+        Resources/SmsVerification/loc_icn.png
+        Resources/SmsVerification/loc_icn@2x.png
+        Resources/SmsVerification/loc_icn@3x.png
+        Resources/SmsVerification/verify_btn.png
+        Resources/SmsVerification/verify_btn@2x.png
+        Resources/SmsVerification/verify_btn@3x.png
+        Resources/SmsVerification/verify_btn_disabled.png
+        Resources/SmsVerification/verify_btn_disabled@2x.png
+        Resources/SmsVerification/verify_btn_disabled@3x.png
+        Resources/SmsVerification/verify_btn_hover.png
+        Resources/SmsVerification/verify_btn_hover@2x.png
+        Resources/SmsVerification/verify_btn_hover@3x.png
+        Resources/SmsVerification/textField_bg_plain.png
+        Resources/SmsVerification/textField_bg_plain@2x.png
+        Resources/SmsVerification/textField_bg_plain@3x.png
+        Resources/SmsVerification/uae_flg.png
+        Resources/SmsVerification/uae_flg@2x.png
+        Resources/SmsVerification/uae_flg@3x.png
+        Resources/SmsVerification/confirm_icn@2x.png
+        Resources/SmsVerification/confirm_icn@3x.png
+        Resources/SmsVerification/logo-bottom.png
+        Resources/SmsVerification/logo-bottom@2x.png
+        Resources/SmsVerification/logo-bottom@3x.png
 )
