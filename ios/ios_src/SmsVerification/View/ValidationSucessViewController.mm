@@ -40,7 +40,7 @@
 }
 - (IBAction)doneButtonPressedL:(id)sender {
     
-    [SVProgressHUD show];
+//    [SVProgressHUD show];
     //[self.spiner startAnimating];
     [self performSelector:@selector(setRootViewController) withObject:nil afterDelay:0.1];
 }

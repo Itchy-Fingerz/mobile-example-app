@@ -85,7 +85,7 @@ set(storyboards
 set(EEGEO_PLIST_BUNDLE_EXECUTABLE "\${EXECUTABLE_NAME}")
 set(EEGEO_PLIST_BUNDLE_IDENTIFIER "com.eegeo.\${PRODUCT_NAME:rfc1034identifier}")
 set(EEGEO_PLIST_BUNDLE_SHORT_VERSION_STRING "\${PRODUCT_VERSION}")
-set(EEGEO_PLIST_BUNDLE_DISPLAY_NAME "WRLD")
+set(EEGEO_PLIST_BUNDLE_DISPLAY_NAME "WhiffAway")
 
 # compiler/linker settings
 set(IOS_WARNING_FLAGS "-Wmost -Werror -Wno-four-char-constants -Wno-unknown-pragmas -Wno-reorder")
