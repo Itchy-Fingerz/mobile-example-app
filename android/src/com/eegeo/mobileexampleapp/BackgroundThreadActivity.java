@@ -46,6 +46,7 @@ import net.hockeyapp.android.NativeCrashManager;
 public class BackgroundThreadActivity extends MainActivity
 {
     final public Object screenshotsCompletedLock = new Object();
+    private static final String MAP_SCENE= "wrld://mapscene/880cecc";
 
     private long m_nativeAppWindowPtr;
     private EegeoSurfaceView m_surfaceView;
@@ -106,6 +107,8 @@ public class BackgroundThreadActivity extends MainActivity
         if(intent !=null)
         {
             m_deepLinkUrlData = intent.getData();
+        }else {
+            m_deepLinkUrlData = Uri.parse(MAP_SCENE);
         }
 
 

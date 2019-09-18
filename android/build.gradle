@@ -33,7 +33,7 @@ def getVersionCodeFromProjectProperty = { ->
 }
 
 def getVersionNameFromProjectProperty = { ->
-    def name = project.hasProperty('versionName') ? versionName : "1.0"
+    def name = project.hasProperty('versionName') ? versionName : "1.7"
     logger.lifecycle("versionName is set to $name")
     return name
 }
