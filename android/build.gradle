@@ -33,7 +33,7 @@ def getVersionCodeFromProjectProperty = { ->
 }
 
 def getVersionNameFromProjectProperty = { ->
-    def name = project.hasProperty('versionName') ? versionName : "1.7"
+    def name = project.hasProperty('versionName') ? versionName : "1.8"
     logger.lifecycle("versionName is set to $name")
     return name
 }
@@ -174,4 +174,5 @@ dependencies {
     implementation project(':wrld-navigation-release')
     implementation project(':wrld-navigation-widget-release')
     implementation project(':wrld-navigation-search-release')
+    implementation 'com.android.volley:volley:1.1.0'
 }

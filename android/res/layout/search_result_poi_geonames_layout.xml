@@ -57,7 +57,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="15dp"
-				android:src="@drawable/button_pin_close_states" />
+                android:background="@drawable/button_pressed_colour_change"
+                android:src="@drawable/button_poi_close_states" />
             
         </RelativeLayout>
         

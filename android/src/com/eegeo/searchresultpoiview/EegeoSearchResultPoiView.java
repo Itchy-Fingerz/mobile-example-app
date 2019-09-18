@@ -28,8 +28,10 @@ import android.os.Handler;
 import com.eegeo.entrypointinfrastructure.MainActivity;
 import com.eegeo.helpers.IBackButtonListener;
 import com.eegeo.helpers.TintablePinToggleButton;
+
 import com.eegeo.mobileexampleapp.R;
 import com.eegeo.tags.TagResources;
+
 
 public class EegeoSearchResultPoiView implements View.OnClickListener, IBackButtonListener
 {

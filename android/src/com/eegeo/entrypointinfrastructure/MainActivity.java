@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 
 import com.eegeo.helpers.IBackButtonListener;
+
 import com.eegeo.mobileexampleapp.R;
 import com.eegeo.photos.PhotoIntentDispatcher;
 import com.eegeo.runtimepermissions.RuntimePermissionDispatcher;

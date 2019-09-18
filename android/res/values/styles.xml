@@ -5,4 +5,7 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+    <style name="AlertDialogCustom" parent="@android:style/Theme.DeviceDefault.Light.Dialog">
+
+    </style>
 </resources>

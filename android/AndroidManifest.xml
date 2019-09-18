@@ -3,7 +3,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.eegeo.mobileexampleapp"
         android:versionCode="1"
-        android:versionName="1.7">
+        android:versionName="1.8">
     
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-feature android:name="android.hardware.camera"
         android:required="true"/>
     <uses-feature android:name="android.hardware.bluetooth_le"
@@ -28,16 +29,14 @@
 	<uses-feature android:name="android.hardware.wifi"
 		android:required="true" />
 
-    <application android:icon="@mipmap/icon" android:label="WiffAwayy" android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-       
-        <activity android:name="com.eegeo.mobileexampleapp.BackgroundThreadActivity"
-                  android:label="WiffAwayy"
-                  android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
-                  android:windowSoftInputMode="adjustPan"
-              	  android:launchMode="singleTask"
-              	  android:hardwareAccelerated="true"
-              	  android:resizeableActivity="false"
-              	  android:supportsPictureInPicture="false">
+    <application android:icon="@mipmap/icon" android:label="WhiffAway" android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
+        <activity
+            android:name="com.eegeo.mobileexampleapp.validation.ValidationActivity"
+            android:label="WhiffAway"
+            android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
+            android:hardwareAccelerated="true"
+            android:resizeableActivity="false"
+            android:supportsPictureInPicture="false">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -45,19 +44,28 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
-        		<category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-		        <data android:scheme="wrld" android:host="location" />
-		        <data android:scheme="wrld" android:host="mapscene" />
+                <data android:scheme="wrld" android:host="location" />
+                <data android:scheme="wrld" android:host="mapscene" />
                 <data android:scheme="wrld" android:host="search" />
 
-		        <data android:scheme="eegeo" android:host="location" />
-		        <data android:scheme="eegeo" android:host="mapscene" />
+                <data android:scheme="eegeo" android:host="location" />
+                <data android:scheme="eegeo" android:host="mapscene" />
                 <data android:scheme="eegeo" android:host="search" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
             </intent-filter>
+        </activity>
+        <activity android:name="com.eegeo.mobileexampleapp.BackgroundThreadActivity"
+                  android:label="WhiffAway"
+                  android:configChanges="orientation|keyboardHidden|screenSize|fontScale"
+                  android:windowSoftInputMode="adjustPan"
+              	  android:launchMode="singleTask"
+              	  android:hardwareAccelerated="true"
+              	  android:resizeableActivity="false"
+              	  android:supportsPictureInPicture="false">
             <meta-data android:name="android.app.searchable"
                 android:resource="@xml/searchable"/>
         </activity>
@@ -79,6 +87,9 @@
 			android:label="IALocationService"
 			android:exported="false"/>
        	
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="8783c1ca959e5724f456c61af42517372a885eb7" />
     </application>
 
 </manifest> 
