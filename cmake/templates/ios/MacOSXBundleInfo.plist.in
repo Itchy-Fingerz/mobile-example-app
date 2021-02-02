@@ -72,6 +72,8 @@
 	<true/>
 	<key>eeGeoAppBase</key>
 	<string>iOS-MEA</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 		<key>NSAppTransportSecurity</key>
