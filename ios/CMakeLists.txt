@@ -48,7 +48,7 @@ set(CMAKE_OSX_ARCHITECTURES "armv7;arm64;i386")
 set(IOS_WARNING_FLAGS "-Wmost -Werror -Wno-four-char-constants -Wno-unknown-pragmas -Wno-reorder")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -x objective-c++ ${IOS_WARNING_FLAGS}")
-set(eegeo_sdk_libs "-lapps-on-maps-cpp11 -lapps-on-maps-cpp11-sim -lsdk-extensions-sqlite-cpp11 -lsdk-extensions-sqlite-cpp11-sim")
+set(eegeo_sdk_libs "-lapps-on-maps-cpp11 -lapps-on-maps-cpp11-sim -lsqlite3")
 
 set(ios_frameworks 
   "-framework CoreLocation
